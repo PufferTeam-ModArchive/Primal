@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primitivelife.PrimitiveLife;
 import net.pufferlab.primitivelife.recipes.PitKilnRecipes;
@@ -23,8 +24,8 @@ public class NEIPitKilnHandler extends TemplateRecipeHandler {
     public class PitKilnPair extends CachedRecipe {
 
         public PitKilnPair(ItemStack ingred, ItemStack result) {
-            this.ingred = new PositionedStack(ingred, 24, 24, true);
-            this.result = new PositionedStack(result, 121, 24, false);
+            this.ingred = new PositionedStack(ingred, 43, 44, true);
+            this.result = new PositionedStack(result, 119, 24, false);
         }
 
         @Override
@@ -35,6 +36,10 @@ public class NEIPitKilnHandler extends TemplateRecipeHandler {
         @Override
         public PositionedStack getResult() {
             return result;
+        }
+
+        public PositionedStack getOtherStack() {
+            return new PositionedStack(new ItemStack(Blocks.fire, 0, 1), 43, 9);
         }
 
         final PositionedStack ingred;

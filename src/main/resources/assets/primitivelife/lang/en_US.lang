@@ -8,6 +8,7 @@ item.primitivelife.flint_shovel_head_item.name=Flint Shovel Head
 item.primitivelife.flint_knife_blade_item.name=Flint Knife Blade
 item.primitivelife.straw_item.name=Straw
 item.primitivelife.clay_brick_item.name=Clay Brick
+item.primitivelife.clay_flower_pot_item.name=Clay Flower Pot
 item.primitivelife.clay_bucket_item.name=Clay Bucket
 item.primitivelife.empty_ceramic_bucket.name=Ceramic Bucket
 item.primitivelife.water_ceramic_bucket.name=Water Ceramic Bucket

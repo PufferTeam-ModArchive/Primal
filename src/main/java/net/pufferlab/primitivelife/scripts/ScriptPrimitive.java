@@ -99,6 +99,14 @@ public class ScriptPrimitive implements IScript {
             "     ",
             "CCCCC",
             "CCCCC");
+        addKnappingRecipe(
+            KnappingType.clay,
+            getModItem("misc", "item", "clay_flower_pot", 1),
+            " CCC ",
+            "C   C",
+            "C   C",
+            "C   C",
+            " CCC ");
 
         addKnappingRecipe(
             KnappingType.flint,
@@ -195,6 +203,7 @@ public class ScriptPrimitive implements IScript {
             getItem(PrimitiveLife.MODID, "ceramic_bucket", 0, 1),
             getModItem("misc", "item", "clay_bucket", 1));
         addPitKilnRecipe(getItem("minecraft:brick:0:1"), getModItem("misc", "item", "clay_brick", 1));
+        addPitKilnRecipe(getItem("minecraft:flower_pot:0:1"), getModItem("misc", "item", "clay_flower_pot", 1));
         addPitKilnRecipe(getItem("minecraft:hardened_clay:0:1"), getItem("minecraft:clay:0:1"));
     }
 }

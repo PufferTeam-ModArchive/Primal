@@ -2,6 +2,8 @@ package net.pufferlab.primitivelife.compat.nei;
 
 import static net.pufferlab.primitivelife.compat.nei.IMCSenderGTNH.sendHandler;
 
+import net.pufferlab.primitivelife.PrimitiveLife;
+
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -27,16 +29,16 @@ public class NEIConfig implements IConfigureNEI {
             "net.pufferlab.primitivelife.compat.nei.NEIKnappingHandler",
             "minecraft:flint",
             1,
-            "PrimitiveLife",
-            "primitivelife",
+            PrimitiveLife.MODNAME,
+            PrimitiveLife.MODID,
             166,
             110);
         sendHandler(
             "net.pufferlab.primitivelife.compat.nei.NEIPitKilnHandler",
-            "minecraft:fire",
+            PrimitiveLife.MODID + ":thatch",
             2,
-            "PrimitiveLife",
-            "primitivelife",
+            PrimitiveLife.MODNAME,
+            PrimitiveLife.MODID,
             166,
             65);
     }

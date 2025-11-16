@@ -4,6 +4,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.pufferlab.primitivelife.compat.nei.NEIConfig;
 import net.pufferlab.primitivelife.events.*;
 import net.pufferlab.primitivelife.scripts.ScriptRegistry;
+import net.pufferlab.primitivelife.scripts.ScriptRemove;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,6 +35,7 @@ public class PrimitiveLife {
     @Mod.Instance(PrimitiveLife.MODID)
     public static PrimitiveLife instance;
     public static Registry registry = new Registry();
+    public static ScriptRemove scriptRemove = new ScriptRemove();
     public static ScriptRegistry scriptRegistry = new ScriptRegistry();
     public static SimpleNetworkWrapper networkWrapper;
 
@@ -50,6 +52,7 @@ public class PrimitiveLife {
         proxy.init(event);
         proxy.registerRenders();
         registry.initOreDicts();
+        scriptRemove.init();
 
         networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(PrimitiveLife.MODID);
         networkWrapper.registerMessage(PacketSwingArm.class, PacketSwingArm.class, 0, Side.CLIENT);
@@ -68,6 +71,7 @@ public class PrimitiveLife {
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit(event);
+        scriptRemove.postInit();
         scriptRegistry.run();
     }
 
