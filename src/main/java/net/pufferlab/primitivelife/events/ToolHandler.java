@@ -2,6 +2,7 @@ package net.pufferlab.primitivelife.events;
 
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.BlockLeavesBase;
+import net.minecraft.block.BlockLog;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemSpade;
@@ -21,7 +22,7 @@ public class ToolHandler {
     public void setBreakSpeed(PlayerEvent.BreakSpeed event) {
         ItemStack heldItem = event.entityPlayer.inventory.getCurrentItem();
 
-        if (Utils.containsOreDict(event.block, "logWood")) {
+        if (Utils.containsOreDict(event.block, "logWood") || event.block instanceof BlockLog) {
             if (heldItem != null) {
                 if (!(heldItem.getItem() instanceof ItemAxe)) {
                     event.setCanceled(true);
@@ -58,7 +59,7 @@ public class ToolHandler {
                         .getItem() != null) {
                         if (event.harvester.getCurrentEquippedItem()
                             .getItem() instanceof ItemPrimitiveKnife) {
-                            if (event.world.rand.nextInt(6) == 0) {
+                            if (event.world.rand.nextInt(5) == 0) {
                                 event.drops.add(
                                     new ItemStack(
                                         Registry.item,

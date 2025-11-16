@@ -56,6 +56,22 @@ public class ScriptPrimitive implements IScript {
             "II",
             'I',
             getModItem("misc", "item", "straw", 1));
+        addShapedRecipe(
+            getItem(PrimitiveLife.MODID, "firestarter", 0, 1),
+            "SI",
+            "I ",
+            'S',
+            getModItem("misc", "item", "straw", 1),
+            'I',
+            "stickWood");
+        addShapedRecipe(
+            getItem(PrimitiveLife.MODID, "firestarter", 0, 1),
+            " I",
+            "IS",
+            'S',
+            getModItem("misc", "item", "straw", 1),
+            'I',
+            "stickWood");
     }
 
     public void addKnappingRecipes() {

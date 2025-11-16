@@ -25,6 +25,7 @@ public class Registry {
     public static Item flint_pickaxe;
     public static Item flint_shovel;
     public static Item flint_knife;
+    public static Item firestarter;
     public static Item.ToolMaterial toolFlint;
 
     public void preInit() {
@@ -41,6 +42,8 @@ public class Registry {
         flint_shovel = new ItemPrimitiveShovel(toolFlint, "flint_shovel");
         flint_knife = new ItemPrimitiveKnife(toolFlint, "flint_knife");
 
+        firestarter = new ItemFireStarter();
+
         register(thatch, "thatch");
         register(thatch_roof, "thatch_roof");
         register(pit_kiln, "pit_kiln");
@@ -51,6 +54,7 @@ public class Registry {
         register(flint_pickaxe, "flint_pickaxe");
         register(flint_shovel, "flint_shovel");
         register(flint_knife, "flint_knife");
+        register(firestarter, "firestarter");
     }
 
     public void preInitTE() {
@@ -76,6 +80,6 @@ public class Registry {
     }
 
     public void register(Class<? extends TileEntity> cls, String baseName) {
-        GameRegistry.registerTileEntity(cls, "primitivelife_" + baseName);
+        GameRegistry.registerTileEntity(cls, PrimitiveLife.MODID + "_" + baseName);
     }
 }

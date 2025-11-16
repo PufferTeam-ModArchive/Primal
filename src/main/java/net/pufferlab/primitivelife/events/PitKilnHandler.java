@@ -39,18 +39,19 @@ public class PitKilnHandler {
                 if (placedBlock) {
                     MovingObjectPosition mop = Utils
                         .getMovingObjectPositionFromPlayer(event.world, event.entityPlayer, false);
+                    if (mop != null) {
+                        int bx = mop.blockX;
+                        int by = mop.blockY;
+                        int bz = mop.blockZ;
 
-                    int bx = mop.blockX;
-                    int by = mop.blockY;
-                    int bz = mop.blockZ;
-
-                    float hitX = (float) (mop.hitVec.xCoord - bx);
-                    float hitY = (float) (mop.hitVec.yCoord - by);
-                    float hitZ = (float) (mop.hitVec.zCoord - bz);
-                    Block actualBlock2 = event.world.getBlock(x, y, z);
-                    actualBlock2
-                        .onBlockActivated(event.world, x, y, z, event.entityPlayer, event.face, hitX, hitY, hitZ);
-                    event.entityPlayer.swingItem();
+                        float hitX = (float) (mop.hitVec.xCoord - bx);
+                        float hitY = (float) (mop.hitVec.yCoord - by);
+                        float hitZ = (float) (mop.hitVec.zCoord - bz);
+                        Block actualBlock2 = event.world.getBlock(x, y, z);
+                        actualBlock2
+                            .onBlockActivated(event.world, x, y, z, event.entityPlayer, event.face, hitX, hitY, hitZ);
+                        event.entityPlayer.swingItem();
+                    }
                 }
             }
         }
