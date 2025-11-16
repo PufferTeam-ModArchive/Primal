@@ -1,0 +1,20 @@
+{
+    "knapping.clay": {
+        "category": "master",
+        "sounds": [
+            {
+                "name": "knapping/clay",
+                "stream": false
+            }
+        ]
+    },
+    "knapping.flint": {
+        "category": "master",
+        "sounds": [
+            {
+                "name": "knapping/flint",
+                "stream": false
+            }
+        ]
+    }
+}

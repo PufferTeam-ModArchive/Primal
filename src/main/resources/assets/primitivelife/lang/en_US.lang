@@ -1,0 +1,18 @@
+tile.primitivelife.thatch.name=Thatch
+tile.primitivelife.thatch_roof.name=Thatch Roof
+
+item.primitivelife.flint_shard_item.name=Flint Shard
+item.primitivelife.flint_axe_head_item.name=Flint Axe Head
+item.primitivelife.flint_pickaxe_head_item.name=Flint Pickaxe Head
+item.primitivelife.flint_shovel_head_item.name=Flint Shovel Head
+item.primitivelife.flint_knife_blade_item.name=Flint Knife Blade
+item.primitivelife.straw_item.name=Straw
+item.primitivelife.clay_brick_item.name=Clay Brick
+item.primitivelife.clay_bucket_item.name=Clay Bucket
+item.primitivelife.empty_ceramic_bucket.name=Ceramic Bucket
+item.primitivelife.water_ceramic_bucket.name=Water Ceramic Bucket
+item.primitivelife.lava_ceramic_bucket.name=Lava Ceramic Bucket
+item.primitivelife.flint_axe.name=Flint Axe
+item.primitivelife.flint_pickaxe.name=Flint Pickaxe
+item.primitivelife.flint_shovel.name=Flint Shovel
+item.primitivelife.flint_knife.name=Flint Knife
