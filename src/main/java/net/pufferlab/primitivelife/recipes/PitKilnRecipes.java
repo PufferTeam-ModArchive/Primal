@@ -8,25 +8,28 @@ import net.pufferlab.primitivelife.Utils;
 
 public class PitKilnRecipes {
 
-    private static final Map<String, ItemStack> recipeMap = new HashMap<>();
-    private static final Map<String, ItemStack> recipeMapOutput = new HashMap<>();
-    private static final Map<ItemStack, ItemStack> recipeMapList = new HashMap<>();
+    private static final Map<ItemStack, ItemStack> recipeMap = new HashMap<>();
 
     public static void addPitKilnRecipe(ItemStack output, ItemStack input) {
-        recipeMap.put(Utils.getItemKey(input), output);
-        recipeMapOutput.put(Utils.getItemKey(output), input);
-        recipeMapList.put(output, input);
+        recipeMap.put(input, output);
     }
 
-    public static Map<String, ItemStack> getRecipeMap() {
+    public static ItemStack getOutput(ItemStack input) {
+        for (Map.Entry<ItemStack, ItemStack> recipe : recipeMap.entrySet()) {
+            if (Utils.containsStack(recipe.getKey(), input)) {
+                return recipe.getValue();
+            }
+        }
+        return null;
+    }
+
+    public static boolean hasRecipe(ItemStack input) {
+        ItemStack output = getOutput(input);
+        return output != null;
+    }
+
+    public static Map<ItemStack, ItemStack> getRecipeMap() {
         return recipeMap;
     }
 
-    public static Map<String, ItemStack> getRecipeMapOutput() {
-        return recipeMapOutput;
-    }
-
-    public static Map<ItemStack, ItemStack> getRecipeMapList() {
-        return recipeMapList;
-    }
 }

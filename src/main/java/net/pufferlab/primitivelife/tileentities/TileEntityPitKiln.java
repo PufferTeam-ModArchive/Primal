@@ -1,7 +1,5 @@
 package net.pufferlab.primitivelife.tileentities;
 
-import java.util.Map;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,7 +9,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.pufferlab.primitivelife.Utils;
 import net.pufferlab.primitivelife.recipes.PitKilnRecipes;
 
 public class TileEntityPitKiln extends TileEntityInventory {
@@ -81,16 +78,10 @@ public class TileEntityPitKiln extends TileEntityInventory {
         if (this.timePassed > timeToSmelt) {
             reset = true;
             for (int i = 0; i < getSizeInventory(); i++) {
-                ItemStack slot = this.getStackInSlot(i);
-                String key = Utils.getItemKey(slot);
-                Map<String, ItemStack> map = PitKilnRecipes.getRecipeMap();
-
-                if (map.containsKey(key)) {
-                    this.setInventorySlotContents(
-                        i,
-                        map.get(key)
-                            .copy());
-                }
+                ItemStack input = this.getStackInSlot(i);
+                ItemStack output = PitKilnRecipes.getOutput(input);
+                if (output == null) continue;
+                this.setInventorySlotContents(i, output.copy());
             }
         }
         if (reset) {

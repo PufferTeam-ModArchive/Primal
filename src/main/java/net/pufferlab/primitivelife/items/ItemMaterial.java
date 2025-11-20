@@ -44,7 +44,11 @@ public class ItemMaterial extends Item {
 
         for (int i = 0; i < elements.length; i++) {
             if (!Utils.containsExactMatch(elementsBlacklist, elements[i])) {
-                icons[i] = register.registerIcon(PrimitiveLife.MODID + ":" + elements[i] + "_" + name);
+                if (name.equals("item")) {
+                    icons[i] = register.registerIcon(PrimitiveLife.MODID + ":" + elements[i]);
+                } else {
+                    icons[i] = register.registerIcon(PrimitiveLife.MODID + ":" + elements[i] + "_" + name);
+                }
             }
         }
     }
@@ -72,6 +76,9 @@ public class ItemMaterial extends Item {
         if (stack.getItemDamage() >= elements.length
             || Utils.containsExactMatch(elementsBlacklist, elements[stack.getItemDamage()])) {
             return "item." + PrimitiveLife.MODID + ".error";
+        }
+        if (name.equals("item")) {
+            return "item." + PrimitiveLife.MODID + "." + elements[stack.getItemDamage()];
         }
         return "item." + PrimitiveLife.MODID + "." + elements[stack.getItemDamage()] + "_" + name;
     }

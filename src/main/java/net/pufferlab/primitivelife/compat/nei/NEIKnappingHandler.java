@@ -10,6 +10,7 @@ import java.util.List;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primitivelife.PrimitiveLife;
+import net.pufferlab.primitivelife.Utils;
 import net.pufferlab.primitivelife.recipes.KnappingPattern;
 import net.pufferlab.primitivelife.recipes.KnappingRecipes;
 import net.pufferlab.primitivelife.recipes.KnappingType;
@@ -17,7 +18,6 @@ import net.pufferlab.primitivelife.recipes.KnappingType;
 import org.lwjgl.opengl.GL11;
 
 import codechicken.lib.gui.GuiDraw;
-import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
@@ -75,7 +75,7 @@ public class NEIKnappingHandler extends TemplateRecipeHandler {
     public void loadCraftingRecipes(ItemStack result) {
         List<KnappingPattern> recipes = KnappingRecipes.getRecipeList();
         for (KnappingPattern pattern : recipes) {
-            if (NEIServerUtils.areStacksSameType(pattern.output, result)) {
+            if (Utils.containsStack(pattern.output, result)) {
                 arecipes.add(new KnappingPair(pattern.type, pattern.pattern, pattern.output));
             }
         }

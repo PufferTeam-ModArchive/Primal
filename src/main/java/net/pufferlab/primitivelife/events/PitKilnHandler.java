@@ -1,7 +1,5 @@
 package net.pufferlab.primitivelife.events;
 
-import java.util.Map;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemStack;
@@ -21,9 +19,7 @@ public class PitKilnHandler {
         if (event.action != PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) return;
         ItemStack heldItem = event.entityPlayer.getHeldItem();
         if (heldItem != null) {
-            String key = Utils.getItemKey(heldItem);
-            Map<String, ItemStack> map = PitKilnRecipes.getRecipeMap();
-            if (map.containsKey(key) && event.face == ForgeDirection.UP.ordinal()) {
+            if (PitKilnRecipes.hasRecipe(heldItem) && event.face == ForgeDirection.UP.ordinal()) {
                 boolean placedBlock = false;
                 int x = Utils.getBlockX(event.face, event.x);
                 int y = Utils.getBlockY(event.face, event.y);

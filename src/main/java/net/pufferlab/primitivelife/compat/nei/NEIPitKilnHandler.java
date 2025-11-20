@@ -11,11 +11,11 @@ import java.util.Map;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primitivelife.PrimitiveLife;
+import net.pufferlab.primitivelife.Utils;
 import net.pufferlab.primitivelife.recipes.PitKilnRecipes;
 
 import org.lwjgl.opengl.GL11;
 
-import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
@@ -54,19 +54,19 @@ public class NEIPitKilnHandler extends TemplateRecipeHandler {
     @Override
     public void loadCraftingRecipes(String outputId, Object... results) {
         if (outputId.equals(PrimitiveLife.MODID + ".pit_kiln") && getClass() == NEIPitKilnHandler.class) {
-            Map<ItemStack, ItemStack> recipes = PitKilnRecipes.getRecipeMapList();
+            Map<ItemStack, ItemStack> recipes = PitKilnRecipes.getRecipeMap();
             for (Map.Entry<ItemStack, ItemStack> recipe : recipes.entrySet()) {
-                arecipes.add(new NEIPitKilnHandler.PitKilnPair(recipe.getValue(), recipe.getKey()));
+                arecipes.add(new NEIPitKilnHandler.PitKilnPair(recipe.getKey(), recipe.getValue()));
             }
         } else super.loadCraftingRecipes(outputId, results);
     }
 
     @Override
     public void loadCraftingRecipes(ItemStack result) {
-        Map<ItemStack, ItemStack> recipes = PitKilnRecipes.getRecipeMapList();
+        Map<ItemStack, ItemStack> recipes = PitKilnRecipes.getRecipeMap();
         for (Map.Entry<ItemStack, ItemStack> recipe : recipes.entrySet()) {
-            if (NEIServerUtils.areStacksSameType(recipe.getKey(), result)) {
-                arecipes.add(new NEIPitKilnHandler.PitKilnPair(recipe.getValue(), recipe.getKey()));
+            if (Utils.containsStack(recipe.getValue(), result)) {
+                arecipes.add(new NEIPitKilnHandler.PitKilnPair(recipe.getKey(), recipe.getValue()));
             }
         }
     }
@@ -78,10 +78,10 @@ public class NEIPitKilnHandler extends TemplateRecipeHandler {
 
     @Override
     public void loadUsageRecipes(ItemStack ingredient) {
-        Map<ItemStack, ItemStack> recipes = PitKilnRecipes.getRecipeMapList();
+        Map<ItemStack, ItemStack> recipes = PitKilnRecipes.getRecipeMap();
         for (Map.Entry<ItemStack, ItemStack> recipe : recipes.entrySet()) {
-            if (NEIServerUtils.areStacksSameType(recipe.getValue(), ingredient)) {
-                arecipes.add(new NEIPitKilnHandler.PitKilnPair(recipe.getValue(), recipe.getKey()));
+            if (Utils.containsStack(recipe.getKey(), ingredient)) {
+                arecipes.add(new NEIPitKilnHandler.PitKilnPair(recipe.getKey(), recipe.getValue()));
             }
         }
     }

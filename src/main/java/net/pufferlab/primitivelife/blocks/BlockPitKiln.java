@@ -23,6 +23,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primitivelife.PrimitiveLife;
 import net.pufferlab.primitivelife.Utils;
+import net.pufferlab.primitivelife.recipes.PitKilnRecipes;
 import net.pufferlab.primitivelife.tileentities.TileEntityPitKiln;
 
 public class BlockPitKiln extends BlockContainer {
@@ -71,6 +72,7 @@ public class BlockPitKiln extends BlockContainer {
                 worldIn.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
                 return true;
             }
+            if (!PitKilnRecipes.hasRecipe(heldItem)) return false;
             boolean top = false;
             boolean left = false;
             if (subZ < 0.5F) {
