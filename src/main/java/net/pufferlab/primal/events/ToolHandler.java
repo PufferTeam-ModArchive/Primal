@@ -9,8 +9,6 @@ import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
-import net.pufferlab.primal.Constants;
-import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.items.ItemKnifePrimitive;
 
@@ -59,12 +57,10 @@ public class ToolHandler {
                         .getItem() != null) {
                         if (event.harvester.getCurrentEquippedItem()
                             .getItem() instanceof ItemKnifePrimitive) {
-                            if (event.world.rand.nextInt(5) == 0) {
+                            if (event.world.rand.nextInt(4) == 0) {
                                 event.drops.add(
-                                    new ItemStack(
-                                        Registry.item,
-                                        1,
-                                        Utils.getItemFromArray(Constants.miscItems, "straw")));
+                                    Utils.getModItem("misc", "item", "straw", 1)
+                                        .copy());
                             }
                         }
                     }

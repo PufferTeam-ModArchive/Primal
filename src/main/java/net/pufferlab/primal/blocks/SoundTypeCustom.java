@@ -8,7 +8,7 @@ import net.pufferlab.primal.Primal;
 public class SoundTypeCustom extends Block.SoundType {
 
     public static final Block.SoundType soundTypeCharcoal = new SoundTypeCustom("charcoal", 1.0F, 1.0F);
-    public static final Block.SoundType soundTypeThatch = new SoundTypeCustom("thatch", 1.0F, 1.0F);
+    public static final Block.SoundType soundTypeThatch = new SoundTypeCustom("thatch", 1.0F, 1.2F);
 
     public static final Random rand = new Random();
 

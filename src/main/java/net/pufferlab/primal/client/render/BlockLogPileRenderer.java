@@ -2,8 +2,10 @@ package net.pufferlab.primal.client.render;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
@@ -19,25 +21,50 @@ public class BlockLogPileRenderer implements ISimpleBlockRenderingHandler {
         RenderBlocks renderer) {
         int metadata = world.getBlockMetadata(x, y, z);
         int next = (metadata) % 3;
-        int layer = (metadata / 3) % 3;
+        int layer = ((metadata + 1) / 3) % 3;
+        TileEntity te = world.getTileEntity(x, y, z);
+        boolean rotated = false;
+        if (te instanceof TileEntityMetaFacing tef) {
+            if (tef.facingMeta == 1 || tef.facingMeta == 3) {
+                rotated = true;
+            }
+        }
         if (next >= 0) {
-            float nextWidth = getLogPileMax(next);
             float layerMax = getLogPileMax(layer);
-            float layerMinY = getLogPileMin(layer);
+            float layerMin = getLogPileMin(layer);
             if (metadata >= 8) {
-                layerMinY = 1.0F;
+                layerMin = 1.0F;
             }
 
-            renderer.uvRotateNorth = 3;
+            if (!rotated) {
+                renderer.uvRotateTop = 1;
+            } else {
+                renderer.uvRotateTop = 0;
+            }
 
-            if (layerMinY > 0.1F) {
-                renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, layerMinY, 1.0F);
+            if (layerMin > 0.1F) {
+                renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, layerMin, 1.0F);
                 renderer.renderStandardBlock(block, x, y, z);
             }
 
             if (metadata < 8) {
-                renderer.setRenderBounds(0.0F, layerMinY, 0.0F, nextWidth, layerMax, 1.0F);
-                renderer.renderStandardBlock(block, x, y, z);
+                if (next == 1) {
+                    if (rotated) {
+                        renderer.setRenderBounds(0.3125F, layerMin, 0.0F, 0.6875F, layerMax, 1.0F);
+                    } else {
+                        renderer.setRenderBounds(0.0F, layerMin, 0.3125F, 1.0F, layerMax, 0.6875F);
+                    }
+                    renderer.renderStandardBlock(block, x, y, z);
+                }
+                if (next == 0 || next == 1) {
+                    if (rotated) {
+                        renderer.setRenderBounds(0.0F, layerMin, 0.0F, 0.3125F, layerMax, 1.0F);
+                    } else {
+                        renderer.setRenderBounds(0.0F, layerMin, 0.0F, 1.0F, layerMax, 0.3125F);
+                    }
+                    renderer.renderStandardBlock(block, x, y, z);
+                }
+
             }
 
             return true;

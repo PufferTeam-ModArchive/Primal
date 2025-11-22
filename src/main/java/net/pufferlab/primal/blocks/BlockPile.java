@@ -43,6 +43,14 @@ public abstract class BlockPile extends BlockContainer {
         }
     }
 
+    public AxisAlignedBB getBlockBoundsNextState(IBlockAccess world, int x, int y, int z) {
+        if (world.getTileEntity(x, y, z) instanceof TileEntityInventory pile) {
+            float size = 1F / pile.getLayerAmount();
+            return AxisAlignedBB.getBoundingBox(0.0F, 0.0F, 0.0F, 1.0F, size + (size * (pile.getLayer() + 1)), 1.0F);
+        }
+        return null;
+    }
+
     @Override
     public void addCollisionBoxesToList(World worldIn, int x, int y, int z, AxisAlignedBB mask,
         List<AxisAlignedBB> list, Entity collider) {
@@ -174,7 +182,7 @@ public abstract class BlockPile extends BlockContainer {
         EntityPlayer player) {
         boolean success = false;
         if (pile.canAddItemInPile()) {
-            if (world.checkNoEntityCollision(getCollisionBoundingBoxFromPool(world, x, y, z))) {
+            if (world.checkNoEntityCollision(getBlockBoundsNextState(world, x, y, z))) {
                 success = true;
                 pile.addItemInPile(heldItem);
                 if (heldItem.stackSize > 0) {

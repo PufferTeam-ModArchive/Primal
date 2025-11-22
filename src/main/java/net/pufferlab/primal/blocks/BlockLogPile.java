@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityLogPile;
+import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 
 public class BlockLogPile extends BlockPile {
 
@@ -38,27 +39,20 @@ public class BlockLogPile extends BlockPile {
         if (side == 0 || side == 1) {
             return icons[0];
         }
-        if (side == 2 || side == 3) {
-            return icons[2];
+        TileEntity te = worldIn.getTileEntity(x, y, z);
+        if (te instanceof TileEntityMetaFacing tef) {
+            if (tef.facingMeta == 1 || tef.facingMeta == 3) {
+                if (side == 4 || side == 5) {
+                    return icons[1];
+                }
+            }
+            if (tef.facingMeta == 2 || tef.facingMeta == 4) {
+                if (side == 2 || side == 3) {
+                    return icons[1];
+                }
+            }
         }
-        if (side == 4 || side == 5) {
-            return icons[1];
-        }
-        /*
-         * TileEntity te = worldIn.getTileEntity(x, y, z);
-         * if(te instanceof TileEntityMetaFacing tef) {
-         * if(tef.facingMeta == 1 || tef.facingMeta == 3) {
-         * if(side == 2 || side == 3) {
-         * return icons[1];
-         * }
-         * }
-         * if(tef.facingMeta == 2 || tef.facingMeta == 4) {
-         * if(side == 4 || side == 5) {
-         * return icons[1];
-         * }
-         * }
-         * }
-         */
+
         return icons[2];
     }
 
