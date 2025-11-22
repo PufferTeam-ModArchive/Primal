@@ -1,0 +1,68 @@
+{
+    "knapping.clay": {
+        "category": "master",
+        "sounds": [
+            {
+                "name": "knapping/clay",
+                "stream": false
+            }
+        ]
+    },
+    "knapping.flint": {
+        "category": "master",
+        "sounds": [
+            {
+                "name": "knapping/flint",
+                "stream": false
+            }
+        ]
+    },
+    "dig.charcoal": {
+        "category": "master",
+        "sounds": [
+            {
+                "name": "charcoal/dig1",
+                "stream": false
+            }
+        ]
+    },
+    "step.charcoal": {
+        "category": "master",
+        "sounds": [
+            {
+                "name": "charcoal/step1",
+                "stream": false
+            }
+        ]
+    },
+    "dig.thatch": {
+        "category": "master",
+        "sounds": [
+            {
+                "name": "thatch/dig1",
+                "stream": false
+            },
+            {
+                "name": "thatch/dig2",
+                "stream": false
+            }
+        ]
+    },
+    "step.thatch": {
+        "category": "master",
+        "sounds": [
+            {
+                "name": "thatch/step1",
+                "stream": false
+            },
+            {
+                "name": "thatch/step2",
+                "stream": false
+            },
+            {
+                "name": "thatch/step3",
+                "stream": false
+            }
+        ]
+    }
+}

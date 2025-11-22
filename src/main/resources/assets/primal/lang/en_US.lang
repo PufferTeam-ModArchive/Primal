@@ -1,0 +1,21 @@
+tile.primal.thatch.name=Thatch
+tile.primal.thatch_roof.name=Thatch Roof
+
+item.primal.flint_shard.name=Flint Shard
+item.primal.flint_axe_head.name=Flint Axe Head
+item.primal.flint_pickaxe_head.name=Flint Pickaxe Head
+item.primal.flint_shovel_head.name=Flint Shovel Head
+item.primal.flint_knife_blade.name=Flint Knife Blade
+item.primal.straw.name=Straw
+item.primal.clay_brick.name=Clay Brick
+item.primal.clay_flower_pot.name=Clay Flower Pot
+item.primal.clay_bucket.name=Clay Bucket
+item.primal.empty_ceramic_bucket.name=Ceramic Bucket
+item.primal.water_ceramic_bucket.name=Water Ceramic Bucket
+item.primal.lava_ceramic_bucket.name=Lava Ceramic Bucket
+item.primal.flint_axe.name=Flint Axe
+item.primal.flint_pickaxe.name=Flint Pickaxe
+item.primal.flint_shovel.name=Flint Shovel
+item.primal.flint_knife.name=Flint Knife
+item.primal.firestarter.name=Fire Starter
+item.primal.firewood.name=Firewood
