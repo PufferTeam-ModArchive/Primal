@@ -8,6 +8,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.tileentities.TileEntityCharcoalPile;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
@@ -45,8 +46,8 @@ public class BlockCharcoalPile extends BlockPile {
     }
 
     @Override
-    public String getItemOre() {
-        return "charcoal";
+    public String[] getItemOre() {
+        return Constants.charcoalPileOreDicts;
     }
 
     @Override

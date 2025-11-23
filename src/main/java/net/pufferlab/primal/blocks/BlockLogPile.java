@@ -7,6 +7,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityLogPile;
@@ -14,7 +15,7 @@ import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 
 public class BlockLogPile extends BlockPile {
 
-    private IIcon[] icons = new IIcon[3];
+    private IIcon[] icons = new IIcon[6];
 
     public BlockLogPile() {
         super(Material.wood);
@@ -27,6 +28,9 @@ public class BlockLogPile extends BlockPile {
         icons[0] = reg.registerIcon(Primal.MODID + ":log_pile");
         icons[1] = reg.registerIcon(Primal.MODID + ":log_pile_2");
         icons[2] = reg.registerIcon(Primal.MODID + ":log_pile_front");
+        icons[3] = reg.registerIcon(Primal.MODID + ":log_pile_fired");
+        icons[4] = reg.registerIcon(Primal.MODID + ":log_pile_2_fired");
+        icons[5] = reg.registerIcon(Primal.MODID + ":log_pile_front_fired");
     }
 
     @Override
@@ -36,29 +40,36 @@ public class BlockLogPile extends BlockPile {
 
     @Override
     public IIcon getIcon(IBlockAccess worldIn, int x, int y, int z, int side) {
+        int offset = 0;
+        TileEntity te2 = worldIn.getTileEntity(x, y, z);
+        if (te2 instanceof TileEntityLogPile tef) {
+            if (tef.isFired) {
+                offset = 3;
+            }
+        }
         if (side == 0 || side == 1) {
-            return icons[0];
+            return icons[offset];
         }
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityMetaFacing tef) {
             if (tef.facingMeta == 1 || tef.facingMeta == 3) {
                 if (side == 4 || side == 5) {
-                    return icons[1];
+                    return icons[1 + offset];
                 }
             }
             if (tef.facingMeta == 2 || tef.facingMeta == 4) {
                 if (side == 2 || side == 3) {
-                    return icons[1];
+                    return icons[1 + offset];
                 }
             }
         }
 
-        return icons[2];
+        return icons[2 + offset];
     }
 
     @Override
-    public String getItemOre() {
-        return "firewood";
+    public String[] getItemOre() {
+        return Constants.logPileOreDicts;
     }
 
     @Override

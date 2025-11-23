@@ -4,7 +4,7 @@ import static codechicken.lib.gui.GuiDraw.changeTexture;
 import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -22,18 +22,14 @@ public class NEIChoppingLogHandler extends TemplateRecipeHandler {
 
     public class ChoppingLogPair extends CachedRecipe {
 
-        public ChoppingLogPair(String ingred, ItemStack result) {
-            this.ingredients = new ArrayList<>();
-
-            List<ItemStack> list = ChoppingLogRecipe.getOreDictMap()
-                .get(ingred);
-            this.ingredients.add(new PositionedStack(list, 43, 10, true));
+        public ChoppingLogPair(List<ItemStack> ingred, ItemStack result) {
+            this.ingredients = new PositionedStack(ingred, 43, 10, true);
             this.result = new PositionedStack(result, 119, 24, false);
         }
 
         @Override
         public List<PositionedStack> getIngredients() {
-            return getCycledIngredients(cycleticks / 20, ingredients);
+            return getCycledIngredients(cycleticks / 20, Collections.singletonList(ingredients));
         }
 
         public PositionedStack getResult() {
@@ -41,11 +37,11 @@ public class NEIChoppingLogHandler extends TemplateRecipeHandler {
         }
 
         public void computeVisuals() {
-            for (PositionedStack p : ingredients) p.generatePermutations();
+            ingredients.generatePermutations();
         }
 
         PositionedStack result;
-        List<PositionedStack> ingredients;
+        PositionedStack ingredients;
     }
 
     @Override
@@ -56,8 +52,8 @@ public class NEIChoppingLogHandler extends TemplateRecipeHandler {
     @Override
     public void loadCraftingRecipes(String outputId, Object... results) {
         if (outputId.equals(Primal.MODID + ".chopping_log") && getClass() == NEIChoppingLogHandler.class) {
-            Map<String, ItemStack> recipes = ChoppingLogRecipe.getRecipeMap();
-            for (Map.Entry<String, ItemStack> recipe : recipes.entrySet()) {
+            Map<List<ItemStack>, ItemStack> recipes = ChoppingLogRecipe.getRecipeMap();
+            for (Map.Entry<List<ItemStack>, ItemStack> recipe : recipes.entrySet()) {
                 ChoppingLogPair recipePair = new NEIChoppingLogHandler.ChoppingLogPair(
                     recipe.getKey(),
                     recipe.getValue());
@@ -69,8 +65,8 @@ public class NEIChoppingLogHandler extends TemplateRecipeHandler {
 
     @Override
     public void loadCraftingRecipes(ItemStack result) {
-        Map<String, ItemStack> recipes = ChoppingLogRecipe.getRecipeMap();
-        for (Map.Entry<String, ItemStack> recipe : recipes.entrySet()) {
+        Map<List<ItemStack>, ItemStack> recipes = ChoppingLogRecipe.getRecipeMap();
+        for (Map.Entry<List<ItemStack>, ItemStack> recipe : recipes.entrySet()) {
             if (Utils.containsStack(recipe.getValue(), result)) {
                 ChoppingLogPair recipePair = new NEIChoppingLogHandler.ChoppingLogPair(
                     recipe.getKey(),

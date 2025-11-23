@@ -15,8 +15,6 @@ public class CommonProxy implements IGuiHandler {
 
     public void preInit(FMLPreInitializationEvent event) {
         Config.synchronizeConfiguration(event.getSuggestedConfigurationFile());
-
-        Primal.LOG.info(Config.greeting);
     }
 
     public void registerRenders() {}

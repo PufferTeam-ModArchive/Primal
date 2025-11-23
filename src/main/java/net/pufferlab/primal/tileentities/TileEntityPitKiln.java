@@ -2,7 +2,6 @@ package net.pufferlab.primal.tileentities;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -16,7 +15,6 @@ public class TileEntityPitKiln extends TileEntityInventory {
     public int timePassed;
     public boolean isFired;
     int timeToSmelt = 20 * 30;
-    public int lastSlot;
 
     public TileEntityPitKiln() {
         super(12);
@@ -28,7 +26,6 @@ public class TileEntityPitKiln extends TileEntityInventory {
 
         this.timePassed = compound.getInteger("timePassed");
         this.isFired = compound.getBoolean("isFired");
-        this.lastSlot = compound.getInteger("lastSlot");
     }
 
     @Override
@@ -37,7 +34,6 @@ public class TileEntityPitKiln extends TileEntityInventory {
 
         compound.setInteger("timePassed", this.timePassed);
         compound.setBoolean("isFired", this.isFired);
-        compound.setInteger("lastSlot", this.lastSlot);
     }
 
     @Override
@@ -92,14 +88,6 @@ public class TileEntityPitKiln extends TileEntityInventory {
                 setInventorySlotContentsUpdate(x);
             }
         }
-    }
-
-    @Override
-    public boolean addInventorySlotContentsUpdate(int index, EntityPlayer player) {
-        if (getInventoryStack(index) == null && player.getCurrentEquippedItem() != null) {
-            this.lastSlot = index;
-        }
-        return super.addInventorySlotContentsUpdate(index, player);
     }
 
     @Override

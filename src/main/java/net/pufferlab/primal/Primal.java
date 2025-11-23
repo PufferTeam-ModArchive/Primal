@@ -20,7 +20,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 
-@Mod(modid = Primal.MODID, version = "1.0", name = Primal.MODNAME, acceptedMinecraftVersions = "[1.7.10]")
+@Mod(modid = Primal.MODID, version = "0.2.0", name = Primal.MODNAME, acceptedMinecraftVersions = "[1.7.10]")
 public class Primal {
 
     public static final String MODNAME = "Primal";

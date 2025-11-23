@@ -42,15 +42,22 @@ public class BlockChoppingLog extends BlockContainer {
         ItemStack heldItem = player.getHeldItem();
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityChoppingLog log) {
-            if (heldItem != null) {
+            if (heldItem != null && (heldItem.getItem() instanceof ItemAxe || ChoppingLogRecipe.hasRecipe(heldItem))) {
                 if (heldItem.getItem() instanceof ItemAxe) {
                     return log.chopLog();
                 }
-                if (ChoppingLogRecipe.hasRecipe(ChoppingLogRecipe.getOreDict(heldItem))) {
+                if (ChoppingLogRecipe.hasRecipe(heldItem)) {
                     log.setInventorySlotContents(0, heldItem);
                     player.inventory.decrStackSize(player.inventory.currentItem, heldItem.stackSize);
                     return true;
                 }
+            } else {
+                if (log.getInventoryStack(0) != null) {
+                    dropItems(worldIn, x, y, z);
+                    log.setInventorySlotContentsUpdate(0);
+                    return true;
+                }
+
             }
 
         }
@@ -84,7 +91,7 @@ public class BlockChoppingLog extends BlockContainer {
                 float ri = rando.nextFloat() * 0.8F + 0.1F;
                 float rj = rando.nextFloat() * 0.8F + 0.1F;
                 float rk = rando.nextFloat() * 0.8F + 0.1F;
-                EntityItem entityItem = new EntityItem(world, (i + ri), (j + rj), (k + rk), item.copy());
+                EntityItem entityItem = new EntityItem(world, (i + ri), (j + rj + 0.7F), (k + rk), item.copy());
                 float factor = 0.05F;
                 entityItem.motionX = rando.nextGaussian() * factor;
                 entityItem.motionY = rando.nextGaussian() * factor + 0.20000000298023224D;

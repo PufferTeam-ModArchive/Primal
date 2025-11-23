@@ -10,44 +10,28 @@ import net.pufferlab.primal.Utils;
 
 public class ChoppingLogRecipe {
 
-    private static final Map<String, ItemStack> recipeMap = new HashMap<>();
-    private static final Map<String, List<ItemStack>> oreDictMap = new HashMap<>();
+    private static final Map<List<ItemStack>, ItemStack> recipeMap = new HashMap<>();
 
     public static void addChoppingLogRecipe(ItemStack output, String input) {
-        oreDictMap.put(input, OreDictionary.getOres(input));
-        recipeMap.put(input, output);
+        recipeMap.put(OreDictionary.getOres(input), output);
     }
 
-    public static ItemStack getOutput(String input) {
+    public static ItemStack getOutput(ItemStack input) {
         if (input == null) return null;
-        for (Map.Entry<String, ItemStack> recipe : recipeMap.entrySet()) {
-            if (recipe.getKey()
-                .equals(input)) {
+        for (Map.Entry<List<ItemStack>, ItemStack> recipe : recipeMap.entrySet()) {
+            if (Utils.containsList(input, recipe.getKey())) {
                 return recipe.getValue();
             }
         }
         return null;
     }
 
-    public static String getOreDict(ItemStack input) {
-        for (Map.Entry<String, ItemStack> recipe : recipeMap.entrySet()) {
-            if (Utils.containsOreDict(input, recipe.getKey())) {
-                return recipe.getKey();
-            }
-        }
-        return null;
-    }
-
-    public static boolean hasRecipe(String input) {
+    public static boolean hasRecipe(ItemStack input) {
         ItemStack output = getOutput(input);
         return output != null;
     }
 
-    public static Map<String, ItemStack> getRecipeMap() {
+    public static Map<List<ItemStack>, ItemStack> getRecipeMap() {
         return recipeMap;
-    }
-
-    public static Map<String, List<ItemStack>> getOreDictMap() {
-        return oreDictMap;
     }
 }

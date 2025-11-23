@@ -34,11 +34,10 @@ public class TileEntityChoppingLog extends TileEntityInventory {
 
     public boolean chopLog() {
         ItemStack item = getInventoryStack(0);
-        String ore = ChoppingLogRecipe.getOreDict(item);
-        if (ChoppingLogRecipe.hasRecipe(ore)) {
+        if (ChoppingLogRecipe.hasRecipe(item)) {
             if (timePassed > cooldown) {
                 timePassed = 0;
-                ItemStack output = ChoppingLogRecipe.getOutput(ore);
+                ItemStack output = ChoppingLogRecipe.getOutput(item);
                 if (output != null) {
                     decrStackSize(0, 1);
                     Utils.playSound(this.worldObj, this.xCoord, this.yCoord, this.zCoord, Blocks.log);

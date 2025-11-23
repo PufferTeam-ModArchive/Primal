@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.blocks.BlockLogPile;
@@ -22,7 +23,7 @@ public class LogPileHandler {
             ItemStack heldItem = event.entityPlayer.inventory.getCurrentItem();
             if (heldItem == null || block == null) return;
             if (heldItem.getItem() == null) return;
-            if (!Utils.containsOreDict(heldItem, "firewood")) return;
+            if (!Utils.containsOreDict(heldItem, Constants.logPileOreDicts)) return;
             if (!(block instanceof BlockLogPile)) {
                 if (!block.hasTileEntity(meta) && event.face == ForgeDirection.UP.ordinal()) {
                     int x2 = Utils.getBlockX(event.face, event.x);

@@ -100,8 +100,8 @@ public abstract class BlockPile extends BlockContainer {
         }
     }
 
-    public String getItemOre() {
-        return "";
+    public String[] getItemOre() {
+        return new String[] {};
     }
 
     @Override

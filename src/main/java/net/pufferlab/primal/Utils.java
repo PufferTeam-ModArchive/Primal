@@ -1,7 +1,6 @@
 package net.pufferlab.primal;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -20,40 +19,47 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class Utils {
 
-    private static final Map<Object, Boolean> cacheOre = new HashMap<>();
     private static final Map<Integer, ItemStack> cacheIS = new HashMap<>();
+    private static final Map<String, ItemStack> itemCache = new HashMap<>();
 
     public static final ForgeDirection[] sideDirections = new ForgeDirection[] { ForgeDirection.WEST,
-        ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.NORTH };
+        ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.NORTH, ForgeDirection.DOWN };
 
     public static ItemStack getItem(String mod, String item, int meta, int number) {
+        String key = mod + ":" + item + ":" + meta + ":" + number;
+        if (itemCache.containsKey(key)) {
+            return itemCache.get(key);
+        }
+
         if (GameRegistry.findItem(mod, item) != null) {
-            return new ItemStack(GameRegistry.findItem(mod, item), number, meta);
+            ItemStack is = new ItemStack(GameRegistry.findItem(mod, item), number, meta);
+            itemCache.put(key, is);
+            return is;
         } else if (GameRegistry.findBlock(mod, item) != null) {
-            return new ItemStack(GameRegistry.findBlock(mod, item), number, meta);
+            ItemStack is = new ItemStack(GameRegistry.findBlock(mod, item), number, meta);
+            itemCache.put(key, is);
+            return is;
+        } else {
+            Primal.LOG.error("Tried to get invalid ItemStack from :{}:{}:{}:{}.", mod, item, meta, meta);
         }
         return null;
     }
 
     public static ItemStack getItem(String s) {
+        if (itemCache.containsKey(s)) {
+            return itemCache.get(s);
+        }
         String[] array = s.split(":");
         String mod = array[0];
         String item = array[1];
         int meta = 0;
         if (array.length > 2) {
-            if (array[2].equals("*")) {
-                meta = OreDictionary.WILDCARD_VALUE;
-            } else {
-                meta = Integer.parseInt(array[2]);
-            }
+            meta = array[2].equals("*") ? OreDictionary.WILDCARD_VALUE : Integer.parseInt(array[2]);
         }
+
         int number = 1;
         if (array.length > 3) {
-            if (array[3].equals("*")) {
-                number = OreDictionary.WILDCARD_VALUE;
-            } else {
-                number = Integer.parseInt(array[3]);
-            }
+            number = array[3].equals("*") ? OreDictionary.WILDCARD_VALUE : Integer.parseInt(array[3]);
         }
 
         return getItem(mod, item, meta, number);
@@ -109,10 +115,27 @@ public class Utils {
         return z;
     }
 
+    public static boolean hasSolidWallsTop(World world, int x, int y, int z) {
+        for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+            Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+            if (dir.equals(ForgeDirection.UP)) {
+                if (!(block.getMaterial() == Material.fire) || !block.isSideSolid(world, x, y, z, dir.getOpposite())) {
+                    return false;
+                }
+            } else {
+                if (!block.isSideSolid(world, x, y, z, dir.getOpposite())) {
+                    return false;
+                }
+            }
+
+        }
+        return true;
+    }
+
     public static boolean hasSolidWalls(World world, int x, int y, int z) {
         for (ForgeDirection dir : Utils.sideDirections) {
             Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
-            if (block.getMaterial() == Material.air) {
+            if (!block.isSideSolid(world, x, y, z, dir.getOpposite())) {
                 return false;
             }
         }
@@ -205,21 +228,27 @@ public class Utils {
         return false;
     }
 
-    public static boolean containsOreDict(ItemStack b, String oreDict) {
-        if (b == null) return false;
-        if (b.getItem() == null) return false;
-        String oreDictKey = getOreDictKey(b, oreDict);
-        if (cacheOre.containsKey(oreDictKey)) {
-            return cacheOre.get(oreDictKey);
-        }
-
-        for (int id1 : OreDictionary.getOreIDs(b)) {
-            if (id1 == OreDictionary.getOreID(oreDict)) {
-                cacheOre.put(oreDictKey, true);
+    public static boolean containsList(ItemStack b, List<ItemStack> list) {
+        for (ItemStack item : list) {
+            if (Utils.containsStack(item, b)) {
                 return true;
             }
         }
         return false;
+    }
+
+    public static boolean containsOreDict(ItemStack b, String oreDict) {
+        return containsList(b, OreDictionary.getOres(oreDict));
+    }
+
+    public static boolean containsOreDict(ItemStack b, String[] oreDict) {
+        boolean contains = false;
+        for (String ore : oreDict) {
+            if (containsOreDict(b, ore)) {
+                contains = true;
+            }
+        }
+        return contains;
     }
 
     public static boolean containsOreDict(Block block, String oreDict) {

@@ -17,14 +17,11 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
 
     private ItemStack[] inventory;
     private int maxSize;
+    public int lastSlot;
 
     public TileEntityInventory(int slots) {
         this.inventory = new ItemStack[slots];
         this.maxSize = slots;
-    }
-
-    public boolean canRegister() {
-        return false;
     }
 
     public int getSize() {
@@ -33,6 +30,8 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
 
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
+
+        this.lastSlot = compound.getInteger("lastSlot");
 
         NBTTagList tagList = compound.getTagList("inventory", 10);
         this.inventory = new ItemStack[getSize()];
@@ -45,6 +44,8 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
 
     public void writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
+
+        compound.setInteger("lastSlot", this.lastSlot);
 
         NBTTagList itemList = new NBTTagList();
         for (int i = 0; i < this.inventory.length; i++) {
@@ -74,6 +75,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
 
         NBTTagCompound dataTag = new NBTTagCompound();
 
+        dataTag.setInteger("lastSlot", this.lastSlot);
         dataTag.setInteger("facingMeta", this.facingMeta);
         dataTag.setTag("inventory", (NBTBase) itemList);
 
@@ -88,6 +90,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
     @Override
     public void onDataPacket(NetworkManager manager, S35PacketUpdateTileEntity packet) {
         NBTTagCompound nbtData = packet.func_148857_g();
+        this.lastSlot = nbtData.getInteger("lastSlot");
         this.facingMeta = nbtData.getInteger("facingMeta");
         NBTTagList tagList = nbtData.getTagList("inventory", 10);
         this.inventory = new ItemStack[getSize()];
@@ -172,6 +175,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
     @Override
     public void setInventorySlotContents(int index, ItemStack stack) {
         this.inventory[index] = stack;
+        this.lastSlot = index;
 
         if (stack != null && stack.stackSize > this.getInventoryStackLimit()) {
             stack.stackSize = this.getInventoryStackLimit();
@@ -182,6 +186,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
     public void setInventorySlotContentsUpdate(int index, ItemStack stack) {
         ItemStack copy = stack.copy();
         copy.stackSize = getInventoryStackLimit();
+        this.lastSlot = index;
         this.inventory[index] = copy;
         this.worldObj.markBlockRangeForRenderUpdate(
             this.xCoord,
