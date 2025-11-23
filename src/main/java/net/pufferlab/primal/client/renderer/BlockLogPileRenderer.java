@@ -1,4 +1,4 @@
-package net.pufferlab.primal.client.render;
+package net.pufferlab.primal.client.renderer;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -66,6 +66,12 @@ public class BlockLogPileRenderer implements ISimpleBlockRenderingHandler {
                 }
 
             }
+            renderer.uvRotateNorth = 0;
+            renderer.uvRotateBottom = 0;
+            renderer.uvRotateEast = 0;
+            renderer.uvRotateSouth = 0;
+            renderer.uvRotateWest = 0;
+            renderer.uvRotateTop = 0;
 
             return true;
         }

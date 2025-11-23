@@ -1,4 +1,4 @@
-package net.pufferlab.primal.client.render;
+package net.pufferlab.primal.client.models;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
@@ -6,11 +6,11 @@ import net.minecraft.client.model.ModelRenderer;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 
-public abstract class ModelMod extends ModelBase {
+public abstract class ModelPrimal extends ModelBase {
 
     public final ModelRenderer bb_main;
 
-    public ModelMod(int size) {
+    public ModelPrimal(int size) {
         textureWidth = size;
         textureHeight = size;
 

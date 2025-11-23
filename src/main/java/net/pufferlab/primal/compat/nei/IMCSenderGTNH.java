@@ -1,6 +1,7 @@
 package net.pufferlab.primal.compat.nei;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.pufferlab.primal.Primal;
 
 import cpw.mods.fml.common.event.FMLInterModComms;
 
@@ -12,7 +13,7 @@ public class IMCSenderGTNH {
      */
 
     public static void sendHandler(String aName, String aBlock) {
-        sendHandler(aName, aBlock, 1, "PrimitiveLife", "primitivelife", 166, 65);
+        sendHandler(aName, aBlock, 1, Primal.MODNAME, Primal.MODID, 166, 65);
     }
 
     public static void sendHandler(String aName, String aBlock, int maxRecipesPerPage, String modName, String modID,

@@ -1,11 +1,10 @@
 package net.pufferlab.primal.items;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.Item;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
@@ -13,17 +12,19 @@ import net.pufferlab.primal.Utils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemKnifePrimitive extends Item {
+public class ItemKnifePrimitive extends ItemSword {
 
     String toolName;
     protected ToolMaterial toolMaterial;
 
     public ItemKnifePrimitive(ToolMaterial material, String name) {
+        super(material);
         this.toolMaterial = material;
         this.maxStackSize = 1;
         this.toolName = name;
         this.setMaxDamage(material.getMaxUses());
         this.setCreativeTab(CreativeTabs.tabTools);
+        this.field_150934_a = 3.0F + toolMaterial.getDamageVsEntity();
     }
 
     @SideOnly(Side.CLIENT)
@@ -31,15 +32,14 @@ public class ItemKnifePrimitive extends Item {
         return true;
     }
 
+    @Override
     public String getToolMaterialName() {
         return this.toolMaterial.toString();
     }
 
     @Override
-    public boolean onBlockDestroyed(ItemStack itemstack, World world, Block block, int x, int y, int z,
-        EntityLivingBase entity) {
-        itemstack.damageItem(1, entity);
-        return true;
+    public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer player) {
+        return itemStackIn;
     }
 
     @Override

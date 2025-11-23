@@ -62,7 +62,18 @@ public class Utils {
     public static ItemStack getModItem(String mod, String name, String wood, int number) {
         if (mod.equals("misc")) {
             if (name.equals("item")) {
-                return getItem(Primal.MODID, "item", Utils.getItemFromArray(Constants.miscItems, wood), number);
+                if (Utils.containsExactMatch(Constants.strawItems, wood)) {
+                    return getItem(Primal.MODID, "straw", Utils.getItemFromArray(Constants.strawItems, wood), number);
+                }
+                if (Utils.containsExactMatch(Constants.woodItems, wood)) {
+                    return getItem(Primal.MODID, "wood", Utils.getItemFromArray(Constants.woodItems, wood), number);
+                }
+                if (Utils.containsExactMatch(Constants.flintItems, wood)) {
+                    return getItem(Primal.MODID, "flint", Utils.getItemFromArray(Constants.flintItems, wood), number);
+                }
+                if (Utils.containsExactMatch(Constants.clayItems, wood)) {
+                    return getItem(Primal.MODID, "clay", Utils.getItemFromArray(Constants.clayItems, wood), number);
+                }
             }
         }
         return null;
@@ -153,16 +164,20 @@ public class Utils {
                 world.setBlock(x, y, z, toPlace, metadata, 2);
                 toPlace.onBlockPlacedBy(world, x, y, z, player, stack);
                 stack.stackSize -= 1;
-                world.playSoundEffect(
-                    x + 0.5f,
-                    y + 0.5f,
-                    z + 0.5f,
-                    toPlace.stepSound.func_150496_b(),
-                    (toPlace.stepSound.getVolume() + 1.0F) / 2.0F,
-                    toPlace.stepSound.getPitch() * 0.8F);
+                playSound(world, x, y, z, toPlace);
                 player.swingItem();
             }
         }
+    }
+
+    public static void playSound(World world, int x, int y, int z, Block block) {
+        world.playSoundEffect(
+            x + 0.5f,
+            y + 0.5f,
+            z + 0.5f,
+            block.stepSound.func_150496_b(),
+            (block.stepSound.getVolume() + 1.0F) / 2.0F,
+            block.stepSound.getPitch() * 0.8F);
     }
 
     public static String getOreDictionaryName(String prefix, String suffix) {
@@ -179,6 +194,9 @@ public class Utils {
     }
 
     public static boolean containsExactMatch(String[] array, String targetString) {
+        if (targetString == null) {
+            return true;
+        }
         for (String element : array) {
             if (element.equals(targetString)) {
                 return true;
@@ -235,6 +253,7 @@ public class Utils {
 
     public static int getItemFromArray(String[] woodType, String wood) {
         for (int i = 0; i < woodType.length; i++) {
+            if (woodType[i] == null) continue;
             if (woodType[i].equals(wood)) {
                 return i;
             }

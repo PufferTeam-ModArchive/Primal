@@ -39,10 +39,14 @@ public class BlockPitKiln extends BlockContainer {
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess worldIn, int x, int y, int z) {
         int meta = worldIn.getBlockMetadata(x, y, z);
-        if (meta >= 6) {
-            super.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+        if (meta != 0) {
+            if (meta >= 6) {
+                super.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+            } else {
+                super.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F * meta, 1.0F);
+            }
         } else {
-            super.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F * meta, 1.0F);
+            super.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.05F, 1.0F);
         }
     }
 

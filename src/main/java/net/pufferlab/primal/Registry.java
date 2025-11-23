@@ -10,6 +10,7 @@ import net.pufferlab.primal.blocks.*;
 import net.pufferlab.primal.events.*;
 import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.tileentities.TileEntityCharcoalPile;
+import net.pufferlab.primal.tileentities.TileEntityChoppingLog;
 import net.pufferlab.primal.tileentities.TileEntityLogPile;
 import net.pufferlab.primal.tileentities.TileEntityPitKiln;
 
@@ -35,7 +36,11 @@ public class Registry {
     public static Block thatch_roof;
     public static Block log_pile;
     public static Block charcoal_pile;
-    public static Item item;
+    public static Block chopping_log;
+    public static Item straw;
+    public static Item flint;
+    public static Item wood;
+    public static Item clay;
     public static Item ceramic_bucket;
     public static Item flint_axe;
     public static Item flint_pickaxe;
@@ -50,11 +55,16 @@ public class Registry {
         pit_kiln = new BlockPitKiln();
         log_pile = new BlockLogPile();
         charcoal_pile = new BlockCharcoalPile();
+        chopping_log = new BlockChoppingLog();
 
         thatch = new BlockThatch();
         thatch_roof = new BlockThatchRoof();
 
-        item = new ItemMeta(Constants.miscItems, "item");
+        straw = new ItemMeta(Constants.strawItems, "straw");
+        wood = new ItemMeta(Constants.woodItems, "wood");
+        flint = new ItemMeta(Constants.flintItems, "flint");
+        clay = new ItemMeta(Constants.clayItems, "clay");
+
         ceramic_bucket = new ItemBucketCeramic("ceramic_bucket");
 
         flint_axe = new ItemAxePrimitive(toolFlint, "flint_axe");
@@ -72,8 +82,13 @@ public class Registry {
         register(TileEntityLogPile.class, "log_pile");
         register(charcoal_pile, "charcoal_pile");
         register(TileEntityCharcoalPile.class, "charcoal_pile");
+        register(chopping_log, "chopping_log");
+        register(TileEntityChoppingLog.class, "chopping_log");
 
-        register(item, "item");
+        register(straw, "straw");
+        register(wood, "wood");
+        register(flint, "flint");
+        register(clay, "clay");
         register(ceramic_bucket, "ceramic_bucket");
         register(flint_axe, "flint_axe");
         register(flint_pickaxe, "flint_pickaxe");

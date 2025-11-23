@@ -294,7 +294,7 @@ public abstract class BlockPile extends BlockContainer {
             EntityItem entityItem = new EntityItem(
                 world,
                 x + 0.5,
-                y + 0.25F + (0.333F * pile.getLayer()),
+                y + 0.3F + (0.333F * pile.getLayer()),
                 z + 0.5,
                 new ItemStack(item.getItem(), item.stackSize, item.getItemDamage()));
             if (item.hasTagCompound()) entityItem.getEntityItem()

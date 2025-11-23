@@ -3,10 +3,11 @@ package net.pufferlab.primal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
-import net.pufferlab.primal.client.render.*;
+import net.pufferlab.primal.client.renderer.*;
 import net.pufferlab.primal.inventory.container.ContainerKnapping;
 import net.pufferlab.primal.inventory.gui.GuiKnapping;
 import net.pufferlab.primal.recipes.KnappingType;
+import net.pufferlab.primal.tileentities.TileEntityChoppingLog;
 import net.pufferlab.primal.tileentities.TileEntityPitKiln;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -28,8 +29,9 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerBlockHandler(new BlockCharcoalPileRenderer());
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPitKiln.class, new TileEntityPitKilnRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChoppingLog.class, new TileEntityChoppingLogRenderer());
 
-        MinecraftForgeClient.registerItemRenderer(Registry.item, new ItemSpecialRenderer());
+        MinecraftForgeClient.registerItemRenderer(Registry.wood, new ItemWoodRenderer());
     }
 
     @Override

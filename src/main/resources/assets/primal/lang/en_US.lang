@@ -1,12 +1,16 @@
+tile.primal.error.name=Invalid Block
+tile.primal.chopping_log.name=Chopping Log
 tile.primal.thatch.name=Thatch
 tile.primal.thatch_roof.name=Thatch Roof
 
+item.primal.error.name=Invalid Item
 item.primal.flint_shard.name=Flint Shard
 item.primal.flint_axe_head.name=Flint Axe Head
 item.primal.flint_pickaxe_head.name=Flint Pickaxe Head
 item.primal.flint_shovel_head.name=Flint Shovel Head
 item.primal.flint_knife_blade.name=Flint Knife Blade
 item.primal.straw.name=Straw
+item.primal.straw_cordage.name=Straw Cordage
 item.primal.clay_brick.name=Clay Brick
 item.primal.clay_flower_pot.name=Clay Flower Pot
 item.primal.clay_bucket.name=Clay Bucket

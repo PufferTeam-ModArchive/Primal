@@ -8,6 +8,7 @@ public class ScriptPrimitive implements IScript {
     public void run() {
         addOredicts();
         addCraftingRecipes();
+        addChoppingLogRecipes();
         addKnappingRecipes();
         addPitKilnRecipes();
     }
@@ -74,6 +75,10 @@ public class ScriptPrimitive implements IScript {
             getModItem("misc", "item", "straw", 1),
             'I',
             "stickWood");
+    }
+
+    public void addChoppingLogRecipes() {
+        addChoppingLogRecipe(getModItem("misc", "item", "firewood", 4), "logWood");
     }
 
     public void addKnappingRecipes() {

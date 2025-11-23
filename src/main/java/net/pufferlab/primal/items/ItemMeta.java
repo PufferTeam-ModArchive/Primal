@@ -44,7 +44,7 @@ public class ItemMeta extends Item {
 
         for (int i = 0; i < elements.length; i++) {
             if (!Utils.containsExactMatch(elementsBlacklist, elements[i])) {
-                if (name.equals("item")) {
+                if (Utils.containsExactMatch(Constants.uniqueItemTypes, name)) {
                     icons[i] = register.registerIcon(Primal.MODID + ":" + elements[i]);
                 } else {
                     icons[i] = register.registerIcon(Primal.MODID + ":" + elements[i] + "_" + name);
@@ -77,7 +77,7 @@ public class ItemMeta extends Item {
             || Utils.containsExactMatch(elementsBlacklist, elements[stack.getItemDamage()])) {
             return "item." + Primal.MODID + ".error";
         }
-        if (name.equals("item")) {
+        if (Utils.containsExactMatch(Constants.uniqueItemTypes, name)) {
             return "item." + Primal.MODID + "." + elements[stack.getItemDamage()];
         }
         return "item." + Primal.MODID + "." + elements[stack.getItemDamage()] + "_" + name;

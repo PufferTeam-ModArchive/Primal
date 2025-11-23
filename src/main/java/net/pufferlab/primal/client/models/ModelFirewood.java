@@ -1,8 +1,8 @@
-package net.pufferlab.primal.client.render;
+package net.pufferlab.primal.client.models;
 
 import net.minecraft.client.model.ModelBox;
 
-public class ModelFirewood extends ModelMod {
+public class ModelFirewood extends ModelPrimal {
 
     public ModelFirewood() {
         super(64);

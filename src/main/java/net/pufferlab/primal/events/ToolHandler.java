@@ -1,8 +1,8 @@
 package net.pufferlab.primal.events;
 
-import net.minecraft.block.BlockBush;
 import net.minecraft.block.BlockLeavesBase;
 import net.minecraft.block.BlockLog;
+import net.minecraft.block.BlockTallGrass;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemSpade;
@@ -50,14 +50,14 @@ public class ToolHandler {
             }
         }
 
-        if (event.block instanceof BlockBush) {
+        if (event.block instanceof BlockTallGrass) {
             if (event.harvester != null) {
                 if (event.harvester.getCurrentEquippedItem() != null) {
                     if (event.harvester.getCurrentEquippedItem()
                         .getItem() != null) {
                         if (event.harvester.getCurrentEquippedItem()
                             .getItem() instanceof ItemKnifePrimitive) {
-                            if (event.world.rand.nextInt(4) == 0) {
+                            if (event.world.rand.nextInt(3) == 0) {
                                 event.drops.add(
                                     Utils.getModItem("misc", "item", "straw", 1)
                                         .copy());

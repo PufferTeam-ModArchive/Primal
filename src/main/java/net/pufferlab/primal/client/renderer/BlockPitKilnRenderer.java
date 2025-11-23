@@ -1,4 +1,4 @@
-package net.pufferlab.primal.client.render;
+package net.pufferlab.primal.client.renderer;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;

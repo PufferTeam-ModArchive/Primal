@@ -9,7 +9,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.pufferlab.primal.blocks.BlockPitKiln;
 import net.pufferlab.primal.recipes.PitKilnRecipe;
 
 public class TileEntityPitKiln extends TileEntityInventory {
@@ -88,9 +87,9 @@ public class TileEntityPitKiln extends TileEntityInventory {
         if (reset) {
             this.worldObj.setBlockToAir(this.xCoord, this.yCoord + 1, this.zCoord);
             this.timePassed = 0;
-            Block block = worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord);
-            if (block instanceof BlockPitKiln block2) {
-                block2.clearLayers(worldObj, this.xCoord, this.yCoord, this.zCoord);
+            this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 0, 2);
+            for (int x = 4; x < this.getSizeInventory(); x++) {
+                setInventorySlotContentsUpdate(x);
             }
         }
     }

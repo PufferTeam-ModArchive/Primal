@@ -3,10 +3,7 @@ package net.pufferlab.primal.scripts;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.recipes.KnappingRecipe;
-import net.pufferlab.primal.recipes.KnappingType;
-import net.pufferlab.primal.recipes.PitKilnRecipe;
-import net.pufferlab.primal.recipes.RecipesHelper;
+import net.pufferlab.primal.recipes.*;
 
 public interface IScript {
 
@@ -24,6 +21,10 @@ public interface IScript {
 
     default void addOreDict(String name, ItemStack item) {
         OreDictionary.registerOre(name, item);
+    }
+
+    default void addChoppingLogRecipe(ItemStack output, String input) {
+        ChoppingLogRecipe.addChoppingLogRecipe(output, input);
     }
 
     default void addKnappingRecipe(KnappingType type, ItemStack item, String... rows) {

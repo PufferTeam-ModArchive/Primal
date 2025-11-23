@@ -1,6 +1,6 @@
 package net.pufferlab.primal.compat.nei;
 
-import static net.pufferlab.primal.compat.nei.IMCSenderGTNH.sendHandler;
+import static net.pufferlab.primal.compat.nei.IMCSenderGTNH.*;
 
 import net.pufferlab.primal.Primal;
 
@@ -12,12 +12,14 @@ public class NEIConfig implements IConfigureNEI {
 
     public static final NEIKnappingHandler knappingHandler = new NEIKnappingHandler();
     public static final NEIPitKilnHandler pitKilnHandler = new NEIPitKilnHandler();
+    public static final NEIChoppingLogHandler choppingLogHandler = new NEIChoppingLogHandler();
 
     @Override
     public void loadConfig() {
         if (FMLCommonHandler.instance()
             .getSide()
             .isClient()) {
+            API.registerRecipeHandler(choppingLogHandler);
             API.registerRecipeHandler(knappingHandler);
             API.registerRecipeHandler(pitKilnHandler);
         }
@@ -41,6 +43,15 @@ public class NEIConfig implements IConfigureNEI {
             Primal.MODID,
             166,
             65);
+        sendHandler(
+            "net.pufferlab.primal.compat.nei.NEIChoppingLogHandler",
+            Primal.MODID + ":chopping_log",
+            2,
+            Primal.MODNAME,
+            Primal.MODID,
+            166,
+            65);
+        sendCatalyst("primal.chopping_log", Primal.MODID + ":chopping_log");
     }
 
     @Override
