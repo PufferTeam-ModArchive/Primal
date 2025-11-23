@@ -44,6 +44,7 @@ public class BlockChoppingLog extends BlockContainer {
         if (te instanceof TileEntityChoppingLog log) {
             if (heldItem != null && (heldItem.getItem() instanceof ItemAxe || ChoppingLogRecipe.hasRecipe(heldItem))) {
                 if (heldItem.getItem() instanceof ItemAxe) {
+                    heldItem.damageItem(1, player);
                     return log.chopLog();
                 }
                 if (ChoppingLogRecipe.hasRecipe(heldItem)) {

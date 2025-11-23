@@ -50,4 +50,8 @@ public class CommonProxy implements IGuiHandler {
     public int getCharcoalPileRenderID() {
         return 0;
     }
+
+    public int getAshPileRenderID() {
+        return 0;
+    }
 }

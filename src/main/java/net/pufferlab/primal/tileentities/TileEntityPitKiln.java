@@ -44,29 +44,35 @@ public class TileEntityPitKiln extends TileEntityInventory {
         }
         if (this.blockMetadata < 8) {
             isFired = false;
+            markDirty();
         }
         if (isFired) {
             if (blockAbove.getMaterial() == Material.air || blockAbove.getMaterial() == Material.fire) {
                 this.worldObj.setBlock(this.xCoord, this.yCoord + 1, this.zCoord, Blocks.fire);
             } else {
                 isFired = false;
+                markDirty();
                 timePassed = 0;
             }
             TileEntity te = this.worldObj.getTileEntity(this.xCoord + 1, this.yCoord, this.zCoord + 1);
             if (te instanceof TileEntityPitKiln tef) {
                 tef.isFired = true;
+                tef.markDirty();
             }
             TileEntity te2 = this.worldObj.getTileEntity(this.xCoord - 1, this.yCoord, this.zCoord + 1);
             if (te2 instanceof TileEntityPitKiln tef) {
                 tef.isFired = true;
+                tef.markDirty();
             }
             TileEntity te3 = this.worldObj.getTileEntity(this.xCoord - 1, this.yCoord, this.zCoord - 1);
             if (te3 instanceof TileEntityPitKiln tef) {
                 tef.isFired = true;
+                tef.markDirty();
             }
             TileEntity te4 = this.worldObj.getTileEntity(this.xCoord + 1, this.yCoord, this.zCoord - 1);
             if (te4 instanceof TileEntityPitKiln tef) {
                 tef.isFired = true;
+                tef.markDirty();
             }
             this.timePassed++;
         }
@@ -87,6 +93,7 @@ public class TileEntityPitKiln extends TileEntityInventory {
             for (int x = 4; x < this.getSizeInventory(); x++) {
                 setInventorySlotContentsUpdate(x);
             }
+            this.markDirty();
         }
     }
 

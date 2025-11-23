@@ -9,10 +9,7 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.pufferlab.primal.blocks.*;
 import net.pufferlab.primal.events.*;
 import net.pufferlab.primal.items.*;
-import net.pufferlab.primal.tileentities.TileEntityCharcoalPile;
-import net.pufferlab.primal.tileentities.TileEntityChoppingLog;
-import net.pufferlab.primal.tileentities.TileEntityLogPile;
-import net.pufferlab.primal.tileentities.TileEntityPitKiln;
+import net.pufferlab.primal.tileentities.*;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -36,6 +33,7 @@ public class Registry {
     public static Block thatch_roof;
     public static Block log_pile;
     public static Block charcoal_pile;
+    public static Block ash_pile;
     public static Block chopping_log;
     public static Item straw;
     public static Item flint;
@@ -55,6 +53,7 @@ public class Registry {
         pit_kiln = new BlockPitKiln();
         log_pile = new BlockLogPile();
         charcoal_pile = new BlockCharcoalPile();
+        ash_pile = new BlockAshPile();
         chopping_log = new BlockChoppingLog();
 
         thatch = new BlockThatch();
@@ -82,6 +81,8 @@ public class Registry {
         register(TileEntityLogPile.class, "log_pile");
         register(charcoal_pile, "charcoal_pile");
         register(TileEntityCharcoalPile.class, "charcoal_pile");
+        register(ash_pile, "ash_pile");
+        register(TileEntityAshPile.class, "ash_pile");
         register(chopping_log, "chopping_log");
         register(TileEntityChoppingLog.class, "chopping_log");
 
@@ -104,6 +105,7 @@ public class Registry {
         registerEvent(new ToolHandler());
         registerEvent(new LogPileHandler());
         registerEvent(new CharcoalPileHandler());
+        registerEvent(new AshPileHandler());
     }
 
     public void register(Item item, String name) {
@@ -111,7 +113,9 @@ public class Registry {
     }
 
     public void register(Block block, String name) {
-        if (block instanceof BlockPitKiln || block instanceof BlockLogPile || block instanceof BlockCharcoalPile) {
+        if (block instanceof BlockPitKiln || block instanceof BlockLogPile
+            || block instanceof BlockCharcoalPile
+            || block instanceof BlockAshPile) {
             GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), null, name);
         } else {
             GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), name);

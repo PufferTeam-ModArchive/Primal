@@ -4,16 +4,16 @@ import net.minecraft.block.Block;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Registry;
 
-public class LogPileHandler extends PileHandler {
+public class AshPileHandler extends PileHandler {
 
     @Override
     public Block getPileBlock() {
-        return Registry.log_pile;
+        return Registry.ash_pile;
     }
 
     @Override
     public String[] getPileOreDicts() {
-        return Constants.logPileOreDicts;
+        return Constants.ashPileOreDicts;
     }
 
 }

@@ -18,6 +18,7 @@ public class ScriptPrimitive implements IScript {
         addOreDict("firewood", getModItem("misc", "item", "firewood", 1));
         addOreDict("charcoal", getItem("minecraft", "coal", 1, 1));
         addOreDict("coal", getItem("minecraft", "coal", 0, 1));
+        addOreDict("ash", getModItem("misc", "item", "ash", 1));
     }
 
     public void addCraftingRecipes() {

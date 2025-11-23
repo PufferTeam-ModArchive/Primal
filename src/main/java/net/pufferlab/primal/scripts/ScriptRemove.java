@@ -12,7 +12,7 @@ public class ScriptRemove implements IScript {
 
     public static final String[] itemsToRemove = new String[] { "minecraft:flower_pot" };
 
-    public static final String[] itemsToRemoveSmelting = new String[] { "minecraft:brick" };
+    public static final String[] itemsToRemoveSmelting = new String[] { "minecraft:brick:0:*", "minecraft:coal:1:*" };
 
     public void init() {
         for (String s : itemsToRemove) {

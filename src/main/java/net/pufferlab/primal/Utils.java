@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.oredict.OreDictionary;
+import net.pufferlab.primal.blocks.BlockPile;
 import net.pufferlab.primal.items.ItemDummy;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -118,14 +119,12 @@ public class Utils {
     public static boolean hasSolidWallsTop(World world, int x, int y, int z) {
         for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
             Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
-            if (dir.equals(ForgeDirection.UP)) {
-                if (!(block.getMaterial() == Material.fire) || !block.isSideSolid(world, x, y, z, dir.getOpposite())) {
-                    return false;
-                }
-            } else {
-                if (!block.isSideSolid(world, x, y, z, dir.getOpposite())) {
-                    return false;
-                }
+            boolean isSolid = block
+                .isSideSolid(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir.getOpposite())
+                || (block instanceof BlockPile)
+                || (block.getMaterial() == Material.fire);
+            if (!isSolid) {
+                return false;
             }
 
         }
@@ -135,7 +134,7 @@ public class Utils {
     public static boolean hasSolidWalls(World world, int x, int y, int z) {
         for (ForgeDirection dir : Utils.sideDirections) {
             Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
-            if (!block.isSideSolid(world, x, y, z, dir.getOpposite())) {
+            if (!block.isSideSolid(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir.getOpposite())) {
                 return false;
             }
         }
