@@ -71,4 +71,9 @@ public class TileEntityChoppingLog extends TileEntityInventory {
         }
 
     }
+
+    @Override
+    public int getInventoryStackLimit() {
+        return 1;
+    }
 }

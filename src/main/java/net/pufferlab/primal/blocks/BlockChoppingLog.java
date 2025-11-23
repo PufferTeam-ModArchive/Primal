@@ -44,13 +44,14 @@ public class BlockChoppingLog extends BlockContainer {
         if (te instanceof TileEntityChoppingLog log) {
             if (heldItem != null && (heldItem.getItem() instanceof ItemAxe || ChoppingLogRecipe.hasRecipe(heldItem))) {
                 if (heldItem.getItem() instanceof ItemAxe) {
-                    heldItem.damageItem(1, player);
-                    return log.chopLog();
+                    boolean result = log.chopLog();
+                    if (result) {
+                        heldItem.damageItem(1, player);
+                    }
+                    return result;
                 }
                 if (ChoppingLogRecipe.hasRecipe(heldItem)) {
-                    log.setInventorySlotContents(0, heldItem);
-                    player.inventory.decrStackSize(player.inventory.currentItem, heldItem.stackSize);
-                    return true;
+                    return log.addInventorySlotContentsUpdate(0, player);
                 }
             } else {
                 if (log.getInventoryStack(0) != null) {
