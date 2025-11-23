@@ -14,7 +14,7 @@ public class TileEntityLogPile extends TileEntityInventory {
     public boolean isFired;
     public boolean hasConverted;
     public int coalAmount;
-    int timeToSmelt = 20;
+    int timeToSmelt = 20 * 30;
 
     public TileEntityLogPile() {
         super(9);
