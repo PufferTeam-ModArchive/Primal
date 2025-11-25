@@ -35,6 +35,7 @@ public class Registry {
     public static Block charcoal_pile;
     public static Block ash_pile;
     public static Block chopping_log;
+    public static Block campfire;
     public static Item straw;
     public static Item flint;
     public static Item wood;
@@ -55,6 +56,7 @@ public class Registry {
         charcoal_pile = new BlockCharcoalPile();
         ash_pile = new BlockAshPile();
         chopping_log = new BlockChoppingLog();
+        campfire = new BlockCampfire();
 
         thatch = new BlockThatch();
         thatch_roof = new BlockThatchRoof();
@@ -85,6 +87,8 @@ public class Registry {
         register(TileEntityAshPile.class, "ash_pile");
         register(chopping_log, "chopping_log");
         register(TileEntityChoppingLog.class, "chopping_log");
+        register(campfire, "campfire");
+        register(TileEntityCampfire.class, "campfire");
 
         register(straw, "straw");
         register(wood, "wood");
@@ -106,6 +110,7 @@ public class Registry {
         registerEvent(new LogPileHandler());
         registerEvent(new CharcoalPileHandler());
         registerEvent(new AshPileHandler());
+        registerEvent(new CampfireHandler());
     }
 
     public void register(Item item, String name) {

@@ -12,7 +12,6 @@ public class TileEntityLogPile extends TileEntityInventory {
 
     public int timePassed;
     public int timeExposed;
-    public boolean isFired;
     public boolean hasConverted;
     public boolean isExposed;
     public int coalAmount;
@@ -30,7 +29,6 @@ public class TileEntityLogPile extends TileEntityInventory {
         this.timePassed = compound.getInteger("timePassed");
         this.timeExposed = compound.getInteger("timeExposed");
         this.coalAmount = compound.getInteger("coalAmount");
-        this.isFired = compound.getBoolean("isFired");
         this.hasConverted = compound.getBoolean("hasConverted");
         this.isExposed = compound.getBoolean("isExposed");
     }
@@ -42,7 +40,6 @@ public class TileEntityLogPile extends TileEntityInventory {
         compound.setInteger("timePassed", this.timePassed);
         compound.setInteger("timeExposed", this.timeExposed);
         compound.setInteger("coalAmount", this.coalAmount);
-        compound.setBoolean("isFired", this.isFired);
         compound.setBoolean("hasConverted", this.hasConverted);
         compound.setBoolean("isExposed", this.isExposed);
     }
@@ -64,15 +61,17 @@ public class TileEntityLogPile extends TileEntityInventory {
                 TileEntity te = worldObj
                     .getTileEntity(this.xCoord + dir.offsetX, this.yCoord + dir.offsetY, this.zCoord + dir.offsetZ);
                 if (te instanceof TileEntityLogPile tef) {
-                    tef.isFired = true;
-                    tef.markDirty();
-                    this.worldObj.markBlockRangeForRenderUpdate(
-                        this.xCoord,
-                        this.yCoord,
-                        this.zCoord,
-                        this.xCoord,
-                        this.yCoord,
-                        this.zCoord);
+                    if (!tef.isFired) {
+                        tef.isFired = true;
+                        tef.markDirty();
+                        this.worldObj.markBlockRangeForRenderUpdate(
+                            this.xCoord,
+                            this.yCoord,
+                            this.zCoord,
+                            this.xCoord,
+                            this.yCoord,
+                            this.zCoord);
+                    }
                 }
             }
             if (!Utils.hasSolidWallsTop(this.worldObj, this.xCoord, this.yCoord, this.zCoord)) {
@@ -88,8 +87,10 @@ public class TileEntityLogPile extends TileEntityInventory {
                     TileEntity te = worldObj
                         .getTileEntity(this.xCoord + dir.offsetX, this.yCoord + dir.offsetY, this.zCoord + dir.offsetZ);
                     if (te instanceof TileEntityLogPile tef) {
-                        tef.isExposed = true;
-                        tef.markDirty();
+                        if (!tef.isExposed) {
+                            tef.isExposed = true;
+                            tef.markDirty();
+                        }
                     }
                 }
             }

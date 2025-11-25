@@ -19,17 +19,20 @@ public class ClientProxy extends CommonProxy {
     int logPileRenderID;
     int charcoalPileRenderID;
     int ashPileRenderID;
+    int campfireRenderID;
 
     public void registerRenders() {
         pitKilnRenderID = RenderingRegistry.getNextAvailableRenderId();
         logPileRenderID = RenderingRegistry.getNextAvailableRenderId();
         charcoalPileRenderID = RenderingRegistry.getNextAvailableRenderId();
         ashPileRenderID = RenderingRegistry.getNextAvailableRenderId();
+        campfireRenderID = RenderingRegistry.getNextAvailableRenderId();
 
         RenderingRegistry.registerBlockHandler(new BlockPitKilnRenderer());
         RenderingRegistry.registerBlockHandler(new BlockLogPileRenderer());
         RenderingRegistry.registerBlockHandler(new BlockCharcoalPileRenderer());
         RenderingRegistry.registerBlockHandler(new BlockAshPileRenderer());
+        RenderingRegistry.registerBlockHandler(new BlockCampfireRenderer());
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPitKiln.class, new TileEntityPitKilnRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChoppingLog.class, new TileEntityChoppingLogRenderer());
@@ -64,5 +67,10 @@ public class ClientProxy extends CommonProxy {
     @Override
     public int getAshPileRenderID() {
         return ashPileRenderID;
+    }
+
+    @Override
+    public int getCampfireRenderID() {
+        return campfireRenderID;
     }
 }

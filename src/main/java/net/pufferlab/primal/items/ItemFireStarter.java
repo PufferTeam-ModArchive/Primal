@@ -6,11 +6,13 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.tileentities.TileEntityCampfire;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -58,8 +60,22 @@ public class ItemFireStarter extends Item {
                 if (world.rand.nextInt(5) == 0) {
                     if (!world.isRemote) {
                         world.setBlock(x, y, z, Blocks.fire);
+                        TileEntity te = world.getTileEntity(mop.blockX, mop.blockY, mop.blockZ);
+                        if (te instanceof TileEntityCampfire tef) {
+                            tef.isFired = true;
+                            world.markBlockRangeForRenderUpdate(
+                                mop.blockX,
+                                mop.blockY,
+                                mop.blockZ,
+                                mop.blockX,
+                                mop.blockY,
+                                mop.blockZ);
+                            world.markBlockForUpdate(mop.blockX, mop.blockY, mop.blockZ);
+                            tef.markDirty();
+                        }
                     }
                 }
+
                 world.spawnParticle("smoke", x + hitX, y + hitY, z + hitZ, 0.0F, 0.1F, 0.0F);
                 if (!world.isRemote) {
                     stack.damageItem(1, player);

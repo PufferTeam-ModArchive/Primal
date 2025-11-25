@@ -13,7 +13,6 @@ import net.pufferlab.primal.recipes.PitKilnRecipe;
 public class TileEntityPitKiln extends TileEntityInventory {
 
     public int timePassed;
-    public boolean isFired;
     int timeToSmelt = 20 * 30;
 
     public TileEntityPitKiln() {
@@ -25,7 +24,6 @@ public class TileEntityPitKiln extends TileEntityInventory {
         super.readFromNBT(compound);
 
         this.timePassed = compound.getInteger("timePassed");
-        this.isFired = compound.getBoolean("isFired");
     }
 
     @Override
@@ -33,7 +31,6 @@ public class TileEntityPitKiln extends TileEntityInventory {
         super.writeToNBT(compound);
 
         compound.setInteger("timePassed", this.timePassed);
-        compound.setBoolean("isFired", this.isFired);
     }
 
     @Override
