@@ -2,6 +2,7 @@ package net.pufferlab.primal.blocks;
 
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -11,11 +12,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
 
@@ -26,6 +29,7 @@ public class BlockCampfire extends BlockContainer {
     public BlockCampfire() {
         super(Material.wood);
         this.setHardness(0.4F);
+        this.setTickRandomly(true);
     }
 
     @Override
@@ -43,14 +47,86 @@ public class BlockCampfire extends BlockContainer {
         int meta = worldIn.getBlockMetadata(x, y, z);
         if (heldItem != null) {
             if ((Utils.containsOreDict(heldItem, "firewood") && meta > 0 && meta < 5)
-                || (Utils.containsOreDict(heldItem, "straw") && meta == 0)) {
+                || (Utils.containsOreDict(heldItem, "kindling") && meta == 0)) {
                 worldIn.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
                 worldIn.markBlockRangeForRenderUpdate(x, y, z, x, y, z);
                 worldIn.markBlockForUpdate(x, y, z);
+                TileEntity te = worldIn.getTileEntity(x, y, z);
+                if (meta == 0) {
+                    Utils.playSound(worldIn, x, y, z, Registry.thatch);
+                } else {
+                    Utils.playSound(worldIn, x, y, z, Registry.log_pile);
+                }
+                if (te instanceof TileEntityCampfire tef) {
+                    tef.addInventorySlotContentsUpdate(meta + 1, player);
+                    if (meta == 4) {
+                        tef.isBuilt = true;
+                        worldIn.markBlockRangeForRenderUpdate(x, y, z, x, y, z);
+                        worldIn.markBlockForUpdate(x, y, z);
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int getLightValue(IBlockAccess world, int x, int y, int z) {
+        TileEntity te = world.getTileEntity(x, y, z);
+        if (te instanceof TileEntityCampfire tef) {
+            if (tef.isFired) {
+                return 15;
+            }
+        }
+        return 0;
+    }
+
+    @Override
+    public AxisAlignedBB getCollisionBoundingBoxFromPool(World worldIn, int x, int y, int z) {
+        return AxisAlignedBB.getBoundingBox(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+    }
+
+    @Override
+    public void onNeighborBlockChange(World worldIn, int x, int y, int z, Block neighbor) {
+        super.onNeighborBlockChange(worldIn, x, y, z, neighbor);
+
+        Block block = worldIn.getBlock(x, y, z);
+        if (!worldIn.isSideSolid(x, y - 1, z, ForgeDirection.UP)) {
+            worldIn.setBlockToAir(x, y, z);
+            block.onBlockPreDestroy(worldIn, x, y, z, worldIn.getBlockMetadata(x, y, z));
+        }
+    }
+
+    @Override
+    public void randomDisplayTick(World worldIn, int x, int y, int z, Random random) {
+        TileEntity te = worldIn.getTileEntity(x, y, z);
+        if (te instanceof TileEntityCampfire tef) {
+            if (tef.isFired) {
+                if (random.nextInt(24) == 0) {
+                    worldIn.playSound(
+                        (double) ((float) x + 0.5F),
+                        (double) ((float) y + 0.5F),
+                        (double) ((float) z + 0.5F),
+                        "fire.fire",
+                        1.0F + random.nextFloat(),
+                        random.nextFloat() * 0.7F + 0.3F,
+                        false);
+                }
+                int l;
+                float f;
+                float f1;
+                float f2;
+
+                for (l = 0; l < 3; ++l) {
+                    f = (float) x + random.nextFloat();
+                    f1 = (float) y + random.nextFloat() * 0.5F + 0.5F;
+                    f2 = (float) z + random.nextFloat();
+                    worldIn.spawnParticle("largesmoke", (double) f, (double) f1, (double) f2, 0.0D, 0.0D, 0.0D);
+                }
             }
         }
 
-        return super.onBlockActivated(worldIn, x, y, z, player, side, subX, subY, subZ);
     }
 
     @Override

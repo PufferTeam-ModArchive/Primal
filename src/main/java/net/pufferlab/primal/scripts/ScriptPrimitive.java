@@ -19,9 +19,15 @@ public class ScriptPrimitive implements IScript {
         addOreDict("charcoal", getItem("minecraft", "coal", 1, 1));
         addOreDict("coal", getItem("minecraft", "coal", 0, 1));
         addOreDict("ash", getModItem("misc", "item", "ash", 1));
+        addOreDict("kindling", getModItem("misc", "item", "straw_kindling", 1));
     }
 
     public void addCraftingRecipes() {
+        addShapelessRecipe(
+            getModItem("misc", "item", "straw_kindling", 1),
+            getModItem("misc", "item", "straw", 1),
+            getModItem("misc", "item", "straw_cordage", 1),
+            "stickWood");
         addShapedRecipe(
             getItem(Primal.MODID, "flint_axe", 0, 1),
             "I",
@@ -205,6 +211,14 @@ public class ScriptPrimitive implements IScript {
             "CC CC",
             "CC CC",
             "CC CC");
+        addKnappingRecipe(
+            KnappingType.straw,
+            getModItem("misc", "item", "straw_cordage", 1),
+            "CCCCC",
+            "    C",
+            "CCC C",
+            "C   C",
+            "CCCCC");
     }
 
     public void addPitKilnRecipes() {

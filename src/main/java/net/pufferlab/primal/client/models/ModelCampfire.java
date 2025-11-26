@@ -21,7 +21,7 @@ public class ModelCampfire extends ModelPrimal {
         kindling.cubeList.add(new ModelBox(kindling, 1, 1, -1.0F, 0.0F, -3.0F, 2, 1, 1, 0.0F));
         kindling.cubeList.add(new ModelBox(kindling, 1, 1, -1.0F, 0.0F, 0.0F, 2, 1, 1, 0.0F));
         kindling.cubeList.add(new ModelBox(kindling, 1, 0, 0.0F, 2.0F, -2.0F, 1, 1, 2, 0.0F));
-        kindling.cubeList.add(new ModelBox(kindling, -1, 0, -2.0F, 0.0F, -2.0F, 4, 2, 2, 0.0F));
+        kindling.cubeList.add(new ModelBox(kindling, 1, 0, -2.0F, 0.0F, -2.0F, 4, 2, 2, 0.0F));
         bb_main.addChild(kindling);
 
         log1 = new ModelRenderer(this);

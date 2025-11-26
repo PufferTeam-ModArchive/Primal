@@ -3,9 +3,11 @@ package net.pufferlab.primal.client.renderer;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.models.ModelCampfire;
+import net.pufferlab.primal.tileentities.TileEntityCampfire;
 
 import org.lwjgl.opengl.GL11;
 
@@ -31,6 +33,15 @@ public class BlockCampfireRenderer implements ISimpleBlockRenderingHandler {
         modelCampfire.log2.isHidden = true;
         modelCampfire.log3.isHidden = true;
         modelCampfire.log4.isHidden = true;
+        modelCampfire.bottom.isHidden = true;
+        modelCampfire.rocks.isHidden = true;
+        TileEntity te = world.getTileEntity(x, y, z);
+        if (te instanceof TileEntityCampfire tef) {
+            if (tef.isBuilt) {
+                modelCampfire.bottom.isHidden = false;
+                modelCampfire.rocks.isHidden = false;
+            }
+        }
         if (meta >= 1) {
             modelCampfire.kindling.isHidden = false;
         }

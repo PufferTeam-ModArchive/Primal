@@ -82,6 +82,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         dataTag.setBoolean("isFired", this.isFired);
         dataTag.setInteger("facingMeta", this.facingMeta);
         dataTag.setTag("inventory", (NBTBase) itemList);
+        getDescriptionPacketExtra(dataTag);
 
         return (Packet) new S35PacketUpdateTileEntity(
             this.xCoord,
@@ -91,12 +92,17 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
             dataTag);
     }
 
+    public void getDescriptionPacketExtra(NBTTagCompound dataTag) {
+
+    }
+
     @Override
     public void onDataPacket(NetworkManager manager, S35PacketUpdateTileEntity packet) {
         NBTTagCompound nbtData = packet.func_148857_g();
         this.lastSlot = nbtData.getInteger("lastSlot");
         this.isFired = nbtData.getBoolean("isFired");
         this.facingMeta = nbtData.getInteger("facingMeta");
+        onDataPacketExtra(nbtData);
         NBTTagList tagList = nbtData.getTagList("inventory", 10);
         this.inventory = new ItemStack[getSize()];
         for (int i = 0; i < tagList.tagCount(); i++) {
@@ -105,6 +111,10 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
             if (slot >= 0 && slot < this.inventory.length) this.inventory[slot] = ItemStack.loadItemStackFromNBT(tag);
         }
         this.worldObj.updateLightByType(EnumSkyBlock.Block, this.xCoord, this.yCoord, this.zCoord);
+    }
+
+    public void onDataPacketExtra(NBTTagCompound nbtData) {
+
     }
 
     public ItemStack getInventoryStack(int slot) {
@@ -206,6 +216,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         if (getInventoryStack(index) == null && player.getCurrentEquippedItem() != null) {
             ItemStack stack = player.getCurrentEquippedItem()
                 .copy();
+            stack.stackSize = 1;
             player.getCurrentEquippedItem().stackSize--;
             setInventorySlotContentsUpdate(index, stack);
             return true;

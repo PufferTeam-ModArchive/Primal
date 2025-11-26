@@ -5,7 +5,7 @@ public class Constants {
     public static final String[] none = new String[] { "none" };
     public static final float modelConst = 0.0625F;
     public static final String[] uniqueItemTypes = new String[] { "item", "straw", "wood", "flint", "clay" };
-    public static final String[] strawItems = new String[] { "straw", "straw_cordage" };
+    public static final String[] strawItems = new String[] { "straw", "straw_cordage", "straw_kindling" };
     public static final String[] woodItems = new String[] { "firewood", "ash" };
     public static final String[] flintItems = new String[] { "flint_shard", "flint_axe_head", "flint_pickaxe_head",
         "flint_shovel_head", "flint_knife_blade" };

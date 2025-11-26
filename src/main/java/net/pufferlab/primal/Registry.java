@@ -120,7 +120,8 @@ public class Registry {
     public void register(Block block, String name) {
         if (block instanceof BlockPitKiln || block instanceof BlockLogPile
             || block instanceof BlockCharcoalPile
-            || block instanceof BlockAshPile) {
+            || block instanceof BlockAshPile
+            || block instanceof BlockCampfire) {
             GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), null, name);
         } else {
             GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), name);

@@ -71,9 +71,9 @@ public class BlockPitKiln extends BlockContainer {
                 if ((Utils.containsOreDict(heldItem, "straw") && meta >= 0 && meta <= 4)
                     || (Utils.containsOreDict(heldItem, Constants.logPileOreDicts) && meta >= 5 && meta <= 7)) {
                     if (meta <= 4) {
-                        playSound(player, x, y, z, Registry.thatch);
+                        Utils.playSound(worldIn, x, y, z, Registry.thatch);
                     } else {
-                        playSound(player, x, y, z, Registry.log_pile);
+                        Utils.playSound(worldIn, x, y, z, Registry.log_pile);
                     }
                     tef.addInventorySlotContentsUpdate(4 + meta, player);
                     worldIn.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
@@ -119,16 +119,6 @@ public class BlockPitKiln extends BlockContainer {
             tef.setInventorySlotContentsUpdate(index);
             return true;
         }
-    }
-
-    public void playSound(EntityPlayer player, int x, int y, int z, Block toPlace) {
-        player.worldObj.playSoundEffect(
-            x + 0.5f,
-            y + 0.5f,
-            z + 0.5f,
-            toPlace.stepSound.func_150496_b(),
-            (toPlace.stepSound.getVolume() + 1.0F) / 2.0F,
-            toPlace.stepSound.getPitch() * 0.8F);
     }
 
     @Override
