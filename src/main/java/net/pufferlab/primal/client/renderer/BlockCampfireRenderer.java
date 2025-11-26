@@ -58,7 +58,11 @@ public class BlockCampfireRenderer implements ISimpleBlockRenderingHandler {
             modelCampfire.log4.isHidden = false;
         }
         modelCampfire.render(renderer, tess, block, x, y, z, meta);
-        renderer.drawCrossedSquares(block.getIcon(world, x, y, z, 98), x, y, z, 1.0F);
+        if (te instanceof TileEntityCampfire tef) {
+            if (tef.isFired) {
+                renderer.drawCrossedSquares(block.getIcon(world, x, y, z, 98), x, y, z, 1.0F);
+            }
+        }
         return true;
     }
 

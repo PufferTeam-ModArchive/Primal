@@ -53,23 +53,31 @@ public class TileEntityPitKiln extends TileEntityInventory {
             }
             TileEntity te = this.worldObj.getTileEntity(this.xCoord + 1, this.yCoord, this.zCoord + 1);
             if (te instanceof TileEntityPitKiln tef) {
-                tef.isFired = true;
-                tef.markDirty();
+                if (!tef.isFired) {
+                    tef.isFired = true;
+                    tef.markDirty();
+                }
             }
             TileEntity te2 = this.worldObj.getTileEntity(this.xCoord - 1, this.yCoord, this.zCoord + 1);
             if (te2 instanceof TileEntityPitKiln tef) {
-                tef.isFired = true;
-                tef.markDirty();
+                if (!tef.isFired) {
+                    tef.isFired = true;
+                    tef.markDirty();
+                }
             }
             TileEntity te3 = this.worldObj.getTileEntity(this.xCoord - 1, this.yCoord, this.zCoord - 1);
             if (te3 instanceof TileEntityPitKiln tef) {
-                tef.isFired = true;
-                tef.markDirty();
+                if (!tef.isFired) {
+                    tef.isFired = true;
+                    tef.markDirty();
+                }
             }
             TileEntity te4 = this.worldObj.getTileEntity(this.xCoord + 1, this.yCoord, this.zCoord - 1);
             if (te4 instanceof TileEntityPitKiln tef) {
-                tef.isFired = true;
-                tef.markDirty();
+                if (!tef.isFired) {
+                    tef.isFired = true;
+                    tef.markDirty();
+                }
             }
             this.timePassed++;
         }

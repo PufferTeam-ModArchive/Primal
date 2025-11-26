@@ -54,6 +54,7 @@ public class TileEntityCampfire extends TileEntityInventory {
             int i = findLastFuel();
             if (i != -1) {
                 if (blockMetadata > 0) {
+                    markDirty();
                     setInventorySlotContentsUpdate(i);
                     int i2 = 1;
                     if (getInventoryStack(0) != null) {
@@ -64,6 +65,7 @@ public class TileEntityCampfire extends TileEntityInventory {
                     setInventorySlotContents(0, Utils.getModItem("misc", "item", "ash", i2));
                     this.worldObj
                         .setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, this.blockMetadata - 1, 2);
+                    markDirty();
                 }
 
             }
@@ -73,7 +75,7 @@ public class TileEntityCampfire extends TileEntityInventory {
     public int findLastFuel() {
         int last = -1;
 
-        for (int i = 0; i < getSizeInventory(); i++) {
+        for (int i = 0; i < 6; i++) {
             ItemStack stack = getInventoryStack(i);
             if (stack != null && !Utils.containsOreDict(stack, "ash")) {
                 last = i;

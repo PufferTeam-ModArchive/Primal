@@ -59,6 +59,7 @@ public class BlockCampfire extends BlockContainer {
                 }
                 if (te instanceof TileEntityCampfire tef) {
                     tef.addInventorySlotContentsUpdate(meta + 1, player);
+                    tef.markDirty();
                     if (meta == 4) {
                         tef.isBuilt = true;
                         worldIn.markBlockRangeForRenderUpdate(x, y, z, x, y, z);
@@ -69,6 +70,17 @@ public class BlockCampfire extends BlockContainer {
             }
         }
         return false;
+    }
+
+    @Override
+    public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
+        if (world.isRemote) return;
+        TileEntity te = world.getTileEntity(x, y, z);
+        if (te instanceof TileEntityCampfire tef) {
+            if (tef.isFired) {
+                entity.setFire(1);
+            }
+        }
     }
 
     @Override
