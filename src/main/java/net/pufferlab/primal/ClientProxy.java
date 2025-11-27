@@ -7,6 +7,7 @@ import net.pufferlab.primal.client.renderer.*;
 import net.pufferlab.primal.inventory.container.ContainerKnapping;
 import net.pufferlab.primal.inventory.gui.GuiKnapping;
 import net.pufferlab.primal.recipes.KnappingType;
+import net.pufferlab.primal.tileentities.TileEntityCampfire;
 import net.pufferlab.primal.tileentities.TileEntityChoppingLog;
 import net.pufferlab.primal.tileentities.TileEntityPitKiln;
 
@@ -36,6 +37,7 @@ public class ClientProxy extends CommonProxy {
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPitKiln.class, new TileEntityPitKilnRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChoppingLog.class, new TileEntityChoppingLogRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCampfire.class, new TileEntityCampfireRenderer());
 
         MinecraftForgeClient.registerItemRenderer(Registry.wood, new ItemWoodRenderer());
     }

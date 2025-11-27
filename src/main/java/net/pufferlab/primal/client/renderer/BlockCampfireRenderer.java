@@ -7,7 +7,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.models.ModelCampfire;
+import net.pufferlab.primal.client.models.ModelCampfireSpit;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
+import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 
 import org.lwjgl.opengl.GL11;
 
@@ -16,6 +18,8 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 public class BlockCampfireRenderer implements ISimpleBlockRenderingHandler {
 
     ModelCampfire modelCampfire = new ModelCampfire();
+    ModelCampfireSpit modelCampfireSpit = new ModelCampfireSpit(0);
+    ModelCampfireSpit modelCampfireSpit2 = new ModelCampfireSpit(1);
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
@@ -57,7 +61,22 @@ public class BlockCampfireRenderer implements ISimpleBlockRenderingHandler {
         if (meta >= 5) {
             modelCampfire.log4.isHidden = false;
         }
-        modelCampfire.render(renderer, tess, block, x, y, z, meta);
+        boolean rotated = false;
+        if (te instanceof TileEntityMetaFacing tef) {
+            if (tef.facingMeta == 1 || tef.facingMeta == 3) {
+                rotated = true;
+            }
+        }
+        modelCampfire.render(renderer, tess, block, x, y, z, 99);
+        if (te instanceof TileEntityCampfire tef) {
+            if (tef.hasSpit) {
+                if (!rotated) {
+                    modelCampfireSpit2.render(renderer, tess, block, x, y, z, 97);
+                } else {
+                    modelCampfireSpit.render(renderer, tess, block, x, y, z, 97);
+                }
+            }
+        }
         if (te instanceof TileEntityCampfire tef) {
             if (tef.isFired) {
                 renderer.drawCrossedSquares(block.getIcon(world, x, y, z, 98), x, y, z, 1.0F);

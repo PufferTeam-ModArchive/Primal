@@ -67,10 +67,4 @@ public class ModelCampfire extends ModelPrimal {
         rocks.cubeList.add(new ModelBox(rocks, 3, 31, -7.0F, 0.0F, -1.0F, 2, 1, 2, 0.0F));
         bb_main.addChild(rocks);
     }
-
-    public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
-        modelRenderer.rotateAngleX = x;
-        modelRenderer.rotateAngleY = y;
-        modelRenderer.rotateAngleZ = z;
-    }
 }

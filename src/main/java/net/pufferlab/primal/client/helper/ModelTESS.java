@@ -16,7 +16,7 @@ public class ModelTESS {
     static double epsilon = 2e-5;
 
     public void renderBlock(RenderBlocks renderblocks, Tessellator tess, Block block, ModelRenderer renderer,
-        float scale, int x, int y, int z, int meta) {
+        float scale, int x, int y, int z, int index) {
 
         if (!renderer.isHidden && renderer.showModel) {
 
@@ -43,7 +43,7 @@ public class ModelTESS {
                     child.rotationPointZ += renderer.rotationPointZ;
 
                     // Recurse
-                    renderBlock(renderblocks, tess, block, child, scale, x, y, z, meta);
+                    renderBlock(renderblocks, tess, block, child, scale, x, y, z, index);
 
                     // Restore child state
                     child.rotateAngleX = oldRotateX;
@@ -59,7 +59,6 @@ public class ModelTESS {
                 for (int i = 0; i < renderer.cubeList.size(); ++i) {
                     ModelBox box = renderer.cubeList.get(i);
 
-                    int index = 99;
                     IIcon icon = block.getIcon(renderblocks.blockAccess, x, y, z, index);
 
                     for (int j = 0; j < box.quadList.length; ++j) {

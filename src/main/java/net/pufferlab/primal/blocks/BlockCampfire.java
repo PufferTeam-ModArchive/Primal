@@ -7,10 +7,12 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
@@ -21,11 +23,14 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.recipes.CampfireRecipe;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
+import net.pufferlab.primal.tileentities.TileEntityInventory;
+import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 
 public class BlockCampfire extends BlockContainer {
 
-    public IIcon[] icons = new IIcon[4];
+    public IIcon[] icons = new IIcon[5];
 
     public BlockCampfire() {
         super(Material.wood);
@@ -39,6 +44,7 @@ public class BlockCampfire extends BlockContainer {
         icons[1] = reg.registerIcon(Primal.MODID + ":empty");
         icons[2] = reg.registerIcon(Primal.MODID + ":campfire_lit");
         icons[3] = reg.registerIcon(Primal.MODID + ":campfire_fire");
+        icons[4] = reg.registerIcon(Primal.MODID + ":campfire_spit");
     }
 
     @Override
@@ -70,6 +76,89 @@ public class BlockCampfire extends BlockContainer {
                 }
             }
         }
+        TileEntity te = worldIn.getTileEntity(x, y, z);
+        if (te instanceof TileEntityCampfire tef) {
+            int slot = 0;
+            int axis = 0;
+            int facing = tef.facingMeta;
+            if (facing == 1 || facing == 3) {
+                axis = 1;
+            }
+            if (facing == 2 || facing == 4) {
+                axis = 2;
+            }
+            if (axis == 1) {
+                slot = getSlotFromFace(subX, subY, facing);
+            }
+            if (axis == 2) {
+                slot = getSlotFromFace(subZ, subY, facing);
+            }
+            boolean state = addOrRemoveItem(worldIn, x, y, z, player, tef, slot + 6, heldItem);
+            tef.updateSpit();
+            return state;
+        }
+        return false;
+    }
+
+    public int getSlotFromFace(float number1, float number2, float facing) {
+        int slot = 3;
+        if (facing == 1 || facing == 4) {
+            number1 = 1 - number1;
+        }
+        if (number1 < 0.25) {
+            return 0;
+        }
+        if (number1 > 0.25 && number1 < 0.50) {
+            return 1;
+        }
+        if (number1 > 0.50 && number1 < 0.75) {
+            return 2;
+        }
+        if (number1 > 0.75) {
+            return 3;
+        }
+
+        return slot;
+    }
+
+    public boolean addOrRemoveItem(World world, int x, int y, int z, EntityPlayer player, TileEntityInventory tef,
+        int index, ItemStack heldItem) {
+        if (tef.getInventoryStack(index) == null) {
+            if (!CampfireRecipe.hasRecipe(heldItem)) return false;
+            return tef.addInventorySlotContentsUpdate(index, player);
+        } else {
+            dropItem(world, x, y, z, index);
+            tef.setInventorySlotContentsUpdate(index);
+            return true;
+        }
+    }
+
+    private boolean dropItem(World world, int x, int y, int z, int index) {
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
+        if (!(tileEntity instanceof IInventory)) return false;
+        TileEntityInventory pile = (TileEntityInventory) tileEntity;
+        ItemStack item = null;
+        if ((index < pile.getSizeInventory()) && (index >= 0)) {
+            item = pile.getInventoryStack(index);
+        }
+        if (item != null && item.stackSize > 0) {
+            EntityItem entityItem = new EntityItem(
+                world,
+                x + 0.5,
+                y + 0.5,
+                z + 0.5,
+                new ItemStack(item.getItem(), item.stackSize, item.getItemDamage()));
+            if (item.hasTagCompound()) entityItem.getEntityItem()
+                .setTagCompound(
+                    (NBTTagCompound) item.getTagCompound()
+                        .copy());
+            entityItem.motionX = 0.0D;
+            entityItem.motionY = 0.0D;
+            entityItem.motionZ = 0.0D;
+            spawnEntity(world, entityItem);
+            item.stackSize = 0;
+            return true;
+        }
         return false;
     }
 
@@ -98,7 +187,13 @@ public class BlockCampfire extends BlockContainer {
 
     @Override
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World worldIn, int x, int y, int z) {
-        return AxisAlignedBB.getBoundingBox(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+        TileEntity te = worldIn.getTileEntity(x, y, z);
+        if (te instanceof TileEntityCampfire tef) {
+            if (!tef.hasSpit) {
+                return AxisAlignedBB.getBoundingBox(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+            }
+        }
+        return super.getCollisionBoundingBoxFromPool(worldIn, x, y, z);
     }
 
     @Override
@@ -195,9 +290,23 @@ public class BlockCampfire extends BlockContainer {
     }
 
     @Override
+    public void onBlockPlacedBy(World worldIn, int x, int y, int z, EntityLivingBase placer, ItemStack itemIn) {
+        super.onBlockPlacedBy(worldIn, x, y, z, placer, itemIn);
+
+        int metayaw = Utils.getMetaYaw(placer.rotationYaw);
+        TileEntity te = worldIn.getTileEntity(x, y, z);
+        if (te instanceof TileEntityMetaFacing tef) {
+            tef.setFacingMeta(metayaw);
+        }
+    }
+
+    @Override
     public IIcon getIcon(int side, int meta) {
         if (side == 99) {
             return icons[0];
+        }
+        if (side == 97) {
+            return icons[4];
         }
         return icons[1];
     }

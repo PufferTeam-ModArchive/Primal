@@ -23,6 +23,10 @@ public interface IScript {
         OreDictionary.registerOre(name, item);
     }
 
+    default void addCampfireRecipe(ItemStack output, ItemStack input) {
+        CampfireRecipe.addCampfireRecipe(output, input);
+    }
+
     default void addChoppingLogRecipe(ItemStack output, String input) {
         ChoppingLogRecipe.addChoppingLogRecipe(output, input);
     }
