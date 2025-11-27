@@ -22,10 +22,7 @@ public class CampfireHandler {
             if (heldItem.getItem() instanceof ItemFlintAndSteel) {
                 TileEntity te = event.world.getTileEntity(event.x, event.y, event.z);
                 if (te instanceof TileEntityCampfire tef) {
-                    tef.isFired = true;
-                    event.world.markBlockRangeForRenderUpdate(event.x, event.y, event.z, event.x, event.y, event.z);
-                    event.world.markBlockForUpdate(event.x, event.y, event.z);
-                    tef.markDirty();
+                    tef.setFired(true);
                 }
             }
         }

@@ -53,44 +53,29 @@ public class TileEntityLogPile extends TileEntityInventory {
     public void updateEntity() {
         Block blockAbove = this.worldObj.getBlock(this.xCoord, this.yCoord + 1, this.zCoord);
         if (blockAbove.getMaterial() == Material.fire) {
-            isFired = true;
-            markDirty();
+            setFired(true);
         }
         if (isFired) {
             for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
                 TileEntity te = worldObj
                     .getTileEntity(this.xCoord + dir.offsetX, this.yCoord + dir.offsetY, this.zCoord + dir.offsetZ);
                 if (te instanceof TileEntityLogPile tef) {
-                    if (!tef.isFired) {
-                        tef.isFired = true;
-                        tef.markDirty();
-                        this.worldObj.markBlockRangeForRenderUpdate(
-                            this.xCoord,
-                            this.yCoord,
-                            this.zCoord,
-                            this.xCoord,
-                            this.yCoord,
-                            this.zCoord);
-                    }
+                    tef.setFired(true);
                 }
             }
             if (!Utils.hasSolidWallsTop(this.worldObj, this.xCoord, this.yCoord, this.zCoord)) {
                 timeExposed++;
             }
             if (timeExposed > 60) {
-                isExposed = true;
+                setExposed(true);
                 timeExposed = 0;
-                markDirty();
             }
             if (isExposed) {
                 for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
                     TileEntity te = worldObj
                         .getTileEntity(this.xCoord + dir.offsetX, this.yCoord + dir.offsetY, this.zCoord + dir.offsetZ);
                     if (te instanceof TileEntityLogPile tef) {
-                        if (!tef.isExposed) {
-                            tef.isExposed = true;
-                            tef.markDirty();
-                        }
+                        tef.setExposed(true);
                     }
                 }
             }
@@ -107,7 +92,9 @@ public class TileEntityLogPile extends TileEntityInventory {
 
                 if (movable > 0) {
                     this.coalAmount -= movable;
+                    this.markDirty();
                     tef.coalAmount += movable;
+                    tef.markDirty();
                 }
             }
             this.timePassed++;
@@ -163,6 +150,13 @@ public class TileEntityLogPile extends TileEntityInventory {
                 }
 
             }
+        }
+    }
+
+    public void setExposed(boolean state) {
+        if (this.isExposed != state) {
+            this.isExposed = state;
+            this.markDirty();
         }
     }
 

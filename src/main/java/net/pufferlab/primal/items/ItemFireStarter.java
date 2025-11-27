@@ -59,19 +59,11 @@ public class ItemFireStarter extends Item {
                 World world = player.worldObj;
                 if (world.rand.nextInt(5) == 0) {
                     if (!world.isRemote) {
-                        world.setBlock(x, y, z, Blocks.fire);
                         TileEntity te = world.getTileEntity(mop.blockX, mop.blockY, mop.blockZ);
                         if (te instanceof TileEntityCampfire tef) {
-                            tef.isFired = true;
-                            world.markBlockRangeForRenderUpdate(
-                                mop.blockX,
-                                mop.blockY,
-                                mop.blockZ,
-                                mop.blockX,
-                                mop.blockY,
-                                mop.blockZ);
-                            world.markBlockForUpdate(mop.blockX, mop.blockY, mop.blockZ);
-                            tef.markDirty();
+                            tef.setFired(true);
+                        } else {
+                            world.setBlock(x, y, z, Blocks.fire);
                         }
                     }
                 }

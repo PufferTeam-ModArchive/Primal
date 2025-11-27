@@ -212,6 +212,23 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
             this.zCoord);
     }
 
+    public boolean setFired(boolean state) {
+        if (this.isFired != state) {
+            this.isFired = state;
+            this.markDirty();
+            this.worldObj.markBlockRangeForRenderUpdate(
+                this.xCoord,
+                this.yCoord,
+                this.zCoord,
+                this.xCoord,
+                this.yCoord,
+                this.zCoord);
+            this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+            return true;
+        }
+        return false;
+    }
+
     public boolean addInventorySlotContentsUpdate(int index, EntityPlayer player) {
         if (getInventoryStack(index) == null && player.getCurrentEquippedItem() != null) {
             ItemStack stack = player.getCurrentEquippedItem()

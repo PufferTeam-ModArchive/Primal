@@ -1,5 +1,8 @@
 package net.pufferlab.primal.blocks;
 
+import java.util.Random;
+
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,6 +24,7 @@ public class BlockLogPile extends BlockPile {
         super(Material.wood);
         this.setStepSound(soundTypeWood);
         this.setHardness(2.5F);
+        this.setTickRandomly(true);
     }
 
     @Override
@@ -84,6 +88,50 @@ public class BlockLogPile extends BlockPile {
         }
 
         return result;
+    }
+
+    @Override
+    public void randomDisplayTick(World worldIn, int x, int y, int z, Random random) {
+        TileEntity te = worldIn.getTileEntity(x, y, z);
+        if (te instanceof TileEntityLogPile tef) {
+            if (tef.isFired) {
+                if (random.nextInt(24) == 0) {
+                    worldIn.playSound(
+                        (double) ((float) x + 0.5F),
+                        (double) ((float) y + 0.5F),
+                        (double) ((float) z + 0.5F),
+                        "fire.fire",
+                        1.0F + random.nextFloat(),
+                        random.nextFloat() * 0.7F + 0.3F,
+                        false);
+                }
+                int l;
+                float f;
+                float f1;
+                float f2;
+
+                if (!tef.isExposed) {
+                    Block block = worldIn.getBlock(x, y + 1, z);
+                    int meta = worldIn.getBlockMetadata(x, y + 1, z);
+                    if (!block.hasTileEntity(meta)) {
+                        for (l = 0; l < 3; ++l) {
+                            f = (float) x + random.nextFloat();
+                            f1 = (float) y + random.nextFloat() * 0.5F + 0.5F;
+                            f2 = (float) z + random.nextFloat();
+                            worldIn.spawnParticle(
+                                "largesmoke",
+                                (double) f,
+                                (double) f1 + 1,
+                                (double) f2,
+                                0.0D,
+                                0.0D,
+                                0.0D);
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
     @Override

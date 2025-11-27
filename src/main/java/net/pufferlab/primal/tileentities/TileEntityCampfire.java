@@ -45,8 +45,7 @@ public class TileEntityCampfire extends TileEntityInventory {
         if (isFired) {
             timePassed++;
             if (this.blockMetadata == 0) {
-                isFired = false;
-                this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+                setFired(false);
             }
         }
         if (timePassed > burnTime) {

@@ -37,47 +37,33 @@ public class TileEntityPitKiln extends TileEntityInventory {
     public void updateEntity() {
         Block blockAbove = this.worldObj.getBlock(this.xCoord, this.yCoord + 1, this.zCoord);
         if (blockAbove.getMaterial() == Material.fire) {
-            isFired = true;
+            setFired(true);
         }
         if (this.blockMetadata < 8) {
-            isFired = false;
-            markDirty();
+            setFired(false);
         }
         if (isFired) {
             if (blockAbove.getMaterial() == Material.air || blockAbove.getMaterial() == Material.fire) {
                 this.worldObj.setBlock(this.xCoord, this.yCoord + 1, this.zCoord, Blocks.fire);
             } else {
-                isFired = false;
-                markDirty();
+                setFired(false);
                 timePassed = 0;
             }
             TileEntity te = this.worldObj.getTileEntity(this.xCoord + 1, this.yCoord, this.zCoord + 1);
             if (te instanceof TileEntityPitKiln tef) {
-                if (!tef.isFired) {
-                    tef.isFired = true;
-                    tef.markDirty();
-                }
+                tef.setFired(true);
             }
             TileEntity te2 = this.worldObj.getTileEntity(this.xCoord - 1, this.yCoord, this.zCoord + 1);
             if (te2 instanceof TileEntityPitKiln tef) {
-                if (!tef.isFired) {
-                    tef.isFired = true;
-                    tef.markDirty();
-                }
+                tef.setFired(true);
             }
             TileEntity te3 = this.worldObj.getTileEntity(this.xCoord - 1, this.yCoord, this.zCoord - 1);
             if (te3 instanceof TileEntityPitKiln tef) {
-                if (!tef.isFired) {
-                    tef.isFired = true;
-                    tef.markDirty();
-                }
+                tef.setFired(true);
             }
             TileEntity te4 = this.worldObj.getTileEntity(this.xCoord + 1, this.yCoord, this.zCoord - 1);
             if (te4 instanceof TileEntityPitKiln tef) {
-                if (!tef.isFired) {
-                    tef.isFired = true;
-                    tef.markDirty();
-                }
+                tef.setFired(true);
             }
             this.timePassed++;
         }
