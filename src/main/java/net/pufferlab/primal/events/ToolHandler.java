@@ -7,7 +7,10 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.items.ItemKnifePrimitive;
@@ -43,6 +46,29 @@ public class ToolHandler {
     }
 
     @SubscribeEvent
+    public void tooltipEvent(ItemTooltipEvent event) {
+        if (Utils.containsOreDict(event.itemStack, "toolBroken")) {
+            event.toolTip.add("§cThis tool is too weak to be used!");
+        }
+    }
+
+    @SubscribeEvent
+    public void attackEntityEvent(AttackEntityEvent event) {
+        ItemStack heldItem = event.entityPlayer.getHeldItem();
+        if (Utils.containsOreDict(heldItem, "toolBroken")) {
+            event.entityPlayer.destroyCurrentEquippedItem();
+        }
+    }
+
+    @SubscribeEvent
+    public void playerInteractEventHandler(PlayerInteractEvent event) {
+        ItemStack heldItem = event.entityPlayer.getHeldItem();
+        if (Utils.containsOreDict(heldItem, "toolBroken")) {
+            event.entityPlayer.destroyCurrentEquippedItem();
+        }
+    }
+
+    @SubscribeEvent
     public void harvestDropsEvent(BlockEvent.HarvestDropsEvent event) {
         if (event.block instanceof BlockLeavesBase) {
             if (event.world.rand.nextInt(6) == 0) {
@@ -50,8 +76,14 @@ public class ToolHandler {
             }
         }
 
-        if (event.block instanceof BlockTallGrass) {
-            if (event.harvester != null) {
+        if (event.harvester != null) {
+            ItemStack heldItem = event.harvester.getHeldItem();
+            if (Utils.containsOreDict(heldItem, "toolBroken")) {
+                event.drops.clear();
+                event.harvester.destroyCurrentEquippedItem();
+            }
+
+            if (event.block instanceof BlockTallGrass) {
                 if (event.harvester.getCurrentEquippedItem() != null) {
                     if (event.harvester.getCurrentEquippedItem()
                         .getItem() != null) {

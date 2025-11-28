@@ -52,50 +52,49 @@ public class BlockCampfire extends BlockContainer {
         float subY, float subZ) {
         ItemStack heldItem = player.getHeldItem();
         int meta = worldIn.getBlockMetadata(x, y, z);
-        if (heldItem != null) {
-            if ((Utils.containsOreDict(heldItem, "firewood") && meta > 0 && meta < 5)
-                || (Utils.containsOreDict(heldItem, "kindling") && meta == 0)) {
-                worldIn.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
-                worldIn.markBlockRangeForRenderUpdate(x, y, z, x, y, z);
-                worldIn.markBlockForUpdate(x, y, z);
-                TileEntity te = worldIn.getTileEntity(x, y, z);
-                if (meta == 0) {
-                    Utils.playSound(worldIn, x, y, z, Registry.thatch);
-                } else {
-                    Utils.playSound(worldIn, x, y, z, Registry.log_pile);
+        if ((Utils.containsOreDict(heldItem, "firewood") && meta > 0 && meta < 5)
+            || (Utils.containsOreDict(heldItem, "kindling") && meta == 0)) {
+            worldIn.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
+            worldIn.markBlockRangeForRenderUpdate(x, y, z, x, y, z);
+            worldIn.markBlockForUpdate(x, y, z);
+            TileEntity te = worldIn.getTileEntity(x, y, z);
+            if (meta == 0) {
+                Utils.playSound(worldIn, x, y, z, Registry.thatch);
+            } else {
+                Utils.playSound(worldIn, x, y, z, Registry.log_pile);
+            }
+            if (te instanceof TileEntityCampfire tef) {
+                tef.addInventorySlotContentsUpdate(meta + 1, player);
+                tef.markDirty();
+                if (meta == 4) {
+                    tef.isBuilt = true;
+                    worldIn.markBlockRangeForRenderUpdate(x, y, z, x, y, z);
+                    worldIn.markBlockForUpdate(x, y, z);
                 }
-                if (te instanceof TileEntityCampfire tef) {
-                    tef.addInventorySlotContentsUpdate(meta + 1, player);
-                    tef.markDirty();
-                    if (meta == 4) {
-                        tef.isBuilt = true;
-                        worldIn.markBlockRangeForRenderUpdate(x, y, z, x, y, z);
-                        worldIn.markBlockForUpdate(x, y, z);
-                    }
-                    return true;
+                return true;
+            }
+        } else {
+            TileEntity te = worldIn.getTileEntity(x, y, z);
+            if (te instanceof TileEntityCampfire tef) {
+                int slot = 0;
+                int axis = 0;
+                int facing = tef.facingMeta;
+                if (facing == 1 || facing == 3) {
+                    axis = 1;
                 }
+                if (facing == 2 || facing == 4) {
+                    axis = 2;
+                }
+                if (axis == 1) {
+                    slot = getSlotFromFace(subX, subY, facing);
+                }
+                if (axis == 2) {
+                    slot = getSlotFromFace(subZ, subY, facing);
+                }
+                boolean state = addOrRemoveItem(worldIn, x, y, z, player, tef, slot + 6, heldItem);
+                tef.updateSpit();
+                return state;
             }
-        }
-        TileEntity te = worldIn.getTileEntity(x, y, z);
-        if (te instanceof TileEntityCampfire tef) {
-            int slot = 0;
-            int axis = 0;
-            int facing = tef.facingMeta;
-            if (facing == 1 || facing == 3) {
-                axis = 1;
-            }
-            if (facing == 2 || facing == 4) {
-                axis = 2;
-            }
-            if (axis == 1) {
-                slot = getSlotFromFace(subX, subY, facing);
-            }
-            if (axis == 2) {
-                slot = getSlotFromFace(subZ, subY, facing);
-            }
-            boolean state = addOrRemoveItem(worldIn, x, y, z, player, tef, slot + 6, heldItem);
-            tef.updateSpit();
-            return state;
         }
         return false;
     }
@@ -145,7 +144,7 @@ public class BlockCampfire extends BlockContainer {
             EntityItem entityItem = new EntityItem(
                 world,
                 x + 0.5,
-                y + 0.5,
+                y + 1.1,
                 z + 0.5,
                 new ItemStack(item.getItem(), item.stackSize, item.getItemDamage()));
             if (item.hasTagCompound()) entityItem.getEntityItem()

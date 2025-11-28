@@ -10,7 +10,7 @@ public class Constants {
     public static final String[] flintItems = new String[] { "flint_shard", "flint_axe_head", "flint_pickaxe_head",
         "flint_shovel_head", "flint_knife_blade" };
     public static final String[] clayItems = new String[] { "clay_brick", "clay_flower_pot", "clay_bucket" };
-
+    public static final String[] icons = new String[] { "knapping", "pit_kiln", "campfire" };
     public static String[] ashPileOreDicts = new String[] { "ash" };
     public static String[] charcoalPileOreDicts = new String[] { "charcoal", "coal" };
     public static String[] logPileOreDicts = new String[] { "firewood" };

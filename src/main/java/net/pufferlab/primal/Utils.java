@@ -82,6 +82,9 @@ public class Utils {
                     return getItem(Primal.MODID, "clay", Utils.getItemFromArray(Constants.clayItems, wood), number);
                 }
             }
+            if (name.equals("icon")) {
+                return getItem(Primal.MODID, "icon", Utils.getItemFromArray(Constants.icons, wood), number);
+            }
         }
         return null;
     }

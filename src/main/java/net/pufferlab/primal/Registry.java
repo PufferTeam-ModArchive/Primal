@@ -36,6 +36,7 @@ public class Registry {
     public static Block ash_pile;
     public static Block chopping_log;
     public static Block campfire;
+    public static Item icons;
     public static Item straw;
     public static Item flint;
     public static Item wood;
@@ -61,6 +62,7 @@ public class Registry {
         thatch = new BlockThatch();
         thatch_roof = new BlockThatchRoof();
 
+        icons = new ItemMeta(Constants.icons, "icon");
         straw = new ItemMeta(Constants.strawItems, "straw");
         wood = new ItemMeta(Constants.woodItems, "wood");
         flint = new ItemMeta(Constants.flintItems, "flint");
@@ -90,6 +92,7 @@ public class Registry {
         register(campfire, "campfire");
         register(TileEntityCampfire.class, "campfire");
 
+        register(icons, "icon");
         register(straw, "straw");
         register(wood, "wood");
         register(flint, "flint");

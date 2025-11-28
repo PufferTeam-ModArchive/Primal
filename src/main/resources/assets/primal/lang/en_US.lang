@@ -2,6 +2,9 @@ tile.primal.error.name=Invalid Block
 tile.primal.chopping_log.name=Chopping Log
 tile.primal.thatch.name=Thatch
 tile.primal.thatch_roof.name=Thatch Roof
+item.primal.knapping_icon.name=Knapping
+item.primal.pit_kiln_icon.name=Pit Kiln
+item.primal.campfire_icon.name=Campfire
 
 item.primal.error.name=Invalid Item
 item.primal.flint_shard.name=Flint Shard
