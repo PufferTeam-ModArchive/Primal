@@ -12,6 +12,7 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.items.ItemKnifePrimitive;
 
@@ -47,24 +48,38 @@ public class ToolHandler {
 
     @SubscribeEvent
     public void tooltipEvent(ItemTooltipEvent event) {
-        if (Utils.containsOreDict(event.itemStack, "toolBroken")) {
-            event.toolTip.add("§cThis tool is too weak to be used!");
+        if (Config.vanillaToolsRemovalMode == 2) {
+            if (Utils.containsOreDict(event.itemStack, "toolBroken")) {
+                event.toolTip.add("§cThis tool is too weak to be used!");
+            }
+        }
+        if (Config.vanillaToolsRemovalMode == 1) {
+            if (Utils.containsOreDict(event.itemStack, "toolBroken")) {
+                event.toolTip.add("§cThis tool cannot be crafted!");
+            }
         }
     }
 
     @SubscribeEvent
     public void attackEntityEvent(AttackEntityEvent event) {
-        ItemStack heldItem = event.entityPlayer.getHeldItem();
-        if (Utils.containsOreDict(heldItem, "toolBroken")) {
-            event.entityPlayer.destroyCurrentEquippedItem();
+        if (Config.vanillaToolsRemovalMode == 2) {
+            ItemStack heldItem = event.entityPlayer.getHeldItem();
+            if (Utils.containsOreDict(heldItem, "toolBroken")) {
+                event.entityPlayer.destroyCurrentEquippedItem();
+            }
         }
+
     }
 
     @SubscribeEvent
     public void playerInteractEventHandler(PlayerInteractEvent event) {
-        ItemStack heldItem = event.entityPlayer.getHeldItem();
-        if (Utils.containsOreDict(heldItem, "toolBroken")) {
-            event.entityPlayer.destroyCurrentEquippedItem();
+        if (Config.vanillaToolsRemovalMode == 2) {
+            if (event.action != PlayerInteractEvent.Action.RIGHT_CLICK_AIR) {
+                ItemStack heldItem = event.entityPlayer.getHeldItem();
+                if (Utils.containsOreDict(heldItem, "toolBroken")) {
+                    event.entityPlayer.destroyCurrentEquippedItem();
+                }
+            }
         }
     }
 
@@ -78,9 +93,11 @@ public class ToolHandler {
 
         if (event.harvester != null) {
             ItemStack heldItem = event.harvester.getHeldItem();
-            if (Utils.containsOreDict(heldItem, "toolBroken")) {
-                event.drops.clear();
-                event.harvester.destroyCurrentEquippedItem();
+            if (Config.vanillaToolsRemovalMode == 2) {
+                if (Utils.containsOreDict(heldItem, "toolBroken")) {
+                    event.drops.clear();
+                    event.harvester.destroyCurrentEquippedItem();
+                }
             }
 
             if (event.block instanceof BlockTallGrass) {

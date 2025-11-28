@@ -8,9 +8,18 @@ public class Config {
 
     public static String CATEGORY_TECHNICAL = "technical";
     public static boolean enableTechnical;
+    public static int vanillaToolsRemovalMode;
 
     public static void synchronizeConfiguration(File configFile) {
         Configuration configuration = new Configuration(configFile);
+
+        vanillaToolsRemovalMode = configuration.getInt(
+            "vanillaToolsRemovalMode",
+            Configuration.CATEGORY_GENERAL,
+            1,
+            0,
+            2,
+            "0: Don't remove vanilla tools. 1: Remove the recipes. 2: Keep the recipes but make tools unusable.");
 
         enableTechnical = configuration.getBoolean(
             "enableTechnicalChanges",
