@@ -54,15 +54,21 @@ public class TileEntityCampfireRenderer extends TileEntitySpecialRenderer {
         double offsetX = 0;
         double offsetZ = 0;
         int facing = kiln.facingMeta;
+        double multiplier = 1;
+        if (facing == 1 || facing == 2) {
+            multiplier = -1;
+            iX = 0.75F;
+            iZ = 0.25F;
+        }
         if (facing == 1 || facing == 3) {
-            offsetX = 0.25;
-            iX = iX - 0.1F;
-            iZ = iZ - 0.25F;
+            offsetX = 0.25 * multiplier;
+            iX = iX - 0.1F * multiplier;
+            iZ = iZ - 0.25F * multiplier;
         }
         if (facing == 2 || facing == 4) {
-            offsetZ = -0.25;
-            iX = iX + 0.25F;
-            iZ = iZ + 0.1F;
+            offsetZ = -0.25 * multiplier;
+            iX = iX + 0.25F * multiplier;
+            iZ = iZ + 0.1F * multiplier;
         }
         double offsetY = 0.9F;
 
