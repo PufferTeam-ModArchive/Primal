@@ -117,6 +117,11 @@ public class BlockPitKiln extends BlockContainer {
         } else {
             dropItem(world, x, y, z, index);
             tef.setInventorySlotContentsUpdate(index);
+            if (tef.getInventoryStack(0) == null && tef.getInventoryStack(1) == null
+                && tef.getInventoryStack(2) == null
+                && tef.getInventoryStack(3) == null) {
+                world.setBlockToAir(x, y, z);
+            }
             return true;
         }
     }
@@ -252,22 +257,12 @@ public class BlockPitKiln extends BlockContainer {
 
     @Override
     public Item getItem(World worldIn, int x, int y, int z) {
-        TileEntity te = worldIn.getTileEntity(x, y, z);
-        Item item = null;
-        if (te instanceof TileEntityPitKiln tef) {
-            item = tef.getLastItem();
-        }
-        return item;
+        return Registry.icons;
     }
 
     @Override
     public int getDamageValue(World worldIn, int x, int y, int z) {
-        TileEntity te = worldIn.getTileEntity(x, y, z);
-        int itemMeta = 0;
-        if (te instanceof TileEntityPitKiln tef) {
-            itemMeta = tef.getLastItemMeta();
-        }
-        return itemMeta;
+        return Utils.getItemFromArray(Constants.icons, "pit_kiln");
     }
 
     @Override

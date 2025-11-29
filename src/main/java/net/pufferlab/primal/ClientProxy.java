@@ -1,14 +1,17 @@
 package net.pufferlab.primal;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.pufferlab.primal.client.renderer.*;
 import net.pufferlab.primal.inventory.container.ContainerKnapping;
 import net.pufferlab.primal.inventory.gui.GuiKnapping;
+import net.pufferlab.primal.inventory.gui.GuiLargeVessel;
 import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
 import net.pufferlab.primal.tileentities.TileEntityChoppingLog;
+import net.pufferlab.primal.tileentities.TileEntityLargeVessel;
 import net.pufferlab.primal.tileentities.TileEntityPitKiln;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -21,6 +24,7 @@ public class ClientProxy extends CommonProxy {
     int charcoalPileRenderID;
     int ashPileRenderID;
     int campfireRenderID;
+    int largeVesselRenderID;
 
     public void registerRenders() {
         pitKilnRenderID = RenderingRegistry.getNextAvailableRenderId();
@@ -28,18 +32,21 @@ public class ClientProxy extends CommonProxy {
         charcoalPileRenderID = RenderingRegistry.getNextAvailableRenderId();
         ashPileRenderID = RenderingRegistry.getNextAvailableRenderId();
         campfireRenderID = RenderingRegistry.getNextAvailableRenderId();
+        largeVesselRenderID = RenderingRegistry.getNextAvailableRenderId();
 
         RenderingRegistry.registerBlockHandler(new BlockPitKilnRenderer());
         RenderingRegistry.registerBlockHandler(new BlockLogPileRenderer());
         RenderingRegistry.registerBlockHandler(new BlockCharcoalPileRenderer());
         RenderingRegistry.registerBlockHandler(new BlockAshPileRenderer());
         RenderingRegistry.registerBlockHandler(new BlockCampfireRenderer());
+        RenderingRegistry.registerBlockHandler(new BlockLargeVesselRenderer());
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPitKiln.class, new TileEntityPitKilnRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChoppingLog.class, new TileEntityChoppingLogRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCampfire.class, new TileEntityCampfireRenderer());
 
         MinecraftForgeClient.registerItemRenderer(Registry.wood, new ItemWoodRenderer());
+        MinecraftForgeClient.registerItemRenderer(Registry.clay, new ItemClayRenderer());
     }
 
     @Override
@@ -47,6 +54,12 @@ public class ClientProxy extends CommonProxy {
         KnappingType knappingType = KnappingType.getHandler(ID);
         if (knappingType != null) {
             return new GuiKnapping(new ContainerKnapping(knappingType, player.inventory));
+        }
+        if (ID == largeVesselContainerID) {
+            TileEntity te = world.getTileEntity(x, y, z);
+            if (te instanceof TileEntityLargeVessel tef) {
+                return new GuiLargeVessel(player.inventory, tef);
+            }
         }
         return null;
     }
@@ -74,5 +87,10 @@ public class ClientProxy extends CommonProxy {
     @Override
     public int getCampfireRenderID() {
         return campfireRenderID;
+    }
+
+    @Override
+    public int getLargeVesselRenderID() {
+        return largeVesselRenderID;
     }
 }

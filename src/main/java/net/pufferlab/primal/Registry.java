@@ -36,6 +36,7 @@ public class Registry {
     public static Block ash_pile;
     public static Block chopping_log;
     public static Block campfire;
+    public static Block large_vessel;
     public static Item icons;
     public static Item straw;
     public static Item flint;
@@ -58,6 +59,7 @@ public class Registry {
         ash_pile = new BlockAshPile();
         chopping_log = new BlockChoppingLog();
         campfire = new BlockCampfire();
+        large_vessel = new BlockLargeVessel();
 
         thatch = new BlockThatch();
         thatch_roof = new BlockThatchRoof();
@@ -91,6 +93,8 @@ public class Registry {
         register(TileEntityChoppingLog.class, "chopping_log");
         register(campfire, "campfire");
         register(TileEntityCampfire.class, "campfire");
+        register(large_vessel, "large_vessel");
+        register(TileEntityLargeVessel.class, "large_vessel");
 
         register(icons, "icon");
         register(straw, "straw");

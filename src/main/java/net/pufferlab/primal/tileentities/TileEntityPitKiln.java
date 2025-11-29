@@ -3,8 +3,6 @@ package net.pufferlab.primal.tileentities;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -86,24 +84,6 @@ public class TileEntityPitKiln extends TileEntityInventory {
             }
             this.markDirty();
         }
-    }
-
-    @Override
-    public Item getLastItem() {
-        ItemStack itemstack = getInventoryStack(this.lastSlot);
-        if (itemstack == null) {
-            return Items.flint;
-        }
-        return getInventoryStack(this.lastSlot).getItem();
-    }
-
-    @Override
-    public int getLastItemMeta() {
-        ItemStack itemstack = getInventoryStack(this.lastSlot);
-        if (itemstack == null) {
-            return 0;
-        }
-        return getInventoryStack(this.lastSlot).getItemDamage();
     }
 
     @Override

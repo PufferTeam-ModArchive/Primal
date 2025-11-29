@@ -11,6 +11,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -20,6 +21,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
@@ -311,6 +313,16 @@ public class BlockCampfire extends BlockContainer {
     }
 
     @Override
+    public Item getItem(World worldIn, int x, int y, int z) {
+        return Registry.icons;
+    }
+
+    @Override
+    public int getDamageValue(World worldIn, int x, int y, int z) {
+        return Utils.getItemFromArray(Constants.icons, "campfire");
+    }
+
+    @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
         return new TileEntityCampfire();
     }
@@ -337,6 +349,6 @@ public class BlockCampfire extends BlockContainer {
 
     @Override
     public boolean shouldSideBeRendered(IBlockAccess worldIn, int x, int y, int z, int side) {
-        return false;
+        return true;
     }
 }

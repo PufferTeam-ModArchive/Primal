@@ -8,6 +8,8 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.blocks.BlockPitKiln;
 import net.pufferlab.primal.tileentities.TileEntityPitKiln;
 
@@ -62,8 +64,13 @@ public class TileEntityPitKilnRenderer extends TileEntitySpecialRenderer {
             this.slotEntity.setEntityItemStack(stack);
             this.slotEntity.hoverStart = 0.0F;
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glTranslated(xAdjust, yAdjust + 0.0625, zAdjust - 0.0975);
-            GL11.glRotatef(90, 1.0F, 0.0F, 0.0F);
+            if (!Utils.containsStack(stack, Utils.getModItem("misc", "item", "clay_large_vessel", 1))
+                && !Utils.containsStack(stack, Utils.getItem(Primal.MODID, "large_vessel", 0, 1))) {
+                GL11.glTranslated(xAdjust, yAdjust + 0.0625, zAdjust - 0.0975);
+                GL11.glRotatef(90, 1.0F, 0.0F, 0.0F);
+            } else {
+                GL11.glTranslated(xAdjust, yAdjust, zAdjust);
+            }
             RenderItem.renderInFrame = true;
             try {
                 this.itemRenderer.doRender(slotEntity, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);

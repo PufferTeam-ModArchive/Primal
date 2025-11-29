@@ -11,7 +11,7 @@ public class ModelFirewood extends ModelPrimal {
 
     @Override
     public String getName() {
-        return "firewood";
+        return "items/firewood";
     }
 
 }

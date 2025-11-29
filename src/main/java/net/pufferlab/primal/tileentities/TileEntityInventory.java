@@ -35,6 +35,10 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         this.lastSlot = compound.getInteger("lastSlot");
         this.isFired = compound.getBoolean("isFired");
 
+        this.readFromNBTInventory(compound);
+    }
+
+    public void readFromNBTInventory(NBTTagCompound compound) {
         NBTTagList tagList = compound.getTagList("inventory", 10);
         this.inventory = new ItemStack[getSize()];
         for (int i = 0; i < tagList.tagCount(); i++) {
@@ -50,6 +54,10 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         compound.setInteger("lastSlot", this.lastSlot);
         compound.setBoolean("isFired", this.isFired);
 
+        this.writeToNBTInventory(compound);
+    }
+
+    public void writeToNBTInventory(NBTTagCompound compound) {
         NBTTagList itemList = new NBTTagList();
         for (int i = 0; i < this.inventory.length; i++) {
             ItemStack stack = this.inventory[i];
