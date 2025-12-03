@@ -14,7 +14,7 @@ public class TileEntityPitKiln extends TileEntityInventory {
     int timeToSmelt = 20 * 30;
 
     public TileEntityPitKiln() {
-        super(12);
+        super(13);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class TileEntityPitKiln extends TileEntityInventory {
             this.worldObj.setBlockToAir(this.xCoord, this.yCoord + 1, this.zCoord);
             this.timePassed = 0;
             this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 0, 2);
-            for (int x = 4; x < this.getSizeInventory(); x++) {
+            for (int x = 5; x < this.getSizeInventory(); x++) {
                 setInventorySlotContentsUpdate(x);
             }
             this.markDirty();

@@ -15,29 +15,28 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.tileentities.TileEntityLargeVessel;
+import net.pufferlab.primal.tileentities.TileEntityBarrel;
 
-public class BlockLargeVessel extends BlockContainer {
+public class BlockBarrel extends BlockContainer {
 
     public IIcon[] icons = new IIcon[2];
 
-    public BlockLargeVessel() {
-        super(Material.rock);
+    public BlockBarrel() {
+        super(Material.wood);
         this.setHardness(1.0F);
-        this.setBlockBounds(0.1875F, 0.0F, 0.1875F, 0.8125F, 0.8125F, 0.8125F);
+        this.setBlockBounds(0.125F, 0.0F, 0.125F, 0.875F, 1.0F, 0.875F);
     }
 
     @Override
     public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
         float subY, float subZ) {
-        player.openGui(Primal.instance, Primal.proxy.largeVesselContainerID, worldIn, x, y, z);
         return true;
     }
 
     @Override
     public void registerBlockIcons(IIconRegister reg) {
-        icons[0] = reg.registerIcon(Primal.MODID + ":large_vessel");
-        icons[1] = reg.registerIcon(Primal.MODID + ":ceramic");
+        icons[0] = reg.registerIcon(Primal.MODID + ":barrel");
+        icons[1] = reg.registerIcon(Primal.MODID + ":barrel_top");
     }
 
     @Override
@@ -50,7 +49,7 @@ public class BlockLargeVessel extends BlockContainer {
 
     @Override
     public String getUnlocalizedName() {
-        return "tile.primal.large_vessel";
+        return "tile.primal.barrel";
     }
 
     @Override
@@ -59,7 +58,7 @@ public class BlockLargeVessel extends BlockContainer {
         NBTTagCompound tagCompound = heldItem.getTagCompound();
         if (tagCompound != null) {
             TileEntity te = worldIn.getTileEntity(x, y, z);
-            if (te instanceof TileEntityLargeVessel tef) {
+            if (te instanceof TileEntityBarrel tef) {
                 tef.readFromNBTInventory(tagCompound);
             }
         }
@@ -70,7 +69,7 @@ public class BlockLargeVessel extends BlockContainer {
         ItemStack item = new ItemStack(this, 1, 0);
         NBTTagCompound tagCompound = new NBTTagCompound();
         TileEntity te = worldIn.getTileEntity(x, y, z);
-        if (te instanceof TileEntityLargeVessel tef) {
+        if (te instanceof TileEntityBarrel tef) {
             tef.writeToNBTInventory(tagCompound);
             item.setTagCompound(tagCompound);
         }
@@ -99,12 +98,12 @@ public class BlockLargeVessel extends BlockContainer {
 
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
-        return new TileEntityLargeVessel();
+        return new TileEntityBarrel();
     }
 
     @Override
     public int getRenderType() {
-        return Primal.proxy.getLargeVesselRenderID();
+        return Primal.proxy.getBarrelRenderID();
     }
 
     @Override

@@ -7,11 +7,13 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.*;
 import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.blocks.BlockPile;
 import net.pufferlab.primal.items.ItemDummy;
@@ -87,6 +89,113 @@ public class Utils {
             }
         }
         return null;
+    }
+
+    public static ItemStack[] getItemStackListFromNBT(NBTTagCompound compound) {
+        NBTTagList tagList = compound.getTagList("Items", 10);
+        ItemStack[] inventory = new ItemStack[tagList.tagCount()];
+        for (int i = 0; i < tagList.tagCount(); i++) {
+            NBTTagCompound tag = tagList.getCompoundTagAt(i);
+            byte slot = tag.getByte("Slot");
+            if (slot >= 0 && slot < inventory.length) inventory[slot] = ItemStack.loadItemStackFromNBT(tag);
+        }
+        return inventory;
+    }
+
+    public static String[] getItemStackNameListFromNBT(NBTTagCompound compound) {
+        ItemStack[] inventory = getItemStackListFromNBT(compound);
+        String[] strings = new String[inventory.length];
+        for (int i = 0; i < inventory.length; i++) {
+            ItemStack item = inventory[i];
+            String name = item.getDisplayName();
+            strings[i] = name + " x" + item.stackSize;
+        }
+        return strings;
+    }
+
+    public static String getFluidInfoFromNBT(NBTTagCompound nbt) {
+        if (!nbt.hasKey("Empty")) {
+            FluidStack fluid = FluidStack.loadFluidStackFromNBT(nbt);
+            return fluid.getLocalizedName() + " " + fluid.amount + " mB";
+        }
+        return null;
+    }
+
+    public static FluidStack getFluidFromStack(ItemStack stack) {
+        if (stack == null) return null;
+
+        if (stack.getItem() instanceof IFluidContainerItem) {
+            IFluidContainerItem item = (IFluidContainerItem) stack.getItem();
+            return item.getFluid(stack);
+        }
+
+        return FluidContainerRegistry.getFluidForFilledItem(stack);
+    }
+
+    public static ItemStack getStackFromFluid(ItemStack emptyContainer, FluidStack fluid) {
+        if (emptyContainer == null || fluid == null) return null;
+
+        if (emptyContainer.getItem() instanceof IFluidContainerItem) {
+            ItemStack filled = emptyContainer.copy();
+            IFluidContainerItem item = (IFluidContainerItem) filled.getItem();
+
+            int filledAmount = item.fill(filled, fluid, true);
+            if (filledAmount > 0) {
+                return filled;
+            }
+
+            return null;
+        }
+
+        return FluidContainerRegistry.fillFluidContainer(fluid, emptyContainer);
+    }
+
+    public static ItemStack getEmptyContainer(ItemStack filled) {
+        if (filled == null) return null;
+
+        if (filled.getItem() instanceof IFluidContainerItem) {
+            ItemStack copy = filled.copy();
+            IFluidContainerItem item = (IFluidContainerItem) copy.getItem();
+            item.drain(copy, Integer.MAX_VALUE, true);
+            return copy;
+        }
+
+        ItemStack drained = FluidContainerRegistry.drainFluidContainer(filled);
+        if (drained != null) {
+            return drained;
+        }
+
+        return null;
+    }
+
+    public static boolean isFluidContainer(ItemStack stack) {
+        if (stack == null) return false;
+
+        if (stack.getItem() instanceof IFluidContainerItem) {
+            return true;
+        }
+
+        if (FluidContainerRegistry.isFilledContainer(stack)) {
+            return true;
+        }
+
+        if (FluidContainerRegistry.isEmptyContainer(stack)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static boolean isEmptyFluidContainer(ItemStack stack) {
+        if (stack == null) return false;
+
+        if (stack.getItem() instanceof IFluidContainerItem) {
+            IFluidContainerItem item = (IFluidContainerItem) stack.getItem();
+            FluidStack fluid = item.getFluid(stack);
+            return fluid == null || fluid.amount <= 0;
+        }
+
+        return FluidContainerRegistry.isEmptyContainer(stack);
     }
 
     public static int getBlockX(int side, int x) {

@@ -49,6 +49,7 @@ public class TileEntityPitKilnRenderer extends TileEntitySpecialRenderer {
         ItemStack slot2 = kiln.getInventoryStack(1);
         ItemStack slot3 = kiln.getInventoryStack(2);
         ItemStack slot4 = kiln.getInventoryStack(3);
+        ItemStack slot5 = kiln.getInventoryStack(4);
 
         double xOffset = x + 0.25;
         double zOffset = z + 0.25;
@@ -56,6 +57,7 @@ public class TileEntityPitKilnRenderer extends TileEntitySpecialRenderer {
         renderSlotItem(slot2, xOffset, y, zOffset + 0.5);
         renderSlotItem(slot3, xOffset + 0.5, y, zOffset);
         renderSlotItem(slot4, xOffset, y, zOffset);
+        renderSlotItem(slot5, xOffset + 0.25, y, zOffset + 0.25);
     }
 
     public void renderSlotItem(ItemStack stack, double xAdjust, double yAdjust, double zAdjust) {

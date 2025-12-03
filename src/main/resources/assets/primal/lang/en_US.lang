@@ -3,6 +3,7 @@ tile.primal.chopping_log.name=Chopping Log
 tile.primal.thatch.name=Thatch
 tile.primal.thatch_roof.name=Thatch Roof
 tile.primal.large_vessel.name=Large Vessel
+tile.primal.barrel.name=Barrel
 item.primal.knapping_icon.name=Knapping
 item.primal.pit_kiln_icon.name=Pit Kiln
 item.primal.campfire_icon.name=Campfire

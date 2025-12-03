@@ -73,4 +73,8 @@ public class CommonProxy implements IGuiHandler {
     public int getLargeVesselRenderID() {
         return 0;
     }
+
+    public int getBarrelRenderID() {
+        return 0;
+    }
 }

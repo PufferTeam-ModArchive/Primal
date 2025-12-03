@@ -9,10 +9,7 @@ import net.pufferlab.primal.inventory.container.ContainerKnapping;
 import net.pufferlab.primal.inventory.gui.GuiKnapping;
 import net.pufferlab.primal.inventory.gui.GuiLargeVessel;
 import net.pufferlab.primal.recipes.KnappingType;
-import net.pufferlab.primal.tileentities.TileEntityCampfire;
-import net.pufferlab.primal.tileentities.TileEntityChoppingLog;
-import net.pufferlab.primal.tileentities.TileEntityLargeVessel;
-import net.pufferlab.primal.tileentities.TileEntityPitKiln;
+import net.pufferlab.primal.tileentities.*;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -25,6 +22,7 @@ public class ClientProxy extends CommonProxy {
     int ashPileRenderID;
     int campfireRenderID;
     int largeVesselRenderID;
+    int barrelRenderID;
 
     public void registerRenders() {
         pitKilnRenderID = RenderingRegistry.getNextAvailableRenderId();
@@ -33,6 +31,7 @@ public class ClientProxy extends CommonProxy {
         ashPileRenderID = RenderingRegistry.getNextAvailableRenderId();
         campfireRenderID = RenderingRegistry.getNextAvailableRenderId();
         largeVesselRenderID = RenderingRegistry.getNextAvailableRenderId();
+        barrelRenderID = RenderingRegistry.getNextAvailableRenderId();
 
         RenderingRegistry.registerBlockHandler(new BlockPitKilnRenderer());
         RenderingRegistry.registerBlockHandler(new BlockLogPileRenderer());
@@ -40,6 +39,7 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerBlockHandler(new BlockAshPileRenderer());
         RenderingRegistry.registerBlockHandler(new BlockCampfireRenderer());
         RenderingRegistry.registerBlockHandler(new BlockLargeVesselRenderer());
+        RenderingRegistry.registerBlockHandler(new BlockBarrelRenderer());
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPitKiln.class, new TileEntityPitKilnRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChoppingLog.class, new TileEntityChoppingLogRenderer());
@@ -92,5 +92,10 @@ public class ClientProxy extends CommonProxy {
     @Override
     public int getLargeVesselRenderID() {
         return largeVesselRenderID;
+    }
+
+    @Override
+    public int getBarrelRenderID() {
+        return barrelRenderID;
     }
 }

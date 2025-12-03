@@ -8,10 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.world.EnumSkyBlock;
 
 public class TileEntityInventory extends TileEntityMetaFacing implements IInventory {
 
@@ -29,6 +25,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         return this.inventory.length;
     }
 
+    @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
 
@@ -39,7 +36,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
     }
 
     public void readFromNBTInventory(NBTTagCompound compound) {
-        NBTTagList tagList = compound.getTagList("inventory", 10);
+        NBTTagList tagList = compound.getTagList("Items", 10);
         this.inventory = new ItemStack[getSize()];
         for (int i = 0; i < tagList.tagCount(); i++) {
             NBTTagCompound tag = tagList.getCompoundTagAt(i);
@@ -48,6 +45,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         }
     }
 
+    @Override
     public void writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
 
@@ -68,61 +66,19 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
                 itemList.appendTag((NBTBase) tag);
             }
         }
-        compound.setTag("inventory", (NBTBase) itemList);
+        compound.setTag("Items", (NBTBase) itemList);
     }
 
     @Override
-    public Packet getDescriptionPacket() {
-        NBTTagList itemList = new NBTTagList();
-        for (int i = 0; i < this.inventory.length; i++) {
-            ItemStack stack = this.inventory[i];
-            if (stack != null) {
-                NBTTagCompound tag = new NBTTagCompound();
-                tag.setByte("Slot", (byte) i);
-                stack.writeToNBT(tag);
-                itemList.appendTag((NBTBase) tag);
-            }
-        }
-
-        NBTTagCompound dataTag = new NBTTagCompound();
-
-        dataTag.setInteger("lastSlot", this.lastSlot);
-        dataTag.setBoolean("isFired", this.isFired);
-        dataTag.setInteger("facingMeta", this.facingMeta);
-        dataTag.setTag("inventory", (NBTBase) itemList);
-        getDescriptionPacketExtra(dataTag);
-
-        return (Packet) new S35PacketUpdateTileEntity(
-            this.xCoord,
-            this.yCoord,
-            this.zCoord,
-            this.blockMetadata,
-            dataTag);
-    }
-
-    public void getDescriptionPacketExtra(NBTTagCompound dataTag) {
-
+    public void writeToNBTPacket(NBTTagCompound tag) {
+        super.writeToNBTPacket(tag);
+        this.writeToNBTInventory(tag);
     }
 
     @Override
-    public void onDataPacket(NetworkManager manager, S35PacketUpdateTileEntity packet) {
-        NBTTagCompound nbtData = packet.func_148857_g();
-        this.lastSlot = nbtData.getInteger("lastSlot");
-        this.isFired = nbtData.getBoolean("isFired");
-        this.facingMeta = nbtData.getInteger("facingMeta");
-        onDataPacketExtra(nbtData);
-        NBTTagList tagList = nbtData.getTagList("inventory", 10);
-        this.inventory = new ItemStack[getSize()];
-        for (int i = 0; i < tagList.tagCount(); i++) {
-            NBTTagCompound tag = tagList.getCompoundTagAt(i);
-            byte slot = tag.getByte("Slot");
-            if (slot >= 0 && slot < this.inventory.length) this.inventory[slot] = ItemStack.loadItemStackFromNBT(tag);
-        }
-        this.worldObj.updateLightByType(EnumSkyBlock.Block, this.xCoord, this.yCoord, this.zCoord);
-    }
-
-    public void onDataPacketExtra(NBTTagCompound nbtData) {
-
+    public void readFromNBTPacket(NBTTagCompound tag) {
+        super.readFromNBTPacket(tag);
+        this.readFromNBTInventory(tag);
     }
 
     public ItemStack getInventoryStack(int slot) {

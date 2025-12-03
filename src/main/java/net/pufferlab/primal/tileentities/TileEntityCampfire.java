@@ -46,12 +46,16 @@ public class TileEntityCampfire extends TileEntityInventory {
         compound.setBoolean("hasSpit", this.hasSpit);
     }
 
-    public void getDescriptionPacketExtra(NBTTagCompound dataTag) {
+    @Override
+    public void readFromNBTPacket(NBTTagCompound dataTag) {
+        super.readFromNBTPacket(dataTag);
         dataTag.setBoolean("isBuilt", this.isBuilt);
         dataTag.setBoolean("hasSpit", this.hasSpit);
     }
 
-    public void onDataPacketExtra(NBTTagCompound nbtData) {
+    @Override
+    public void writeToNBTPacket(NBTTagCompound nbtData) {
+        super.writeToNBTPacket(nbtData);
         this.isBuilt = nbtData.getBoolean("isBuilt");
         this.hasSpit = nbtData.getBoolean("hasSpit");
     }

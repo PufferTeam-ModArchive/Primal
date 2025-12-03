@@ -75,7 +75,7 @@ public class BlockPitKiln extends BlockContainer {
                     } else {
                         Utils.playSound(worldIn, x, y, z, Registry.log_pile);
                     }
-                    tef.addInventorySlotContentsUpdate(4 + meta, player);
+                    tef.addInventorySlotContentsUpdate(5 + meta, player);
                     worldIn.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
                     return true;
                 }
@@ -91,18 +91,27 @@ public class BlockPitKiln extends BlockContainer {
                     left = true;
                 }
 
-                if (!top && left) {
-                    return addOrRemoveItem(worldIn, x, y, z, player, tef, 0, heldItem);
+                if (Utils.containsOreDict(heldItem, "itemHeavy") || (tef.getInventoryStack(4) != null)) {
+                    if (tef.getInventoryStack(0) == null && tef.getInventoryStack(1) == null
+                        && tef.getInventoryStack(2) == null
+                        && tef.getInventoryStack(3) == null) {
+                        return addOrRemoveItem(worldIn, x, y, z, player, tef, 4, heldItem);
+                    }
+                } else if (tef.getInventoryStack(4) == null) {
+                    if (!top && left) {
+                        return addOrRemoveItem(worldIn, x, y, z, player, tef, 0, heldItem);
+                    }
+                    if (!top && !left) {
+                        return addOrRemoveItem(worldIn, x, y, z, player, tef, 1, heldItem);
+                    }
+                    if (top && left) {
+                        return addOrRemoveItem(worldIn, x, y, z, player, tef, 2, heldItem);
+                    }
+                    if (top && !left) {
+                        return addOrRemoveItem(worldIn, x, y, z, player, tef, 3, heldItem);
+                    }
                 }
-                if (!top && !left) {
-                    return addOrRemoveItem(worldIn, x, y, z, player, tef, 1, heldItem);
-                }
-                if (top && left) {
-                    return addOrRemoveItem(worldIn, x, y, z, player, tef, 2, heldItem);
-                }
-                if (top && !left) {
-                    return addOrRemoveItem(worldIn, x, y, z, player, tef, 3, heldItem);
-                }
+
             }
 
         }
@@ -142,7 +151,7 @@ public class BlockPitKiln extends BlockContainer {
 
     public void clearLayers(World worldIn, int x, int y, int z) {
         worldIn.setBlockMetadataWithNotify(x, y, z, 0, 2);
-        dropItems(worldIn, x, y, z, 4);
+        dropItems(worldIn, x, y, z, 5);
     }
 
     @Override

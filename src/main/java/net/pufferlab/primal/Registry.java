@@ -37,6 +37,7 @@ public class Registry {
     public static Block chopping_log;
     public static Block campfire;
     public static Block large_vessel;
+    public static Block barrel;
     public static Item icons;
     public static Item straw;
     public static Item flint;
@@ -60,6 +61,7 @@ public class Registry {
         chopping_log = new BlockChoppingLog();
         campfire = new BlockCampfire();
         large_vessel = new BlockLargeVessel();
+        barrel = new BlockBarrel();
 
         thatch = new BlockThatch();
         thatch_roof = new BlockThatchRoof();
@@ -95,6 +97,8 @@ public class Registry {
         register(TileEntityCampfire.class, "campfire");
         register(large_vessel, "large_vessel");
         register(TileEntityLargeVessel.class, "large_vessel");
+        register(barrel, "barrel");
+        register(TileEntityBarrel.class, "barrel");
 
         register(icons, "icon");
         register(straw, "straw");
@@ -118,6 +122,8 @@ public class Registry {
         registerEvent(new CharcoalPileHandler());
         registerEvent(new AshPileHandler());
         registerEvent(new CampfireHandler());
+        registerEvent(new LargeVesselHandler());
+        registerEvent(new BarrelHandler());
     }
 
     public void register(Item item, String name) {
@@ -130,6 +136,8 @@ public class Registry {
             || block instanceof BlockAshPile
             || block instanceof BlockCampfire) {
             GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), null, name);
+        } else if (block instanceof BlockLargeVessel || block instanceof BlockBarrel) {
+            GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockPrimal.class, name);
         } else {
             GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), name);
         }

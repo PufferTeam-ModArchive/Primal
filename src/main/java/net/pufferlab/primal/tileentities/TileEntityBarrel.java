@@ -2,26 +2,30 @@ package net.pufferlab.primal.tileentities;
 
 import net.minecraft.nbt.NBTTagCompound;
 
-public class TileEntityMetaFacing extends TileEntityPrimal {
+public class TileEntityBarrel extends TileEntityFluidInventory {
 
-    public int facingMeta = 2;
+    public boolean isFloorBarrel = false;
+
+    public TileEntityBarrel() {
+        super(16000);
+    }
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        this.facingMeta = tag.getInteger("facingMeta");
+        this.isFloorBarrel = tag.getBoolean("isFloorBarrel");
     }
 
     @Override
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setInteger("facingMeta", this.facingMeta);
+        tag.setBoolean("isFloorBarrel", this.isFloorBarrel);
     }
 
-    public void setFacingMeta(int meta) {
-        this.facingMeta = meta;
+    public void setFloorBarrel(boolean meta) {
+        this.isFloorBarrel = meta;
         this.worldObj.notifyBlockChange(this.xCoord, this.yCoord, this.zCoord, this.blockType);
         this.markDirty();
     }
@@ -29,12 +33,12 @@ public class TileEntityMetaFacing extends TileEntityPrimal {
     @Override
     public void writeToNBTPacket(NBTTagCompound tag) {
         super.writeToNBTPacket(tag);
-        tag.setInteger("facingMeta", this.facingMeta);
+        tag.setBoolean("isFloorBarrel", this.isFloorBarrel);
     }
 
     @Override
     public void readFromNBTPacket(NBTTagCompound tag) {
         super.readFromNBTPacket(tag);
-        this.facingMeta = tag.getInteger("facingMeta");
+        this.isFloorBarrel = tag.getBoolean("isFloorBarrel");
     }
 }
