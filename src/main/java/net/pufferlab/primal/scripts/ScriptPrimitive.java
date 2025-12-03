@@ -31,6 +31,7 @@ public class ScriptPrimitive implements IScript {
             getModItem("misc", "item", "straw_cordage", 1),
             "stickWood");
         addShapedRecipe(getItem(Primal.MODID, "chopping_log", 0, 1), "SS", 'S', "logWood");
+        addShapedRecipe(getItem(Primal.MODID, "barrel", 0, 1), "P P", "P P", "PPP", 'P', "plankWood");
         addShapedRecipe(
             getItem(Primal.MODID, "flint_axe", 0, 1),
             "I",

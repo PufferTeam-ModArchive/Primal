@@ -24,6 +24,12 @@ public class BucketHandler {
         }
     }
 
+    public void updateInventoryClientSide(EntityPlayer player) {
+        if (!player.worldObj.isRemote) {
+            ((EntityPlayerMP) player).sendContainerToPlayer(player.inventoryContainer);
+        }
+    }
+
     @SubscribeEvent
     public void playerInteractEventHandler(PlayerInteractEvent event) {
         if (!event.world.isRemote && event.entityPlayer.getCurrentEquippedItem() != null
@@ -72,6 +78,7 @@ public class BucketHandler {
                             event.entityPlayer.inventory.decrStackSize(event.entityPlayer.inventory.currentItem, 1);
                             event.entityPlayer.inventory
                                 .addItemStackToInventory(Utils.getStackFromFluid(itemStack, stack));
+                            updateInventoryClientSide(event.entityPlayer);
                             swingItemPacket(event.entityPlayer);
                             if (event.isCancelable()) event.setCanceled(true);
                         }
@@ -83,6 +90,7 @@ public class BucketHandler {
                                 tank.fill(ForgeDirection.getOrientation(event.face), fluid, true);
                                 event.entityPlayer.inventory.decrStackSize(event.entityPlayer.inventory.currentItem, 1);
                                 event.entityPlayer.inventory.addItemStackToInventory(Utils.getEmptyContainer(item));
+                                updateInventoryClientSide(event.entityPlayer);
                                 swingItemPacket(event.entityPlayer);
                                 if (event.isCancelable()) event.setCanceled(true);
                             }
