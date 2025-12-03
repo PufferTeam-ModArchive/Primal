@@ -12,20 +12,15 @@ import cpw.mods.fml.common.FMLCommonHandler;
 
 public class NEIConfig implements IConfigureNEI {
 
-    public static final NEIKnappingHandler knappingHandler = new NEIKnappingHandler();
-    public static final NEIPitKilnHandler pitKilnHandler = new NEIPitKilnHandler();
-    public static final NEIChoppingLogHandler choppingLogHandler = new NEIChoppingLogHandler();
-    public static final NEICampfireHandler campfireHandler = new NEICampfireHandler();
-
     @Override
     public void loadConfig() {
         if (FMLCommonHandler.instance()
             .getSide()
             .isClient()) {
-            API.registerRecipeHandler(choppingLogHandler);
-            API.registerRecipeHandler(knappingHandler);
-            API.registerRecipeHandler(pitKilnHandler);
-            API.registerRecipeHandler(campfireHandler);
+            API.registerRecipeHandler(new NEIChoppingLogHandler());
+            API.registerRecipeHandler(new NEIKnappingHandler());
+            API.registerRecipeHandler(new NEIPitKilnHandler());
+            API.registerRecipeHandler(new NEICampfireHandler());
         }
         loadGTNH();
     }
