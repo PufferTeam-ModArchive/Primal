@@ -18,6 +18,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.blocks.BlockPile;
 import net.pufferlab.primal.items.ItemDummy;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class Utils {
@@ -444,6 +445,12 @@ public class Utils {
             return Item.getIdFromItem(item) + ":" + meta;
         }
         return null;
+    }
+
+    public static boolean isClient() {
+        return FMLCommonHandler.instance()
+            .getSide()
+            .isClient();
     }
 
     public static String getOreDictKey(ItemStack b, String oreDict) {

@@ -8,15 +8,12 @@ import net.pufferlab.primal.Utils;
 
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
-import cpw.mods.fml.common.FMLCommonHandler;
 
 public class NEIConfig implements IConfigureNEI {
 
     @Override
     public void loadConfig() {
-        if (FMLCommonHandler.instance()
-            .getSide()
-            .isClient()) {
+        if (Utils.isClient()) {
             API.registerRecipeHandler(new NEIChoppingLogHandler());
             API.registerRecipeHandler(new NEIKnappingHandler());
             API.registerRecipeHandler(new NEIPitKilnHandler());
