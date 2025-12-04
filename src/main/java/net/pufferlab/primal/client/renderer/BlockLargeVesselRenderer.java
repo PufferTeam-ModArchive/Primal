@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.client.ForgeHooksClient;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.models.ModelLargeVessel;
 
@@ -27,7 +28,10 @@ public class BlockLargeVesselRenderer implements ISimpleBlockRenderingHandler {
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
         Tessellator tess = Tessellator.instance;
-        modelLargeVessel.render(renderer, tess, block, x, y, z, 99);
+        int renderPass = ForgeHooksClient.getWorldRenderPass();
+        if (renderPass == 0) {
+            modelLargeVessel.render(renderer, tess, block, x, y, z, 99);
+        }
         return true;
     }
 

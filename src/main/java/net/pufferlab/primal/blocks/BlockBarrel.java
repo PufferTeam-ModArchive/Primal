@@ -123,6 +123,16 @@ public class BlockBarrel extends BlockContainer {
     }
 
     @Override
+    public boolean canRenderInPass(int pass) {
+        return true;
+    }
+
+    @Override
+    public int getRenderBlockPass() {
+        return 1;
+    }
+
+    @Override
     public boolean shouldSideBeRendered(IBlockAccess worldIn, int x, int y, int z, int side) {
         return true;
     }

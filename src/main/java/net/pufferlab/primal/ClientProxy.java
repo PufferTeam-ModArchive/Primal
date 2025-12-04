@@ -1,6 +1,7 @@
 package net.pufferlab.primal;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -47,6 +48,7 @@ public class ClientProxy extends CommonProxy {
 
         MinecraftForgeClient.registerItemRenderer(Registry.wood, new ItemWoodRenderer());
         MinecraftForgeClient.registerItemRenderer(Registry.clay, new ItemClayRenderer());
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Registry.barrel), new ItemBarrelRenderer());
     }
 
     @Override
