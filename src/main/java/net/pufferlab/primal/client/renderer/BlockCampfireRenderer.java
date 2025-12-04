@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.client.ForgeHooksClient;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.models.ModelCampfire;
 import net.pufferlab.primal.client.models.ModelCampfireSpit;
@@ -67,19 +68,22 @@ public class BlockCampfireRenderer implements ISimpleBlockRenderingHandler {
                 rotated = true;
             }
         }
-        modelCampfire.render(renderer, tess, block, x, y, z, 99);
-        if (te instanceof TileEntityCampfire tef) {
-            if (tef.hasSpit) {
-                if (!rotated) {
-                    modelCampfireSpit2.render(renderer, tess, block, x, y, z, 97);
-                } else {
-                    modelCampfireSpit.render(renderer, tess, block, x, y, z, 97);
+        int renderPass = ForgeHooksClient.getWorldRenderPass();
+        if (renderPass == 0) {
+            modelCampfire.render(renderer, tess, block, x, y, z, 99);
+            if (te instanceof TileEntityCampfire tef) {
+                if (tef.hasSpit) {
+                    if (!rotated) {
+                        modelCampfireSpit2.render(renderer, tess, block, x, y, z, 97);
+                    } else {
+                        modelCampfireSpit.render(renderer, tess, block, x, y, z, 97);
+                    }
                 }
             }
-        }
-        if (te instanceof TileEntityCampfire tef) {
-            if (tef.isFired) {
-                renderer.drawCrossedSquares(block.getIcon(world, x, y, z, 98), x, y, z, 1.0F);
+            if (te instanceof TileEntityCampfire tef) {
+                if (tef.isFired) {
+                    renderer.drawCrossedSquares(block.getIcon(world, x, y, z, 98), x, y, z, 1.0F);
+                }
             }
         }
         return true;

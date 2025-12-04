@@ -47,17 +47,17 @@ public class TileEntityCampfire extends TileEntityInventory {
     }
 
     @Override
-    public void readFromNBTPacket(NBTTagCompound dataTag) {
-        super.readFromNBTPacket(dataTag);
-        dataTag.setBoolean("isBuilt", this.isBuilt);
-        dataTag.setBoolean("hasSpit", this.hasSpit);
+    public void writeToNBTPacket(NBTTagCompound tag) {
+        super.writeToNBTPacket(tag);
+        tag.setBoolean("isBuilt", this.isBuilt);
+        tag.setBoolean("hasSpit", this.hasSpit);
     }
 
     @Override
-    public void writeToNBTPacket(NBTTagCompound nbtData) {
-        super.writeToNBTPacket(nbtData);
-        this.isBuilt = nbtData.getBoolean("isBuilt");
-        this.hasSpit = nbtData.getBoolean("hasSpit");
+    public void readFromNBTPacket(NBTTagCompound tag) {
+        super.readFromNBTPacket(tag);
+        this.isBuilt = tag.getBoolean("isBuilt");
+        this.hasSpit = tag.getBoolean("hasSpit");
     }
 
     public int burnTime = 20 * 60;

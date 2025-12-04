@@ -7,10 +7,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
@@ -19,30 +17,33 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.tileentities.TileEntityBarrel;
+import net.pufferlab.primal.tileentities.TileEntityFaucet;
+import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 
-public class BlockBarrel extends BlockContainer {
+public class BlockFaucet extends BlockContainer {
 
     public IIcon[] icons = new IIcon[2];
 
-    public BlockBarrel() {
+    public BlockFaucet() {
         super(Material.wood);
         this.setStepSound(soundTypeWood);
         this.setHardness(1.0F);
-        this.setBlockBounds(0.125F, 0.0F, 0.125F, 0.875F, 1.0F, 0.875F);
+        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
     }
 
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
-        if (world.getTileEntity(x, y, z) instanceof TileEntityBarrel tef) {
-            if (tef.isFloorBarrel) {
-                if (tef.facingMeta == 2 || tef.facingMeta == 4) {
-                    this.setBlockBounds(0.0F, 0.0F, 0.125F, 1.0F, 0.75F, 0.875F);
-                } else if (tef.facingMeta == 3 || tef.facingMeta == 1) {
-                    this.setBlockBounds(0.125F, 0.0F, 0.0F, 0.875F, 0.75F, 1.0F);
-                }
+        if (world.getTileEntity(x, y, z) instanceof TileEntityMetaFacing tef) {
+            if (tef.facingMeta == 1) {
+                this.setBlockBounds(0.0F, 0.0F, 0.5F, 1.0F, 1.0F, 1.0F);
+            } else if (tef.facingMeta == 2) {
+                this.setBlockBounds(0.5F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+            } else if (tef.facingMeta == 3) {
+                this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.5F);
+            } else if (tef.facingMeta == 4) {
+                this.setBlockBounds(0.0F, 0.0F, 0.0F, 0.5F, 1.0F, 1.0F);
             } else {
-                this.setBlockBounds(0.125F, 0.0F, 0.125F, 0.875F, 1.0F, 0.875F);
+                this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
             }
         }
     }
@@ -57,12 +58,16 @@ public class BlockBarrel extends BlockContainer {
     @Override
     public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
         float subY, float subZ) {
+        TileEntity te = worldIn.getTileEntity(x, y, z);
+        if (te instanceof TileEntityFaucet tef) {
+            tef.toggleValve();
+        }
         return true;
     }
 
     @Override
     public void registerBlockIcons(IIconRegister reg) {
-        icons[0] = reg.registerIcon(Primal.MODID + ":barrel");
+        icons[0] = reg.registerIcon(Primal.MODID + ":faucet");
         icons[1] = reg.registerIcon(Primal.MODID + ":barrel_top");
     }
 
@@ -76,73 +81,26 @@ public class BlockBarrel extends BlockContainer {
 
     @Override
     public String getUnlocalizedName() {
-        return "tile.primal.barrel";
+        return "tile.primal.faucet";
     }
 
     @Override
     public void onBlockPlacedBy(World worldIn, int x, int y, int z, EntityLivingBase placer, ItemStack itemIn) {
-        ItemStack heldItem = placer.getHeldItem();
-        NBTTagCompound tagCompound = heldItem.getTagCompound();
-        if (tagCompound != null) {
-            TileEntity te = worldIn.getTileEntity(x, y, z);
-            if (te instanceof TileEntityBarrel tef) {
-                tef.readFromNBTInventory(tagCompound);
-            }
-        }
-
         int metayaw = Utils.getMetaYaw(placer.rotationYaw);
         TileEntity te = worldIn.getTileEntity(x, y, z);
-        if (te instanceof TileEntityBarrel tef) {
+        if (te instanceof TileEntityFaucet tef) {
             tef.setFacingMeta(metayaw);
-            if (placer.isSneaking()) {
-                tef.setFloorBarrel(true);
-            } else {
-                tef.setFloorBarrel(false);
-            }
-        }
-
-    }
-
-    @Override
-    public void onBlockPreDestroy(World worldIn, int x, int y, int z, int meta) {
-        ItemStack item = new ItemStack(this, 1, 0);
-        NBTTagCompound tagCompound = new NBTTagCompound();
-        TileEntity te = worldIn.getTileEntity(x, y, z);
-        if (te instanceof TileEntityBarrel tef) {
-            tef.writeToNBTInventory(tagCompound);
-            item.setTagCompound(tagCompound);
-        }
-        dropItemStack(worldIn, x, y, z, item);
-    }
-
-    @Override
-    protected void dropBlockAsItem(World worldIn, int x, int y, int z, ItemStack itemIn) {}
-
-    public void dropItemStack(World world, int x, int y, int z, ItemStack item) {
-        if (item != null && item.stackSize > 0) {
-            EntityItem entityItem = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, item.copy());
-            entityItem.motionX = 0.0D;
-            entityItem.motionY = 0.0D;
-            entityItem.motionZ = 0.0D;
-            spawnEntity(world, entityItem);
-            item.stackSize = 0;
-        }
-    }
-
-    public void spawnEntity(World world, Entity entityItem) {
-        if (!world.isRemote) {
-            world.spawnEntityInWorld((Entity) entityItem);
         }
     }
 
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
-        return new TileEntityBarrel();
+        return new TileEntityFaucet();
     }
 
     @Override
     public int getRenderType() {
-        return Primal.proxy.getBarrelRenderID();
+        return Primal.proxy.getFaucetRenderID();
     }
 
     @Override

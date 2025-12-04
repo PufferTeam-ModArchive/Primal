@@ -253,6 +253,16 @@ public class Utils {
         return true;
     }
 
+    public static ForgeDirection getDirectionFromFacing(int facingMeta) {
+        return switch (facingMeta) {
+            case 1 -> ForgeDirection.SOUTH;
+            case 2 -> ForgeDirection.EAST;
+            case 3 -> ForgeDirection.NORTH;
+            case 4 -> ForgeDirection.WEST;
+            default -> ForgeDirection.UNKNOWN;
+        };
+    }
+
     public static boolean containsStack(ItemStack wild, ItemStack check) {
         if (wild == null || check == null) {
             return check == wild;

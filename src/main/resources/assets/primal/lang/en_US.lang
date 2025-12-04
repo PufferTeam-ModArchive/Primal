@@ -4,6 +4,7 @@ tile.primal.thatch.name=Thatch
 tile.primal.thatch_roof.name=Thatch Roof
 tile.primal.large_vessel.name=Large Vessel
 tile.primal.barrel.name=Barrel
+tile.primal.faucet.name=Faucet
 item.primal.knapping_icon.name=Knapping
 item.primal.pit_kiln_icon.name=Pit Kiln
 item.primal.campfire_icon.name=Campfire

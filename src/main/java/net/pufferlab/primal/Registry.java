@@ -38,6 +38,7 @@ public class Registry {
     public static Block campfire;
     public static Block large_vessel;
     public static Block barrel;
+    public static Block faucet;
     public static Item icons;
     public static Item straw;
     public static Item flint;
@@ -62,6 +63,7 @@ public class Registry {
         campfire = new BlockCampfire();
         large_vessel = new BlockLargeVessel();
         barrel = new BlockBarrel();
+        faucet = new BlockFaucet();
 
         thatch = new BlockThatch();
         thatch_roof = new BlockThatchRoof();
@@ -99,6 +101,8 @@ public class Registry {
         register(TileEntityLargeVessel.class, "large_vessel");
         register(barrel, "barrel");
         register(TileEntityBarrel.class, "barrel");
+        register(faucet, "faucet");
+        register(TileEntityFaucet.class, "faucet");
 
         register(icons, "icon");
         register(straw, "straw");

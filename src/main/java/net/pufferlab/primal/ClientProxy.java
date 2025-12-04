@@ -24,6 +24,7 @@ public class ClientProxy extends CommonProxy {
     int campfireRenderID;
     int largeVesselRenderID;
     int barrelRenderID;
+    int faucetRenderID;
 
     public void registerRenders() {
         pitKilnRenderID = RenderingRegistry.getNextAvailableRenderId();
@@ -33,6 +34,7 @@ public class ClientProxy extends CommonProxy {
         campfireRenderID = RenderingRegistry.getNextAvailableRenderId();
         largeVesselRenderID = RenderingRegistry.getNextAvailableRenderId();
         barrelRenderID = RenderingRegistry.getNextAvailableRenderId();
+        faucetRenderID = RenderingRegistry.getNextAvailableRenderId();
 
         RenderingRegistry.registerBlockHandler(new BlockPitKilnRenderer());
         RenderingRegistry.registerBlockHandler(new BlockLogPileRenderer());
@@ -41,6 +43,7 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerBlockHandler(new BlockCampfireRenderer());
         RenderingRegistry.registerBlockHandler(new BlockLargeVesselRenderer());
         RenderingRegistry.registerBlockHandler(new BlockBarrelRenderer());
+        RenderingRegistry.registerBlockHandler(new BlockFaucetRenderer());
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPitKiln.class, new TileEntityPitKilnRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChoppingLog.class, new TileEntityChoppingLogRenderer());
@@ -49,6 +52,7 @@ public class ClientProxy extends CommonProxy {
         MinecraftForgeClient.registerItemRenderer(Registry.wood, new ItemWoodRenderer());
         MinecraftForgeClient.registerItemRenderer(Registry.clay, new ItemClayRenderer());
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Registry.barrel), new ItemBarrelRenderer());
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Registry.faucet), new ItemFaucetRenderer());
     }
 
     @Override
@@ -99,5 +103,10 @@ public class ClientProxy extends CommonProxy {
     @Override
     public int getBarrelRenderID() {
         return barrelRenderID;
+    }
+
+    @Override
+    public int getFaucetRenderID() {
+        return faucetRenderID;
     }
 }

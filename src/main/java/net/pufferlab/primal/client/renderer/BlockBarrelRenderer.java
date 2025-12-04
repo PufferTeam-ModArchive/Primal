@@ -3,12 +3,14 @@ package net.pufferlab.primal.client.renderer;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.blocks.BlockBarrel;
 import net.pufferlab.primal.client.helper.ModelTESS;
 import net.pufferlab.primal.client.models.ModelBarrel;
 import net.pufferlab.primal.tileentities.TileEntityBarrel;
@@ -61,12 +63,12 @@ public class BlockBarrelRenderer implements ISimpleBlockRenderingHandler {
                     offsetX = -0.5F;
                 }
                 modelBarrel.bb_main.rotateAngleX = (float) (Math.PI / 2);
-            } else if (!tef.isEmpty()) {
+            } else {
                 modelBarrel.top.isHidden = true;
             }
             modelTESS.dumpVertices(tess, x, y, z);
+            double o = Constants.modelConst;
             if (renderPass == 1 && !tef.isFloorBarrel) {
-                modelTESS.dumpVertices(tess, x, y, z);
                 modelTESS.renderFluid(
                     renderer,
                     tess,
@@ -74,13 +76,21 @@ public class BlockBarrelRenderer implements ISimpleBlockRenderingHandler {
                     y,
                     z,
                     stack,
-                    0.125F + Constants.modelConst,
+                    0.125F + o,
                     0.1875F,
-                    0.125F + Constants.modelConst,
-                    0.875F - Constants.modelConst,
+                    0.125F + o,
+                    0.875F - o,
                     height,
-                    0.875F - Constants.modelConst);
+                    0.875F - o,
+                    false);
             } else if (renderPass == 0) {
+                Block blockAbove = world.getBlock(x, y + 1, z);
+                if (blockAbove instanceof BlockBarrel) {
+                    renderer.setRenderBounds(0.0F, 0.875F, 0.0F, 1.0F, 1.0F, 1.0F);
+                    renderer.setOverrideBlockTexture(Blocks.planks.getIcon(0, 1));
+                    renderer.renderStandardBlock(block, x, y, z);
+                    renderer.setOverrideBlockTexture(null);
+                }
                 modelBarrel.render(renderer, tess, block, x, y, z, offsetX, offsetY, offsetZ, 99);
             }
         }

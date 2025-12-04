@@ -189,7 +189,7 @@ public class ModelTESS {
     }
 
     public void renderFluid(RenderBlocks renderblocks, Tessellator tess, int x, int y, int z, FluidStack fs,
-        double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
+        double minX, double minY, double minZ, double maxX, double maxY, double maxZ, boolean renderAllSides) {
         if (fs == null) return;
         Fluid fluid = fs.getFluid();
         if (fluid == null) return;
@@ -212,6 +212,13 @@ public class ModelTESS {
         tess.setColorOpaque_F(r, g, b);
         renderblocks.setRenderBounds(minX, minY, minZ, maxX, maxY, maxZ);
         renderblocks.renderFaceYPos(block, x, y, z, icon);
+        if (renderAllSides) {
+            renderblocks.renderFaceYNeg(block, x, y, z, icon);
+            renderblocks.renderFaceXPos(block, x, y, z, icon);
+            renderblocks.renderFaceXNeg(block, x, y, z, icon);
+            renderblocks.renderFaceZPos(block, x, y, z, icon);
+            renderblocks.renderFaceZNeg(block, x, y, z, icon);
+        }
     }
 
     /*
@@ -222,7 +229,7 @@ public class ModelTESS {
      */
     public void dumpVertices(Tessellator tess, int x, int y, int z) {
         for (int i = 0; i < 4; i++) {
-            tess.addVertexWithUV(x, y, z, 0.1F, 0.1F);
+            tess.addVertex(x, y, z);
         }
     }
 
