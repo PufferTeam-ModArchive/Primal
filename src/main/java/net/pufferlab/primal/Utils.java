@@ -19,6 +19,7 @@ import net.pufferlab.primal.blocks.BlockPile;
 import net.pufferlab.primal.items.ItemDummy;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class Utils {
@@ -153,6 +154,14 @@ public class Utils {
 
     public static ItemStack getEmptyContainer(ItemStack filled) {
         if (filled == null) return null;
+
+        if (Loader.isModLoaded("BiomesOPlenty")) {
+            ItemStack bopEmptyBucket = getItem("BiomesOPlenty:bopBucket:*:1");
+            ItemStack emptyBucket = getItem("minecraft:bucket:0:1");
+            if (Utils.containsStack(filled, bopEmptyBucket)) {
+                return emptyBucket.copy();
+            }
+        }
 
         if (filled.getItem() instanceof IFluidContainerItem) {
             ItemStack copy = filled.copy();
