@@ -181,6 +181,13 @@ public class Utils {
     public static boolean isFluidContainer(ItemStack stack) {
         if (stack == null) return false;
 
+        if (Loader.isModLoaded("WitchingGadgets")) {
+            ItemStack capsule = getItem("WitchingGadgets:item.WG_CrystalFlask:*:*");
+            if (Utils.containsStack(stack, capsule)) {
+                return false;
+            }
+        }
+
         if (stack.getItem() instanceof IFluidContainerItem) {
             return true;
         }
