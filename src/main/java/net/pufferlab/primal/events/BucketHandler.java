@@ -17,22 +17,17 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class BucketHandler {
 
-    public void swingItemPacket(EntityPlayer player) {
+    public void updatePacket(EntityPlayer player) {
         if (!player.worldObj.isRemote) {
             EntityPlayerMP playerMP = (EntityPlayerMP) player;
             Primal.networkWrapper.sendTo(new PacketSwingArm(player), playerMP);
-        }
-    }
-
-    public void updateInventoryClientSide(EntityPlayer player) {
-        if (!player.worldObj.isRemote) {
             ((EntityPlayerMP) player).sendContainerToPlayer(player.inventoryContainer);
         }
     }
 
     @SubscribeEvent
     public void playerInteractEventHandler(PlayerInteractEvent event) {
-        if (!event.world.isRemote && event.entityPlayer.getCurrentEquippedItem() != null
+        if (event.entityPlayer.getCurrentEquippedItem() != null
             && event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK
             && !event.entityPlayer.isSneaking()) {
             if (event.entityPlayer.getCurrentEquippedItem()
@@ -42,28 +37,32 @@ public class BucketHandler {
                     .getItemDamage() == 0) {
                         FluidStack stack = tank.drain(ForgeDirection.getOrientation(event.face), 1000, false);
                         if (stack != null && stack.amount == 1000) {
-                            int meta = bucket.getFluidMeta(stack);
-                            ItemStack itemStack = event.entityPlayer.getCurrentEquippedItem();
-                            itemStack.setItemDamage(meta);
                             tank.drain(ForgeDirection.getOrientation(event.face), 1000, true);
-                            event.entityPlayer.setCurrentItemOrArmor(0, itemStack);
-                            swingItemPacket(event.entityPlayer);
-                            if (event.isCancelable()) event.setCanceled(true);
+                            if (!event.world.isRemote) {
+                                int meta = bucket.getFluidMeta(stack);
+                                ItemStack itemStack = event.entityPlayer.getCurrentEquippedItem();
+                                itemStack.setItemDamage(meta);
+                                event.entityPlayer.setCurrentItemOrArmor(0, itemStack);
+                                updatePacket(event.entityPlayer);
+                                if (event.isCancelable()) event.setCanceled(true);
+                            }
                         }
                     } else {
                         ItemStack item = event.entityPlayer.getCurrentEquippedItem();
                         FluidStack fluid = bucket.getFluid(item);
                         if (fluid != null) {
                             if (tank.fill(ForgeDirection.getOrientation(event.face), fluid, false) == 1000) {
-                                if (bucket.isBreakable(item)) {
-                                    item.stackSize = 0;
-                                } else {
-                                    item.setItemDamage(0);
-                                }
                                 tank.fill(ForgeDirection.getOrientation(event.face), fluid, true);
-                                event.entityPlayer.setCurrentItemOrArmor(0, item);
-                                swingItemPacket(event.entityPlayer);
-                                if (event.isCancelable()) event.setCanceled(true);
+                                if (!event.world.isRemote) {
+                                    if (bucket.isBreakable(item)) {
+                                        item.stackSize = 0;
+                                    } else {
+                                        item.setItemDamage(0);
+                                    }
+                                    event.entityPlayer.setCurrentItemOrArmor(0, item);
+                                    updatePacket(event.entityPlayer);
+                                    if (event.isCancelable()) event.setCanceled(true);
+                                }
                             }
                         }
                     }
@@ -75,12 +74,13 @@ public class BucketHandler {
                         FluidStack stack = tank.drain(ForgeDirection.getOrientation(event.face), 1000, false);
                         if (stack != null && stack.amount == 1000) {
                             tank.drain(ForgeDirection.getOrientation(event.face), 1000, true);
-                            event.entityPlayer.inventory.decrStackSize(event.entityPlayer.inventory.currentItem, 1);
-                            event.entityPlayer.inventory
-                                .addItemStackToInventory(Utils.getStackFromFluid(itemStack, stack));
-                            updateInventoryClientSide(event.entityPlayer);
-                            swingItemPacket(event.entityPlayer);
-                            if (event.isCancelable()) event.setCanceled(true);
+                            if (!event.world.isRemote) {
+                                event.entityPlayer.inventory.decrStackSize(event.entityPlayer.inventory.currentItem, 1);
+                                event.entityPlayer.inventory
+                                    .addItemStackToInventory(Utils.getStackFromFluid(itemStack, stack));
+                                updatePacket(event.entityPlayer);
+                                if (event.isCancelable()) event.setCanceled(true);
+                            }
                         }
                     } else {
                         ItemStack item = event.entityPlayer.getCurrentEquippedItem();
@@ -88,11 +88,13 @@ public class BucketHandler {
                         if (fluid != null) {
                             if (tank.fill(ForgeDirection.getOrientation(event.face), fluid, false) == 1000) {
                                 tank.fill(ForgeDirection.getOrientation(event.face), fluid, true);
-                                event.entityPlayer.inventory.decrStackSize(event.entityPlayer.inventory.currentItem, 1);
-                                event.entityPlayer.inventory.addItemStackToInventory(Utils.getEmptyContainer(item));
-                                updateInventoryClientSide(event.entityPlayer);
-                                swingItemPacket(event.entityPlayer);
-                                if (event.isCancelable()) event.setCanceled(true);
+                                if (!event.world.isRemote) {
+                                    event.entityPlayer.inventory
+                                        .decrStackSize(event.entityPlayer.inventory.currentItem, 1);
+                                    event.entityPlayer.inventory.addItemStackToInventory(Utils.getEmptyContainer(item));
+                                    updatePacket(event.entityPlayer);
+                                    if (event.isCancelable()) event.setCanceled(true);
+                                }
                             }
                         }
                     }

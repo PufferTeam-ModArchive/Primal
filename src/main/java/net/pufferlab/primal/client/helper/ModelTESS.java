@@ -10,6 +10,8 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.Vec3;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 
 public class ModelTESS {
 
@@ -184,6 +186,43 @@ public class ModelTESS {
                 }
             }
         }
+    }
+
+    public void renderFluid(RenderBlocks renderblocks, Tessellator tess, int x, int y, int z, FluidStack fs,
+        double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
+        if (fs == null) return;
+        Fluid fluid = fs.getFluid();
+        if (fluid == null) return;
+
+        Block block = fs.getFluid()
+            .getBlock();
+        if (block == null) return;
+
+        IIcon icon = fluid.getStillIcon();
+        if (icon == null) icon = fluid.getIcon();
+        if (icon == null) icon = block.getIcon(0, 0);
+        if (icon == null) return;
+
+        int color = fluid.getColor(fs);
+        tess.setBrightness(block.getMixedBrightnessForBlock(renderblocks.blockAccess, x, y, z));
+
+        float r = (color >> 16 & 255) / 255f;
+        float g = (color >> 8 & 255) / 255f;
+        float b = (color & 255) / 255f;
+        tess.setColorOpaque_F(r, g, b);
+
+        renderblocks.setRenderBounds(minX, minY, minZ, maxX, maxY, maxZ);
+        renderblocks.setOverrideBlockTexture(icon);
+        renderblocks.renderFaceYPos(block, x, y, z, icon);
+        // renderblocks.renderFaceYNeg(block, x, y, z, icon);
+
+        // renderblocks.renderFaceZPos(block, x, y, z, icon);
+        // renderblocks.renderFaceZNeg(block, x, y, z, icon);
+
+        // renderblocks.renderFaceXPos(block, x, y, z, icon);
+        // renderblocks.renderFaceXNeg(block, x, y, z, icon);
+
+        renderblocks.setOverrideBlockTexture(null);
     }
 
     public double[] addEpsilonOffset(double[] coords) {

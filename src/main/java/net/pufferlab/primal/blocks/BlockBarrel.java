@@ -23,6 +23,7 @@ public class BlockBarrel extends BlockContainer {
 
     public BlockBarrel() {
         super(Material.wood);
+        this.setStepSound(soundTypeWood);
         this.setHardness(1.0F);
         this.setBlockBounds(0.125F, 0.0F, 0.125F, 0.875F, 1.0F, 0.875F);
     }
