@@ -210,19 +210,20 @@ public class ModelTESS {
         float g = (color >> 8 & 255) / 255f;
         float b = (color & 255) / 255f;
         tess.setColorOpaque_F(r, g, b);
-
         renderblocks.setRenderBounds(minX, minY, minZ, maxX, maxY, maxZ);
-        renderblocks.setOverrideBlockTexture(icon);
         renderblocks.renderFaceYPos(block, x, y, z, icon);
-        // renderblocks.renderFaceYNeg(block, x, y, z, icon);
+    }
 
-        // renderblocks.renderFaceZPos(block, x, y, z, icon);
-        // renderblocks.renderFaceZNeg(block, x, y, z, icon);
-
-        // renderblocks.renderFaceXPos(block, x, y, z, icon);
-        // renderblocks.renderFaceXNeg(block, x, y, z, icon);
-
-        renderblocks.setOverrideBlockTexture(null);
+    /*
+     * --- CRASH FIX ----
+     * Fix Vertex Crash (When using two different render pass);
+     * This code is only used for that.
+     * https://forums.minecraftforge.net/topic/22139-isbrh-alpha-blending-inconsistencies/
+     */
+    public void dumpVertices(Tessellator tess, int x, int y, int z) {
+        for (int i = 0; i < 4; i++) {
+            tess.addVertexWithUV(x, y, z, 0.1F, 0.1F);
+        }
     }
 
     public double[] addEpsilonOffset(double[] coords) {
