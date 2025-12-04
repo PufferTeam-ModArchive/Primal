@@ -2,9 +2,8 @@ package net.pufferlab.primal.inventory.container;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.pufferlab.primal.Registry;
+import net.pufferlab.primal.Utils;
 
 public class SlotLargeVessel extends Slot {
 
@@ -13,8 +12,7 @@ public class SlotLargeVessel extends Slot {
     }
 
     public boolean isItemValid(ItemStack stack) {
-        Item item = stack.getItem();
-        if (item == Item.getItemFromBlock(Registry.large_vessel)) {
+        if (Utils.containsOreDict(stack, "itemContainer")) {
             return false;
         }
         return true;

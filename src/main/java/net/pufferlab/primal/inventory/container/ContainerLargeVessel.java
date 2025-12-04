@@ -4,15 +4,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.pufferlab.primal.Registry;
+import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.TileEntityLargeVessel;
 
 public class ContainerLargeVessel extends Container {
 
     public TileEntityLargeVessel tileLargeVessel;
-    private final Item itemLargeVessel = Item.getItemFromBlock(Registry.large_vessel);
 
     public ContainerLargeVessel(IInventory inv, TileEntityLargeVessel te) {
         for (int i = 0; i < 3; ++i) {
@@ -48,7 +46,7 @@ public class ContainerLargeVessel extends Container {
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
 
-            if (itemstack.getItem() == itemLargeVessel) return null;
+            if (Utils.containsOreDict(itemstack, "itemContainer")) return null;
 
             if (index < 9) {
                 if (!this.mergeItemStack(itemstack1, 9, 45, true)) {

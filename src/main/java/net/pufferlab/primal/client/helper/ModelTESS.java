@@ -18,7 +18,7 @@ public class ModelTESS {
     static double epsilon = 2e-5;
 
     public void renderBlock(RenderBlocks renderblocks, Tessellator tess, Block block, ModelRenderer renderer,
-        float scale, int x, int y, int z, int index) {
+        float scale, int x, int y, int z, double offsetX, double offsetY, double offsetZ, int index) {
 
         if (!renderer.isHidden && renderer.showModel) {
 
@@ -45,7 +45,7 @@ public class ModelTESS {
                     child.rotationPointZ += renderer.rotationPointZ;
 
                     // Recurse
-                    renderBlock(renderblocks, tess, block, child, scale, x, y, z, index);
+                    renderBlock(renderblocks, tess, block, child, scale, x, y, z, offsetX, offsetY, offsetZ, index);
 
                     // Restore child state
                     child.rotateAngleX = oldRotateX;
@@ -176,9 +176,9 @@ public class ModelTESS {
                             z2v += renderer.rotationPointZ * scale;
 
                             // --- Apply world offset ---
-                            double vx = x3 + x + 0.5;
-                            double vy = y3 + y;
-                            double vz = z2v + z + 0.5;
+                            double vx = x3 + x + 0.5 + offsetX;
+                            double vy = y3 + y + offsetY;
+                            double vz = z2v + z + 0.5 + offsetZ;
 
                             tess.addVertexWithUV(vx, vy, vz, u, v);
                         }

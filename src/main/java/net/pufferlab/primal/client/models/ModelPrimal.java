@@ -30,7 +30,25 @@ public abstract class ModelPrimal extends ModelBase {
     }
 
     public void render(RenderBlocks renderblocks, Tessellator tess, Block block, int x, int y, int z, int index) {
-        modelTESS.renderBlock(renderblocks, tess, block, bb_main, Constants.modelConst, x, y, z, index);
+        modelTESS
+            .renderBlock(renderblocks, tess, block, bb_main, Constants.modelConst, x, y, z, 0.0F, 0.0F, 0.0F, index);
+    }
+
+    public void render(RenderBlocks renderblocks, Tessellator tess, Block block, int x, int y, int z, double offsetX,
+        double offsetY, double offsetZ, int index) {
+        modelTESS.renderBlock(
+            renderblocks,
+            tess,
+            block,
+            bb_main,
+            Constants.modelConst,
+            x,
+            y,
+            z,
+            offsetX,
+            offsetY,
+            offsetZ,
+            index);
     }
 
     public String getName() {
@@ -39,6 +57,11 @@ public abstract class ModelPrimal extends ModelBase {
 
     public void bindTex() {
         Minecraft.getMinecraft().renderEngine.bindTexture(Primal.asResource("textures/" + getName() + ".png"));
+    }
+
+    public void setFacing(int meta) {
+        int meta2 = meta + 1;
+        bb_main.rotateAngleY = (float) ((Math.toRadians(90 * meta2)) % 360);
     }
 
     public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {

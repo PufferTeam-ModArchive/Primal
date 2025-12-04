@@ -40,11 +40,32 @@ public class BlockBarrelRenderer implements ISimpleBlockRenderingHandler {
             int renderPass = ForgeHooksClient.getWorldRenderPass();
             FluidStack stack = tef.getFluidStack();
             float height = tef.getFillLevel(0.1875F, 0.875F);
-            if (!tef.isEmpty()) {
+            int meta = tef.facingMeta;
+            modelBarrel.setFacing(meta);
+            double offsetX = 0.0F;
+            double offsetY = 0.0F;
+            double offsetZ = 0.0F;
+            modelBarrel.bb_main.rotateAngleX = 0.0F;
+            if (tef.isFloorBarrel) {
+                offsetY = 0.5F - 0.125F;
+                if (tef.facingMeta == 1) {
+                    offsetZ = 0.5F;
+                }
+                if (tef.facingMeta == 2) {
+                    offsetX = 0.5F;
+                }
+                if (tef.facingMeta == 3) {
+                    offsetZ = -0.5F;
+                }
+                if (tef.facingMeta == 4) {
+                    offsetX = -0.5F;
+                }
+                modelBarrel.bb_main.rotateAngleX = (float) (Math.PI / 2);
+            } else if (!tef.isEmpty()) {
                 modelBarrel.top.isHidden = true;
             }
             modelTESS.dumpVertices(tess, x, y, z);
-            if (renderPass == 1) {
+            if (renderPass == 1 && !tef.isFloorBarrel) {
                 modelTESS.dumpVertices(tess, x, y, z);
                 modelTESS.renderFluid(
                     renderer,
@@ -60,7 +81,7 @@ public class BlockBarrelRenderer implements ISimpleBlockRenderingHandler {
                     height,
                     0.875F - Constants.modelConst);
             } else if (renderPass == 0) {
-                modelBarrel.render(renderer, tess, block, x, y, z, 99);
+                modelBarrel.render(renderer, tess, block, x, y, z, offsetX, offsetY, offsetZ, 99);
             }
         }
         return true;

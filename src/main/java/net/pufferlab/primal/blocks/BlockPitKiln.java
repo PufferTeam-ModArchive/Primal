@@ -91,7 +91,7 @@ public class BlockPitKiln extends BlockContainer {
                     left = true;
                 }
 
-                if (Utils.containsOreDict(heldItem, "itemHeavy") || (tef.getInventoryStack(4) != null)) {
+                if (Utils.containsOreDict(heldItem, "itemLarge") || (tef.getInventoryStack(4) != null)) {
                     if (tef.getInventoryStack(0) == null && tef.getInventoryStack(1) == null
                         && tef.getInventoryStack(2) == null
                         && tef.getInventoryStack(3) == null) {

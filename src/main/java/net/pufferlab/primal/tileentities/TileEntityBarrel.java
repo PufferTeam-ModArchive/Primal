@@ -53,7 +53,8 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
     @Override
     public void updateEntity() {
         super.updateEntity();
-        if (worldObj.isRaining() && worldObj.canBlockSeeTheSky(this.xCoord, this.yCoord, this.zCoord)) {
+        if (worldObj.isRaining() && worldObj.canBlockSeeTheSky(this.xCoord, this.yCoord, this.zCoord)
+            && !this.isFloorBarrel) {
             this.timePassed++;
             if (this.timePassed > 20) {
                 fill(ForgeDirection.UP, waterFluidStack, true);

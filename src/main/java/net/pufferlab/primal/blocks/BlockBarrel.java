@@ -1,5 +1,7 @@
 package net.pufferlab.primal.blocks;
 
+import java.util.List;
+
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -10,12 +12,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.TileEntityBarrel;
+import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 
 public class BlockBarrel extends BlockContainer {
 
@@ -29,8 +34,34 @@ public class BlockBarrel extends BlockContainer {
     }
 
     @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+        if (world.getTileEntity(x, y, z) instanceof TileEntityBarrel tef) {
+            if (tef.isFloorBarrel) {
+                if (tef.facingMeta == 2 || tef.facingMeta == 4) {
+                    this.setBlockBounds(0.0F, 0.0F, 0.125F, 1.0F, 0.75F, 0.875F);
+                } else if (tef.facingMeta == 3 || tef.facingMeta == 1) {
+                    this.setBlockBounds(0.125F, 0.0F, 0.0F, 0.875F, 0.75F, 1.0F);
+                }
+            } else {
+                this.setBlockBounds(0.125F, 0.0F, 0.125F, 0.875F, 1.0F, 0.875F);
+            }
+        }
+    }
+
+    @Override
+    public void addCollisionBoxesToList(World worldIn, int x, int y, int z, AxisAlignedBB mask,
+        List<AxisAlignedBB> list, Entity collider) {
+        this.setBlockBoundsBasedOnState(worldIn, x, y, z);
+        super.addCollisionBoxesToList(worldIn, x, y, z, mask, list, collider);
+    }
+
+    @Override
     public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
         float subY, float subZ) {
+        TileEntity te = worldIn.getTileEntity(x, y, z);
+        if (te instanceof TileEntityMetaFacing tef) {
+            System.out.println(tef.facingMeta);
+        }
         return true;
     }
 
@@ -63,6 +94,18 @@ public class BlockBarrel extends BlockContainer {
                 tef.readFromNBTInventory(tagCompound);
             }
         }
+
+        int metayaw = Utils.getMetaYaw(placer.rotationYaw);
+        TileEntity te = worldIn.getTileEntity(x, y, z);
+        if (te instanceof TileEntityBarrel tef) {
+            tef.setFacingMeta(metayaw);
+            if (placer.isSneaking()) {
+                tef.setFloorBarrel(true);
+            } else {
+                tef.setFloorBarrel(false);
+            }
+        }
+
     }
 
     @Override
