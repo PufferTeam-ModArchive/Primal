@@ -22,7 +22,7 @@ import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 
 public class BlockFaucet extends BlockContainer {
 
-    public IIcon[] icons = new IIcon[2];
+    public IIcon[] icons = new IIcon[3];
 
     public BlockFaucet() {
         super(Material.wood);
@@ -69,12 +69,16 @@ public class BlockFaucet extends BlockContainer {
     public void registerBlockIcons(IIconRegister reg) {
         icons[0] = reg.registerIcon(Primal.MODID + ":faucet");
         icons[1] = reg.registerIcon(Primal.MODID + ":barrel_top");
+        icons[2] = reg.registerIcon(Primal.MODID + ":valve");
     }
 
     @Override
     public IIcon getIcon(int side, int meta) {
         if (side == 99) {
             return icons[0];
+        }
+        if (side == 98) {
+            return icons[2];
         }
         return icons[1];
     }

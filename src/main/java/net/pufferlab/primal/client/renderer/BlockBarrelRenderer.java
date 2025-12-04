@@ -15,8 +15,6 @@ import net.pufferlab.primal.client.helper.ModelTESS;
 import net.pufferlab.primal.client.models.ModelBarrel;
 import net.pufferlab.primal.tileentities.TileEntityBarrel;
 
-import org.lwjgl.opengl.GL11;
-
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 public class BlockBarrelRenderer implements ISimpleBlockRenderingHandler {
@@ -25,12 +23,7 @@ public class BlockBarrelRenderer implements ISimpleBlockRenderingHandler {
     ModelTESS modelTESS = new ModelTESS();
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
-        GL11.glPushMatrix();
-        GL11.glPushMatrix();
-        modelBarrel.render();
-        GL11.glPopMatrix();
-    }
+    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {}
 
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
@@ -99,7 +92,7 @@ public class BlockBarrelRenderer implements ISimpleBlockRenderingHandler {
 
     @Override
     public boolean shouldRender3DInInventory(int modelId) {
-        return true;
+        return false;
     }
 
     @Override

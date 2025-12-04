@@ -15,14 +15,13 @@ public class ModelFaucet extends ModelPrimal {
         bb_main.cubeList.add(new ModelBox(bb_main, 16, 14, -10.0F + 8F, 6.0F, 6.0F - 8F, 4, 3, 4, 0.0F));
         bb_main.cubeList.add(new ModelBox(bb_main, 0, 22, -11.0F + 8F, 5.0F, 5.0F - 8F, 1, 2, 6, 0.0F));
         bb_main.cubeList.add(new ModelBox(bb_main, 0, 22, -6.0F + 8F, 5.0F, 5.0F - 8F, 1, 2, 6, 0.0F));
-        bb_main.cubeList.add(new ModelBox(bb_main, 16, 22, -10.0F + 8F, 5.0F, 5.0F - 8F, 4, 2, 1, 0.0F));
-        bb_main.cubeList.add(new ModelBox(bb_main, 16, 22, -10.0F + 8F, 5.0F, 10.0F - 8F, 4, 2, 1, 0.0F));
+        bb_main.cubeList.add(new ModelBox(bb_main, 16, 21, -10.0F + 8F, 5.0F, 5.0F - 8F, 4, 2, 1, 0.0F));
+        bb_main.cubeList.add(new ModelBox(bb_main, 16, 21, -10.0F + 8F, 5.0F, 10.0F - 8F, 4, 2, 1, 0.0F));
         bb_main.cubeList.add(new ModelBox(bb_main, 20, 3, -9.0F + 8F, 13.0F, 0.0f, 2, 1, 2, 0.0F));
 
         valve = new ModelRenderer(this);
         valve.setRotationPoint(0.0F, 0.0F, 0.0F);
         valve.cubeList.add(new ModelBox(valve, 0, 0, -3.0F, 14.01F, -2.0F, 6, 0, 6, 0.0F));
-        bb_main.addChild(valve);
     }
 
     @Override

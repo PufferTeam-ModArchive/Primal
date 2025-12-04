@@ -10,24 +10,19 @@ import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.helper.ModelTESS;
 import net.pufferlab.primal.client.models.ModelFaucet;
+import net.pufferlab.primal.client.models.ModelValve;
 import net.pufferlab.primal.tileentities.TileEntityFaucet;
-
-import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 public class BlockFaucetRenderer implements ISimpleBlockRenderingHandler {
 
     ModelFaucet modelFaucet = new ModelFaucet();
+    ModelValve modelValve = new ModelValve();
     ModelTESS modelTESS = new ModelTESS();
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
-        GL11.glPushMatrix();
-        GL11.glTranslatef(0.0F, -0.5F, 0.0F);
-        modelFaucet.render();
-        GL11.glPopMatrix();
-    }
+    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {}
 
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
@@ -38,12 +33,48 @@ public class BlockFaucetRenderer implements ISimpleBlockRenderingHandler {
         if (te instanceof TileEntityFaucet tef) {
             int meta = tef.facingMeta;
             modelFaucet.setFacing(meta);
-            modelTESS.dumpVertices(tess, x, y, z);
             FluidStack stack = tef.getFluidStack();
+            double offsetX = 0.0F;
+            double offsetY = -0.25F;
+            double offsetZ = 0.0F;
+            if (tef.getExtractTile() != null) {
+                if (tef.facingMeta == 1) {
+                    offsetZ = 0.0625F;
+                }
+                if (tef.facingMeta == 2) {
+                    offsetX = 0.0625F;
+                }
+                if (tef.facingMeta == 3) {
+                    offsetZ = -0.0625F;
+                }
+                if (tef.facingMeta == 4) {
+                    offsetX = -0.0625F;
+                }
+            }
+            modelValve.bb_main.rotateAngleY = 0;
+            if (tef.isActive) {
+                modelValve.bb_main.rotateAngleY = (float) (Math.PI / 4);
+            }
+            modelTESS.dumpVertices(tess, x, y, z);
             if (renderPass == 1 && tef.isActive == true && tef.getInputTile() != null && tef.getExtractTile() != null) {
-                modelTESS.renderFluid(renderer, tess, x, y, z, stack, 0.375, -0.8F, 0.375, 0.625, 0.125F, 0.625, true);
-            } else if (renderPass == 0) {
-                modelFaucet.render(renderer, tess, block, x, y, z, 0.0F, -0.2F, 0.0F, 99);
+                modelTESS.renderFluid(
+                    renderer,
+                    tess,
+                    x,
+                    y,
+                    z,
+                    stack,
+                    0.375 + offsetX,
+                    -0.8F * tef.flowLevel,
+                    0.375 + offsetZ,
+                    0.625 + offsetX,
+                    0.125F,
+                    0.625 + offsetZ,
+                    true);
+            }
+            if (renderPass == 0) {
+                modelFaucet.render(renderer, tess, block, x, y, z, offsetX, offsetY, offsetZ, 99);
+                modelValve.render(renderer, tess, block, x, y, z, offsetX * 2, offsetY, offsetZ * 2, 98);
             }
         }
         return true;
@@ -51,7 +82,7 @@ public class BlockFaucetRenderer implements ISimpleBlockRenderingHandler {
 
     @Override
     public boolean shouldRender3DInInventory(int modelId) {
-        return true;
+        return false;
     }
 
     @Override

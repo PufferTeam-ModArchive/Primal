@@ -1,5 +1,7 @@
 package net.pufferlab.primal.tileentities;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -11,6 +13,7 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
     public boolean isActive = false;
 
     public int timePassed;
+    public int flowLevel;
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
@@ -18,6 +21,7 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
 
         this.isActive = tag.getBoolean("isActive");
         this.timePassed = tag.getInteger("timePassed");
+        this.flowLevel = tag.getInteger("flowLevel");
     }
 
     @Override
@@ -26,18 +30,21 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
 
         tag.setBoolean("isActive", this.isActive);
         tag.setInteger("timePassed", this.timePassed);
+        tag.setInteger("flowLevel", this.flowLevel);
     }
 
     @Override
     public void readFromNBTPacket(NBTTagCompound tag) {
         super.readFromNBTPacket(tag);
         this.isActive = tag.getBoolean("isActive");
+        this.flowLevel = tag.getInteger("flowLevel");
     }
 
     @Override
     public void writeToNBTPacket(NBTTagCompound tag) {
         super.writeToNBTPacket(tag);
         tag.setBoolean("isActive", this.isActive);
+        tag.setInteger("flowLevel", this.flowLevel);
     }
 
     public void toggleValve() {
@@ -65,8 +72,21 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
             if (tef.isFloorBarrel) {
                 return null;
             }
+            this.flowLevel = 1;
+            return te;
         }
-        return te;
+        Block block = this.worldObj.getBlock(this.xCoord, this.yCoord - 1, this.zCoord);
+        if(block.getMaterial() == Material.air) {
+            TileEntity te2 = this.worldObj.getTileEntity(this.xCoord, this.yCoord - 2, this.zCoord);
+            if (te2 instanceof TileEntityBarrel tef2) {
+                if (tef2.isFloorBarrel) {
+                    return null;
+                }
+                this.flowLevel = 2;
+                return te2;
+            }
+        }
+        return null;
     }
 
     public FluidStack getFluidStack() {

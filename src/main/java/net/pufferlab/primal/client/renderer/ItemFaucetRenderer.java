@@ -3,12 +3,14 @@ package net.pufferlab.primal.client.renderer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 import net.pufferlab.primal.client.models.ModelFaucet;
+import net.pufferlab.primal.client.models.ModelValve;
 
 import org.lwjgl.opengl.GL11;
 
 public class ItemFaucetRenderer implements IItemRenderer {
 
     ModelFaucet modelFaucet = new ModelFaucet();
+    ModelValve modelValve = new ModelValve();
 
     int faucetMeta = 0;
 
@@ -36,10 +38,12 @@ public class ItemFaucetRenderer implements IItemRenderer {
                 GL11.glTranslatef(0.5F, 0.0F, 0.5F);
             }
             if (type == ItemRenderType.INVENTORY) {
-                GL11.glTranslatef(0.0F, -0.5F, 0.0F);
+                GL11.glScalef(1.3F, 1.3F, 1.3F);
+                GL11.glTranslatef(-0.18F, -0.8F, 0.0F);
             }
             modelFaucet.setFacing(3);
             modelFaucet.render();
+            modelValve.render();
             GL11.glPopMatrix();
         }
     }
