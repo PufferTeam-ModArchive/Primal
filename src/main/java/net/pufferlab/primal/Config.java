@@ -9,6 +9,7 @@ public class Config {
     public static String CATEGORY_TECHNICAL = "technical";
     public static boolean enableTechnical;
     public static int vanillaToolsRemovalMode;
+    public static float stickDropChance;
 
     public static void synchronizeConfiguration(File configFile) {
         Configuration configuration = new Configuration(configFile);
@@ -20,6 +21,13 @@ public class Config {
             0,
             2,
             "0: Don't remove vanilla tools. 1: Remove the recipes. 2: Keep the recipes but make tools unusable.");
+        stickDropChance = configuration.getFloat(
+            "leaveStickDropChance",
+            Configuration.CATEGORY_GENERAL,
+            0.166F,
+            0.0F,
+            1.0F,
+            "The chance from 0 (0%) to 1 (100%) for a stick to drop from leaves. Putting this to 0 will stop dropping.");
 
         enableTechnical = configuration.getBoolean(
             "enableTechnicalChanges",

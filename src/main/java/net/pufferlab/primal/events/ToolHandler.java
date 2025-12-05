@@ -85,8 +85,10 @@ public class ToolHandler {
 
     @SubscribeEvent
     public void harvestDropsEvent(BlockEvent.HarvestDropsEvent event) {
+        int chance = (int) Math.floor(1 / Config.stickDropChance);
+
         if (event.block instanceof BlockLeavesBase) {
-            if (event.world.rand.nextInt(6) == 0) {
+            if (event.world.rand.nextInt(chance) == 0) {
                 event.drops.add(new ItemStack(Items.stick, 1, 0));
             }
         }
