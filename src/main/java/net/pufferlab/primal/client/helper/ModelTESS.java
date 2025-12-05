@@ -190,6 +190,12 @@ public class ModelTESS {
 
     public void renderFluid(RenderBlocks renderblocks, Tessellator tess, int x, int y, int z, FluidStack fs,
         double minX, double minY, double minZ, double maxX, double maxY, double maxZ, boolean renderAllSides) {
+        renderFluid(renderblocks, tess, x, y, z, fs, minX, minY, minZ, maxX, maxY, maxZ, renderAllSides, false);
+    }
+
+    public void renderFluid(RenderBlocks renderblocks, Tessellator tess, int x, int y, int z, FluidStack fs,
+        double minX, double minY, double minZ, double maxX, double maxY, double maxZ, boolean renderAllSides,
+        boolean isFlowing) {
         if (fs == null) return;
         Fluid fluid = fs.getFluid();
         if (fluid == null) return;
@@ -199,6 +205,9 @@ public class ModelTESS {
         if (block == null) return;
 
         IIcon icon = fluid.getStillIcon();
+        if (isFlowing) {
+            icon = fluid.getFlowingIcon();
+        }
         if (icon == null) icon = fluid.getIcon();
         if (icon == null) icon = block.getIcon(0, 0);
         if (icon == null) return;

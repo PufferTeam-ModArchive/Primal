@@ -8,9 +8,11 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.client.helper.ModelTESS;
 import net.pufferlab.primal.client.models.ModelFaucet;
 import net.pufferlab.primal.client.models.ModelValve;
+import net.pufferlab.primal.tileentities.TileEntityBarrel;
 import net.pufferlab.primal.tileentities.TileEntityFaucet;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -35,21 +37,41 @@ public class BlockFaucetRenderer implements ISimpleBlockRenderingHandler {
             modelFaucet.setFacing(meta);
             FluidStack stack = tef.getFluidStack();
             double offsetX = 0.0F;
-            double offsetY = -0.25F;
+            double offsetY = -0.1875F;
             double offsetZ = 0.0F;
-            if (tef.getExtractTile() != null) {
+            double vOffsetX = 0.0F;
+            double vOffsetZ = 0.0F;
+            TileEntity extractTe = tef.getExtractTile();
+            if (extractTe instanceof TileEntityBarrel tef2) {
+                offsetY = -0.25F;
+                float offset = 0.0F;
+                if (!Utils.isSimpleAxisConnected(tef.facingMeta, tef2.facingMeta)) {
+                    offset = 0.0625F;
+                }
                 if (tef.facingMeta == 1) {
-                    offsetZ = 0.0625F;
+                    offsetZ = 0.0625F + offset;
                 }
                 if (tef.facingMeta == 2) {
-                    offsetX = 0.0625F;
+                    offsetX = 0.0625F + offset;
                 }
                 if (tef.facingMeta == 3) {
-                    offsetZ = -0.0625F;
+                    offsetZ = -0.0625F - offset;
                 }
                 if (tef.facingMeta == 4) {
-                    offsetX = -0.0625F;
+                    offsetX = -0.0625F - offset;
                 }
+            }
+            if (tef.facingMeta == 1) {
+                vOffsetZ = 0.0625F;
+            }
+            if (tef.facingMeta == 2) {
+                vOffsetX = 0.0625F;
+            }
+            if (tef.facingMeta == 3) {
+                vOffsetZ = -0.0625F;
+            }
+            if (tef.facingMeta == 4) {
+                vOffsetX = -0.0625F;
             }
             modelValve.bb_main.rotateAngleY = 0;
             if (tef.isActive) {
@@ -70,11 +92,12 @@ public class BlockFaucetRenderer implements ISimpleBlockRenderingHandler {
                     0.625 + offsetX,
                     0.125F,
                     0.625 + offsetZ,
+                    true,
                     true);
             }
             if (renderPass == 0) {
                 modelFaucet.render(renderer, tess, block, x, y, z, offsetX, offsetY, offsetZ, 99);
-                modelValve.render(renderer, tess, block, x, y, z, offsetX * 2, offsetY, offsetZ * 2, 98);
+                modelValve.render(renderer, tess, block, x, y, z, offsetX + vOffsetX, offsetY, offsetZ + vOffsetZ, 98);
             }
         }
         return true;

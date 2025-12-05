@@ -289,6 +289,18 @@ public class Utils {
         };
     }
 
+    public static int getSimpleAxisFromFacing(int facingMeta) {
+        return switch (facingMeta) {
+            case 1, 3 -> 1;
+            case 2, 4 -> 2;
+            default -> 0;
+        };
+    }
+
+    public static boolean isSimpleAxisConnected(int facingMeta, int facingMeta2) {
+        return getSimpleAxisFromFacing(facingMeta) == getSimpleAxisFromFacing(facingMeta2);
+    }
+
     public static boolean containsStack(ItemStack wild, ItemStack check) {
         if (wild == null || check == null) {
             return check == wild;
