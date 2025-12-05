@@ -125,13 +125,14 @@ public class Utils {
 
     public static FluidStack getFluidFromStack(ItemStack stack) {
         if (stack == null) return null;
+        ItemStack stack2 = stack.copy();
+        stack2.stackSize = 1;
 
-        if (stack.getItem() instanceof IFluidContainerItem) {
-            IFluidContainerItem item = (IFluidContainerItem) stack.getItem();
-            return item.getFluid(stack);
+        if (stack2.getItem() instanceof IFluidContainerItem item) {
+            return item.getFluid(stack2);
         }
 
-        return FluidContainerRegistry.getFluidForFilledItem(stack);
+        return FluidContainerRegistry.getFluidForFilledItem(stack2);
     }
 
     public static ItemStack getStackFromFluid(ItemStack emptyContainer, FluidStack fluid) {
@@ -143,13 +144,16 @@ public class Utils {
 
             int filledAmount = item.fill(filled, fluid, true);
             if (filledAmount > 0) {
+                filled.stackSize = 1;
                 return filled;
             }
 
             return null;
         }
 
-        return FluidContainerRegistry.fillFluidContainer(fluid, emptyContainer);
+        ItemStack stack = FluidContainerRegistry.fillFluidContainer(fluid, emptyContainer);
+        stack.stackSize = 1;
+        return stack;
     }
 
     public static ItemStack getEmptyContainer(ItemStack filled) {
@@ -163,15 +167,27 @@ public class Utils {
             }
         }
 
+        if (Loader.isModLoaded("WitchingGadgets")) {
+            ItemStack capsule = getItem("WitchingGadgets:item.WG_CrystalFlask:*:1");
+            if (Utils.containsStack(filled, capsule)) {
+                capsule.stackTagCompound = null;
+                capsule.setItemDamage(0);
+                capsule.stackSize = 1;
+                return capsule;
+            }
+        }
+
         if (filled.getItem() instanceof IFluidContainerItem) {
             ItemStack copy = filled.copy();
             IFluidContainerItem item = (IFluidContainerItem) copy.getItem();
             item.drain(copy, Integer.MAX_VALUE, true);
+            copy.stackSize = 1;
             return copy;
         }
 
         ItemStack drained = FluidContainerRegistry.drainFluidContainer(filled);
         if (drained != null) {
+            drained.stackSize = 1;
             return drained;
         }
 
@@ -180,13 +196,6 @@ public class Utils {
 
     public static boolean isFluidContainer(ItemStack stack) {
         if (stack == null) return false;
-
-        if (Loader.isModLoaded("WitchingGadgets")) {
-            ItemStack capsule = getItem("WitchingGadgets:item.WG_CrystalFlask:*:*");
-            if (Utils.containsStack(stack, capsule)) {
-                return false;
-            }
-        }
 
         if (stack.getItem() instanceof IFluidContainerItem) {
             return true;

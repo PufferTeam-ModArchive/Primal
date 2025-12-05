@@ -13,6 +13,7 @@ import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.items.ItemBucketCeramic;
 import net.pufferlab.primal.tileentities.TileEntityFluidInventory;
 
+import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class BucketHandler {
@@ -29,7 +30,8 @@ public class BucketHandler {
     public void playerInteractEventHandler(PlayerInteractEvent event) {
         if (event.entityPlayer.getCurrentEquippedItem() != null
             && event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK
-            && !event.entityPlayer.isSneaking()) {
+            && !event.entityPlayer.isSneaking()
+            && event.useItem != Event.Result.DENY) {
             if (event.entityPlayer.getCurrentEquippedItem()
                 .getItem() instanceof ItemBucketCeramic bucket) {
                 TileEntity te = event.world.getTileEntity(event.x, event.y, event.z);
