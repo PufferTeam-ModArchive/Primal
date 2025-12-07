@@ -129,11 +129,12 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
             TileEntity teBel = getInputTile();
             if (teAdj instanceof TileEntityBarrel tef) {
                 if (teBel instanceof TileEntityBarrel tef2) {
-                    if ((Utils.containsStack(tef.getFluidStackRelative(), tef2.getFluidStackRelative())) || tef2.getFluidStack() == null) {
-                            FluidStack fluid = tef.drain(Utils.getDirectionFromFacing(this.facingMeta), 100, true);
-                            tef2.fill(ForgeDirection.UP, fluid, true);
-                            this.updateTE();
-                            this.timePassed = 0;
+                    if ((Utils.containsStack(tef.getFluidStackRelative(), tef2.getFluidStackRelative()))
+                        || tef2.getFluidStack() == null) {
+                        FluidStack fluid = tef.drain(Utils.getDirectionFromFacing(this.facingMeta), 100, true);
+                        tef2.fill(ForgeDirection.UP, fluid, true);
+                        this.updateTE();
+                        this.timePassed = 0;
                     }
                 }
             }

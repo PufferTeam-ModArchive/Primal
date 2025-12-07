@@ -97,7 +97,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
 
     public FluidStack getFluidStackProcessed() {
         BarrelRecipe recipe = BarrelRecipe.getRecipe(getInventoryStack(0), getFluidStack());
-        if(recipe != null) {
+        if (recipe != null) {
             return recipe.outputLiquid;
         }
         return getFluidStack();
@@ -128,7 +128,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
             }
         }
         BarrelRecipe recipe = BarrelRecipe.getRecipe(getInventoryStack(0), getFluidStack());
-        if(getInventoryStack(0) == null) {
+        if (getInventoryStack(0) == null) {
             timePassed = 0;
         }
         if (recipe != null) {

@@ -37,8 +37,8 @@ public class BlockFaucetRenderer implements ISimpleBlockRenderingHandler {
             modelFaucet.setFacing(meta);
             FluidStack stack = tef.getFluidStack();
             FluidStack inputStack = tef.getFluidStackInput();
-            if(stack != null) {
-                if(!Utils.containsStack(stack, inputStack)) {
+            if (stack != null) {
+                if (!Utils.containsStack(stack, inputStack)) {
                     stack = null;
                 }
             }
