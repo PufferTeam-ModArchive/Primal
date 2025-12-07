@@ -2,10 +2,13 @@ package net.pufferlab.primal;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fluids.*;
 import net.pufferlab.primal.blocks.*;
 import net.pufferlab.primal.events.*;
 import net.pufferlab.primal.items.*;
@@ -39,10 +42,13 @@ public class Registry {
     public static Block large_vessel;
     public static Block barrel;
     public static Block faucet;
+    public static Fluid limewater;
+    public static Block limewater_block;
     public static Item icons;
     public static Item straw;
     public static Item flint;
     public static Item wood;
+    public static Item powder;
     public static Item clay;
     public static Item ceramic_bucket;
     public static Item flint_axe;
@@ -50,6 +56,7 @@ public class Registry {
     public static Item flint_shovel;
     public static Item flint_knife;
     public static Item firestarter;
+    public static Item bucket;
     public static Item.ToolMaterial toolFlint;
 
     public void preInit() {
@@ -68,12 +75,20 @@ public class Registry {
         thatch = new BlockThatch();
         thatch_roof = new BlockThatchRoof();
 
+        limewater = new FluidPrimal("limewater").setDensity(1000)
+            .setViscosity(1000);
+        register(limewater);
+        limewater_block = new BlockFluidPrimal(limewater, MaterialPrimal.limewater, "limewater");
+        limewater.setBlock(limewater_block);
+
         icons = new ItemMeta(Constants.icons, "icon");
         straw = new ItemMeta(Constants.strawItems, "straw");
         wood = new ItemMeta(Constants.woodItems, "wood");
         flint = new ItemMeta(Constants.flintItems, "flint");
+        powder = new ItemMeta(Constants.powderItems, "powder");
         clay = new ItemMeta(Constants.clayItems, "clay");
 
+        bucket = new ItemMeta(Constants.fluids, "bucket").setMaxStackSize(1);
         ceramic_bucket = new ItemBucketCeramic("ceramic_bucket");
 
         flint_axe = new ItemAxePrimitive(toolFlint, "flint_axe");
@@ -103,18 +118,23 @@ public class Registry {
         register(TileEntityBarrel.class, "barrel");
         register(faucet, "faucet");
         register(TileEntityFaucet.class, "faucet");
+        register(limewater_block, "limewater");
 
         register(icons, "icon");
         register(straw, "straw");
         register(wood, "wood");
+        register(powder, "powder");
         register(flint, "flint");
         register(clay, "clay");
-        register(ceramic_bucket, "ceramic_bucket");
         register(flint_axe, "flint_axe");
         register(flint_pickaxe, "flint_pickaxe");
         register(flint_shovel, "flint_shovel");
         register(flint_knife, "flint_knife");
         register(firestarter, "firestarter");
+        register(bucket, "bucket");
+        register(ceramic_bucket, "ceramic_bucket");
+
+        register(limewater, "limewater");
     }
 
     public void init() {
@@ -142,9 +162,22 @@ public class Registry {
             GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), null, name);
         } else if (block instanceof BlockLargeVessel || block instanceof BlockBarrel) {
             GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockPrimal.class, name);
+        } else if (block instanceof BlockFluidPrimal) {
+            GameRegistry.registerBlock(block.setCreativeTab(null), name);
         } else {
             GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), name);
         }
+    }
+
+    public void register(Fluid fluid) {
+        FluidRegistry.registerFluid(fluid);
+    }
+
+    public void register(Fluid fluid, String name) {
+        FluidContainerRegistry.registerFluidContainer(
+            new FluidStack(fluid, FluidContainerRegistry.BUCKET_VOLUME),
+            new ItemStack(bucket, 1, Utils.getItemFromArray(Constants.fluids, name)),
+            new ItemStack(Items.bucket));
     }
 
     public void register(Class<? extends TileEntity> cls, String baseName) {

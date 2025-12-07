@@ -1,6 +1,7 @@
 package net.pufferlab.primal.scripts;
 
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.*;
@@ -17,6 +18,10 @@ public interface IScript {
 
     default ItemStack getModItem(String mod, String name, String wood, int number) {
         return Utils.getModItem(mod, name, wood, number);
+    }
+
+    default FluidStack getFluid(String fluid, int number) {
+        return Utils.getFluid(fluid, number);
     }
 
     default void addOreDict(String name, ItemStack item) {
@@ -45,6 +50,11 @@ public interface IScript {
 
     default void addPitKilnRecipe(ItemStack output, ItemStack input) {
         PitKilnRecipe.addPitKilnRecipe(output, input);
+    }
+
+    default void addBarrelRecipe(ItemStack output, FluidStack outputLiquid, ItemStack input, FluidStack inputLiquid,
+        int processing) {
+        BarrelRecipe.addBarrelRecipe(output, outputLiquid, input, inputLiquid, processing);
     }
 
 }

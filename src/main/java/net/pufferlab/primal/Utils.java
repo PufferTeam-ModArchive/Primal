@@ -26,6 +26,7 @@ public class Utils {
 
     private static final Map<Integer, ItemStack> cacheIS = new HashMap<>();
     private static final Map<String, ItemStack> itemCache = new HashMap<>();
+    private static final Map<String, FluidStack> fluidCache = new HashMap<>();
 
     public static final ForgeDirection[] sideDirections = new ForgeDirection[] { ForgeDirection.WEST,
         ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.NORTH, ForgeDirection.DOWN };
@@ -46,6 +47,25 @@ public class Utils {
             return is;
         } else {
             Primal.LOG.error("Tried to get invalid ItemStack from :{}:{}:{}:{}.", mod, item, meta, meta);
+        }
+        return null;
+    }
+
+    public static FluidStack getFluid(String fluid, int number) {
+        String key = fluid + ":" + number;
+        if (Utils.containsExactMatch(Constants.fluids, fluid)) {
+            fluid = "primal_" + fluid;
+        }
+        if (fluidCache.containsKey(key)) {
+            return fluidCache.get(key);
+        }
+
+        if (FluidRegistry.getFluid(fluid) != null) {
+            FluidStack fs = new FluidStack(FluidRegistry.getFluid(fluid), number);
+            fluidCache.put(key, fs);
+            return fs;
+        } else {
+            Primal.LOG.error("Tried to get invalid FluidStack from :{}:{}.", fluid, number);
         }
         return null;
     }
@@ -82,6 +102,9 @@ public class Utils {
                 if (Utils.containsExactMatch(Constants.flintItems, wood)) {
                     return getItem(Primal.MODID, "flint", Utils.getItemFromArray(Constants.flintItems, wood), number);
                 }
+                if (Utils.containsExactMatch(Constants.powderItems, wood)) {
+                    return getItem(Primal.MODID, "powder", Utils.getItemFromArray(Constants.powderItems, wood), number);
+                }
                 if (Utils.containsExactMatch(Constants.clayItems, wood)) {
                     return getItem(Primal.MODID, "clay", Utils.getItemFromArray(Constants.clayItems, wood), number);
                 }
@@ -116,9 +139,23 @@ public class Utils {
     }
 
     public static String getFluidInfoFromNBT(NBTTagCompound nbt) {
-        if (!nbt.hasKey("Empty")) {
-            FluidStack fluid = FluidStack.loadFluidStackFromNBT(nbt);
-            return fluid.getLocalizedName() + " " + fluid.amount + " mB";
+        if (nbt.hasKey("Tank")) {
+            NBTTagCompound tank = nbt.getCompoundTag("Tank");
+            if (!tank.hasKey("Empty")) {
+                FluidStack fluid = FluidStack.loadFluidStackFromNBT(tank);
+                return fluid.getLocalizedName() + " " + fluid.amount + " mB";
+            }
+        }
+        return null;
+    }
+
+    public static String getFluidInfoOutputFromNBT(NBTTagCompound nbt) {
+        if (nbt.hasKey("TankOutput")) {
+            NBTTagCompound tank = nbt.getCompoundTag("TankOutput");
+            if (!tank.hasKey("Empty")) {
+                FluidStack fluid = FluidStack.loadFluidStackFromNBT(tank);
+                return fluid.getLocalizedName() + " " + fluid.amount + " mB";
+            }
         }
         return null;
     }
@@ -312,6 +349,14 @@ public class Utils {
             return true;
         }
         return false;
+    }
+
+    public static boolean containsStack(FluidStack wild, FluidStack check) {
+        if (wild == null || check == null) {
+            return check == wild;
+        }
+
+        return wild.getFluid() == check.getFluid();
     }
 
     public static MovingObjectPosition getMovingObjectPositionFromPlayer(World worldIn, EntityPlayer playerIn,

@@ -63,7 +63,6 @@ public class BlockChoppingLog extends BlockContainer {
             }
 
         }
-
         return false;
     }
 

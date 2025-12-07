@@ -1,6 +1,7 @@
 package net.pufferlab.primal.blocks;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -9,6 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -19,6 +21,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.recipes.BarrelRecipe;
 import net.pufferlab.primal.tileentities.TileEntityBarrel;
 
 public class BlockBarrel extends BlockContainer {
@@ -57,7 +60,47 @@ public class BlockBarrel extends BlockContainer {
     @Override
     public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
         float subY, float subZ) {
+        ItemStack heldItem = player.getHeldItem();
+        TileEntity te = worldIn.getTileEntity(x, y, z);
+        if (te instanceof TileEntityBarrel tef) {
+            if (heldItem != null && BarrelRecipe.hasRecipe(heldItem, tef.getFluidStack())) {
+                return tef.addInventorySlotContentsUpdateWhole(0, player);
+            } else {
+                if (tef.getInventoryStack(1) != null) {
+                    dropItems(worldIn, x, y, z);
+                    tef.setInventorySlotContentsUpdate(1);
+                    return true;
+                } else if (tef.getInventoryStack(0) != null) {
+                    dropItems(worldIn, x, y, z);
+                    tef.setInventorySlotContentsUpdate(0);
+                    return true;
+                }
+            }
+        }
         return true;
+    }
+
+    private void dropItems(World world, int i, int j, int k) {
+        Random rando = world.rand;
+        TileEntity tileEntity = world.getTileEntity(i, j, k);
+        if (!(tileEntity instanceof IInventory)) return;
+        IInventory inventory = (IInventory) tileEntity;
+        for (int x = 0; x < inventory.getSizeInventory(); x++) {
+            ItemStack item = inventory.getStackInSlot(x);
+            inventory.setInventorySlotContents(x, null);
+            if (item != null && item.stackSize > 0) {
+                float ri = rando.nextFloat() * 0.8F + 0.1F;
+                float rj = rando.nextFloat() * 0.8F + 0.1F;
+                float rk = rando.nextFloat() * 0.8F + 0.1F;
+                EntityItem entityItem = new EntityItem(world, (i + ri), (j + rj + 0.7F), (k + rk), item.copy());
+                float factor = 0.05F;
+                entityItem.motionX = rando.nextGaussian() * factor;
+                entityItem.motionY = rando.nextGaussian() * factor + 0.20000000298023224D;
+                entityItem.motionZ = rando.nextGaussian() * factor;
+                spawnEntity(world, entityItem);
+                item.stackSize = 0;
+            }
+        }
     }
 
     @Override

@@ -12,6 +12,7 @@ public class ScriptPrimitive implements IScript {
         addChoppingLogRecipes();
         addKnappingRecipes();
         addPitKilnRecipes();
+        addBarrelRecipes();
     }
 
     public void addOredicts() {
@@ -252,5 +253,14 @@ public class ScriptPrimitive implements IScript {
         addPitKilnRecipe(
             getItem(Primal.MODID, "large_vessel", 0, 1),
             getModItem("misc", "item", "clay_large_vessel", 1));
+    }
+
+    public void addBarrelRecipes() {
+        addBarrelRecipe(
+            null,
+            getFluid("limewater", 500),
+            getModItem("misc", "item", "lime", 1),
+            getFluid("water", 500),
+            100);
     }
 }

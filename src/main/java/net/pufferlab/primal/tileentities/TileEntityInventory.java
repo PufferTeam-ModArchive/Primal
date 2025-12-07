@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.pufferlab.primal.Utils;
 
 public class TileEntityInventory extends TileEntityMetaFacing implements IInventory {
 
@@ -164,7 +165,9 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
 
     public void setInventorySlotContentsUpdate(int index, ItemStack stack) {
         ItemStack copy = stack.copy();
-        copy.stackSize = getInventoryStackLimit();
+        if (stack.stackSize > this.getInventoryStackLimit()) {
+            copy.stackSize = getInventoryStackLimit();
+        }
         this.lastSlot = index;
         this.inventory[index] = copy;
         this.worldObj.markBlockRangeForRenderUpdate(
@@ -203,6 +206,25 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
             return true;
         }
         return false;
+    }
+
+    public boolean addInventorySlotContentsUpdateWhole(int index, EntityPlayer player) {
+        if (getInventoryStack(index) == null && player.getCurrentEquippedItem() != null) {
+            ItemStack stack = player.getCurrentEquippedItem()
+                .copy();
+            player.getCurrentEquippedItem().stackSize = 0;
+            setInventorySlotContentsUpdate(index, stack);
+            return true;
+        }
+        return false;
+    }
+
+    public void addItemInSlotUpdate(int index, ItemStack item) {
+        if (getInventoryStack(1) == null) {
+            setInventorySlotContentsUpdate(index, item);
+        } else if (Utils.containsStack(getInventoryStack(1), item)) {
+            getInventoryStack(1).stackSize++;
+        }
     }
 
     public void setInventorySlotContentsUpdate(int index) {

@@ -19,6 +19,10 @@ public class BarrelHandler {
                 if (tooltip != null) {
                     event.toolTip.add(tooltip);
                 }
+                String tooltipOutput = Utils.getFluidInfoOutputFromNBT(event.itemStack.getTagCompound());
+                if (tooltipOutput != null) {
+                    event.toolTip.add(tooltipOutput);
+                }
             }
         }
     }

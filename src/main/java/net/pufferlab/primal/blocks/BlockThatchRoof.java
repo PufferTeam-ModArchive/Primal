@@ -8,7 +8,7 @@ public class BlockThatchRoof extends BlockStairs {
 
     public BlockThatchRoof() {
         super(Registry.thatch, 0);
-        this.setStepSound(SoundTypeCustom.soundTypeThatch);
+        this.setStepSound(SoundTypePrimal.soundTypeThatch);
         this.useNeighborBrightness = true;
     }
 

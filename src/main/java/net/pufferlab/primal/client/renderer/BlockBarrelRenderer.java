@@ -34,7 +34,9 @@ public class BlockBarrelRenderer implements ISimpleBlockRenderingHandler {
         if (te instanceof TileEntityBarrel tef) {
             int renderPass = ForgeHooksClient.getWorldRenderPass();
             FluidStack stack = tef.getFluidStack();
+            FluidStack stackOutput = tef.getFluidStackOutput();
             float height = tef.getFillLevel(0.1875F, 0.875F);
+            float heightOutput = tef.getFillLevelOutput(0.1875F, 0.875F);
             int meta = tef.facingMeta;
             modelBarrel.setFacing(meta);
             double offsetX = 0.0F;
@@ -74,6 +76,20 @@ public class BlockBarrelRenderer implements ISimpleBlockRenderingHandler {
                     0.125F + o,
                     0.875F - o,
                     height,
+                    0.875F - o,
+                    false);
+                modelTESS.renderFluid(
+                    renderer,
+                    tess,
+                    x,
+                    y,
+                    z,
+                    stackOutput,
+                    0.125F + o,
+                    0.1875F,
+                    0.125F + o,
+                    0.875F - o,
+                    heightOutput,
                     0.875F - o,
                     false);
             } else if (renderPass == 0) {

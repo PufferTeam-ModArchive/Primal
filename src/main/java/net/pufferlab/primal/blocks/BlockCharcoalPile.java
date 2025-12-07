@@ -19,7 +19,7 @@ public class BlockCharcoalPile extends BlockPile {
 
     public BlockCharcoalPile() {
         super(Material.sand);
-        this.setStepSound(SoundTypeCustom.soundTypeCharcoal);
+        this.setStepSound(SoundTypePrimal.soundTypeCharcoal);
         this.setHardness(0.5F);
     }
 

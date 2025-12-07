@@ -12,16 +12,19 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.fluids.*;
 import net.pufferlab.primal.Constants;
+import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
 
 import cpw.mods.fml.common.eventhandler.Event;
 
 public class ItemBucketCeramic extends ItemMeta implements IFluidContainerItem {
 
-    public static final String[] names = { "empty", "water", "lava" };
-    public static final Block[] liquids = { Blocks.air, Blocks.flowing_water, Blocks.flowing_lava };
-    public static final Fluid[] fluids = new Fluid[] { null, FluidRegistry.WATER, FluidRegistry.LAVA };
-    public static final boolean[] breaks = new boolean[] { false, false, true };
+    public static final String[] names = { "empty", "water", "lava", "limewater" };
+    public static final Block[] liquids = { Blocks.air, Blocks.flowing_water, Blocks.flowing_lava,
+        Registry.limewater_block };
+    public static final Fluid[] fluids = new Fluid[] { null, FluidRegistry.WATER, FluidRegistry.LAVA,
+        Registry.limewater };
+    public static final boolean[] breaks = new boolean[] { false, false, true, false };
 
     public ItemBucketCeramic(String type) {
         super(names, type, Constants.none);
@@ -188,7 +191,7 @@ public class ItemBucketCeramic extends ItemMeta implements IFluidContainerItem {
                             0.0D,
                             0.0D);
                     }
-                } else {
+                } else if (meta <= 2) {
                     if (!world.isRemote && flag && !material.isLiquid()) {
                         world.func_147480_a(x, y, z, true);
                     }

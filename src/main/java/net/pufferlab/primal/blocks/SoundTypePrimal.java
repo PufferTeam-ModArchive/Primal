@@ -5,14 +5,14 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.pufferlab.primal.Primal;
 
-public class SoundTypeCustom extends Block.SoundType {
+public class SoundTypePrimal extends Block.SoundType {
 
-    public static final Block.SoundType soundTypeCharcoal = new SoundTypeCustom("charcoal", 1.0F, 1.0F);
-    public static final Block.SoundType soundTypeThatch = new SoundTypeCustom("thatch", 1.0F, 1.2F);
+    public static final Block.SoundType soundTypeCharcoal = new SoundTypePrimal("charcoal", 1.0F, 1.0F);
+    public static final Block.SoundType soundTypeThatch = new SoundTypePrimal("thatch", 1.0F, 1.2F);
 
     public static final Random rand = new Random();
 
-    public SoundTypeCustom(String name, float volume, float frequency) {
+    public SoundTypePrimal(String name, float volume, float frequency) {
         super(name, volume, frequency);
     }
 

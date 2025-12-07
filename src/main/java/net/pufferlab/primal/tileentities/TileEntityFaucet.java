@@ -13,6 +13,7 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
     public boolean isActive = false;
 
     public int timePassed;
+    public int timePassed2;
     public int flowLevel;
 
     @Override
@@ -21,6 +22,7 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
 
         this.isActive = tag.getBoolean("isActive");
         this.timePassed = tag.getInteger("timePassed");
+        this.timePassed2 = tag.getInteger("timePassed2");
         this.flowLevel = tag.getInteger("flowLevel");
     }
 
@@ -30,6 +32,7 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
 
         tag.setBoolean("isActive", this.isActive);
         tag.setInteger("timePassed", this.timePassed);
+        tag.setInteger("timePassed2", this.timePassed2);
         tag.setInteger("flowLevel", this.flowLevel);
     }
 
@@ -59,11 +62,9 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
         int z = this.zCoord + dir.offsetZ;
         TileEntity te = this.worldObj.getTileEntity(x, y, z);
         if (te instanceof TileEntityBarrel tef) {
-            if (!tef.isFloorBarrel) {
-                return null;
-            }
+            return tef;
         }
-        return te;
+        return null;
     }
 
     public TileEntity getInputTile() {
@@ -92,7 +93,15 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
     public FluidStack getFluidStack() {
         TileEntity adjTE = getExtractTile();
         if (adjTE instanceof TileEntityBarrel tef) {
-            return tef.getFluidStack();
+            return tef.getFluidStackRelative();
+        }
+        return null;
+    }
+
+    public FluidStack getFluidStackInput() {
+        TileEntity adjTE = getInputTile();
+        if (adjTE instanceof TileEntityBarrel tef) {
+            return tef.getFluidStackRelative();
         }
         return null;
     }
@@ -115,15 +124,17 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
         if (this.isActive) {
             this.timePassed++;
         }
-        if (this.timePassed > 40) {
+        if (this.timePassed > 10) {
             TileEntity teAdj = getExtractTile();
             TileEntity teBel = getInputTile();
             if (teAdj instanceof TileEntityBarrel tef) {
                 if (teBel instanceof TileEntityBarrel tef2) {
-                    FluidStack fluid = tef.drain(Utils.getDirectionFromFacing(this.facingMeta), 500, true);
-                    tef2.fill(ForgeDirection.UP, fluid, true);
-                    this.updateTE();
-                    this.timePassed = 0;
+                    if ((Utils.containsStack(tef.getFluidStackRelative(), tef2.getFluidStackRelative())) || tef2.getFluidStack() == null) {
+                            FluidStack fluid = tef.drain(Utils.getDirectionFromFacing(this.facingMeta), 100, true);
+                            tef2.fill(ForgeDirection.UP, fluid, true);
+                            this.updateTE();
+                            this.timePassed = 0;
+                    }
                 }
             }
         }

@@ -36,6 +36,12 @@ public class BlockFaucetRenderer implements ISimpleBlockRenderingHandler {
             int meta = tef.facingMeta;
             modelFaucet.setFacing(meta);
             FluidStack stack = tef.getFluidStack();
+            FluidStack inputStack = tef.getFluidStackInput();
+            if(stack != null) {
+                if(!Utils.containsStack(stack, inputStack)) {
+                    stack = null;
+                }
+            }
             double offsetX = 0.0F;
             double offsetY = -0.1875F;
             double offsetZ = 0.0F;
@@ -45,7 +51,7 @@ public class BlockFaucetRenderer implements ISimpleBlockRenderingHandler {
             if (extractTe instanceof TileEntityBarrel tef2) {
                 offsetY = -0.25F;
                 float offset = 0.0F;
-                if (!Utils.isSimpleAxisConnected(tef.facingMeta, tef2.facingMeta)) {
+                if (!Utils.isSimpleAxisConnected(tef.facingMeta, tef2.facingMeta) || !tef2.isFloorBarrel) {
                     offset = 0.0625F;
                 }
                 if (tef.facingMeta == 1) {

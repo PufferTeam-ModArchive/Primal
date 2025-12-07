@@ -5,19 +5,13 @@ import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 
-public class TileEntityFluidInventory extends TileEntityMetaFacing implements IFluidHandler {
+public class TileEntityFluidInventory extends TileEntityInventory implements IFluidHandler {
 
-    private final FluidTank tank;
+    public final FluidTank tank;
 
-    private int maxSize;
-
-    public TileEntityFluidInventory(int maxSize) {
+    public TileEntityFluidInventory(int maxSize, int itemMaxSize) {
+        super(itemMaxSize);
         tank = new FluidTank(maxSize);
-        this.maxSize = maxSize;
-    }
-
-    public int getSizeInventory() {
-        return this.maxSize;
     }
 
     @Override
@@ -26,8 +20,12 @@ public class TileEntityFluidInventory extends TileEntityMetaFacing implements IF
         this.readFromNBTInventory(tag);
     }
 
+    @Override
     public void readFromNBTInventory(NBTTagCompound tag) {
-        tank.readFromNBT(tag);
+        super.readFromNBTInventory(tag);
+        if (tag.hasKey("Tank")) {
+            tank.readFromNBT(tag.getCompoundTag("Tank"));
+        }
     }
 
     @Override
@@ -36,8 +34,12 @@ public class TileEntityFluidInventory extends TileEntityMetaFacing implements IF
         this.writeToNBTInventory(tag);
     }
 
+    @Override
     public void writeToNBTInventory(NBTTagCompound tag) {
-        tank.writeToNBT(tag);
+        super.writeToNBTInventory(tag);
+        NBTTagCompound tankTag = new NBTTagCompound();
+        tank.writeToNBT(tankTag);
+        tag.setTag("Tank", tankTag);
     }
 
     @Override
@@ -83,13 +85,6 @@ public class TileEntityFluidInventory extends TileEntityMetaFacing implements IF
         this.markDirty();
         this.worldObj.func_147453_f(this.xCoord, this.yCoord, this.zCoord, this.blockType);
         this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
-        this.worldObj.markBlockRangeForRenderUpdate(
-            this.xCoord,
-            this.yCoord,
-            this.zCoord,
-            this.xCoord,
-            this.yCoord,
-            this.zCoord);
     }
 
     @Override
@@ -105,27 +100,19 @@ public class TileEntityFluidInventory extends TileEntityMetaFacing implements IF
         return true;
     }
 
-    public int getFluidAmount() {
-        return tank.getFluidAmount();
+    public FluidStack getFluidStackRelative() {
+        return tank.getFluid();
     }
 
     public FluidStack getFluidStack() {
         return tank.getFluid();
     }
 
-    public boolean isEmpty() {
-        int amount = getFluidAmount();
-        if (amount == 0) {
-            return true;
-        }
-        return false;
-    }
-
     public float getFillLevel(float min, float max) {
         int capacity = tank.getCapacity();
         if (capacity <= 0) return min;
 
-        float ratio = (float) getFluidAmount() / capacity;
+        float ratio = (float) tank.getFluidAmount() / capacity;
         ratio = MathHelper.clamp_float(ratio, 0f, 1f);
         return ratio * (max - min) + min;
     }

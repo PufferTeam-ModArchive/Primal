@@ -7,23 +7,7 @@ import net.minecraft.item.ItemStack;
 
 public class KnappingRecipe {
 
-    public boolean[][] pattern = new boolean[5][5];
-    public ItemStack output;
-    public KnappingType type;
-
     private static final List<KnappingRecipe> recipeList = new ArrayList<>();
-
-    public KnappingRecipe(KnappingType type, ItemStack output, String... rows) {
-        for (int i = 0; i < rows.length; i++) {
-            char[] charArray = rows[i].toCharArray();
-            for (int j = 0; j < charArray.length; j++) {
-                pattern[j][i] = charArray[j] == ' ';
-            }
-        }
-        this.output = output;
-        this.type = type;
-
-    }
 
     public static void addKnappingRecipe(KnappingType type, ItemStack item, String... rows) {
         recipeList.add(new KnappingRecipe(type, item, rows));
@@ -40,6 +24,21 @@ public class KnappingRecipe {
 
     public static List<KnappingRecipe> getRecipeList() {
         return recipeList;
+    }
+
+    public boolean[][] pattern = new boolean[5][5];
+    public ItemStack output;
+    public KnappingType type;
+
+    public KnappingRecipe(KnappingType type, ItemStack output, String... rows) {
+        for (int i = 0; i < rows.length; i++) {
+            char[] charArray = rows[i].toCharArray();
+            for (int j = 0; j < charArray.length; j++) {
+                pattern[j][i] = charArray[j] == ' ';
+            }
+        }
+        this.output = output;
+        this.type = type;
     }
 
     public boolean equals(KnappingType type, boolean[][] pattern2) {
