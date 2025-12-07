@@ -81,7 +81,7 @@ public class Registry {
         limewater_block = new BlockFluidPrimal(limewater, MaterialPrimal.limewater, "limewater");
         limewater.setBlock(limewater_block);
 
-        icons = new ItemMeta(Constants.icons, "icon");
+        icons = new ItemMeta(Constants.icons, "icon").setHidden(Constants.hiddenIcons);
         straw = new ItemMeta(Constants.strawItems, "straw");
         wood = new ItemMeta(Constants.woodItems, "wood");
         flint = new ItemMeta(Constants.flintItems, "flint");

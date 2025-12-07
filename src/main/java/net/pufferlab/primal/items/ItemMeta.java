@@ -18,23 +18,26 @@ public class ItemMeta extends Item {
 
     private String[] elements;
     private String[] elementsBlacklist;
+    private String[] elementsHidden;
     private IIcon[] icons;
     private String name;
-
-    public ItemMeta(String[] materials, String type, String[] blacklist) {
-        elements = materials;
-        name = type;
-        elementsBlacklist = blacklist;
-        this.setHasSubtypes(true);
-        setCreativeTab(CreativeTabs.tabMaterials);
-    }
 
     public ItemMeta(String[] materials, String type) {
         elements = materials;
         name = type;
         elementsBlacklist = Constants.none;
+        elementsHidden = Constants.none;
         this.setHasSubtypes(true);
-        setCreativeTab(CreativeTabs.tabMaterials);
+    }
+
+    public ItemMeta setBlacklist(String[] blacklist) {
+        this.elementsBlacklist = blacklist;
+        return this;
+    }
+
+    public ItemMeta setHidden(String[] blacklist) {
+        this.elementsHidden = blacklist;
+        return this;
     }
 
     @Override
@@ -57,7 +60,8 @@ public class ItemMeta extends Item {
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs creativeTabs, List<net.minecraft.item.ItemStack> list) {
         for (int i = 0; i < elements.length; i++) {
-            if (!Utils.containsExactMatch(elementsBlacklist, elements[i])) {
+            if (!Utils.containsExactMatch(elementsBlacklist, elements[i])
+                && !Utils.containsExactMatch(elementsHidden, elements[i])) {
                 list.add(new ItemStack(item, 1, i));
             }
         }

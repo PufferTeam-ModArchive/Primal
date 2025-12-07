@@ -437,6 +437,7 @@ public class Utils {
             return true;
         }
         for (String element : array) {
+            if (element == null) return false;
             if (element.equals(targetString)) {
                 return true;
             }

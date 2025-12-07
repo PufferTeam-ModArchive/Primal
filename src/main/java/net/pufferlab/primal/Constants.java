@@ -13,6 +13,7 @@ public class Constants {
     public static final String[] clayItems = new String[] { "clay_brick", "clay_flower_pot", "clay_large_vessel",
         "clay_bucket" };
     public static final String[] icons = new String[] { "knapping", "pit_kiln", "campfire" };
+    public static final String[] hiddenIcons = new String[] { "knapping" };
     public static final String[] fluids = new String[] { "limewater" };
     public static final String[] ashPileOreDicts = new String[] { "ash" };
     public static final String[] charcoalPileOreDicts = new String[] { "charcoal", "coal" };

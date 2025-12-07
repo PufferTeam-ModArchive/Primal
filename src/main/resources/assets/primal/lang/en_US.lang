@@ -9,7 +9,7 @@ item.primal.knapping_icon.name=Knapping
 item.primal.pit_kiln_icon.name=Pit Kiln
 item.primal.campfire_icon.name=Campfire
 tile.primal.limewater.name=Limewater
-fluid.limewater=Limewater
+fluid.primal.limewater=Limewater
 
 item.primal.error.name=Invalid Item
 item.primal.flint_shard.name=Flint Shard

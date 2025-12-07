@@ -11,7 +11,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.fluids.*;
-import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
 
@@ -27,7 +26,7 @@ public class ItemBucketCeramic extends ItemMeta implements IFluidContainerItem {
     public static final boolean[] breaks = new boolean[] { false, false, true, false };
 
     public ItemBucketCeramic(String type) {
-        super(names, type, Constants.none);
+        super(names, type);
         this.maxStackSize = 1;
     }
 
