@@ -13,7 +13,6 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
     public boolean isActive = false;
 
     public int timePassed;
-    public int timePassed2;
     public int flowLevel;
 
     @Override
@@ -22,7 +21,6 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
 
         this.isActive = tag.getBoolean("isActive");
         this.timePassed = tag.getInteger("timePassed");
-        this.timePassed2 = tag.getInteger("timePassed2");
         this.flowLevel = tag.getInteger("flowLevel");
     }
 
@@ -32,7 +30,6 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
 
         tag.setBoolean("isActive", this.isActive);
         tag.setInteger("timePassed", this.timePassed);
-        tag.setInteger("timePassed2", this.timePassed2);
         tag.setInteger("flowLevel", this.flowLevel);
     }
 

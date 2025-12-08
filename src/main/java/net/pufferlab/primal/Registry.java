@@ -1,5 +1,6 @@
 package net.pufferlab.primal;
 
+import cpw.mods.fml.common.IWorldGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -16,6 +17,7 @@ import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.tileentities.*;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.pufferlab.primal.world.PrimalWorldGenerator;
 
 public class Registry {
 
@@ -147,6 +149,8 @@ public class Registry {
     }
 
     public void init() {
+        registerWorld(new PrimalWorldGenerator());
+
         registerEvent(new PitKilnHandler());
         registerEvent(new KnappingHandler());
         registerEvent(new BucketHandler());
@@ -198,5 +202,9 @@ public class Registry {
 
     public void registerEvent(Object event) {
         MinecraftForge.EVENT_BUS.register(event);
+    }
+
+    public void registerWorld(IWorldGenerator world) {
+        GameRegistry.registerWorldGenerator(world, 0);
     }
 }

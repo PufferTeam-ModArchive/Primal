@@ -6,22 +6,22 @@ import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
-public class WorldGenRock extends WorldGenerator {
+public class WorldGenGround extends WorldGenerator {
 
     public Block block;
     public int meta;
 
-    public WorldGenRock(Block block, int meta) {
+    public WorldGenGround(Block block, int meta) {
         this.block = block;
         this.meta = meta;
     }
 
     @Override
     public boolean generate(World world, Random ran, int x, int y, int z) {
-        for (int l = 0; l < 64; ++l) {
+        for (int l = 0; l < 3; ++l) {
             int i1 = x + ran.nextInt(8) - ran.nextInt(8);
-            int j1 = y + ran.nextInt(4) - ran.nextInt(4);
             int k1 = z + ran.nextInt(8) - ran.nextInt(8);
+            int j1 = world.getHeightValue(i1, k1);
 
             if (world.isAirBlock(i1, j1, k1) && (!world.provider.hasNoSky || j1 < 255)
                 && this.block.canBlockStay(world, i1, j1, k1)) {

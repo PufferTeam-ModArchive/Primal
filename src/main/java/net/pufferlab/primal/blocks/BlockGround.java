@@ -47,13 +47,15 @@ public class BlockGround extends BlockMeta {
     }
 
     @Override
-    public void onNeighborBlockChange(World worldIn, int x, int y, int z, Block neighbor) {
-        super.onNeighborBlockChange(worldIn, x, y, z, neighbor);
-        Block block = worldIn.getBlock(x, y, z);
-        if (!worldIn.isSideSolid(x, y - 1, z, ForgeDirection.UP)) {
-            worldIn.setBlockToAir(x, y, z);
-            block.onBlockPreDestroy(worldIn, x, y, z, worldIn.getBlockMetadata(x, y, z));
-        }
+    public boolean canPlaceBlockAt(World worldIn, int x, int y, int z)
+    {
+        return this.canBlockStay(worldIn, x, y, z);
+    }
+
+    @Override
+    public boolean canBlockStay(World worldIn, int x, int y, int z)
+    {
+        return worldIn.isSideSolid(x, y - 1, z, ForgeDirection.UP);
     }
 
     @SideOnly(Side.CLIENT)
