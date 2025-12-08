@@ -34,6 +34,6 @@ public class BlockFluidPrimal extends BlockFluidClassic {
 
     @Override
     public String getUnlocalizedName() {
-        return "tile.primal." + this.name;
+        return "tile." + Primal.MODID + "." + this.name;
     }
 }

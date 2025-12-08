@@ -40,6 +40,12 @@ public class ItemMeta extends Item {
         return this;
     }
 
+    public ItemMeta setHiddenAll() {
+        this.elementsHidden = elements;
+        this.hasSubtypes = false;
+        return this;
+    }
+
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister register) {

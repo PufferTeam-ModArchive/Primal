@@ -101,7 +101,7 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
     public FluidStack getFluidStackInput() {
         TileEntity adjTE = getInputTile();
         if (adjTE instanceof TileEntityBarrel tef) {
-            return tef.getFluidStackRelative();
+            return tef.getFluidStack();
         }
         return null;
     }

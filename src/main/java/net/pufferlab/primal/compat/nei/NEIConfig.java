@@ -13,6 +13,7 @@ public class NEIConfig implements IConfigureNEI {
 
     @Override
     public void loadConfig() {
+        API.hideItem("primal:icon");
         if (Utils.isClient()) {
             API.registerRecipeHandler(new NEIChoppingLogHandler());
             API.registerRecipeHandler(new NEIKnappingHandler());
@@ -33,7 +34,7 @@ public class NEIConfig implements IConfigureNEI {
             110);
         sendHandler(
             "net.pufferlab.primal.compat.nei.NEIPitKilnHandler",
-            Primal.MODID + ":icon:" + Utils.getItemFromArray(Constants.icons, "pit_kiln"),
+            Primal.MODID + ":pit_kiln",
             2,
             Primal.MODNAME,
             Primal.MODID,
@@ -49,7 +50,7 @@ public class NEIConfig implements IConfigureNEI {
             65);
         sendHandler(
             "net.pufferlab.primal.compat.nei.NEICampfireHandler",
-            Primal.MODID + ":icon:" + Utils.getItemFromArray(Constants.icons, "campfire"),
+            Primal.MODID + ":campfire",
             2,
             Primal.MODNAME,
             Primal.MODID,

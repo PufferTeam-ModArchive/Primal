@@ -11,7 +11,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -21,7 +20,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
@@ -32,7 +30,7 @@ import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 
 public class BlockCampfire extends BlockContainer {
 
-    public IIcon[] icons = new IIcon[5];
+    public IIcon[] icons = new IIcon[6];
 
     public BlockCampfire() {
         super(Material.wood);
@@ -43,10 +41,11 @@ public class BlockCampfire extends BlockContainer {
     @Override
     public void registerBlockIcons(IIconRegister reg) {
         icons[0] = reg.registerIcon(Primal.MODID + ":campfire");
-        icons[1] = reg.registerIcon(Primal.MODID + ":empty");
+        icons[1] = reg.registerIcon(Primal.MODID + ":campfire_icon");
         icons[2] = reg.registerIcon(Primal.MODID + ":campfire_lit");
         icons[3] = reg.registerIcon(Primal.MODID + ":campfire_fire");
         icons[4] = reg.registerIcon(Primal.MODID + ":campfire_spit");
+        icons[5] = reg.registerIcon(Primal.MODID + ":empty");
     }
 
     @Override
@@ -302,6 +301,14 @@ public class BlockCampfire extends BlockContainer {
     }
 
     @Override
+    protected void dropBlockAsItem(World worldIn, int x, int y, int z, ItemStack itemIn) {}
+
+    @Override
+    public String getUnlocalizedName() {
+        return "tile." + Primal.MODID + ".campfire";
+    }
+
+    @Override
     public IIcon getIcon(int side, int meta) {
         if (side == 99) {
             return icons[0];
@@ -310,16 +317,6 @@ public class BlockCampfire extends BlockContainer {
             return icons[4];
         }
         return icons[1];
-    }
-
-    @Override
-    public Item getItem(World worldIn, int x, int y, int z) {
-        return Registry.icons;
-    }
-
-    @Override
-    public int getDamageValue(World worldIn, int x, int y, int z) {
-        return Utils.getItemFromArray(Constants.icons, "campfire");
     }
 
     @Override

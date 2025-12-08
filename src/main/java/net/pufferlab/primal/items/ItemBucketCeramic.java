@@ -196,9 +196,10 @@ public class ItemBucketCeramic extends ItemMeta implements IFluidContainerItem {
                     }
 
                     world.setBlock(x, y, z, liquids[meta], 0, 3);
+                    return true;
                 }
 
-                return true;
+                return false;
             }
         }
     }

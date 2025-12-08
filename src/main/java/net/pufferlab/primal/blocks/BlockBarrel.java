@@ -119,7 +119,7 @@ public class BlockBarrel extends BlockContainer {
 
     @Override
     public String getUnlocalizedName() {
-        return "tile.primal.barrel";
+        return "tile." + Primal.MODID + ".barrel";
     }
 
     @Override

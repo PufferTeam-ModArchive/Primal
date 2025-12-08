@@ -12,8 +12,6 @@ import net.pufferlab.primal.client.models.ModelCampfireSpit;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 
-import org.lwjgl.opengl.GL11;
-
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 public class BlockCampfireRenderer implements ISimpleBlockRenderingHandler {
@@ -23,10 +21,7 @@ public class BlockCampfireRenderer implements ISimpleBlockRenderingHandler {
     ModelCampfireSpit modelCampfireSpit2 = new ModelCampfireSpit(1);
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
-        GL11.glPushMatrix();
-        GL11.glPopMatrix();
-    }
+    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {}
 
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
@@ -91,7 +86,7 @@ public class BlockCampfireRenderer implements ISimpleBlockRenderingHandler {
 
     @Override
     public boolean shouldRender3DInInventory(int modelId) {
-        return true;
+        return false;
     }
 
     @Override

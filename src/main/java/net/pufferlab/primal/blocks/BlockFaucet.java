@@ -85,7 +85,7 @@ public class BlockFaucet extends BlockContainer {
 
     @Override
     public String getUnlocalizedName() {
-        return "tile.primal.faucet";
+        return "tile." + Primal.MODID + ".faucet";
     }
 
     @Override

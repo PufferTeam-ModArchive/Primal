@@ -62,6 +62,9 @@ public class ModelTESS {
                     ModelBox box = renderer.cubeList.get(i);
 
                     IIcon icon = block.getIcon(renderblocks.blockAccess, x, y, z, index);
+                    if (index < 16) {
+                        icon = block.getIcon(0, index);
+                    }
 
                     for (int j = 0; j < box.quadList.length; ++j) {
                         TexturedQuad quad = box.quadList[j];

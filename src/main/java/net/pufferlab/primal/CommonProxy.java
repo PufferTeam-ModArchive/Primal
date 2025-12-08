@@ -81,4 +81,8 @@ public class CommonProxy implements IGuiHandler {
     public int getFaucetRenderID() {
         return 0;
     }
+
+    public int getGroundRenderID() {
+        return 0;
+    }
 }

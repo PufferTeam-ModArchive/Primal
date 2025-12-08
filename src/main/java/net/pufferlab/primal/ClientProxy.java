@@ -25,6 +25,7 @@ public class ClientProxy extends CommonProxy {
     int largeVesselRenderID;
     int barrelRenderID;
     int faucetRenderID;
+    int groundRenderID;
 
     public void registerRenders() {
         pitKilnRenderID = RenderingRegistry.getNextAvailableRenderId();
@@ -35,6 +36,7 @@ public class ClientProxy extends CommonProxy {
         largeVesselRenderID = RenderingRegistry.getNextAvailableRenderId();
         barrelRenderID = RenderingRegistry.getNextAvailableRenderId();
         faucetRenderID = RenderingRegistry.getNextAvailableRenderId();
+        groundRenderID = RenderingRegistry.getNextAvailableRenderId();
 
         RenderingRegistry.registerBlockHandler(new BlockPitKilnRenderer());
         RenderingRegistry.registerBlockHandler(new BlockLogPileRenderer());
@@ -44,6 +46,7 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerBlockHandler(new BlockLargeVesselRenderer());
         RenderingRegistry.registerBlockHandler(new BlockBarrelRenderer());
         RenderingRegistry.registerBlockHandler(new BlockFaucetRenderer());
+        RenderingRegistry.registerBlockHandler(new BlockGroundRenderer());
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPitKiln.class, new TileEntityPitKilnRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChoppingLog.class, new TileEntityChoppingLogRenderer());
@@ -109,5 +112,10 @@ public class ClientProxy extends CommonProxy {
     @Override
     public int getFaucetRenderID() {
         return faucetRenderID;
+    }
+
+    @Override
+    public int getGroundRenderID() {
+        return groundRenderID;
     }
 }

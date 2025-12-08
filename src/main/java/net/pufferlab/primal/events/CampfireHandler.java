@@ -27,24 +27,6 @@ public class CampfireHandler {
             }
         }
 
-        if (Utils.containsStack(heldItem, Utils.getModItem("misc", "icon", "campfire", 1))) {
-            int x = Utils.getBlockX(event.face, event.x);
-            int y = Utils.getBlockY(event.face, event.y);
-            int z = Utils.getBlockZ(event.face, event.z);
-            Utils.placeSilent(heldItem, event.world, x, y, z, Registry.campfire, 5, event.entityPlayer);
-            TileEntity te = event.world.getTileEntity(x, y, z);
-            if (te instanceof TileEntityCampfire tef) {
-                tef.isBuilt = true;
-                if (!event.entityPlayer.capabilities.isCreativeMode) {
-                    heldItem.stackSize--;
-                }
-                tef.setInventorySlotContentsUpdate(1, Utils.getModItem("misc", "item", "straw_kindling", 1));
-                for (int i = 2; i < 6; i++) {
-                    tef.setInventorySlotContentsUpdate(i, Utils.getModItem("misc", "item", "firewood", 1));
-                }
-            }
-        }
-
         Block block = event.world.getBlock(event.x, event.y, event.z);
         if (!block.hasTileEntity(event.world.getBlockMetadata(event.x, event.y, event.z))) {
             if (Utils.containsOreDict(heldItem, "kindling")) {

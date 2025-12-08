@@ -25,7 +25,11 @@ public abstract class PileHandler {
                 int x2 = Utils.getBlockX(event.face, event.x);
                 int y2 = Utils.getBlockY(event.face, event.y);
                 int z2 = Utils.getBlockZ(event.face, event.z);
-                Utils.place(heldItem, event.world, x2, y2, z2, getPileBlock(), 0, event.entityPlayer);
+                int metaCopy = 0;
+                if (keepItemMeta()) {
+                    metaCopy = heldItem.getItemDamage();
+                }
+                Utils.place(heldItem, event.world, x2, y2, z2, getPileBlock(), metaCopy, event.entityPlayer);
             }
         }
     }
@@ -36,5 +40,9 @@ public abstract class PileHandler {
 
     public String[] getPileOreDicts() {
         return null;
+    }
+
+    public boolean keepItemMeta() {
+        return false;
     }
 }

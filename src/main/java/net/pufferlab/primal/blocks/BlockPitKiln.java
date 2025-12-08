@@ -11,7 +11,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -168,7 +167,7 @@ public class BlockPitKiln extends BlockContainer {
     @Override
     public IIcon getIcon(int side, int meta) {
         if (meta == 0) {
-            return icons[6];
+            return icons[0];
         }
         if (side == 1) {
             if (meta == 6) {
@@ -265,14 +264,7 @@ public class BlockPitKiln extends BlockContainer {
     }
 
     @Override
-    public Item getItem(World worldIn, int x, int y, int z) {
-        return Registry.icons;
-    }
-
-    @Override
-    public int getDamageValue(World worldIn, int x, int y, int z) {
-        return Utils.getItemFromArray(Constants.icons, "pit_kiln");
-    }
+    protected void dropBlockAsItem(World worldIn, int x, int y, int z, ItemStack itemIn) {}
 
     @Override
     public String getUnlocalizedName() {

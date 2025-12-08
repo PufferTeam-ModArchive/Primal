@@ -50,7 +50,7 @@ public class BlockLargeVessel extends BlockContainer {
 
     @Override
     public String getUnlocalizedName() {
-        return "tile.primal.large_vessel";
+        return "tile." + Primal.MODID + ".large_vessel";
     }
 
     @Override

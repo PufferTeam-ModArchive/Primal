@@ -1,6 +1,7 @@
 package net.pufferlab.primal;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -31,6 +32,7 @@ public class Registry {
         }
     };
 
+    public static Block ground_rock;
     public static Block pit_kiln;
     public static Block thatch;
     public static Block thatch_roof;
@@ -46,6 +48,7 @@ public class Registry {
     public static Block limewater_block;
     public static Item icons;
     public static Item straw;
+    public static Item rock;
     public static Item flint;
     public static Item wood;
     public static Item powder;
@@ -62,6 +65,8 @@ public class Registry {
     public void preInit() {
         toolFlint = EnumHelper.addToolMaterial("flint", 0, 100, 2.0F, 0.0F, 15);
 
+        ground_rock = new BlockGround(Material.rock, Constants.rockTypes, "ground_rock")
+            .setTextureOverride(Constants.rockTextures);
         pit_kiln = new BlockPitKiln();
         log_pile = new BlockLogPile();
         charcoal_pile = new BlockCharcoalPile();
@@ -81,12 +86,14 @@ public class Registry {
         limewater_block = new BlockFluidPrimal(limewater, MaterialPrimal.limewater, "limewater");
         limewater.setBlock(limewater_block);
 
-        icons = new ItemMeta(Constants.icons, "icon").setHidden(Constants.hiddenIcons);
+        icons = new ItemMeta(Constants.icons, "icon").setHiddenAll();
         straw = new ItemMeta(Constants.strawItems, "straw");
         wood = new ItemMeta(Constants.woodItems, "wood");
         flint = new ItemMeta(Constants.flintItems, "flint");
+        rock = new ItemMeta(Constants.rockTypes, "rock");
         powder = new ItemMeta(Constants.powderItems, "powder");
         clay = new ItemMeta(Constants.clayItems, "clay");
+        ((BlockGround) ground_rock).setItem(rock);
 
         bucket = new ItemMeta(Constants.fluids, "bucket").setMaxStackSize(1);
         ceramic_bucket = new ItemBucketCeramic("ceramic_bucket");
@@ -100,6 +107,7 @@ public class Registry {
 
         register(thatch, "thatch");
         register(thatch_roof, "thatch_roof");
+        register(ground_rock, "ground_rock");
         register(pit_kiln, "pit_kiln");
         register(TileEntityPitKiln.class, "pit_kiln");
         register(log_pile, "log_pile");
@@ -124,6 +132,7 @@ public class Registry {
         register(straw, "straw");
         register(wood, "wood");
         register(powder, "powder");
+        register(rock, "rock");
         register(flint, "flint");
         register(clay, "clay");
         register(flint_axe, "flint_axe");
@@ -148,6 +157,7 @@ public class Registry {
         registerEvent(new CampfireHandler());
         registerEvent(new LargeVesselHandler());
         registerEvent(new BarrelHandler());
+        registerEvent(new GroundRockHandler());
     }
 
     public void register(Item item, String name) {
@@ -155,18 +165,20 @@ public class Registry {
     }
 
     public void register(Block block, String name) {
-        if (block instanceof BlockPitKiln || block instanceof BlockLogPile
-            || block instanceof BlockCharcoalPile
+        if (block instanceof BlockLogPile || block instanceof BlockCharcoalPile
             || block instanceof BlockAshPile
-            || block instanceof BlockCampfire) {
+            || block instanceof BlockGround) {
             GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), null, name);
-        } else if (block instanceof BlockLargeVessel || block instanceof BlockBarrel) {
-            GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockPrimal.class, name);
-        } else if (block instanceof BlockFluidPrimal) {
-            GameRegistry.registerBlock(block.setCreativeTab(null), name);
-        } else {
-            GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), name);
-        }
+        } else
+            if (block instanceof BlockLargeVessel || block instanceof BlockBarrel || block instanceof BlockCampfire) {
+                GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockPrimal.class, name);
+            } else if (block instanceof BlockFluidPrimal) {
+                GameRegistry.registerBlock(block.setCreativeTab(null), name);
+            } else if (block instanceof BlockMeta) {
+                GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockMeta.class, name);
+            } else {
+                GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), name);
+            }
     }
 
     public void register(Fluid fluid) {

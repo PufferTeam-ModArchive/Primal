@@ -22,6 +22,7 @@ public class ScriptPrimitive implements IScript {
         addOreDict("coal", getItem("minecraft", "coal", 0, 1));
         addOreDict("ash", getModItem("misc", "item", "ash", 1));
         addOreDict("kindling", getModItem("misc", "item", "straw_kindling", 1));
+        addOreDict("rock", getItem(Primal.MODID + ":rock:*:1"));
         addOreDict("itemLarge", getModItem("misc", "item", "clay_large_vessel", 1));
         addOreDict("itemContainer", getItem(Primal.MODID, "large_vessel", 0, 1));
         addOreDict("itemContainer", getItem(Primal.MODID, "barrel", 0, 1));
