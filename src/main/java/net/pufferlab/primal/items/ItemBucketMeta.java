@@ -16,9 +16,9 @@ import net.pufferlab.primal.Registry;
 
 import cpw.mods.fml.common.eventhandler.Event;
 
-public class ItemBucket extends ItemMeta {
+public class ItemBucketMeta extends ItemMeta {
 
-    public ItemBucket(String type) {
+    public ItemBucketMeta(String type) {
         super(Constants.fluids, type);
         this.maxStackSize = 1;
         this.setBlacklist(Constants.vanillaFluids);

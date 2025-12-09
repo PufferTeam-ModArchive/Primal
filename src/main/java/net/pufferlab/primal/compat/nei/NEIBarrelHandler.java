@@ -2,11 +2,13 @@ package net.pufferlab.primal.compat.nei;
 
 import static codechicken.lib.gui.GuiDraw.changeTexture;
 import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
+import static codechicken.nei.NEIClientUtils.translate;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
@@ -21,7 +23,7 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
 
     public class BarrelPair extends CachedRecipe {
 
-        public BarrelPair(List<ItemStack> ingred, ItemStack ingred2, ItemStack result, ItemStack result2) {
+        public BarrelPair(List<ItemStack> ingred, ItemStack ingred2, ItemStack result, ItemStack result2, int processingTime) {
             this.ingred = new PositionedStack(ingred, 43, 25, true);
             this.ingred2 = new PositionedStack(Utils.nullableStack(ingred2), 43, 44, true);
             if (result == null & result2 != null) {
@@ -32,7 +34,7 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
                 this.result = new PositionedStack(Utils.nullableStack(result), 114, 25, false);
                 this.result2 = new PositionedStack(Utils.nullableStack(result2), 114, 44, false);
             }
-
+            this.processingTime = processingTime;
         }
 
         @Override
@@ -57,6 +59,7 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
         PositionedStack ingred2;
         PositionedStack result;
         PositionedStack result2;
+        int processingTime;
     }
 
     @Override
@@ -74,7 +77,7 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
                         recipe.input,
                         recipe.inputLiquidBlock,
                         recipe.output,
-                        recipe.outputLiquidBlock));
+                        recipe.outputLiquidBlock, recipe.processingTime));
             }
         } else super.loadCraftingRecipes(outputId, results);
     }
@@ -90,7 +93,7 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
                         recipe.input,
                         recipe.inputLiquidBlock,
                         recipe.output,
-                        recipe.outputLiquidBlock));
+                        recipe.outputLiquidBlock, recipe.processingTime));
             }
         }
     }
@@ -123,5 +126,19 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
         GL11.glColor4f(1, 1, 1, 1);
         changeTexture(getGuiTexture());
         drawTexturedModalRect(0, 0, 5, 11, 166, 106);
+        BarrelPair recipePair = (BarrelPair) arecipes.get(recipe);
+        int timeSecondSmelt = recipePair.processingTime / 20;
+        int timeMinuteSmelt = timeSecondSmelt / 60;
+        if(timeMinuteSmelt < 1) {
+            Minecraft.getMinecraft().fontRenderer
+                .drawString(translate("recipe.primal.barrel.smeltTime", timeSecondSmelt), 40, 10, 0xFF000000);
+        } else if(timeMinuteSmelt < 2) {
+            Minecraft.getMinecraft().fontRenderer
+                .drawString(translate("recipe.primal.barrel.smeltTimeMinute", timeMinuteSmelt), 40, 10, 0xFF000000);
+        } else {
+                Minecraft.getMinecraft().fontRenderer
+                    .drawString(translate("recipe.primal.barrel.smeltTimeMinutes", timeMinuteSmelt), 40, 10, 0xFF000000);
+        }
+
     }
 }

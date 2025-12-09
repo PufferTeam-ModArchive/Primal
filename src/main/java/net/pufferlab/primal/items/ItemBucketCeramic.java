@@ -6,7 +6,7 @@ import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
 
-public class ItemBucketCeramic extends ItemBucket implements IFluidContainerItem {
+public class ItemBucketCeramic extends ItemBucketMeta implements IFluidContainerItem {
 
     public ItemBucketCeramic(String type) {
         super(type);

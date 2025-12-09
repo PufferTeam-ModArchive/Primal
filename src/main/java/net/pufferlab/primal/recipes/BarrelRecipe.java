@@ -61,13 +61,15 @@ public class BarrelRecipe {
         int processingTime) {
         this.output = output;
         this.outputLiquid = outputLiquid;
-        this.outputLiquidBlock = new ItemStack(
-            outputLiquid.getFluid()
-                .getBlock(),
-            1,
-            0);
-        this.outputLiquidBlock.stackTagCompound = new NBTTagCompound();
-        this.outputLiquidBlock.stackTagCompound.setInteger("DisplayFluidAmount", outputLiquid.amount);
+        if(outputLiquid != null) {
+            this.outputLiquidBlock = new ItemStack(
+                outputLiquid.getFluid()
+                    .getBlock(),
+                1,
+                0);
+            this.outputLiquidBlock.stackTagCompound = new NBTTagCompound();
+            this.outputLiquidBlock.stackTagCompound.setInteger("DisplayFluidAmount", outputLiquid.amount);
+        }
         this.input = input;
         this.inputLiquid = inputLiquid;
         this.inputLiquidBlock = new ItemStack(

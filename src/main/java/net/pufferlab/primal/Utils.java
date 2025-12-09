@@ -98,6 +98,9 @@ public class Utils {
                 if (Utils.containsExactMatch(Constants.strawItems, wood)) {
                     return getItem(Primal.MODID, "straw", Utils.getItemFromArray(Constants.strawItems, wood), number);
                 }
+                if (Utils.containsExactMatch(Constants.hideItems, wood)) {
+                    return getItem(Primal.MODID, "hide", Utils.getItemFromArray(Constants.hideItems, wood), number);
+                }
                 if (Utils.containsExactMatch(Constants.woodItems, wood)) {
                     return getItem(Primal.MODID, "wood", Utils.getItemFromArray(Constants.woodItems, wood), number);
                 }

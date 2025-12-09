@@ -265,6 +265,24 @@ public class ScriptPrimitive implements IScript {
             getModItem("misc", "item", "lime", 1),
             getFluid("water", 500),
             100);
+        addBarrelRecipe(
+            getModItem("misc", "item", "soaked_hide", 1),
+            null,
+            getModItem("misc", "item", "hide", 1),
+            getFluid("limewater", 500),
+            1200);
+        addBarrelRecipe(
+            getItem("minecraft", "leather", 0, 1),
+            null,
+            getModItem("misc", "item", "scraped_hide", 1),
+            getFluid("tannin", 500),
+            1200);
+        addBarrelRecipe(
+            null,
+            getFluid("tannin", 1000),
+            "logWood",
+            getFluid("water", 1000),
+            2400);
         for (String color : Constants.colorTypes) {
             addBarrelRecipe(
                 null,

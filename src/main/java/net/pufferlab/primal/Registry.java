@@ -48,6 +48,7 @@ public class Registry {
     public static Block faucet;
     public static Item icons;
     public static Item straw;
+    public static Item hide;
     public static Item rock;
     public static Item flint;
     public static Item wood;
@@ -82,6 +83,7 @@ public class Registry {
 
         icons = new ItemMeta(Constants.icons, "icon").setHiddenAll();
         straw = new ItemMeta(Constants.strawItems, "straw");
+        hide = new ItemMeta(Constants.hideItems, "hide");
         wood = new ItemMeta(Constants.woodItems, "wood");
         flint = new ItemMeta(Constants.flintItems, "flint");
         rock = new ItemMeta(Constants.rockTypes, "rock");
@@ -89,7 +91,7 @@ public class Registry {
         clay = new ItemMeta(Constants.clayItems, "clay");
         ((BlockGround) ground_rock).setItem(rock);
 
-        bucket = new ItemBucket("bucket");
+        bucket = new ItemBucketMeta("bucket");
         ceramic_bucket = new ItemBucketCeramic("ceramic_bucket");
 
         flint_axe = new ItemAxePrimitive(toolFlint, "flint_axe");
@@ -114,6 +116,7 @@ public class Registry {
 
         register(icons, "icon");
         register(straw, "straw");
+        register(hide, "hide");
         register(wood, "wood");
         register(powder, "powder");
         register(rock, "rock");
