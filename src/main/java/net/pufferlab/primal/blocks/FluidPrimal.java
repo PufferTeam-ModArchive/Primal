@@ -12,6 +12,6 @@ public class FluidPrimal extends Fluid {
 
     @Override
     public String getUnlocalizedName() {
-        return "fluid." + Primal.MODID + "." + this.unlocalizedName;
+        return "fluid." + Primal.MODID + "." + this.unlocalizedName + ".name";
     }
 }

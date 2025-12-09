@@ -27,7 +27,8 @@ public class ClientProxy extends CommonProxy {
     int faucetRenderID;
     int groundRenderID;
 
-    public void registerRenders() {
+    @Override
+    public void setupRenders() {
         pitKilnRenderID = RenderingRegistry.getNextAvailableRenderId();
         logPileRenderID = RenderingRegistry.getNextAvailableRenderId();
         charcoalPileRenderID = RenderingRegistry.getNextAvailableRenderId();

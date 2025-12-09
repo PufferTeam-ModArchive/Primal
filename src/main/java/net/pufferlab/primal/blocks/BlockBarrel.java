@@ -10,7 +10,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -23,6 +22,7 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.BarrelRecipe;
 import net.pufferlab.primal.tileentities.TileEntityBarrel;
+import net.pufferlab.primal.tileentities.TileEntityInventory;
 
 public class BlockBarrel extends BlockContainer {
 
@@ -83,11 +83,11 @@ public class BlockBarrel extends BlockContainer {
     private void dropItems(World world, int i, int j, int k) {
         Random rando = world.rand;
         TileEntity tileEntity = world.getTileEntity(i, j, k);
-        if (!(tileEntity instanceof IInventory)) return;
-        IInventory inventory = (IInventory) tileEntity;
+        if (!(tileEntity instanceof TileEntityInventory)) return;
+        TileEntityInventory inventory = (TileEntityInventory) tileEntity;
         for (int x = 0; x < inventory.getSizeInventory(); x++) {
             ItemStack item = inventory.getStackInSlot(x);
-            inventory.setInventorySlotContents(x, null);
+            inventory.setInventorySlotContentsUpdate(x, null);
             if (item != null && item.stackSize > 0) {
                 float ri = rando.nextFloat() * 0.8F + 0.1F;
                 float rj = rando.nextFloat() * 0.8F + 0.1F;

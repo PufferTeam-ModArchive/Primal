@@ -54,7 +54,8 @@ public class Utils {
 
     public static FluidStack getFluid(String fluid, int number) {
         String key = fluid + ":" + number;
-        if (Utils.containsExactMatch(Constants.fluids, fluid)) {
+        if (Utils.containsExactMatch(Constants.fluids, fluid)
+            && !Utils.containsExactMatch(Constants.vanillaFluids, fluid)) {
             fluid = "primal." + fluid;
         }
         if (fluidCache.containsKey(key)) {
@@ -66,7 +67,7 @@ public class Utils {
             fluidCache.put(key, fs);
             return fs;
         } else {
-            Primal.LOG.error("Tried to get invalid FluidStack from :{}:{}.", fluid, number);
+            Primal.LOG.error("Tried to get invalid FluidStack from {}:{}.", fluid, number);
         }
         return null;
     }
@@ -457,13 +458,33 @@ public class Utils {
         return prefix + output;
     }
 
+    public static boolean containsExactMatch(int[] array, int targetString) {
+        for (int element : array) {
+            if (targetString == element) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static boolean containsExactMatch(String[] array, String targetString) {
         if (targetString == null) {
             return true;
         }
         for (String element : array) {
-            if (element == null) return false;
-            if (element.equals(targetString)) {
+            if (targetString.equals(element)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean containsExactMatch(Block[] array, Block targetString) {
+        if (targetString == null) {
+            return true;
+        }
+        for (Block element : array) {
+            if (targetString == element) {
                 return true;
             }
         }
@@ -526,6 +547,16 @@ public class Utils {
         for (int i = 0; i < woodType.length; i++) {
             if (woodType[i] == null) continue;
             if (woodType[i].equals(wood)) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    public static int getItemFromArray(Block[] woodType, Block wood) {
+        for (int i = 0; i < woodType.length; i++) {
+            if (woodType[i] == null) continue;
+            if (woodType[i] == wood) {
                 return i;
             }
         }

@@ -1,11 +1,13 @@
 package net.pufferlab.primal.recipes;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.Utils;
 
 public class BarrelRecipe {
@@ -14,12 +16,19 @@ public class BarrelRecipe {
 
     public static void addBarrelRecipe(ItemStack output, FluidStack outputLiquid, ItemStack input,
         FluidStack inputLiquid) {
-        recipeList.add(new BarrelRecipe(output, outputLiquid, input, inputLiquid, 60));
+        recipeList.add(new BarrelRecipe(output, outputLiquid, Collections.singletonList(input), inputLiquid, 60));
     }
 
     public static void addBarrelRecipe(ItemStack output, FluidStack outputLiquid, ItemStack input,
         FluidStack inputLiquid, int processingTime) {
-        recipeList.add(new BarrelRecipe(output, outputLiquid, input, inputLiquid, processingTime));
+        recipeList
+            .add(new BarrelRecipe(output, outputLiquid, Collections.singletonList(input), inputLiquid, processingTime));
+    }
+
+    public static void addBarrelRecipe(ItemStack output, FluidStack outputLiquid, String input, FluidStack inputLiquid,
+        int processingTime) {
+        recipeList
+            .add(new BarrelRecipe(output, outputLiquid, OreDictionary.getOres(input), inputLiquid, processingTime));
     }
 
     public static BarrelRecipe getRecipe(ItemStack input, FluidStack inputLiquid) {
@@ -43,12 +52,12 @@ public class BarrelRecipe {
     public ItemStack output;
     public FluidStack outputLiquid;
     public ItemStack outputLiquidBlock;
-    public ItemStack input;
+    public List<ItemStack> input;
     public FluidStack inputLiquid;
     public ItemStack inputLiquidBlock;
     public int processingTime;
 
-    public BarrelRecipe(ItemStack output, FluidStack outputLiquid, ItemStack input, FluidStack inputLiquid,
+    public BarrelRecipe(ItemStack output, FluidStack outputLiquid, List<ItemStack> input, FluidStack inputLiquid,
         int processingTime) {
         this.output = output;
         this.outputLiquid = outputLiquid;
@@ -72,7 +81,7 @@ public class BarrelRecipe {
     }
 
     public boolean equals(ItemStack input, FluidStack inputLiquid) {
-        if (Utils.containsStack(this.inputLiquid, inputLiquid) && Utils.containsStack(this.input, input)) {
+        if (Utils.containsStack(this.inputLiquid, inputLiquid) && Utils.containsList(input, this.input)) {
             if (this.inputLiquid.amount <= inputLiquid.amount) {
                 return true;
             }

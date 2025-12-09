@@ -3,6 +3,7 @@ package net.pufferlab.primal;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -14,7 +15,6 @@ import net.pufferlab.primal.blocks.*;
 import net.pufferlab.primal.events.*;
 import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.tileentities.*;
-import net.pufferlab.primal.world.PrimalWorldGenerator;
 
 import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -46,8 +46,6 @@ public class Registry {
     public static Block large_vessel;
     public static Block barrel;
     public static Block faucet;
-    public static Fluid limewater;
-    public static Block limewater_block;
     public static Item icons;
     public static Item straw;
     public static Item rock;
@@ -64,7 +62,7 @@ public class Registry {
     public static Item bucket;
     public static Item.ToolMaterial toolFlint;
 
-    public void preInit() {
+    public void setup() {
         toolFlint = EnumHelper.addToolMaterial("flint", 0, 100, 2.0F, 0.0F, 15);
 
         ground_rock = new BlockGround(Material.rock, Constants.rockTypes, "ground_rock")
@@ -82,12 +80,6 @@ public class Registry {
         thatch = new BlockThatch();
         thatch_roof = new BlockThatchRoof();
 
-        limewater = new FluidPrimal("limewater").setDensity(1000)
-            .setViscosity(1000);
-        register(limewater);
-        limewater_block = new BlockFluidPrimal(limewater, MaterialPrimal.limewater, "limewater");
-        limewater.setBlock(limewater_block);
-
         icons = new ItemMeta(Constants.icons, "icon").setHiddenAll();
         straw = new ItemMeta(Constants.strawItems, "straw");
         wood = new ItemMeta(Constants.woodItems, "wood");
@@ -97,7 +89,7 @@ public class Registry {
         clay = new ItemMeta(Constants.clayItems, "clay");
         ((BlockGround) ground_rock).setItem(rock);
 
-        bucket = new ItemMeta(Constants.fluids, "bucket").setMaxStackSize(1);
+        bucket = new ItemBucket("bucket");
         ceramic_bucket = new ItemBucketCeramic("ceramic_bucket");
 
         flint_axe = new ItemAxePrimitive(toolFlint, "flint_axe");
@@ -111,24 +103,14 @@ public class Registry {
         register(thatch_roof, "thatch_roof");
         register(ground_rock, "ground_rock");
         register(pit_kiln, "pit_kiln");
-        register(TileEntityPitKiln.class, "pit_kiln");
         register(log_pile, "log_pile");
-        register(TileEntityLogPile.class, "log_pile");
         register(charcoal_pile, "charcoal_pile");
-        register(TileEntityCharcoalPile.class, "charcoal_pile");
         register(ash_pile, "ash_pile");
-        register(TileEntityAshPile.class, "ash_pile");
         register(chopping_log, "chopping_log");
-        register(TileEntityChoppingLog.class, "chopping_log");
         register(campfire, "campfire");
-        register(TileEntityCampfire.class, "campfire");
         register(large_vessel, "large_vessel");
-        register(TileEntityLargeVessel.class, "large_vessel");
         register(barrel, "barrel");
-        register(TileEntityBarrel.class, "barrel");
         register(faucet, "faucet");
-        register(TileEntityFaucet.class, "faucet");
-        register(limewater_block, "limewater");
 
         register(icons, "icon");
         register(straw, "straw");
@@ -144,12 +126,46 @@ public class Registry {
         register(firestarter, "firestarter");
         register(bucket, "bucket");
         register(ceramic_bucket, "ceramic_bucket");
-
-        register(limewater, "limewater");
     }
 
-    public void init() {
-        registerWorld(new PrimalWorldGenerator());
+    public void setupTiles() {
+        register(TileEntityPitKiln.class, "pit_kiln");
+        register(TileEntityLogPile.class, "log_pile");
+        register(TileEntityCharcoalPile.class, "charcoal_pile");
+        register(TileEntityAshPile.class, "ash_pile");
+        register(TileEntityChoppingLog.class, "chopping_log");
+        register(TileEntityCampfire.class, "campfire");
+        register(TileEntityLargeVessel.class, "large_vessel");
+        register(TileEntityBarrel.class, "barrel");
+        register(TileEntityFaucet.class, "faucet");
+    }
+
+    public static final Block[] fluidsBlocks = new Block[Constants.fluids.length];
+    public static final Fluid[] fluidsObjects = new Fluid[Constants.fluids.length];
+
+    public void setupFluids() {
+        fluidsBlocks[0] = Blocks.air;
+        fluidsBlocks[1] = Blocks.flowing_water;
+        fluidsBlocks[2] = Blocks.flowing_lava;
+        fluidsObjects[1] = FluidRegistry.WATER;
+        fluidsObjects[2] = FluidRegistry.LAVA;
+        for (int i = 0; i < Constants.fluids.length; i++) {
+            String name = Constants.fluids[i];
+            if (!Utils.containsExactMatch(Constants.vanillaFluids, name)) {
+                Fluid fluid = new FluidPrimal(name).setDensity(1000)
+                    .setViscosity(1000);
+                register(fluid);
+                Block block = new BlockFluidPrimal(fluid, Constants.fluidsMaterial[i], name);
+                fluid.setBlock(block);
+                register(block, name);
+                register(fluid, name);
+                fluidsObjects[i] = fluid;
+                fluidsBlocks[i] = block;
+            }
+        }
+    }
+
+    public void setupEvents() {
 
         registerEvent(new PitKilnHandler());
         registerEvent(new KnappingHandler());

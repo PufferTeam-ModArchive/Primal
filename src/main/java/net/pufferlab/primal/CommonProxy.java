@@ -22,7 +22,7 @@ public class CommonProxy implements IGuiHandler {
         Config.synchronizeConfiguration(event.getSuggestedConfigurationFile());
     }
 
-    public void registerRenders() {}
+    public void setupRenders() {}
 
     public void init(FMLInitializationEvent event) {}
 

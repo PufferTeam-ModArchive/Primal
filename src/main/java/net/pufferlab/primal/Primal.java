@@ -41,13 +41,15 @@ public class Primal {
     public void preInit(FMLPreInitializationEvent event) {
         proxy.preInit(event);
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, proxy);
-        registry.preInit();
+        registry.setup();
+        registry.setupTiles();
+        registry.setupFluids();
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         proxy.init(event);
-        proxy.registerRenders();
+        proxy.setupRenders();
         scriptRemove.init();
 
         networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(Primal.MODID);
@@ -58,7 +60,7 @@ public class Primal {
             new NEIConfig().loadConfig();
         }
 
-        registry.init();
+        registry.setupEvents();
     }
 
     @Mod.EventHandler

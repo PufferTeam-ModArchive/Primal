@@ -7,5 +7,6 @@ import net.minecraft.block.material.MaterialLiquid;
 public class MaterialPrimal {
 
     public static final Material limewater = new MaterialLiquid(MapColor.grayColor);
+    public static final Material dye = new MaterialLiquid(MapColor.grayColor);
 
 }

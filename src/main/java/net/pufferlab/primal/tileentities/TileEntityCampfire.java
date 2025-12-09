@@ -7,9 +7,12 @@ import net.pufferlab.primal.recipes.CampfireRecipe;
 
 public class TileEntityCampfire extends TileEntityInventory {
 
+    private static final int[] blacklistedSlots = new int[] { 0, 1, 2, 3, 4, 5 };
+
     public TileEntityCampfire() {
         super(10);
         this.isBuilt = false;
+        setBlacklistedSlots(blacklistedSlots);
     }
 
     public int timePassed;
@@ -113,7 +116,7 @@ public class TileEntityCampfire extends TileEntityInventory {
                             i2 = getInventoryStack(0).stackSize++;
                         }
                     }
-                    setInventorySlotContents(0, Utils.getModItem("misc", "item", "ash", i2));
+                    setInventorySlotContentsUpdate(0, Utils.getModItem("misc", "item", "ash", i2));
                     this.worldObj
                         .setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, this.blockMetadata - 1, 2);
                     markDirty();
@@ -139,7 +142,7 @@ public class TileEntityCampfire extends TileEntityInventory {
     public void setOutput(int slot) {
         ItemStack input = this.getStackInSlot(slot);
         ItemStack output = CampfireRecipe.getOutput(input);
-        this.setInventorySlotContents(slot, output.copy());
+        this.setInventorySlotContentsUpdate(slot, output.copy());
     }
 
     public boolean canProcess(int slot) {

@@ -237,11 +237,11 @@ public class BlockPitKiln extends BlockContainer {
     private void dropItems(World world, int i, int j, int k, int start) {
         Random rando = world.rand;
         TileEntity tileEntity = world.getTileEntity(i, j, k);
-        if (!(tileEntity instanceof IInventory)) return;
-        IInventory inventory = (IInventory) tileEntity;
+        if (!(tileEntity instanceof TileEntityInventory)) return;
+        TileEntityInventory inventory = (TileEntityInventory) tileEntity;
         for (int x = start; x < inventory.getSizeInventory(); x++) {
             ItemStack item = inventory.getStackInSlot(x);
-            inventory.setInventorySlotContents(x, null);
+            inventory.setInventorySlotContentsUpdate(x, null);
             if (item != null && item.stackSize > 0) {
                 float ri = rando.nextFloat() * 0.8F + 0.1F;
                 float rj = rando.nextFloat() * 0.8F + 0.1F;

@@ -57,4 +57,8 @@ public interface IScript {
         BarrelRecipe.addBarrelRecipe(output, outputLiquid, input, inputLiquid, processing);
     }
 
+    default void addBarrelRecipe(ItemStack output, FluidStack outputLiquid, String input, FluidStack inputLiquid,
+        int processing) {
+        BarrelRecipe.addBarrelRecipe(output, outputLiquid, input, inputLiquid, processing);
+    }
 }

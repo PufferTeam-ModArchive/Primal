@@ -126,7 +126,7 @@ public class TileEntityLogPile extends TileEntityInventory {
                     TileEntity te = this.worldObj.getTileEntity(x, y, z);
                     if (te instanceof TileEntityAshPile tef) {
                         for (int i = 0; i < this.coalAmount; i++) {
-                            tef.setInventorySlotContents(
+                            tef.setInventorySlotContentsUpdate(
                                 i,
                                 Utils.getModItem("misc", "item", "ash", 1)
                                     .copy());
@@ -139,7 +139,7 @@ public class TileEntityLogPile extends TileEntityInventory {
                     TileEntity te = this.worldObj.getTileEntity(x, y, z);
                     if (te instanceof TileEntityCharcoalPile tef) {
                         for (int i = 0; i < this.coalAmount; i++) {
-                            tef.setInventorySlotContents(
+                            tef.setInventorySlotContentsUpdate(
                                 i,
                                 Utils.getItem("minecraft:coal:1:1")
                                     .copy());

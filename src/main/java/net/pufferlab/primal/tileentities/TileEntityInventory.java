@@ -13,6 +13,7 @@ import net.pufferlab.primal.Utils;
 public class TileEntityInventory extends TileEntityMetaFacing implements IInventory {
 
     private ItemStack[] inventory;
+    private int[] blacklistedSlots;
     private int maxSize;
     public int lastSlot;
     public boolean isFired;
@@ -20,6 +21,10 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
     public TileEntityInventory(int slots) {
         this.inventory = new ItemStack[slots];
         this.maxSize = slots;
+    }
+
+    public void setBlacklistedSlots(int[] blacklistedSlots) {
+        this.blacklistedSlots = blacklistedSlots;
     }
 
     public int getSize() {
@@ -88,24 +93,6 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         return null;
     }
 
-    public boolean removeItemsInSlot(int slot) {
-        if (this.inventory[slot] != null) {
-            setInventorySlotContents(slot, null);
-            this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean addItemInSlot(int slot, ItemStack stack) {
-        if (this.inventory[slot] == null) {
-            setInventorySlotContents(slot, stack);
-            this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
-            return true;
-        }
-        return false;
-    }
-
     @Override
     public int getSizeInventory() {
         return this.maxSize;
@@ -164,6 +151,10 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
     }
 
     public void setInventorySlotContentsUpdate(int index, ItemStack stack) {
+        if (stack == null) {
+            setInventorySlotContentsUpdate(index);
+            return;
+        }
         ItemStack copy = stack.copy();
         if (stack.stackSize > this.getInventoryStackLimit()) {
             copy.stackSize = getInventoryStackLimit();
@@ -392,6 +383,9 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
 
     @Override
     public boolean isItemValidForSlot(int index, ItemStack stack) {
-        return true;
+        if (!Utils.containsExactMatch(blacklistedSlots, index)) {
+            return true;
+        }
+        return false;
     }
 }

@@ -21,8 +21,8 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
 
     public class BarrelPair extends CachedRecipe {
 
-        public BarrelPair(ItemStack ingred, ItemStack ingred2, ItemStack result, ItemStack result2) {
-            this.ingred = new PositionedStack(Utils.nullableStack(ingred), 43, 25, true);
+        public BarrelPair(List<ItemStack> ingred, ItemStack ingred2, ItemStack result, ItemStack result2) {
+            this.ingred = new PositionedStack(ingred, 43, 25, true);
             this.ingred2 = new PositionedStack(Utils.nullableStack(ingred2), 43, 44, true);
             if (result == null & result2 != null) {
                 this.result = new PositionedStack(Utils.nullableStack(result2), 114, 44, false);
@@ -40,7 +40,7 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
             List<PositionedStack> list = new ArrayList<>();
             list.add(ingred);
             list.add(ingred2);
-            return list;
+            return getCycledIngredients(cycleticks / 48, list);
         }
 
         @Override
@@ -61,7 +61,7 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
 
     @Override
     public void loadTransferRects() {
-        transferRects.add(new RecipeTransferRect(new Rectangle(70, 8, 48, 48), Primal.MODID + ".barrel"));
+        transferRects.add(new RecipeTransferRect(new Rectangle(64, 8, 48, 48), Primal.MODID + ".barrel"));
     }
 
     @Override

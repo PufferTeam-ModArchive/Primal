@@ -13,13 +13,14 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
     public static final FluidStack waterFluidStack = new FluidStack(FluidRegistry.WATER, 5);
     public boolean isFloorBarrel = false;
     private final FluidTank tankOutput;
-
+    private static final int[] blacklistedSlots = new int[] { 1 };
     public int timePassed;
     public int timePassedRain;
 
     public TileEntityBarrel() {
         super(10000, 2);
         tankOutput = new FluidTank(10000);
+        setBlacklistedSlots(blacklistedSlots);
     }
 
     @Override
@@ -138,7 +139,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
                 if (recipe.output != null) {
                     addItemInSlotUpdate(1, recipe.output);
                 }
-                decrStackSize(0, recipe.input.stackSize);
+                decrStackSize(0, 1);
                 tank.drain(recipe.inputLiquid.amount, true);
                 tankOutput.fill(recipe.outputLiquid, true);
                 updateTE();

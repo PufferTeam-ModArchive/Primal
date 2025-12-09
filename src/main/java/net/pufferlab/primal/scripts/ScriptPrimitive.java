@@ -1,6 +1,8 @@
 package net.pufferlab.primal.scripts;
 
+import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.KnappingType;
 
 public class ScriptPrimitive implements IScript {
@@ -263,5 +265,13 @@ public class ScriptPrimitive implements IScript {
             getModItem("misc", "item", "lime", 1),
             getFluid("water", 500),
             100);
+        for (String color : Constants.colorTypes) {
+            addBarrelRecipe(
+                null,
+                getFluid(color, 1000),
+                Utils.getOreDictionaryName("dye", color),
+                getFluid("water", 1000),
+                100);
+        }
     }
 }

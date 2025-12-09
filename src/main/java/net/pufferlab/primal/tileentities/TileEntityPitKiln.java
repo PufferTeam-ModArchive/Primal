@@ -12,9 +12,11 @@ public class TileEntityPitKiln extends TileEntityInventory {
 
     public int timePassed;
     int timeToSmelt = 20 * 30;
+    private static final int[] blacklistedSlots = new int[] { 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 
     public TileEntityPitKiln() {
         super(13);
+        setBlacklistedSlots(blacklistedSlots);
     }
 
     @Override
@@ -72,7 +74,7 @@ public class TileEntityPitKiln extends TileEntityInventory {
                 ItemStack input = this.getStackInSlot(i);
                 ItemStack output = PitKilnRecipe.getOutput(input);
                 if (output == null) continue;
-                this.setInventorySlotContents(i, output.copy());
+                this.setInventorySlotContentsUpdate(i, output.copy());
             }
         }
         if (reset) {
