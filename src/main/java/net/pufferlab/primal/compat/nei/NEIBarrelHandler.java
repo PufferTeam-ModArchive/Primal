@@ -23,7 +23,8 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
 
     public class BarrelPair extends CachedRecipe {
 
-        public BarrelPair(List<ItemStack> ingred, ItemStack ingred2, ItemStack result, ItemStack result2, int processingTime) {
+        public BarrelPair(List<ItemStack> ingred, ItemStack ingred2, ItemStack result, ItemStack result2,
+            int processingTime) {
             this.ingred = new PositionedStack(ingred, 43, 25, true);
             this.ingred2 = new PositionedStack(Utils.nullableStack(ingred2), 43, 44, true);
             if (result == null & result2 != null) {
@@ -77,7 +78,8 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
                         recipe.input,
                         recipe.inputLiquidBlock,
                         recipe.output,
-                        recipe.outputLiquidBlock, recipe.processingTime));
+                        recipe.outputLiquidBlock,
+                        recipe.processingTime));
             }
         } else super.loadCraftingRecipes(outputId, results);
     }
@@ -93,7 +95,8 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
                         recipe.input,
                         recipe.inputLiquidBlock,
                         recipe.output,
-                        recipe.outputLiquidBlock, recipe.processingTime));
+                        recipe.outputLiquidBlock,
+                        recipe.processingTime));
             }
         }
     }
@@ -129,15 +132,15 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
         BarrelPair recipePair = (BarrelPair) arecipes.get(recipe);
         int timeSecondSmelt = recipePair.processingTime / 20;
         int timeMinuteSmelt = timeSecondSmelt / 60;
-        if(timeMinuteSmelt < 1) {
+        if (timeMinuteSmelt < 1) {
             Minecraft.getMinecraft().fontRenderer
                 .drawString(translate("recipe.primal.barrel.smeltTime", timeSecondSmelt), 40, 10, 0xFF000000);
-        } else if(timeMinuteSmelt < 2) {
+        } else if (timeMinuteSmelt < 2) {
             Minecraft.getMinecraft().fontRenderer
                 .drawString(translate("recipe.primal.barrel.smeltTimeMinute", timeMinuteSmelt), 40, 10, 0xFF000000);
         } else {
-                Minecraft.getMinecraft().fontRenderer
-                    .drawString(translate("recipe.primal.barrel.smeltTimeMinutes", timeMinuteSmelt), 40, 10, 0xFF000000);
+            Minecraft.getMinecraft().fontRenderer
+                .drawString(translate("recipe.primal.barrel.smeltTimeMinutes", timeMinuteSmelt), 40, 10, 0xFF000000);
         }
 
     }

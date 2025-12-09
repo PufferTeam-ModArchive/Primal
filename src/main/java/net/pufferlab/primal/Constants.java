@@ -9,10 +9,10 @@ public class Constants {
     public static final float modelConst = 0.0625F;
     public static final String[] rockTypes = new String[] { "stone" };
     public static final String[] rockTextures = new String[] { "minecraft:stone" };
-    public static final String[] uniqueItemTypes = new String[] { "item", "straw", "hide", "wood", "powder", "flint", "clay" };
+    public static final String[] uniqueItemTypes = new String[] { "item", "straw", "hide", "wood", "powder", "flint",
+        "clay" };
     public static final String[] strawItems = new String[] { "straw", "straw_cordage", "straw_kindling" };
-    public static final String[] hideItems = new String[] { "hide", "soaked_hide", "scraped_hide"
-    };
+    public static final String[] hideItems = new String[] { "hide", "soaked_hide", "scraped_hide" };
     public static final String[] woodItems = new String[] { "firewood", "ash" };
     public static final String[] powderItems = new String[] { "lime" };
     public static final String[] flintItems = new String[] { "flint_shard", "flint_axe_head", "flint_pickaxe_head",
@@ -22,16 +22,16 @@ public class Constants {
     public static final String[] colorTypes = new String[] { "white", "orange", "magenta", "light_blue", "yellow",
         "lime", "pink", "gray", "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black" };
     public static final String[] icons = new String[] { "knapping" };
-    public static final String[] fluids = new String[] { "empty", "water", "lava", "limewater", "tannin", "white", "orange",
-        "magenta", "light_blue", "yellow", "lime", "pink", "gray", "light_gray", "cyan", "purple", "blue", "brown",
-        "green", "red", "black" };
-    public static final Material[] fluidsMaterial = new Material[] { null, null, null, MaterialPrimal.limewater, MaterialPrimal.tannin,
+    public static final String[] fluids = new String[] { "empty", "water", "lava", "limewater", "tannin", "white",
+        "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray", "light_gray", "cyan", "purple", "blue",
+        "brown", "green", "red", "black" };
+    public static final Material[] fluidsMaterial = new Material[] { null, null, null, MaterialPrimal.limewater,
+        MaterialPrimal.tannin, MaterialPrimal.dye, MaterialPrimal.dye, MaterialPrimal.dye, MaterialPrimal.dye,
         MaterialPrimal.dye, MaterialPrimal.dye, MaterialPrimal.dye, MaterialPrimal.dye, MaterialPrimal.dye,
         MaterialPrimal.dye, MaterialPrimal.dye, MaterialPrimal.dye, MaterialPrimal.dye, MaterialPrimal.dye,
-        MaterialPrimal.dye, MaterialPrimal.dye, MaterialPrimal.dye, MaterialPrimal.dye, MaterialPrimal.dye,
-        MaterialPrimal.dye };
-    public static final boolean[] fluidsBreak = new boolean[] { false, false, true, false, false, false, false, false, false,
-        false, false, false, false, false, false, false, false, false, false, false, false };
+        MaterialPrimal.dye, MaterialPrimal.dye };
+    public static final boolean[] fluidsBreak = new boolean[] { false, false, true, false, false, false, false, false,
+        false, false, false, false, false, false, false, false, false, false, false, false, false };
     public static final String[] vanillaFluids = new String[] { "empty", "water", "lava" };
     public static final String[] ashPileOreDicts = new String[] { "ash" };
     public static final String[] charcoalPileOreDicts = new String[] { "charcoal", "coal" };

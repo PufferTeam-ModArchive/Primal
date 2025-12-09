@@ -61,7 +61,7 @@ public class BarrelRecipe {
         int processingTime) {
         this.output = output;
         this.outputLiquid = outputLiquid;
-        if(outputLiquid != null) {
+        if (outputLiquid != null) {
             this.outputLiquidBlock = new ItemStack(
                 outputLiquid.getFluid()
                     .getBlock(),
