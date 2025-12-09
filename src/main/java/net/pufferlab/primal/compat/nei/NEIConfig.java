@@ -19,6 +19,7 @@ public class NEIConfig implements IConfigureNEI {
             API.registerRecipeHandler(new NEIKnappingHandler());
             API.registerRecipeHandler(new NEIPitKilnHandler());
             API.registerRecipeHandler(new NEICampfireHandler());
+            API.registerRecipeHandler(new NEIBarrelHandler());
         }
         loadGTNH();
     }
@@ -41,6 +42,14 @@ public class NEIConfig implements IConfigureNEI {
             166,
             65);
         sendHandler(
+            "net.pufferlab.primal.compat.nei.NEIBarrelHandler",
+            Primal.MODID + ":barrel",
+            2,
+            Primal.MODNAME,
+            Primal.MODID,
+            166,
+            65);
+        sendHandler(
             "net.pufferlab.primal.compat.nei.NEIChoppingLogHandler",
             Primal.MODID + ":chopping_log",
             2,
@@ -56,7 +65,8 @@ public class NEIConfig implements IConfigureNEI {
             Primal.MODID,
             166,
             65);
-        sendCatalyst("primal.chopping_log", Primal.MODID + ":chopping_log");
+        sendCatalyst(Primal.MODID + ".chopping_log", Primal.MODID + ":chopping_log");
+        sendCatalyst(Primal.MODID + ".barrel", Primal.MODID + ":barrel");
     }
 
     @Override

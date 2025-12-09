@@ -1,6 +1,5 @@
 package net.pufferlab.primal;
 
-import cpw.mods.fml.common.IWorldGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -15,9 +14,10 @@ import net.pufferlab.primal.blocks.*;
 import net.pufferlab.primal.events.*;
 import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.tileentities.*;
-
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.pufferlab.primal.world.PrimalWorldGenerator;
+
+import cpw.mods.fml.common.IWorldGenerator;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class Registry {
 
@@ -197,7 +197,7 @@ public class Registry {
     }
 
     public void register(Class<? extends TileEntity> cls, String baseName) {
-        GameRegistry.registerTileEntity(cls, Primal.MODID + "_" + baseName);
+        GameRegistry.registerTileEntity(cls, Primal.MODID + "." + baseName);
     }
 
     public void registerEvent(Object event) {

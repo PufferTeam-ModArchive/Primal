@@ -5,6 +5,7 @@ import java.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -54,7 +55,7 @@ public class Utils {
     public static FluidStack getFluid(String fluid, int number) {
         String key = fluid + ":" + number;
         if (Utils.containsExactMatch(Constants.fluids, fluid)) {
-            fluid = "primal_" + fluid;
+            fluid = "primal." + fluid;
         }
         if (fluidCache.containsKey(key)) {
             return fluidCache.get(key);
@@ -261,6 +262,11 @@ public class Utils {
         return FluidContainerRegistry.isEmptyContainer(stack);
     }
 
+    public static Random getSeededRandom(int x, int y, int z) {
+        long seed = x * 3129871L ^ z * 116129781L ^ (long) y * 42317861L;
+        return new Random(seed);
+    }
+
     public static int getBlockX(int side, int x) {
         if (side == 4) {
             x--;
@@ -357,6 +363,25 @@ public class Utils {
         }
 
         return wild.getFluid() == check.getFluid();
+    }
+
+    public static boolean containsStack(ItemStack check, FluidStack wild) {
+        if (wild == null || check == null) {
+            return false;
+        }
+
+        FluidStack stack = getFluidFromStack(check);
+        if (stack == null) {
+            return false;
+        }
+        return wild.getFluid() == stack.getFluid();
+    }
+
+    public static ItemStack nullableStack(ItemStack stack) {
+        if (stack != null) {
+            return stack;
+        }
+        return new ItemStack(Blocks.air, 1, 0);
     }
 
     public static MovingObjectPosition getMovingObjectPositionFromPlayer(World worldIn, EntityPlayer playerIn,

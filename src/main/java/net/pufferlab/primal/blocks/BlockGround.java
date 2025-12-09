@@ -1,6 +1,7 @@
 package net.pufferlab.primal.blocks;
 
-import net.minecraft.block.Block;
+import java.util.Random;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -18,9 +19,6 @@ import net.pufferlab.primal.Utils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-import java.util.List;
-import java.util.Random;
-
 public class BlockGround extends BlockMeta {
 
     public Item item;
@@ -29,6 +27,7 @@ public class BlockGround extends BlockMeta {
     public BlockGround(Material material, String[] materials, String type) {
         super(material, materials, type);
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F * 3, 1.0F);
+        this.canBlockGrass = true;
     }
 
     @Override
@@ -47,14 +46,12 @@ public class BlockGround extends BlockMeta {
     }
 
     @Override
-    public boolean canPlaceBlockAt(World worldIn, int x, int y, int z)
-    {
+    public boolean canPlaceBlockAt(World worldIn, int x, int y, int z) {
         return this.canBlockStay(worldIn, x, y, z);
     }
 
     @Override
-    public boolean canBlockStay(World worldIn, int x, int y, int z)
-    {
+    public boolean canBlockStay(World worldIn, int x, int y, int z) {
         return worldIn.isSideSolid(x, y - 1, z, ForgeDirection.UP);
     }
 

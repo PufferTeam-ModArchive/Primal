@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Utils;
 
@@ -41,16 +42,32 @@ public class BarrelRecipe {
 
     public ItemStack output;
     public FluidStack outputLiquid;
+    public ItemStack outputLiquidBlock;
     public ItemStack input;
     public FluidStack inputLiquid;
+    public ItemStack inputLiquidBlock;
     public int processingTime;
 
     public BarrelRecipe(ItemStack output, FluidStack outputLiquid, ItemStack input, FluidStack inputLiquid,
         int processingTime) {
         this.output = output;
         this.outputLiquid = outputLiquid;
+        this.outputLiquidBlock = new ItemStack(
+            outputLiquid.getFluid()
+                .getBlock(),
+            1,
+            0);
+        this.outputLiquidBlock.stackTagCompound = new NBTTagCompound();
+        this.outputLiquidBlock.stackTagCompound.setInteger("DisplayFluidAmount", outputLiquid.amount);
         this.input = input;
         this.inputLiquid = inputLiquid;
+        this.inputLiquidBlock = new ItemStack(
+            inputLiquid.getFluid()
+                .getBlock(),
+            1,
+            0);
+        this.inputLiquidBlock.stackTagCompound = new NBTTagCompound();
+        this.inputLiquidBlock.stackTagCompound.setInteger("DisplayFluidAmount", inputLiquid.amount);
         this.processingTime = processingTime;
     }
 

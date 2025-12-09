@@ -87,7 +87,7 @@ public class NEIKnappingHandler extends TemplateRecipeHandler {
 
     @Override
     public String getGuiTexture() {
-        return Primal.MODID + ":textures/gui/container/knapping.png";
+        return Primal.MODID + ":textures/gui/nei/knapping.png";
     }
 
     @Override

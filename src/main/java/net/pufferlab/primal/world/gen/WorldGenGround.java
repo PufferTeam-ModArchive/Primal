@@ -18,7 +18,7 @@ public class WorldGenGround extends WorldGenerator {
 
     @Override
     public boolean generate(World world, Random ran, int x, int y, int z) {
-        for (int l = 0; l < 3; ++l) {
+        for (int l = 0; l < 5; ++l) {
             int i1 = x + ran.nextInt(8) - ran.nextInt(8);
             int k1 = z + ran.nextInt(8) - ran.nextInt(8);
             int j1 = world.getHeightValue(i1, k1);

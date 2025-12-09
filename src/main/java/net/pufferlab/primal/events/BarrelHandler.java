@@ -13,8 +13,8 @@ public class BarrelHandler {
 
     @SubscribeEvent
     public void tooltipEvent(ItemTooltipEvent event) {
-        if (event.itemStack.getItem() == itemBarrel) {
-            if (event.itemStack.hasTagCompound()) {
+        if (event.itemStack.hasTagCompound()) {
+            if (event.itemStack.getItem() == itemBarrel) {
                 String tooltip = Utils.getFluidInfoFromNBT(event.itemStack.getTagCompound());
                 if (tooltip != null) {
                     event.toolTip.add(tooltip);
@@ -23,6 +23,10 @@ public class BarrelHandler {
                 if (tooltipOutput != null) {
                     event.toolTip.add(tooltipOutput);
                 }
+            }
+            if (event.itemStack.stackTagCompound.hasKey("DisplayFluidAmount")) {
+                int fluid = event.itemStack.stackTagCompound.getInteger("DisplayFluidAmount");
+                event.toolTip.add(fluid + " mB");
             }
         }
     }
