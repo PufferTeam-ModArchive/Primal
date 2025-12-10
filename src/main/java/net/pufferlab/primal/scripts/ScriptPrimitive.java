@@ -15,26 +15,53 @@ public class ScriptPrimitive implements IScript {
         addKnappingRecipes();
         addPitKilnRecipes();
         addBarrelRecipes();
+
+        runModCompat();
+    }
+
+    public void runModCompat() {
+        if (Primal.EFRLoaded) {
+            addEFROredicts();
+            addEFRBarrelRecipes();
+        }
     }
 
     public void addOredicts() {
-        addOreDict("straw", getModItem("misc", "item", "straw", 1));
-        addOreDict("firewood", getModItem("misc", "item", "firewood", 1));
+        addOreDict("straw", getModItem("straw", 1));
+        addOreDict("firewood", getModItem("firewood", 1));
         addOreDict("charcoal", getItem("minecraft", "coal", 1, 1));
         addOreDict("coal", getItem("minecraft", "coal", 0, 1));
-        addOreDict("ash", getModItem("misc", "item", "ash", 1));
-        addOreDict("kindling", getModItem("misc", "item", "straw_kindling", 1));
+        addOreDict("ash", getModItem("ash", 1));
+        addOreDict("kindling", getModItem("straw_kindling", 1));
         addOreDict("rock", getItem(Primal.MODID + ":rock:*:1"));
-        addOreDict("itemLarge", getModItem("misc", "item", "clay_large_vessel", 1));
+        addOreDict("itemLarge", getModItem("clay_large_vessel", 1));
         addOreDict("itemContainer", getItem(Primal.MODID, "large_vessel", 0, 1));
         addOreDict("itemContainer", getItem(Primal.MODID, "barrel", 0, 1));
+        addOreDict("blockColoredWool", getItem("minecraft:wool:*:1"));
+        addOreDict("blockColoredGlass", getItem("minecraft:stained_glass:*:1"));
+        addOreDict("blockColoredGlass", getItem("minecraft:glass:*:1"));
+        addOreDict("blockColoredGlassPane", getItem("minecraft:stained_glass_pane:*:1"));
+        addOreDict("blockColoredGlassPane", getItem("minecraft:glass_pane:*:1"));
+        addOreDict("blockColoredHardenedClay", getItem("minecraft:stained_hardened_clay:*:1"));
+        addOreDict("blockColoredHardenedClay", getItem("minecraft:hardened_clay:*:1"));
+        addOreDict("blockColoredCarpet", getItem("minecraft:carpet:*:1"));
+    }
+
+    public void addEFROredicts() {
+        addOreDict("blockColoredConcrete", getItem("etfuturum:concrete:*:1"));
+        addOreDict("blockColoredConcretePowder", getItem("etfuturum:concrete_powder:*:1"));
+        addOreDict("blockColoredBanner", getItem("etfuturum:banner:*:1"));
+        for (String color : Constants.colorTypes) {
+            addOreDict("blockColoredGlazedTerracotta", getModItem("glazed_terracotta", color, 1));
+            addOreDict("blockColoredBed", getModItem("bed", color, 1));
+        }
     }
 
     public void addCraftingRecipes() {
         addShapelessRecipe(
-            getModItem("misc", "item", "straw_kindling", 1),
-            getModItem("misc", "item", "straw", 1),
-            getModItem("misc", "item", "straw_cordage", 1),
+            getModItem("straw_kindling", 1),
+            getModItem("straw", 1),
+            getModItem("straw_cordage", 1),
             "stickWood");
         addShapedRecipe(getItem(Primal.MODID, "chopping_log", 0, 1), "SS", 'S', "logWood");
         addShapedRecipe(getItem(Primal.MODID, "barrel", 0, 1), "P P", "P P", "PPP", 'P', "plankWood");
@@ -43,7 +70,7 @@ public class ScriptPrimitive implements IScript {
             "I",
             "S",
             'I',
-            getModItem("misc", "item", "flint_axe_head", 1),
+            getModItem("flint_axe_head", 1),
             'S',
             "stickWood");
         addShapedRecipe(
@@ -51,7 +78,7 @@ public class ScriptPrimitive implements IScript {
             "I",
             "S",
             'I',
-            getModItem("misc", "item", "flint_pickaxe_head", 1),
+            getModItem("flint_pickaxe_head", 1),
             'S',
             "stickWood");
         addShapedRecipe(
@@ -59,7 +86,7 @@ public class ScriptPrimitive implements IScript {
             "I",
             "S",
             'I',
-            getModItem("misc", "item", "flint_shovel_head", 1),
+            getModItem("flint_shovel_head", 1),
             'S',
             "stickWood");
         addShapedRecipe(
@@ -67,22 +94,17 @@ public class ScriptPrimitive implements IScript {
             "I",
             "S",
             'I',
-            getModItem("misc", "item", "flint_knife_blade", 1),
+            getModItem("flint_knife_blade", 1),
             'S',
             "stickWood");
-        addShapedRecipe(getItem(Primal.MODID, "thatch", 0, 1), "II", "II", 'I', getModItem("misc", "item", "straw", 1));
-        addShapedRecipe(
-            getItem(Primal.MODID, "thatch_roof", 0, 1),
-            "I ",
-            "II",
-            'I',
-            getModItem("misc", "item", "straw", 1));
+        addShapedRecipe(getItem(Primal.MODID, "thatch", 0, 1), "II", "II", 'I', getModItem("straw", 1));
+        addShapedRecipe(getItem(Primal.MODID, "thatch_roof", 0, 1), "I ", "II", 'I', getModItem("straw", 1));
         addShapedRecipe(
             getItem(Primal.MODID, "firestarter", 0, 1),
             "SI",
             "I ",
             'S',
-            getModItem("misc", "item", "straw", 1),
+            getModItem("straw", 1),
             'I',
             "stickWood");
         addShapedRecipe(
@@ -90,7 +112,7 @@ public class ScriptPrimitive implements IScript {
             " I",
             "IS",
             'S',
-            getModItem("misc", "item", "straw", 1),
+            getModItem("straw", 1),
             'I',
             "stickWood");
     }
@@ -105,37 +127,16 @@ public class ScriptPrimitive implements IScript {
     }
 
     public void addChoppingLogRecipes() {
-        addChoppingLogRecipe(getModItem("misc", "item", "firewood", 4), "logWood");
+        addChoppingLogRecipe(getModItem("firewood", 4), "logWood");
     }
 
     public void addKnappingRecipes() {
+        addKnappingRecipe(KnappingType.clay, getModItem("clay_bucket", 1), "C   C", "C   C", "C   C", "C   C", "CCCCC");
+        addKnappingRecipe(KnappingType.clay, getModItem("clay_brick", 6), "CC CC", "     ", "CC CC", "     ", "CC CC");
+        addKnappingRecipe(KnappingType.clay, getModItem("clay_brick", 6), "C C C", "C C C", "     ", "C C C", "C C C");
         addKnappingRecipe(
             KnappingType.clay,
-            getModItem("misc", "item", "clay_bucket", 1),
-            "C   C",
-            "C   C",
-            "C   C",
-            "C   C",
-            "CCCCC");
-        addKnappingRecipe(
-            KnappingType.clay,
-            getModItem("misc", "item", "clay_brick", 6),
-            "CC CC",
-            "     ",
-            "CC CC",
-            "     ",
-            "CC CC");
-        addKnappingRecipe(
-            KnappingType.clay,
-            getModItem("misc", "item", "clay_brick", 6),
-            "C C C",
-            "C C C",
-            "     ",
-            "C C C",
-            "C C C");
-        addKnappingRecipe(
-            KnappingType.clay,
-            getModItem("misc", "item", "clay_flower_pot", 1),
+            getModItem("clay_flower_pot", 1),
             " CCC ",
             "C   C",
             "C   C",
@@ -143,7 +144,7 @@ public class ScriptPrimitive implements IScript {
             " CCC ");
         addKnappingRecipe(
             KnappingType.clay,
-            getModItem("misc", "item", "clay_large_vessel", 1),
+            getModItem("clay_large_vessel", 1),
             "CCCCC",
             "C   C",
             "C   C",
@@ -152,7 +153,7 @@ public class ScriptPrimitive implements IScript {
 
         addKnappingRecipe(
             KnappingType.flint,
-            getModItem("misc", "item", "flint_axe_head", 1),
+            getModItem("flint_axe_head", 1),
             " C   ",
             "CCCC ",
             "CCCCC",
@@ -160,7 +161,7 @@ public class ScriptPrimitive implements IScript {
             " C   ");
         addKnappingRecipe(
             KnappingType.flint,
-            getModItem("misc", "item", "flint_pickaxe_head", 2),
+            getModItem("flint_pickaxe_head", 2),
             " CCC ",
             "C   C",
             "     ",
@@ -168,7 +169,7 @@ public class ScriptPrimitive implements IScript {
             "C   C");
         addKnappingRecipe(
             KnappingType.flint,
-            getModItem("misc", "item", "flint_pickaxe_head", 1),
+            getModItem("flint_pickaxe_head", 1),
             " CCC ",
             "C   C",
             "     ",
@@ -176,7 +177,7 @@ public class ScriptPrimitive implements IScript {
             "     ");
         addKnappingRecipe(
             KnappingType.flint,
-            getModItem("misc", "item", "flint_pickaxe_head", 1),
+            getModItem("flint_pickaxe_head", 1),
             "     ",
             "     ",
             "     ",
@@ -184,7 +185,7 @@ public class ScriptPrimitive implements IScript {
             "C   C");
         addKnappingRecipe(
             KnappingType.flint,
-            getModItem("misc", "item", "flint_pickaxe_head", 1),
+            getModItem("flint_pickaxe_head", 1),
             "     ",
             " CCC ",
             "C   C",
@@ -192,7 +193,7 @@ public class ScriptPrimitive implements IScript {
             "     ");
         addKnappingRecipe(
             KnappingType.flint,
-            getModItem("misc", "item", "flint_shovel_head", 1),
+            getModItem("flint_shovel_head", 1),
             "  C  ",
             " CCC ",
             " CCC ",
@@ -200,7 +201,7 @@ public class ScriptPrimitive implements IScript {
             " CCC ");
         addKnappingRecipe(
             KnappingType.flint,
-            getModItem("misc", "item", "flint_shovel_head", 1),
+            getModItem("flint_shovel_head", 1),
             " C   ",
             "CCC  ",
             "CCC  ",
@@ -208,7 +209,7 @@ public class ScriptPrimitive implements IScript {
             "CCC  ");
         addKnappingRecipe(
             KnappingType.flint,
-            getModItem("misc", "item", "flint_shovel_head", 1),
+            getModItem("flint_shovel_head", 1),
             "   C ",
             "  CCC",
             "  CCC",
@@ -216,7 +217,7 @@ public class ScriptPrimitive implements IScript {
             "  CCC");
         addKnappingRecipe(
             KnappingType.flint,
-            getModItem("misc", "item", "flint_knife_blade", 2),
+            getModItem("flint_knife_blade", 2),
             "C   C",
             "CC CC",
             "CC CC",
@@ -224,7 +225,7 @@ public class ScriptPrimitive implements IScript {
             "CC CC");
         addKnappingRecipe(
             KnappingType.flint,
-            getModItem("misc", "item", "flint_knife_blade", 2),
+            getModItem("flint_knife_blade", 2),
             " C C ",
             "CC CC",
             "CC CC",
@@ -232,7 +233,7 @@ public class ScriptPrimitive implements IScript {
             "CC CC");
         addKnappingRecipe(
             KnappingType.flint,
-            getModItem("misc", "item", "flint_knife_blade", 2),
+            getModItem("flint_knife_blade", 2),
             "C  C ",
             "CC CC",
             "CC CC",
@@ -240,7 +241,7 @@ public class ScriptPrimitive implements IScript {
             "CC CC");
         addKnappingRecipe(
             KnappingType.straw,
-            getModItem("misc", "item", "straw_cordage", 1),
+            getModItem("straw_cordage", 1),
             "CCCCC",
             "    C",
             "CCC C",
@@ -249,32 +250,20 @@ public class ScriptPrimitive implements IScript {
     }
 
     public void addPitKilnRecipes() {
-        addPitKilnRecipe(getItem(Primal.MODID, "ceramic_bucket", 0, 1), getModItem("misc", "item", "clay_bucket", 1));
-        addPitKilnRecipe(getItem("minecraft:brick:0:1"), getModItem("misc", "item", "clay_brick", 1));
-        addPitKilnRecipe(getItem("minecraft:flower_pot:0:1"), getModItem("misc", "item", "clay_flower_pot", 1));
+        addPitKilnRecipe(getItem(Primal.MODID, "ceramic_bucket", 0, 1), getModItem("clay_bucket", 1));
+        addPitKilnRecipe(getItem("minecraft:brick:0:1"), getModItem("clay_brick", 1));
+        addPitKilnRecipe(getItem("minecraft:flower_pot:0:1"), getModItem("clay_flower_pot", 1));
         addPitKilnRecipe(getItem("minecraft:hardened_clay:0:1"), getItem("minecraft:clay:0:1"));
-        addPitKilnRecipe(
-            getItem(Primal.MODID, "large_vessel", 0, 1),
-            getModItem("misc", "item", "clay_large_vessel", 1));
+        addPitKilnRecipe(getItem(Primal.MODID, "large_vessel", 0, 1), getModItem("clay_large_vessel", 1));
     }
 
     public void addBarrelRecipes() {
-        addBarrelRecipe(
-            null,
-            getFluid("limewater", 500),
-            getModItem("misc", "item", "lime", 1),
-            getFluid("water", 500),
-            100);
-        addBarrelRecipe(
-            getModItem("misc", "item", "soaked_hide", 1),
-            null,
-            getModItem("misc", "item", "hide", 1),
-            getFluid("limewater", 500),
-            1200);
+        addBarrelRecipe(null, getFluid("limewater", 500), getModItem("lime", 1), getFluid("water", 500), 100);
+        addBarrelRecipe(getModItem("soaked_hide", 1), null, getModItem("hide", 1), getFluid("limewater", 500), 1200);
         addBarrelRecipe(
             getItem("minecraft", "leather", 0, 1),
             null,
-            getModItem("misc", "item", "scraped_hide", 1),
+            getModItem("scraped_hide", 1),
             getFluid("tannin", 500),
             1200);
         addBarrelRecipe(null, getFluid("tannin", 1000), "logWood", getFluid("water", 1000), 2400);
@@ -285,6 +274,29 @@ public class ScriptPrimitive implements IScript {
                 Utils.getOreDictionaryName("dye", color),
                 getFluid("water", 1000),
                 100);
+
+            for (String item : Constants.colorItems) {
+                addBarrelRecipe(
+                    getModItem(item, color, 1),
+                    null,
+                    Utils.getOreDictionaryName("blockColored", item),
+                    getFluid(color, 125),
+                    100);
+            }
+
+        }
+    }
+
+    public void addEFRBarrelRecipes() {
+        for (String color : Constants.colorTypes) {
+            for (String item : Constants.colorItemsEFR) {
+                addBarrelRecipe(
+                    getModItem(item, color, 1),
+                    null,
+                    Utils.getOreDictionaryName("blockColored", item),
+                    getFluid(color, 125),
+                    100);
+            }
         }
     }
 }

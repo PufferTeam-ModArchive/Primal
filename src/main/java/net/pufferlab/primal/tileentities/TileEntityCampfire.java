@@ -116,7 +116,7 @@ public class TileEntityCampfire extends TileEntityInventory {
                             i2 = getInventoryStack(0).stackSize++;
                         }
                     }
-                    setInventorySlotContentsUpdate(0, Utils.getModItem("misc", "item", "ash", i2));
+                    setInventorySlotContentsUpdate(0, Utils.getModItem("ash", i2));
                     this.worldObj
                         .setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, this.blockMetadata - 1, 2);
                     markDirty();

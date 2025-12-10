@@ -72,11 +72,6 @@ public class NEIPitKilnHandler extends TemplateRecipeHandler {
     }
 
     @Override
-    public void loadUsageRecipes(String inputID, Object... ingredients) {
-        super.loadUsageRecipes(inputID, ingredients);
-    }
-
-    @Override
     public void loadUsageRecipes(ItemStack ingredient) {
         Map<ItemStack, ItemStack> recipes = PitKilnRecipe.getRecipeMap();
         for (Map.Entry<ItemStack, ItemStack> recipe : recipes.entrySet()) {

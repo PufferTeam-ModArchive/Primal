@@ -8,20 +8,26 @@ import net.pufferlab.primal.Utils;
 
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
+import codechicken.nei.recipe.TemplateRecipeHandler;
 
-public class NEIConfig implements IConfigureNEI {
+public class NEIRegistry implements IConfigureNEI {
 
     @Override
     public void loadConfig() {
         API.hideItem("primal:icon");
         if (Utils.isClient()) {
-            API.registerRecipeHandler(new NEIChoppingLogHandler());
-            API.registerRecipeHandler(new NEIKnappingHandler());
-            API.registerRecipeHandler(new NEIPitKilnHandler());
-            API.registerRecipeHandler(new NEICampfireHandler());
-            API.registerRecipeHandler(new NEIBarrelHandler());
+            registerHandler(new NEIChoppingLogHandler());
+            registerHandler(new NEIKnappingHandler());
+            registerHandler(new NEIPitKilnHandler());
+            registerHandler(new NEICampfireHandler());
+            registerHandler(new NEIBarrelHandler());
         }
         loadGTNH();
+    }
+
+    public void registerHandler(TemplateRecipeHandler handler) {
+        API.registerRecipeHandler(handler);
+        API.registerUsageHandler(handler);
     }
 
     public void loadGTNH() {

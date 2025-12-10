@@ -92,30 +92,60 @@ public class Utils {
         return getItem(mod, item, meta, number);
     }
 
-    public static ItemStack getModItem(String mod, String name, String wood, int number) {
-        if (mod.equals("misc")) {
-            if (name.equals("item")) {
-                if (Utils.containsExactMatch(Constants.strawItems, wood)) {
-                    return getItem(Primal.MODID, "straw", Utils.getItemFromArray(Constants.strawItems, wood), number);
-                }
-                if (Utils.containsExactMatch(Constants.hideItems, wood)) {
-                    return getItem(Primal.MODID, "hide", Utils.getItemFromArray(Constants.hideItems, wood), number);
-                }
-                if (Utils.containsExactMatch(Constants.woodItems, wood)) {
-                    return getItem(Primal.MODID, "wood", Utils.getItemFromArray(Constants.woodItems, wood), number);
-                }
-                if (Utils.containsExactMatch(Constants.flintItems, wood)) {
-                    return getItem(Primal.MODID, "flint", Utils.getItemFromArray(Constants.flintItems, wood), number);
-                }
-                if (Utils.containsExactMatch(Constants.powderItems, wood)) {
-                    return getItem(Primal.MODID, "powder", Utils.getItemFromArray(Constants.powderItems, wood), number);
-                }
-                if (Utils.containsExactMatch(Constants.clayItems, wood)) {
-                    return getItem(Primal.MODID, "clay", Utils.getItemFromArray(Constants.clayItems, wood), number);
+    public static ItemStack getModItem(String wood, int number) {
+        if (Utils.containsExactMatch(Constants.strawItems, wood)) {
+            return getItem(Primal.MODID, "straw", Utils.getItemFromArray(Constants.strawItems, wood), number);
+        }
+        if (Utils.containsExactMatch(Constants.hideItems, wood)) {
+            return getItem(Primal.MODID, "hide", Utils.getItemFromArray(Constants.hideItems, wood), number);
+        }
+        if (Utils.containsExactMatch(Constants.woodItems, wood)) {
+            return getItem(Primal.MODID, "wood", Utils.getItemFromArray(Constants.woodItems, wood), number);
+        }
+        if (Utils.containsExactMatch(Constants.flintItems, wood)) {
+            return getItem(Primal.MODID, "flint", Utils.getItemFromArray(Constants.flintItems, wood), number);
+        }
+        if (Utils.containsExactMatch(Constants.powderItems, wood)) {
+            return getItem(Primal.MODID, "powder", Utils.getItemFromArray(Constants.powderItems, wood), number);
+        }
+        if (Utils.containsExactMatch(Constants.clayItems, wood)) {
+            return getItem(Primal.MODID, "clay", Utils.getItemFromArray(Constants.clayItems, wood), number);
+        }
+        if (Utils.containsExactMatch(Constants.icons, wood)) {
+            return getItem(Primal.MODID, "icon", Utils.getItemFromArray(Constants.icons, wood), number);
+        }
+
+        return null;
+    }
+
+    public static ItemStack getModItem(String type, String wood, int number) {
+        boolean hasColor = Utils.containsExactMatch(Constants.colorTypes, wood);
+        int color = Utils.getItemFromArray(Constants.colorTypes, wood);
+        if (type.equals("carpet") || type.equals("wool")) {
+            if (hasColor) {
+                return getItem("minecraft", type, color, number);
+            }
+        }
+        if (type.equals("hardened_clay") || type.equals("glass") || type.equals("glass_pane")) {
+            if (hasColor) {
+                return getItem("minecraft", "stained_" + type, color, number);
+            } else {
+                return getItem("minecraft", type, 0, number);
+            }
+        }
+        if (type.equals("bed") && wood.equals("red")) {
+            return getItem("minecraft", "bed", 0, 1);
+        }
+        if (Primal.EFRLoaded) {
+            if (type.equals("concrete") || type.equals("concrete_powder") || type.equals("banner")) {
+                if (hasColor) {
+                    return getItem("etfuturum", type, color, number);
                 }
             }
-            if (name.equals("icon")) {
-                return getItem(Primal.MODID, "icon", Utils.getItemFromArray(Constants.icons, wood), number);
+            if (type.equals("glazed_terracotta") || type.equals("bed")) {
+                if (hasColor) {
+                    return getItem("etfuturum", wood + "_" + type, 0, number);
+                }
             }
         }
         return null;
@@ -488,6 +518,15 @@ public class Utils {
         }
         for (Block element : array) {
             if (targetString == element) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean containsList(List<ItemStack> list, ItemStack b) {
+        for (ItemStack item : list) {
+            if (Utils.containsStack(item, b)) {
                 return true;
             }
         }

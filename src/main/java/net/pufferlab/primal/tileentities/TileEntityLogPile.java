@@ -128,7 +128,7 @@ public class TileEntityLogPile extends TileEntityInventory {
                         for (int i = 0; i < this.coalAmount; i++) {
                             tef.setInventorySlotContentsUpdate(
                                 i,
-                                Utils.getModItem("misc", "item", "ash", 1)
+                                Utils.getModItem("ash", 1)
                                     .copy());
                         }
                         tef.syncMetaWithAmount();

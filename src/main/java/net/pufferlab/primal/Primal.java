@@ -1,7 +1,7 @@
 package net.pufferlab.primal;
 
 import net.minecraft.util.ResourceLocation;
-import net.pufferlab.primal.compat.nei.NEIConfig;
+import net.pufferlab.primal.compat.nei.NEIRegistry;
 import net.pufferlab.primal.events.*;
 import net.pufferlab.primal.scripts.ScriptRegistry;
 import net.pufferlab.primal.scripts.ScriptRemove;
@@ -37,6 +37,9 @@ public class Primal {
     public static ScriptRegistry scriptRegistry = new ScriptRegistry();
     public static SimpleNetworkWrapper networkWrapper;
 
+    public static boolean EFRLoaded = Loader.isModLoaded("etfuturum");
+    public static boolean NEILoaded = Loader.isModLoaded("NotEnoughItems");
+
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         proxy.preInit(event);
@@ -56,8 +59,8 @@ public class Primal {
         networkWrapper.registerMessage(PacketSwingArm.class, PacketSwingArm.class, 0, Side.CLIENT);
         networkWrapper.registerMessage(PacketKnappingClick.class, PacketKnappingClick.class, 1, Side.SERVER);
 
-        if (Loader.isModLoaded("NotEnoughItems")) {
-            new NEIConfig().loadConfig();
+        if (Primal.NEILoaded) {
+            new NEIRegistry().loadConfig();
         }
 
         registry.setupEvents();

@@ -40,9 +40,9 @@ public class ItemBlockPrimal extends ItemBlock {
             TileEntity te = world.getTileEntity(x, y, z);
             if (te instanceof TileEntityCampfire tef) {
                 tef.isBuilt = true;
-                tef.setInventorySlotContentsUpdate(1, Utils.getModItem("misc", "item", "straw_kindling", 1));
+                tef.setInventorySlotContentsUpdate(1, Utils.getModItem("straw_kindling", 1));
                 for (int i = 2; i < 6; i++) {
-                    tef.setInventorySlotContentsUpdate(i, Utils.getModItem("misc", "item", "firewood", 1));
+                    tef.setInventorySlotContentsUpdate(i, Utils.getModItem("firewood", 1));
                 }
             }
         }

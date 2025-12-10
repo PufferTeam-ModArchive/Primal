@@ -66,13 +66,13 @@ public class NEICampfireHandler extends TemplateRecipeHandler {
     }
 
     @Override
-    public void loadUsageRecipes(String inputID, Object... ingredients) {
-        super.loadUsageRecipes(inputID, ingredients);
-    }
-
-    @Override
     public void loadUsageRecipes(ItemStack ingredient) {
-        super.loadUsageRecipes(ingredient);
+        Map<ItemStack, ItemStack> recipes = CampfireRecipe.getRecipeMap();
+        for (Map.Entry<ItemStack, ItemStack> recipe : recipes.entrySet()) {
+            if (Utils.containsStack(recipe.getKey(), ingredient)) {
+                arecipes.add(new NEICampfireHandler.CampfirePair(recipe.getKey(), recipe.getValue()));
+            }
+        }
     }
 
     @Override

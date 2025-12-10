@@ -10,7 +10,7 @@ import net.pufferlab.primal.Utils;
 public enum KnappingType {
 
     clay(0, "clay", Utils.getItem("minecraft", "clay_ball", 0, 5), "knapping.clay", -0.3F),
-    straw(1, "straw", Utils.getModItem("misc", "item", "straw", 2), "dig.thatch", 0.5F),
+    straw(1, "straw", Utils.getModItem("straw", 2), "dig.thatch", 0.5F),
     flint(2, "flint", Utils.getItem("minecraft", "flint", 0, 2), "knapping.flint", 0F);
 
     public final int id;

@@ -73,12 +73,16 @@ public class NEIKnappingHandler extends TemplateRecipeHandler {
     }
 
     @Override
-    public void loadUsageRecipes(String inputID, Object... ingredients) {
-        super.loadUsageRecipes(inputID, ingredients);
+    public void loadUsageRecipes(ItemStack ingredient) {
+        List<KnappingRecipe> recipes = KnappingRecipe.getRecipeList();
+        for (KnappingRecipe pattern : recipes) {
+            if (Utils.containsStack(pattern.type.item, ingredient)) {
+                KnappingPair pair = new KnappingPair(pattern.type, pattern.pattern, pattern.output);
+                pair.setIngredientPermutation(Collections.singletonList(pair.ingred), ingredient);
+                arecipes.add(pair);
+            }
+        }
     }
-
-    @Override
-    public void loadUsageRecipes(ItemStack ingredient) {}
 
     @Override
     public String getRecipeName() {

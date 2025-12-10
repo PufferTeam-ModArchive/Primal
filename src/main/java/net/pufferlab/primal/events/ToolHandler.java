@@ -110,7 +110,7 @@ public class ToolHandler {
                             .getItem() instanceof ItemKnifePrimitive) {
                             if (event.world.rand.nextInt(3) == 0) {
                                 event.drops.add(
-                                    Utils.getModItem("misc", "item", "straw", 1)
+                                    Utils.getModItem("straw", 1)
                                         .copy());
                             }
                         }

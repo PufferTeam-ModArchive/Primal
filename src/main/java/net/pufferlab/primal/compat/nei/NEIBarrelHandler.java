@@ -43,7 +43,7 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
             List<PositionedStack> list = new ArrayList<>();
             list.add(ingred);
             list.add(ingred2);
-            return getCycledIngredients(cycleticks / 48, list);
+            return getCycledIngredients(cycleticks / 20, list);
         }
 
         @Override
@@ -107,7 +107,21 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
     }
 
     @Override
-    public void loadUsageRecipes(ItemStack ingredient) {}
+    public void loadUsageRecipes(ItemStack ingredient) {
+        List<BarrelRecipe> recipes = BarrelRecipe.getRecipeList();
+        for (BarrelRecipe recipe : recipes) {
+            if (Utils.containsList(ingredient, recipe.input) || Utils.containsStack(ingredient, recipe.inputLiquid)
+                || Utils.containsStack(ingredient, recipe.inputLiquidBlock)) {
+                arecipes.add(
+                    new NEIBarrelHandler.BarrelPair(
+                        recipe.input,
+                        recipe.inputLiquidBlock,
+                        recipe.output,
+                        recipe.outputLiquidBlock,
+                        recipe.processingTime));
+            }
+        }
+    }
 
     @Override
     public String getRecipeName() {

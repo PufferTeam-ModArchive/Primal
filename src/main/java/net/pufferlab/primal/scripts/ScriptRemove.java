@@ -16,7 +16,8 @@ public class ScriptRemove implements IScript {
         "minecraft:wooden_sword", "minecraft:wooden_hoe", "minecraft:wooden_shovel", "minecraft:stone_axe",
         "minecraft:stone_pickaxe", "minecraft:stone_sword", "minecraft:stone_hoe", "minecraft:stone_shovel" };
 
-    public static final String[] itemsToRemoveSmelting = new String[] { "minecraft:brick:0:*", "minecraft:coal:1:*" };
+    public static final String[] itemsToRemoveSmelting = new String[] { "minecraft:brick:0:*", "minecraft:coal:1:*",
+        "minecraft:hardened_clay:1:*" };
 
     public void init() {
         for (String s : itemsToRemove) {

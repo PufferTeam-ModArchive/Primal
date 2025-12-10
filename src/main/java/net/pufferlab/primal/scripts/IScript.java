@@ -16,8 +16,12 @@ public interface IScript {
         return Utils.getItem(mod, item, meta, number);
     }
 
-    default ItemStack getModItem(String mod, String name, String wood, int number) {
-        return Utils.getModItem(mod, name, wood, number);
+    default ItemStack getModItem(String wood, int number) {
+        return Utils.getModItem(wood, number);
+    }
+
+    default ItemStack getModItem(String type, String wood, int number) {
+        return Utils.getModItem(type, wood, number);
     }
 
     default FluidStack getFluid(String fluid, int number) {

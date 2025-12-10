@@ -78,13 +78,17 @@ public class NEIChoppingLogHandler extends TemplateRecipeHandler {
     }
 
     @Override
-    public void loadUsageRecipes(String inputID, Object... ingredients) {
-        super.loadUsageRecipes(inputID, ingredients);
-    }
-
-    @Override
     public void loadUsageRecipes(ItemStack ingredient) {
-        super.loadUsageRecipes(ingredient);
+        Map<List<ItemStack>, ItemStack> recipes = ChoppingLogRecipe.getRecipeMap();
+        for (Map.Entry<List<ItemStack>, ItemStack> recipe : recipes.entrySet()) {
+            if (Utils.containsList(recipe.getKey(), ingredient)) {
+                ChoppingLogPair recipePair = new NEIChoppingLogHandler.ChoppingLogPair(
+                    recipe.getKey(),
+                    recipe.getValue());
+                recipePair.computeVisuals();
+                arecipes.add(recipePair);
+            }
+        }
     }
 
     @Override
