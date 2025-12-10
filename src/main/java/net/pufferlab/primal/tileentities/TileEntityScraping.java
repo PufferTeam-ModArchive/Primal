@@ -1,21 +1,18 @@
 package net.pufferlab.primal.tileentities;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.recipes.ChoppingLogRecipe;
+import net.pufferlab.primal.blocks.SoundTypePrimal;
+import net.pufferlab.primal.recipes.ScrapingRecipe;
 
-public class TileEntityChoppingLog extends TileEntityInventory {
+public class TileEntityScraping extends TileEntityInventory {
 
-    public TileEntityChoppingLog() {
+    public TileEntityScraping() {
         super(1);
     }
 
-    public int cooldown = 10;
+    public int cooldown = 5;
     public int timePassed;
 
     @Override
@@ -34,33 +31,25 @@ public class TileEntityChoppingLog extends TileEntityInventory {
 
     public boolean process() {
         ItemStack item = getInventoryStack(0);
-        if (ChoppingLogRecipe.hasRecipe(item)) {
+        if (ScrapingRecipe.hasRecipe(item)) {
             if (timePassed > cooldown) {
                 timePassed = 0;
-                ItemStack output = ChoppingLogRecipe.getOutput(item);
+                ItemStack output = ScrapingRecipe.getOutput(item);
                 if (output != null) {
                     decrStackSize(0, 1);
-                    Utils.playSound(this.worldObj, this.xCoord, this.yCoord, this.zCoord, Blocks.log);
-                    spawnEntity(
+                    Utils.playSoundOther(
                         this.worldObj,
-                        new EntityItem(
-                            this.worldObj,
-                            this.xCoord + 0.5,
-                            this.yCoord + 1,
-                            this.zCoord + 0.5,
-                            output.copy()));
+                        this.xCoord,
+                        this.yCoord,
+                        this.zCoord,
+                        SoundTypePrimal.soundTypeScraping);
+                    setInventorySlotContentsUpdate(0, output);
                     return true;
                 }
             }
         }
         return false;
 
-    }
-
-    public void spawnEntity(World world, Entity entityItem) {
-        if (!world.isRemote) {
-            world.spawnEntityInWorld((Entity) entityItem);
-        }
     }
 
     @Override

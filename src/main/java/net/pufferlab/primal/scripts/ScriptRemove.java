@@ -11,7 +11,7 @@ public class ScriptRemove implements IScript {
     ArrayList<ItemStack> remove = new ArrayList<ItemStack>();
     ArrayList<ItemStack> removeSmelting = new ArrayList<ItemStack>();
 
-    public static final String[] itemsToRemove = new String[] { "minecraft:flower_pot" };
+    public static final String[] itemsToRemove = new String[] { "minecraft:flower_pot", "minecraft:leather" };
     public static final String[] toolsToRemove = new String[] { "minecraft:wooden_axe", "minecraft:wooden_pickaxe",
         "minecraft:wooden_sword", "minecraft:wooden_hoe", "minecraft:wooden_shovel", "minecraft:stone_axe",
         "minecraft:stone_pickaxe", "minecraft:stone_sword", "minecraft:stone_hoe", "minecraft:stone_shovel" };

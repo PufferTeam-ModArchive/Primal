@@ -17,6 +17,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.blocks.BlockPile;
+import net.pufferlab.primal.blocks.SoundTypePrimal;
 import net.pufferlab.primal.items.ItemDummy;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -456,6 +457,19 @@ public class Utils {
         }
     }
 
+    public static void placeNoConsume(ItemStack stack, World world, int x, int y, int z, Block toPlace, int metadata,
+        EntityPlayer player) {
+        if (world.isAirBlock(x, y, z) && world.isSideSolid(x, y - 1, z, ForgeDirection.UP)) {
+            if (world.checkNoEntityCollision(toPlace.getCollisionBoundingBoxFromPool(world, x, y, z))
+                && world.setBlock(x, y, z, toPlace, metadata, 3)) {
+                world.setBlock(x, y, z, toPlace, metadata, 2);
+                toPlace.onBlockPlacedBy(world, x, y, z, player, stack);
+                playSound(world, x, y, z, toPlace);
+                player.swingItem();
+            }
+        }
+    }
+
     public static void placeSilent(ItemStack stack, World world, int x, int y, int z, Block toPlace, int metadata,
         EntityPlayer player) {
         if (world.isAirBlock(x, y, z) && world.isSideSolid(x, y - 1, z, ForgeDirection.UP)) {
@@ -476,6 +490,16 @@ public class Utils {
             block.stepSound.func_150496_b(),
             (block.stepSound.getVolume() + 1.0F) / 2.0F,
             block.stepSound.getPitch() * 0.8F);
+    }
+
+    public static void playSoundOther(World world, int x, int y, int z, SoundTypePrimal stepSound) {
+        world.playSoundEffect(
+            x + 0.5f,
+            y + 0.5f,
+            z + 0.5f,
+            stepSound.getOtherPath(),
+            (stepSound.getVolume() + 1.0F) / 2.0F,
+            stepSound.getPitch() * 0.8F);
     }
 
     public static String getOreDictionaryName(String prefix, String suffix) {

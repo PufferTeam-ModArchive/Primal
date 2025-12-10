@@ -40,6 +40,10 @@ public interface IScript {
         ChoppingLogRecipe.addChoppingLogRecipe(output, input);
     }
 
+    default void addScrapingRecipe(ItemStack output, ItemStack input) {
+        ScrapingRecipe.addScrappingRecipe(output, input);
+    }
+
     default void addKnappingRecipe(KnappingType type, ItemStack item, String... rows) {
         KnappingRecipe.addKnappingRecipe(type, item, rows);
     }

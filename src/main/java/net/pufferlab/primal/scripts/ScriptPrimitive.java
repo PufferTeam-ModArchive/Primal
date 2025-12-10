@@ -12,6 +12,7 @@ public class ScriptPrimitive implements IScript {
         addCraftingRecipes();
         addCampfireRecipes();
         addChoppingLogRecipes();
+        addScrapingRecipes();
         addKnappingRecipes();
         addPitKilnRecipes();
         addBarrelRecipes();
@@ -55,6 +56,7 @@ public class ScriptPrimitive implements IScript {
             addOreDict("blockColoredGlazedTerracotta", getModItem("glazed_terracotta", color, 1));
             addOreDict("blockColoredBed", getModItem("bed", color, 1));
         }
+        addOreDict("rabbitHide", getItem("etfuturum:rabbit_hide:*:1"));
     }
 
     public void addCraftingRecipes() {
@@ -128,6 +130,10 @@ public class ScriptPrimitive implements IScript {
 
     public void addChoppingLogRecipes() {
         addChoppingLogRecipe(getModItem("firewood", 4), "logWood");
+    }
+
+    public void addScrapingRecipes() {
+        addScrapingRecipe(getModItem("scraped_hide", 1), getModItem("soaked_hide", 1));
     }
 
     public void addKnappingRecipes() {

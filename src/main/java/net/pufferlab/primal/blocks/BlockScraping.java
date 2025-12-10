@@ -1,39 +1,74 @@
 package net.pufferlab.primal.blocks;
 
-import java.util.Random;
-
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemAxe;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.recipes.ChoppingLogRecipe;
-import net.pufferlab.primal.tileentities.TileEntityChoppingLog;
+import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.items.ItemKnifePrimitive;
+import net.pufferlab.primal.recipes.ScrapingRecipe;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
+import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
+import net.pufferlab.primal.tileentities.TileEntityScraping;
 
-public class BlockChoppingLog extends BlockContainer {
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-    private IIcon[] icons = new IIcon[2];
+public class BlockScraping extends BlockContainer {
 
-    public BlockChoppingLog() {
-        super(Material.wood);
-        this.setStepSound(soundTypeWood);
-        this.setHardness(2.5F);
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.75F, 1.0F);
+    public IIcon[] icons = new IIcon[1];
+
+    public BlockScraping() {
+        super(Material.rock);
+        super.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.05F, 1.0F);
     }
 
     @Override
     public void registerBlockIcons(IIconRegister reg) {
-        icons[0] = reg.registerIcon(Primal.MODID + ":chopping_log_side");
-        icons[1] = reg.registerIcon(Primal.MODID + ":chopping_log_top");
+        icons[0] = reg.registerIcon(Primal.MODID + ":empty");
+    }
+
+    @Override
+    public IIcon getIcon(int side, int meta) {
+        return icons[0];
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public Item getItem(World worldIn, int x, int y, int z) {
+        if (worldIn.getTileEntity(x, y, z) instanceof TileEntityInventory te) {
+            return te.getLastItem();
+        }
+        return null;
+    }
+
+    @Override
+    public int getDamageValue(World worldIn, int x, int y, int z) {
+        if (worldIn.getTileEntity(x, y, z) instanceof TileEntityInventory te) {
+            return te.getLastItemMeta();
+        }
+        return 0;
+    }
+
+    @Override
+    public void onBlockPlacedBy(World worldIn, int x, int y, int z, EntityLivingBase placer, ItemStack itemIn) {
+        super.onBlockPlacedBy(worldIn, x, y, z, placer, itemIn);
+
+        int metayaw = Utils.getMetaYaw(placer.rotationYaw);
+        TileEntity te = worldIn.getTileEntity(x, y, z);
+        if (te instanceof TileEntityMetaFacing tef) {
+            tef.setFacingMeta(metayaw);
+        }
     }
 
     @Override
@@ -41,36 +76,31 @@ public class BlockChoppingLog extends BlockContainer {
         float subY, float subZ) {
         ItemStack heldItem = player.getHeldItem();
         TileEntity te = worldIn.getTileEntity(x, y, z);
-        if (te instanceof TileEntityChoppingLog log) {
-            if (heldItem != null && (heldItem.getItem() instanceof ItemAxe || ChoppingLogRecipe.hasRecipe(heldItem))) {
-                if (heldItem.getItem() instanceof ItemAxe) {
-                    boolean result = log.process();
+        if (te instanceof TileEntityScraping scraping) {
+            if (heldItem != null
+                && (heldItem.getItem() instanceof ItemKnifePrimitive || ScrapingRecipe.hasRecipe(heldItem))) {
+                if (heldItem.getItem() instanceof ItemKnifePrimitive) {
+                    boolean result = scraping.process();
                     if (result) {
-                        heldItem.damageItem(1, player);
+                        heldItem.damageItem(10, player);
                     }
                     return result;
                 }
-                if (ChoppingLogRecipe.hasRecipe(heldItem)) {
-                    return log.addInventorySlotContentsUpdate(0, player);
+                if (ScrapingRecipe.hasRecipe(heldItem)) {
+                    return scraping.addInventorySlotContentsUpdate(0, player);
                 }
             } else {
-                if (log.getInventoryStack(0) != null) {
+                if (scraping.getInventoryStack(0) != null) {
                     dropItems(worldIn, x, y, z);
-                    log.setInventorySlotContentsUpdate(0);
+                    scraping.setInventorySlotContentsUpdate(0);
+                    worldIn.setBlockToAir(x, y, z);
                     return true;
                 }
 
             }
+
         }
         return false;
-    }
-
-    @Override
-    public IIcon getIcon(int side, int meta) {
-        if (side == 0 || side == 1) {
-            return icons[1];
-        }
-        return icons[0];
     }
 
     @Override
@@ -80,7 +110,6 @@ public class BlockChoppingLog extends BlockContainer {
     }
 
     private void dropItems(World world, int i, int j, int k) {
-        Random rando = world.rand;
         TileEntity tileEntity = world.getTileEntity(i, j, k);
         if (!(tileEntity instanceof TileEntityInventory)) return;
         TileEntityInventory inventory = (TileEntityInventory) tileEntity;
@@ -88,14 +117,7 @@ public class BlockChoppingLog extends BlockContainer {
             ItemStack item = inventory.getStackInSlot(x);
             inventory.setInventorySlotContentsUpdate(x, null);
             if (item != null && item.stackSize > 0) {
-                float ri = rando.nextFloat() * 0.8F + 0.1F;
-                float rj = rando.nextFloat() * 0.8F + 0.1F;
-                float rk = rando.nextFloat() * 0.8F + 0.1F;
-                EntityItem entityItem = new EntityItem(world, (i + ri), (j + rj + 0.7F), (k + rk), item.copy());
-                float factor = 0.05F;
-                entityItem.motionX = rando.nextGaussian() * factor;
-                entityItem.motionY = rando.nextGaussian() * factor + 0.20000000298023224D;
-                entityItem.motionZ = rando.nextGaussian() * factor;
+                EntityItem entityItem = new EntityItem(world, (i), (j + 0.5F), (k), item.copy());
                 spawnEntity(world, entityItem);
                 item.stackSize = 0;
             }
@@ -110,12 +132,12 @@ public class BlockChoppingLog extends BlockContainer {
 
     @Override
     public String getUnlocalizedName() {
-        return "tile." + Primal.MODID + ".chopping_log";
+        return "tile." + Primal.MODID + ".scraping";
     }
 
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
-        return new TileEntityChoppingLog();
+        return new TileEntityScraping();
     }
 
     @Override

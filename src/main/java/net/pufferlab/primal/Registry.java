@@ -41,6 +41,7 @@ public class Registry {
     public static Block log_pile;
     public static Block charcoal_pile;
     public static Block ash_pile;
+    public static Block scraping;
     public static Block chopping_log;
     public static Block campfire;
     public static Block large_vessel;
@@ -72,6 +73,7 @@ public class Registry {
         log_pile = new BlockLogPile();
         charcoal_pile = new BlockCharcoalPile();
         ash_pile = new BlockAshPile();
+        scraping = new BlockScraping();
         chopping_log = new BlockChoppingLog();
         campfire = new BlockCampfire();
         large_vessel = new BlockLargeVessel();
@@ -108,6 +110,7 @@ public class Registry {
         register(log_pile, "log_pile");
         register(charcoal_pile, "charcoal_pile");
         register(ash_pile, "ash_pile");
+        register(scraping, "scraping");
         register(chopping_log, "chopping_log");
         register(campfire, "campfire");
         register(large_vessel, "large_vessel");
@@ -141,6 +144,7 @@ public class Registry {
         register(TileEntityLargeVessel.class, "large_vessel");
         register(TileEntityBarrel.class, "barrel");
         register(TileEntityFaucet.class, "faucet");
+        register(TileEntityScraping.class, "scraping");
     }
 
     public static final Block[] fluidsBlocks = new Block[Constants.fluids.length];
@@ -169,7 +173,6 @@ public class Registry {
     }
 
     public void setupEvents() {
-
         registerEvent(new PitKilnHandler());
         registerEvent(new KnappingHandler());
         registerEvent(new BucketHandler());
@@ -181,6 +184,8 @@ public class Registry {
         registerEvent(new LargeVesselHandler());
         registerEvent(new BarrelHandler());
         registerEvent(new GroundRockHandler());
+        registerEvent(new ScrapingHandler());
+        registerEvent(new MobDropHandler());
     }
 
     public void register(Item item, String name) {
@@ -190,7 +195,8 @@ public class Registry {
     public void register(Block block, String name) {
         if (block instanceof BlockLogPile || block instanceof BlockCharcoalPile
             || block instanceof BlockAshPile
-            || block instanceof BlockGround) {
+            || block instanceof BlockGround
+            || block instanceof BlockScraping) {
             GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), null, name);
         } else
             if (block instanceof BlockLargeVessel || block instanceof BlockBarrel || block instanceof BlockCampfire) {

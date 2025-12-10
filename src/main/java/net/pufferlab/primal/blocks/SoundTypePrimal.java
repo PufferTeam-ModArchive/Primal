@@ -10,6 +10,8 @@ public class SoundTypePrimal extends Block.SoundType {
     public static final Block.SoundType soundTypeCharcoal = new SoundTypePrimal("charcoal", 1.0F, 1.0F);
     public static final Block.SoundType soundTypeThatch = new SoundTypePrimal("thatch", 1.0F, 1.2F);
 
+    public static final SoundTypePrimal soundTypeScraping = new SoundTypePrimal("scraping", 1.0F, 1.2F);
+
     public static final Random rand = new Random();
 
     public SoundTypePrimal(String name, float volume, float frequency) {
@@ -26,5 +28,9 @@ public class SoundTypePrimal extends Block.SoundType {
 
     public String getStepResourcePath() {
         return Primal.MODID + ":step." + this.soundName;
+    }
+
+    public String getOtherPath() {
+        return Primal.MODID + ":" + this.soundName;
     }
 }

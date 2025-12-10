@@ -64,5 +64,14 @@
                 "stream": false
             }
         ]
+    },
+    "scraping": {
+        "category": "master",
+        "sounds": [
+            {
+                "name": "scraping/click1",
+                "stream": false
+            }
+        ]
     }
 }
