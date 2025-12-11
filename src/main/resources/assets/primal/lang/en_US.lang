@@ -8,6 +8,7 @@ tile.primal.faucet.name=Faucet
 tile.primal.campfire.name=Campfire
 tile.primal.pit_kiln.name=Pit Kiln
 item.primal.knapping_icon.name=Knapping
+item.primal.scraping_icon.name=Scraping
 
 nei.recipe.primal.barrel.smeltTime=Takes %s seconds
 nei.recipe.primal.barrel.smeltTimeMinute=Takes %s minute

@@ -1,7 +1,6 @@
 package net.pufferlab.primal;
 
 import net.minecraft.util.ResourceLocation;
-import net.pufferlab.primal.compat.nei.NEIRegistry;
 import net.pufferlab.primal.events.*;
 import net.pufferlab.primal.scripts.ScriptRegistry;
 import net.pufferlab.primal.scripts.ScriptRemove;
@@ -16,11 +15,9 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import cpw.mods.fml.relauncher.Side;
 
-@Mod(modid = Primal.MODID, version = "0.2.0", name = Primal.MODNAME, acceptedMinecraftVersions = "[1.7.10]")
+@Mod(modid = Primal.MODID, version = Tags.VERSION, name = Primal.MODNAME, acceptedMinecraftVersions = "[1.7.10]")
 public class Primal {
 
     public static final String MODNAME = "Primal";
@@ -32,9 +29,11 @@ public class Primal {
 
     @Mod.Instance(Primal.MODID)
     public static Primal instance;
+
     public static Registry registry = new Registry();
     public static ScriptRemove scriptRemove = new ScriptRemove();
     public static ScriptRegistry scriptRegistry = new ScriptRegistry();
+
     public static SimpleNetworkWrapper networkWrapper;
 
     public static boolean EFRLoaded = Loader.isModLoaded("etfuturum");
@@ -43,7 +42,6 @@ public class Primal {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         proxy.preInit(event);
-        NetworkRegistry.INSTANCE.registerGuiHandler(instance, proxy);
         registry.setup();
         registry.setupTiles();
         registry.setupFluids();
@@ -55,13 +53,8 @@ public class Primal {
         proxy.setupRenders();
         scriptRemove.init();
 
-        networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(Primal.MODID);
-        networkWrapper.registerMessage(PacketSwingArm.class, PacketSwingArm.class, 0, Side.CLIENT);
-        networkWrapper.registerMessage(PacketKnappingClick.class, PacketKnappingClick.class, 1, Side.SERVER);
-
-        if (Primal.NEILoaded) {
-            new NEIRegistry().loadConfig();
-        }
+        registry.setupPackets();
+        registry.setupNEI();
 
         registry.setupEvents();
     }

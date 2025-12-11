@@ -10,8 +10,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.events.PacketFireStarter;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
 
 import cpw.mods.fml.relauncher.Side;
@@ -44,11 +46,15 @@ public class ItemFireStarter extends Item {
 
     @Override
     public void onUsingTick(ItemStack stack, EntityPlayer player, int count) {
+        World world = player.worldObj;
+        if (world.isRemote) return;
         int max = 60;
         int charge = (getMaxItemUseDuration(stack) - count) % (max + 2);
+        boolean success = false;
+        int chance = (int) Math.floor(1 / Config.fireStarterSuccessChance);
 
         if (charge > max) {
-            MovingObjectPosition mop = this.getMovingObjectPositionFromPlayer(player.worldObj, player, false);
+            MovingObjectPosition mop = this.getMovingObjectPositionFromPlayer(world, player, false);
             if (mop != null) {
                 int x = Utils.getBlockX(mop.sideHit, mop.blockX);
                 int y = Utils.getBlockY(mop.sideHit, mop.blockY);
@@ -56,25 +62,30 @@ public class ItemFireStarter extends Item {
                 float hitX = (float) (mop.hitVec.xCoord - mop.blockX);
                 float hitY = (float) (mop.hitVec.yCoord - mop.blockY);
                 float hitZ = (float) (mop.hitVec.zCoord - mop.blockZ);
-                World world = player.worldObj;
-                if (world.rand.nextInt(5) == 0) {
-                    if (!world.isRemote) {
-                        TileEntity te = world.getTileEntity(mop.blockX, mop.blockY, mop.blockZ);
-                        if (te instanceof TileEntityCampfire tef) {
-                            tef.setFired(true);
-                        } else {
-                            world.setBlock(x, y, z, Blocks.fire);
-                        }
+                if (world.rand.nextInt(chance) == 0) {
+                    TileEntity te = world.getTileEntity(mop.blockX, mop.blockY, mop.blockZ);
+                    if (te instanceof TileEntityCampfire tef) {
+                        tef.setFired(true);
+                    } else {
+                        world.setBlock(x, y, z, Blocks.fire, 0, 2);
                     }
+                    success = true;
                 }
-
-                world.spawnParticle("smoke", x + hitX, y + hitY, z + hitZ, 0.0F, 0.1F, 0.0F);
-                if (!world.isRemote) {
-                    stack.damageItem(1, player);
-                }
+                float pHitX = mop.blockX + hitX;
+                float pHitY = mop.blockY + hitY;
+                float pHitZ = mop.blockZ + hitZ;
+                world.spawnParticle("smoke", pHitX, pHitY, pHitZ, 0.0F, 0.0F, 0.0F);
+                stack.damageItem(1, player);
+                updatePacket(player, mop.blockX, mop.blockY, mop.blockZ, pHitX, pHitY, pHitZ, success);
             }
         }
+    }
 
+    public void updatePacket(EntityPlayer player, int x, int y, int z, float hitX, float hitY, float hitZ,
+        boolean success) {
+        if (!player.worldObj.isRemote) {
+            Primal.networkWrapper.sendToAll(new PacketFireStarter(player, x, y, z, hitX, hitY, hitZ, success));
+        }
     }
 
     @Override

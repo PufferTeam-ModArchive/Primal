@@ -10,6 +10,7 @@ public class Config {
     public static boolean enableTechnical;
     public static int vanillaToolsRemovalMode;
     public static float stickDropChance;
+    public static float fireStarterSuccessChance;
 
     public static void synchronizeConfiguration(File configFile) {
         Configuration configuration = new Configuration(configFile);
@@ -28,7 +29,13 @@ public class Config {
             0.0F,
             1.0F,
             "The chance from 0 (0%) to 1 (100%) for a stick to drop from leaves. Putting this to 0 will stop dropping.");
-
+        fireStarterSuccessChance = configuration.getFloat(
+            "fireStarterSuccessChance",
+            Configuration.CATEGORY_GENERAL,
+            0.2F,
+            0.0F,
+            1.0F,
+            "The chance from 0 (0%) to 1 (100%) for the fire starter to succeed making a fire. Putting this to 0 will stop the fire starter from working.");
         enableTechnical = configuration.getBoolean(
             "enableTechnicalChanges",
             CATEGORY_TECHNICAL,

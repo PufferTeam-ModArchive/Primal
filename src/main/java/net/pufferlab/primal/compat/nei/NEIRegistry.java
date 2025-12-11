@@ -21,6 +21,7 @@ public class NEIRegistry implements IConfigureNEI {
             registerHandler(new NEIPitKilnHandler());
             registerHandler(new NEICampfireHandler());
             registerHandler(new NEIBarrelHandler());
+            registerHandler(new NEIScrapingHandler());
         }
         loadGTNH();
     }
@@ -71,8 +72,18 @@ public class NEIRegistry implements IConfigureNEI {
             Primal.MODID,
             166,
             65);
+        sendHandler(
+            "net.pufferlab.primal.compat.nei.NEIScrapingHandler",
+            Primal.MODID + ":icon:" + Utils.getItemFromArray(Constants.icons, "scraping"),
+            2,
+            Primal.MODNAME,
+            Primal.MODID,
+            166,
+            65);
         sendCatalyst(Primal.MODID + ".chopping_log", Primal.MODID + ":chopping_log");
         sendCatalyst(Primal.MODID + ".barrel", Primal.MODID + ":barrel");
+        sendCatalyst(Primal.MODID + ".campfire", Primal.MODID + ":campfire");
+        sendCatalyst(Primal.MODID + ".pit_kiln", Primal.MODID + ":pit_kiln");
     }
 
     @Override

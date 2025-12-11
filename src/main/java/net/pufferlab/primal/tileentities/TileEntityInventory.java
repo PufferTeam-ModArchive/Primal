@@ -15,7 +15,6 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
     private ItemStack[] inventory;
     private int[] blacklistedSlots;
     private int maxSize;
-    public int lastSlot;
     public boolean isFired;
 
     public TileEntityInventory(int slots) {
@@ -35,7 +34,6 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
 
-        this.lastSlot = compound.getInteger("lastSlot");
         this.isFired = compound.getBoolean("isFired");
 
         this.readFromNBTInventory(compound);
@@ -55,7 +53,6 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
     public void writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
 
-        compound.setInteger("lastSlot", this.lastSlot);
         compound.setBoolean("isFired", this.isFired);
 
         this.writeToNBTInventory(compound);
@@ -79,12 +76,14 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
     public void writeToNBTPacket(NBTTagCompound tag) {
         super.writeToNBTPacket(tag);
         this.writeToNBTInventory(tag);
+        tag.setBoolean("isFired", this.isFired);
     }
 
     @Override
     public void readFromNBTPacket(NBTTagCompound tag) {
         super.readFromNBTPacket(tag);
         this.readFromNBTInventory(tag);
+        this.isFired = tag.getBoolean("isFired");
     }
 
     public ItemStack getInventoryStack(int slot) {
@@ -142,7 +141,6 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
     @Override
     public void setInventorySlotContents(int index, ItemStack stack) {
         this.inventory[index] = stack;
-        this.lastSlot = index;
 
         if (stack != null && stack.stackSize > this.getInventoryStackLimit()) {
             stack.stackSize = this.getInventoryStackLimit();
@@ -159,7 +157,6 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         if (stack.stackSize > this.getInventoryStackLimit()) {
             copy.stackSize = getInventoryStackLimit();
         }
-        this.lastSlot = index;
         this.inventory[index] = copy;
         this.worldObj.markBlockRangeForRenderUpdate(
             this.xCoord,

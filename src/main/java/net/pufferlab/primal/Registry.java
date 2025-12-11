@@ -12,12 +12,15 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fluids.*;
 import net.pufferlab.primal.blocks.*;
+import net.pufferlab.primal.compat.nei.NEIRegistry;
 import net.pufferlab.primal.events.*;
 import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.tileentities.*;
 
 import cpw.mods.fml.common.IWorldGenerator;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
 
 public class Registry {
 
@@ -188,6 +191,19 @@ public class Registry {
         registerEvent(new MobDropHandler());
     }
 
+    public void setupPackets() {
+        Primal.networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(Primal.MODID);
+        registerPacket(PacketSwingArm.class, Side.CLIENT);
+        registerPacket(PacketKnappingClick.class, Side.SERVER);
+        registerPacket(PacketFireStarter.class, Side.CLIENT);
+    }
+
+    public void setupNEI() {
+        if (Primal.NEILoaded) {
+            new NEIRegistry().loadConfig();
+        }
+    }
+
     public void register(Item item, String name) {
         GameRegistry.registerItem(item.setCreativeTab(Registry.creativeTab), name);
     }
@@ -227,6 +243,12 @@ public class Registry {
 
     public void registerEvent(Object event) {
         MinecraftForge.EVENT_BUS.register(event);
+    }
+
+    int nextPacketID = 0;
+
+    public void registerPacket(Class cl, Side side) {
+        Primal.networkWrapper.registerMessage(cl, cl, nextPacketID++, side);
     }
 
     public void registerWorld(IWorldGenerator world) {

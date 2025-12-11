@@ -29,8 +29,8 @@ public class PacketSwingArm implements IMessage, IMessageHandler<PacketSwingArm,
     }
 
     @Override
-    public IMessage onMessage(PacketSwingArm message, MessageContext ctx) {
-        EntityPlayer player = (EntityPlayer) Minecraft.getMinecraft().theWorld.getEntityByID(message.playerEntityId);
+    public IMessage onMessage(PacketSwingArm msg, MessageContext ctx) {
+        EntityPlayer player = (EntityPlayer) Minecraft.getMinecraft().theWorld.getEntityByID(msg.playerEntityId);
         if (player != null) {
             player.swingItem();
         }

@@ -24,7 +24,7 @@ public class Constants {
     public static final String[] colorItems = new String[] { "wool", "glass", "glass_pane", "carpet", "hardened_clay" };
     public static final String[] colorItemsEFR = new String[] { "banner", "concrete", "concrete_powder",
         "glazed_terracotta", "bed" };
-    public static final String[] icons = new String[] { "knapping" };
+    public static final String[] icons = new String[] { "knapping", "scraping" };
     public static final String[] fluids = new String[] { "empty", "water", "lava", "limewater", "tannin", "white",
         "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray", "light_gray", "cyan", "purple", "blue",
         "brown", "green", "red", "black" };
