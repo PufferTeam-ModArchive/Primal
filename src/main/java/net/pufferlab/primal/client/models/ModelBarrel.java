@@ -1,7 +1,7 @@
 package net.pufferlab.primal.client.models;
 
-import net.minecraft.client.model.ModelBox;
-import net.minecraft.client.model.ModelRenderer;
+import net.pufferlab.primal.client.utils.ModelBox;
+import net.pufferlab.primal.client.utils.ModelRenderer;
 
 public class ModelBarrel extends ModelPrimal {
 

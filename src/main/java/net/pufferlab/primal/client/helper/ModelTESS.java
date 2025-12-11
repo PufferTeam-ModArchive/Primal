@@ -1,10 +1,6 @@
 package net.pufferlab.primal.client.helper;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.model.ModelBox;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.model.PositionTextureVertex;
-import net.minecraft.client.model.TexturedQuad;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -12,6 +8,10 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import net.pufferlab.primal.client.utils.ModelBox;
+import net.pufferlab.primal.client.utils.ModelRenderer;
+import net.pufferlab.primal.client.utils.PositionTextureVertex;
+import net.pufferlab.primal.client.utils.TexturedQuad;
 
 public class ModelTESS {
 
@@ -43,6 +43,8 @@ public class ModelTESS {
                     child.rotationPointX += renderer.rotationPointX;
                     child.rotationPointY += renderer.rotationPointY;
                     child.rotationPointZ += renderer.rotationPointZ;
+
+                    child.rotationAngleYGlobal = renderer.rotationAngleYGlobal;
 
                     // Recurse
                     renderBlock(renderblocks, tess, block, child, scale, x, y, z, offsetX, offsetY, offsetZ, index);
@@ -182,6 +184,17 @@ public class ModelTESS {
                             double vx = x3 + x + 0.5 + offsetX;
                             double vy = y3 + y + offsetY;
                             double vz = z2v + z + 0.5 + offsetZ;
+
+                            double r = renderer.rotationAngleYGlobal;
+
+                            double cosR = Math.cos(r);
+                            double sinR = Math.sin(r);
+
+                            double vx2 = vx * cosR - vz * sinR;
+                            double vz2 = vx * sinR + vz * cosR;
+
+                            vx = vx2;
+                            vz = vz2;
 
                             tess.addVertexWithUV(vx, vy, vz, u, v);
                         }

@@ -41,8 +41,8 @@ public class BlockGround extends BlockMeta {
     }
 
     @Override
-    public Material getMaterial() {
-        return MaterialPrimal.groundcover;
+    public boolean getBlocksMovement(IBlockAccess worldIn, int x, int y, int z) {
+        return true;
     }
 
     public BlockGround setTextureOverride(String[] elementsTextures) {

@@ -2,13 +2,13 @@ package net.pufferlab.primal.client.models;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.helper.ModelTESS;
+import net.pufferlab.primal.client.utils.ModelBase;
+import net.pufferlab.primal.client.utils.ModelRenderer;
 
 public abstract class ModelPrimal extends ModelBase {
 

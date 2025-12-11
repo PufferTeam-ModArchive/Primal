@@ -6,6 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public class BlockTorchPrimitive extends BlockTorch implements ITileEntityProvider {
+
     public BlockTorchPrimitive() {
         super();
     }
