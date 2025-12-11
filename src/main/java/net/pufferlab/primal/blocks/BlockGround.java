@@ -40,6 +40,11 @@ public class BlockGround extends BlockMeta {
         return this;
     }
 
+    @Override
+    public Material getMaterial() {
+        return MaterialPrimal.groundcover;
+    }
+
     public BlockGround setTextureOverride(String[] elementsTextures) {
         this.elementsTextures = elementsTextures;
         return this;
