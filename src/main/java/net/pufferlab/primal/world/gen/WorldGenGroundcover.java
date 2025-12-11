@@ -6,12 +6,12 @@ import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
-public class WorldGenGround extends WorldGenerator {
+public class WorldGenGroundcover extends WorldGenerator {
 
     public Block block;
     public int meta;
 
-    public WorldGenGround(Block block, int meta) {
+    public WorldGenGroundcover(Block block, int meta) {
         this.block = block;
         this.meta = meta;
     }

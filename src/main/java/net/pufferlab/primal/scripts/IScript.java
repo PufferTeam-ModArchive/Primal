@@ -41,7 +41,7 @@ public interface IScript {
     }
 
     default void addScrapingRecipe(ItemStack output, ItemStack input) {
-        ScrapingRecipe.addScrappingRecipe(output, input);
+        TanningRecipe.addScrappingRecipe(output, input);
     }
 
     default void addKnappingRecipe(KnappingType type, ItemStack item, String... rows) {

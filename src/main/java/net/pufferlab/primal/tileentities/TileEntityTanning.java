@@ -4,11 +4,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.blocks.SoundTypePrimal;
-import net.pufferlab.primal.recipes.ScrapingRecipe;
+import net.pufferlab.primal.recipes.TanningRecipe;
 
-public class TileEntityScraping extends TileEntityInventory {
+public class TileEntityTanning extends TileEntityInventory {
 
-    public TileEntityScraping() {
+    public TileEntityTanning() {
         super(1);
     }
 
@@ -31,10 +31,10 @@ public class TileEntityScraping extends TileEntityInventory {
 
     public boolean process() {
         ItemStack item = getInventoryStack(0);
-        if (ScrapingRecipe.hasRecipe(item)) {
+        if (TanningRecipe.hasRecipe(item)) {
             if (timePassed > cooldown) {
                 timePassed = 0;
-                ItemStack output = ScrapingRecipe.getOutput(item);
+                ItemStack output = TanningRecipe.getOutput(item);
                 if (output != null) {
                     decrStackSize(0, 1);
                     Utils.playSoundOther(

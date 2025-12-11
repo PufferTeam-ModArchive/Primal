@@ -7,7 +7,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -16,48 +15,31 @@ import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.items.ItemKnifePrimitive;
-import net.pufferlab.primal.recipes.ScrapingRecipe;
+import net.pufferlab.primal.recipes.TanningRecipe;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
-import net.pufferlab.primal.tileentities.TileEntityScraping;
+import net.pufferlab.primal.tileentities.TileEntityTanning;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+public class BlockTanningFrame extends BlockContainer {
 
-public class BlockScraping extends BlockContainer {
+    public IIcon[] icons = new IIcon[2];
 
-    public IIcon[] icons = new IIcon[1];
-
-    public BlockScraping() {
+    public BlockTanningFrame() {
         super(Material.rock);
-        super.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.05F, 1.0F);
     }
 
     @Override
     public void registerBlockIcons(IIconRegister reg) {
         icons[0] = reg.registerIcon(Primal.MODID + ":empty");
+        icons[1] = reg.registerIcon(Primal.MODID + ":tanning_frame");
     }
 
     @Override
     public IIcon getIcon(int side, int meta) {
+        if (side == 99) {
+            return icons[1];
+        }
         return icons[0];
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public Item getItem(World worldIn, int x, int y, int z) {
-        if (worldIn.getTileEntity(x, y, z) instanceof TileEntityInventory te) {
-            return te.getLastItem();
-        }
-        return null;
-    }
-
-    @Override
-    public int getDamageValue(World worldIn, int x, int y, int z) {
-        if (worldIn.getTileEntity(x, y, z) instanceof TileEntityInventory te) {
-            return te.getLastItemMeta();
-        }
-        return 0;
     }
 
     @Override
@@ -76,9 +58,9 @@ public class BlockScraping extends BlockContainer {
         float subY, float subZ) {
         ItemStack heldItem = player.getHeldItem();
         TileEntity te = worldIn.getTileEntity(x, y, z);
-        if (te instanceof TileEntityScraping scraping) {
+        if (te instanceof TileEntityTanning scraping) {
             if (heldItem != null
-                && (heldItem.getItem() instanceof ItemKnifePrimitive || ScrapingRecipe.hasRecipe(heldItem))) {
+                && (heldItem.getItem() instanceof ItemKnifePrimitive || TanningRecipe.hasRecipe(heldItem))) {
                 if (heldItem.getItem() instanceof ItemKnifePrimitive) {
                     boolean result = scraping.process();
                     if (result) {
@@ -86,7 +68,7 @@ public class BlockScraping extends BlockContainer {
                     }
                     return result;
                 }
-                if (ScrapingRecipe.hasRecipe(heldItem)) {
+                if (TanningRecipe.hasRecipe(heldItem)) {
                     return scraping.addInventorySlotContentsUpdate(0, player);
                 }
             } else {
@@ -137,7 +119,12 @@ public class BlockScraping extends BlockContainer {
 
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
-        return new TileEntityScraping();
+        return new TileEntityTanning();
+    }
+
+    @Override
+    public int getRenderType() {
+        return Primal.proxy.getTanningRenderID();
     }
 
     @Override

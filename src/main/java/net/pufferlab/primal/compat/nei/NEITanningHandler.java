@@ -11,18 +11,18 @@ import java.util.Map;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.recipes.ScrapingRecipe;
+import net.pufferlab.primal.recipes.TanningRecipe;
 
 import org.lwjgl.opengl.GL11;
 
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
-public class NEIScrapingHandler extends TemplateRecipeHandler {
+public class NEITanningHandler extends TemplateRecipeHandler {
 
-    public class ScrapingPair extends CachedRecipe {
+    public class TanningPair extends CachedRecipe {
 
-        public ScrapingPair(List<ItemStack> ingred, ItemStack result) {
+        public TanningPair(List<ItemStack> ingred, ItemStack result) {
             this.ingredients = new PositionedStack(ingred, 43, 10, true);
             this.result = new PositionedStack(result, 119, 24, false);
         }
@@ -46,15 +46,15 @@ public class NEIScrapingHandler extends TemplateRecipeHandler {
 
     @Override
     public void loadTransferRects() {
-        transferRects.add(new RecipeTransferRect(new Rectangle(59, 8, 48, 48), Primal.MODID + ".scraping"));
+        transferRects.add(new RecipeTransferRect(new Rectangle(59, 8, 48, 48), Primal.MODID + ".tanning"));
     }
 
     @Override
     public void loadCraftingRecipes(String outputId, Object... results) {
-        if (outputId.equals(Primal.MODID + ".scraping") && getClass() == NEIScrapingHandler.class) {
-            Map<List<ItemStack>, ItemStack> recipes = ScrapingRecipe.getRecipeMap();
+        if (outputId.equals(Primal.MODID + ".tanning") && getClass() == NEITanningHandler.class) {
+            Map<List<ItemStack>, ItemStack> recipes = TanningRecipe.getRecipeMap();
             for (Map.Entry<List<ItemStack>, ItemStack> recipe : recipes.entrySet()) {
-                ScrapingPair recipePair = new NEIScrapingHandler.ScrapingPair(recipe.getKey(), recipe.getValue());
+                TanningPair recipePair = new NEITanningHandler.TanningPair(recipe.getKey(), recipe.getValue());
                 recipePair.computeVisuals();
                 arecipes.add(recipePair);
             }
@@ -63,10 +63,10 @@ public class NEIScrapingHandler extends TemplateRecipeHandler {
 
     @Override
     public void loadCraftingRecipes(ItemStack result) {
-        Map<List<ItemStack>, ItemStack> recipes = ScrapingRecipe.getRecipeMap();
+        Map<List<ItemStack>, ItemStack> recipes = TanningRecipe.getRecipeMap();
         for (Map.Entry<List<ItemStack>, ItemStack> recipe : recipes.entrySet()) {
             if (Utils.containsStack(recipe.getValue(), result)) {
-                ScrapingPair recipePair = new NEIScrapingHandler.ScrapingPair(recipe.getKey(), recipe.getValue());
+                TanningPair recipePair = new NEITanningHandler.TanningPair(recipe.getKey(), recipe.getValue());
                 recipePair.computeVisuals();
                 arecipes.add(recipePair);
             }
@@ -75,10 +75,10 @@ public class NEIScrapingHandler extends TemplateRecipeHandler {
 
     @Override
     public void loadUsageRecipes(ItemStack ingredient) {
-        Map<List<ItemStack>, ItemStack> recipes = ScrapingRecipe.getRecipeMap();
+        Map<List<ItemStack>, ItemStack> recipes = TanningRecipe.getRecipeMap();
         for (Map.Entry<List<ItemStack>, ItemStack> recipe : recipes.entrySet()) {
             if (Utils.containsList(recipe.getKey(), ingredient)) {
-                ScrapingPair recipePair = new NEIScrapingHandler.ScrapingPair(recipe.getKey(), recipe.getValue());
+                TanningPair recipePair = new NEITanningHandler.TanningPair(recipe.getKey(), recipe.getValue());
                 recipePair.computeVisuals();
                 arecipes.add(recipePair);
             }
@@ -87,17 +87,17 @@ public class NEIScrapingHandler extends TemplateRecipeHandler {
 
     @Override
     public String getRecipeName() {
-        return "Scraping";
+        return "Tanning";
     }
 
     @Override
     public String getGuiTexture() {
-        return Primal.MODID + ":textures/gui/nei/scraping.png";
+        return Primal.MODID + ":textures/gui/nei/tanning.png";
     }
 
     @Override
     public String getOverlayIdentifier() {
-        return Primal.MODID + ".scraping";
+        return Primal.MODID + ".tanning";
     }
 
     @Override

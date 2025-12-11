@@ -49,13 +49,13 @@ public class BlockBarrelRenderer implements ISimpleBlockRenderingHandler {
                     offsetZ = 0.5F;
                 }
                 if (tef.facingMeta == 2) {
-                    offsetX = -0.5F;
+                    offsetX = 0.5F;
                 }
                 if (tef.facingMeta == 3) {
                     offsetZ = -0.5F;
                 }
                 if (tef.facingMeta == 4) {
-                    offsetX = 0.5F;
+                    offsetX = -0.5F;
                 }
                 modelBarrel.bb_main.rotateAngleX = (float) (Math.PI / 2);
             } else {

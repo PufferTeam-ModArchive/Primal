@@ -21,7 +21,7 @@ public class NEIRegistry implements IConfigureNEI {
             registerHandler(new NEIPitKilnHandler());
             registerHandler(new NEICampfireHandler());
             registerHandler(new NEIBarrelHandler());
-            registerHandler(new NEIScrapingHandler());
+            registerHandler(new NEITanningHandler());
         }
         loadGTNH();
     }
@@ -73,8 +73,8 @@ public class NEIRegistry implements IConfigureNEI {
             166,
             65);
         sendHandler(
-            "net.pufferlab.primal.compat.nei.NEIScrapingHandler",
-            Primal.MODID + ":icon:" + Utils.getItemFromArray(Constants.icons, "scraping"),
+            "net.pufferlab.primal.compat.nei.NEITanningHandler",
+            Primal.MODID + ":tanning",
             2,
             Primal.MODNAME,
             Primal.MODID,

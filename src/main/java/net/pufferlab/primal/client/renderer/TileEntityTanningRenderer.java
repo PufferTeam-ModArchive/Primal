@@ -8,12 +8,13 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.pufferlab.primal.blocks.BlockScraping;
-import net.pufferlab.primal.tileentities.TileEntityScraping;
+import net.pufferlab.primal.blocks.BlockTanningFrame;
+import net.pufferlab.primal.client.models.ModelPrimal;
+import net.pufferlab.primal.tileentities.TileEntityTanning;
 
 import org.lwjgl.opengl.GL11;
 
-public class TileEntityScrapingRenderer extends TileEntitySpecialRenderer {
+public class TileEntityTanningRenderer extends TileEntitySpecialRenderer {
 
     public EntityItem slotEntity = new EntityItem(null, 0.0D, 0.0D, 0.0D);
 
@@ -36,9 +37,9 @@ public class TileEntityScrapingRenderer extends TileEntitySpecialRenderer {
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float partialTicks) {
         World world = tileEntity.getWorldObj();
-        TileEntityScraping scraping = (TileEntityScraping) tileEntity;
+        TileEntityTanning scraping = (TileEntityTanning) tileEntity;
         Block block = world.getBlock(scraping.xCoord, scraping.yCoord, scraping.zCoord);
-        if (!(block instanceof BlockScraping)) return;
+        if (!(block instanceof BlockTanningFrame)) return;
 
         this.itemRenderer.setRenderManager(renderManager);
 
@@ -46,6 +47,12 @@ public class TileEntityScrapingRenderer extends TileEntitySpecialRenderer {
         ItemStack slot = scraping.getInventoryStack(0);
 
         int facing = scraping.facingMeta;
+        if (facing == 1) {
+
+        }
+        if (facing == 3) {
+
+        }
         renderSlotItem(slot, x + 0.5, y, z + 0.5, facing);
     }
 
@@ -55,9 +62,15 @@ public class TileEntityScrapingRenderer extends TileEntitySpecialRenderer {
             this.slotEntity.setEntityItemStack(stack);
             this.slotEntity.hoverStart = 0.0F;
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glTranslated(xAdjust, yAdjust, zAdjust - 0.1875);
+            GL11.glTranslated(xAdjust, yAdjust + 0.40, zAdjust + 0.13);
             GL11.glScalef(1.5F, 1.5F, 1.5F);
-            GL11.glRotatef(90, 1.0F, 0.0F, 0.0F);
+            GL11.glRotatef(ModelPrimal.getFacingAngle(facing), 1.0F, 1.0F, 0.0F);
+            if (facing == 1) {
+                GL11.glRotatef(20, 1.0F, 0.0F, 0.0F);
+            }
+            if (facing == 3) {
+                GL11.glRotatef(-20, 1.0F, 0.0F, 0.0F);
+            }
             RenderItem.renderInFrame = true;
             try {
                 this.itemRenderer.doRender(slotEntity, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);

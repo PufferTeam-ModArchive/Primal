@@ -44,7 +44,7 @@ public class Registry {
     public static Block log_pile;
     public static Block charcoal_pile;
     public static Block ash_pile;
-    public static Block scraping;
+    public static Block tanning;
     public static Block chopping_log;
     public static Block campfire;
     public static Block large_vessel;
@@ -70,13 +70,13 @@ public class Registry {
     public void setup() {
         toolFlint = EnumHelper.addToolMaterial("flint", 0, 100, 2.0F, 0.0F, 15);
 
-        ground_rock = new BlockGround(Material.rock, Constants.rockTypes, "ground_rock")
+        ground_rock = new BlockGroundcover(Material.rock, Constants.rockTypes, "ground_rock")
             .setTextureOverride(Constants.rockTextures);
         pit_kiln = new BlockPitKiln();
         log_pile = new BlockLogPile();
         charcoal_pile = new BlockCharcoalPile();
         ash_pile = new BlockAshPile();
-        scraping = new BlockScraping();
+        tanning = new BlockTanningFrame();
         chopping_log = new BlockChoppingLog();
         campfire = new BlockCampfire();
         large_vessel = new BlockLargeVessel();
@@ -94,7 +94,7 @@ public class Registry {
         rock = new ItemMeta(Constants.rockTypes, "rock");
         powder = new ItemMeta(Constants.powderItems, "powder");
         clay = new ItemMeta(Constants.clayItems, "clay");
-        ((BlockGround) ground_rock).setItem(rock);
+        ((BlockGroundcover) ground_rock).setItem(rock);
 
         bucket = new ItemBucketMeta("bucket");
         ceramic_bucket = new ItemBucketCeramic("ceramic_bucket");
@@ -113,7 +113,7 @@ public class Registry {
         register(log_pile, "log_pile");
         register(charcoal_pile, "charcoal_pile");
         register(ash_pile, "ash_pile");
-        register(scraping, "scraping");
+        register(tanning, "tanning");
         register(chopping_log, "chopping_log");
         register(campfire, "campfire");
         register(large_vessel, "large_vessel");
@@ -147,7 +147,7 @@ public class Registry {
         register(TileEntityLargeVessel.class, "large_vessel");
         register(TileEntityBarrel.class, "barrel");
         register(TileEntityFaucet.class, "faucet");
-        register(TileEntityScraping.class, "scraping");
+        register(TileEntityTanning.class, "tanning");
     }
 
     public static final Block[] fluidsBlocks = new Block[Constants.fluids.length];
@@ -186,8 +186,7 @@ public class Registry {
         registerEvent(new CampfireHandler());
         registerEvent(new LargeVesselHandler());
         registerEvent(new BarrelHandler());
-        registerEvent(new GroundRockHandler());
-        registerEvent(new ScrapingHandler());
+        registerEvent(new GroundcoverRockHandler());
         registerEvent(new MobDropHandler());
     }
 
@@ -211,8 +210,7 @@ public class Registry {
     public void register(Block block, String name) {
         if (block instanceof BlockLogPile || block instanceof BlockCharcoalPile
             || block instanceof BlockAshPile
-            || block instanceof BlockGround
-            || block instanceof BlockScraping) {
+            || block instanceof BlockGroundcover) {
             GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), null, name);
         } else
             if (block instanceof BlockLargeVessel || block instanceof BlockBarrel || block instanceof BlockCampfire) {

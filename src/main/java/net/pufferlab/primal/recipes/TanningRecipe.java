@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.Utils;
 
-public class ScrapingRecipe {
+public class TanningRecipe {
 
     private static final Map<List<ItemStack>, ItemStack> recipeMap = new HashMap<>();
 

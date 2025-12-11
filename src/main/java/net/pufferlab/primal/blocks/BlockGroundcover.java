@@ -19,12 +19,12 @@ import net.pufferlab.primal.Utils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockGround extends BlockMeta {
+public class BlockGroundcover extends BlockMeta {
 
     public Item item;
     protected String[] elementsTextures;
 
-    public BlockGround(Material material, String[] materials, String type) {
+    public BlockGroundcover(Material material, String[] materials, String type) {
         super(material, materials, type);
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F * 3, 1.0F);
         this.canBlockGrass = true;
@@ -35,7 +35,7 @@ public class BlockGround extends BlockMeta {
         return AxisAlignedBB.getBoundingBox(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
     }
 
-    public BlockGround setItem(Item item) {
+    public BlockGroundcover setItem(Item item) {
         this.item = item;
         return this;
     }
@@ -45,7 +45,7 @@ public class BlockGround extends BlockMeta {
         return true;
     }
 
-    public BlockGround setTextureOverride(String[] elementsTextures) {
+    public BlockGroundcover setTextureOverride(String[] elementsTextures) {
         this.elementsTextures = elementsTextures;
         return this;
     }
@@ -131,6 +131,6 @@ public class BlockGround extends BlockMeta {
 
     @Override
     public int getRenderType() {
-        return Primal.proxy.getGroundRenderID();
+        return Primal.proxy.getGroundcoverRenderID();
     }
 }

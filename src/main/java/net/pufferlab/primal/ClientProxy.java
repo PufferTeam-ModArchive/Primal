@@ -25,7 +25,8 @@ public class ClientProxy extends CommonProxy {
     int largeVesselRenderID;
     int barrelRenderID;
     int faucetRenderID;
-    int groundRenderID;
+    int groundcoverRenderID;
+    int tanningRenderID;
 
     @Override
     public void setupRenders() {
@@ -37,7 +38,8 @@ public class ClientProxy extends CommonProxy {
         largeVesselRenderID = RenderingRegistry.getNextAvailableRenderId();
         barrelRenderID = RenderingRegistry.getNextAvailableRenderId();
         faucetRenderID = RenderingRegistry.getNextAvailableRenderId();
-        groundRenderID = RenderingRegistry.getNextAvailableRenderId();
+        groundcoverRenderID = RenderingRegistry.getNextAvailableRenderId();
+        tanningRenderID = RenderingRegistry.getNextAvailableRenderId();
 
         RenderingRegistry.registerBlockHandler(new BlockPitKilnRenderer());
         RenderingRegistry.registerBlockHandler(new BlockLogPileRenderer());
@@ -47,13 +49,14 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerBlockHandler(new BlockLargeVesselRenderer());
         RenderingRegistry.registerBlockHandler(new BlockBarrelRenderer());
         RenderingRegistry.registerBlockHandler(new BlockFaucetRenderer());
-        RenderingRegistry.registerBlockHandler(new BlockGroundRenderer());
+        RenderingRegistry.registerBlockHandler(new BlockGroundcoverRenderer());
+        RenderingRegistry.registerBlockHandler(new BlockTanningRenderer());
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPitKiln.class, new TileEntityPitKilnRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChoppingLog.class, new TileEntityChoppingLogRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCampfire.class, new TileEntityCampfireRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBarrel.class, new TileEntityBarrelRenderer());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityScraping.class, new TileEntityScrapingRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTanning.class, new TileEntityTanningRenderer());
 
         MinecraftForgeClient.registerItemRenderer(Registry.wood, new ItemWoodRenderer());
         MinecraftForgeClient.registerItemRenderer(Registry.clay, new ItemClayRenderer());
@@ -117,7 +120,12 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public int getGroundRenderID() {
-        return groundRenderID;
+    public int getGroundcoverRenderID() {
+        return groundcoverRenderID;
+    }
+
+    @Override
+    public int getTanningRenderID() {
+        return tanningRenderID;
     }
 }

@@ -59,14 +59,36 @@ public abstract class ModelPrimal extends ModelBase {
         Minecraft.getMinecraft().renderEngine.bindTexture(Primal.asResource("textures/" + getName() + ".png"));
     }
 
-    double add = 0;
-
     public void setFacing(int meta) {
-        int meta2 = meta + 1;
+        float angle = getFacingAngle(meta);
+        float add = 0.0F;
         if (invertRot()) {
-            add = Math.PI;
+            add = (float) Math.toRadians(180);
         }
-        bb_main.rotateAngleYGlobal = (float) ((Math.toRadians(90 * meta2) + add) % 360);
+
+        bb_main.rotateAngleYGlobal = (angle + add) % ((float) Math.PI * 2);
+    }
+
+    public static float getFacingAngle(int meta) {
+        float angle = 0.0F;
+        switch (meta) {
+            case 1:
+                angle = (float) Math.toRadians(-180);
+                break;
+            case 2:
+                angle = (float) Math.toRadians(90);
+                break;
+            case 3:
+                angle = (float) Math.toRadians(0);
+                break;
+            case 4:
+                angle = (float) Math.toRadians(270);
+                break;
+            default:
+                angle = (float) Math.toRadians(90 * meta);
+                break;
+        }
+        return angle;
     }
 
     public boolean invertRot() {

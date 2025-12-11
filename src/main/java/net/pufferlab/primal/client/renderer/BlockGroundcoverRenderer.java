@@ -8,12 +8,12 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.blocks.BlockGround;
+import net.pufferlab.primal.blocks.BlockGroundcover;
 import net.pufferlab.primal.client.models.ModelRock;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
-public class BlockGroundRenderer implements ISimpleBlockRenderingHandler {
+public class BlockGroundcoverRenderer implements ISimpleBlockRenderingHandler {
 
     ModelRock modelRock = new ModelRock(0);
     ModelRock modelRock2 = new ModelRock(1);
@@ -34,7 +34,7 @@ public class BlockGroundRenderer implements ISimpleBlockRenderingHandler {
         int rotation = 1 + rand.nextInt(4);
         int modelType = rand.nextInt(6);
 
-        if (block instanceof BlockGround block2) {
+        if (block instanceof BlockGroundcover block2) {
             String type = block2.getElementName();
             if (type.equals("ground_rock")) {
                 if (modelType > 3) {
@@ -57,6 +57,6 @@ public class BlockGroundRenderer implements ISimpleBlockRenderingHandler {
 
     @Override
     public int getRenderId() {
-        return Primal.proxy.getGroundRenderID();
+        return Primal.proxy.getGroundcoverRenderID();
     }
 }

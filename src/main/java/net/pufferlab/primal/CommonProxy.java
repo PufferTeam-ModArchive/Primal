@@ -84,7 +84,11 @@ public class CommonProxy implements IGuiHandler {
         return 0;
     }
 
-    public int getGroundRenderID() {
+    public int getGroundcoverRenderID() {
+        return 0;
+    }
+
+    public int getTanningRenderID() {
         return 0;
     }
 }
