@@ -44,7 +44,7 @@ public class ModelTESS {
                     child.rotationPointY += renderer.rotationPointY;
                     child.rotationPointZ += renderer.rotationPointZ;
 
-                    child.rotationAngleYGlobal = renderer.rotationAngleYGlobal;
+                    child.rotateAngleYGlobal = renderer.rotateAngleYGlobal;
 
                     // Recurse
                     renderBlock(renderblocks, tess, block, child, scale, x, y, z, offsetX, offsetY, offsetZ, index);
@@ -59,44 +59,44 @@ public class ModelTESS {
                 }
             }
 
+            double r = renderer.rotateAngleYGlobal;
+
+            double cosR = Math.cos(r);
+            double sinR = Math.sin(r);
+
+            IIcon icon = block.getIcon(renderblocks.blockAccess, x, y, z, index);
+            if (index < 16) {
+                icon = block.getIcon(0, index);
+            }
+
+            tess.setBrightness(block.getMixedBrightnessForBlock(renderblocks.blockAccess, x, y, z));
+            int i1 = block.colorMultiplier(renderblocks.blockAccess, x, y, z);
+            float f = (float) (i1 >> 16 & 255) / 255.0F;
+            float f1 = (float) (i1 >> 8 & 255) / 255.0F;
+            float f2 = (float) (i1 & 255) / 255.0F;
+
+            if (EntityRenderer.anaglyphEnable) {
+                float f3 = (f * 30.0F + f1 * 59.0F + f2 * 11.0F) / 100.0F;
+                float f4 = (f * 30.0F + f1 * 70.0F) / 100.0F;
+                float f5 = (f * 30.0F + f2 * 70.0F) / 100.0F;
+                f = f3;
+                f1 = f4;
+                f2 = f5;
+            }
+
             if (renderer.cubeList != null) {
                 for (int i = 0; i < renderer.cubeList.size(); ++i) {
                     ModelBox box = renderer.cubeList.get(i);
 
-                    IIcon icon = block.getIcon(renderblocks.blockAccess, x, y, z, index);
-                    if (index < 16) {
-                        icon = block.getIcon(0, index);
-                    }
+                    double cosX = Math.cos(renderer.rotateAngleX), sinX = Math.sin(renderer.rotateAngleX);
+                    double cosY = Math.cos(renderer.rotateAngleY), sinY = Math.sin(renderer.rotateAngleY);
+                    double cosZ = Math.cos(renderer.rotateAngleZ), sinZ = Math.sin(renderer.rotateAngleZ);
 
                     for (int j = 0; j < box.quadList.length; ++j) {
                         TexturedQuad quad = box.quadList[j];
 
                         // --- Base normal (unrotated) ---
-                        Vec3 v10 = quad.vertexPositions[1].vector3D.subtract(quad.vertexPositions[0].vector3D);
-                        Vec3 v20 = quad.vertexPositions[1].vector3D.subtract(quad.vertexPositions[2].vector3D);
-                        Vec3 normal = v20.crossProduct(v10)
-                            .normalize();
-
-                        // --- Block brightness + color ---
-                        tess.setBrightness(block.getMixedBrightnessForBlock(renderblocks.blockAccess, x, y, z));
-                        int i1 = block.colorMultiplier(renderblocks.blockAccess, x, y, z);
-                        float f = (float) (i1 >> 16 & 255) / 255.0F;
-                        float f1 = (float) (i1 >> 8 & 255) / 255.0F;
-                        float f2 = (float) (i1 & 255) / 255.0F;
-
-                        if (EntityRenderer.anaglyphEnable) {
-                            float f3 = (f * 30.0F + f1 * 59.0F + f2 * 11.0F) / 100.0F;
-                            float f4 = (f * 30.0F + f1 * 70.0F) / 100.0F;
-                            float f5 = (f * 30.0F + f2 * 70.0F) / 100.0F;
-                            f = f3;
-                            f1 = f4;
-                            f2 = f5;
-                        }
-
-                        // --- Rotation angles (cos/sin) ---
-                        double cosX = Math.cos(renderer.rotateAngleX), sinX = Math.sin(renderer.rotateAngleX);
-                        double cosY = Math.cos(renderer.rotateAngleY), sinY = Math.sin(renderer.rotateAngleY);
-                        double cosZ = Math.cos(renderer.rotateAngleZ), sinZ = Math.sin(renderer.rotateAngleZ);
+                        Vec3 normal = quad.getNormal();
 
                         // --- Rotate the normal ---
                         double nx = normal.xCoord, ny = normal.yCoord, nz = normal.zCoord;
@@ -181,20 +181,16 @@ public class ModelTESS {
                             z2v += renderer.rotationPointZ * scale;
 
                             // --- Apply world offset ---
+
+                            double vx2 = x3 * cosR - z2v * sinR;
+                            double vz2 = x3 * sinR + z2v * cosR;
+
+                            x3 = vx2;
+                            z2v = vz2;
+
                             double vx = x3 + x + 0.5 + offsetX;
                             double vy = y3 + y + offsetY;
                             double vz = z2v + z + 0.5 + offsetZ;
-
-                            double r = renderer.rotationAngleYGlobal;
-
-                            double cosR = Math.cos(r);
-                            double sinR = Math.sin(r);
-
-                            double vx2 = vx * cosR - vz * sinR;
-                            double vz2 = vx * sinR + vz * cosR;
-
-                            vx = vx2;
-                            vz = vz2;
 
                             tess.addVertexWithUV(vx, vy, vz, u, v);
                         }

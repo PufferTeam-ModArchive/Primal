@@ -11,6 +11,7 @@ public class Config {
     public static int vanillaToolsRemovalMode;
     public static float stickDropChance;
     public static float fireStarterSuccessChance;
+    public static boolean enableRockWorldgen;
 
     public static void synchronizeConfiguration(File configFile) {
         Configuration configuration = new Configuration(configFile);
@@ -36,6 +37,12 @@ public class Config {
             0.0F,
             1.0F,
             "The chance from 0 (0%) to 1 (100%) for the fire starter to succeed making a fire. Putting this to 0 will stop the fire starter from working.");
+        enableRockWorldgen = configuration.getBoolean(
+            "enableRockWorldgen",
+            Configuration.CATEGORY_GENERAL,
+            true,
+            "Whether to enable loose rocks generating in the world.");
+
         enableTechnical = configuration.getBoolean(
             "enableTechnicalChanges",
             CATEGORY_TECHNICAL,

@@ -17,8 +17,7 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 public class BlockCampfireRenderer implements ISimpleBlockRenderingHandler {
 
     ModelCampfire modelCampfire = new ModelCampfire();
-    ModelCampfireSpit modelCampfireSpit = new ModelCampfireSpit(0);
-    ModelCampfireSpit modelCampfireSpit2 = new ModelCampfireSpit(1);
+    ModelCampfireSpit modelCampfireSpit = new ModelCampfireSpit();
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {}
@@ -68,11 +67,11 @@ public class BlockCampfireRenderer implements ISimpleBlockRenderingHandler {
             modelCampfire.render(renderer, tess, block, x, y, z, 99);
             if (te instanceof TileEntityCampfire tef) {
                 if (tef.hasSpit) {
+                    modelCampfireSpit.bb_main.rotateAngleYGlobal = 0;
                     if (!rotated) {
-                        modelCampfireSpit2.render(renderer, tess, block, x, y, z, 97);
-                    } else {
-                        modelCampfireSpit.render(renderer, tess, block, x, y, z, 97);
+                        modelCampfireSpit.bb_main.rotateAngleYGlobal = (float) Math.PI / 2;
                     }
+                    modelCampfireSpit.render(renderer, tess, block, x, y, z, 97);
                 }
             }
             if (te instanceof TileEntityCampfire tef) {

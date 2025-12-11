@@ -8,25 +8,22 @@ public class TexturedQuad {
     public PositionTextureVertex[] vertexPositions;
     public int nVertices;
     private boolean invertNormal;
+    public Vec3 normal;
 
     public TexturedQuad(PositionTextureVertex[] p_i1152_1_) {
         this.vertexPositions = p_i1152_1_;
         this.nVertices = p_i1152_1_.length;
     }
 
-    public TexturedQuad(PositionTextureVertex[] p_i1153_1_, int p_i1153_2_, int p_i1153_3_, int p_i1153_4_,
-        int p_i1153_5_, float p_i1153_6_, float p_i1153_7_) {
-        this(p_i1153_1_);
-        float f2 = 0.0F / p_i1153_6_;
-        float f3 = 0.0F / p_i1153_7_;
-        p_i1153_1_[0] = p_i1153_1_[0]
-            .setTexturePosition((float) p_i1153_4_ / p_i1153_6_ - f2, (float) p_i1153_3_ / p_i1153_7_ + f3);
-        p_i1153_1_[1] = p_i1153_1_[1]
-            .setTexturePosition((float) p_i1153_2_ / p_i1153_6_ + f2, (float) p_i1153_3_ / p_i1153_7_ + f3);
-        p_i1153_1_[2] = p_i1153_1_[2]
-            .setTexturePosition((float) p_i1153_2_ / p_i1153_6_ + f2, (float) p_i1153_5_ / p_i1153_7_ - f3);
-        p_i1153_1_[3] = p_i1153_1_[3]
-            .setTexturePosition((float) p_i1153_4_ / p_i1153_6_ - f2, (float) p_i1153_5_ / p_i1153_7_ - f3);
+    public TexturedQuad(PositionTextureVertex[] vertices, int u1, int v1, int u2, int v2, float textureWidth,
+        float textureHeight) {
+        this(vertices);
+        float offsetU = 0.0F / textureWidth;
+        float offsetV = 0.0F / textureHeight;
+        vertices[0] = vertices[0].setTexturePosition(u2 / textureWidth - offsetU, v1 / textureHeight + offsetV);
+        vertices[1] = vertices[1].setTexturePosition(u1 / textureWidth + offsetU, v1 / textureHeight + offsetV);
+        vertices[2] = vertices[2].setTexturePosition(u1 / textureWidth + offsetU, v2 / textureHeight - offsetV);
+        vertices[3] = vertices[3].setTexturePosition(u2 / textureWidth - offsetU, v2 / textureHeight - offsetV);
     }
 
     public void flipFace() {
@@ -39,29 +36,36 @@ public class TexturedQuad {
         this.vertexPositions = apositiontexturevertex;
     }
 
-    public void draw(Tessellator p_78236_1_, float p_78236_2_) {
-        Vec3 vec3 = this.vertexPositions[1].vector3D.subtract(this.vertexPositions[0].vector3D);
-        Vec3 vec31 = this.vertexPositions[1].vector3D.subtract(this.vertexPositions[2].vector3D);
-        Vec3 vec32 = vec31.crossProduct(vec3)
-            .normalize();
-        p_78236_1_.startDrawingQuads();
+    public Vec3 getNormal() {
+        if (this.normal == null) {
+            Vec3 vec3 = this.vertexPositions[1].vector3D.subtract(this.vertexPositions[0].vector3D);
+            Vec3 vec31 = this.vertexPositions[1].vector3D.subtract(this.vertexPositions[2].vector3D);
+            this.normal = vec31.crossProduct(vec3)
+                .normalize();
+        }
+        return this.normal;
+    }
+
+    public void draw(Tessellator tess, float scale) {
+        Vec3 vec32 = this.getNormal();
+        tess.startDrawingQuads();
 
         if (this.invertNormal) {
-            p_78236_1_.setNormal(-((float) vec32.xCoord), -((float) vec32.yCoord), -((float) vec32.zCoord));
+            tess.setNormal(-((float) vec32.xCoord), -((float) vec32.yCoord), -((float) vec32.zCoord));
         } else {
-            p_78236_1_.setNormal((float) vec32.xCoord, (float) vec32.yCoord, (float) vec32.zCoord);
+            tess.setNormal((float) vec32.xCoord, (float) vec32.yCoord, (float) vec32.zCoord);
         }
 
         for (int i = 0; i < 4; ++i) {
             PositionTextureVertex positiontexturevertex = this.vertexPositions[i];
-            p_78236_1_.addVertexWithUV(
-                (double) ((float) positiontexturevertex.vector3D.xCoord * p_78236_2_),
-                (double) ((float) positiontexturevertex.vector3D.yCoord * p_78236_2_),
-                (double) ((float) positiontexturevertex.vector3D.zCoord * p_78236_2_),
+            tess.addVertexWithUV(
+                (double) ((float) positiontexturevertex.vector3D.xCoord * scale),
+                (double) ((float) positiontexturevertex.vector3D.yCoord * scale),
+                (double) ((float) positiontexturevertex.vector3D.zCoord * scale),
                 (double) positiontexturevertex.texturePositionX,
                 (double) positiontexturevertex.texturePositionY);
         }
 
-        p_78236_1_.draw();
+        tess.draw();
     }
 }

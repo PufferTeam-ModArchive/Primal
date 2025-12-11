@@ -22,6 +22,7 @@ public class ScriptPrimitive implements IScript {
 
     public void runModCompat() {
         if (Primal.EFRLoaded) {
+            addEFRCampfireRecipes();
             addEFROredicts();
             addEFRBarrelRecipes();
         }
@@ -126,6 +127,11 @@ public class ScriptPrimitive implements IScript {
         addCampfireRecipe(getItem("minecraft:baked_potato:0:1"), getItem("minecraft:potato:0:1"));
         addCampfireRecipe(getItem("minecraft:cooked_fished:0:1"), getItem("minecraft:fish:0:1"));
         addCampfireRecipe(getItem("minecraft:cooked_fished:1:1"), getItem("minecraft:fish:1:1"));
+    }
+
+    public void addEFRCampfireRecipes() {
+        addCampfireRecipe(getItem("minecraft:mutton_cooked:0:1"), getItem("etfuturum:mutton_raw:0:1"));
+        addCampfireRecipe(getItem("minecraft:rabbit_cooked:0:1"), getItem("etfuturum:rabbit_raw:0:1"));
     }
 
     public void addChoppingLogRecipes() {
@@ -280,7 +286,9 @@ public class ScriptPrimitive implements IScript {
                 Utils.getOreDictionaryName("dye", color),
                 getFluid("water", 1000),
                 100);
+        }
 
+        for (String color : Constants.colorTypes) {
             for (String item : Constants.colorItems) {
                 addBarrelRecipe(
                     getModItem(item, color, 1),
@@ -289,7 +297,6 @@ public class ScriptPrimitive implements IScript {
                     getFluid(color, 125),
                     100);
             }
-
         }
     }
 

@@ -8,27 +8,23 @@ public class PositionTextureVertex {
     public float texturePositionX;
     public float texturePositionY;
 
-    public PositionTextureVertex(float p_i1158_1_, float p_i1158_2_, float p_i1158_3_, float p_i1158_4_,
-        float p_i1158_5_) {
-        this(
-            Vec3.createVectorHelper((double) p_i1158_1_, (double) p_i1158_2_, (double) p_i1158_3_),
-            p_i1158_4_,
-            p_i1158_5_);
+    public PositionTextureVertex(float x, float y, float z, float u, float v) {
+        this(Vec3.createVectorHelper((double) x, (double) y, (double) z), u, v);
     }
 
-    public PositionTextureVertex setTexturePosition(float p_78240_1_, float p_78240_2_) {
-        return new PositionTextureVertex(this, p_78240_1_, p_78240_2_);
+    public PositionTextureVertex setTexturePosition(float u, float v) {
+        return new PositionTextureVertex(this, u, v);
     }
 
-    public PositionTextureVertex(PositionTextureVertex p_i1159_1_, float p_i1159_2_, float p_i1159_3_) {
-        this.vector3D = p_i1159_1_.vector3D;
-        this.texturePositionX = p_i1159_2_;
-        this.texturePositionY = p_i1159_3_;
+    public PositionTextureVertex(PositionTextureVertex original, float u, float v) {
+        this.vector3D = original.vector3D;
+        this.texturePositionX = u;
+        this.texturePositionY = v;
     }
 
-    public PositionTextureVertex(Vec3 p_i1160_1_, float p_i1160_2_, float p_i1160_3_) {
-        this.vector3D = p_i1160_1_;
-        this.texturePositionX = p_i1160_2_;
-        this.texturePositionY = p_i1160_3_;
+    public PositionTextureVertex(Vec3 position, float u, float v) {
+        this.vector3D = position;
+        this.texturePositionX = u;
+        this.texturePositionY = v;
     }
 }

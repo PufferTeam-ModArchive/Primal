@@ -30,7 +30,8 @@ public class ModelFaucet extends ModelPrimal {
     }
 
     @Override
-    public boolean invertRot() {
-        return true;
+    public void setFacing(int meta) {
+        int meta2 = meta + 1;
+        bb_main.rotateAngleY = (float) ((Math.toRadians(90 * meta2) + Math.PI) % 360);
     }
 }

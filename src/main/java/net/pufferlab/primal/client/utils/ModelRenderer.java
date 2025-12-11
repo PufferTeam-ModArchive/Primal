@@ -42,26 +42,26 @@ public class ModelRenderer {
     public float offsetY;
     public float offsetZ;
 
-    public float rotationAngleYGlobal;
+    public float rotateAngleYGlobal;
 
-    public ModelRenderer(ModelBase p_i1172_1_, String p_i1172_2_) {
+    public ModelRenderer(ModelBase baseModel, String boxName) {
         this.textureWidth = 64.0F;
         this.textureHeight = 32.0F;
         this.showModel = true;
         this.cubeList = new ArrayList();
-        this.baseModel = p_i1172_1_;
-        p_i1172_1_.boxList.add(this);
-        this.boxName = p_i1172_2_;
-        this.setTextureSize(p_i1172_1_.textureWidth, p_i1172_1_.textureHeight);
+        this.baseModel = baseModel;
+        baseModel.boxList.add(this);
+        this.boxName = boxName;
+        this.setTextureSize(baseModel.textureWidth, baseModel.textureHeight);
     }
 
     public ModelRenderer(ModelBase base) {
         this(base, (String) null);
     }
 
-    public ModelRenderer(ModelBase p_i1174_1_, int p_i1174_2_, int p_i1174_3_) {
-        this(p_i1174_1_);
-        this.setTextureOffset(p_i1174_2_, p_i1174_3_);
+    public ModelRenderer(ModelBase base, int textureOffsetX, int textureOffsetY) {
+        this(base);
+        this.setTextureOffset(textureOffsetX, textureOffsetY);
     }
 
     /**
@@ -81,60 +81,25 @@ public class ModelRenderer {
         return this;
     }
 
-    public ModelRenderer addBox(String p_78786_1_, float p_78786_2_, float p_78786_3_, float p_78786_4_, int p_78786_5_,
-        int p_78786_6_, int p_78786_7_) {
-        p_78786_1_ = this.boxName + "." + p_78786_1_;
-        TextureOffset textureoffset = this.baseModel.getTextureOffset(p_78786_1_);
+    public ModelRenderer addBox(String boxNameSuffix, float x, float y, float z, int width, int height, int depth) {
+        boxNameSuffix = this.boxName + "." + boxNameSuffix;
+        TextureOffset textureoffset = this.baseModel.getTextureOffset(boxNameSuffix);
         this.setTextureOffset(textureoffset.textureOffsetX, textureoffset.textureOffsetY);
         this.cubeList.add(
-            (new ModelBox(
-                this,
-                this.textureOffsetX,
-                this.textureOffsetY,
-                p_78786_2_,
-                p_78786_3_,
-                p_78786_4_,
-                p_78786_5_,
-                p_78786_6_,
-                p_78786_7_,
-                0.0F)).func_78244_a(p_78786_1_));
+            (new ModelBox(this, this.textureOffsetX, this.textureOffsetY, x, y, z, width, height, depth, 0.0F))
+                .func_78244_a(boxNameSuffix));
         return this;
     }
 
-    public ModelRenderer addBox(float p_78789_1_, float p_78789_2_, float p_78789_3_, int p_78789_4_, int p_78789_5_,
-        int p_78789_6_) {
-        this.cubeList.add(
-            new ModelBox(
-                this,
-                this.textureOffsetX,
-                this.textureOffsetY,
-                p_78789_1_,
-                p_78789_2_,
-                p_78789_3_,
-                p_78789_4_,
-                p_78789_5_,
-                p_78789_6_,
-                0.0F));
+    public ModelRenderer addBox(float x, float y, float z, int width, int height, int depth) {
+        this.cubeList
+            .add(new ModelBox(this, this.textureOffsetX, this.textureOffsetY, x, y, z, width, height, depth, 0.0F));
         return this;
     }
 
-    /**
-     * Creates a textured box. Args: originX, originY, originZ, width, height, depth, scaleFactor.
-     */
-    public void addBox(float p_78790_1_, float p_78790_2_, float p_78790_3_, int p_78790_4_, int p_78790_5_,
-        int p_78790_6_, float p_78790_7_) {
+    public void addBox(float x, float y, float z, int width, int height, int depth, float scaleFactor) {
         this.cubeList.add(
-            new ModelBox(
-                this,
-                this.textureOffsetX,
-                this.textureOffsetY,
-                p_78790_1_,
-                p_78790_2_,
-                p_78790_3_,
-                p_78790_4_,
-                p_78790_5_,
-                p_78790_6_,
-                p_78790_7_));
+            new ModelBox(this, this.textureOffsetX, this.textureOffsetY, x, y, z, width, height, depth, scaleFactor));
     }
 
     public void setRotationPoint(float rotPointX, float rotPointY, float rotPointZ) {
@@ -144,11 +109,11 @@ public class ModelRenderer {
     }
 
     @SideOnly(Side.CLIENT)
-    public void render(float p_78785_1_) {
+    public void render(float scale) {
         if (!this.isHidden) {
             if (this.showModel) {
                 if (!this.compiled) {
-                    this.compileDisplayList(p_78785_1_);
+                    this.compileDisplayList(scale);
                 }
 
                 GL11.glTranslatef(this.offsetX, this.offsetY, this.offsetZ);
@@ -160,33 +125,33 @@ public class ModelRenderer {
 
                         if (this.childModels != null) {
                             for (i = 0; i < this.childModels.size(); ++i) {
-                                ((ModelRenderer) this.childModels.get(i)).render(p_78785_1_);
+                                ((ModelRenderer) this.childModels.get(i)).render(scale);
                             }
                         }
                     } else {
                         GL11.glTranslatef(
-                            this.rotationPointX * p_78785_1_,
-                            this.rotationPointY * p_78785_1_,
-                            this.rotationPointZ * p_78785_1_);
+                            this.rotationPointX * scale,
+                            this.rotationPointY * scale,
+                            this.rotationPointZ * scale);
                         GL11.glCallList(this.displayList);
 
                         if (this.childModels != null) {
                             for (i = 0; i < this.childModels.size(); ++i) {
-                                ((ModelRenderer) this.childModels.get(i)).render(p_78785_1_);
+                                ((ModelRenderer) this.childModels.get(i)).render(scale);
                             }
                         }
 
                         GL11.glTranslatef(
-                            -this.rotationPointX * p_78785_1_,
-                            -this.rotationPointY * p_78785_1_,
-                            -this.rotationPointZ * p_78785_1_);
+                            -this.rotationPointX * scale,
+                            -this.rotationPointY * scale,
+                            -this.rotationPointZ * scale);
                     }
                 } else {
                     GL11.glPushMatrix();
                     GL11.glTranslatef(
-                        this.rotationPointX * p_78785_1_,
-                        this.rotationPointY * p_78785_1_,
-                        this.rotationPointZ * p_78785_1_);
+                        this.rotationPointX * scale,
+                        this.rotationPointY * scale,
+                        this.rotationPointZ * scale);
 
                     if (this.rotateAngleZ != 0.0F) {
                         GL11.glRotatef(this.rotateAngleZ * (180F / (float) Math.PI), 0.0F, 0.0F, 1.0F);
@@ -204,7 +169,7 @@ public class ModelRenderer {
 
                     if (this.childModels != null) {
                         for (i = 0; i < this.childModels.size(); ++i) {
-                            ((ModelRenderer) this.childModels.get(i)).render(p_78785_1_);
+                            ((ModelRenderer) this.childModels.get(i)).render(scale);
                         }
                     }
 
@@ -217,18 +182,18 @@ public class ModelRenderer {
     }
 
     @SideOnly(Side.CLIENT)
-    public void renderWithRotation(float p_78791_1_) {
+    public void renderWithRotation(float scale) {
         if (!this.isHidden) {
             if (this.showModel) {
                 if (!this.compiled) {
-                    this.compileDisplayList(p_78791_1_);
+                    this.compileDisplayList(scale);
                 }
 
                 GL11.glPushMatrix();
                 GL11.glTranslatef(
-                    this.rotationPointX * p_78791_1_,
-                    this.rotationPointY * p_78791_1_,
-                    this.rotationPointZ * p_78791_1_);
+                    this.rotationPointX * scale,
+                    this.rotationPointY * scale,
+                    this.rotationPointZ * scale);
 
                 if (this.rotateAngleY != 0.0F) {
                     GL11.glRotatef(this.rotateAngleY * (180F / (float) Math.PI), 0.0F, 1.0F, 0.0F);
@@ -252,25 +217,25 @@ public class ModelRenderer {
      * Allows the changing of Angles after a box has been rendered
      */
     @SideOnly(Side.CLIENT)
-    public void postRender(float p_78794_1_) {
+    public void postRender(float scale) {
         if (!this.isHidden) {
             if (this.showModel) {
                 if (!this.compiled) {
-                    this.compileDisplayList(p_78794_1_);
+                    this.compileDisplayList(scale);
                 }
 
                 if (this.rotateAngleX == 0.0F && this.rotateAngleY == 0.0F && this.rotateAngleZ == 0.0F) {
                     if (this.rotationPointX != 0.0F || this.rotationPointY != 0.0F || this.rotationPointZ != 0.0F) {
                         GL11.glTranslatef(
-                            this.rotationPointX * p_78794_1_,
-                            this.rotationPointY * p_78794_1_,
-                            this.rotationPointZ * p_78794_1_);
+                            this.rotationPointX * scale,
+                            this.rotationPointY * scale,
+                            this.rotationPointZ * scale);
                     }
                 } else {
                     GL11.glTranslatef(
-                        this.rotationPointX * p_78794_1_,
-                        this.rotationPointY * p_78794_1_,
-                        this.rotationPointZ * p_78794_1_);
+                        this.rotationPointX * scale,
+                        this.rotationPointY * scale,
+                        this.rotationPointZ * scale);
 
                     if (this.rotateAngleZ != 0.0F) {
                         GL11.glRotatef(this.rotateAngleZ * (180F / (float) Math.PI), 0.0F, 0.0F, 1.0F);
@@ -292,13 +257,13 @@ public class ModelRenderer {
      * Compiles a GL display list for this model
      */
     @SideOnly(Side.CLIENT)
-    private void compileDisplayList(float p_78788_1_) {
+    private void compileDisplayList(float scale) {
         this.displayList = GLAllocation.generateDisplayLists(1);
         GL11.glNewList(this.displayList, GL11.GL_COMPILE);
         Tessellator tessellator = Tessellator.instance;
 
         for (int i = 0; i < this.cubeList.size(); ++i) {
-            ((ModelBox) this.cubeList.get(i)).render(tessellator, p_78788_1_);
+            ((ModelBox) this.cubeList.get(i)).render(tessellator, scale);
         }
 
         GL11.glEndList();

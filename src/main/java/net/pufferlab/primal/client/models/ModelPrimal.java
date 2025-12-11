@@ -66,7 +66,7 @@ public abstract class ModelPrimal extends ModelBase {
         if (invertRot()) {
             add = Math.PI;
         }
-        bb_main.rotateAngleY = (float) ((Math.toRadians(90 * meta2) + add) % 360);
+        bb_main.rotateAngleYGlobal = (float) ((Math.toRadians(90 * meta2) + add) % 360);
     }
 
     public boolean invertRot() {
