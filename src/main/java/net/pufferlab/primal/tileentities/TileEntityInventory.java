@@ -174,6 +174,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         if (this.isFired != state) {
             this.isFired = state;
             this.markDirty();
+            this.worldObj.func_147453_f(this.xCoord, this.yCoord, this.zCoord, this.blockType);
             this.worldObj.markBlockRangeForRenderUpdate(
                 this.xCoord,
                 this.yCoord,
