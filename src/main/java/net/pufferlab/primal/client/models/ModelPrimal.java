@@ -15,6 +15,11 @@ public abstract class ModelPrimal extends ModelBase {
     ModelTESS modelTESS = new ModelTESS();
 
     public final ModelRenderer bb_main;
+    public float facingOffsetXSet;
+    public float facingOffsetZSet;
+    public float facingOffsetX;
+    public float facingOffsetY;
+    public float facingOffsetZ;
 
     public ModelPrimal(int size) {
         textureWidth = size;
@@ -30,8 +35,19 @@ public abstract class ModelPrimal extends ModelBase {
     }
 
     public void render(RenderBlocks renderblocks, Tessellator tess, Block block, int x, int y, int z, int index) {
-        modelTESS
-            .renderBlock(renderblocks, tess, block, bb_main, Constants.modelConst, x, y, z, 0.0F, 0.0F, 0.0F, index);
+        modelTESS.renderBlock(
+            renderblocks,
+            tess,
+            block,
+            bb_main,
+            Constants.modelConst,
+            x,
+            y,
+            z,
+            facingOffsetX,
+            0.0F + facingOffsetY,
+            facingOffsetZ,
+            index);
     }
 
     public void render(RenderBlocks renderblocks, Tessellator tess, Block block, int x, int y, int z, double offsetX,
@@ -45,9 +61,9 @@ public abstract class ModelPrimal extends ModelBase {
             x,
             y,
             z,
-            offsetX,
-            offsetY,
-            offsetZ,
+            offsetX + facingOffsetX,
+            offsetY + facingOffsetY,
+            offsetZ + facingOffsetZ,
             index);
     }
 
@@ -65,6 +81,7 @@ public abstract class ModelPrimal extends ModelBase {
         if (invertRot()) {
             add = (float) Math.toRadians(180);
         }
+        updateFacingOffset(meta);
 
         bb_main.rotateAngleYGlobal = (angle + add) % ((float) Math.PI * 2);
     }
@@ -89,6 +106,55 @@ public abstract class ModelPrimal extends ModelBase {
                 break;
         }
         return angle;
+    }
+
+    public static int getFacingAngleDegree(int meta) {
+        int angle = 0;
+        switch (meta) {
+            case 1:
+                angle = -180;
+                break;
+            case 2:
+                angle = 90;
+                break;
+            case 3:
+                angle = 0;
+                break;
+            case 4:
+                angle = 270;
+                break;
+            default:
+                angle = 90 * meta;
+                break;
+        }
+        return angle;
+    }
+
+    public void setFacingOffset(float x, float y, float z) {
+        this.facingOffsetXSet = x;
+        this.facingOffsetY = y;
+        this.facingOffsetZSet = z;
+    }
+
+    public void updateFacingOffset(int meta) {
+        switch (meta) {
+            case 1:
+                facingOffsetX = -facingOffsetXSet;
+                facingOffsetZ = -facingOffsetZSet;
+                break;
+            case 2:
+                facingOffsetZ = facingOffsetXSet;
+                facingOffsetX = -facingOffsetZSet;
+                break;
+            case 3:
+                facingOffsetX = facingOffsetXSet;
+                facingOffsetZ = facingOffsetZSet;
+                break;
+            case 4:
+                facingOffsetZ = -facingOffsetXSet;
+                facingOffsetX = facingOffsetZSet;
+                break;
+        }
     }
 
     public boolean invertRot() {

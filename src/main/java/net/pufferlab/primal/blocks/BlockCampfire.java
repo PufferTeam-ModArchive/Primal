@@ -12,7 +12,6 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
@@ -142,16 +141,7 @@ public class BlockCampfire extends BlockContainer {
             item = pile.getInventoryStack(index);
         }
         if (item != null && item.stackSize > 0) {
-            EntityItem entityItem = new EntityItem(
-                world,
-                x + 0.5,
-                y + 1.1,
-                z + 0.5,
-                new ItemStack(item.getItem(), item.stackSize, item.getItemDamage()));
-            if (item.hasTagCompound()) entityItem.getEntityItem()
-                .setTagCompound(
-                    (NBTTagCompound) item.getTagCompound()
-                        .copy());
+            EntityItem entityItem = new EntityItem(world, x + 0.5, y + 1.25, z + 0.5, item.copy());
             entityItem.motionX = 0.0D;
             entityItem.motionY = 0.0D;
             entityItem.motionZ = 0.0D;

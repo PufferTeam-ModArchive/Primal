@@ -76,7 +76,7 @@ public class Registry {
         log_pile = new BlockLogPile();
         charcoal_pile = new BlockCharcoalPile();
         ash_pile = new BlockAshPile();
-        tanning = new BlockTanningFrame();
+        tanning = new BlockTanning();
         chopping_log = new BlockChoppingLog();
         campfire = new BlockCampfire();
         large_vessel = new BlockLargeVessel();

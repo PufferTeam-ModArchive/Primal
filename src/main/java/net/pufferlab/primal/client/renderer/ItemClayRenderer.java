@@ -10,8 +10,12 @@ import org.lwjgl.opengl.GL11;
 
 public class ItemClayRenderer implements IItemRenderer {
 
-    ModelLargeVessel modelLargeVessel = new ModelLargeVessel(1);
+    ModelLargeVessel modelLargeVessel = new ModelLargeVessel();
     public final int largeVesselMeta = Utils.getItemFromArray(Constants.clayItems, "clay_large_vessel");
+
+    public ItemClayRenderer() {
+        modelLargeVessel.setType(1);
+    }
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {

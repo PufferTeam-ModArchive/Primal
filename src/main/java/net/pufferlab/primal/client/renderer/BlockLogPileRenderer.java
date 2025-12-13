@@ -7,8 +7,11 @@ import net.minecraft.world.IBlockAccess;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
+
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
+@ThreadSafeISBRH(perThread = false)
 public class BlockLogPileRenderer implements ISimpleBlockRenderingHandler {
 
     @Override

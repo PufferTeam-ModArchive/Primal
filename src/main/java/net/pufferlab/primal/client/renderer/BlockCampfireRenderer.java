@@ -12,12 +12,16 @@ import net.pufferlab.primal.client.models.ModelCampfireSpit;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
+
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
+@ThreadSafeISBRH(perThread = true)
 public class BlockCampfireRenderer implements ISimpleBlockRenderingHandler {
 
-    ModelCampfire modelCampfire = new ModelCampfire();
-    ModelCampfireSpit modelCampfireSpit = new ModelCampfireSpit();
+    private final ThreadLocal<ModelCampfire> modelCampfireThread = ThreadLocal.withInitial(ModelCampfire::new);
+    private final ThreadLocal<ModelCampfireSpit> modelCampfireSpitThread = ThreadLocal
+        .withInitial(ModelCampfireSpit::new);
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {}
@@ -25,6 +29,9 @@ public class BlockCampfireRenderer implements ISimpleBlockRenderingHandler {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
+        ModelCampfire modelCampfire = modelCampfireThread.get();
+        ModelCampfireSpit modelCampfireSpit = modelCampfireSpitThread.get();
+
         Tessellator tess = Tessellator.instance;
         int meta = world.getBlockMetadata(x, y, z);
         modelCampfire.kindling.isHidden = true;

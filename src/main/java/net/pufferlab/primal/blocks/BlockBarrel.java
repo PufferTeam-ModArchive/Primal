@@ -205,9 +205,6 @@ public class BlockBarrel extends BlockContainer {
 
     @Override
     public boolean canRenderInPass(int pass) {
-        if (pass == -1) {
-            return false;
-        }
         return true;
     }
 

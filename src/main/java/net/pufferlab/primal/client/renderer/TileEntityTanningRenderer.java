@@ -8,7 +8,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.pufferlab.primal.blocks.BlockTanningFrame;
+import net.pufferlab.primal.blocks.BlockTanning;
 import net.pufferlab.primal.client.models.ModelPrimal;
 import net.pufferlab.primal.tileentities.TileEntityTanning;
 
@@ -39,7 +39,7 @@ public class TileEntityTanningRenderer extends TileEntitySpecialRenderer {
         World world = tileEntity.getWorldObj();
         TileEntityTanning scraping = (TileEntityTanning) tileEntity;
         Block block = world.getBlock(scraping.xCoord, scraping.yCoord, scraping.zCoord);
-        if (!(block instanceof BlockTanningFrame)) return;
+        if (!(block instanceof BlockTanning)) return;
 
         this.itemRenderer.setRenderManager(renderManager);
 
@@ -62,15 +62,26 @@ public class TileEntityTanningRenderer extends TileEntitySpecialRenderer {
             this.slotEntity.setEntityItemStack(stack);
             this.slotEntity.hoverStart = 0.0F;
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glTranslated(xAdjust, yAdjust + 0.40, zAdjust + 0.13);
-            GL11.glScalef(1.5F, 1.5F, 1.5F);
-            GL11.glRotatef(ModelPrimal.getFacingAngle(facing), 1.0F, 1.0F, 0.0F);
+            GL11.glTranslated(xAdjust, yAdjust + 0.40, zAdjust);
+            GL11.glScalef(1.25F, 1.25F, 1.25F);
             if (facing == 1) {
-                GL11.glRotatef(20, 1.0F, 0.0F, 0.0F);
+                GL11.glTranslatef(0.0F, 0.0F, -0.16F);
+                GL11.glRotatef(30, 1.0F, 0.0F, 0.0F);
+            }
+            if (facing == 2) {
+                GL11.glTranslatef(-0.16F, 0.0F, 0.0F);
+                GL11.glRotatef(-30, 0.0F, 0.0F, 1.0F);
             }
             if (facing == 3) {
-                GL11.glRotatef(-20, 1.0F, 0.0F, 0.0F);
+                GL11.glTranslatef(0.0F, 0.0F, 0.16F);
+                GL11.glRotatef(-30, 1.0F, 0.0F, 0.0F);
             }
+            if (facing == 4) {
+                GL11.glTranslatef(0.16F, 0.0F, 0.0F);
+                GL11.glRotatef(30, 0.0F, 0.0F, 1.0F);
+            }
+
+            GL11.glRotatef(ModelPrimal.getFacingAngleDegree(facing), 0.0F, 1.0F, 0.0F);
             RenderItem.renderInFrame = true;
             try {
                 this.itemRenderer.doRender(slotEntity, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
@@ -78,10 +89,5 @@ public class TileEntityTanningRenderer extends TileEntitySpecialRenderer {
             RenderItem.renderInFrame = false;
         }
         GL11.glPopMatrix();
-    }
-
-    public void setFacing(int meta) {
-        int meta2 = meta + 2;
-        GL11.glRotatef(90 * meta2, 0, 1.0F, 0.0F);
     }
 }

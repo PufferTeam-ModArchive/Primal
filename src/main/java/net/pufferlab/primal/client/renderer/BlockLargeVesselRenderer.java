@@ -10,23 +10,31 @@ import net.pufferlab.primal.client.models.ModelLargeVessel;
 
 import org.lwjgl.opengl.GL11;
 
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
+
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
+@ThreadSafeISBRH(perThread = true)
 public class BlockLargeVesselRenderer implements ISimpleBlockRenderingHandler {
 
-    ModelLargeVessel modelLargeVessel = new ModelLargeVessel(0);
+    private static final ThreadLocal<ModelLargeVessel> modelLargeVesselThread = ThreadLocal
+        .withInitial(ModelLargeVessel::new);
+
+    ModelLargeVessel modelLargeVesselGlobal = new ModelLargeVessel();
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
         GL11.glPushMatrix();
         GL11.glTranslatef(0.0F, -0.5F, 0.0F);
-        modelLargeVessel.render();
+        modelLargeVesselGlobal.render();
         GL11.glPopMatrix();
     }
 
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
+        ModelLargeVessel modelLargeVessel = modelLargeVesselThread.get();
+
         Tessellator tess = Tessellator.instance;
         int renderPass = ForgeHooksClient.getWorldRenderPass();
         if (renderPass == 0) {

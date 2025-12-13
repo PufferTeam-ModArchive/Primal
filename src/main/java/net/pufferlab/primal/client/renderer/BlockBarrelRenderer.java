@@ -15,12 +15,15 @@ import net.pufferlab.primal.client.helper.ModelTESS;
 import net.pufferlab.primal.client.models.ModelBarrel;
 import net.pufferlab.primal.tileentities.TileEntityBarrel;
 
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
+
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
+@ThreadSafeISBRH(perThread = true)
 public class BlockBarrelRenderer implements ISimpleBlockRenderingHandler {
 
-    ModelBarrel modelBarrel = new ModelBarrel();
-    ModelTESS modelTESS = new ModelTESS();
+    private final ThreadLocal<ModelBarrel> modelBarrelThread = ThreadLocal.withInitial(ModelBarrel::new);
+    private final ThreadLocal<ModelTESS> modelTESSThread = ThreadLocal.withInitial(ModelTESS::new);
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {}
@@ -28,6 +31,9 @@ public class BlockBarrelRenderer implements ISimpleBlockRenderingHandler {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
+        ModelBarrel modelBarrel = modelBarrelThread.get();
+        ModelTESS modelTESS = modelTESSThread.get();
+
         Tessellator tess = Tessellator.instance;
         modelBarrel.top.isHidden = false;
         TileEntity te = world.getTileEntity(x, y, z);
@@ -37,30 +43,16 @@ public class BlockBarrelRenderer implements ISimpleBlockRenderingHandler {
             FluidStack stackOutput = tef.getFluidStackOutput();
             float height = tef.getFillLevel(0.1875F, 0.875F);
             float heightOutput = tef.getFillLevelOutput(0.1875F, 0.875F);
-            int meta = tef.facingMeta;
-            modelBarrel.setFacing(meta);
-            double offsetX = 0.0F;
-            double offsetY = 0.0F;
-            double offsetZ = 0.0F;
             modelBarrel.bb_main.rotateAngleX = 0.0F;
             if (tef.isFloorBarrel) {
-                offsetY = 0.5F - 0.125F;
-                if (tef.facingMeta == 1) {
-                    offsetZ = 0.5F;
-                }
-                if (tef.facingMeta == 2) {
-                    offsetX = 0.5F;
-                }
-                if (tef.facingMeta == 3) {
-                    offsetZ = -0.5F;
-                }
-                if (tef.facingMeta == 4) {
-                    offsetX = -0.5F;
-                }
+                modelBarrel.setFacingOffset(0.0F, 0.375F, -0.5F);
                 modelBarrel.bb_main.rotateAngleX = (float) (Math.PI / 2);
             } else {
+                modelBarrel.setFacingOffset(0.0F, 0.0F, 0.0F);
                 modelBarrel.top.isHidden = true;
             }
+            int meta = tef.facingMeta;
+            modelBarrel.setFacing(meta);
             modelTESS.dumpVertices(tess, x, y, z);
             double o = Constants.modelConst;
             if (renderPass == 1 && !tef.isFloorBarrel) {
@@ -100,7 +92,7 @@ public class BlockBarrelRenderer implements ISimpleBlockRenderingHandler {
                     renderer.renderStandardBlock(block, x, y, z);
                     renderer.setOverrideBlockTexture(null);
                 }
-                modelBarrel.render(renderer, tess, block, x, y, z, offsetX, offsetY, offsetZ, 99);
+                modelBarrel.render(renderer, tess, block, x, y, z, 99);
             }
         }
         return true;

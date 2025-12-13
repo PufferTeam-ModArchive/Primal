@@ -20,6 +20,12 @@ public class ModelTESS {
     public void renderBlock(RenderBlocks renderblocks, Tessellator tess, Block block, ModelRenderer renderer,
         float scale, int x, int y, int z, double offsetX, double offsetY, double offsetZ, int index) {
 
+        if (renderblocks.hasOverrideBlockTexture()) {
+            renderblocks.setRenderBounds(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+            renderblocks.renderStandardBlock(block, x, y, z);
+            return;
+        }
+
         if (!renderer.isHidden && renderer.showModel) {
 
             // Render children first
@@ -215,6 +221,12 @@ public class ModelTESS {
         Block block = fs.getFluid()
             .getBlock();
         if (block == null) return;
+
+        if (renderblocks.hasOverrideBlockTexture()) {
+            renderblocks.setRenderBounds(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+            renderblocks.renderStandardBlock(block, x, y, z);
+            return;
+        }
 
         IIcon icon = fluid.getStillIcon();
         if (isFlowing) {

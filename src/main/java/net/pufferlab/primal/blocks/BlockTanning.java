@@ -20,12 +20,13 @@ import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 import net.pufferlab.primal.tileentities.TileEntityTanning;
 
-public class BlockTanningFrame extends BlockContainer {
+public class BlockTanning extends BlockContainer {
 
     public IIcon[] icons = new IIcon[2];
 
-    public BlockTanningFrame() {
-        super(Material.rock);
+    public BlockTanning() {
+        super(Material.wood);
+        this.setHardness(1.0F);
     }
 
     @Override
@@ -39,7 +40,7 @@ public class BlockTanningFrame extends BlockContainer {
         if (side == 99) {
             return icons[1];
         }
-        return icons[0];
+        return icons[1];
     }
 
     @Override
@@ -75,7 +76,6 @@ public class BlockTanningFrame extends BlockContainer {
                 if (scraping.getInventoryStack(0) != null) {
                     dropItems(worldIn, x, y, z);
                     scraping.setInventorySlotContentsUpdate(0);
-                    worldIn.setBlockToAir(x, y, z);
                     return true;
                 }
 
@@ -114,7 +114,7 @@ public class BlockTanningFrame extends BlockContainer {
 
     @Override
     public String getUnlocalizedName() {
-        return "tile." + Primal.MODID + ".scraping";
+        return "tile." + Primal.MODID + ".tanning";
     }
 
     @Override

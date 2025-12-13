@@ -5,8 +5,11 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;
 import net.pufferlab.primal.Primal;
 
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
+
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
+@ThreadSafeISBRH(perThread = false)
 public class BlockCharcoalPileRenderer implements ISimpleBlockRenderingHandler {
 
     @Override

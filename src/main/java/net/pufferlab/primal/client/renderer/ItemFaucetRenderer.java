@@ -41,7 +41,7 @@ public class ItemFaucetRenderer implements IItemRenderer {
                 GL11.glScalef(1.3F, 1.3F, 1.3F);
                 GL11.glTranslatef(-0.18F, -0.8F, 0.0F);
             }
-            modelFaucet.setFacing(1);
+            modelFaucet.bb_main.rotateAngleY = (float) Math.toRadians(-180);
             modelFaucet.render();
             modelValve.render();
             GL11.glPopMatrix();

@@ -10,13 +10,17 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.blocks.BlockGroundcover;
 import net.pufferlab.primal.client.models.ModelRock;
+import net.pufferlab.primal.client.models.ModelRockSmall;
+
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
+@ThreadSafeISBRH(perThread = true)
 public class BlockGroundcoverRenderer implements ISimpleBlockRenderingHandler {
 
-    ModelRock modelRock = new ModelRock(0);
-    ModelRock modelRock2 = new ModelRock(1);
+    private final ThreadLocal<ModelRock> modelRockThread = ThreadLocal.withInitial(ModelRock::new);
+    private final ThreadLocal<ModelRockSmall> modelRock2Thread = ThreadLocal.withInitial(ModelRockSmall::new);
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {}
@@ -24,6 +28,9 @@ public class BlockGroundcoverRenderer implements ISimpleBlockRenderingHandler {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
+        ModelRock modelRock = modelRockThread.get();
+        ModelRockSmall modelRock2 = modelRock2Thread.get();
+
         Tessellator tess = Tessellator.instance;
         Random rand = Utils.getSeededRandom(x, y, z);
 
