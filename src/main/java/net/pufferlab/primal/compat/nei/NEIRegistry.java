@@ -74,7 +74,7 @@ public class NEIRegistry implements IConfigureNEI {
             65);
         sendHandler(
             "net.pufferlab.primal.compat.nei.NEITanningHandler",
-            Primal.MODID + ":tanning",
+            Primal.MODID + ":tanning_frame",
             2,
             Primal.MODNAME,
             Primal.MODID,
@@ -84,6 +84,7 @@ public class NEIRegistry implements IConfigureNEI {
         sendCatalyst(Primal.MODID + ".barrel", Primal.MODID + ":barrel");
         sendCatalyst(Primal.MODID + ".campfire", Primal.MODID + ":campfire");
         sendCatalyst(Primal.MODID + ".pit_kiln", Primal.MODID + ":pit_kiln");
+        sendCatalyst(Primal.MODID + ".tanning", Primal.MODID + ":tanning_frame");
     }
 
     @Override

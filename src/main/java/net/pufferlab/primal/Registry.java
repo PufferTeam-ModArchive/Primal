@@ -113,12 +113,12 @@ public class Registry {
         register(log_pile, "log_pile");
         register(charcoal_pile, "charcoal_pile");
         register(ash_pile, "ash_pile");
-        register(tanning, "tanning");
         register(chopping_log, "chopping_log");
         register(campfire, "campfire");
         register(large_vessel, "large_vessel");
         register(barrel, "barrel");
         register(faucet, "faucet");
+        register(tanning, "tanning_frame");
 
         register(icons, "icon");
         register(straw, "straw");
@@ -147,7 +147,7 @@ public class Registry {
         register(TileEntityLargeVessel.class, "large_vessel");
         register(TileEntityBarrel.class, "barrel");
         register(TileEntityFaucet.class, "faucet");
-        register(TileEntityTanning.class, "tanning");
+        register(TileEntityTanning.class, "tanning_frame");
     }
 
     public static final Block[] fluidsBlocks = new Block[Constants.fluids.length];

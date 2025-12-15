@@ -130,8 +130,8 @@ public class ScriptPrimitive implements IScript {
     }
 
     public void addEFRCampfireRecipes() {
-        addCampfireRecipe(getItem("minecraft:mutton_cooked:0:1"), getItem("etfuturum:mutton_raw:0:1"));
-        addCampfireRecipe(getItem("minecraft:rabbit_cooked:0:1"), getItem("etfuturum:rabbit_raw:0:1"));
+        addCampfireRecipe(getItem("etfuturum:mutton_cooked:0:1"), getItem("etfuturum:mutton_raw:0:1"));
+        addCampfireRecipe(getItem("etfuturum:rabbit_cooked:0:1"), getItem("etfuturum:rabbit_raw:0:1"));
     }
 
     public void addChoppingLogRecipes() {

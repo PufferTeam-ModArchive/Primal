@@ -114,7 +114,7 @@ public class BlockTanning extends BlockContainer {
 
     @Override
     public String getUnlocalizedName() {
-        return "tile." + Primal.MODID + ".tanning";
+        return "tile." + Primal.MODID + ".tanning_frame";
     }
 
     @Override
