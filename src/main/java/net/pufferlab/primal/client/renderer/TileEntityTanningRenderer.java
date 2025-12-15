@@ -59,19 +59,19 @@ public class TileEntityTanningRenderer extends TileEntitySpecialRenderer {
             GL11.glTranslated(xAdjust, yAdjust + 0.41, zAdjust);
             GL11.glScalef(1.25F, 1.25F, 1.25F);
             if (facing == 1) {
-                GL11.glTranslatef(0.0F, 0.0F, -0.16F);
+                GL11.glTranslatef(0.0F, 0.0F, -0.11F);
                 GL11.glRotatef(30, 1.0F, 0.0F, 0.0F);
             }
             if (facing == 2) {
-                GL11.glTranslatef(-0.16F, 0.0F, 0.0F);
+                GL11.glTranslatef(-0.11F, 0.0F, 0.0F);
                 GL11.glRotatef(-30, 0.0F, 0.0F, 1.0F);
             }
             if (facing == 3) {
-                GL11.glTranslatef(0.0F, 0.0F, 0.16F);
+                GL11.glTranslatef(0.0F, 0.0F, 0.11F);
                 GL11.glRotatef(-30, 1.0F, 0.0F, 0.0F);
             }
             if (facing == 4) {
-                GL11.glTranslatef(0.16F, 0.0F, 0.0F);
+                GL11.glTranslatef(0.11F, 0.0F, 0.0F);
                 GL11.glRotatef(30, 0.0F, 0.0F, 1.0F);
             }
 
