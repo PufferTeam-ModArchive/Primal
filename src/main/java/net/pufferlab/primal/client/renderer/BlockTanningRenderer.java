@@ -29,6 +29,7 @@ public class BlockTanningRenderer implements ISimpleBlockRenderingHandler {
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
         GL11.glPushMatrix();
         GL11.glTranslatef(0.0F, -0.5F, 0.0F);
+        modelTanningFrameGlobal.strings.isHidden = true;
         modelTanningFrameGlobal.render();
         GL11.glTranslatef(0.0625F, 0.0F, 0.0F);
         modelTanningGlobal.render();
@@ -43,6 +44,10 @@ public class BlockTanningRenderer implements ISimpleBlockRenderingHandler {
 
         Tessellator tess = Tessellator.instance;
         TileEntityTanning tef = (TileEntityTanning) world.getTileEntity(x, y, z);
+        modelTanningFrame.strings.isHidden = true;
+        if (tef.getInventoryStack(0) != null) {
+            modelTanningFrame.strings.isHidden = false;
+        }
         modelTanning.setFacingOffset(0.0625F, 0.0F, -0.32F);
         modelTanningFrame.setFacingOffset(0.0F, 0.0625F, 0.45F);
         modelTanning.setFacing(tef.facingMeta);

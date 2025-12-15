@@ -7,6 +7,7 @@ public class ModelTanningFrame extends ModelPrimal {
 
     public ModelRenderer cube_r1;
     public ModelRenderer cube_r2;
+    public ModelRenderer strings;
 
     public ModelTanningFrame() {
         super(64);
@@ -23,6 +24,12 @@ public class ModelTanningFrame extends ModelPrimal {
         setRotationAngle(cube_r2, 1.0472F, 0.0F, 0.0F);
         cube_r2.cubeList.add(new ModelBox(cube_r2, 0, 0, 6.0F, -1.0F, -10.0F, 2, 2, 19, 0.0F));
         cube_r2.cubeList.add(new ModelBox(cube_r2, 0, 0, -8.0F, -1.0F, -10.0F, 2, 2, 19, 0.0F));
+
+        strings = new ModelRenderer(this);
+        strings.setRotationPoint(0.0F, 9.0F, 3.0F);
+        bb_main.addChild(strings);
+        setRotationAngle(strings, 1.0472F, 0.0F, 0.0F);
+        strings.cubeList.add(new ModelBox(strings, -14, 25, -6.0F, 0.0F, -7.0F, 12, 0, 14, 0.0F));
     }
 
     @Override
