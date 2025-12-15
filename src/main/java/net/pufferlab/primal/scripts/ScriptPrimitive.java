@@ -22,8 +22,9 @@ public class ScriptPrimitive implements IScript {
 
     public void runModCompat() {
         if (Primal.EFRLoaded) {
-            addEFRCampfireRecipes();
             addEFROredicts();
+            addEFRCampfireRecipes();
+            addEFRPitKilnRecipes();
             addEFRBarrelRecipes();
         }
     }
@@ -135,7 +136,7 @@ public class ScriptPrimitive implements IScript {
     }
 
     public void addChoppingLogRecipes() {
-        addChoppingLogRecipe(getModItem("firewood", 4), "logWood");
+        addChoppingLogRecipe(getModItem("firewood", 2), "logWood");
     }
 
     public void addScrapingRecipes() {
@@ -267,6 +268,12 @@ public class ScriptPrimitive implements IScript {
         addPitKilnRecipe(getItem("minecraft:flower_pot:0:1"), getModItem("clay_flower_pot", 1));
         addPitKilnRecipe(getItem("minecraft:hardened_clay:0:1"), getItem("minecraft:clay:0:1"));
         addPitKilnRecipe(getItem(Primal.MODID, "large_vessel", 0, 1), getModItem("clay_large_vessel", 1));
+    }
+
+    public void addEFRPitKilnRecipes() {
+        for (String color : Constants.colorTypes) {
+            addPitKilnRecipe(getModItem("glazed_terracotta", color, 1), getModItem("hardened_clay", color, 1));
+        }
     }
 
     public void addBarrelRecipes() {

@@ -47,12 +47,6 @@ public class TileEntityTanningRenderer extends TileEntitySpecialRenderer {
         ItemStack slot = scraping.getInventoryStack(0);
 
         int facing = scraping.facingMeta;
-        if (facing == 1) {
-
-        }
-        if (facing == 3) {
-
-        }
         renderSlotItem(slot, x + 0.5, y, z + 0.5, facing);
     }
 
@@ -62,7 +56,7 @@ public class TileEntityTanningRenderer extends TileEntitySpecialRenderer {
             this.slotEntity.setEntityItemStack(stack);
             this.slotEntity.hoverStart = 0.0F;
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glTranslated(xAdjust, yAdjust + 0.40, zAdjust);
+            GL11.glTranslated(xAdjust, yAdjust + 0.41, zAdjust);
             GL11.glScalef(1.25F, 1.25F, 1.25F);
             if (facing == 1) {
                 GL11.glTranslatef(0.0F, 0.0F, -0.16F);

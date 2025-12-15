@@ -47,8 +47,8 @@ public class BlockTanningRenderer implements ISimpleBlockRenderingHandler {
         modelTanningFrame.setFacingOffset(0.0F, 0.0625F, 0.45F);
         modelTanning.setFacing(tef.facingMeta);
         modelTanningFrame.setFacing(tef.facingMeta);
-        modelTanning.render(renderer, tess, block, x, y, z, 99);
-        modelTanningFrame.render(renderer, tess, block, x, y, z, 99);
+        modelTanning.render(renderer, tess, block, x, y, z, 0.0F, 0.0625F, 0.0F, 99);
+        modelTanningFrame.render(renderer, tess, block, x, y, z, 0.0F, 0.0625F, 0.0F, 99);
 
         return true;
     }
