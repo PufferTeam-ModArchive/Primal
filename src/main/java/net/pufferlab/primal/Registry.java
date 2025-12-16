@@ -197,6 +197,7 @@ public class Registry {
         registerPacket(PacketSwingArm.class, Side.CLIENT);
         registerPacket(PacketKnappingClick.class, Side.SERVER);
         registerPacket(PacketFireStarter.class, Side.CLIENT);
+        registerPacket(PacketPitKilnPlace.class, Side.SERVER);
     }
 
     public void setupNEI() {

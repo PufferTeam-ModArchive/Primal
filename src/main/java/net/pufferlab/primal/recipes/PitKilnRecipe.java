@@ -23,9 +23,7 @@ public class PitKilnRecipe {
     public static void removePitKilnRecipe(ItemStack output, List<ItemStack> input) {
         recipeMap.entrySet()
             .removeIf(r -> {
-                List<ItemStack> key = r.getKey();
-                ItemStack value = r.getValue();
-                if (Utils.containsList(key, input) && Utils.containsStack(value, output)) {
+                if (Utils.containsList(r.getKey(), input) && Utils.containsStack(r.getValue(), output)) {
                     return true;
                 }
                 return false;
