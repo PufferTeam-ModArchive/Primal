@@ -3,7 +3,6 @@ package net.pufferlab.primal;
 import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.events.*;
 import net.pufferlab.primal.scripts.ScriptRegistry;
-import net.pufferlab.primal.scripts.ScriptRemove;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,10 +10,7 @@ import org.apache.logging.log4j.Logger;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.event.*;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
 @Mod(modid = Primal.MODID, version = Tags.VERSION, name = Primal.MODNAME, acceptedMinecraftVersions = "[1.7.10]")
@@ -31,7 +27,6 @@ public class Primal {
     public static Primal instance;
 
     public static Registry registry = new Registry();
-    public static ScriptRemove scriptRemove = new ScriptRemove();
     public static ScriptRegistry scriptRegistry = new ScriptRegistry();
 
     public static SimpleNetworkWrapper networkWrapper;
@@ -51,7 +46,6 @@ public class Primal {
     public void init(FMLInitializationEvent event) {
         proxy.init(event);
         proxy.setupRenders();
-        scriptRemove.init();
 
         registry.setupPackets();
         registry.setupNEI();
@@ -62,7 +56,10 @@ public class Primal {
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit(event);
-        scriptRemove.postInit();
+    }
+
+    @Mod.EventHandler
+    public void completeInit(FMLLoadCompleteEvent event) {
         scriptRegistry.run();
     }
 

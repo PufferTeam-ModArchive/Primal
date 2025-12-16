@@ -19,7 +19,7 @@ public class ScriptRemove implements IScript {
     public static final String[] itemsToRemoveSmelting = new String[] { "minecraft:brick:0:*", "minecraft:coal:1:*",
         "minecraft:hardened_clay:1:*" };
 
-    public void init() {
+    public void run() {
         for (String s : itemsToRemove) {
             remove.add(getItem(s));
         }
@@ -36,9 +36,8 @@ public class ScriptRemove implements IScript {
         for (String s : itemsToRemoveSmelting) {
             removeSmelting.add(getItem(s));
         }
-    }
 
-    public void postInit() {
+        // Remove only at the end
         RecipesHelper.removeRecipe(remove);
         RecipesHelper.removeFurnaceSmelting(removeSmelting);
     }
