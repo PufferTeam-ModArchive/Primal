@@ -13,12 +13,28 @@ public class TanningRecipe {
 
     private static final Map<List<ItemStack>, ItemStack> recipeMap = new HashMap<>();
 
-    public static void addScrappingRecipe(ItemStack output, ItemStack input) {
+    public static void addTanningRecipe(ItemStack output, ItemStack input) {
         recipeMap.put(Collections.singletonList(input), output);
     }
 
-    public static void addScrappingRecipe(ItemStack output, String input) {
+    public static void addTanningRecipe(ItemStack output, List<ItemStack> input) {
+        recipeMap.put(input, output);
+    }
+
+    public static void addTanningRecipe(ItemStack output, String input) {
         recipeMap.put(OreDictionary.getOres(input), output);
+    }
+
+    public static void removeTanningRecipe(ItemStack output, List<ItemStack> input) {
+        recipeMap.entrySet()
+            .removeIf(r -> {
+                List<ItemStack> key = r.getKey();
+                ItemStack value = r.getValue();
+                if (Utils.containsList(key, input) && Utils.containsStack(value, output)) {
+                    return true;
+                }
+                return false;
+            });
     }
 
     public static ItemStack getOutput(ItemStack input) {

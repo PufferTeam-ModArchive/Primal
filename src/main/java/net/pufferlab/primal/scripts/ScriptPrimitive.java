@@ -12,7 +12,7 @@ public class ScriptPrimitive implements IScript {
         addCraftingRecipes();
         addCampfireRecipes();
         addChoppingLogRecipes();
-        addScrapingRecipes();
+        addTanningRecipes();
         addKnappingRecipes();
         addPitKilnRecipes();
         addBarrelRecipes();
@@ -139,8 +139,8 @@ public class ScriptPrimitive implements IScript {
         addChoppingLogRecipe(getModItem("firewood", 2), "logWood");
     }
 
-    public void addScrapingRecipes() {
-        addScrapingRecipe(getModItem("scraped_hide", 1), getModItem("soaked_hide", 1));
+    public void addTanningRecipes() {
+        addTanningRecipe(getModItem("scraped_hide", 1), getModItem("soaked_hide", 1));
     }
 
     public void addKnappingRecipes() {

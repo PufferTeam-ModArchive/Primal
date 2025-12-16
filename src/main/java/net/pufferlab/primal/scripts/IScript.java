@@ -40,8 +40,8 @@ public interface IScript {
         ChoppingLogRecipe.addChoppingLogRecipe(output, input);
     }
 
-    default void addScrapingRecipe(ItemStack output, ItemStack input) {
-        TanningRecipe.addScrappingRecipe(output, input);
+    default void addTanningRecipe(ItemStack output, ItemStack input) {
+        TanningRecipe.addTanningRecipe(output, input);
     }
 
     default void addKnappingRecipe(KnappingType type, ItemStack item, String... rows) {

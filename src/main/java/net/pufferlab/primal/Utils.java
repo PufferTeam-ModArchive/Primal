@@ -21,7 +21,6 @@ import net.pufferlab.primal.blocks.SoundTypePrimal;
 import net.pufferlab.primal.items.ItemDummy;
 
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class Utils {
@@ -196,6 +195,18 @@ public class Utils {
         return null;
     }
 
+    public static String getFluidAmountFromItem(ItemStack stack) {
+        if (stack != null) {
+            NBTTagCompound amountInputTag = stack.getTagCompound();
+            if (amountInputTag != null) {
+                if (amountInputTag.hasKey("DisplayFluidAmount")) {
+                    return Integer.toString(amountInputTag.getInteger("DisplayFluidAmount"));
+                }
+            }
+        }
+        return null;
+    }
+
     public static FluidStack getFluidFromStack(ItemStack stack) {
         if (stack == null) return null;
         ItemStack stack2 = stack.copy();
@@ -232,7 +243,7 @@ public class Utils {
     public static ItemStack getEmptyContainer(ItemStack filled) {
         if (filled == null) return null;
 
-        if (Loader.isModLoaded("BiomesOPlenty")) {
+        if (Primal.BOPLoaded) {
             ItemStack bopEmptyBucket = getItem("BiomesOPlenty:bopBucket:*:1");
             ItemStack emptyBucket = getItem("minecraft:bucket:0:1");
             if (Utils.containsStack(filled, bopEmptyBucket)) {
@@ -240,7 +251,7 @@ public class Utils {
             }
         }
 
-        if (Loader.isModLoaded("WitchingGadgets")) {
+        if (Primal.WGLoaded) {
             ItemStack capsule = getItem("WitchingGadgets:item.WG_CrystalFlask:*:1");
             if (Utils.containsStack(filled, capsule)) {
                 capsule.stackTagCompound = null;
@@ -561,6 +572,17 @@ public class Utils {
         for (ItemStack item : list) {
             if (Utils.containsStack(item, b)) {
                 return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean containsList(List<ItemStack> list, List<ItemStack> list2) {
+        for (ItemStack item : list) {
+            for (ItemStack item2 : list2) {
+                if (Utils.containsStack(item, item2)) {
+                    return true;
+                }
             }
         }
         return false;

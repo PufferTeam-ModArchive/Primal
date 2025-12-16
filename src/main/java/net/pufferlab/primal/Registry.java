@@ -12,6 +12,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fluids.*;
 import net.pufferlab.primal.blocks.*;
+import net.pufferlab.primal.compat.minetweaker.PrimalTweaker;
 import net.pufferlab.primal.compat.nei.NEIRegistry;
 import net.pufferlab.primal.events.*;
 import net.pufferlab.primal.items.*;
@@ -21,6 +22,7 @@ import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
+import minetweaker.MineTweakerAPI;
 
 public class Registry {
 
@@ -200,6 +202,12 @@ public class Registry {
     public void setupNEI() {
         if (Primal.NEILoaded) {
             new NEIRegistry().loadConfig();
+        }
+    }
+
+    public void setupMT() {
+        if (Primal.MTLoaded) {
+            MineTweakerAPI.registerClass(PrimalTweaker.class);
         }
     }
 

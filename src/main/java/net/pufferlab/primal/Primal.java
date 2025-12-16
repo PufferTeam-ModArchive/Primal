@@ -33,6 +33,9 @@ public class Primal {
 
     public static boolean EFRLoaded = Loader.isModLoaded("etfuturum");
     public static boolean NEILoaded = Loader.isModLoaded("NotEnoughItems");
+    public static boolean BOPLoaded = Loader.isModLoaded("BiomesOPlenty");
+    public static boolean WGLoaded = Loader.isModLoaded("WitchingGadgets");
+    public static boolean MTLoaded = Loader.isModLoaded("MineTweaker3");
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -49,6 +52,7 @@ public class Primal {
 
         registry.setupPackets();
         registry.setupNEI();
+        registry.setupMT();
 
         registry.setupEvents();
     }

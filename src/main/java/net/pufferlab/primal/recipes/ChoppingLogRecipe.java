@@ -12,8 +12,24 @@ public class ChoppingLogRecipe {
 
     private static final Map<List<ItemStack>, ItemStack> recipeMap = new HashMap<>();
 
+    public static void addChoppingLogRecipe(ItemStack output, List<ItemStack> input) {
+        recipeMap.put(input, output);
+    }
+
     public static void addChoppingLogRecipe(ItemStack output, String input) {
         recipeMap.put(OreDictionary.getOres(input), output);
+    }
+
+    public static void removeChoppingLogRecipe(ItemStack output, List<ItemStack> input) {
+        recipeMap.entrySet()
+            .removeIf(r -> {
+                List<ItemStack> key = r.getKey();
+                ItemStack value = r.getValue();
+                if (Utils.containsList(key, input) && Utils.containsStack(value, output)) {
+                    return true;
+                }
+                return false;
+            });
     }
 
     public static ItemStack getOutput(ItemStack input) {
