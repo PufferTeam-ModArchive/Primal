@@ -57,7 +57,7 @@ public class TileEntityFluidInventory extends TileEntityInventory implements IFl
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
         if (doFill) {
-            this.updateTE();
+            this.updateTEState();
         }
         return tank.fill(resource, doFill);
     }
@@ -68,7 +68,7 @@ public class TileEntityFluidInventory extends TileEntityInventory implements IFl
             return null;
         }
         if (doDrain) {
-            this.updateTE();
+            this.updateTEState();
         }
         return tank.drain(resource.amount, doDrain);
     }
@@ -76,15 +76,9 @@ public class TileEntityFluidInventory extends TileEntityInventory implements IFl
     @Override
     public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
         if (doDrain) {
-            this.updateTE();
+            this.updateTEState();
         }
         return tank.drain(maxDrain, doDrain);
-    }
-
-    public void updateTE() {
-        this.markDirty();
-        this.worldObj.func_147453_f(this.xCoord, this.yCoord, this.zCoord, this.blockType);
-        this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
     }
 
     @Override

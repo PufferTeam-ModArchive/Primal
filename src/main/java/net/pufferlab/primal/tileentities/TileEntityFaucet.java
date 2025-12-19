@@ -49,7 +49,7 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
 
     public void toggleValve() {
         this.isActive = !this.isActive;
-        this.updateTE();
+        this.updateTEState();
     }
 
     public TileEntity getExtractTile() {
@@ -103,19 +103,6 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
         return null;
     }
 
-    public void updateTE() {
-        this.markDirty();
-        this.worldObj.func_147453_f(this.xCoord, this.yCoord, this.zCoord, this.blockType);
-        this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
-        this.worldObj.markBlockRangeForRenderUpdate(
-            this.xCoord,
-            this.yCoord,
-            this.zCoord,
-            this.xCoord,
-            this.yCoord,
-            this.zCoord);
-    }
-
     @Override
     public void updateEntity() {
         if (this.isActive) {
@@ -130,7 +117,7 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
                         || tef2.getFluidStack() == null) {
                         FluidStack fluid = tef.drain(Utils.getDirectionFromFacing(this.facingMeta), 100, true);
                         tef2.fill(ForgeDirection.UP, fluid, true);
-                        this.updateTE();
+                        this.updateTEState();
                         this.timePassed = 0;
                     }
                 }

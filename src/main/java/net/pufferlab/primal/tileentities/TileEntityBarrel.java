@@ -53,7 +53,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
 
     public void setOpen(boolean meta) {
         this.isOpen = meta;
-        updateTE();
+        updateTEState();
     }
 
     @Override
@@ -89,7 +89,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
     @Override
     public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
         if (doDrain) {
-            this.updateTE();
+            this.updateTEState();
         }
         if (tankOutput.getFluid() != null) {
             FluidStack stack = tankOutput.drain(maxDrain, false);
@@ -153,7 +153,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
                 decrStackSize(0, 1);
                 tank.drain(recipe.inputLiquid.amount, true);
                 tankOutput.fill(recipe.outputLiquid, true);
-                updateTE();
+                updateTEState();
             }
         }
     }

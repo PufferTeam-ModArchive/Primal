@@ -145,7 +145,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         if (stack != null && stack.stackSize > this.getInventoryStackLimit()) {
             stack.stackSize = this.getInventoryStackLimit();
         }
-        this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+        this.updateTEState();
     }
 
     public void setInventorySlotContentsUpdate(int index, ItemStack stack) {
@@ -158,28 +158,13 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
             copy.stackSize = getInventoryStackLimit();
         }
         this.inventory[index] = copy;
-        this.worldObj.markBlockRangeForRenderUpdate(
-            this.xCoord,
-            this.yCoord,
-            this.zCoord,
-            this.xCoord,
-            this.yCoord,
-            this.zCoord);
+        this.updateTEState();
     }
 
     public boolean setFired(boolean state) {
         if (this.isFired != state) {
             this.isFired = state;
-            this.markDirty();
-            this.worldObj.func_147453_f(this.xCoord, this.yCoord, this.zCoord, this.blockType);
-            this.worldObj.markBlockRangeForRenderUpdate(
-                this.xCoord,
-                this.yCoord,
-                this.zCoord,
-                this.xCoord,
-                this.yCoord,
-                this.zCoord);
-            this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+            this.updateTEState();
             return true;
         }
         return false;
@@ -218,13 +203,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
 
     public void setInventorySlotContentsUpdate(int index) {
         this.inventory[index] = null;
-        this.worldObj.markBlockRangeForRenderUpdate(
-            this.xCoord,
-            this.yCoord,
-            this.zCoord,
-            this.xCoord,
-            this.yCoord,
-            this.zCoord);
+        this.updateTEState();
     }
 
     public boolean addItemInPile(ItemStack ingot) {
@@ -330,7 +309,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
 
     public void syncMetaWithAmount() {
         this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, getAmountItemInPile() - 1, 2);
-        this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+        this.updateTEState();
     }
 
     public int getLayer() {

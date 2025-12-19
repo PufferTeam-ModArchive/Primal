@@ -29,7 +29,7 @@ public class TileEntityLargeVessel extends TileEntityFluidInventory {
 
     public void setOpen(boolean meta) {
         this.isOpen = meta;
-        updateTE();
+        updateTEState();
     }
 
     @Override

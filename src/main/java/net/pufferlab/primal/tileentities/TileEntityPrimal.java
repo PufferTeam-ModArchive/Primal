@@ -28,6 +28,12 @@ public abstract class TileEntityPrimal extends TileEntity {
         this.readFromNBTPacket(nbtData);
     }
 
+    public void updateTEState() {
+        this.markDirty();
+        this.worldObj.func_147453_f(this.xCoord, this.yCoord, this.zCoord, this.blockType);
+        this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+    }
+
     public void writeToNBTPacket(NBTTagCompound tag) {}
 
     public void readFromNBTPacket(NBTTagCompound tag) {}
