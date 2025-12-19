@@ -24,10 +24,6 @@ public class BarrelHandler {
                     event.toolTip.add(tooltipOutput);
                 }
             }
-            if (event.itemStack.stackTagCompound.hasKey("DisplayFluidAmount")) {
-                int fluid = event.itemStack.stackTagCompound.getInteger("DisplayFluidAmount");
-                event.toolTip.add(fluid + " mB");
-            }
         }
     }
 }

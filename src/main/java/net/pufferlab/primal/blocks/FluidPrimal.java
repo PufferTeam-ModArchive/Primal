@@ -6,7 +6,7 @@ import net.pufferlab.primal.Primal;
 public class FluidPrimal extends Fluid {
 
     public FluidPrimal(String fluidName) {
-        super(Primal.MODID + "." + fluidName);
+        super(fluidName);
         setUnlocalizedName(fluidName);
     }
 

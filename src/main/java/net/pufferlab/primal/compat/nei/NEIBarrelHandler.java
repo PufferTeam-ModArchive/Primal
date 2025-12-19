@@ -10,6 +10,8 @@ import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.BarrelRecipe;
@@ -17,25 +19,30 @@ import net.pufferlab.primal.recipes.BarrelRecipe;
 import org.lwjgl.opengl.GL11;
 
 import codechicken.nei.PositionedStack;
+import codechicken.nei.recipe.GuiRecipe;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
 public class NEIBarrelHandler extends TemplateRecipeHandler {
 
     public class BarrelPair extends CachedRecipe {
 
-        public BarrelPair(List<ItemStack> ingred, ItemStack ingred2, ItemStack result, ItemStack result2,
-            int processingTime) {
+        public BarrelPair(List<ItemStack> ingred, ItemStack ingred2, FluidStack ingredFS, ItemStack result,
+            ItemStack result2, FluidStack resultFS, int processingTime) {
             this.ingred = new PositionedStack(ingred, 43, 25, true);
             this.ingred2 = new PositionedStack(Utils.nullableStack(ingred2), 43, 44, true);
             if (result == null & result2 != null) {
                 this.result = new PositionedStack(Utils.nullableStack(result2), 114, 44, false);
+                this.resultF = this.result;
             } else if (result != null & result2 == null) {
                 this.result = new PositionedStack(Utils.nullableStack(result), 114, 25, false);
             } else {
                 this.result = new PositionedStack(Utils.nullableStack(result), 114, 25, false);
                 this.result2 = new PositionedStack(Utils.nullableStack(result2), 114, 44, false);
+                this.resultF = this.result2;
             }
             this.processingTime = processingTime;
+            this.ingredFS = ingredFS;
+            this.resultFS = resultFS;
         }
 
         @Override
@@ -56,10 +63,13 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
             return result2;
         }
 
-        PositionedStack ingred;
-        PositionedStack ingred2;
-        PositionedStack result;
-        PositionedStack result2;
+        public PositionedStack ingred;
+        public PositionedStack ingred2;
+        public PositionedStack result;
+        public PositionedStack result2;
+        public FluidStack ingredFS;
+        public FluidStack resultFS;
+        public PositionedStack resultF;
         int processingTime;
     }
 
@@ -77,8 +87,10 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
                     new NEIBarrelHandler.BarrelPair(
                         recipe.input,
                         recipe.inputLiquidBlock,
+                        recipe.inputLiquid,
                         recipe.output,
                         recipe.outputLiquidBlock,
+                        recipe.outputLiquid,
                         recipe.processingTime));
             }
         } else super.loadCraftingRecipes(outputId, results);
@@ -94,8 +106,10 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
                     new NEIBarrelHandler.BarrelPair(
                         recipe.input,
                         recipe.inputLiquidBlock,
+                        recipe.inputLiquid,
                         recipe.output,
                         recipe.outputLiquidBlock,
+                        recipe.outputLiquid,
                         recipe.processingTime));
             }
         }
@@ -116,8 +130,10 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
                     new NEIBarrelHandler.BarrelPair(
                         recipe.input,
                         recipe.inputLiquidBlock,
+                        recipe.inputLiquid,
                         recipe.output,
                         recipe.outputLiquidBlock,
+                        recipe.outputLiquid,
                         recipe.processingTime));
             }
         }
@@ -157,5 +173,22 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
                 .drawString(translate("recipe.primal.barrel.smeltTimeMinutes", timeMinuteSmelt), 40, 10, 0xFF000000);
         }
 
+    }
+
+    @Override
+    public List<String> handleItemTooltip(GuiRecipe<?> gui, ItemStack stack, List<String> currenttip, int recipe) {
+        BarrelPair barrelPair = (BarrelPair) arecipes.get(recipe);
+        if (barrelPair.ingred2 != null && barrelPair.ingredFS != null) {
+            if (NEIRegistry.isHovering(barrelPair.ingred2, gui, recipe)) {
+                currenttip.add(EnumChatFormatting.GRAY + "" + barrelPair.ingredFS.amount + " mB");
+            }
+        }
+        if (barrelPair.resultF != null && barrelPair.resultFS != null) {
+            if (NEIRegistry.isHovering(barrelPair.resultF, gui, recipe)) {
+                currenttip.add(EnumChatFormatting.GRAY + "" + barrelPair.resultFS.amount + " mB");
+            }
+        }
+
+        return currenttip;
     }
 }

@@ -4,10 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 
 import minetweaker.MineTweakerAPI;
 import minetweaker.api.item.IIngredient;
 import minetweaker.api.item.IItemStack;
+import minetweaker.api.liquid.ILiquidStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -55,6 +57,31 @@ public class PrimalTweaker {
         MineTweakerAPI.apply(new MTTanningHandler.RemoveRecipe(output, input));
     }
 
+    @ZenMethod
+    public static void addBarrelRecipe(IItemStack output, ILiquidStack outputLiquid, IItemStack input,
+        ILiquidStack inputLiquid, int processingTime) {
+        MineTweakerAPI.apply(new MTBarrelHandler.AddRecipe(output, outputLiquid, input, inputLiquid, processingTime));
+    }
+
+    @ZenMethod
+    public static void addBarrelRecipe(IItemStack output, ILiquidStack outputLiquid, IItemStack input,
+        ILiquidStack inputLiquid) {
+        MineTweakerAPI.apply(new MTBarrelHandler.AddRecipe(output, outputLiquid, input, inputLiquid, 100));
+    }
+
+    @ZenMethod
+    public static void removeBarrelRecipe(IItemStack output, ILiquidStack outputLiquid, IItemStack input,
+        ILiquidStack inputLiquid, int processingTime) {
+        MineTweakerAPI
+            .apply(new MTBarrelHandler.RemoveRecipe(output, outputLiquid, input, inputLiquid, processingTime));
+    }
+
+    @ZenMethod
+    public static void removeBarrelRecipe(IItemStack output, ILiquidStack outputLiquid, IItemStack input,
+        ILiquidStack inputLiquid) {
+        MineTweakerAPI.apply(new MTBarrelHandler.RemoveRecipe(output, outputLiquid, input, inputLiquid, 100));
+    }
+
     public static ItemStack get(IItemStack iStack) {
         return MineTweakerMC.getItemStack(iStack);
     }
@@ -62,5 +89,9 @@ public class PrimalTweaker {
     public static List<ItemStack> get(IIngredient iIngredient) {
         List<IItemStack> items = iIngredient.getItems();
         return Arrays.asList(MineTweakerMC.getItemStacks(items));
+    }
+
+    public static FluidStack get(ILiquidStack iStack) {
+        return MineTweakerMC.getLiquidStack(iStack);
     }
 }

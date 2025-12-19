@@ -2,12 +2,17 @@ package net.pufferlab.primal.compat.nei;
 
 import static net.pufferlab.primal.compat.nei.IMCSenderGTNH.*;
 
+import java.awt.*;
+
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
 
+import codechicken.lib.gui.GuiDraw;
+import codechicken.nei.PositionedStack;
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
+import codechicken.nei.recipe.GuiRecipe;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
 public class NEIRegistry implements IConfigureNEI {
@@ -85,6 +90,20 @@ public class NEIRegistry implements IConfigureNEI {
         sendCatalyst(Primal.MODID + ".campfire", Primal.MODID + ":campfire");
         sendCatalyst(Primal.MODID + ".pit_kiln", Primal.MODID + ":pit_kiln");
         sendCatalyst(Primal.MODID + ".tanning", Primal.MODID + ":tanning_frame");
+    }
+
+    public static boolean isHovering(PositionedStack stack, GuiRecipe gui, int recipeId) {
+        if (stack == null) return false;
+
+        Point mouse = GuiDraw.getMousePosition();
+        Point offset = gui.getRecipePosition(recipeId);
+
+        int mouseX = mouse.x + 1;
+        int mouseY = mouse.y + 1;
+        int x = gui.guiLeft + offset.x + stack.relx;
+        int y = gui.guiTop + offset.y + stack.rely;
+
+        return mouseX >= x && mouseX < x + 18 && mouseY >= y && mouseY < y + 18;
     }
 
     @Override

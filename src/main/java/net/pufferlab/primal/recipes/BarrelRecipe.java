@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.Utils;
@@ -19,6 +18,11 @@ public class BarrelRecipe {
         recipeList.add(new BarrelRecipe(output, outputLiquid, Collections.singletonList(input), inputLiquid, 60));
     }
 
+    public static void addBarrelRecipe(ItemStack output, FluidStack outputLiquid, List<ItemStack> input,
+        FluidStack inputLiquid, int processingTime) {
+        recipeList.add(new BarrelRecipe(output, outputLiquid, input, inputLiquid, processingTime));
+    }
+
     public static void addBarrelRecipe(ItemStack output, FluidStack outputLiquid, ItemStack input,
         FluidStack inputLiquid, int processingTime) {
         recipeList
@@ -29,6 +33,18 @@ public class BarrelRecipe {
         int processingTime) {
         recipeList
             .add(new BarrelRecipe(output, outputLiquid, OreDictionary.getOres(input), inputLiquid, processingTime));
+    }
+
+    public static void removeBarrelRecipe(ItemStack output, FluidStack outputLiquid, List<ItemStack> input,
+        FluidStack inputLiquid) {
+        recipeList.removeIf(r -> {
+            if (Utils.containsList(r.input, input) && Utils.containsStack(r.inputLiquid, inputLiquid)
+                && Utils.containsStack(r.output, output)
+                && Utils.containsStack(r.outputLiquid, outputLiquid)) {
+                return true;
+            }
+            return false;
+        });
     }
 
     public static BarrelRecipe getRecipe(ItemStack input, FluidStack inputLiquid) {
@@ -65,20 +81,16 @@ public class BarrelRecipe {
             this.outputLiquidBlock = new ItemStack(
                 outputLiquid.getFluid()
                     .getBlock(),
-                1,
+                outputLiquid.amount,
                 0);
-            this.outputLiquidBlock.stackTagCompound = new NBTTagCompound();
-            this.outputLiquidBlock.stackTagCompound.setInteger("DisplayFluidAmount", outputLiquid.amount);
         }
         this.input = input;
         this.inputLiquid = inputLiquid;
         this.inputLiquidBlock = new ItemStack(
             inputLiquid.getFluid()
                 .getBlock(),
-            1,
+            inputLiquid.amount,
             0);
-        this.inputLiquidBlock.stackTagCompound = new NBTTagCompound();
-        this.inputLiquidBlock.stackTagCompound.setInteger("DisplayFluidAmount", inputLiquid.amount);
         this.processingTime = processingTime;
     }
 

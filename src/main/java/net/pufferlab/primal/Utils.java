@@ -54,10 +54,6 @@ public class Utils {
 
     public static FluidStack getFluid(String fluid, int number) {
         String key = fluid + ":" + number;
-        if (Utils.containsExactMatch(Constants.fluids, fluid)
-            && !Utils.containsExactMatch(Constants.vanillaFluids, fluid)) {
-            fluid = "primal." + fluid;
-        }
         if (fluidCache.containsKey(key)) {
             return fluidCache.get(key);
         }
@@ -190,18 +186,6 @@ public class Utils {
             if (!tank.hasKey("Empty")) {
                 FluidStack fluid = FluidStack.loadFluidStackFromNBT(tank);
                 return fluid.getLocalizedName() + " " + fluid.amount + " mB";
-            }
-        }
-        return null;
-    }
-
-    public static String getFluidAmountFromItem(ItemStack stack) {
-        if (stack != null) {
-            NBTTagCompound amountInputTag = stack.getTagCompound();
-            if (amountInputTag != null) {
-                if (amountInputTag.hasKey("DisplayFluidAmount")) {
-                    return Integer.toString(amountInputTag.getInteger("DisplayFluidAmount"));
-                }
             }
         }
         return null;
