@@ -15,6 +15,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.TileEntityLargeVessel;
 
 public class BlockLargeVessel extends BlockContainer {
@@ -30,7 +31,16 @@ public class BlockLargeVessel extends BlockContainer {
     @Override
     public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
         float subY, float subZ) {
-        player.openGui(Primal.instance, Primal.proxy.largeVesselContainerID, worldIn, x, y, z);
+        TileEntity te = worldIn.getTileEntity(x, y, z);
+        if (te instanceof TileEntityLargeVessel tef) {
+            if (player.isSneaking()) {
+                tef.setOpen(!tef.isOpen);
+            } else {
+                if (!Utils.isFluidContainer(player.getHeldItem())) {
+                    player.openGui(Primal.instance, Primal.proxy.largeVesselContainerID, worldIn, x, y, z);
+                }
+            }
+        }
         return true;
     }
 
@@ -110,6 +120,16 @@ public class BlockLargeVessel extends BlockContainer {
     @Override
     public boolean isOpaqueCube() {
         return false;
+    }
+
+    @Override
+    public boolean canRenderInPass(int pass) {
+        return true;
+    }
+
+    @Override
+    public int getRenderBlockPass() {
+        return 1;
     }
 
     @Override

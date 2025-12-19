@@ -1,13 +1,47 @@
 package net.pufferlab.primal.tileentities;
 
-public class TileEntityLargeVessel extends TileEntityInventory {
+import net.minecraft.nbt.NBTTagCompound;
+
+public class TileEntityLargeVessel extends TileEntityFluidInventory {
+
+    public boolean isOpen = false;
 
     public TileEntityLargeVessel() {
-        super(9);
+        super(1000, 9);
     }
 
     @Override
     public String getInventoryName() {
         return "Large Vessel";
     }
+
+    @Override
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
+        this.isOpen = tag.getBoolean("isOpen");
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound tag) {
+        super.writeToNBT(tag);
+        tag.setBoolean("isOpen", this.isOpen);
+    }
+
+    public void setOpen(boolean meta) {
+        this.isOpen = meta;
+        updateTE();
+    }
+
+    @Override
+    public void readFromNBTPacket(NBTTagCompound tag) {
+        super.readFromNBTPacket(tag);
+        this.isOpen = tag.getBoolean("isOpen");
+    }
+
+    @Override
+    public void writeToNBTPacket(NBTTagCompound tag) {
+        super.writeToNBTPacket(tag);
+        tag.setBoolean("isOpen", this.isOpen);
+    }
+
 }

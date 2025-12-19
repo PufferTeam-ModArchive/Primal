@@ -25,7 +25,7 @@ public class BucketHandler {
         if (!player.worldObj.isRemote) {
             EntityPlayerMP playerMP = (EntityPlayerMP) player;
             Primal.networkWrapper.sendTo(new PacketSwingArm(player), playerMP);
-            ((EntityPlayerMP) player).sendContainerToPlayer(player.inventoryContainer);
+            player.inventoryContainer.detectAndSendChanges();
         }
     }
 
@@ -53,8 +53,7 @@ public class BucketHandler {
                                         event.entityPlayer.inventory.currentItem,
                                         func_150910_a(itemStack, event.entityPlayer, Registry.bucket, meta));
                                     if (!event.world.isRemote) {
-                                        ((EntityPlayerMP) event.entityPlayer)
-                                            .sendContainerToPlayer(event.entityPlayer.inventoryContainer);
+                                        event.entityPlayer.inventoryContainer.detectAndSendChanges();
                                     }
                                 }
                                 if (itemStack.getItem() == Registry.ceramic_bucket && itemStack.getItemDamage() == 0) {
@@ -64,8 +63,7 @@ public class BucketHandler {
                                         event.entityPlayer.inventory.currentItem,
                                         func_150910_a(itemStack, event.entityPlayer, Registry.ceramic_bucket, meta));
                                     if (!event.world.isRemote) {
-                                        ((EntityPlayerMP) event.entityPlayer)
-                                            .sendContainerToPlayer(event.entityPlayer.inventoryContainer);
+                                        event.entityPlayer.inventoryContainer.detectAndSendChanges();
                                     }
                                 }
                             }

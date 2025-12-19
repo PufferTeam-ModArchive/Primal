@@ -19,6 +19,10 @@ public class LargeVesselHandler {
             if (event.itemStack.hasTagCompound()) {
                 String[] tooltips = Utils.getItemStackNameListFromNBT(event.itemStack.getTagCompound());
                 event.toolTip.addAll(Arrays.asList(tooltips));
+                String tooltip = Utils.getFluidInfoFromNBT(event.itemStack.getTagCompound());
+                if (tooltip != null) {
+                    event.toolTip.add(tooltip);
+                }
             }
         }
     }

@@ -11,8 +11,8 @@ import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.BlockBarrel;
-import net.pufferlab.primal.client.helper.ModelTESS;
 import net.pufferlab.primal.client.models.ModelBarrel;
+import net.pufferlab.primal.client.models.ModelFluid;
 import net.pufferlab.primal.tileentities.TileEntityBarrel;
 
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
@@ -23,7 +23,7 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 public class BlockBarrelRenderer implements ISimpleBlockRenderingHandler {
 
     private final ThreadLocal<ModelBarrel> modelBarrelThread = ThreadLocal.withInitial(ModelBarrel::new);
-    private final ThreadLocal<ModelTESS> modelTESSThread = ThreadLocal.withInitial(ModelTESS::new);
+    private final ThreadLocal<ModelFluid> modelFluidThread = ThreadLocal.withInitial(ModelFluid::new);
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {}
@@ -32,10 +32,9 @@ public class BlockBarrelRenderer implements ISimpleBlockRenderingHandler {
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
         ModelBarrel modelBarrel = modelBarrelThread.get();
-        ModelTESS modelTESS = modelTESSThread.get();
+        ModelFluid modelFluid = modelFluidThread.get();
 
         Tessellator tess = Tessellator.instance;
-        modelBarrel.top.isHidden = false;
         TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileEntityBarrel tef) {
             int renderPass = ForgeHooksClient.getWorldRenderPass();
@@ -44,19 +43,24 @@ public class BlockBarrelRenderer implements ISimpleBlockRenderingHandler {
             float height = tef.getFillLevel(0.1875F, 0.875F);
             float heightOutput = tef.getFillLevelOutput(0.1875F, 0.875F);
             modelBarrel.bb_main.rotateAngleX = 0.0F;
+            if (tef.isOpen) {
+                modelBarrel.top.isHidden = true;
+            } else {
+                modelBarrel.top.isHidden = false;
+            }
             if (tef.isFloorBarrel) {
                 modelBarrel.setFacingOffset(0.0F, 0.375F, -0.5F);
                 modelBarrel.bb_main.rotateAngleX = (float) (Math.PI / 2);
+                modelBarrel.top.isHidden = false;
             } else {
                 modelBarrel.setFacingOffset(0.0F, 0.0F, 0.0F);
-                modelBarrel.top.isHidden = true;
             }
             int meta = tef.facingMeta;
             modelBarrel.setFacing(meta);
-            modelTESS.dumpVertices(tess, x, y, z);
+            modelFluid.dumpVertices(tess, x, y, z);
             double o = Constants.modelConst;
             if (renderPass == 1 && !tef.isFloorBarrel) {
-                modelTESS.renderFluid(
+                modelFluid.render(
                     renderer,
                     tess,
                     x,
@@ -69,8 +73,9 @@ public class BlockBarrelRenderer implements ISimpleBlockRenderingHandler {
                     0.875F - o,
                     height,
                     0.875F - o,
+                    false,
                     false);
-                modelTESS.renderFluid(
+                modelFluid.render(
                     renderer,
                     tess,
                     x,
@@ -83,6 +88,7 @@ public class BlockBarrelRenderer implements ISimpleBlockRenderingHandler {
                     0.875F - o,
                     heightOutput,
                     0.875F - o,
+                    false,
                     false);
             } else if (renderPass == 0) {
                 Block blockAbove = world.getBlock(x, y + 1, z);

@@ -32,6 +32,7 @@ public class BlockBarrel extends BlockContainer {
         super(Material.wood);
         this.setStepSound(soundTypeWood);
         this.setHardness(1.0F);
+        this.canBlockGrass = false;
         this.setBlockBounds(0.125F, 0.0F, 0.125F, 0.875F, 1.0F, 0.875F);
     }
 
@@ -63,6 +64,9 @@ public class BlockBarrel extends BlockContainer {
         ItemStack heldItem = player.getHeldItem();
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityBarrel tef) {
+            if (player.isSneaking()) {
+                tef.setOpen(!tef.isOpen);
+            }
             if (heldItem != null && BarrelRecipe.hasRecipe(heldItem, tef.getFluidStack())) {
                 return tef.addInventorySlotContentsUpdateWhole(0, player);
             } else {

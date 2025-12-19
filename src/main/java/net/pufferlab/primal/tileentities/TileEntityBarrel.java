@@ -6,12 +6,14 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.FluidTankInfo;
 import net.pufferlab.primal.recipes.BarrelRecipe;
 
 public class TileEntityBarrel extends TileEntityFluidInventory {
 
     public static final FluidStack waterFluidStack = new FluidStack(FluidRegistry.WATER, 5);
     public boolean isFloorBarrel = false;
+    public boolean isOpen = false;
     private final FluidTank tankOutput;
     private static final int[] blacklistedSlots = new int[] { 1 };
     public int timePassed;
@@ -27,6 +29,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
+        this.isOpen = tag.getBoolean("isOpen");
         this.isFloorBarrel = tag.getBoolean("isFloorBarrel");
         this.timePassed = tag.getInteger("timePassed");
         this.timePassedRain = tag.getInteger("timePassedRain");
@@ -36,6 +39,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
+        tag.setBoolean("isOpen", this.isOpen);
         tag.setBoolean("isFloorBarrel", this.isFloorBarrel);
         tag.setInteger("timePassed", this.timePassed);
         tag.setInteger("timePassedRain", this.timePassedRain);
@@ -45,6 +49,11 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
         this.isFloorBarrel = meta;
         this.worldObj.notifyBlockChange(this.xCoord, this.yCoord, this.zCoord, this.blockType);
         this.markDirty();
+    }
+
+    public void setOpen(boolean meta) {
+        this.isOpen = meta;
+        updateTE();
     }
 
     @Override
@@ -66,12 +75,14 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
     @Override
     public void writeToNBTPacket(NBTTagCompound tag) {
         super.writeToNBTPacket(tag);
+        tag.setBoolean("isOpen", this.isOpen);
         tag.setBoolean("isFloorBarrel", this.isFloorBarrel);
     }
 
     @Override
     public void readFromNBTPacket(NBTTagCompound tag) {
         super.readFromNBTPacket(tag);
+        this.isOpen = tag.getBoolean("isOpen");
         this.isFloorBarrel = tag.getBoolean("isFloorBarrel");
     }
 
@@ -145,5 +156,10 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
                 updateTE();
             }
         }
+    }
+
+    @Override
+    public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+        return new FluidTankInfo[] { tank.getInfo(), tankOutput.getInfo() };
     }
 }

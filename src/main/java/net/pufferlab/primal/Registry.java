@@ -254,6 +254,7 @@ public class Registry {
 
     int nextPacketID = 0;
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public void registerPacket(Class cl, Side side) {
         Primal.networkWrapper.registerMessage(cl, cl, nextPacketID++, side);
     }
