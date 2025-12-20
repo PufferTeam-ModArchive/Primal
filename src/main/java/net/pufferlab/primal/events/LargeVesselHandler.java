@@ -1,6 +1,6 @@
 package net.pufferlab.primal.events;
 
-import java.util.Arrays;
+import java.util.List;
 
 import net.minecraft.item.Item;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -17,8 +17,8 @@ public class LargeVesselHandler {
     public void tooltipEvent(ItemTooltipEvent event) {
         if (event.itemStack.getItem() == itemLargeVessel) {
             if (event.itemStack.hasTagCompound()) {
-                String[] tooltips = Utils.getItemStackNameListFromNBT(event.itemStack.getTagCompound());
-                event.toolTip.addAll(Arrays.asList(tooltips));
+                List<String> tooltips = Utils.getItemStackNameListFromNBT(event.itemStack.getTagCompound());
+                event.toolTip.addAll(tooltips);
                 String tooltip = Utils.getFluidInfoFromNBT(event.itemStack.getTagCompound());
                 if (tooltip != null) {
                     event.toolTip.add(tooltip);

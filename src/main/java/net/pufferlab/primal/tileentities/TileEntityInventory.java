@@ -3,6 +3,7 @@ package net.pufferlab.primal.tileentities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
@@ -10,7 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.pufferlab.primal.Utils;
 
-public class TileEntityInventory extends TileEntityMetaFacing implements IInventory {
+public class TileEntityInventory extends TileEntityMetaFacing implements IInventory, ISidedInventory {
 
     private ItemStack[] inventory;
     private int[] blacklistedSlots;
@@ -157,6 +158,16 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         if (stack.stackSize > this.getInventoryStackLimit()) {
             copy.stackSize = getInventoryStackLimit();
         }
+        this.inventory[index] = copy;
+        this.updateTEState();
+    }
+
+    public void setInventorySlotContentsUpdateIgnoreMax(int index, ItemStack stack) {
+        if (stack == null) {
+            setInventorySlotContentsUpdate(index);
+            return;
+        }
+        ItemStack copy = stack.copy();
         this.inventory[index] = copy;
         this.updateTEState();
     }
@@ -363,6 +374,21 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         if (!Utils.containsExactMatch(blacklistedSlots, index)) {
             return true;
         }
+        return false;
+    }
+
+    @Override
+    public int[] getAccessibleSlotsFromSide(int side) {
+        return new int[0];
+    }
+
+    @Override
+    public boolean canInsertItem(int slot, ItemStack p_102007_2_, int side) {
+        return false;
+    }
+
+    @Override
+    public boolean canExtractItem(int slot, ItemStack p_102008_2_, int side) {
         return false;
     }
 }

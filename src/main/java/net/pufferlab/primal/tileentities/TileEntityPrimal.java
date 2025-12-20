@@ -26,6 +26,7 @@ public abstract class TileEntityPrimal extends TileEntity {
     public void onDataPacket(NetworkManager manager, S35PacketUpdateTileEntity packet) {
         NBTTagCompound nbtData = packet.func_148857_g();
         this.readFromNBTPacket(nbtData);
+        this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
     }
 
     public void updateTEState() {

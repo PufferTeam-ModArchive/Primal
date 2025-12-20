@@ -47,8 +47,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
 
     public void setFloorBarrel(boolean meta) {
         this.isFloorBarrel = meta;
-        this.worldObj.notifyBlockChange(this.xCoord, this.yCoord, this.zCoord, this.blockType);
-        this.markDirty();
+        this.updateTEState();
     }
 
     public void setOpen(boolean meta) {

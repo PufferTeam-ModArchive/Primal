@@ -158,15 +158,16 @@ public class Utils {
         return inventory;
     }
 
-    public static String[] getItemStackNameListFromNBT(NBTTagCompound compound) {
+    public static List<String> getItemStackNameListFromNBT(NBTTagCompound compound) {
         ItemStack[] inventory = getItemStackListFromNBT(compound);
-        String[] strings = new String[inventory.length];
-        for (int i = 0; i < inventory.length; i++) {
-            ItemStack item = inventory[i];
-            String name = item.getDisplayName();
-            strings[i] = name + " x" + item.stackSize;
+        List<String> tooltip = new ArrayList<>();
+        for (ItemStack item : inventory) {
+            if (item != null) {
+                String name = item.getDisplayName();
+                tooltip.add(name + " x" + item.stackSize);
+            }
         }
-        return strings;
+        return tooltip;
     }
 
     public static String getFluidInfoFromNBT(NBTTagCompound nbt) {

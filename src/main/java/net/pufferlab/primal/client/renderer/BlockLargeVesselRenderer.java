@@ -45,7 +45,7 @@ public class BlockLargeVesselRenderer implements ISimpleBlockRenderingHandler {
                 modelLargeVessel.lid.isHidden = false;
             }
             modelFluid.dumpVertices(tess, x, y, z);
-            double o = 2 * Constants.modelConst;
+            double o = Constants.modelConst;
             if (renderPass == 1) {
                 modelFluid.render(
                     renderer,

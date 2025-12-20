@@ -15,7 +15,7 @@ public class TileEntityCampfire extends TileEntityInventory {
         setBlacklistedSlots(blacklistedSlots);
     }
 
-    public int timePassed;
+    public int timeFired;
     public boolean isBuilt;
     public boolean hasSpit;
     public int timePassedItem1;
@@ -27,7 +27,7 @@ public class TileEntityCampfire extends TileEntityInventory {
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
 
-        this.timePassed = compound.getInteger("timePassed");
+        this.timeFired = compound.getInteger("timeFired");
         this.timePassedItem1 = compound.getInteger("timePassedItem1");
         this.timePassedItem2 = compound.getInteger("timePassedItem2");
         this.timePassedItem3 = compound.getInteger("timePassedItem3");
@@ -40,7 +40,7 @@ public class TileEntityCampfire extends TileEntityInventory {
     public void writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
 
-        compound.setInteger("timePassed", this.timePassed);
+        compound.setInteger("timeFired", this.timeFired);
         compound.setInteger("timePassedItem1", this.timePassedItem1);
         compound.setInteger("timePassedItem2", this.timePassedItem2);
         compound.setInteger("timePassedItem3", this.timePassedItem3);
@@ -69,7 +69,7 @@ public class TileEntityCampfire extends TileEntityInventory {
     @Override
     public void updateEntity() {
         if (isFired) {
-            timePassed++;
+            timeFired++;
             if (this.blockMetadata == 0) {
                 setFired(false);
             }
@@ -103,8 +103,8 @@ public class TileEntityCampfire extends TileEntityInventory {
             }
         }
 
-        if (timePassed > burnTime) {
-            timePassed = 0;
+        if (timeFired > burnTime) {
+            timeFired = 0;
             int i = findLastFuel();
             if (i != -1) {
                 if (blockMetadata > 0) {
@@ -116,7 +116,7 @@ public class TileEntityCampfire extends TileEntityInventory {
                             i2 = getInventoryStack(0).stackSize++;
                         }
                     }
-                    setInventorySlotContentsUpdate(0, Utils.getModItem("ash", i2));
+                    setInventorySlotContentsUpdateIgnoreMax(0, Utils.getModItem("ash", i2));
                     this.worldObj
                         .setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, this.blockMetadata - 1, 2);
                     markDirty();
@@ -170,8 +170,7 @@ public class TileEntityCampfire extends TileEntityInventory {
     public void setSpit(boolean state) {
         if (this.hasSpit != state) {
             this.hasSpit = state;
-            this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
-            this.markDirty();
+            this.updateTEState();
         }
     }
 

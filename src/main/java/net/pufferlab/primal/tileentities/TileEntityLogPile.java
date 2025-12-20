@@ -12,6 +12,7 @@ public class TileEntityLogPile extends TileEntityInventory {
 
     public int timePassed;
     public int timeExposed;
+    public int timeFired;
     public boolean hasConverted;
     public boolean isExposed;
     public int coalAmount;
@@ -28,6 +29,7 @@ public class TileEntityLogPile extends TileEntityInventory {
 
         this.timePassed = compound.getInteger("timePassed");
         this.timeExposed = compound.getInteger("timeExposed");
+        this.timeFired = compound.getInteger("timeFired");
         this.coalAmount = compound.getInteger("coalAmount");
         this.hasConverted = compound.getBoolean("hasConverted");
         this.isExposed = compound.getBoolean("isExposed");
@@ -39,6 +41,7 @@ public class TileEntityLogPile extends TileEntityInventory {
 
         compound.setInteger("timePassed", this.timePassed);
         compound.setInteger("timeExposed", this.timeExposed);
+        compound.setInteger("timeFired", this.timeFired);
         compound.setInteger("coalAmount", this.coalAmount);
         compound.setBoolean("hasConverted", this.hasConverted);
         compound.setBoolean("isExposed", this.isExposed);
@@ -56,12 +59,16 @@ public class TileEntityLogPile extends TileEntityInventory {
             setFired(true);
         }
         if (isFired) {
-            for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-                TileEntity te = worldObj
-                    .getTileEntity(this.xCoord + dir.offsetX, this.yCoord + dir.offsetY, this.zCoord + dir.offsetZ);
-                if (te instanceof TileEntityLogPile tef) {
-                    tef.setFired(true);
+            timeFired++;
+            if (timeFired > 60) {
+                for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+                    TileEntity te = worldObj
+                        .getTileEntity(this.xCoord + dir.offsetX, this.yCoord + dir.offsetY, this.zCoord + dir.offsetZ);
+                    if (te instanceof TileEntityLogPile tef) {
+                        tef.setFired(true);
+                    }
                 }
+                timeFired = 0;
             }
             if (!Utils.hasSolidWallsTop(this.worldObj, this.xCoord, this.yCoord, this.zCoord)) {
                 timeExposed++;
