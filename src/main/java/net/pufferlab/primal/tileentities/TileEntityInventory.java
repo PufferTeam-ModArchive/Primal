@@ -186,7 +186,11 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
             ItemStack stack = player.getCurrentEquippedItem()
                 .copy();
             stack.stackSize = 1;
-            player.getCurrentEquippedItem().stackSize--;
+            if (player.getCurrentEquippedItem().stackSize == 1) {
+                player.setCurrentItemOrArmor(0, null);
+            } else {
+                player.getCurrentEquippedItem().stackSize--;
+            }
             setInventorySlotContentsUpdate(index, stack);
             return true;
         }
