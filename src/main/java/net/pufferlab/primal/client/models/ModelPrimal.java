@@ -84,6 +84,7 @@ public abstract class ModelPrimal extends ModelBase {
         updateFacingOffset(meta);
 
         bb_main.rotateAngleYGlobal = (angle + add) % ((float) Math.PI * 2);
+        bb_main.facingMetaGlobal = meta;
     }
 
     public static float getFacingAngle(int meta) {

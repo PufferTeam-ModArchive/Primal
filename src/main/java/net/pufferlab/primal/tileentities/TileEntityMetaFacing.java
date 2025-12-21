@@ -22,8 +22,7 @@ public class TileEntityMetaFacing extends TileEntityPrimal {
 
     public void setFacingMeta(int meta) {
         this.facingMeta = meta;
-        this.worldObj.notifyBlockChange(this.xCoord, this.yCoord, this.zCoord, this.blockType);
-        this.markDirty();
+        this.updateTEState();
     }
 
     @Override

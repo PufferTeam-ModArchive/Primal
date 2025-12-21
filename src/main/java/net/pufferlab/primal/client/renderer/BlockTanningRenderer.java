@@ -13,10 +13,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-
 @ThreadSafeISBRH(perThread = true)
-public class BlockTanningRenderer implements ISimpleBlockRenderingHandler {
+public class BlockTanningRenderer extends BlockPrimalRenderer {
 
     private final ThreadLocal<ModelTanningFrame> modelTanningFrameThread = ThreadLocal
         .withInitial(ModelTanningFrame::new);

@@ -43,12 +43,14 @@ public class Registry {
     public static Block pit_kiln;
     public static Block thatch;
     public static Block thatch_roof;
+    public static Block chimney;
     public static Block log_pile;
     public static Block charcoal_pile;
     public static Block ash_pile;
     public static Block tanning;
     public static Block chopping_log;
     public static Block campfire;
+    public static Block oven;
     public static Block large_vessel;
     public static Block barrel;
     public static Block faucet;
@@ -81,12 +83,14 @@ public class Registry {
         tanning = new BlockTanning();
         chopping_log = new BlockChoppingLog();
         campfire = new BlockCampfire();
+        oven = new BlockOven();
         large_vessel = new BlockLargeVessel();
         barrel = new BlockBarrel();
         faucet = new BlockFaucet();
 
         thatch = new BlockThatch();
         thatch_roof = new BlockThatchRoof();
+        chimney = new BlockChimney();
 
         icons = new ItemMeta(Constants.icons, "icon").setHiddenAll();
         straw = new ItemMeta(Constants.strawItems, "straw");
@@ -117,6 +121,8 @@ public class Registry {
         register(ash_pile, "ash_pile");
         register(chopping_log, "chopping_log");
         register(campfire, "campfire");
+        register(oven, "oven");
+        register(chimney, "chimney");
         register(large_vessel, "large_vessel");
         register(barrel, "barrel");
         register(faucet, "faucet");
@@ -150,6 +156,7 @@ public class Registry {
         register(TileEntityBarrel.class, "barrel");
         register(TileEntityFaucet.class, "faucet");
         register(TileEntityTanning.class, "tanning_frame");
+        register(TileEntityOven.class, "oven");
     }
 
     public static final Block[] fluidsBlocks = new Block[Constants.fluids.length];
@@ -221,8 +228,8 @@ public class Registry {
             || block instanceof BlockAshPile
             || block instanceof BlockGroundcover) {
             GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), null, name);
-        } else
-            if (block instanceof BlockLargeVessel || block instanceof BlockBarrel || block instanceof BlockCampfire) {
+        } else if ((block instanceof BlockLargeVessel || block instanceof BlockBarrel || block instanceof BlockCampfire)
+            && !(block instanceof BlockOven)) {
                 GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockPrimal.class, name);
             } else if (block instanceof BlockFluidPrimal) {
                 GameRegistry.registerBlock(block.setCreativeTab(null), name);

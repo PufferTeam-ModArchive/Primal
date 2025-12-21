@@ -55,8 +55,6 @@ public class BlockCampfire extends BlockContainer {
         if ((Utils.containsOreDict(heldItem, "firewood") && meta > 0 && meta < 5)
             || (Utils.containsOreDict(heldItem, "kindling") && meta == 0)) {
             worldIn.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
-            worldIn.markBlockRangeForRenderUpdate(x, y, z, x, y, z);
-            worldIn.markBlockForUpdate(x, y, z);
             TileEntity te = worldIn.getTileEntity(x, y, z);
             if (meta == 0) {
                 Utils.playSound(worldIn, x, y, z, Registry.thatch);
@@ -177,10 +175,12 @@ public class BlockCampfire extends BlockContainer {
 
     @Override
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World worldIn, int x, int y, int z) {
-        TileEntity te = worldIn.getTileEntity(x, y, z);
-        if (te instanceof TileEntityCampfire tef) {
-            if (!tef.hasSpit) {
-                return AxisAlignedBB.getBoundingBox(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+        if (!this.isOven()) {
+            TileEntity te = worldIn.getTileEntity(x, y, z);
+            if (te instanceof TileEntityCampfire tef) {
+                if (!tef.hasSpit) {
+                    return AxisAlignedBB.getBoundingBox(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+                }
             }
         }
         return super.getCollisionBoundingBoxFromPool(worldIn, x, y, z);
@@ -291,7 +291,11 @@ public class BlockCampfire extends BlockContainer {
     }
 
     @Override
-    protected void dropBlockAsItem(World worldIn, int x, int y, int z, ItemStack itemIn) {}
+    protected void dropBlockAsItem(World worldIn, int x, int y, int z, ItemStack itemIn) {
+        if (this.isOven()) {
+            super.dropBlockAsItem(worldIn, x, y, z, itemIn);
+        }
+    }
 
     @Override
     public String getUnlocalizedName() {
@@ -307,6 +311,10 @@ public class BlockCampfire extends BlockContainer {
             return icons[4];
         }
         return icons[1];
+    }
+
+    public boolean isOven() {
+        return false;
     }
 
     @Override

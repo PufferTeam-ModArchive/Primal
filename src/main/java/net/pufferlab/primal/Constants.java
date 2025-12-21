@@ -9,6 +9,8 @@ public class Constants {
     public static final float modelConst = 0.0625F;
     public static final String[] rockTypes = new String[] { "stone" };
     public static final String[] rockTextures = new String[] { "minecraft:stone" };
+    public static final String[] chimneyTypes = new String[] { "brick" };
+    public static final String[] chimneyTextures = new String[] { "minecraft:brick" };
     public static final String[] uniqueItemTypes = new String[] { "item", "straw", "hide", "wood", "powder", "flint",
         "clay" };
     public static final String[] strawItems = new String[] { "straw", "straw_cordage", "straw_kindling" };
@@ -24,7 +26,7 @@ public class Constants {
     public static final String[] colorItems = new String[] { "wool", "glass", "glass_pane", "carpet", "hardened_clay" };
     public static final String[] colorItemsEFR = new String[] { "banner", "concrete", "concrete_powder",
         "glazed_terracotta", "bed" };
-    public static final String[] icons = new String[] { "knapping", "scraping" };
+    public static final String[] icons = new String[] { "knapping" };
     public static final String[] fluids = new String[] { "empty", "water", "lava", "limewater", "tannin", "white",
         "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray", "light_gray", "cyan", "purple", "blue",
         "brown", "green", "red", "black" };

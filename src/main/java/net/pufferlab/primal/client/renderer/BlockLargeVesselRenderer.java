@@ -15,10 +15,8 @@ import net.pufferlab.primal.tileentities.TileEntityLargeVessel;
 
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-
 @ThreadSafeISBRH(perThread = true)
-public class BlockLargeVesselRenderer implements ISimpleBlockRenderingHandler {
+public class BlockLargeVesselRenderer extends BlockPrimalRenderer {
 
     private static final ThreadLocal<ModelLargeVessel> modelLargeVesselThread = ThreadLocal
         .withInitial(ModelLargeVessel::new);

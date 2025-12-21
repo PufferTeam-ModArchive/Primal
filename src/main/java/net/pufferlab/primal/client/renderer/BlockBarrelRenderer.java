@@ -17,10 +17,8 @@ import net.pufferlab.primal.tileentities.TileEntityBarrel;
 
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-
 @ThreadSafeISBRH(perThread = true)
-public class BlockBarrelRenderer implements ISimpleBlockRenderingHandler {
+public class BlockBarrelRenderer extends BlockPrimalRenderer {
 
     private final ThreadLocal<ModelBarrel> modelBarrelThread = ThreadLocal.withInitial(ModelBarrel::new);
     private final ThreadLocal<ModelFluid> modelFluidThread = ThreadLocal.withInitial(ModelFluid::new);

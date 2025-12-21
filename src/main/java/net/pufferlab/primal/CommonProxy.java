@@ -91,4 +91,12 @@ public class CommonProxy implements IGuiHandler {
     public int getTanningRenderID() {
         return 0;
     }
+
+    public int getOvenRenderID() {
+        return 0;
+    }
+
+    public int getChimneyRenderID() {
+        return 0;
+    }
 }

@@ -5,15 +5,20 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;
 import net.pufferlab.primal.Primal;
 
+import org.lwjgl.opengl.GL11;
+
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-
 @ThreadSafeISBRH(perThread = false)
-public class BlockPitKilnRenderer implements ISimpleBlockRenderingHandler {
+public class BlockPitKilnRenderer extends BlockPrimalRenderer {
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {}
+    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
+        GL11.glPushMatrix();
+        renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+        renderStandardInvBlock(renderer, block, 8);
+        GL11.glPopMatrix();
+    }
 
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
@@ -44,7 +49,7 @@ public class BlockPitKilnRenderer implements ISimpleBlockRenderingHandler {
 
     @Override
     public boolean shouldRender3DInInventory(int modelId) {
-        return false;
+        return true;
     }
 
     @Override

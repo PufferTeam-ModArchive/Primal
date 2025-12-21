@@ -1,14 +1,13 @@
 package net.pufferlab.primal.client.renderer;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.IItemRenderer;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.client.models.ModelFirewood;
 
 import org.lwjgl.opengl.GL11;
 
-public class ItemWoodRenderer implements IItemRenderer {
+public class ItemWoodRenderer extends ItemPrimalRenderer {
 
     ModelFirewood modelFirewood = new ModelFirewood();
     public int firewoodMeta = Utils.getItemFromArray(Constants.woodItems, "firewood");

@@ -1,13 +1,12 @@
 package net.pufferlab.primal.client.renderer;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.IItemRenderer;
 import net.pufferlab.primal.client.models.ModelFaucet;
 import net.pufferlab.primal.client.models.ModelValve;
 
 import org.lwjgl.opengl.GL11;
 
-public class ItemFaucetRenderer implements IItemRenderer {
+public class ItemFaucetRenderer extends ItemPrimalRenderer {
 
     ModelFaucet modelFaucet = new ModelFaucet();
     ModelValve modelValve = new ModelValve();

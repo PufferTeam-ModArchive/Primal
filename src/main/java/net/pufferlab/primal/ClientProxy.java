@@ -27,6 +27,8 @@ public class ClientProxy extends CommonProxy {
     int faucetRenderID;
     int groundcoverRenderID;
     int tanningRenderID;
+    int ovenRenderID;
+    int chimneyRenderID;
 
     @Override
     public void setupRenders() {
@@ -40,6 +42,8 @@ public class ClientProxy extends CommonProxy {
         faucetRenderID = RenderingRegistry.getNextAvailableRenderId();
         groundcoverRenderID = RenderingRegistry.getNextAvailableRenderId();
         tanningRenderID = RenderingRegistry.getNextAvailableRenderId();
+        ovenRenderID = RenderingRegistry.getNextAvailableRenderId();
+        chimneyRenderID = RenderingRegistry.getNextAvailableRenderId();
 
         RenderingRegistry.registerBlockHandler(new BlockPitKilnRenderer());
         RenderingRegistry.registerBlockHandler(new BlockLogPileRenderer());
@@ -51,12 +55,15 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerBlockHandler(new BlockFaucetRenderer());
         RenderingRegistry.registerBlockHandler(new BlockGroundcoverRenderer());
         RenderingRegistry.registerBlockHandler(new BlockTanningRenderer());
+        RenderingRegistry.registerBlockHandler(new BlockOvenRenderer());
+        RenderingRegistry.registerBlockHandler(new BlockChimneyRenderer());
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPitKiln.class, new TileEntityPitKilnRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChoppingLog.class, new TileEntityChoppingLogRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCampfire.class, new TileEntityCampfireRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBarrel.class, new TileEntityBarrelRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTanning.class, new TileEntityTanningRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOven.class, new TileEntityOvenRenderer());
 
         MinecraftForgeClient.registerItemRenderer(Registry.wood, new ItemWoodRenderer());
         MinecraftForgeClient.registerItemRenderer(Registry.clay, new ItemClayRenderer());
@@ -64,6 +71,7 @@ public class ClientProxy extends CommonProxy {
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Registry.faucet), new ItemFaucetRenderer());
         MinecraftForgeClient
             .registerItemRenderer(Item.getItemFromBlock(Registry.large_vessel), new ItemLargeVesselRenderer());
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Registry.oven), new ItemOvenRenderer());
     }
 
     @Override
@@ -129,5 +137,15 @@ public class ClientProxy extends CommonProxy {
     @Override
     public int getTanningRenderID() {
         return tanningRenderID;
+    }
+
+    @Override
+    public int getOvenRenderID() {
+        return ovenRenderID;
+    }
+
+    @Override
+    public int getChimneyRenderID() {
+        return chimneyRenderID;
     }
 }

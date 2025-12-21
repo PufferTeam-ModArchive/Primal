@@ -3,10 +3,7 @@ package net.pufferlab.primal.tileentities;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
-import net.minecraftforge.fluids.FluidTankInfo;
+import net.minecraftforge.fluids.*;
 import net.pufferlab.primal.recipes.BarrelRecipe;
 
 public class TileEntityBarrel extends TileEntityFluidInventory {
@@ -125,6 +122,22 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
         float ratio = (float) tankOutput.getFluidAmount() / capacity;
         ratio = MathHelper.clamp_float(ratio, 0f, 1f);
         return ratio * (max - min) + min;
+    }
+
+    @Override
+    public boolean canFill(ForgeDirection from, Fluid fluid) {
+        if (!this.isOpen) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean canDrain(ForgeDirection from, Fluid fluid) {
+        if (!this.isOpen) {
+            return false;
+        }
+        return true;
     }
 
     @Override

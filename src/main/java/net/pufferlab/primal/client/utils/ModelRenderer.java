@@ -43,6 +43,7 @@ public class ModelRenderer {
     public float offsetZ;
 
     public float rotateAngleYGlobal;
+    public int facingMetaGlobal;
 
     public ModelRenderer(ModelBase baseModel, String boxName) {
         this.textureWidth = 64.0F;

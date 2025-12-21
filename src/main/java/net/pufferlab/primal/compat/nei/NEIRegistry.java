@@ -88,6 +88,7 @@ public class NEIRegistry implements IConfigureNEI {
         sendCatalyst(Primal.MODID + ".chopping_log", Primal.MODID + ":chopping_log");
         sendCatalyst(Primal.MODID + ".barrel", Primal.MODID + ":barrel");
         sendCatalyst(Primal.MODID + ".campfire", Primal.MODID + ":campfire");
+        sendCatalyst(Primal.MODID + ".campfire", Primal.MODID + ":oven");
         sendCatalyst(Primal.MODID + ".pit_kiln", Primal.MODID + ":pit_kiln");
         sendCatalyst(Primal.MODID + ".tanning", Primal.MODID + ":tanning_frame");
     }

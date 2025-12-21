@@ -83,9 +83,6 @@ public class TileEntityFluidInventory extends TileEntityInventory implements IFl
 
     @Override
     public boolean canFill(ForgeDirection from, Fluid fluid) {
-        if (fluid.getTemperature() > 500) {
-            return false;
-        }
         return true;
     }
 

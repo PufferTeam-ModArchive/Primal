@@ -67,7 +67,7 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
     public TileEntity getInputTile() {
         TileEntity te = this.worldObj.getTileEntity(this.xCoord, this.yCoord - 1, this.zCoord);
         if (te instanceof TileEntityBarrel tef) {
-            if (tef.isFloorBarrel) {
+            if (tef.isFloorBarrel || !tef.isOpen) {
                 return null;
             }
             this.flowLevel = 1;
@@ -77,7 +77,7 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
         if (block.getMaterial() == Material.air) {
             TileEntity te2 = this.worldObj.getTileEntity(this.xCoord, this.yCoord - 2, this.zCoord);
             if (te2 instanceof TileEntityBarrel tef2) {
-                if (tef2.isFloorBarrel) {
+                if (tef2.isFloorBarrel || !tef2.isOpen) {
                     return null;
                 }
                 this.flowLevel = 2;

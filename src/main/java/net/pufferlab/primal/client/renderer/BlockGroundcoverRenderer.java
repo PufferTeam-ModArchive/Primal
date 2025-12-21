@@ -14,10 +14,8 @@ import net.pufferlab.primal.client.models.ModelRockSmall;
 
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-
 @ThreadSafeISBRH(perThread = true)
-public class BlockGroundcoverRenderer implements ISimpleBlockRenderingHandler {
+public class BlockGroundcoverRenderer extends BlockPrimalRenderer {
 
     private final ThreadLocal<ModelRock> modelRockThread = ThreadLocal.withInitial(ModelRock::new);
     private final ThreadLocal<ModelRockSmall> modelRock2Thread = ThreadLocal.withInitial(ModelRockSmall::new);

@@ -8,6 +8,8 @@ tile.primal.faucet.name=Faucet
 tile.primal.campfire.name=Campfire
 tile.primal.pit_kiln.name=Pit Kiln
 tile.primal.tanning_frame.name=Tanning Frame
+tile.primal.oven.name=Oven
+tile.primal.brick_chimney.name=Brick Chimney
 item.primal.knapping_icon.name=Knapping
 
 

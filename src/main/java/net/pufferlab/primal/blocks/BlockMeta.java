@@ -22,6 +22,7 @@ public class BlockMeta extends Block {
     protected String[] elementsBlacklist;
     protected IIcon[] icons;
     protected String name;
+    protected String[] elementsTextures;
 
     public BlockMeta(Material material, String[] materials, String type, String[] blacklist, String[] tools,
         int[] levels) {
@@ -48,13 +49,22 @@ public class BlockMeta extends Block {
         this(material, materials, type, Constants.none, null, null);
     }
 
+    public BlockMeta setTextureOverride(String[] elementsTextures) {
+        this.elementsTextures = elementsTextures;
+        return this;
+    }
+
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister register) {
         icons = new IIcon[elements.length];
 
         for (int i = 0; i < elements.length; i++) {
-            if (!Utils.containsExactMatch(elementsBlacklist, elements[i])) {
-                icons[i] = register.registerIcon(Primal.MODID + ":" + elements[i] + "_" + name);
+            if (elementsTextures[i] == null) {
+                if (!Utils.containsExactMatch(elementsBlacklist, elements[i])) {
+                    icons[i] = register.registerIcon(Primal.MODID + ":" + elements[i] + "_" + name);
+                }
+            } else {
+                icons[i] = register.registerIcon(elementsTextures[i]);
             }
         }
     }

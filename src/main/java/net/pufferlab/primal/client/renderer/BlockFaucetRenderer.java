@@ -17,10 +17,8 @@ import net.pufferlab.primal.tileentities.TileEntityFaucet;
 
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-
 @ThreadSafeISBRH(perThread = true)
-public class BlockFaucetRenderer implements ISimpleBlockRenderingHandler {
+public class BlockFaucetRenderer extends BlockPrimalRenderer {
 
     private final ThreadLocal<ModelFaucet> modelFaucetThread = ThreadLocal.withInitial(ModelFaucet::new);
     private final ThreadLocal<ModelValve> modelValveThread = ThreadLocal.withInitial(ModelValve::new);

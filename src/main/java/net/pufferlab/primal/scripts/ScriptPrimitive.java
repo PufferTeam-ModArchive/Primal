@@ -62,13 +62,18 @@ public class ScriptPrimitive implements IScript {
     }
 
     public void addCraftingRecipes() {
-        addShapelessRecipe(
-            getModItem("straw_kindling", 1),
-            getModItem("straw", 1),
-            getModItem("straw_cordage", 1),
-            "stickWood");
         addShapedRecipe(getItem(Primal.MODID, "chopping_log", 0, 1), "SS", 'S', "logWood");
         addShapedRecipe(getItem(Primal.MODID, "barrel", 0, 1), "P P", "P P", "PPP", 'P', "plankWood");
+        addShapedRecipe(
+            getItem(Primal.MODID, "oven", 0, 1),
+            "SSS",
+            "SIS",
+            "SSS",
+            'I',
+            getModItem("ash", 1),
+            'S',
+            "ingotBrick");
+        addShapedRecipe(getItem(Primal.MODID, "chimney", 0, 1), "S S", "S S", "S S", 'S', "ingotBrick");
         addShapedRecipe(
             getItem(Primal.MODID, "flint_axe", 0, 1),
             "I",
@@ -260,6 +265,14 @@ public class ScriptPrimitive implements IScript {
             "CCC C",
             "C   C",
             "CCCCC");
+        addKnappingRecipe(
+            KnappingType.straw,
+            getModItem("straw_kindling", 1),
+            " CCC ",
+            "CCCCC",
+            "CCCCC",
+            "CCCCC",
+            " CCC ");
     }
 
     public void addPitKilnRecipes() {

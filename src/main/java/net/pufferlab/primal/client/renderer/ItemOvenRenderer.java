@@ -1,27 +1,26 @@
 package net.pufferlab.primal.client.renderer;
 
-import net.pufferlab.primal.client.models.ModelLargeVessel;
+import net.pufferlab.primal.client.models.ModelOven;
 import net.pufferlab.primal.client.models.ModelPrimal;
 
-public class ItemLargeVesselRenderer extends ItemPrimalRenderer {
+public class ItemOvenRenderer extends ItemPrimalRenderer {
 
-    ModelLargeVessel modelLargeVessel = new ModelLargeVessel();
+    ModelOven modelOven = new ModelOven();
 
-    int largeVesselMeta = 0;
+    int ovenMeta = 0;
 
     @Override
     public ModelPrimal getItemBlockModel() {
-        return modelLargeVessel;
+        return modelOven;
     }
 
     @Override
     public int getItemBlockMeta() {
-        return largeVesselMeta;
+        return ovenMeta;
     }
 
     @Override
     public boolean isItemBlock() {
         return true;
     }
-
 }

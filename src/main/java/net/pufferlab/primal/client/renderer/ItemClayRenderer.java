@@ -1,14 +1,13 @@
 package net.pufferlab.primal.client.renderer;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.IItemRenderer;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.client.models.ModelLargeVessel;
 
 import org.lwjgl.opengl.GL11;
 
-public class ItemClayRenderer implements IItemRenderer {
+public class ItemClayRenderer extends ItemPrimalRenderer {
 
     ModelLargeVessel modelLargeVessel = new ModelLargeVessel();
     public final int largeVesselMeta = Utils.getItemFromArray(Constants.clayItems, "clay_large_vessel");

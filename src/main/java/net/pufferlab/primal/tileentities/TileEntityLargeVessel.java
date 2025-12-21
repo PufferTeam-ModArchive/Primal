@@ -1,6 +1,8 @@
 package net.pufferlab.primal.tileentities;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
 
 public class TileEntityLargeVessel extends TileEntityFluidInventory {
 
@@ -44,4 +46,24 @@ public class TileEntityLargeVessel extends TileEntityFluidInventory {
         tag.setBoolean("isOpen", this.isOpen);
     }
 
+    @Override
+    public boolean canFill(ForgeDirection from, Fluid fluid) {
+        if (!this.isOpen) {
+            return false;
+        }
+        if (fluid != null) {
+            if (fluid.getTemperature() > 500) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean canDrain(ForgeDirection from, Fluid fluid) {
+        if (!this.isOpen) {
+            return false;
+        }
+        return true;
+    }
 }

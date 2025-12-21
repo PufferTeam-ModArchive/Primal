@@ -12,14 +12,19 @@ import org.lwjgl.opengl.GL11;
 
 public class GuiLargeVessel extends GuiContainer {
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation(
+    private static final ResourceLocation texture = new ResourceLocation(
         Primal.MODID,
         "textures/gui/container/large_vessel.png");
+    private static final ResourceLocation textureLocked = new ResourceLocation(
+        Primal.MODID,
+        "textures/gui/container/large_vessel_locked.png");
     public TileEntityLargeVessel tileLargeVessel;
+    public boolean isOpen;
 
     public GuiLargeVessel(InventoryPlayer inv, TileEntityLargeVessel te) {
         super(new ContainerLargeVessel(inv, te));
         this.tileLargeVessel = te;
+        this.isOpen = te.isOpen;
     }
 
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
@@ -32,8 +37,13 @@ public class GuiLargeVessel extends GuiContainer {
 
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager()
-            .bindTexture(TEXTURE);
+        if (this.isOpen) {
+            this.mc.getTextureManager()
+                .bindTexture(texture);
+        } else {
+            this.mc.getTextureManager()
+                .bindTexture(textureLocked);
+        }
         int k = (this.width - this.xSize) / 2;
         int l = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);

@@ -3,26 +3,19 @@ package net.pufferlab.primal.blocks;
 import java.util.Random;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockGroundcover extends BlockMeta {
 
     public Item item;
-    protected String[] elementsTextures;
 
     public BlockGroundcover(Material material, String[] materials, String type) {
         super(material, materials, type);
@@ -45,11 +38,6 @@ public class BlockGroundcover extends BlockMeta {
         return true;
     }
 
-    public BlockGroundcover setTextureOverride(String[] elementsTextures) {
-        this.elementsTextures = elementsTextures;
-        return this;
-    }
-
     @Override
     public boolean canPlaceBlockAt(World worldIn, int x, int y, int z) {
         return this.canBlockStay(worldIn, x, y, z);
@@ -58,21 +46,6 @@ public class BlockGroundcover extends BlockMeta {
     @Override
     public boolean canBlockStay(World worldIn, int x, int y, int z) {
         return worldIn.isSideSolid(x, y - 1, z, ForgeDirection.UP);
-    }
-
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister register) {
-        icons = new IIcon[elements.length];
-
-        for (int i = 0; i < elements.length; i++) {
-            if (elementsTextures[i] == null) {
-                if (!Utils.containsExactMatch(elementsBlacklist, elements[i])) {
-                    icons[i] = register.registerIcon(Primal.MODID + ":" + elements[i] + "_" + name);
-                }
-            } else {
-                icons[i] = register.registerIcon(elementsTextures[i]);
-            }
-        }
     }
 
     @Override

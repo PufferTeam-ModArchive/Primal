@@ -8,18 +8,17 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.models.ModelCampfire;
-import net.pufferlab.primal.client.models.ModelCampfireSpit;
+import net.pufferlab.primal.client.models.ModelOven;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 
 @ThreadSafeISBRH(perThread = true)
-public class BlockCampfireRenderer extends BlockPrimalRenderer {
+public class BlockOvenRenderer extends BlockPrimalRenderer {
 
     private final ThreadLocal<ModelCampfire> modelCampfireThread = ThreadLocal.withInitial(ModelCampfire::new);
-    private final ThreadLocal<ModelCampfireSpit> modelCampfireSpitThread = ThreadLocal
-        .withInitial(ModelCampfireSpit::new);
+    private final ThreadLocal<ModelOven> modelOvenThread = ThreadLocal.withInitial(ModelOven::new);
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {}
@@ -28,7 +27,7 @@ public class BlockCampfireRenderer extends BlockPrimalRenderer {
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
         ModelCampfire modelCampfire = modelCampfireThread.get();
-        ModelCampfireSpit modelCampfireSpit = modelCampfireSpitThread.get();
+        ModelOven modelOven = modelOvenThread.get();
 
         Tessellator tess = Tessellator.instance;
         int meta = world.getBlockMetadata(x, y, z);
@@ -40,12 +39,6 @@ public class BlockCampfireRenderer extends BlockPrimalRenderer {
         modelCampfire.bottom.isHidden = true;
         modelCampfire.rocks.isHidden = true;
         TileEntity te = world.getTileEntity(x, y, z);
-        if (te instanceof TileEntityCampfire tef) {
-            if (tef.isBuilt) {
-                modelCampfire.bottom.isHidden = false;
-                modelCampfire.rocks.isHidden = false;
-            }
-        }
         if (meta >= 1) {
             modelCampfire.kindling.isHidden = false;
         }
@@ -61,23 +54,12 @@ public class BlockCampfireRenderer extends BlockPrimalRenderer {
         if (meta >= 5) {
             modelCampfire.log4.isHidden = false;
         }
-        boolean rotated = false;
-        if (te instanceof TileEntityMetaFacing tef) {
-            if (tef.facingMeta == 1 || tef.facingMeta == 3) {
-                rotated = true;
-            }
-        }
         int renderPass = ForgeHooksClient.getWorldRenderPass();
         if (renderPass == 0) {
-            modelCampfire.render(renderer, tess, block, x, y, z, 99);
-            if (te instanceof TileEntityCampfire tef) {
-                if (tef.hasSpit) {
-                    modelCampfireSpit.bb_main.rotateAngleYGlobal = 0;
-                    if (!rotated) {
-                        modelCampfireSpit.bb_main.rotateAngleYGlobal = (float) Math.PI / 2;
-                    }
-                    modelCampfireSpit.render(renderer, tess, block, x, y, z, 97);
-                }
+            modelCampfire.render(renderer, tess, block, x, y, z, -0.02F, 0.05F, -0.02F, 99);
+            if (te instanceof TileEntityMetaFacing tef) {
+                modelOven.setFacing(tef.facingMeta);
+                modelOven.render(renderer, tess, block, x, y, z, 96);
             }
             if (te instanceof TileEntityCampfire tef) {
                 if (tef.isFired) {
@@ -95,6 +77,6 @@ public class BlockCampfireRenderer extends BlockPrimalRenderer {
 
     @Override
     public int getRenderId() {
-        return Primal.proxy.getCampfireRenderID();
+        return Primal.proxy.getOvenRenderID();
     }
 }

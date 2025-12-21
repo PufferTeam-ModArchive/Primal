@@ -125,12 +125,19 @@ public class ModelTESS {
 
                         tess.setNormal((float) nx3, (float) ny3, (float) nz2);
 
-                        // --- Shading based on rotated normal ---
                         float shade = 1.0F;
-                        if (ny3 > 0.5F) shade = 1.0F; // top
-                        else if (ny3 < -0.5F) shade = 0.5F; // bottom
-                        else if (nx3 > 0.5F || nx3 < -0.5F) shade = 0.6F; // east/west
-                        else if (nz2 > 0.5F || nz2 < -0.5F) shade = 0.8F; // north/south
+                        if (renderer.facingMetaGlobal == 2 || renderer.facingMetaGlobal == 4) {
+                            if (ny3 > 0.5F) shade = 1.0F; // top
+                            else if (ny3 < -0.5F) shade = 0.5F; // bottom
+                            else if (nx3 > 0.5F || nx3 < -0.5F) shade = 0.8F; // east/west
+                            else if (nz2 > 0.5F || nz2 < -0.5F) shade = 0.6F; // north/south
+                        } else {
+                            if (ny3 > 0.5F) shade = 1.0F; // top
+                            else if (ny3 < -0.5F) shade = 0.5F; // bottom
+                            else if (nx3 > 0.5F || nx3 < -0.5F) shade = 0.6F; // east/west
+                            else if (nz2 > 0.5F || nz2 < -0.5F) shade = 0.8F; // north/south
+                        }
+                        // --- Shading based on rotated normal ---
 
                         tess.setColorOpaque_F(f * shade, f1 * shade, f2 * shade);
 
