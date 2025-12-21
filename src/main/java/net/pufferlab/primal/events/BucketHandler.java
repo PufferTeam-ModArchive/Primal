@@ -4,10 +4,10 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
@@ -30,16 +30,15 @@ public class BucketHandler {
     }
 
     @SubscribeEvent
-    public void playerInteractEventHandler(PlayerInteractEvent event) {
-        if (event.entityPlayer.getCurrentEquippedItem() != null
-            && event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
+    public void fillBucketEventHandler(FillBucketEvent event) {
+        if (event.entityPlayer.getCurrentEquippedItem() != null) {
             ItemStack itemStack = event.entityPlayer.getCurrentEquippedItem();
             if (itemStack.getItem() != null) {
                 if ((itemStack.getItem() == Registry.ceramic_bucket && itemStack.getItemDamage() == 0)
                     || (itemStack.getItem() == Items.bucket)) {
-                    int x = Utils.getBlockX(event.face, event.x);
-                    int y = Utils.getBlockY(event.face, event.y);
-                    int z = Utils.getBlockZ(event.face, event.z);
+                    int x = event.target.blockX;
+                    int y = event.target.blockY;
+                    int z = event.target.blockZ;
                     Block block = event.world.getBlock(x, y, z);
                     int metaBlock = event.world.getBlockMetadata(x, y, z);
                     if (metaBlock == 0) {
@@ -49,22 +48,14 @@ public class BucketHandler {
                                 if (itemStack.getItem() == Items.bucket) {
                                     event.world.setBlockToAir(x, y, z);
 
-                                    event.entityPlayer.inventory.setInventorySlotContents(
-                                        event.entityPlayer.inventory.currentItem,
-                                        func_150910_a(itemStack, event.entityPlayer, Registry.bucket, meta));
-                                    if (!event.world.isRemote) {
-                                        event.entityPlayer.inventoryContainer.detectAndSendChanges();
-                                    }
+                                    event.result = new ItemStack(Registry.bucket, 1, meta);
+                                    event.setResult(Event.Result.ALLOW);
                                 }
                                 if (itemStack.getItem() == Registry.ceramic_bucket && itemStack.getItemDamage() == 0) {
                                     event.world.setBlockToAir(x, y, z);
 
-                                    event.entityPlayer.inventory.setInventorySlotContents(
-                                        event.entityPlayer.inventory.currentItem,
-                                        func_150910_a(itemStack, event.entityPlayer, Registry.ceramic_bucket, meta));
-                                    if (!event.world.isRemote) {
-                                        event.entityPlayer.inventoryContainer.detectAndSendChanges();
-                                    }
+                                    event.result = new ItemStack(Registry.ceramic_bucket, 1, meta);
+                                    event.setResult(Event.Result.ALLOW);
                                 }
                             }
                         }
@@ -73,6 +64,10 @@ public class BucketHandler {
                 }
             }
         }
+    }
+
+    @SubscribeEvent
+    public void playerInteractEventHandler(PlayerInteractEvent event) {
         if (event.entityPlayer.getCurrentEquippedItem() != null
             && event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK
             && !event.entityPlayer.isSneaking()
@@ -117,20 +112,6 @@ public class BucketHandler {
                     }
                 }
             }
-        }
-    }
-
-    private ItemStack func_150910_a(ItemStack itemStackIn, EntityPlayer player, Item item, int meta) {
-        if (player.capabilities.isCreativeMode) {
-            return itemStackIn;
-        } else if (--itemStackIn.stackSize <= 0) {
-            return new ItemStack(item, 1, meta);
-        } else {
-            if (!player.inventory.addItemStackToInventory(new ItemStack(item, 1, meta))) {
-                player.dropPlayerItemWithRandomChoice(new ItemStack(item, 1, meta), false);
-            }
-
-            return itemStackIn;
         }
     }
 }
