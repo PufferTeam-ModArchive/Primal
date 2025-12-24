@@ -51,7 +51,8 @@ public class BlockChoppingLog extends BlockContainer {
                     return result;
                 }
                 if (ChoppingLogRecipe.hasRecipe(heldItem)) {
-                    return log.addInventorySlotContentsUpdate(0, player);
+                    log.addInventorySlotContentsUpdate(0, player);
+                    return true;
                 }
             } else {
                 if (log.getInventoryStack(0) != null) {

@@ -7,8 +7,6 @@ public class ModelLargeVessel extends ModelPrimal {
 
     public ModelRenderer lid;
 
-    int type;
-
     public ModelLargeVessel() {
         super(64);
         bb_main.cubeList.add(new ModelBox(bb_main, 18, 20, -4.0F, 1.0F, -5.0F, 8, 9, 1, 0.0F));
@@ -26,11 +24,6 @@ public class ModelLargeVessel extends ModelPrimal {
         lid.cubeList.add(new ModelBox(lid, 0, 0, -5.0F, 11.0F, -5.0F, 10, 1, 10, 0.0F));
         lid.cubeList.add(new ModelBox(lid, 30, 0, -1.0F, 12.0F, -1.0F, 2, 1, 2, 0.0F));
         bb_main.addChild(lid);
-    }
-
-    public ModelLargeVessel setType(int type) {
-        this.type = type;
-        return this;
     }
 
     @Override

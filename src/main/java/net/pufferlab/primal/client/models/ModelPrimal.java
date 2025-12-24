@@ -20,6 +20,7 @@ public abstract class ModelPrimal extends ModelBase {
     public float facingOffsetX;
     public float facingOffsetY;
     public float facingOffsetZ;
+    int type;
 
     public ModelPrimal(int size) {
         textureWidth = size;
@@ -73,6 +74,11 @@ public abstract class ModelPrimal extends ModelBase {
 
     public void bindTex() {
         Minecraft.getMinecraft().renderEngine.bindTexture(Primal.asResource("textures/" + getName() + ".png"));
+    }
+
+    public ModelPrimal setType(int type) {
+        this.type = type;
+        return this;
     }
 
     public void setFacing(int meta) {

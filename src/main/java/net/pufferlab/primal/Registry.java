@@ -12,8 +12,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fluids.*;
 import net.pufferlab.primal.blocks.*;
-import net.pufferlab.primal.compat.minetweaker.PrimalTweaker;
-import net.pufferlab.primal.compat.nei.NEIRegistry;
+import net.pufferlab.primal.compat.minetweaker.MTCompat;
+import net.pufferlab.primal.compat.nei.NEICompat;
 import net.pufferlab.primal.events.*;
 import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.tileentities.*;
@@ -51,6 +51,9 @@ public class Registry {
     public static Block chopping_log;
     public static Block campfire;
     public static Block oven;
+    public static Block forge;
+    public static Block crucible;
+    public static Block cast;
     public static Block large_vessel;
     public static Block barrel;
     public static Block faucet;
@@ -61,6 +64,7 @@ public class Registry {
     public static Item flint;
     public static Item wood;
     public static Item powder;
+    public static Item mold;
     public static Item clay;
     public static Item ceramic_bucket;
     public static Item flint_axe;
@@ -84,6 +88,9 @@ public class Registry {
         chopping_log = new BlockChoppingLog();
         campfire = new BlockCampfire();
         oven = new BlockOven();
+        forge = new BlockForge();
+        cast = new BlockCast();
+        crucible = new BlockCrucible();
         large_vessel = new BlockLargeVessel();
         barrel = new BlockBarrel();
         faucet = new BlockFaucet();
@@ -99,6 +106,7 @@ public class Registry {
         flint = new ItemMeta(Constants.flintItems, "flint");
         rock = new ItemMeta(Constants.rockTypes, "rock");
         powder = new ItemMeta(Constants.powderItems, "powder");
+        mold = new ItemMeta(Constants.moldItems, "mold");
         clay = new ItemMeta(Constants.clayItems, "clay");
         ((BlockGroundcover) ground_rock).setItem(rock);
 
@@ -123,7 +131,10 @@ public class Registry {
         register(campfire, "campfire");
         register(oven, "oven");
         register(chimney, "chimney");
+        register(forge, "forge");
+        register(cast, "cast");
         register(large_vessel, "large_vessel");
+        register(crucible, "crucible");
         register(barrel, "barrel");
         register(faucet, "faucet");
         register(tanning, "tanning_frame");
@@ -135,6 +146,7 @@ public class Registry {
         register(powder, "powder");
         register(rock, "rock");
         register(flint, "flint");
+        register(mold, "mold");
         register(clay, "clay");
         register(flint_axe, "flint_axe");
         register(flint_pickaxe, "flint_pickaxe");
@@ -157,6 +169,9 @@ public class Registry {
         register(TileEntityFaucet.class, "faucet");
         register(TileEntityTanning.class, "tanning_frame");
         register(TileEntityOven.class, "oven");
+        register(TileEntityCrucible.class, "crucible");
+        register(TileEntityForge.class, "forge");
+        register(TileEntityCast.class, "cast");
     }
 
     public static final Block[] fluidsBlocks = new Block[Constants.fluids.length];
@@ -197,6 +212,7 @@ public class Registry {
         registerEvent(new BarrelHandler());
         registerEvent(new GroundcoverRockHandler());
         registerEvent(new MobDropHandler());
+        registerEvent(new CastHandler());
     }
 
     public void setupPackets() {
@@ -209,13 +225,13 @@ public class Registry {
 
     public void setupNEI() {
         if (Primal.NEILoaded) {
-            new NEIRegistry().loadConfig();
+            new NEICompat().loadConfig();
         }
     }
 
     public void setupMT() {
         if (Primal.MTLoaded) {
-            MineTweakerAPI.registerClass(PrimalTweaker.class);
+            MineTweakerAPI.registerClass(MTCompat.class);
         }
     }
 
@@ -226,7 +242,8 @@ public class Registry {
     public void register(Block block, String name) {
         if (block instanceof BlockLogPile || block instanceof BlockCharcoalPile
             || block instanceof BlockAshPile
-            || block instanceof BlockGroundcover) {
+            || block instanceof BlockGroundcover
+            || block instanceof BlockCast) {
             GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), null, name);
         } else if ((block instanceof BlockLargeVessel || block instanceof BlockBarrel || block instanceof BlockCampfire)
             && !(block instanceof BlockOven)) {
@@ -235,6 +252,8 @@ public class Registry {
                 GameRegistry.registerBlock(block.setCreativeTab(null), name);
             } else if (block instanceof BlockMeta) {
                 GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockMeta.class, name);
+            } else if (block instanceof BlockCrucible) {
+                GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockCrucible.class, name);
             } else {
                 GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), name);
             }

@@ -4,6 +4,7 @@ import static net.pufferlab.primal.compat.nei.IMCSenderGTNH.*;
 
 import java.awt.*;
 
+import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
@@ -12,10 +13,12 @@ import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
+import codechicken.nei.recipe.GuiCraftingRecipe;
 import codechicken.nei.recipe.GuiRecipe;
+import codechicken.nei.recipe.GuiUsageRecipe;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
-public class NEIRegistry implements IConfigureNEI {
+public class NEICompat implements IConfigureNEI {
 
     @Override
     public void loadConfig() {
@@ -105,6 +108,14 @@ public class NEIRegistry implements IConfigureNEI {
         int y = gui.guiTop + offset.y + stack.rely;
 
         return mouseX >= x && mouseX < x + 18 && mouseY >= y && mouseY < y + 18;
+    }
+
+    public static boolean transferFluid(boolean usage, FluidStack stack) {
+        if (usage) {
+            return GuiUsageRecipe.openRecipeGui("liquid", stack);
+        } else {
+            return GuiCraftingRecipe.openRecipeGui("liquid", stack);
+        }
     }
 
     @Override

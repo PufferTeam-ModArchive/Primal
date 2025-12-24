@@ -178,4 +178,9 @@ public class TileEntityCampfire extends TileEntityInventory {
     public int getInventoryStackLimit() {
         return 1;
     }
+
+    @Override
+    public boolean canBeFired() {
+        return true;
+    }
 }

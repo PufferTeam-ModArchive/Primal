@@ -12,7 +12,7 @@ public class Constants {
     public static final String[] chimneyTypes = new String[] { "brick" };
     public static final String[] chimneyTextures = new String[] { "minecraft:brick" };
     public static final String[] uniqueItemTypes = new String[] { "item", "straw", "hide", "wood", "powder", "flint",
-        "clay" };
+        "clay", "mold" };
     public static final String[] strawItems = new String[] { "straw", "straw_cordage", "straw_kindling" };
     public static final String[] hideItems = new String[] { "hide", "soaked_hide", "scraped_hide" };
     public static final String[] woodItems = new String[] { "firewood", "ash" };
@@ -20,7 +20,8 @@ public class Constants {
     public static final String[] flintItems = new String[] { "flint_shard", "flint_axe_head", "flint_pickaxe_head",
         "flint_shovel_head", "flint_knife_blade" };
     public static final String[] clayItems = new String[] { "clay_brick", "clay_flower_pot", "clay_large_vessel",
-        "clay_bucket" };
+        "clay_crucible", "clay_pickaxe_mold", "clay_axe_mold", "clay_shovel_mold", "clay_sword_mold", "clay_bucket" };
+    public static final String[] moldItems = new String[] { "pickaxe_mold", "axe_mold", "shovel_mold", "sword_mold" };
     public static final String[] colorTypes = new String[] { "white", "orange", "magenta", "light_blue", "yellow",
         "lime", "pink", "gray", "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black" };
     public static final String[] colorItems = new String[] { "wool", "glass", "glass_pane", "carpet", "hardened_clay" };

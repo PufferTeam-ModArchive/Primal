@@ -1,18 +1,23 @@
 package net.pufferlab.primal;
 
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.pufferlab.primal.client.renderer.*;
 import net.pufferlab.primal.inventory.container.ContainerKnapping;
+import net.pufferlab.primal.inventory.gui.GuiCrucible;
 import net.pufferlab.primal.inventory.gui.GuiKnapping;
 import net.pufferlab.primal.inventory.gui.GuiLargeVessel;
 import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.tileentities.*;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy {
@@ -29,49 +34,80 @@ public class ClientProxy extends CommonProxy {
     int tanningRenderID;
     int ovenRenderID;
     int chimneyRenderID;
+    int crucibleRenderID;
+    int forgeRenderID;
+    int castRenderID;
 
     @Override
     public void setupRenders() {
-        pitKilnRenderID = RenderingRegistry.getNextAvailableRenderId();
-        logPileRenderID = RenderingRegistry.getNextAvailableRenderId();
-        charcoalPileRenderID = RenderingRegistry.getNextAvailableRenderId();
-        ashPileRenderID = RenderingRegistry.getNextAvailableRenderId();
-        campfireRenderID = RenderingRegistry.getNextAvailableRenderId();
-        largeVesselRenderID = RenderingRegistry.getNextAvailableRenderId();
-        barrelRenderID = RenderingRegistry.getNextAvailableRenderId();
-        faucetRenderID = RenderingRegistry.getNextAvailableRenderId();
-        groundcoverRenderID = RenderingRegistry.getNextAvailableRenderId();
-        tanningRenderID = RenderingRegistry.getNextAvailableRenderId();
-        ovenRenderID = RenderingRegistry.getNextAvailableRenderId();
-        chimneyRenderID = RenderingRegistry.getNextAvailableRenderId();
+        pitKilnRenderID = getNextId();
+        logPileRenderID = getNextId();
+        charcoalPileRenderID = getNextId();
+        ashPileRenderID = getNextId();
+        campfireRenderID = getNextId();
+        largeVesselRenderID = getNextId();
+        barrelRenderID = getNextId();
+        faucetRenderID = getNextId();
+        groundcoverRenderID = getNextId();
+        tanningRenderID = getNextId();
+        ovenRenderID = getNextId();
+        chimneyRenderID = getNextId();
+        crucibleRenderID = getNextId();
+        forgeRenderID = getNextId();
+        castRenderID = getNextId();
 
-        RenderingRegistry.registerBlockHandler(new BlockPitKilnRenderer());
-        RenderingRegistry.registerBlockHandler(new BlockLogPileRenderer());
-        RenderingRegistry.registerBlockHandler(new BlockCharcoalPileRenderer());
-        RenderingRegistry.registerBlockHandler(new BlockAshPileRenderer());
-        RenderingRegistry.registerBlockHandler(new BlockCampfireRenderer());
-        RenderingRegistry.registerBlockHandler(new BlockLargeVesselRenderer());
-        RenderingRegistry.registerBlockHandler(new BlockBarrelRenderer());
-        RenderingRegistry.registerBlockHandler(new BlockFaucetRenderer());
-        RenderingRegistry.registerBlockHandler(new BlockGroundcoverRenderer());
-        RenderingRegistry.registerBlockHandler(new BlockTanningRenderer());
-        RenderingRegistry.registerBlockHandler(new BlockOvenRenderer());
-        RenderingRegistry.registerBlockHandler(new BlockChimneyRenderer());
+        register(new BlockPitKilnRenderer());
+        register(new BlockLogPileRenderer());
+        register(new BlockCharcoalPileRenderer());
+        register(new BlockAshPileRenderer());
+        register(new BlockCampfireRenderer());
+        register(new BlockLargeVesselRenderer());
+        register(new BlockBarrelRenderer());
+        register(new BlockFaucetRenderer());
+        register(new BlockGroundcoverRenderer());
+        register(new BlockTanningRenderer());
+        register(new BlockOvenRenderer());
+        register(new BlockChimneyRenderer());
+        register(new BlockCrucibleRenderer());
+        register(new BlockForgeRenderer());
+        register(new BlockCastRenderer());
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPitKiln.class, new TileEntityPitKilnRenderer());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChoppingLog.class, new TileEntityChoppingLogRenderer());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCampfire.class, new TileEntityCampfireRenderer());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBarrel.class, new TileEntityBarrelRenderer());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTanning.class, new TileEntityTanningRenderer());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOven.class, new TileEntityOvenRenderer());
+        register(TileEntityPitKiln.class, new TileEntityPitKilnRenderer());
+        register(TileEntityChoppingLog.class, new TileEntityChoppingLogRenderer());
+        register(TileEntityCampfire.class, new TileEntityCampfireRenderer());
+        register(TileEntityBarrel.class, new TileEntityBarrelRenderer());
+        register(TileEntityTanning.class, new TileEntityTanningRenderer());
+        register(TileEntityOven.class, new TileEntityOvenRenderer());
+        register(TileEntityCast.class, new TileEntityMoldRenderer());
 
-        MinecraftForgeClient.registerItemRenderer(Registry.wood, new ItemWoodRenderer());
-        MinecraftForgeClient.registerItemRenderer(Registry.clay, new ItemClayRenderer());
-        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Registry.barrel), new ItemBarrelRenderer());
-        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Registry.faucet), new ItemFaucetRenderer());
-        MinecraftForgeClient
-            .registerItemRenderer(Item.getItemFromBlock(Registry.large_vessel), new ItemLargeVesselRenderer());
-        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Registry.oven), new ItemOvenRenderer());
+        register(Registry.wood, new ItemWoodRenderer());
+        register(Registry.clay, new ItemClayRenderer());
+        register(Registry.barrel, new ItemBarrelRenderer());
+        register(Registry.faucet, new ItemFaucetRenderer());
+        register(Registry.large_vessel, new ItemLargeVesselRenderer());
+        register(Registry.oven, new ItemOvenRenderer());
+        register(Registry.crucible, new ItemCrucibleRenderer());
+        register(Registry.forge, new ItemForgeRenderer());
+    }
+
+    public int getNextId() {
+        return RenderingRegistry.getNextAvailableRenderId();
+    }
+
+    public <T extends ISimpleBlockRenderingHandler> void register(T object) {
+        RenderingRegistry.registerBlockHandler(object);
+    }
+
+    public <T extends TileEntitySpecialRenderer> void register(Class<? extends TileEntity> cl, T object) {
+        ClientRegistry.bindTileEntitySpecialRenderer(cl, object);
+    }
+
+    public <T extends IItemRenderer> void register(Item item, T object) {
+        MinecraftForgeClient.registerItemRenderer(item, object);
+    }
+
+    public <T extends IItemRenderer> void register(Block block, T object) {
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(block), object);
     }
 
     @Override
@@ -84,6 +120,12 @@ public class ClientProxy extends CommonProxy {
             TileEntity te = world.getTileEntity(x, y, z);
             if (te instanceof TileEntityLargeVessel tef) {
                 return new GuiLargeVessel(player.inventory, tef);
+            }
+        }
+        if (ID == crucibleContainerID) {
+            TileEntity te = world.getTileEntity(x, y, z);
+            if (te instanceof TileEntityCrucible tef) {
+                return new GuiCrucible(player.inventory, tef);
             }
         }
         return null;
@@ -147,5 +189,20 @@ public class ClientProxy extends CommonProxy {
     @Override
     public int getChimneyRenderID() {
         return chimneyRenderID;
+    }
+
+    @Override
+    public int getCrucibleRenderID() {
+        return crucibleRenderID;
+    }
+
+    @Override
+    public int getForgeRenderID() {
+        return forgeRenderID;
+    }
+
+    @Override
+    public int getCastRenderID() {
+        return castRenderID;
     }
 }

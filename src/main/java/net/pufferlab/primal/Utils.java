@@ -107,6 +107,9 @@ public class Utils {
         if (Utils.containsExactMatch(Constants.clayItems, wood)) {
             return getItem(Primal.MODID, "clay", Utils.getItemFromArray(Constants.clayItems, wood), number);
         }
+        if (Utils.containsExactMatch(Constants.moldItems, wood)) {
+            return getItem(Primal.MODID, "mold", Utils.getItemFromArray(Constants.moldItems, wood), number);
+        }
         if (Utils.containsExactMatch(Constants.icons, wood)) {
             return getItem(Primal.MODID, "icon", Utils.getItemFromArray(Constants.icons, wood), number);
         }
@@ -168,6 +171,41 @@ public class Utils {
             }
         }
         return tooltip;
+    }
+
+    public static int getHeatingLevel(int temperature) {
+        if (temperature > 1 && temperature < 200) {
+            return 1;
+        } else if (temperature > 200 && temperature < 400) {
+            return 2;
+        } else if (temperature > 400 && temperature < 600) {
+            return 3;
+        } else if (temperature > 600 && temperature < 800) {
+            return 4;
+        } else if (temperature > 800 && temperature < 1000) {
+            return 5;
+        } else if (temperature > 1000 && temperature < 1200) {
+            return 6;
+        } else if (temperature > 1200) {
+            return 7;
+        } else {
+            return 0;
+        }
+    }
+
+    public static int getTemperatureFromNBT(NBTTagCompound nbt) {
+        if (nbt == null) return 0;
+        if (nbt.hasKey("temperature")) {
+            return nbt.getInteger("temperature");
+        }
+        return 0;
+    }
+
+    public static void setTemperatureToNBT(NBTTagCompound nbt, int temperature) {
+        if (nbt == null) return;
+        if (nbt.hasKey("temperature")) {
+            nbt.setInteger("temperature", temperature);
+        }
     }
 
     public static String getFluidInfoFromNBT(NBTTagCompound nbt) {
@@ -293,9 +331,10 @@ public class Utils {
         return FluidContainerRegistry.isEmptyContainer(stack);
     }
 
-    public static Random getSeededRandom(int x, int y, int z) {
+    public static Random getSeededRandom(Random random, int x, int y, int z) {
         long seed = x * 3129871L ^ z * 116129781L ^ (long) y * 42317861L;
-        return new Random(seed);
+        random.setSeed(seed);
+        return random;
     }
 
     public static int getBlockX(int side, int x) {

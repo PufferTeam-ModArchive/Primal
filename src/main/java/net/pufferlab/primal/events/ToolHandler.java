@@ -5,8 +5,10 @@ import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockTallGrass;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemAxe;
+import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -15,6 +17,7 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.items.ItemKnifePrimitive;
+import net.pufferlab.primal.tileentities.TileEntityInventory;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -78,6 +81,20 @@ public class ToolHandler {
                 ItemStack heldItem = event.entityPlayer.getHeldItem();
                 if (Utils.containsOreDict(heldItem, "toolBroken")) {
                     event.entityPlayer.destroyCurrentEquippedItem();
+                }
+            }
+        }
+
+        if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
+            ItemStack heldItem = event.entityPlayer.getHeldItem();
+            if (heldItem != null) {
+                if (heldItem.getItem() instanceof ItemFlintAndSteel) {
+                    TileEntity te = event.world.getTileEntity(event.x, event.y, event.z);
+                    if (te instanceof TileEntityInventory tef) {
+                        if (tef.canBeFired()) {
+                            tef.setFired(true);
+                        }
+                    }
                 }
             }
         }

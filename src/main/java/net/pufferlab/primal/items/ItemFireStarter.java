@@ -14,7 +14,7 @@ import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.events.PacketFireStarter;
-import net.pufferlab.primal.tileentities.TileEntityCampfire;
+import net.pufferlab.primal.tileentities.TileEntityInventory;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -64,8 +64,10 @@ public class ItemFireStarter extends Item {
                 float hitZ = (float) (mop.hitVec.zCoord - mop.blockZ);
                 if (world.rand.nextInt(chance) == 0) {
                     TileEntity te = world.getTileEntity(mop.blockX, mop.blockY, mop.blockZ);
-                    if (te instanceof TileEntityCampfire tef) {
-                        tef.setFired(true);
+                    if (te instanceof TileEntityInventory tef) {
+                        if (tef.canBeFired()) {
+                            tef.setFired(true);
+                        }
                     } else {
                         world.setBlock(x, y, z, Blocks.fire, 0, 2);
                     }

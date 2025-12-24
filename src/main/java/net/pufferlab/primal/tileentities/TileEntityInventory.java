@@ -23,6 +23,10 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         this.maxSize = slots;
     }
 
+    public boolean canBeFired() {
+        return false;
+    }
+
     public void setBlacklistedSlots(int[] blacklistedSlots) {
         this.blacklistedSlots = blacklistedSlots;
     }

@@ -1,5 +1,6 @@
 package net.pufferlab.primal.client.renderer;
 
+import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.client.models.ModelBarrel;
 import net.pufferlab.primal.client.models.ModelPrimal;
 
@@ -10,7 +11,7 @@ public class ItemBarrelRenderer extends ItemPrimalRenderer {
     int barrelMeta = 0;
 
     @Override
-    public ModelPrimal getItemBlockModel() {
+    public ModelPrimal getItemBlockModel(ItemStack stack) {
         return modelBarrel;
     }
 

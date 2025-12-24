@@ -23,8 +23,8 @@ public class MTPitKilnHandler {
 
         @Override
         public void apply() {
-            ItemStack output = PrimalTweaker.get(this.output);
-            List<ItemStack> input = PrimalTweaker.get(this.input);
+            ItemStack output = MTCompat.get(this.output);
+            List<ItemStack> input = MTCompat.get(this.input);
             PitKilnRecipe.removePitKilnRecipe(output, input);
         }
 
@@ -40,8 +40,8 @@ public class MTPitKilnHandler {
 
         @Override
         public void undo() {
-            ItemStack output = PrimalTweaker.get(this.output);
-            List<ItemStack> input = PrimalTweaker.get(this.input);
+            ItemStack output = MTCompat.get(this.output);
+            List<ItemStack> input = MTCompat.get(this.input);
             PitKilnRecipe.addPitKilnRecipe(output, input);
         }
 
@@ -68,8 +68,8 @@ public class MTPitKilnHandler {
 
         @Override
         public void apply() {
-            ItemStack output = PrimalTweaker.get(this.output);
-            List<ItemStack> input = PrimalTweaker.get(this.input);
+            ItemStack output = MTCompat.get(this.output);
+            List<ItemStack> input = MTCompat.get(this.input);
             PitKilnRecipe.addPitKilnRecipe(output, input);
         }
 
@@ -85,8 +85,8 @@ public class MTPitKilnHandler {
 
         @Override
         public void undo() {
-            ItemStack output = PrimalTweaker.get(this.output);
-            List<ItemStack> input = PrimalTweaker.get(this.input);
+            ItemStack output = MTCompat.get(this.output);
+            List<ItemStack> input = MTCompat.get(this.input);
             PitKilnRecipe.removePitKilnRecipe(output, input);
         }
 

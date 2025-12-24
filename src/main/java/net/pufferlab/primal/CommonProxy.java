@@ -3,9 +3,11 @@ package net.pufferlab.primal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.pufferlab.primal.inventory.container.ContainerCrucible;
 import net.pufferlab.primal.inventory.container.ContainerKnapping;
 import net.pufferlab.primal.inventory.container.ContainerLargeVessel;
 import net.pufferlab.primal.recipes.KnappingType;
+import net.pufferlab.primal.tileentities.TileEntityCrucible;
 import net.pufferlab.primal.tileentities.TileEntityLargeVessel;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -18,6 +20,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 public class CommonProxy implements IGuiHandler {
 
     public final int largeVesselContainerID = 0;
+    public final int crucibleContainerID = 1;
 
     public void preInit(FMLPreInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(Primal.instance, Primal.proxy);
@@ -42,6 +45,12 @@ public class CommonProxy implements IGuiHandler {
             TileEntity te = world.getTileEntity(x, y, z);
             if (te instanceof TileEntityLargeVessel tef) {
                 return new ContainerLargeVessel(player.inventory, tef);
+            }
+        }
+        if (ID == crucibleContainerID) {
+            TileEntity te = world.getTileEntity(x, y, z);
+            if (te instanceof TileEntityCrucible tef) {
+                return new ContainerCrucible(player.inventory, tef);
             }
         }
         return null;
@@ -97,6 +106,18 @@ public class CommonProxy implements IGuiHandler {
     }
 
     public int getChimneyRenderID() {
+        return 0;
+    }
+
+    public int getCrucibleRenderID() {
+        return 0;
+    }
+
+    public int getForgeRenderID() {
+        return 0;
+    }
+
+    public int getCastRenderID() {
         return 0;
     }
 }

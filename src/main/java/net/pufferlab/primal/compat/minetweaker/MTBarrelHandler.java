@@ -32,10 +32,10 @@ public class MTBarrelHandler {
 
         @Override
         public void apply() {
-            ItemStack output = PrimalTweaker.get(this.output);
-            FluidStack outputLiquid = PrimalTweaker.get(this.outputLiquid);
-            List<ItemStack> input = PrimalTweaker.get(this.input);
-            FluidStack inputLiquid = PrimalTweaker.get(this.inputLiquid);
+            ItemStack output = MTCompat.get(this.output);
+            FluidStack outputLiquid = MTCompat.get(this.outputLiquid);
+            List<ItemStack> input = MTCompat.get(this.input);
+            FluidStack inputLiquid = MTCompat.get(this.inputLiquid);
             BarrelRecipe.removeBarrelRecipe(output, outputLiquid, input, inputLiquid);
         }
 
@@ -51,10 +51,10 @@ public class MTBarrelHandler {
 
         @Override
         public void undo() {
-            ItemStack output = PrimalTweaker.get(this.output);
-            FluidStack outputLiquid = PrimalTweaker.get(this.outputLiquid);
-            List<ItemStack> input = PrimalTweaker.get(this.input);
-            FluidStack inputLiquid = PrimalTweaker.get(this.inputLiquid);
+            ItemStack output = MTCompat.get(this.output);
+            FluidStack outputLiquid = MTCompat.get(this.outputLiquid);
+            List<ItemStack> input = MTCompat.get(this.input);
+            FluidStack inputLiquid = MTCompat.get(this.inputLiquid);
             BarrelRecipe.addBarrelRecipe(output, outputLiquid, input, inputLiquid, this.processingTime);
         }
 
@@ -88,10 +88,10 @@ public class MTBarrelHandler {
 
         @Override
         public void apply() {
-            ItemStack output = PrimalTweaker.get(this.output);
-            FluidStack outputLiquid = PrimalTweaker.get(this.outputLiquid);
-            List<ItemStack> input = PrimalTweaker.get(this.input);
-            FluidStack inputLiquid = PrimalTweaker.get(this.inputLiquid);
+            ItemStack output = MTCompat.get(this.output);
+            FluidStack outputLiquid = MTCompat.get(this.outputLiquid);
+            List<ItemStack> input = MTCompat.get(this.input);
+            FluidStack inputLiquid = MTCompat.get(this.inputLiquid);
             BarrelRecipe.addBarrelRecipe(output, outputLiquid, input, inputLiquid, this.processingTime);
         }
 
@@ -107,10 +107,10 @@ public class MTBarrelHandler {
 
         @Override
         public void undo() {
-            ItemStack output = PrimalTweaker.get(this.output);
-            FluidStack outputLiquid = PrimalTweaker.get(this.outputLiquid);
-            List<ItemStack> input = PrimalTweaker.get(this.input);
-            FluidStack inputLiquid = PrimalTweaker.get(this.inputLiquid);
+            ItemStack output = MTCompat.get(this.output);
+            FluidStack outputLiquid = MTCompat.get(this.outputLiquid);
+            List<ItemStack> input = MTCompat.get(this.input);
+            FluidStack inputLiquid = MTCompat.get(this.inputLiquid);
             BarrelRecipe.removeBarrelRecipe(output, outputLiquid, input, inputLiquid);
         }
 

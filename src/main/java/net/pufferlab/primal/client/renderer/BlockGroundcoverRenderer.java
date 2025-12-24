@@ -19,6 +19,7 @@ public class BlockGroundcoverRenderer extends BlockPrimalRenderer {
 
     private final ThreadLocal<ModelRock> modelRockThread = ThreadLocal.withInitial(ModelRock::new);
     private final ThreadLocal<ModelRockSmall> modelRock2Thread = ThreadLocal.withInitial(ModelRockSmall::new);
+    private final ThreadLocal<Random> randomThread = ThreadLocal.withInitial(Random::new);
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {}
@@ -28,9 +29,10 @@ public class BlockGroundcoverRenderer extends BlockPrimalRenderer {
         RenderBlocks renderer) {
         ModelRock modelRock = modelRockThread.get();
         ModelRockSmall modelRock2 = modelRock2Thread.get();
+        Random random = randomThread.get();
 
         Tessellator tess = Tessellator.instance;
-        Random rand = Utils.getSeededRandom(x, y, z);
+        Random rand = Utils.getSeededRandom(random, x, y, z);
 
         int meta = world.getBlockMetadata(x, y, z);
         float range = 0.3F;

@@ -1,14 +1,11 @@
 package net.pufferlab.primal.events;
 
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.tileentities.TileEntityCampfire;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -18,14 +15,6 @@ public class CampfireHandler {
     public void playerInteractEventHandler(PlayerInteractEvent event) {
         if (event.action != PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) return;
         ItemStack heldItem = event.entityLiving.getHeldItem();
-        if (heldItem != null) {
-            if (heldItem.getItem() instanceof ItemFlintAndSteel) {
-                TileEntity te = event.world.getTileEntity(event.x, event.y, event.z);
-                if (te instanceof TileEntityCampfire tef) {
-                    tef.setFired(true);
-                }
-            }
-        }
 
         Block block = event.world.getBlock(event.x, event.y, event.z);
         if (!block.hasTileEntity(event.world.getBlockMetadata(event.x, event.y, event.z))) {

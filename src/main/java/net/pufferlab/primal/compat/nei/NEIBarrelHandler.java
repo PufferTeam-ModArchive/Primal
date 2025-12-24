@@ -29,15 +29,15 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
         public BarrelPair(List<ItemStack> ingred, ItemStack ingred2, FluidStack ingredFS, ItemStack result,
             ItemStack result2, FluidStack resultFS, int processingTime) {
             this.ingred = new PositionedStack(ingred, 43, 25, true);
-            this.ingred2 = new PositionedStack(Utils.nullableStack(ingred2), 43, 44, true);
+            this.ingred2 = new PositionedStack(ingred2, 43, 44, true);
             if (result == null & result2 != null) {
-                this.result = new PositionedStack(Utils.nullableStack(result2), 114, 44, false);
+                this.result = new PositionedStack(result2, 114, 44, false);
                 this.resultF = this.result;
             } else if (result != null & result2 == null) {
-                this.result = new PositionedStack(Utils.nullableStack(result), 114, 25, false);
+                this.result = new PositionedStack(result, 114, 25, false);
             } else {
-                this.result = new PositionedStack(Utils.nullableStack(result), 114, 25, false);
-                this.result2 = new PositionedStack(Utils.nullableStack(result2), 114, 44, false);
+                this.result = new PositionedStack(result, 114, 25, false);
+                this.result2 = new PositionedStack(result2, 114, 44, false);
                 this.resultF = this.result2;
             }
             this.processingTime = processingTime;
@@ -93,6 +93,23 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
                         recipe.outputLiquid,
                         recipe.processingTime));
             }
+        } else if (outputId.equals("liquid")) {
+            if (results[0] instanceof FluidStack stack) {
+                List<BarrelRecipe> recipes = BarrelRecipe.getRecipeList();
+                for (BarrelRecipe recipe : recipes) {
+                    if (Utils.containsStack(stack, recipe.outputLiquid)) {
+                        arecipes.add(
+                            new NEIBarrelHandler.BarrelPair(
+                                recipe.input,
+                                recipe.inputLiquidBlock,
+                                recipe.inputLiquid,
+                                recipe.output,
+                                recipe.outputLiquidBlock,
+                                recipe.outputLiquid,
+                                recipe.processingTime));
+                    }
+                }
+            }
         } else super.loadCraftingRecipes(outputId, results);
     }
 
@@ -117,7 +134,24 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
 
     @Override
     public void loadUsageRecipes(String inputID, Object... ingredients) {
-        super.loadUsageRecipes(inputID, ingredients);
+        if (inputID.equals("liquid")) {
+            if (ingredients[0] instanceof FluidStack stack) {
+                List<BarrelRecipe> recipes = BarrelRecipe.getRecipeList();
+                for (BarrelRecipe recipe : recipes) {
+                    if (Utils.containsStack(stack, recipe.inputLiquid)) {
+                        arecipes.add(
+                            new NEIBarrelHandler.BarrelPair(
+                                recipe.input,
+                                recipe.inputLiquidBlock,
+                                recipe.inputLiquid,
+                                recipe.output,
+                                recipe.outputLiquidBlock,
+                                recipe.outputLiquid,
+                                recipe.processingTime));
+                    }
+                }
+            }
+        } else super.loadUsageRecipes(inputID, ingredients);
     }
 
     @Override
@@ -155,6 +189,23 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
     }
 
     @Override
+    public boolean mouseClicked(GuiRecipe<?> gui, int button, int recipe) {
+        boolean isUsage = button == 1;
+        BarrelPair barrelPair = (BarrelPair) arecipes.get(recipe);
+        if (barrelPair.ingred2 != null && barrelPair.ingredFS != null) {
+            if (NEICompat.isHovering(barrelPair.ingred2, gui, recipe)) {
+                return NEICompat.transferFluid(isUsage, barrelPair.ingredFS);
+            }
+        }
+        if (barrelPair.resultF != null && barrelPair.resultFS != null) {
+            if (NEICompat.isHovering(barrelPair.resultF, gui, recipe)) {
+                return NEICompat.transferFluid(isUsage, barrelPair.resultFS);
+            }
+        }
+        return super.mouseClicked(gui, button, recipe);
+    }
+
+    @Override
     public void drawBackground(int recipe) {
         GL11.glColor4f(1, 1, 1, 1);
         changeTexture(getGuiTexture());
@@ -179,12 +230,12 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
     public List<String> handleItemTooltip(GuiRecipe<?> gui, ItemStack stack, List<String> currenttip, int recipe) {
         BarrelPair barrelPair = (BarrelPair) arecipes.get(recipe);
         if (barrelPair.ingred2 != null && barrelPair.ingredFS != null) {
-            if (NEIRegistry.isHovering(barrelPair.ingred2, gui, recipe)) {
+            if (NEICompat.isHovering(barrelPair.ingred2, gui, recipe)) {
                 currenttip.add(EnumChatFormatting.GRAY + "" + barrelPair.ingredFS.amount + " mB");
             }
         }
         if (barrelPair.resultF != null && barrelPair.resultFS != null) {
-            if (NEIRegistry.isHovering(barrelPair.resultF, gui, recipe)) {
+            if (NEICompat.isHovering(barrelPair.resultF, gui, recipe)) {
                 currenttip.add(EnumChatFormatting.GRAY + "" + barrelPair.resultFS.amount + " mB");
             }
         }

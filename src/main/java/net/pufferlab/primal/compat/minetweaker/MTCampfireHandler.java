@@ -23,8 +23,8 @@ public class MTCampfireHandler {
 
         @Override
         public void apply() {
-            ItemStack output = PrimalTweaker.get(this.output);
-            List<ItemStack> input = PrimalTweaker.get(this.input);
+            ItemStack output = MTCompat.get(this.output);
+            List<ItemStack> input = MTCompat.get(this.input);
             CampfireRecipe.removeCampfireRecipe(output, input);
         }
 
@@ -40,8 +40,8 @@ public class MTCampfireHandler {
 
         @Override
         public void undo() {
-            ItemStack output = PrimalTweaker.get(this.output);
-            List<ItemStack> input = PrimalTweaker.get(this.input);
+            ItemStack output = MTCompat.get(this.output);
+            List<ItemStack> input = MTCompat.get(this.input);
             CampfireRecipe.addCampfireRecipe(output, input);
         }
 
@@ -68,8 +68,8 @@ public class MTCampfireHandler {
 
         @Override
         public void apply() {
-            ItemStack output = PrimalTweaker.get(this.output);
-            List<ItemStack> input = PrimalTweaker.get(this.input);
+            ItemStack output = MTCompat.get(this.output);
+            List<ItemStack> input = MTCompat.get(this.input);
             CampfireRecipe.addCampfireRecipe(output, input);
         }
 
@@ -85,8 +85,8 @@ public class MTCampfireHandler {
 
         @Override
         public void undo() {
-            ItemStack output = PrimalTweaker.get(this.output);
-            List<ItemStack> input = PrimalTweaker.get(this.input);
+            ItemStack output = MTCompat.get(this.output);
+            List<ItemStack> input = MTCompat.get(this.input);
             CampfireRecipe.removeCampfireRecipe(output, input);
         }
 

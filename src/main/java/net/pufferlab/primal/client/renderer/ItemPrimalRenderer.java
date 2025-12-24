@@ -8,7 +8,7 @@ import org.lwjgl.opengl.GL11;
 
 public class ItemPrimalRenderer implements IItemRenderer {
 
-    public ModelPrimal getItemBlockModel() {
+    public ModelPrimal getItemBlockModel(ItemStack stack) {
         return null;
     }
 
@@ -25,6 +25,10 @@ public class ItemPrimalRenderer implements IItemRenderer {
         if (item.getItemDamage() == getItemBlockMeta()) {
             return true;
         }
+        return false;
+    }
+
+    public boolean hasBigModel() {
         return false;
     }
 
@@ -47,7 +51,10 @@ public class ItemPrimalRenderer implements IItemRenderer {
                 if (type == ItemRenderType.INVENTORY) {
                     GL11.glTranslatef(0.0F, -0.5F, 0.0F);
                 }
-                getItemBlockModel().render();
+                if (hasBigModel()) {
+                    GL11.glScalef(1.5F, 1.5F, 1.5F);
+                }
+                getItemBlockModel(item).render();
                 GL11.glPopMatrix();
             }
         }

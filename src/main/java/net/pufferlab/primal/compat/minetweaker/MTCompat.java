@@ -15,7 +15,7 @@ import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
 @ZenClass("mods.primal")
-public class PrimalTweaker {
+public class MTCompat {
 
     @ZenMethod
     public static void addCampfireRecipe(IItemStack output, IIngredient input) {

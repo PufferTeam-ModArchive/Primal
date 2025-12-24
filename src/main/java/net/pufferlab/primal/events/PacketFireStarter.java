@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.pufferlab.primal.tileentities.TileEntityCampfire;
+import net.pufferlab.primal.tileentities.TileEntityInventory;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -62,8 +62,10 @@ public class PacketFireStarter implements IMessage, IMessageHandler<PacketFireSt
         world.spawnParticle("smoke", msg.hitX, msg.hitY, msg.hitZ, 0.0F, 0.0F, 0.0F);
         if (msg.success) {
             TileEntity te = world.getTileEntity(msg.x, msg.y, msg.z);
-            if (te instanceof TileEntityCampfire tef) {
-                tef.setFired(true);
+            if (te instanceof TileEntityInventory tef) {
+                if (tef.canBeFired()) {
+                    tef.setFired(true);
+                }
             }
         }
         return null;
