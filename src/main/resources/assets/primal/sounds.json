@@ -17,6 +17,15 @@
             }
         ]
     },
+    "knapping.leather": {
+        "category": "master",
+        "sounds": [
+            {
+                "name": "knapping/leather",
+                "stream": false
+            }
+        ]
+    },
     "dig.charcoal": {
         "category": "master",
         "sounds": [

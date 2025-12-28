@@ -39,6 +39,7 @@ public class ScriptPrimitive implements IScript {
         addOreDict("rock", getItem(Primal.MODID + ":rock:*:1"));
         addOreDict("mold", getItem(Primal.MODID + ":mold:*:1"));
         addOreDict("itemLarge", getModItem("clay_large_vessel", 1));
+        addOreDict("itemLarge", getModItem("clay_crucible", 1));
         addOreDict("itemContainer", getItem(Primal.MODID, "large_vessel", 0, 1));
         addOreDict("itemContainer", getItem(Primal.MODID, "barrel", 0, 1));
         addOreDict("blockColoredWool", getItem("minecraft:wool:*:1"));
@@ -169,6 +170,14 @@ public class ScriptPrimitive implements IScript {
             "C   C",
             "C   C",
             "CCCCC");
+        addKnappingRecipe(
+            KnappingType.clay,
+            getModItem("clay_crucible", 1),
+            "CC CC",
+            "C   C",
+            "C   C",
+            "C   C",
+            "CCCCC");
 
         addKnappingRecipe(
             KnappingType.flint,
@@ -274,6 +283,62 @@ public class ScriptPrimitive implements IScript {
             "CCCCC",
             "CCCCC",
             " CCC ");
+        addKnappingRecipe(
+            KnappingType.leather,
+            getItem("minecraft:leather_helmet"),
+            " CCC ",
+            "CCCCC",
+            "CCCCC",
+            "C   C",
+            "     ");
+        addKnappingRecipe(
+            KnappingType.leather,
+            getItem("minecraft:leather_helmet"),
+            "     ",
+            " CCC ",
+            "CCCCC",
+            "CCCCC",
+            "C   C");
+        addKnappingRecipe(
+            KnappingType.leather,
+            getItem("minecraft:leather_chestplate"),
+            "C   C",
+            "CCCCC",
+            "CCCCC",
+            " CCC ",
+            " CCC ");
+        addKnappingRecipe(
+            KnappingType.leather,
+            getItem("minecraft:leather_leggings"),
+            "CCCCC",
+            "CC CC",
+            "C   C",
+            "C   C",
+            "C   C");
+        addKnappingRecipe(
+            KnappingType.leather,
+            getItem("minecraft:leather_boots"),
+            "C   C",
+            "C   C",
+            "CC CC",
+            "     ",
+            "     ");
+        addKnappingRecipe(
+            KnappingType.leather,
+            getItem("minecraft:leather_boots"),
+            "     ",
+            "C   C",
+            "C   C",
+            "CC CC",
+            "     ");
+        addKnappingRecipe(
+            KnappingType.leather,
+            getItem("minecraft:leather_boots"),
+            "     ",
+            "     ",
+            "C   C",
+            "C   C",
+            "CC CC");
     }
 
     public void addPitKilnRecipes() {
@@ -282,6 +347,7 @@ public class ScriptPrimitive implements IScript {
         addPitKilnRecipe(getItem("minecraft:flower_pot:0:1"), getModItem("clay_flower_pot", 1));
         addPitKilnRecipe(getItem("minecraft:hardened_clay:0:1"), getItem("minecraft:clay:0:1"));
         addPitKilnRecipe(getItem(Primal.MODID, "large_vessel", 0, 1), getModItem("clay_large_vessel", 1));
+        addPitKilnRecipe(getItem(Primal.MODID, "crucible", 0, 1), getModItem("clay_crucible", 1));
     }
 
     public void addEFRPitKilnRecipes() {

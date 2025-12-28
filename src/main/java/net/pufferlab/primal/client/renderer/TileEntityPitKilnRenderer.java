@@ -66,7 +66,7 @@ public class TileEntityPitKilnRenderer extends TileEntitySpecialRenderer {
             this.slotEntity.setEntityItemStack(stack);
             this.slotEntity.hoverStart = 0.0F;
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            if (!Utils.containsStack(stack, Utils.getModItem("clay_large_vessel", 1))
+            if (!Utils.containsStack(stack, Utils.getItem(Primal.MODID, "crucible", 0, 1)) && !Utils.containsStack(stack, Utils.getModItem("clay_crucible", 1)) && !Utils.containsStack(stack, Utils.getModItem("clay_large_vessel", 1))
                 && !Utils.containsStack(stack, Utils.getItem(Primal.MODID, "large_vessel", 0, 1))) {
                 GL11.glTranslated(xAdjust, yAdjust + 0.0625, zAdjust - 0.0975);
                 GL11.glRotatef(90, 1.0F, 0.0F, 0.0F);

@@ -10,6 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -29,7 +30,7 @@ public class BlockCast extends BlockContainer {
         super(Material.clay);
 
         this.setHardness(0.2F);
-        super.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.1F, 1.0F);
+        super.setBlockBounds(0.125F, 0.0F, 0.125F, 0.875F, 0.125F, 0.875F);
     }
 
     @Override
@@ -145,6 +146,24 @@ public class BlockCast extends BlockContainer {
         if (!world.isRemote) {
             world.spawnEntityInWorld((Entity) entityItem);
         }
+    }
+
+    @Override
+    public Item getItem(World worldIn, int x, int y, int z) {
+        TileEntity te = worldIn.getTileEntity(x, y, z);
+        if(te instanceof TileEntityCast tef) {
+            return tef.getLastItem();
+        }
+        return super.getItem(worldIn, x, y, z);
+    }
+
+    @Override
+    public int getDamageValue(World worldIn, int x, int y, int z) {
+        TileEntity te = worldIn.getTileEntity(x, y, z);
+        if(te instanceof TileEntityCast tef) {
+            return tef.getLastItemMeta();
+        }
+        return super.getDamageValue(worldIn, x, y, z);
     }
 
     @Override

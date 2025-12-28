@@ -7,6 +7,9 @@ import java.awt.*;
 import java.util.Collections;
 import java.util.List;
 
+import codechicken.lib.gui.GuiDraw;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
@@ -123,14 +126,30 @@ public class NEIKnappingHandler extends TemplateRecipeHandler {
                 if (currentState) {
                     offsetY2 = 16;
                 }
-                drawTexturedModalRect(
+                changeTexture(type.resourceLocation);
+                drawTexturedModalRect16(
                     absoluteScreenX,
                     absoluteScreenY,
-                    180 + (type.id * 16),
+                    0,
                     offsetY2,
                     iconSize,
                     iconSize);
             }
         }
+    }
+
+    public void drawTexturedModalRect16(int x, int y, int textureX, int textureY, int width, int height)
+    {
+
+        float f = 0.0625F;
+        float f1 = 0.03125F;
+        Gui gui = GuiDraw.gui;
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+        tessellator.addVertexWithUV((double)(x + 0), (double)(y + height), (double)gui.zLevel, (double)((float)(textureX + 0) * f), (double)((float)(textureY + height) * f1));
+        tessellator.addVertexWithUV((double)(x + width), (double)(y + height), (double)gui.zLevel, (double)((float)(textureX + width) * f), (double)((float)(textureY + height) * f1));
+        tessellator.addVertexWithUV((double)(x + width), (double)(y + 0), (double)gui.zLevel, (double)((float)(textureX + width) * f), (double)((float)(textureY + 0) * f1));
+        tessellator.addVertexWithUV((double)(x + 0), (double)(y + 0), (double)gui.zLevel, (double)((float)(textureX + 0) * f), (double)((float)(textureY + 0) * f1));
+        tessellator.draw();
     }
 }
