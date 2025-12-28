@@ -176,17 +176,17 @@ public class Utils {
     public static int getHeatingLevel(int temperature) {
         if (temperature > 1 && temperature < 200) {
             return 1;
-        } else if (temperature > 200 && temperature < 400) {
+        } else if (temperature >= 200 && temperature < 400) {
             return 2;
-        } else if (temperature > 400 && temperature < 600) {
+        } else if (temperature >= 400 && temperature < 600) {
             return 3;
-        } else if (temperature > 600 && temperature < 800) {
+        } else if (temperature >= 600 && temperature < 800) {
             return 4;
-        } else if (temperature > 800 && temperature < 1000) {
+        } else if (temperature >= 800 && temperature < 1000) {
             return 5;
-        } else if (temperature > 1000 && temperature < 1200) {
+        } else if (temperature >= 1000 && temperature < 1200) {
             return 6;
-        } else if (temperature > 1200) {
+        } else if (temperature >= 1200) {
             return 7;
         } else {
             return 0;
