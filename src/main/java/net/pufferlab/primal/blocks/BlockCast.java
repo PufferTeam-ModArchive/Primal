@@ -151,7 +151,7 @@ public class BlockCast extends BlockContainer {
     @Override
     public Item getItem(World worldIn, int x, int y, int z) {
         TileEntity te = worldIn.getTileEntity(x, y, z);
-        if(te instanceof TileEntityCast tef) {
+        if (te instanceof TileEntityCast tef) {
             return tef.getLastItem();
         }
         return super.getItem(worldIn, x, y, z);
@@ -160,7 +160,7 @@ public class BlockCast extends BlockContainer {
     @Override
     public int getDamageValue(World worldIn, int x, int y, int z) {
         TileEntity te = worldIn.getTileEntity(x, y, z);
-        if(te instanceof TileEntityCast tef) {
+        if (te instanceof TileEntityCast tef) {
             return tef.getLastItemMeta();
         }
         return super.getDamageValue(worldIn, x, y, z);

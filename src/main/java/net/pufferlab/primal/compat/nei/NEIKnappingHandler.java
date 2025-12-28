@@ -7,7 +7,6 @@ import java.awt.*;
 import java.util.Collections;
 import java.util.List;
 
-import codechicken.lib.gui.GuiDraw;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
@@ -18,6 +17,7 @@ import net.pufferlab.primal.recipes.KnappingType;
 
 import org.lwjgl.opengl.GL11;
 
+import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
@@ -127,29 +127,42 @@ public class NEIKnappingHandler extends TemplateRecipeHandler {
                     offsetY2 = 16;
                 }
                 changeTexture(type.resourceLocation);
-                drawTexturedModalRect16(
-                    absoluteScreenX,
-                    absoluteScreenY,
-                    0,
-                    offsetY2,
-                    iconSize,
-                    iconSize);
+                drawTexturedModalRect16(absoluteScreenX, absoluteScreenY, 0, offsetY2, iconSize, iconSize);
             }
         }
     }
 
-    public void drawTexturedModalRect16(int x, int y, int textureX, int textureY, int width, int height)
-    {
+    public void drawTexturedModalRect16(int x, int y, int textureX, int textureY, int width, int height) {
 
         float f = 0.0625F;
         float f1 = 0.03125F;
         Gui gui = GuiDraw.gui;
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV((double)(x + 0), (double)(y + height), (double)gui.zLevel, (double)((float)(textureX + 0) * f), (double)((float)(textureY + height) * f1));
-        tessellator.addVertexWithUV((double)(x + width), (double)(y + height), (double)gui.zLevel, (double)((float)(textureX + width) * f), (double)((float)(textureY + height) * f1));
-        tessellator.addVertexWithUV((double)(x + width), (double)(y + 0), (double)gui.zLevel, (double)((float)(textureX + width) * f), (double)((float)(textureY + 0) * f1));
-        tessellator.addVertexWithUV((double)(x + 0), (double)(y + 0), (double)gui.zLevel, (double)((float)(textureX + 0) * f), (double)((float)(textureY + 0) * f1));
+        tessellator.addVertexWithUV(
+            (double) (x + 0),
+            (double) (y + height),
+            (double) gui.zLevel,
+            (double) ((float) (textureX + 0) * f),
+            (double) ((float) (textureY + height) * f1));
+        tessellator.addVertexWithUV(
+            (double) (x + width),
+            (double) (y + height),
+            (double) gui.zLevel,
+            (double) ((float) (textureX + width) * f),
+            (double) ((float) (textureY + height) * f1));
+        tessellator.addVertexWithUV(
+            (double) (x + width),
+            (double) (y + 0),
+            (double) gui.zLevel,
+            (double) ((float) (textureX + width) * f),
+            (double) ((float) (textureY + 0) * f1));
+        tessellator.addVertexWithUV(
+            (double) (x + 0),
+            (double) (y + 0),
+            (double) gui.zLevel,
+            (double) ((float) (textureX + 0) * f),
+            (double) ((float) (textureY + 0) * f1));
         tessellator.draw();
     }
 }
