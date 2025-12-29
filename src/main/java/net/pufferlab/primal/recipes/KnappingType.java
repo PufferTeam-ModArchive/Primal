@@ -14,8 +14,7 @@ public enum KnappingType {
     straw(1, "straw", Utils.getModItem("straw", 2), false, "dig.thatch", 0.5F),
     flint(2, "flint", Utils.getItem("minecraft", "flint", 0, 2), false, "knapping.flint", 0F),
     stone(3, "stone", Utils.getItem("minecraft", "flint", 0, 2), false, "knapping.flint", 0F),
-    leather(4, "leather", Utils.getItem("minecraft", "leather", 0, 5), true, "knapping.leather",
-        0F);
+    leather(4, "leather", Utils.getItem("minecraft", "leather", 0, 5), true, "knapping.leather", 0F);
 
     public final int id;
     public final String name;
