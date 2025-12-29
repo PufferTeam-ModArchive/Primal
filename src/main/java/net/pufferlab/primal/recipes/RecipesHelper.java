@@ -21,11 +21,15 @@ public class RecipesHelper {
             .getRecipeList();
         recipes.removeIf(r -> {
             ItemStack rCopy = r.getRecipeOutput();
+            int size = r.getRecipeSize();
+            if (size > 9) {
+                return false;
+            }
             if (rCopy == null) {
-                return true;
+                return false;
             }
             if (rCopy.getItem() == null) {
-                return true;
+                return false;
             }
             for (ItemStack i : toRemove) {
                 if (Utils.containsStack(rCopy, i)) {
