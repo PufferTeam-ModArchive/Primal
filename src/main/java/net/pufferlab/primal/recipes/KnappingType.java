@@ -25,8 +25,7 @@ public enum KnappingType {
     public final ResourceLocation resourceLocation;
     public final boolean needsKnife;
 
-    KnappingType(int id, String name, ItemStack item, boolean needsKnife, String sound,
-        float pitch) {
+    KnappingType(int id, String name, ItemStack item, boolean needsKnife, String sound, float pitch) {
         this.id = id;
         this.name = name;
         this.item = Objects.requireNonNull(item);
@@ -34,7 +33,8 @@ public enum KnappingType {
         this.needsKnife = needsKnife;
         this.sound = Primal.MODID + ":" + sound;
         this.pitch = pitch;
-        this.resourceLocation = new ResourceLocation(Primal.MODID + ":textures/gui/container/knapping_" + name + ".png");
+        this.resourceLocation = new ResourceLocation(
+            Primal.MODID + ":textures/gui/container/knapping_" + name + ".png");
     }
 
     public boolean equals(KnappingType type) {
