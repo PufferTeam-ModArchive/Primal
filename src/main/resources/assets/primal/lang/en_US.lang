@@ -10,6 +10,8 @@ tile.primal.pit_kiln.name=Pit Kiln
 tile.primal.tanning_frame.name=Tanning Frame
 tile.primal.oven.name=Oven
 tile.primal.brick_chimney.name=Brick Chimney
+tile.primal.crucible.name=Crucible
+tile.primal.forge.name=Forge
 item.primal.knapping_icon.name=Knapping
 
 
@@ -91,6 +93,7 @@ item.primal.scraped_hide.name=Scraped Hide
 item.primal.clay_brick.name=Clay Brick
 item.primal.clay_flower_pot.name=Clay Flower Pot
 item.primal.clay_large_vessel.name=Clay Large Vessel
+item.primal.clay_crucible.name=Clay Crucible
 item.primal.flint_axe.name=Flint Axe
 item.primal.flint_pickaxe.name=Flint Pickaxe
 item.primal.flint_shovel.name=Flint Shovel

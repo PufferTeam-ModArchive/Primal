@@ -7,29 +7,29 @@ import net.pufferlab.primal.client.models.ModelPrimal;
 
 public class ItemCrucibleRenderer extends ItemPrimalRenderer {
 
-    ModelCrucible modelCrucible = new ModelCrucible();
+    ModelCrucible[] modelCrucible = new ModelCrucible[] { new ModelCrucible() };
 
-    int crucibleMeta = 0;
+    int[] crucibleMeta = new int[] { 0 };
 
     @Override
-    public ModelPrimal getItemBlockModel(ItemStack stack) {
+    public ModelPrimal[] getItemBlockModel(ItemStack stack) {
         int heat = Utils.getHeatingLevel(Utils.getTemperatureFromNBT(stack.getTagCompound()));
-        modelCrucible.setType(heat + 2);
+        modelCrucible[0].setType(heat + 2);
         return modelCrucible;
     }
 
     @Override
-    public int getItemBlockMeta() {
+    public int[] getItemBlockMeta() {
         return crucibleMeta;
     }
 
     @Override
-    public boolean isItemBlock() {
+    public boolean isItemBlock(ItemStack stack) {
         return true;
     }
 
     @Override
-    public boolean hasBigModel() {
+    public boolean hasBigModel(ItemStack stack) {
         return true;
     }
 }

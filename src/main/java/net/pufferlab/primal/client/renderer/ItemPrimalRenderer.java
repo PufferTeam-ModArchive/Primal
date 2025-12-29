@@ -2,39 +2,44 @@ package net.pufferlab.primal.client.renderer;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
+import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.client.models.ModelPrimal;
 
 import org.lwjgl.opengl.GL11;
 
 public class ItemPrimalRenderer implements IItemRenderer {
 
-    public ModelPrimal getItemBlockModel(ItemStack stack) {
+    public ModelPrimal[] getItemBlockModel(ItemStack stack) {
         return null;
     }
 
-    public int getItemBlockMeta() {
-        return 0;
+    public int[] getItemBlockMeta() {
+        return null;
     }
 
-    public boolean isItemBlock() {
+    public boolean isItemBlock(ItemStack stack) {
+        return false;
+    }
+
+    public boolean needsNormalItemRender() {
         return false;
     }
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
-        if (item.getItemDamage() == getItemBlockMeta()) {
+        if (Utils.containsExactMatch(getItemBlockMeta(), item.getItemDamage())) {
             return true;
         }
         return false;
     }
 
-    public boolean hasBigModel() {
+    public boolean hasBigModel(ItemStack stack) {
         return false;
     }
 
     @Override
     public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
-        if (item.getItemDamage() == getItemBlockMeta()) {
+        if (Utils.containsExactMatch(getItemBlockMeta(), item.getItemDamage())) {
             return true;
         }
         return false;
@@ -42,8 +47,8 @@ public class ItemPrimalRenderer implements IItemRenderer {
 
     @Override
     public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
-        if (isItemBlock()) {
-            if (item.getItemDamage() == getItemBlockMeta()) {
+        if (isItemBlock(item)) {
+            if (Utils.containsExactMatch(getItemBlockMeta(), item.getItemDamage())) {
                 GL11.glPushMatrix();
                 if (type == ItemRenderType.EQUIPPED || type == ItemRenderType.EQUIPPED_FIRST_PERSON) {
                     GL11.glTranslatef(0.5F, 0.0F, 0.5F);
@@ -51,10 +56,16 @@ public class ItemPrimalRenderer implements IItemRenderer {
                 if (type == ItemRenderType.INVENTORY) {
                     GL11.glTranslatef(0.0F, -0.5F, 0.0F);
                 }
-                if (hasBigModel()) {
+                if (needsNormalItemRender()) {
+                    if (type == ItemRenderType.ENTITY) {
+                        GL11.glScalef(0.5F, 0.5F, 0.5F);
+                    }
+                }
+                if (hasBigModel(item)) {
                     GL11.glScalef(1.5F, 1.5F, 1.5F);
                 }
-                getItemBlockModel(item).render();
+                int index = Utils.getItemFromArray(getItemBlockMeta(), item.getItemDamage());
+                getItemBlockModel(item)[index].render();
                 GL11.glPopMatrix();
             }
         }

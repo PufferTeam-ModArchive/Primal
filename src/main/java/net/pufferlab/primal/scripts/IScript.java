@@ -8,6 +8,8 @@ import net.pufferlab.primal.recipes.*;
 
 public interface IScript {
 
+    int wildcard = OreDictionary.WILDCARD_VALUE;
+
     default ItemStack getItem(String s) {
         return Utils.getItem(s);
     }

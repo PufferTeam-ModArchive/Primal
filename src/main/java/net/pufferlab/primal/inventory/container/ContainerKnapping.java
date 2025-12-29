@@ -4,6 +4,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
+import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.items.ItemKnifePrimitive;
 import net.pufferlab.primal.recipes.KnappingRecipe;
 import net.pufferlab.primal.recipes.KnappingType;
 
@@ -44,9 +46,31 @@ public class ContainerKnapping extends Container {
                 this.playSound(invPlayer.player, this.type.sound, pitch + this.type.pitch);
             }
             ItemStack itemStack = KnappingRecipe.getOutput(this.type, this.knappingIcons);
+            if (this.type.needsKnife) {
+                int knifeIndex = findKnifeIndex();
+                if (knifeIndex == -1) {
+                    itemStack = null;
+                } else {
+                    Utils.damageItemIndex(knifeIndex, 1, invPlayer);
+                }
+            }
             this.craftResult.setInventorySlotContents(0, itemStack);
             this.detectAndSendChanges();
         }
+    }
+
+    public int findKnifeIndex() {
+        int index = -1;
+        for (int i = 0; i < 9; i++) {
+            ItemStack stack = invPlayer.getStackInSlot(i);
+            if (stack != null) {
+                if (Utils.containsOreDict(stack, "toolKnife") || stack.getItem() instanceof ItemKnifePrimitive) {
+                    index = i;
+                }
+            }
+
+        }
+        return index;
     }
 
     public void resetKnapping() {

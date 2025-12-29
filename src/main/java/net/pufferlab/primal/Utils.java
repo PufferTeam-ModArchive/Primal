@@ -5,15 +5,19 @@ import java.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.stats.StatList;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.blocks.BlockPile;
@@ -171,6 +175,28 @@ public class Utils {
             }
         }
         return tooltip;
+    }
+
+    public static void damageItemIndex(int index, int amount, InventoryPlayer invPlayer) {
+        if (!(invPlayer.player.capabilities.isCreativeMode)) {
+            ItemStack stack = invPlayer.getStackInSlot(index);
+            if (stack.isItemStackDamageable()) {
+                if (stack.attemptDamageItem(amount, invPlayer.player.getRNG())) {
+                    invPlayer.player.renderBrokenItemStack(stack);
+                    --stack.stackSize;
+
+                    if (invPlayer.player != null) {
+                        EntityPlayer entityplayer = (EntityPlayer) invPlayer.player;
+                        entityplayer.addStat(StatList.objectBreakStats[Item.getIdFromItem(stack.getItem())], 1);
+                    }
+                    if (stack.stackSize <= 0) {
+                        invPlayer.setInventorySlotContents(index, (ItemStack) null);
+                        MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(invPlayer.player, stack));
+                    }
+                }
+
+            }
+        }
     }
 
     public static int getHeatingLevel(int temperature) {
@@ -668,6 +694,15 @@ public class Utils {
     public static int getItemFromArray(Block[] woodType, Block wood) {
         for (int i = 0; i < woodType.length; i++) {
             if (woodType[i] == null) continue;
+            if (woodType[i] == wood) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    public static int getItemFromArray(int[] woodType, int wood) {
+        for (int i = 0; i < woodType.length; i++) {
             if (woodType[i] == wood) {
                 return i;
             }

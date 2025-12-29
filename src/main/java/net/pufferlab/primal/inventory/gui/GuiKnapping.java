@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL11;
 
 public class GuiKnapping extends GuiContainer {
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation(
+    private static final ResourceLocation texture = new ResourceLocation(
         Primal.MODID,
         "textures/gui/container/knapping.png");
 
@@ -29,7 +29,7 @@ public class GuiKnapping extends GuiContainer {
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F); // Reset color
         this.mc.getTextureManager()
-            .bindTexture(TEXTURE);
+            .bindTexture(texture);
         int u = (width - xSize) / 2;
         int v = (height - ySize) / 2;
         this.drawTexturedModalRect(u, v, 0, 0, xSize, ySize);
@@ -60,8 +60,17 @@ public class GuiKnapping extends GuiContainer {
             int clickedY = relativeY / step;
 
             if (!this.containerKnapping.knappingIcons[clickedX][clickedY]) {
-                this.containerKnapping.knappingIcons[clickedX][clickedY] = true;
-                this.sendKnappingPacket(clickedX, clickedY);
+                boolean newState = true;
+                if (this.containerKnapping.type.needsKnife) {
+                    int knifeIndex = containerKnapping.findKnifeIndex();
+                    if (knifeIndex == -1) {
+                        newState = false;
+                    }
+                }
+                if (newState) {
+                    this.containerKnapping.knappingIcons[clickedX][clickedY] = true;
+                    this.sendKnappingPacket(clickedX, clickedY);
+                }
             }
         }
     }

@@ -6,22 +6,22 @@ import net.pufferlab.primal.client.models.ModelPrimal;
 
 public class ItemForgeRenderer extends ItemPrimalRenderer {
 
-    ModelForge modelForge = new ModelForge();
+    ModelForge[] modelForge = new ModelForge[] { new ModelForge() };
 
-    int forgeMeta = 0;
+    int[] forgeMeta = new int[] { 0 };
 
     @Override
-    public ModelPrimal getItemBlockModel(ItemStack stack) {
+    public ModelPrimal[] getItemBlockModel(ItemStack stack) {
         return modelForge;
     }
 
     @Override
-    public int getItemBlockMeta() {
+    public int[] getItemBlockMeta() {
         return forgeMeta;
     }
 
     @Override
-    public boolean isItemBlock() {
+    public boolean isItemBlock(ItemStack stack) {
         return true;
     }
 

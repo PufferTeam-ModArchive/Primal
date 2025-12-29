@@ -6,22 +6,22 @@ import net.pufferlab.primal.client.models.ModelPrimal;
 
 public class ItemBarrelRenderer extends ItemPrimalRenderer {
 
-    ModelBarrel modelBarrel = new ModelBarrel();
+    ModelBarrel[] modelBarrel = new ModelBarrel[] { new ModelBarrel() };
 
-    int barrelMeta = 0;
+    int[] barrelMeta = new int[] { 0 };
 
     @Override
-    public ModelPrimal getItemBlockModel(ItemStack stack) {
+    public ModelPrimal[] getItemBlockModel(ItemStack stack) {
         return modelBarrel;
     }
 
     @Override
-    public int getItemBlockMeta() {
+    public int[] getItemBlockMeta() {
         return barrelMeta;
     }
 
     @Override
-    public boolean isItemBlock() {
+    public boolean isItemBlock(ItemStack stack) {
         return true;
     }
 

@@ -6,22 +6,22 @@ import net.pufferlab.primal.client.models.ModelPrimal;
 
 public class ItemLargeVesselRenderer extends ItemPrimalRenderer {
 
-    ModelLargeVessel modelLargeVessel = new ModelLargeVessel();
+    ModelLargeVessel[] modelLargeVessel = new ModelLargeVessel[] { new ModelLargeVessel() };
 
-    int largeVesselMeta = 0;
+    int[] largeVesselMeta = new int[] { 0 };
 
     @Override
-    public ModelPrimal getItemBlockModel(ItemStack stack) {
+    public ModelPrimal[] getItemBlockModel(ItemStack stack) {
         return modelLargeVessel;
     }
 
     @Override
-    public int getItemBlockMeta() {
+    public int[] getItemBlockMeta() {
         return largeVesselMeta;
     }
 
     @Override
-    public boolean isItemBlock() {
+    public boolean isItemBlock(ItemStack stack) {
         return true;
     }
 

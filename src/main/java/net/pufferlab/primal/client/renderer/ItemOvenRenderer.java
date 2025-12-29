@@ -6,22 +6,22 @@ import net.pufferlab.primal.client.models.ModelPrimal;
 
 public class ItemOvenRenderer extends ItemPrimalRenderer {
 
-    ModelOven modelOven = new ModelOven();
+    ModelOven[] modelOven = new ModelOven[] { new ModelOven() };
 
-    int ovenMeta = 0;
+    int[] ovenMeta = new int[] { 0 };
 
     @Override
-    public ModelPrimal getItemBlockModel(ItemStack stack) {
+    public ModelPrimal[] getItemBlockModel(ItemStack stack) {
         return modelOven;
     }
 
     @Override
-    public int getItemBlockMeta() {
+    public int[] getItemBlockMeta() {
         return ovenMeta;
     }
 
     @Override
-    public boolean isItemBlock() {
+    public boolean isItemBlock(ItemStack stack) {
         return true;
     }
 }
