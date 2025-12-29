@@ -99,13 +99,17 @@ public class NEICompat implements IConfigureNEI {
     public static boolean isHovering(PositionedStack stack, GuiRecipe gui, int recipeId) {
         if (stack == null) return false;
 
+        return isHovering(stack.relx, stack.rely, gui, recipeId);
+    }
+
+    public static boolean isHovering(int relX, int relY, GuiRecipe gui, int recipeId) {
         Point mouse = GuiDraw.getMousePosition();
         Point offset = gui.getRecipePosition(recipeId);
 
         int mouseX = mouse.x + 1;
         int mouseY = mouse.y + 1;
-        int x = gui.guiLeft + offset.x + stack.relx;
-        int y = gui.guiTop + offset.y + stack.rely;
+        int x = gui.guiLeft + offset.x + relX;
+        int y = gui.guiTop + offset.y + relY;
 
         return mouseX >= x && mouseX < x + 18 && mouseY >= y && mouseY < y + 18;
     }

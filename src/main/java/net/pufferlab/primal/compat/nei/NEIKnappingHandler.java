@@ -10,8 +10,10 @@ import java.util.List;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.inventory.gui.GuiKnapping;
 import net.pufferlab.primal.recipes.KnappingRecipe;
 import net.pufferlab.primal.recipes.KnappingType;
 
@@ -19,6 +21,7 @@ import org.lwjgl.opengl.GL11;
 
 import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.PositionedStack;
+import codechicken.nei.recipe.GuiRecipe;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
 public class NEIKnappingHandler extends TemplateRecipeHandler {
@@ -50,7 +53,7 @@ public class NEIKnappingHandler extends TemplateRecipeHandler {
 
     @Override
     public void loadTransferRects() {
-        transferRects.add(new RecipeTransferRect(new Rectangle(80, 8, 48, 48), Primal.MODID + ".knapping"));
+        transferRects.add(new RecipeTransferRect(new Rectangle(80, 34, 48, 28), Primal.MODID + ".knapping"));
     }
 
     @Override
@@ -103,6 +106,18 @@ public class NEIKnappingHandler extends TemplateRecipeHandler {
     }
 
     @Override
+    public List<String> handleItemTooltip(GuiRecipe<?> gui, ItemStack stack, List<String> currenttip, int recipe) {
+        NEIKnappingHandler.KnappingPair knappingPair = (NEIKnappingHandler.KnappingPair) arecipes.get(recipe);
+        boolean needsKnife = knappingPair.type.needsKnife;
+        if (needsKnife) {
+            if (NEICompat.isHovering(120, 10, gui, recipe)) {
+                currenttip.add(EnumChatFormatting.GRAY + "Needs Knife in Inventory");
+            }
+        }
+        return currenttip;
+    }
+
+    @Override
     public void drawBackground(int recipe) {
         KnappingPair pair = (KnappingPair) arecipes.get(recipe);
         GL11.glColor4f(1, 1, 1, 1);
@@ -116,6 +131,11 @@ public class NEIKnappingHandler extends TemplateRecipeHandler {
         final int offsetY = 10;
         final int iconSize = 16;
         final int step = 16;
+
+        if (type.needsKnife) {
+            changeTexture(GuiKnapping.textureKnife);
+            drawTexturedModalRect16(120, 10, 0, 0, iconSize, iconSize);
+        }
 
         for (int x = 0; x < 5; x++) {
             for (int y = 0; y < 5; y++) {

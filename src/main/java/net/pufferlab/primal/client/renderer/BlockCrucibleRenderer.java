@@ -64,7 +64,11 @@ public class BlockCrucibleRenderer extends BlockPrimalRenderer {
                     offsetY = 0.125F + 0.0625F * (4 - blockBelowMeta);
                 }
                 int heatingLevel = Utils.getHeatingLevel(tef.temperature);
-                modelCrucible.render(renderer, tess, block, x, y, z, 0.0F, -offsetY, 0.0F, 99 + heatingLevel);
+                int index = 99;
+                if (heatingLevel > 0) {
+                    index = 98;
+                }
+                modelCrucible.render(renderer, tess, block, x, y, z, 0.0F, -offsetY, 0.0F, index);
             }
         }
         return true;

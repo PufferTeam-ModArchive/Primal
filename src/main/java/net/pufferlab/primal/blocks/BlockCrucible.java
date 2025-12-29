@@ -54,7 +54,7 @@ public class BlockCrucible extends BlockContainer {
 
     @Override
     public IIcon getIcon(IBlockAccess worldIn, int x, int y, int z, int side) {
-        if (side > 99) {
+        if (side == 98) {
             TileEntity te = worldIn.getTileEntity(x, y, z);
             if (te instanceof TileEntityCrucible tef) {
                 int heatingLevel = Utils.getHeatingLevel(tef.temperature);

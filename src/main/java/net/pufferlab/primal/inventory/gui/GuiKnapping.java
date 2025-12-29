@@ -3,6 +3,7 @@ package net.pufferlab.primal.inventory.gui;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.events.PacketKnappingClick;
@@ -15,6 +16,9 @@ public class GuiKnapping extends GuiContainer {
     private static final ResourceLocation texture = new ResourceLocation(
         Primal.MODID,
         "textures/gui/container/knapping.png");
+    public static final ResourceLocation textureKnife = new ResourceLocation(
+        Primal.MODID,
+        "textures/gui/container/knapping_needs_knife.png");
 
     ContainerKnapping containerKnapping;
 
@@ -42,6 +46,11 @@ public class GuiKnapping extends GuiContainer {
     final int iconSize = 16;
     final int step = 16;
     final int gridSize = 5;
+
+    @Override
+    protected void renderToolTip(ItemStack itemIn, int x, int y) {
+        super.renderToolTip(itemIn, x, y);
+    }
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int button) {
