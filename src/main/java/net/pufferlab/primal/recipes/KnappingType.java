@@ -1,5 +1,8 @@
 package net.pufferlab.primal.recipes;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import net.minecraft.item.Item;
@@ -8,13 +11,47 @@ import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
 
-public enum KnappingType {
+public class KnappingType {
 
-    clay(0, "clay", Utils.getItem("minecraft", "clay_ball", 0, 5), false, "knapping.clay", -0.3F),
-    straw(1, "straw", Utils.getModItem("straw", 2), false, "dig.thatch", 0.5F),
-    flint(2, "flint", Utils.getItem("minecraft", "flint", 0, 2), false, "knapping.flint", 0F),
-    stone(3, "stone", Utils.getItem("minecraft", "flint", 0, 2), false, "knapping.flint", 0F),
-    leather(4, "leather", Utils.getItem("minecraft", "leather", 0, 5), true, "knapping.leather", 0F);
+    public static final KnappingType clay = new KnappingType(
+        0,
+        "clay",
+        Utils.getItem("minecraft", "clay_ball", 0, 5),
+        false,
+        "knapping.clay",
+        -0.3F);
+    public static final KnappingType straw = new KnappingType(
+        1,
+        "straw",
+        Utils.getModItem("straw", 2),
+        false,
+        "dig.thatch",
+        0.5F);
+    public static final KnappingType flint = new KnappingType(
+        2,
+        "flint",
+        Utils.getItem("minecraft", "flint", 0, 2),
+        false,
+        "knapping.flint",
+        0F);
+    public static final KnappingType stone = new KnappingType(
+        3,
+        "stone",
+        Utils.getItem("minecraft", "flint", 0, 2),
+        false,
+        "knapping.flint",
+        0F);
+    public static final KnappingType leather = new KnappingType(
+        4,
+        "leather",
+        Utils.getItem("minecraft", "leather", 0, 5),
+        true,
+        "knapping.leather",
+        0F);
+    private static final List<KnappingType> values = new ArrayList<>(Arrays.asList(clay, straw, flint, stone, leather));
+
+    private static int nextId = 10;
+    private static final int idOffset = 100;
 
     public final int id;
     public final String name;
@@ -25,16 +62,15 @@ public enum KnappingType {
     public final ResourceLocation resourceLocation;
     public final boolean needsKnife;
 
-    KnappingType(int id, String name, ItemStack item, boolean needsKnife, String sound, float pitch) {
+    public KnappingType(int id, String name, ItemStack item, boolean needsKnife, String sound, float pitch) {
         this.id = id;
-        this.name = name;
+        this.name = name.toLowerCase();
         this.item = Objects.requireNonNull(item);
         this.amount = item.stackSize;
         this.needsKnife = needsKnife;
         this.sound = Primal.MODID + ":" + sound;
         this.pitch = pitch;
-        this.resourceLocation = new ResourceLocation(
-            Primal.MODID + ":textures/gui/container/knapping_" + name + ".png");
+        this.resourceLocation = new ResourceLocation(Primal.MODID, "textures/gui/container/knapping_" + name + ".png");
     }
 
     public boolean equals(KnappingType type) {
@@ -45,26 +81,51 @@ public enum KnappingType {
         return item.getItem();
     }
 
+    public static KnappingType getNewType(String name, ItemStack item, boolean needsKnife, String sound, float pitch) {
+        return new KnappingType(nextId++, name, item, needsKnife, sound, pitch);
+    }
+
+    public static void addType(KnappingType type) {
+        boolean isDuplicate = false;
+        for (KnappingType t : values) {
+            if (Utils.containsStack(t.item, type.item) || (t.name.equalsIgnoreCase(type.name))) {
+                isDuplicate = true;
+            }
+        }
+        if (!isDuplicate) {
+            values.add(type);
+        }
+    }
+
+    public static void removeType(KnappingType type) {
+        values.removeIf(r -> {
+            if (r.equals(type)) {
+                return true;
+            }
+            return false;
+        });
+    }
+
     public static int getHandler(KnappingType type) {
-        return type.id + 100;
+        return type.id + idOffset;
     }
 
     public static KnappingType getHandler(int id) {
-        for (KnappingType t : values()) {
-            if (t.id == (id - 100)) return t;
+        for (KnappingType t : values) {
+            if (t.id == (id - idOffset)) return t;
         }
         return null;
     }
 
     public static KnappingType getType(ItemStack stack) {
-        for (KnappingType t : values()) {
+        for (KnappingType t : values) {
             if (Utils.containsStack(t.item, stack) && t.amount <= stack.stackSize) return t;
         }
         return null;
     }
 
     public static KnappingType getType(String name) {
-        for (KnappingType t : values()) {
+        for (KnappingType t : values) {
             if (t.name.equalsIgnoreCase(name)) return t;
         }
         return null;

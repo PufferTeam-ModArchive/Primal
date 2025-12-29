@@ -1,6 +1,5 @@
 package net.pufferlab.primal;
 
-import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.events.*;
 import net.pufferlab.primal.scripts.ScriptRegistry;
 
@@ -70,9 +69,5 @@ public class Primal {
     @Mod.EventHandler
     public void serverStarting(FMLServerStartingEvent event) {
         proxy.serverStarting(event);
-    }
-
-    public static ResourceLocation asResource(String path) {
-        return new ResourceLocation(MODID, path);
     }
 }

@@ -9,8 +9,21 @@ public class KnappingRecipe {
 
     private static final List<KnappingRecipe> recipeList = new ArrayList<>();
 
+    public static void addKnappingRecipe(KnappingType type, ItemStack item, boolean[][] icons) {
+        recipeList.add(new KnappingRecipe(type, item, icons));
+    }
+
     public static void addKnappingRecipe(KnappingType type, ItemStack item, String... rows) {
         recipeList.add(new KnappingRecipe(type, item, rows));
+    }
+
+    public static void removeKnappingRecipe(KnappingType type, ItemStack item, boolean[][] icons) {
+        recipeList.removeIf(r -> {
+            if (r.equals(type, icons)) {
+                return true;
+            }
+            return false;
+        });
     }
 
     public static ItemStack getOutput(KnappingType type, boolean[][] icons) {
@@ -26,19 +39,31 @@ public class KnappingRecipe {
         return recipeList;
     }
 
-    public boolean[][] pattern = new boolean[5][5];
-    public ItemStack output;
-    public KnappingType type;
-
-    public KnappingRecipe(KnappingType type, ItemStack output, String... rows) {
+    public static boolean[][] getKnappingPattern(String... rows) {
+        boolean[][] pattern = new boolean[5][5];
         for (int i = 0; i < rows.length; i++) {
             char[] charArray = rows[i].toCharArray();
             for (int j = 0; j < charArray.length; j++) {
                 pattern[j][i] = charArray[j] == ' ';
             }
         }
+        return pattern;
+    }
+
+    public boolean[][] pattern;
+    public ItemStack output;
+    public KnappingType type;
+
+    public KnappingRecipe(KnappingType type, ItemStack output, String... rows) {
         this.output = output;
         this.type = type;
+        this.pattern = getKnappingPattern(rows);
+    }
+
+    public KnappingRecipe(KnappingType type, ItemStack output, boolean[][] rows) {
+        this.output = output;
+        this.type = type;
+        this.pattern = rows;
     }
 
     public boolean equals(KnappingType type, boolean[][] pattern2) {

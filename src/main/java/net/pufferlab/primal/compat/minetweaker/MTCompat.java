@@ -18,6 +18,32 @@ import stanhebben.zenscript.annotations.ZenMethod;
 public class MTCompat {
 
     @ZenMethod
+    public static void registerKnappingType(String name, IItemStack item, boolean needsKnife, String sound,
+        float pitch) {
+        MineTweakerAPI.apply(new MTKnappingHandler.RegisterType(name, item, needsKnife, sound, pitch));
+    }
+
+    @ZenMethod
+    public static void registerKnappingType(String name, IItemStack item, boolean needsKnife) {
+        MineTweakerAPI.apply(new MTKnappingHandler.RegisterType(name, item, needsKnife));
+    }
+
+    @ZenMethod
+    public static void registerKnappingType(String name, IItemStack item) {
+        MineTweakerAPI.apply(new MTKnappingHandler.RegisterType(name, item));
+    }
+
+    @ZenMethod
+    public static void addKnappingRecipe(String type, IItemStack output, String... rows) {
+        MineTweakerAPI.apply(new MTKnappingHandler.AddRecipe(type, output, rows));
+    }
+
+    @ZenMethod
+    public static void removeKnappingRecipe(String type, IItemStack output, String... rows) {
+        MineTweakerAPI.apply(new MTKnappingHandler.RemoveRecipe(type, output, rows));
+    }
+
+    @ZenMethod
     public static void addCampfireRecipe(IItemStack output, IIngredient input) {
         MineTweakerAPI.apply(new MTCampfireHandler.AddRecipe(output, input));
     }

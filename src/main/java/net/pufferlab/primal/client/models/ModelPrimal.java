@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.helper.ModelTESS;
@@ -73,7 +74,8 @@ public abstract class ModelPrimal extends ModelBase {
     }
 
     public void bindTex() {
-        Minecraft.getMinecraft().renderEngine.bindTexture(Primal.asResource("textures/" + getName() + ".png"));
+        Minecraft.getMinecraft().renderEngine
+            .bindTexture(new ResourceLocation(Primal.MODID, "textures/" + getName() + ".png"));
     }
 
     public ModelPrimal setType(int type) {
