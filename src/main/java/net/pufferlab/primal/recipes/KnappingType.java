@@ -14,35 +14,30 @@ import net.pufferlab.primal.Utils;
 public class KnappingType {
 
     public static final KnappingType clay = new KnappingType(
-        0,
         "clay",
         Utils.getItem("minecraft", "clay_ball", 0, 5),
         false,
         "knapping.clay",
         -0.3F);
     public static final KnappingType straw = new KnappingType(
-        1,
         "straw",
         Utils.getModItem("straw", 2),
         false,
         "dig.thatch",
         0.5F);
     public static final KnappingType flint = new KnappingType(
-        2,
         "flint",
         Utils.getItem("minecraft", "flint", 0, 2),
         false,
         "knapping.flint",
         0F);
     public static final KnappingType stone = new KnappingType(
-        3,
         "stone",
         Utils.getItem("minecraft", "flint", 0, 2),
         false,
         "knapping.flint",
         0F);
     public static final KnappingType leather = new KnappingType(
-        4,
         "leather",
         Utils.getItem("minecraft", "leather", 0, 5),
         true,
@@ -50,7 +45,7 @@ public class KnappingType {
         0F);
     private static final List<KnappingType> values = new ArrayList<>(Arrays.asList(clay, straw, flint, stone, leather));
 
-    private static int nextId = 10;
+    private static int nextId = 0;
     private static final int idOffset = 100;
 
     public final int id;
@@ -62,8 +57,8 @@ public class KnappingType {
     public final ResourceLocation resourceLocation;
     public final boolean needsKnife;
 
-    public KnappingType(int id, String name, ItemStack item, boolean needsKnife, String sound, float pitch) {
-        this.id = id;
+    public KnappingType(String name, ItemStack item, boolean needsKnife, String sound, float pitch) {
+        this.id = nextId++;
         this.name = name.toLowerCase();
         this.item = Objects.requireNonNull(item);
         this.amount = item.stackSize;
@@ -82,7 +77,7 @@ public class KnappingType {
     }
 
     public static KnappingType getNewType(String name, ItemStack item, boolean needsKnife, String sound, float pitch) {
-        return new KnappingType(nextId++, name, item, needsKnife, sound, pitch);
+        return new KnappingType(name, item, needsKnife, sound, pitch);
     }
 
     public static void addType(KnappingType type) {
