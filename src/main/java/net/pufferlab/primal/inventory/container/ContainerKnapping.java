@@ -44,16 +44,14 @@ public class ContainerKnapping extends Container {
                 this.knappingIcons[x][y] = true;
                 float pitch = 0.7F + (invPlayer.player.worldObj.rand.nextFloat() * 0.3F);
                 this.playSound(invPlayer.player, this.type.sound, pitch + this.type.pitch);
-            }
-            ItemStack itemStack = KnappingRecipe.getOutput(this.type, this.knappingIcons);
-            if (this.type.needsKnife) {
-                int knifeIndex = findKnifeIndex();
-                if (knifeIndex == -1) {
-                    itemStack = null;
-                } else {
-                    Utils.damageItemIndex(knifeIndex, 1, invPlayer);
+                if (this.type.needsKnife) {
+                    int knifeIndex = findKnifeIndex();
+                    if (knifeIndex != -1) {
+                        Utils.damageItemIndex(knifeIndex, 1, invPlayer);
+                    }
                 }
             }
+            ItemStack itemStack = KnappingRecipe.getOutput(this.type, this.knappingIcons);
             this.craftResult.setInventorySlotContents(0, itemStack);
             this.detectAndSendChanges();
         }
