@@ -14,7 +14,8 @@ import net.pufferlab.primal.Utils;
 public class TileEntityInventory extends TileEntityMetaFacing implements IInventory, ISidedInventory {
 
     private ItemStack[] inventory;
-    private int[] blacklistedSlots;
+    private int[] inputSlots;
+    private int[] outputSlots;
     private int maxSize;
     public boolean isFired;
 
@@ -27,8 +28,12 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         return false;
     }
 
-    public void setBlacklistedSlots(int[] blacklistedSlots) {
-        this.blacklistedSlots = blacklistedSlots;
+    public void setInputSlots(int... inputSlots) {
+        this.inputSlots = inputSlots;
+    }
+
+    public void setOutputSlots(int... outputSlots) {
+        this.outputSlots = outputSlots;
     }
 
     public int getSize() {
@@ -379,24 +384,33 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
 
     @Override
     public boolean isItemValidForSlot(int index, ItemStack stack) {
-        if (!Utils.containsExactMatch(blacklistedSlots, index)) {
+        if (inputSlots == null && outputSlots == null) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int[] getAccessibleSlotsFromSide(int side) {
+        if (this.inputSlots == null && this.outputSlots != null) return this.outputSlots;
+        if (this.inputSlots != null && this.outputSlots == null) return this.inputSlots;
+        if (this.inputSlots == null && this.outputSlots == null) return new int[] { 0 };
+        return Utils.combineArrays(this.inputSlots, this.outputSlots);
+    }
+
+    @Override
+    public boolean canInsertItem(int slot, ItemStack p_102007_2_, int side) {
+        if (Utils.containsExactMatch(this.inputSlots, slot)) {
             return true;
         }
         return false;
     }
 
     @Override
-    public int[] getAccessibleSlotsFromSide(int side) {
-        return new int[0];
-    }
-
-    @Override
-    public boolean canInsertItem(int slot, ItemStack p_102007_2_, int side) {
-        return false;
-    }
-
-    @Override
     public boolean canExtractItem(int slot, ItemStack p_102008_2_, int side) {
+        if (Utils.containsExactMatch(this.outputSlots, slot)) {
+            return true;
+        }
         return false;
     }
 }

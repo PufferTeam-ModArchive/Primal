@@ -11,12 +11,10 @@ import net.pufferlab.primal.recipes.PitKilnRecipe;
 public class TileEntityPitKiln extends TileEntityInventory {
 
     public int timePassed;
-    int timeToSmelt = 20 * 30;
-    private static final int[] blacklistedSlots = new int[] { 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+    int timeToSmelt = 20 * 60;
 
     public TileEntityPitKiln() {
         super(13);
-        setBlacklistedSlots(blacklistedSlots);
     }
 
     @Override
@@ -86,6 +84,11 @@ public class TileEntityPitKiln extends TileEntityInventory {
             }
             this.markDirty();
         }
+    }
+
+    @Override
+    public boolean canBeFired() {
+        return true;
     }
 
     @Override

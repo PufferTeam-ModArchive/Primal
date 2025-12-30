@@ -12,14 +12,14 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
     public boolean isFloorBarrel = false;
     public boolean isOpen = false;
     private final FluidTank tankOutput;
-    private static final int[] blacklistedSlots = new int[] { 1 };
     public int timePassed;
     public int timePassedRain;
 
     public TileEntityBarrel() {
         super(10000, 2);
         tankOutput = new FluidTank(10000);
-        setBlacklistedSlots(blacklistedSlots);
+        this.setInputSlots(0);
+        this.setOutputSlots(1);
     }
 
     @Override

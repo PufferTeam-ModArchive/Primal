@@ -176,6 +176,11 @@ public class TileEntityLogPile extends TileEntityInventory {
     }
 
     @Override
+    public boolean canBeFired() {
+        return true;
+    }
+
+    @Override
     public int getInventoryStackLimit() {
         return 1;
     }

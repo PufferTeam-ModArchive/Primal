@@ -7,12 +7,9 @@ import net.pufferlab.primal.recipes.CampfireRecipe;
 
 public class TileEntityCampfire extends TileEntityInventory {
 
-    private static final int[] blacklistedSlots = new int[] { 0, 1, 2, 3, 4, 5 };
-
     public TileEntityCampfire() {
         super(10);
         this.isBuilt = false;
-        setBlacklistedSlots(blacklistedSlots);
     }
 
     public int timeFired;

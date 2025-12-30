@@ -9,17 +9,17 @@ public class RenderTemperature {
 
     public static float getIntensity(float temperature) {
         float minTemp = 200f;
-        float maxTemp = 1200f;
+        float maxTemp = 1500f;
         float p = temperature / 200f;
         float t = (temperature - minTemp) / (maxTemp - minTemp) + (0.3F * p);
         return Math.max(0, Math.min(1, t));
     }
 
     public static int[][] stops = { { 0, 0, 0 }, { 170, 0, 0 }, // cold-ish heat
-        { 190, 115, 0 }, // mid
-        { 215, 215, 180 } // hot
+        { 190, 110, 0 }, // mid
+        { 200, 215, 180 } // hot
     };
-    public static float[] stopPositions = { 0.0F, 0.3F, 0.7f, 1f };
+    public static float[] stopPositions = { 0.0F, 0.5F, 0.8f, 1f };
 
     public static int getHeatingColor(float temperature) {
         int level = Utils.getHeatingLevel((int) temperature);

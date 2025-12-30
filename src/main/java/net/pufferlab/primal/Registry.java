@@ -213,6 +213,7 @@ public class Registry {
         registerEvent(new GroundcoverRockHandler());
         registerEvent(new MobDropHandler());
         registerEvent(new CastHandler());
+        registerEvent(new TemperatureHandler());
     }
 
     public void setupPackets() {

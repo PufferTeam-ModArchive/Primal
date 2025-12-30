@@ -577,6 +577,7 @@ public class Utils {
     }
 
     public static boolean containsExactMatch(int[] array, int targetString) {
+        if (array == null) return false;
         for (int element : array) {
             if (targetString == element) {
                 return true;
@@ -722,6 +723,13 @@ public class Utils {
 
     public static int rgbToInt(int r, int g, int b) {
         return (r << 16) | (g << 8) | b;
+    }
+
+    public static int[] combineArrays(int[] a, int[] b) {
+        int[] result = new int[a.length + b.length];
+        System.arraycopy(a, 0, result, 0, a.length);
+        System.arraycopy(b, 0, result, a.length, b.length);
+        return result;
     }
 
     public static String getItemKey(ItemStack itemstack) {
