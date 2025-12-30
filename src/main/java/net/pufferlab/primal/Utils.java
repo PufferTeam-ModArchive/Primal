@@ -6,7 +6,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -92,38 +91,38 @@ public class Utils {
         return getItem(mod, item, meta, number);
     }
 
-    public static ItemStack getModItem(String wood, int number) {
-        if (Utils.containsExactMatch(Constants.strawItems, wood)) {
-            return getItem(Primal.MODID, "straw", Utils.getItemFromArray(Constants.strawItems, wood), number);
+    public static ItemStack getModItem(String name, int number) {
+        if (Utils.contains(Constants.strawItems, name)) {
+            return getItem(Primal.MODID, "straw", Utils.getIndex(Constants.strawItems, name), number);
         }
-        if (Utils.containsExactMatch(Constants.hideItems, wood)) {
-            return getItem(Primal.MODID, "hide", Utils.getItemFromArray(Constants.hideItems, wood), number);
+        if (Utils.contains(Constants.hideItems, name)) {
+            return getItem(Primal.MODID, "hide", Utils.getIndex(Constants.hideItems, name), number);
         }
-        if (Utils.containsExactMatch(Constants.woodItems, wood)) {
-            return getItem(Primal.MODID, "wood", Utils.getItemFromArray(Constants.woodItems, wood), number);
+        if (Utils.contains(Constants.woodItems, name)) {
+            return getItem(Primal.MODID, "wood", Utils.getIndex(Constants.woodItems, name), number);
         }
-        if (Utils.containsExactMatch(Constants.flintItems, wood)) {
-            return getItem(Primal.MODID, "flint", Utils.getItemFromArray(Constants.flintItems, wood), number);
+        if (Utils.contains(Constants.flintItems, name)) {
+            return getItem(Primal.MODID, "flint", Utils.getIndex(Constants.flintItems, name), number);
         }
-        if (Utils.containsExactMatch(Constants.powderItems, wood)) {
-            return getItem(Primal.MODID, "powder", Utils.getItemFromArray(Constants.powderItems, wood), number);
+        if (Utils.contains(Constants.powderItems, name)) {
+            return getItem(Primal.MODID, "powder", Utils.getIndex(Constants.powderItems, name), number);
         }
-        if (Utils.containsExactMatch(Constants.clayItems, wood)) {
-            return getItem(Primal.MODID, "clay", Utils.getItemFromArray(Constants.clayItems, wood), number);
+        if (Utils.contains(Constants.clayItems, name)) {
+            return getItem(Primal.MODID, "clay", Utils.getIndex(Constants.clayItems, name), number);
         }
-        if (Utils.containsExactMatch(Constants.moldItems, wood)) {
-            return getItem(Primal.MODID, "mold", Utils.getItemFromArray(Constants.moldItems, wood), number);
+        if (Utils.contains(Constants.moldItems, name)) {
+            return getItem(Primal.MODID, "mold", Utils.getIndex(Constants.moldItems, name), number);
         }
-        if (Utils.containsExactMatch(Constants.icons, wood)) {
-            return getItem(Primal.MODID, "icon", Utils.getItemFromArray(Constants.icons, wood), number);
+        if (Utils.contains(Constants.icons, name)) {
+            return getItem(Primal.MODID, "icon", Utils.getIndex(Constants.icons, name), number);
         }
 
         return null;
     }
 
-    public static ItemStack getModItem(String type, String wood, int number) {
-        boolean hasColor = Utils.containsExactMatch(Constants.colorTypes, wood);
-        int color = Utils.getItemFromArray(Constants.colorTypes, wood);
+    public static ItemStack getModItem(String type, String name, int number) {
+        boolean hasColor = Utils.contains(Constants.colorTypes, name);
+        int color = Utils.getIndex(Constants.colorTypes, name);
         if (type.equals("carpet") || type.equals("wool")) {
             if (hasColor) {
                 return getItem("minecraft", type, color, number);
@@ -136,7 +135,7 @@ public class Utils {
                 return getItem("minecraft", type, 0, number);
             }
         }
-        if (type.equals("bed") && wood.equals("red")) {
+        if (type.equals("bed") && name.equals("red")) {
             return getItem("minecraft", "bed", 0, 1);
         }
         if (Primal.EFRLoaded) {
@@ -147,7 +146,7 @@ public class Utils {
             }
             if (type.equals("glazed_terracotta") || type.equals("bed")) {
                 if (hasColor) {
-                    return getItem("etfuturum", wood + "_" + type, 0, number);
+                    return getItem("etfuturum", name + "_" + type, 0, number);
                 }
             }
         }
@@ -295,14 +294,14 @@ public class Utils {
         if (Primal.BOPLoaded) {
             ItemStack bopEmptyBucket = getItem("BiomesOPlenty:bopBucket:*:1");
             ItemStack emptyBucket = getItem("minecraft:bucket:0:1");
-            if (Utils.containsStack(filled, bopEmptyBucket)) {
+            if (Utils.areStackEquals(filled, bopEmptyBucket)) {
                 return emptyBucket.copy();
             }
         }
 
         if (Primal.WGLoaded) {
             ItemStack capsule = getItem("WitchingGadgets:item.WG_CrystalFlask:*:1");
-            if (Utils.containsStack(filled, capsule)) {
+            if (Utils.areStackEquals(filled, capsule)) {
                 capsule.stackTagCompound = null;
                 capsule.setItemDamage(0);
                 capsule.stackSize = 1;
@@ -440,7 +439,7 @@ public class Utils {
         return getSimpleAxisFromFacing(facingMeta) == getSimpleAxisFromFacing(facingMeta2);
     }
 
-    public static boolean containsStack(ItemStack wild, ItemStack check) {
+    public static boolean areStackEquals(ItemStack wild, ItemStack check) {
         if (wild == null || check == null) {
             return check == wild;
         }
@@ -453,7 +452,7 @@ public class Utils {
         return false;
     }
 
-    public static boolean containsStack(FluidStack wild, FluidStack check) {
+    public static boolean areStackEquals(FluidStack wild, FluidStack check) {
         if (wild == null || check == null) {
             return check == wild;
         }
@@ -461,7 +460,7 @@ public class Utils {
         return wild.getFluid() == check.getFluid();
     }
 
-    public static boolean containsStack(ItemStack check, FluidStack wild) {
+    public static boolean areStackEquals(ItemStack check, FluidStack wild) {
         if (wild == null || check == null) {
             return false;
         }
@@ -471,13 +470,6 @@ public class Utils {
             return false;
         }
         return wild.getFluid() == stack.getFluid();
-    }
-
-    public static ItemStack nullableStack(ItemStack stack) {
-        if (stack != null) {
-            return stack;
-        }
-        return new ItemStack(Blocks.air, 1, 0);
     }
 
     public static MovingObjectPosition getMovingObjectPositionFromPlayer(World worldIn, EntityPlayer playerIn,
@@ -576,7 +568,7 @@ public class Utils {
         return prefix + output;
     }
 
-    public static boolean containsExactMatch(int[] array, int targetString) {
+    public static boolean contains(int[] array, int targetString) {
         if (array == null) return false;
         for (int element : array) {
             if (targetString == element) {
@@ -586,7 +578,7 @@ public class Utils {
         return false;
     }
 
-    public static boolean containsExactMatch(String[] array, String targetString) {
+    public static boolean contains(String[] array, String targetString) {
         if (targetString == null) {
             return true;
         }
@@ -598,7 +590,7 @@ public class Utils {
         return false;
     }
 
-    public static boolean containsExactMatch(Block[] array, Block targetString) {
+    public static boolean contains(Block[] array, Block targetString) {
         if (targetString == null) {
             return true;
         }
@@ -612,7 +604,7 @@ public class Utils {
 
     public static boolean containsList(List<ItemStack> list, ItemStack b) {
         for (ItemStack item : list) {
-            if (Utils.containsStack(item, b)) {
+            if (Utils.areStackEquals(item, b)) {
                 return true;
             }
         }
@@ -620,18 +612,13 @@ public class Utils {
     }
 
     public static boolean containsList(ItemStack b, List<ItemStack> list) {
-        for (ItemStack item : list) {
-            if (Utils.containsStack(item, b)) {
-                return true;
-            }
-        }
-        return false;
+        return containsList(list, b);
     }
 
     public static boolean containsList(List<ItemStack> list, List<ItemStack> list2) {
         for (ItemStack item : list) {
             for (ItemStack item2 : list2) {
-                if (Utils.containsStack(item, item2)) {
+                if (Utils.areStackEquals(item, item2)) {
                     return true;
                 }
             }
@@ -682,36 +669,36 @@ public class Utils {
         return getBlockKey(Block.getIdFromBlock(block), metadata);
     }
 
-    public static int getItemFromArray(String[] woodType, String wood) {
-        for (int i = 0; i < woodType.length; i++) {
-            if (woodType[i] == null) continue;
-            if (woodType[i].equals(wood)) {
+    public static int getIndex(String[] array, String name) {
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == null) continue;
+            if (array[i].equals(name)) {
                 return i;
             }
         }
         return 0;
     }
 
-    public static int getItemFromArray(Block[] woodType, Block wood) {
-        for (int i = 0; i < woodType.length; i++) {
-            if (woodType[i] == null) continue;
-            if (woodType[i] == wood) {
+    public static int getIndex(Block[] array, Block name) {
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == null) continue;
+            if (array[i] == name) {
                 return i;
             }
         }
         return 0;
     }
 
-    public static int getItemFromArray(int[] woodType, int wood) {
-        for (int i = 0; i < woodType.length; i++) {
-            if (woodType[i] == wood) {
+    public static int getIndex(int[] array, int name) {
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == name) {
                 return i;
             }
         }
         return 0;
     }
 
-    public static int getItemFromArray(Fluid[] array, Fluid item) {
+    public static int getIndex(Fluid[] array, Fluid item) {
         for (int i = 0; i < array.length; i++) {
             if (array[i] == null) continue;
             if (array[i].equals(item)) {
@@ -721,8 +708,20 @@ public class Utils {
         return 0;
     }
 
-    public static int rgbToInt(int r, int g, int b) {
+    public static int getRGB(int r, int g, int b) {
         return (r << 16) | (g << 8) | b;
+    }
+
+    public static float getR(int color) {
+        return ((color >> 16) & 0xFF) / 255f;
+    }
+
+    public static float getG(int color) {
+        return ((color >> 8) & 0xFF) / 255f;
+    }
+
+    public static float getB(int color) {
+        return (color & 0xFF) / 255f;
     }
 
     public static int[] combineArrays(int[] a, int[] b) {

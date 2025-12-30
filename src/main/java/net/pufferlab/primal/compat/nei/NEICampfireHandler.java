@@ -59,7 +59,7 @@ public class NEICampfireHandler extends TemplateRecipeHandler {
     public void loadCraftingRecipes(ItemStack result) {
         Map<List<ItemStack>, ItemStack> recipes = CampfireRecipe.getRecipeMap();
         for (Map.Entry<List<ItemStack>, ItemStack> recipe : recipes.entrySet()) {
-            if (Utils.containsStack(recipe.getValue(), result)) {
+            if (Utils.areStackEquals(recipe.getValue(), result)) {
                 arecipes.add(new NEICampfireHandler.CampfirePair(recipe.getKey(), recipe.getValue()));
             }
         }

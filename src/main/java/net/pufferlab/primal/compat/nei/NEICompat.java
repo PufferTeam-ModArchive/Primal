@@ -42,7 +42,7 @@ public class NEICompat implements IConfigureNEI {
     public void loadGTNH() {
         sendHandler(
             "net.pufferlab.primal.compat.nei.NEIKnappingHandler",
-            Primal.MODID + ":icon:" + Utils.getItemFromArray(Constants.icons, "knapping"),
+            Primal.MODID + ":icon:" + Utils.getIndex(Constants.icons, "knapping"),
             1,
             Primal.MODNAME,
             Primal.MODID,

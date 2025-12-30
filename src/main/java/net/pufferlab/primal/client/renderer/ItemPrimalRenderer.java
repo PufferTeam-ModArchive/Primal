@@ -31,7 +31,7 @@ public class ItemPrimalRenderer implements IItemRenderer {
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
-        if (Utils.containsExactMatch(getItemBlockMeta(), item.getItemDamage())) {
+        if (Utils.contains(getItemBlockMeta(), item.getItemDamage())) {
             return true;
         }
         return false;
@@ -43,7 +43,7 @@ public class ItemPrimalRenderer implements IItemRenderer {
 
     @Override
     public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
-        if (Utils.containsExactMatch(getItemBlockMeta(), item.getItemDamage())) {
+        if (Utils.contains(getItemBlockMeta(), item.getItemDamage())) {
             return true;
         }
         return false;
@@ -52,7 +52,7 @@ public class ItemPrimalRenderer implements IItemRenderer {
     @Override
     public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
         if (isItemBlock(item)) {
-            if (Utils.containsExactMatch(getItemBlockMeta(), item.getItemDamage())) {
+            if (Utils.contains(getItemBlockMeta(), item.getItemDamage())) {
                 GL11.glPushMatrix();
                 if (type == ItemRenderType.EQUIPPED || type == ItemRenderType.EQUIPPED_FIRST_PERSON) {
                     GL11.glTranslatef(0.5F, 0.0F, 0.5F);
@@ -68,7 +68,7 @@ public class ItemPrimalRenderer implements IItemRenderer {
                 if (hasBigModel(item)) {
                     GL11.glScalef(1.5F, 1.5F, 1.5F);
                 }
-                int index = Utils.getItemFromArray(getItemBlockMeta(), item.getItemDamage());
+                int index = Utils.getIndex(getItemBlockMeta(), item.getItemDamage());
                 ModelPrimal model = getItemBlockModel(item)[index];
 
                 if (hasTemperature()) {

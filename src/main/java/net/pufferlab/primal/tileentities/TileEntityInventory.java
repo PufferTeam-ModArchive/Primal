@@ -220,7 +220,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
     public void addItemInSlotUpdate(int index, ItemStack item) {
         if (getInventoryStack(1) == null) {
             setInventorySlotContentsUpdate(index, item);
-        } else if (Utils.containsStack(getInventoryStack(1), item)) {
+        } else if (Utils.areStackEquals(getInventoryStack(1), item)) {
             getInventoryStack(1).stackSize++;
         }
     }
@@ -400,7 +400,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
 
     @Override
     public boolean canInsertItem(int slot, ItemStack p_102007_2_, int side) {
-        if (Utils.containsExactMatch(this.inputSlots, slot)) {
+        if (Utils.contains(this.inputSlots, slot)) {
             return true;
         }
         return false;
@@ -408,7 +408,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
 
     @Override
     public boolean canExtractItem(int slot, ItemStack p_102008_2_, int side) {
-        if (Utils.containsExactMatch(this.outputSlots, slot)) {
+        if (Utils.contains(this.outputSlots, slot)) {
             return true;
         }
         return false;

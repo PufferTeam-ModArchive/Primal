@@ -1,18 +1,14 @@
 package net.pufferlab.primal.items;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Utils;
 
-public class ItemBlockCrucible extends ItemBlock {
+public class ItemMetaHeatable extends ItemMeta {
 
-    public ItemBlockCrucible(Block p_i45328_1_) {
-        super(p_i45328_1_);
-
-        this.setMaxStackSize(1);
+    public ItemMetaHeatable(String[] materials, String type) {
+        super(materials, type);
     }
 
     int timeUpdate;
@@ -29,5 +25,4 @@ public class ItemBlockCrucible extends ItemBlock {
             Utils.setTemperatureToNBT(stack.getTagCompound(), temperature);
         }
     }
-
 }

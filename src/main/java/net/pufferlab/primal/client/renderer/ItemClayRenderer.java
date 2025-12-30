@@ -10,9 +10,9 @@ import net.pufferlab.primal.client.models.ModelPrimal;
 public class ItemClayRenderer extends ItemPrimalRenderer {
 
     ModelLargeVessel modelLargeVessel = new ModelLargeVessel();
-    public final int largeVesselMeta = Utils.getItemFromArray(Constants.clayItems, "clay_large_vessel");
+    public final int largeVesselMeta = Utils.getIndex(Constants.clayItems, "clay_large_vessel");
     ModelCrucible modelCrucible = new ModelCrucible();
-    public final int crucibleMeta = Utils.getItemFromArray(Constants.clayItems, "clay_crucible");
+    public final int crucibleMeta = Utils.getIndex(Constants.clayItems, "clay_crucible");
 
     ModelPrimal[] models;
     int[] modelsMeta;

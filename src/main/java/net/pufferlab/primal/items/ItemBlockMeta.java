@@ -28,7 +28,7 @@ public class ItemBlockMeta extends ItemBlock {
     @Override
     public String getUnlocalizedName(ItemStack stack) {
         if (stack.getItemDamage() >= elements.length
-            || Utils.containsExactMatch(elementsBlacklist, elements[stack.getItemDamage()])) {
+            || Utils.contains(elementsBlacklist, elements[stack.getItemDamage()])) {
             return "tile." + Primal.MODID + ".error";
         }
         return "tile." + Primal.MODID + "." + elements[stack.getItemDamage()] + "_" + name;

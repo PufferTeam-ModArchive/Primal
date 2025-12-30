@@ -38,9 +38,9 @@ public class BarrelRecipe {
     public static void removeBarrelRecipe(ItemStack output, FluidStack outputLiquid, List<ItemStack> input,
         FluidStack inputLiquid) {
         recipeList.removeIf(r -> {
-            if (Utils.containsList(r.input, input) && Utils.containsStack(r.inputLiquid, inputLiquid)
-                && Utils.containsStack(r.output, output)
-                && Utils.containsStack(r.outputLiquid, outputLiquid)) {
+            if (Utils.containsList(r.input, input) && Utils.areStackEquals(r.inputLiquid, inputLiquid)
+                && Utils.areStackEquals(r.output, output)
+                && Utils.areStackEquals(r.outputLiquid, outputLiquid)) {
                 return true;
             }
             return false;
@@ -95,7 +95,7 @@ public class BarrelRecipe {
     }
 
     public boolean equals(ItemStack input, FluidStack inputLiquid) {
-        if (Utils.containsStack(this.inputLiquid, inputLiquid) && Utils.containsList(input, this.input)) {
+        if (Utils.areStackEquals(this.inputLiquid, inputLiquid) && Utils.containsList(input, this.input)) {
             if (this.inputLiquid.amount <= inputLiquid.amount) {
                 return true;
             }

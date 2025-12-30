@@ -97,7 +97,7 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
             if (results[0] instanceof FluidStack stack) {
                 List<BarrelRecipe> recipes = BarrelRecipe.getRecipeList();
                 for (BarrelRecipe recipe : recipes) {
-                    if (Utils.containsStack(stack, recipe.outputLiquid)) {
+                    if (Utils.areStackEquals(stack, recipe.outputLiquid)) {
                         arecipes.add(
                             new NEIBarrelHandler.BarrelPair(
                                 recipe.input,
@@ -117,8 +117,8 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
     public void loadCraftingRecipes(ItemStack result) {
         List<BarrelRecipe> recipes = BarrelRecipe.getRecipeList();
         for (BarrelRecipe recipe : recipes) {
-            if (Utils.containsStack(result, recipe.output) || Utils.containsStack(result, recipe.outputLiquid)
-                || Utils.containsStack(result, recipe.outputLiquidBlock)) {
+            if (Utils.areStackEquals(result, recipe.output) || Utils.areStackEquals(result, recipe.outputLiquid)
+                || Utils.areStackEquals(result, recipe.outputLiquidBlock)) {
                 arecipes.add(
                     new NEIBarrelHandler.BarrelPair(
                         recipe.input,
@@ -138,7 +138,7 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
             if (ingredients[0] instanceof FluidStack stack) {
                 List<BarrelRecipe> recipes = BarrelRecipe.getRecipeList();
                 for (BarrelRecipe recipe : recipes) {
-                    if (Utils.containsStack(stack, recipe.inputLiquid)) {
+                    if (Utils.areStackEquals(stack, recipe.inputLiquid)) {
                         arecipes.add(
                             new NEIBarrelHandler.BarrelPair(
                                 recipe.input,
@@ -158,8 +158,8 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
     public void loadUsageRecipes(ItemStack ingredient) {
         List<BarrelRecipe> recipes = BarrelRecipe.getRecipeList();
         for (BarrelRecipe recipe : recipes) {
-            if (Utils.containsList(ingredient, recipe.input) || Utils.containsStack(ingredient, recipe.inputLiquid)
-                || Utils.containsStack(ingredient, recipe.inputLiquidBlock)) {
+            if (Utils.containsList(ingredient, recipe.input) || Utils.areStackEquals(ingredient, recipe.inputLiquid)
+                || Utils.areStackEquals(ingredient, recipe.inputLiquidBlock)) {
                 arecipes.add(
                     new NEIBarrelHandler.BarrelPair(
                         recipe.input,

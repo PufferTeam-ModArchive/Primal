@@ -185,7 +185,7 @@ public class Registry {
         fluidsObjects[2] = FluidRegistry.LAVA;
         for (int i = 0; i < Constants.fluids.length; i++) {
             String name = Constants.fluids[i];
-            if (!Utils.containsExactMatch(Constants.vanillaFluids, name)) {
+            if (!Utils.contains(Constants.vanillaFluids, name)) {
                 Fluid fluid = new FluidPrimal(name).setDensity(1000)
                     .setViscosity(1000);
                 register(fluid);
@@ -254,7 +254,7 @@ public class Registry {
             } else if (block instanceof BlockMeta) {
                 GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockMeta.class, name);
             } else if (block instanceof BlockCrucible) {
-                GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockCrucible.class, name);
+                GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockHeatable.class, name);
             } else {
                 GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), name);
             }
@@ -267,7 +267,7 @@ public class Registry {
     public void register(Fluid fluid, String name) {
         FluidContainerRegistry.registerFluidContainer(
             new FluidStack(fluid, FluidContainerRegistry.BUCKET_VOLUME),
-            new ItemStack(bucket, 1, Utils.getItemFromArray(Constants.fluids, name)),
+            new ItemStack(bucket, 1, Utils.getIndex(Constants.fluids, name)),
             new ItemStack(Items.bucket));
     }
 

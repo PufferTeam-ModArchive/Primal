@@ -34,7 +34,7 @@ public class ItemBucketCeramic extends ItemBucketMeta implements IFluidContainer
     }
 
     public int getFluidMeta(FluidStack fluidStack) {
-        return Utils.getItemFromArray(Registry.fluidsObjects, fluidStack.getFluid());
+        return Utils.getIndex(Registry.fluidsObjects, fluidStack.getFluid());
     }
 
     public boolean isBreakable(ItemStack itemStack) {
@@ -46,7 +46,7 @@ public class ItemBucketCeramic extends ItemBucketMeta implements IFluidContainer
         Fluid fluid = Registry.fluidsObjects[meta];
         if (fluid == null) {
             Fluid inputFluid = resource.getFluid();
-            int inputMeta = Utils.getItemFromArray(Registry.fluidsObjects, inputFluid);
+            int inputMeta = Utils.getIndex(Registry.fluidsObjects, inputFluid);
             if (doFill) {
                 container.setItemDamage(inputMeta);
             }

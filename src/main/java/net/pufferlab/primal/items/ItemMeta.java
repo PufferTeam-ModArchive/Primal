@@ -52,8 +52,8 @@ public class ItemMeta extends Item {
         icons = new IIcon[elements.length];
 
         for (int i = 0; i < elements.length; i++) {
-            if (!Utils.containsExactMatch(elementsBlacklist, elements[i])) {
-                if (Utils.containsExactMatch(Constants.uniqueItemTypes, name)) {
+            if (!Utils.contains(elementsBlacklist, elements[i])) {
+                if (Utils.contains(Constants.uniqueItemTypes, name)) {
                     icons[i] = register.registerIcon(Primal.MODID + ":" + elements[i]);
                 } else {
                     icons[i] = register.registerIcon(Primal.MODID + ":" + elements[i] + "_" + name);
@@ -66,8 +66,7 @@ public class ItemMeta extends Item {
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs creativeTabs, List<net.minecraft.item.ItemStack> list) {
         for (int i = 0; i < elements.length; i++) {
-            if (!Utils.containsExactMatch(elementsBlacklist, elements[i])
-                && !Utils.containsExactMatch(elementsHidden, elements[i])) {
+            if (!Utils.contains(elementsBlacklist, elements[i]) && !Utils.contains(elementsHidden, elements[i])) {
                 list.add(new ItemStack(item, 1, i));
             }
         }
@@ -75,7 +74,7 @@ public class ItemMeta extends Item {
 
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
-        if (meta >= elements.length || Utils.containsExactMatch(elementsBlacklist, elements[meta])) {
+        if (meta >= elements.length || Utils.contains(elementsBlacklist, elements[meta])) {
             return null;
         }
         return icons[meta];
@@ -84,10 +83,10 @@ public class ItemMeta extends Item {
     @Override
     public String getUnlocalizedName(ItemStack stack) {
         if (stack.getItemDamage() >= elements.length
-            || Utils.containsExactMatch(elementsBlacklist, elements[stack.getItemDamage()])) {
+            || Utils.contains(elementsBlacklist, elements[stack.getItemDamage()])) {
             return "item." + Primal.MODID + ".error";
         }
-        if (Utils.containsExactMatch(Constants.uniqueItemTypes, name)) {
+        if (Utils.contains(Constants.uniqueItemTypes, name)) {
             return "item." + Primal.MODID + "." + elements[stack.getItemDamage()];
         }
         return "item." + Primal.MODID + "." + elements[stack.getItemDamage()] + "_" + name;
@@ -96,7 +95,7 @@ public class ItemMeta extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIconFromDamage(int meta) {
-        if (meta >= elements.length || Utils.containsExactMatch(elementsBlacklist, elements[meta])) {
+        if (meta >= elements.length || Utils.contains(elementsBlacklist, elements[meta])) {
             return null;
         }
         return icons[meta];

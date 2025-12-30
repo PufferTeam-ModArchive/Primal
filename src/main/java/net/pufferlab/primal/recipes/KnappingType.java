@@ -83,7 +83,7 @@ public class KnappingType {
     public static void addType(KnappingType type) {
         boolean isDuplicate = false;
         for (KnappingType t : values) {
-            if (Utils.containsStack(t.item, type.item) || (t.name.equalsIgnoreCase(type.name))) {
+            if (Utils.areStackEquals(t.item, type.item) || (t.name.equalsIgnoreCase(type.name))) {
                 isDuplicate = true;
             }
         }
@@ -114,7 +114,7 @@ public class KnappingType {
 
     public static KnappingType getType(ItemStack stack) {
         for (KnappingType t : values) {
-            if (Utils.containsStack(t.item, stack) && t.amount <= stack.stackSize) return t;
+            if (Utils.areStackEquals(t.item, stack) && t.amount <= stack.stackSize) return t;
         }
         return null;
     }

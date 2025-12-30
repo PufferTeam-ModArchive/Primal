@@ -42,8 +42,8 @@ public class BucketHandler {
                     Block block = event.world.getBlock(x, y, z);
                     int metaBlock = event.world.getBlockMetadata(x, y, z);
                     if (metaBlock == 0) {
-                        if (Utils.containsExactMatch(Registry.fluidsBlocks, block)) {
-                            int meta = Utils.getItemFromArray(Registry.fluidsBlocks, block);
+                        if (Utils.contains(Registry.fluidsBlocks, block)) {
+                            int meta = Utils.getIndex(Registry.fluidsBlocks, block);
                             if (meta > 2) {
                                 if (itemStack.getItem() == Items.bucket) {
                                     event.world.setBlockToAir(x, y, z);

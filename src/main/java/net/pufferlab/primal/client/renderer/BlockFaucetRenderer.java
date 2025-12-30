@@ -42,7 +42,7 @@ public class BlockFaucetRenderer extends BlockPrimalRenderer {
             FluidStack stack = tef.getFluidStack();
             FluidStack inputStack = tef.getFluidStackInput();
             if (stack != null) {
-                if (!Utils.containsStack(stack, inputStack)) {
+                if (!Utils.areStackEquals(stack, inputStack)) {
                     stack = null;
                 }
             }

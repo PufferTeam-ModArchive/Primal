@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
 public class ItemWoodRenderer extends ItemPrimalRenderer {
 
     ModelFirewood modelFirewood = new ModelFirewood();
-    public int firewoodMeta = Utils.getItemFromArray(Constants.woodItems, "firewood");
+    public int firewoodMeta = Utils.getIndex(Constants.woodItems, "firewood");
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {

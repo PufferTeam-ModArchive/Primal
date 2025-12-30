@@ -23,7 +23,7 @@ public class CampfireRecipe {
     public static void removeCampfireRecipe(ItemStack output, List<ItemStack> input) {
         recipeMap.entrySet()
             .removeIf(r -> {
-                if (Utils.containsList(r.getKey(), input) && Utils.containsStack(r.getValue(), output)) {
+                if (Utils.containsList(r.getKey(), input) && Utils.areStackEquals(r.getValue(), output)) {
                     return true;
                 }
                 return false;

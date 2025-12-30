@@ -67,7 +67,7 @@ public class NEIChoppingLogHandler extends TemplateRecipeHandler {
     public void loadCraftingRecipes(ItemStack result) {
         Map<List<ItemStack>, ItemStack> recipes = ChoppingLogRecipe.getRecipeMap();
         for (Map.Entry<List<ItemStack>, ItemStack> recipe : recipes.entrySet()) {
-            if (Utils.containsStack(recipe.getValue(), result)) {
+            if (Utils.areStackEquals(recipe.getValue(), result)) {
                 ChoppingLogPair recipePair = new NEIChoppingLogHandler.ChoppingLogPair(
                     recipe.getKey(),
                     recipe.getValue());

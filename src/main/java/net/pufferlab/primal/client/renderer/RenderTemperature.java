@@ -24,7 +24,7 @@ public class RenderTemperature {
     public static int getHeatingColor(float temperature) {
         int level = Utils.getHeatingLevel((int) temperature);
         if (level == 0) {
-            return Utils.rgbToInt(255, 255, 255);
+            return Utils.getRGB(255, 255, 255);
         }
         float minTemp = 0f;
         float maxTemp = 1200f;
@@ -39,15 +39,15 @@ public class RenderTemperature {
         int g = (int) (stops[idx][1] + localT * (stops[idx + 1][1] - stops[idx][1]));
         int b = (int) (stops[idx][2] + localT * (stops[idx + 1][2] - stops[idx][2]));
 
-        return Utils.rgbToInt(r, g, b);
+        return Utils.getRGB(r, g, b);
     }
 
     public static void renderTemperature(ModelPrimal model, int temperature) {
         int color = getHeatingColor(temperature);
         float intensity = getIntensity(temperature);
-        float r = ((color >> 16) & 0xFF) / 255f;
-        float g = ((color >> 8) & 0xFF) / 255f;
-        float b = (color & 0xFF) / 255f;
+        float r = Utils.getR(color);
+        float g = Utils.getG(color);
+        float b = Utils.getB(color);
 
         GL11.glColor4f(1f, 1f, 1f, 1f);
         GL11.glEnable(GL11.GL_DEPTH_TEST);

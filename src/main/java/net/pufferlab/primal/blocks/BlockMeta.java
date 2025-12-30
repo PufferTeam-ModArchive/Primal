@@ -32,7 +32,7 @@ public class BlockMeta extends Block {
         elementsBlacklist = blacklist;
 
         for (int i = 0; i < elements.length; i++) {
-            if (!Utils.containsExactMatch(elementsBlacklist, elements[i]) && tools != null) {
+            if (!Utils.contains(elementsBlacklist, elements[i]) && tools != null) {
                 this.setHarvestLevel(tools[i], levels[i], i);
             } else {
                 if (material == Material.rock) {
@@ -60,7 +60,7 @@ public class BlockMeta extends Block {
 
         for (int i = 0; i < elements.length; i++) {
             if (elementsTextures[i] == null) {
-                if (!Utils.containsExactMatch(elementsBlacklist, elements[i])) {
+                if (!Utils.contains(elementsBlacklist, elements[i])) {
                     icons[i] = register.registerIcon(Primal.MODID + ":" + elements[i] + "_" + name);
                 }
             } else {
@@ -72,7 +72,7 @@ public class BlockMeta extends Block {
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list) {
         for (int i = 0; i < elements.length; i++) {
-            if (!Utils.containsExactMatch(elementsBlacklist, elements[i])) {
+            if (!Utils.contains(elementsBlacklist, elements[i])) {
                 list.add(new ItemStack(item, 1, i));
             }
         }
@@ -80,7 +80,7 @@ public class BlockMeta extends Block {
 
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
-        if (meta >= elements.length || Utils.containsExactMatch(elementsBlacklist, elements[meta])) {
+        if (meta >= elements.length || Utils.contains(elementsBlacklist, elements[meta])) {
             return null;
         }
         return icons[meta];

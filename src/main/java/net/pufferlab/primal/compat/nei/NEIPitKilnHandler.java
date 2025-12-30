@@ -65,7 +65,7 @@ public class NEIPitKilnHandler extends TemplateRecipeHandler {
     public void loadCraftingRecipes(ItemStack result) {
         Map<List<ItemStack>, ItemStack> recipes = PitKilnRecipe.getRecipeMap();
         for (Map.Entry<List<ItemStack>, ItemStack> recipe : recipes.entrySet()) {
-            if (Utils.containsStack(recipe.getValue(), result)) {
+            if (Utils.areStackEquals(recipe.getValue(), result)) {
                 arecipes.add(new NEIPitKilnHandler.PitKilnPair(recipe.getKey(), recipe.getValue()));
             }
         }
