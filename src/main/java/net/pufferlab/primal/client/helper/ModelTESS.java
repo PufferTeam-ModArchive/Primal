@@ -116,6 +116,12 @@ public class ModelTESS {
                         double nx3 = nx2 * cosZ - ny1 * sinZ;
                         double ny3 = nx2 * sinZ + ny1 * cosZ;
 
+                        double vx20 = nx3 * cosR - nz2 * sinR;
+                        double vz20 = nx3 * sinR + nz2 * cosR;
+
+                        nx3 = vx20;
+                        nz2 = vz20;
+
                         double len = Math.sqrt(nx3 * nx3 + ny3 * ny3 + nz2 * nz2);
                         if (len > 0) {
                             nx3 /= len;
@@ -126,17 +132,10 @@ public class ModelTESS {
                         tess.setNormal((float) nx3, (float) ny3, (float) nz2);
 
                         float shade = 1.0F;
-                        if (renderer.facingMetaGlobal == 2 || renderer.facingMetaGlobal == 4) {
-                            if (ny3 > 0.5F) shade = 1.0F; // top
-                            else if (ny3 < -0.5F) shade = 0.5F; // bottom
-                            else if (nx3 > 0.5F || nx3 < -0.5F) shade = 0.8F; // east/west
-                            else if (nz2 > 0.5F || nz2 < -0.5F) shade = 0.6F; // north/south
-                        } else {
-                            if (ny3 > 0.5F) shade = 1.0F; // top
-                            else if (ny3 < -0.5F) shade = 0.5F; // bottom
-                            else if (nx3 > 0.5F || nx3 < -0.5F) shade = 0.6F; // east/west
-                            else if (nz2 > 0.5F || nz2 < -0.5F) shade = 0.8F; // north/south
-                        }
+                        if (ny3 > 0.5F) shade = 1.0F; // top
+                        else if (ny3 < -0.5F) shade = 0.5F; // bottom
+                        else if (nx3 > 0.5F || nx3 < -0.5F) shade = 0.6F; // east/west
+                        else if (nz2 > 0.5F || nz2 < -0.5F) shade = 0.8F; // north/south
 
                         tess.setColorOpaque_F(f * shade, f1 * shade, f2 * shade);
 
