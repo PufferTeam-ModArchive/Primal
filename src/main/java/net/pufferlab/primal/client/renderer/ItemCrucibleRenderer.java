@@ -1,7 +1,6 @@
 package net.pufferlab.primal.client.renderer;
 
 import net.minecraft.item.ItemStack;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.client.models.ModelCrucible;
 import net.pufferlab.primal.client.models.ModelPrimal;
 
@@ -13,8 +12,6 @@ public class ItemCrucibleRenderer extends ItemPrimalRenderer {
 
     @Override
     public ModelPrimal[] getItemBlockModel(ItemStack stack) {
-        int heat = Utils.getHeatingLevel(Utils.getTemperatureFromNBT(stack.getTagCompound()));
-        modelCrucible[0].setType(heat + 2);
         return modelCrucible;
     }
 
@@ -30,6 +27,11 @@ public class ItemCrucibleRenderer extends ItemPrimalRenderer {
 
     @Override
     public boolean hasBigModel(ItemStack stack) {
+        return true;
+    }
+
+    @Override
+    public boolean hasTemperature() {
         return true;
     }
 }

@@ -21,7 +21,6 @@ import net.pufferlab.primal.tileentities.TileEntityCrucible;
 public class BlockCrucible extends BlockContainer {
 
     public IIcon[] icons = new IIcon[2];
-    private IIcon[] heatingIcons = new IIcon[8];
 
     public BlockCrucible() {
         super(Material.rock);
@@ -42,26 +41,6 @@ public class BlockCrucible extends BlockContainer {
     public void registerBlockIcons(IIconRegister reg) {
         icons[0] = reg.registerIcon(Primal.MODID + ":crucible");
         icons[1] = reg.registerIcon(Primal.MODID + ":ceramic");
-        heatingIcons[0] = reg.registerIcon(Primal.MODID + ":crucible");
-        heatingIcons[1] = reg.registerIcon(Primal.MODID + ":crucible_1");
-        heatingIcons[2] = reg.registerIcon(Primal.MODID + ":crucible_2");
-        heatingIcons[3] = reg.registerIcon(Primal.MODID + ":crucible_3");
-        heatingIcons[4] = reg.registerIcon(Primal.MODID + ":crucible_4");
-        heatingIcons[5] = reg.registerIcon(Primal.MODID + ":crucible_5");
-        heatingIcons[6] = reg.registerIcon(Primal.MODID + ":crucible_6");
-        heatingIcons[7] = reg.registerIcon(Primal.MODID + ":crucible_7");
-    }
-
-    @Override
-    public IIcon getIcon(IBlockAccess worldIn, int x, int y, int z, int side) {
-        if (side == 98) {
-            TileEntity te = worldIn.getTileEntity(x, y, z);
-            if (te instanceof TileEntityCrucible tef) {
-                int heatingLevel = Utils.getHeatingLevel(tef.temperature);
-                return heatingIcons[heatingLevel];
-            }
-        }
-        return super.getIcon(worldIn, x, y, z, side);
     }
 
     @Override

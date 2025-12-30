@@ -79,6 +79,7 @@ public class ClientProxy extends CommonProxy {
         register(TileEntityTanning.class, new TileEntityTanningRenderer());
         register(TileEntityOven.class, new TileEntityOvenRenderer());
         register(TileEntityCast.class, new TileEntityMoldRenderer());
+        register(TileEntityCrucible.class, new TileEntityCrucibleRenderer());
 
         register(Registry.wood, new ItemWoodRenderer());
         register(Registry.clay, new ItemClayRenderer());

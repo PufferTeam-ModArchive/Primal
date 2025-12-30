@@ -720,6 +720,10 @@ public class Utils {
         return 0;
     }
 
+    public static int rgbToInt(int r, int g, int b) {
+        return (r << 16) | (g << 8) | b;
+    }
+
     public static String getItemKey(ItemStack itemstack) {
         Item item = itemstack.getItem();
         int meta = itemstack.getItemDamage();

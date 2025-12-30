@@ -137,7 +137,6 @@ public class ModelTESS {
                             else if (nx3 > 0.5F || nx3 < -0.5F) shade = 0.6F; // east/west
                             else if (nz2 > 0.5F || nz2 < -0.5F) shade = 0.8F; // north/south
                         }
-                        // --- Shading based on rotated normal ---
 
                         tess.setColorOpaque_F(f * shade, f1 * shade, f2 * shade);
 

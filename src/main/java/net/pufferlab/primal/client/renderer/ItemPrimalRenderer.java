@@ -25,6 +25,10 @@ public class ItemPrimalRenderer implements IItemRenderer {
         return false;
     }
 
+    public boolean hasTemperature() {
+        return false;
+    }
+
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
         if (Utils.containsExactMatch(getItemBlockMeta(), item.getItemDamage())) {
@@ -65,7 +69,13 @@ public class ItemPrimalRenderer implements IItemRenderer {
                     GL11.glScalef(1.5F, 1.5F, 1.5F);
                 }
                 int index = Utils.getItemFromArray(getItemBlockMeta(), item.getItemDamage());
-                getItemBlockModel(item)[index].render();
+                ModelPrimal model = getItemBlockModel(item)[index];
+
+                if (hasTemperature()) {
+                    RenderTemperature.renderTemperature(model, Utils.getTemperatureFromNBT(item.getTagCompound()));
+                } else {
+                    model.render();
+                }
                 GL11.glPopMatrix();
             }
         }

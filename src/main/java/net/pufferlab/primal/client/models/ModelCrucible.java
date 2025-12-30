@@ -23,10 +23,6 @@ public class ModelCrucible extends ModelPrimal {
 
     @Override
     public String getName() {
-        if (type >= 3) {
-            int heat = type - 2;
-            return "blocks/crucible_" + heat;
-        }
         if (type == 1) {
             return "items/clay_crucible";
         }

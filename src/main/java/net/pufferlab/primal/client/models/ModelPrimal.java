@@ -22,6 +22,7 @@ public abstract class ModelPrimal extends ModelBase {
     public float facingOffsetY;
     public float facingOffsetZ;
     int type;
+    boolean overlay;
 
     public ModelPrimal(int size) {
         textureWidth = size;
@@ -34,6 +35,10 @@ public abstract class ModelPrimal extends ModelBase {
     public void render() {
         bindTex();
         bb_main.render(Constants.modelConst);
+    }
+
+    public void setOverlay(boolean state) {
+        overlay = state;
     }
 
     public void render(RenderBlocks renderblocks, Tessellator tess, Block block, int x, int y, int z, int index) {
@@ -74,8 +79,12 @@ public abstract class ModelPrimal extends ModelBase {
     }
 
     public void bindTex() {
+        String suffix = "";
+        if (this.overlay) {
+            suffix = "_overlay";
+        }
         Minecraft.getMinecraft().renderEngine
-            .bindTexture(new ResourceLocation(Primal.MODID, "textures/" + getName() + ".png"));
+            .bindTexture(new ResourceLocation(Primal.MODID, "textures/" + getName() + suffix + ".png"));
     }
 
     public ModelPrimal setType(int type) {

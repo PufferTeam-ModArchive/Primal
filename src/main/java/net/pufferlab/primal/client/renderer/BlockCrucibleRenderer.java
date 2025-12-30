@@ -9,9 +9,6 @@ import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.blocks.BlockForge;
-import net.pufferlab.primal.client.models.ModelCrucible;
 import net.pufferlab.primal.client.models.ModelFluid;
 import net.pufferlab.primal.tileentities.TileEntityCrucible;
 
@@ -20,7 +17,6 @@ import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 @ThreadSafeISBRH(perThread = true)
 public class BlockCrucibleRenderer extends BlockPrimalRenderer {
 
-    private static final ThreadLocal<ModelCrucible> modelCrucibleThread = ThreadLocal.withInitial(ModelCrucible::new);
     private final ThreadLocal<ModelFluid> modelFluidThread = ThreadLocal.withInitial(ModelFluid::new);
 
     @Override
@@ -29,7 +25,6 @@ public class BlockCrucibleRenderer extends BlockPrimalRenderer {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
-        ModelCrucible modelCrucible = modelCrucibleThread.get();
         ModelFluid modelFluid = modelFluidThread.get();
 
         Tessellator tess = Tessellator.instance;
@@ -56,20 +51,7 @@ public class BlockCrucibleRenderer extends BlockPrimalRenderer {
                     0.8125F - o,
                     false,
                     false);
-            } else if (renderPass == 0) {
-                Block blockBelow = world.getBlock(x, y - 1, z);
-                int blockBelowMeta = world.getBlockMetadata(x, y - 1, z);
-                float offsetY = 0.0F;
-                if (blockBelow instanceof BlockForge) {
-                    offsetY = 0.125F + 0.0625F * (4 - blockBelowMeta);
-                }
-                int heatingLevel = Utils.getHeatingLevel(tef.temperature);
-                int index = 99;
-                if (heatingLevel > 0) {
-                    index = 98;
-                }
-                modelCrucible.render(renderer, tess, block, x, y, z, 0.0F, -offsetY, 0.0F, index);
-            }
+            } else if (renderPass == 0) {}
         }
         return true;
     }
