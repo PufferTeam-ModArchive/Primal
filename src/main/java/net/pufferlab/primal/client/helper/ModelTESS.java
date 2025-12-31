@@ -100,6 +100,7 @@ public class ModelTESS {
 
                     for (int j = 0; j < box.quadList.length; ++j) {
                         TexturedQuad quad = box.quadList[j];
+                        if (quad == null) continue;
 
                         // --- Base normal (unrotated) ---
                         Vec3 normal = quad.getNormal();

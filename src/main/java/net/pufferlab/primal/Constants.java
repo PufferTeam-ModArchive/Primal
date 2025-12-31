@@ -5,6 +5,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.pufferlab.primal.items.Food;
 
 public class Constants {
 
@@ -31,6 +32,8 @@ public class Constants {
     public static final String[] colorItemsEFR = new String[] { "banner", "concrete", "concrete_powder",
         "glazed_terracotta", "bed" };
     public static final String[] icons = new String[] { "knapping" };
+    public static final Food[] flourItems = new Food[] { new Food("wheat_flour", 1, 0.5F, false, "", 0, 20, 1.0F) };
+    public static final Food[] doughItems = new Food[] { new Food("wheat_dough", 1, 0.5F, false, "", 0, 20, 1.0F) };
     public static final String[] fluids = new String[] { "empty", "water", "lava", "limewater", "tannin", "white",
         "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray", "light_gray", "cyan", "purple", "blue",
         "brown", "green", "red", "black" };

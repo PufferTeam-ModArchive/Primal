@@ -8,30 +8,23 @@ public class ItemCrucibleRenderer extends ItemPrimalRenderer {
 
     ModelCrucible[] modelCrucible = new ModelCrucible[] { new ModelCrucible() };
 
-    int[] crucibleMeta = new int[] { 0 };
-
     @Override
-    public ModelPrimal[] getItemBlockModel(ItemStack stack) {
+    public ModelPrimal[] getModel(ItemStack stack) {
         return modelCrucible;
     }
 
     @Override
-    public int[] getItemBlockMeta() {
-        return crucibleMeta;
-    }
-
-    @Override
-    public boolean isItemBlock(ItemStack stack) {
+    public boolean handleRendering(ItemStack stack) {
         return true;
     }
 
     @Override
-    public boolean hasBigModel(ItemStack stack) {
+    public boolean shouldScaleModel(ItemStack stack) {
         return true;
     }
 
     @Override
-    public boolean hasTemperature() {
+    public boolean handleTemperatureRendering() {
         return true;
     }
 }

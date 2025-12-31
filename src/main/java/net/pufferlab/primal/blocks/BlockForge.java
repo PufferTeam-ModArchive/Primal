@@ -30,6 +30,7 @@ public class BlockForge extends BlockContainer {
         super(Material.rock);
         this.setHardness(1.0F);
         this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 1.0F, 0.9375F);
+        this.canBlockGrass = false;
     }
 
     @Override

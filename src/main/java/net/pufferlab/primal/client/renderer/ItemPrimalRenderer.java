@@ -13,8 +13,8 @@ public class ItemPrimalRenderer implements IItemRenderer {
     private final float offsetY;
     private final float offsetZ;
     private final boolean hasOffset;
-    private ModelPrimal[] models;
-    private int[] metas;
+    private ModelPrimal[] model;
+    private int[] meta;
 
     public ItemPrimalRenderer() {
         this.offsetX = 0.0F;
@@ -30,41 +30,45 @@ public class ItemPrimalRenderer implements IItemRenderer {
         hasOffset = true;
     }
 
-    public ModelPrimal[] getItemBlockModel(ItemStack stack) {
+    public ModelPrimal[] getModel(ItemStack stack) {
         return null;
     }
 
-    public int[] getItemBlockMeta() {
+    public int[] getMeta() {
         return null;
     }
 
-    public boolean isItemBlock(ItemStack stack) {
+    public boolean handleRendering(ItemStack stack) {
         return false;
     }
 
-    public boolean needsNormalItemRender() {
+    public boolean isNormal() {
         return false;
     }
 
-    public boolean hasTemperature() {
+    public boolean handleTemperatureRendering() {
+        return false;
+    }
+
+    public float getScale() {
+        return 1.5F;
+    }
+
+    public boolean shouldScaleModel(ItemStack stack) {
         return false;
     }
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
-        if (Utils.contains(getItemBlockMeta(), item.getItemDamage()) || getItemBlockMeta() == null) {
+        if (Utils.contains(getMeta(), item.getItemDamage()) || getMeta() == null) {
             return true;
         }
         return false;
     }
 
-    public boolean hasBigModel(ItemStack stack) {
-        return false;
-    }
-
     @Override
     public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
-        if (Utils.contains(getItemBlockMeta(), item.getItemDamage()) || getItemBlockMeta() == null) {
+        if (Utils.contains(getMeta(), item.getItemDamage()) || getMeta() == null) {
             return true;
         }
         return false;
@@ -72,41 +76,55 @@ public class ItemPrimalRenderer implements IItemRenderer {
 
     @Override
     public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
-        if (isItemBlock(item)) {
-            models = getItemBlockModel(item);
-            metas = getItemBlockMeta();
-            if (Utils.contains(metas, item.getItemDamage())) {
+        if (handleRendering(item)) {
+            model = getModel(item);
+            meta = getMeta();
+            if (Utils.contains(meta, item.getItemDamage()) || meta == null) {
                 GL11.glPushMatrix();
-                if (type == ItemRenderType.EQUIPPED || type == ItemRenderType.EQUIPPED_FIRST_PERSON) {
-                    GL11.glTranslatef(0.5F, 0.0F, 0.5F);
-                }
-                if (type == ItemRenderType.INVENTORY) {
-                    GL11.glTranslatef(0.0F, -0.5F, 0.0F);
-                }
-                if (needsNormalItemRender()) {
+                baseTranslation(type);
+                if (isNormal()) {
                     if (type == ItemRenderType.ENTITY) {
                         GL11.glScalef(0.5F, 0.5F, 0.5F);
                     }
                 }
-                if (hasBigModel(item)) {
-                    GL11.glScalef(1.5F, 1.5F, 1.5F);
+                if (shouldScaleModel(item)) {
+                    float scale = getScale();
+                    GL11.glScalef(scale, scale, scale);
                 }
                 int index = 0;
-                if (metas != null) {
-                    index = Utils.getIndex(metas, item.getItemDamage());
+                if (meta != null) {
+                    index = Utils.getIndex(meta, item.getItemDamage());
                 }
-                ModelPrimal model = models[index];
+                ModelPrimal model = this.model[index];
 
                 if (hasOffset) {
                     GL11.glTranslatef(offsetX, offsetY, offsetZ);
                 }
-                if (hasTemperature()) {
+                if (handleTemperatureRendering()) {
                     RenderTemperature.renderTemperature(model, Utils.getTemperatureFromNBT(item.getTagCompound()));
                 } else {
+                    GL11.glEnable(GL11.GL_BLEND);
+                    GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+                    GL11.glEnable(GL11.GL_ALPHA_TEST);
+                    GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+                    GL11.glDisable(GL11.GL_CULL_FACE);
+
                     model.render();
+
+                    GL11.glEnable(GL11.GL_CULL_FACE);
+                    GL11.glDisable(GL11.GL_BLEND);
                 }
                 GL11.glPopMatrix();
             }
+        }
+    }
+
+    public void baseTranslation(ItemRenderType type) {
+        if (type == ItemRenderType.EQUIPPED || type == ItemRenderType.EQUIPPED_FIRST_PERSON) {
+            GL11.glTranslatef(0.5F, 0.0F, 0.5F);
+        }
+        if (type == ItemRenderType.INVENTORY) {
+            GL11.glTranslatef(0.0F, -0.5F, 0.0F);
         }
     }
 }

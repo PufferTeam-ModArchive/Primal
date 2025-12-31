@@ -2,6 +2,7 @@ package net.pufferlab.primal.client.models;
 
 import net.pufferlab.primal.client.utils.ModelBox;
 import net.pufferlab.primal.client.utils.ModelRenderer;
+import net.pufferlab.primal.client.utils.ModelSquare;
 
 public class ModelCampfire extends ModelPrimal {
 
@@ -50,7 +51,7 @@ public class ModelCampfire extends ModelPrimal {
 
         bottom = new ModelRenderer(this);
         bottom.setRotationPoint(0.0F, 0.0F, 0.0F);
-        bottom.cubeList.add(new ModelBox(bottom, -16, 40, -8.0F, 0.1F, -8.0F, 16, 0, 16, 0.0F));
+        bottom.cubeList.add(new ModelSquare(bottom, -16, 40, -8.0F, 0.1F, -8.0F, 16, 0, 16, 0.0F, 3));
         bb_main.addChild(bottom);
 
         rocks = new ModelRenderer(this);

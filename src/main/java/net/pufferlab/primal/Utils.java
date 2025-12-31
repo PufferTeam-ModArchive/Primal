@@ -21,8 +21,7 @@ import net.minecraftforge.fluids.*;
 import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.blocks.BlockPile;
 import net.pufferlab.primal.blocks.SoundTypePrimal;
-import net.pufferlab.primal.items.ItemDummy;
-import net.pufferlab.primal.items.ItemKnifePrimitive;
+import net.pufferlab.primal.items.*;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -35,6 +34,10 @@ public class Utils {
 
     public static final ForgeDirection[] sideDirections = new ForgeDirection[] { ForgeDirection.WEST,
         ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.NORTH, ForgeDirection.DOWN };
+
+    public static ItemStack getItem(String mod, String item) {
+        return getItem(mod, item, 0, 1);
+    }
 
     public static ItemStack getItem(String mod, String item, int meta, int number) {
         String key = mod + ":" + item + ":" + meta + ":" + number;
@@ -113,6 +116,12 @@ public class Utils {
         }
         if (Utils.contains(Constants.moldItems, name)) {
             return getItem(Primal.MODID, "mold", Utils.getIndex(Constants.moldItems, name), number);
+        }
+        if (Utils.contains(Constants.flourItems, name)) {
+            return getItem(Primal.MODID, "flour", Utils.getIndex(Constants.flourItems, name), number);
+        }
+        if (Utils.contains(Constants.doughItems, name)) {
+            return getItem(Primal.MODID, "dough", Utils.getIndex(Constants.doughItems, name), number);
         }
         if (Utils.contains(Constants.icons, name)) {
             return getItem(Primal.MODID, "icon", Utils.getIndex(Constants.icons, name), number);
@@ -346,8 +355,7 @@ public class Utils {
     public static boolean isEmptyFluidContainer(ItemStack stack) {
         if (stack == null) return false;
 
-        if (stack.getItem() instanceof IFluidContainerItem) {
-            IFluidContainerItem item = (IFluidContainerItem) stack.getItem();
+        if (stack.getItem() instanceof IFluidContainerItem item) {
             FluidStack fluid = item.getFluid(stack);
             return fluid == null || fluid.amount <= 0;
         }
@@ -358,53 +366,54 @@ public class Utils {
     public static boolean isLogBlock(Block block) {
         if (block == null) return false;
         if (block instanceof BlockLog) return true;
-        if (containsOreDict(block, "logWood")) return true;
-        return false;
+        return containsOreDict(block, "logWood");
     }
 
     public static boolean isSoilBlock(Block block, int meta) {
         if (block == null) return false;
-        if (block.getHarvestTool(meta) == "shovel") return true;
-        return false;
+        return block.getHarvestTool(meta) == "shovel";
     }
 
     public static boolean isShovelTool(ItemStack itemStack) {
         if (itemStack == null) return false;
         if (itemStack.getItem() == null) return false;
         if (itemStack.getItem() instanceof ItemSpade) return true;
-        if (containsOreDict(itemStack, "toolShovel")) return true;
-        return false;
+        return containsOreDict(itemStack, "toolShovel");
     }
 
     public static boolean isAxeTool(ItemStack itemStack) {
         if (itemStack == null) return false;
         if (itemStack.getItem() == null) return false;
         if (itemStack.getItem() instanceof ItemAxe) return true;
-        if (containsOreDict(itemStack, "toolAxe")) return true;
-        return false;
+        return containsOreDict(itemStack, "toolAxe");
     }
 
     public static boolean isKnifeTool(ItemStack itemStack) {
         if (itemStack == null) return false;
         if (itemStack.getItem() == null) return false;
         if (itemStack.getItem() instanceof ItemKnifePrimitive) return true;
-        if (containsOreDict(itemStack, "toolKnife")) return true;
-        return false;
+        return containsOreDict(itemStack, "toolKnife");
+    }
+
+    public static boolean isHandstoneTool(ItemStack itemStack) {
+        if (itemStack == null) return false;
+        if (itemStack.getItem() == null) return false;
+        if (itemStack.getItem() instanceof ItemHandstone) return true;
+        return containsOreDict(itemStack, "toolHandstone");
     }
 
     public static boolean isBrokenTool(ItemStack itemStack) {
         if (itemStack == null) return false;
         if (itemStack.getItem() == null) return false;
-        if (containsOreDict(itemStack, "toolBroken")) return true;
-        return false;
+        return containsOreDict(itemStack, "toolBroken");
     }
 
     public static boolean isLighter(ItemStack itemStack) {
         if (itemStack == null) return false;
         if (itemStack.getItem() == null) return false;
-        if (itemStack.getItem() instanceof ItemFlintAndSteel) return true;
-        if (containsOreDict(itemStack, "itemLighter")) return true;
-        return false;
+        if (itemStack.getItem() instanceof ItemFlintAndSteel || itemStack.getItem() instanceof ItemFireStarter)
+            return true;
+        return containsOreDict(itemStack, "itemLighter");
     }
 
     public static Random getSeededRandom(Random random, int x, int y, int z) {
@@ -495,12 +504,9 @@ public class Utils {
             return check == wild;
         }
 
-        if (wild.getItem() == check.getItem() && (wild.getItemDamage() == OreDictionary.WILDCARD_VALUE
+        return wild.getItem() == check.getItem() && (wild.getItemDamage() == OreDictionary.WILDCARD_VALUE
             || check.getItemDamage() == OreDictionary.WILDCARD_VALUE
-            || wild.getItemDamage() == check.getItemDamage())) {
-            return true;
-        }
-        return false;
+            || wild.getItemDamage() == check.getItemDamage());
     }
 
     public static boolean equalsStack(FluidStack wild, FluidStack check) {
@@ -601,7 +607,7 @@ public class Utils {
             x + 0.5f,
             y + 0.5f,
             z + 0.5f,
-            stepSound.getOtherPath(),
+            stepSound.getPath(),
             (stepSound.getVolume() + 1.0F) / 2.0F,
             stepSound.getPitch() * 0.8F);
     }
@@ -623,6 +629,18 @@ public class Utils {
         if (array == null) return false;
         for (int element : array) {
             if (targetString == element) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean contains(Food[] array, String targetString) {
+        if (targetString == null) {
+            return false;
+        }
+        for (Food element : array) {
+            if (targetString.equals(element.name)) {
                 return true;
             }
         }
@@ -730,6 +748,16 @@ public class Utils {
         return 0;
     }
 
+    public static int getIndex(Food[] array, String name) {
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == null) continue;
+            if (name.equals(array[i].name)) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
     public static int getIndex(Block[] array, Block name) {
         for (int i = 0; i < array.length; i++) {
             if (array[i] == null) continue;
@@ -790,12 +818,6 @@ public class Utils {
         System.arraycopy(small, 0, big, 0, small.length);
     }
 
-    public static String getItemKey(ItemStack itemstack) {
-        Item item = itemstack.getItem();
-        int meta = itemstack.getItemDamage();
-        return getItemKey(item, meta);
-    }
-
     public static String getItemKey(Item item, int meta) {
         if (item != null) {
             return Item.getIdFromItem(item) + ":" + meta;
@@ -807,9 +829,5 @@ public class Utils {
         return FMLCommonHandler.instance()
             .getSide()
             .isClient();
-    }
-
-    public static String getOreDictKey(ItemStack b, String oreDict) {
-        return Utils.getItemKey(b) + ":" + oreDict;
     }
 }

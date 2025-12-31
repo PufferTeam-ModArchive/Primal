@@ -14,6 +14,10 @@ public interface IScript {
         return Utils.getItem(s);
     }
 
+    default ItemStack getItem(String mod, String item) {
+        return Utils.getItem(mod, item);
+    }
+
     default ItemStack getItem(String mod, String item, int meta, int number) {
         return Utils.getItem(mod, item, meta, number);
     }
@@ -36,6 +40,10 @@ public interface IScript {
 
     default void addCampfireRecipe(ItemStack output, ItemStack input) {
         CampfireRecipe.addRecipe(output, input);
+    }
+
+    default void addQuernRecipe(ItemStack output, ItemStack input) {
+        QuernRecipe.addRecipe(output, input);
     }
 
     default void addChoppingLogRecipe(ItemStack output, String input) {

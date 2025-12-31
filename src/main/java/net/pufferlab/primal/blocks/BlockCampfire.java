@@ -35,6 +35,7 @@ public class BlockCampfire extends BlockContainer {
         super(Material.wood);
         this.setHardness(0.4F);
         this.setTickRandomly(true);
+        this.canBlockGrass = false;
     }
 
     @Override
@@ -51,6 +52,7 @@ public class BlockCampfire extends BlockContainer {
     public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
         float subY, float subZ) {
         ItemStack heldItem = player.getHeldItem();
+        if (Utils.isLighter(heldItem)) return false;
         int meta = worldIn.getBlockMetadata(x, y, z);
         if ((Utils.containsOreDict(heldItem, "firewood") && meta > 0 && meta < 5)
             || (Utils.containsOreDict(heldItem, "kindling") && meta == 0)) {

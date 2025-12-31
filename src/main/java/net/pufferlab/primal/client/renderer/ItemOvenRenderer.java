@@ -8,20 +8,13 @@ public class ItemOvenRenderer extends ItemPrimalRenderer {
 
     ModelOven[] modelOven = new ModelOven[] { new ModelOven() };
 
-    int[] ovenMeta = new int[] { 0 };
-
     @Override
-    public ModelPrimal[] getItemBlockModel(ItemStack stack) {
+    public ModelPrimal[] getModel(ItemStack stack) {
         return modelOven;
     }
 
     @Override
-    public int[] getItemBlockMeta() {
-        return ovenMeta;
-    }
-
-    @Override
-    public boolean isItemBlock(ItemStack stack) {
+    public boolean handleRendering(ItemStack stack) {
         return true;
     }
 }

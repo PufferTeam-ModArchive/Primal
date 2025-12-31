@@ -1,5 +1,6 @@
 package net.pufferlab.primal.blocks;
 
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.BlockContainer;
@@ -10,14 +11,13 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.recipes.ChoppingLogRecipe;
 import net.pufferlab.primal.recipes.QuernRecipe;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityQuern;
@@ -25,12 +25,29 @@ import net.pufferlab.primal.tileentities.TileEntityQuern;
 public class BlockQuern extends BlockContainer {
 
     public IIcon[] icons = new IIcon[2];
-    private static final ItemStack handstoneItem = new ItemStack(Registry.handstone, 1, 0);
 
     public BlockQuern() {
         super(Material.rock);
 
-        this.setHardness(0.4F);
+        this.setHardness(0.8F);
+        this.canBlockGrass = false;
+    }
+
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+        int metadata = world.getBlockMetadata(x, y, z);
+        if (metadata == 0) {
+            this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.6875F, 1.0F);
+        } else {
+            this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+        }
+    }
+
+    @Override
+    public void addCollisionBoxesToList(World worldIn, int x, int y, int z, AxisAlignedBB mask,
+        List<AxisAlignedBB> list, Entity collider) {
+        this.setBlockBoundsBasedOnState(worldIn, x, y, z);
+        super.addCollisionBoxesToList(worldIn, x, y, z, mask, list, collider);
     }
 
     @Override
@@ -40,12 +57,16 @@ public class BlockQuern extends BlockContainer {
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityQuern quern) {
             if (!player.isSneaking()) {
-                if (Utils.equalsStack(heldItem, handstoneItem) || QuernRecipe.hasRecipe(heldItem)) {
-                    if (Utils.equalsStack(heldItem, handstoneItem)) {
+                if (Utils.isHandstoneTool(heldItem) || QuernRecipe.hasRecipe(heldItem)) {
+                    if (Utils.isHandstoneTool(heldItem)) {
+                        worldIn.setBlockMetadataWithNotify(x, y, z, 1, 2);
                         return quern.addInventorySlotContentsUpdate(0, player);
                     }
-                    if (ChoppingLogRecipe.hasRecipe(heldItem)) {
-                        return quern.addInventorySlotContentsUpdate(1, player);
+                    int meta = worldIn.getBlockMetadata(x, y, z);
+                    if (meta == 1) {
+                        if (QuernRecipe.hasRecipe(heldItem)) {
+                            return quern.addInventorySlotContentsUpdateWhole(1, player);
+                        }
                     }
                 } else {
                     if (quern.getInventoryStack(2) != null) {
@@ -59,12 +80,14 @@ public class BlockQuern extends BlockContainer {
                         return true;
                     }
                     if (quern.getInventoryStack(0) != null) {
+                        worldIn.setBlockMetadataWithNotify(x, y, z, 0, 2);
                         dropItemStack(worldIn, x, y, z, quern.getInventoryStack(0));
                         quern.setInventorySlotContentsUpdate(0);
                         return true;
                     }
                 }
             } else {
+                quern.markDirty();
                 quern.addSpeed();
                 return true;
             }
@@ -74,7 +97,7 @@ public class BlockQuern extends BlockContainer {
 
     public void dropItemStack(World world, int x, int y, int z, ItemStack item) {
         if (item != null && item.stackSize > 0) {
-            EntityItem entityItem = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, item.copy());
+            EntityItem entityItem = new EntityItem(world, x + 0.5, y + 1.2, z + 0.5, item.copy());
             entityItem.motionX = 0.0D;
             entityItem.motionY = 0.0D;
             entityItem.motionZ = 0.0D;
@@ -128,6 +151,11 @@ public class BlockQuern extends BlockContainer {
     }
 
     @Override
+    public int getDamageValue(World worldIn, int x, int y, int z) {
+        return worldIn.getBlockMetadata(x, y, z);
+    }
+
+    @Override
     public boolean isSideSolid(IBlockAccess world, int x, int y, int z, ForgeDirection side) {
         return false;
     }
@@ -139,7 +167,9 @@ public class BlockQuern extends BlockContainer {
     }
 
     @Override
-    protected void dropBlockAsItem(World worldIn, int x, int y, int z, ItemStack itemIn) {}
+    public String getUnlocalizedName() {
+        return "tile." + Primal.MODID + ".quern";
+    }
 
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {

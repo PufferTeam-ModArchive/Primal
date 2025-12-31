@@ -63,6 +63,8 @@ public class Registry {
     public static final Item rock;
     public static final Item flint;
     public static final Item wood;
+    public static final Item flour;
+    public static final Item dough;
     public static final Item powder;
     public static final Item handstone;
     public static final Item mold;
@@ -108,10 +110,12 @@ public class Registry {
         flint = new ItemMeta(Constants.flintItems, "flint");
         rock = new ItemMeta(Constants.rockTypes, "rock");
         powder = new ItemMeta(Constants.powderItems, "powder");
-        handstone = new ItemSimple("handstone");
         mold = new ItemMeta(Constants.moldItems, "mold");
         clay = new ItemMeta(Constants.clayItems, "clay");
         ((BlockGroundcover) ground_rock).setItem(rock);
+
+        dough = new ItemMetaFood(Constants.doughItems, "dough");
+        flour = new ItemMetaFood(Constants.flourItems, "flour");
 
         bucket = new ItemBucketMeta("bucket");
         ceramic_bucket = new ItemBucketCeramic("ceramic_bucket");
@@ -122,6 +126,7 @@ public class Registry {
         flint_knife = new ItemKnifePrimitive(toolFlint, "flint_knife");
 
         firestarter = new ItemFireStarter();
+        handstone = new ItemHandstone();
     }
 
     public void setup() {
@@ -149,8 +154,9 @@ public class Registry {
         register(straw, "straw");
         register(hide, "hide");
         register(wood, "wood");
+        register(flour, "flour");
+        register(dough, "dough");
         register(powder, "powder");
-        register(handstone, "handstone");
         register(rock, "rock");
         register(flint, "flint");
         register(mold, "mold");
@@ -160,6 +166,7 @@ public class Registry {
         register(flint_shovel, "flint_shovel");
         register(flint_knife, "flint_knife");
         register(firestarter, "firestarter");
+        register(handstone, "handstone");
         register(bucket, "bucket");
         register(ceramic_bucket, "ceramic_bucket");
     }
@@ -219,6 +226,7 @@ public class Registry {
         registerEvent(new MobDropHandler());
         registerEvent(new CastHandler());
         registerEvent(new TemperatureHandler());
+        registerEvent(new FoodHandler());
     }
 
     public void setupPackets() {

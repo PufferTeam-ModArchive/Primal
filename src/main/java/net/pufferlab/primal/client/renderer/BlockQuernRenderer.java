@@ -7,23 +7,15 @@ import net.minecraft.world.IBlockAccess;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.models.ModelQuern;
 
-import org.lwjgl.opengl.GL11;
-
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 
 @ThreadSafeISBRH(perThread = true)
 public class BlockQuernRenderer extends BlockPrimalRenderer {
 
     private final ThreadLocal<ModelQuern> modelQuernThread = ThreadLocal.withInitial(ModelQuern::new);
-    ModelQuern modelQuernGlobal = new ModelQuern();
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
-        GL11.glPushMatrix();
-        GL11.glTranslatef(0.0F, -0.5F, 0.0F);
-        modelQuernGlobal.render();
-        GL11.glPopMatrix();
-    }
+    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {}
 
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
@@ -38,7 +30,7 @@ public class BlockQuernRenderer extends BlockPrimalRenderer {
 
     @Override
     public boolean shouldRender3DInInventory(int modelId) {
-        return true;
+        return false;
     }
 
     @Override

@@ -9,22 +9,27 @@ public class ItemHandstoneRenderer extends ItemPrimalRenderer {
     ModelHandstone[] modelHandstone = new ModelHandstone[] { new ModelHandstone() };
 
     @Override
-    public ModelPrimal[] getItemBlockModel(ItemStack stack) {
+    public ModelPrimal[] getModel(ItemStack stack) {
         return modelHandstone;
     }
 
     @Override
-    public boolean hasBigModel(ItemStack stack) {
+    public boolean shouldScaleModel(ItemStack stack) {
         return true;
     }
 
     @Override
-    public boolean isItemBlock(ItemStack stack) {
+    public float getScale() {
+        return 1.25F;
+    }
+
+    @Override
+    public boolean handleRendering(ItemStack stack) {
         return true;
     }
 
     @Override
-    public boolean needsNormalItemRender() {
+    public boolean isNormal() {
         return true;
     }
 }

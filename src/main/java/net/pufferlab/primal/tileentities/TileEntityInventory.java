@@ -210,7 +210,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         if (getInventoryStack(index) == null && player.getCurrentEquippedItem() != null) {
             ItemStack stack = player.getCurrentEquippedItem()
                 .copy();
-            player.getCurrentEquippedItem().stackSize = 0;
+            player.setCurrentItemOrArmor(0, null);
             setInventorySlotContentsUpdate(index, stack);
             return true;
         }
@@ -218,10 +218,10 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
     }
 
     public void addItemInSlotUpdate(int index, ItemStack item) {
-        if (getInventoryStack(1) == null) {
+        if (getInventoryStack(index) == null) {
             setInventorySlotContentsUpdate(index, item);
         } else if (Utils.equalsStack(getInventoryStack(1), item)) {
-            getInventoryStack(1).stackSize++;
+            getInventoryStack(index).stackSize++;
         }
     }
 

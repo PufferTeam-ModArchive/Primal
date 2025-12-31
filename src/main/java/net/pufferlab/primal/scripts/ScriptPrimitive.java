@@ -12,6 +12,7 @@ public class ScriptPrimitive implements IScript {
         addCraftingRecipes();
         addCampfireRecipes();
         addChoppingLogRecipes();
+        addQuernRecipes();
         addTanningRecipes();
         addKnappingRecipes();
         addPitKilnRecipes();
@@ -40,13 +41,14 @@ public class ScriptPrimitive implements IScript {
         addOreDict("mold", getItem(Primal.MODID + ":mold:*:1"));
         addOreDict("itemLarge", getModItem("clay_large_vessel", 1));
         addOreDict("itemLarge", getModItem("clay_crucible", 1));
-        addOreDict("itemLarge", getItem(Primal.MODID, "large_vessel", 0, 1));
-        addOreDict("itemLarge", getItem(Primal.MODID, "crucible", 0, 1));
-        addOreDict("itemLarge", getItem(Primal.MODID, "barrel", 0, 1));
-        addOreDict("itemContainer", getItem(Primal.MODID, "large_vessel", 0, 1));
-        addOreDict("itemContainer", getItem(Primal.MODID, "crucible", 0, 1));
-        addOreDict("itemContainer", getItem(Primal.MODID, "barrel", 0, 1));
+        addOreDict("itemLarge", getItem(Primal.MODID, "large_vessel"));
+        addOreDict("itemLarge", getItem(Primal.MODID, "crucible"));
+        addOreDict("itemLarge", getItem(Primal.MODID, "barrel"));
+        addOreDict("itemContainer", getItem(Primal.MODID, "large_vessel"));
+        addOreDict("itemContainer", getItem(Primal.MODID, "crucible"));
+        addOreDict("itemContainer", getItem(Primal.MODID, "barrel"));
         addOreDict("toolKnife", getItem(Primal.MODID, "flint_knife", wildcard, 1));
+        addOreDict("toolHandstone", getItem(Primal.MODID, "handstone", wildcard, 1));
         addOreDict("blockColoredWool", getItem("minecraft:wool:*:1"));
         addOreDict("blockColoredGlass", getItem("minecraft:stained_glass:*:1"));
         addOreDict("blockColoredGlass", getItem("minecraft:glass:*:1"));
@@ -149,6 +151,10 @@ public class ScriptPrimitive implements IScript {
 
     public void addChoppingLogRecipes() {
         addChoppingLogRecipe(getModItem("firewood", 2), "logWood");
+    }
+
+    public void addQuernRecipes() {
+        addQuernRecipe(getModItem("wheat_flour", 1), getItem("minecraft:wheat:0:1"));
     }
 
     public void addTanningRecipes() {

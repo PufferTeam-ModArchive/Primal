@@ -26,6 +26,7 @@ public class BlockCrucible extends BlockContainer {
         super(Material.rock);
         this.setHardness(1.0F);
         this.setBlockBounds(0.25F, 0.0F, 0.25F, 0.75F, 0.5F, 0.75F);
+        this.canBlockGrass = false;
     }
 
     @Override

@@ -26,6 +26,7 @@ public class BlockTanning extends BlockContainer {
     public BlockTanning() {
         super(Material.wood);
         this.setHardness(1.0F);
+        this.canBlockGrass = false;
     }
 
     @Override

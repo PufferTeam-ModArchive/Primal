@@ -83,11 +83,20 @@
             }
         ]
     },
-        "close.faucet": {
+    "close.faucet": {
         "category": "master",
         "sounds": [
             {
                 "name": "faucet/close",
+                "stream": false
+            }
+        ]
+    },
+    "grinding.quern": {
+        "category": "master",
+        "sounds": [
+            {
+                "name": "quern/grinding",
                 "stream": false
             }
         ]

@@ -41,31 +41,33 @@ public class TileEntityQuernRenderer extends TileEntitySpecialRenderer {
         World world = tileEntity.getWorldObj();
         TileEntityQuern quern = (TileEntityQuern) tileEntity;
         Block block = world.getBlock(quern.xCoord, quern.yCoord, quern.zCoord);
+        int meta = world.getBlockMetadata(quern.xCoord, quern.yCoord, quern.zCoord);
         if (!(block instanceof BlockQuern)) return;
-
-        renderTileEntityRotationAt(tileEntity, x, y, z, partialTicks);
-
         this.itemRenderer.setRenderManager(renderManager);
 
-        GL11.glEnable(GL11.GL_LIGHTING);
-        ItemStack slot = quern.getInventoryStack(1);
+        if (meta == 1) {
+            renderTileEntityRotationAt(tileEntity, x, y, z, partialTicks);
+            GL11.glEnable(GL11.GL_LIGHTING);
+            ItemStack slot = quern.getInventoryStack(1);
 
-        renderSlotItem(slot, x + 0.5, y + 0.90F, z + 0.5);
+            renderSlotItem(slot, x + 0.5, y + 1F, z + 0.5);
+        }
     }
 
     public void renderTileEntityRotationAt(TileEntity tileEntity, double x, double y, double z, float partialTicks) {
-        TileEntityQuern globe = (TileEntityQuern) tileEntity;
+        TileEntityQuern quern = (TileEntityQuern) tileEntity;
 
-        float partialRotation = globe.rotation;
+        float partialRotation = quern.rotation;
 
-        if (globe.speed > 0) {
-            partialRotation = globe.rotation + (partialTicks * globe.speed);
+        if (quern.speed > 0) {
+            partialRotation = quern.rotation + (partialTicks * quern.speed);
         }
 
         GL11.glPushMatrix();
         GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
         GL11.glRotatef(partialRotation, 0.0F, 1.0F, 0.0F);
         modelHandstone.render();
+
         GL11.glPopMatrix();
     }
 
@@ -75,7 +77,8 @@ public class TileEntityQuernRenderer extends TileEntitySpecialRenderer {
             this.slotEntity.setEntityItemStack(stack);
             this.slotEntity.hoverStart = 0.0F;
             GL11.glTranslated(xAdjust, yAdjust, zAdjust);
-            GL11.glScalef(1.5F, 1.5F, 1.5F);
+            GL11.glRotatef(45, 0.0F, 1.0F, 0.0F);
+            GL11.glScalef(0.5F, 0.5F, 0.5F);
             RenderItem.renderInFrame = true;
             try {
                 this.itemRenderer.doRender(slotEntity, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);

@@ -30,6 +30,7 @@ public class NEICompat implements IConfigureNEI {
             registerHandler(new NEICampfireHandler());
             registerHandler(new NEIBarrelHandler());
             registerHandler(new NEITanningHandler());
+            registerHandler(new NEIQuernHandler());
         }
         loadGTNH();
     }
@@ -88,12 +89,22 @@ public class NEICompat implements IConfigureNEI {
             Primal.MODID,
             166,
             65);
+        sendHandler(
+            "net.pufferlab.primal.compat.nei.NEIQuernHandler",
+            Primal.MODID + ":quern",
+            2,
+            Primal.MODNAME,
+            Primal.MODID,
+            166,
+            65);
         sendCatalyst(Primal.MODID + ".chopping_log", Primal.MODID + ":chopping_log");
         sendCatalyst(Primal.MODID + ".barrel", Primal.MODID + ":barrel");
         sendCatalyst(Primal.MODID + ".campfire", Primal.MODID + ":campfire");
         sendCatalyst(Primal.MODID + ".campfire", Primal.MODID + ":oven");
         sendCatalyst(Primal.MODID + ".pit_kiln", Primal.MODID + ":pit_kiln");
         sendCatalyst(Primal.MODID + ".tanning", Primal.MODID + ":tanning_frame");
+        sendCatalyst(Primal.MODID + ".quern", Primal.MODID + ":quern");
+        sendCatalyst(Primal.MODID + ".quern", Primal.MODID + ":handstone");
     }
 
     public static boolean isHovering(PositionedStack stack, GuiRecipe gui, int recipeId) {

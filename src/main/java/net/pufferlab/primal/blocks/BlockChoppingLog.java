@@ -28,6 +28,7 @@ public class BlockChoppingLog extends BlockContainer {
         this.setStepSound(soundTypeWood);
         this.setHardness(2.5F);
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.75F, 1.0F);
+        this.canBlockGrass = false;
     }
 
     @Override

@@ -2,6 +2,7 @@ package net.pufferlab.primal.client.models;
 
 import net.pufferlab.primal.client.utils.ModelBox;
 import net.pufferlab.primal.client.utils.ModelRenderer;
+import net.pufferlab.primal.client.utils.ModelSquare;
 
 public class ModelHandstone extends ModelPrimal {
 
@@ -14,6 +15,7 @@ public class ModelHandstone extends ModelPrimal {
     public ModelHandstone() {
         super(64);
         bb_main.cubeList.add(new ModelBox(bb_main, 0, 26, -5.0F, 3.0F, -5.0F, 10, 4, 10, 0.0F));
+        bb_main.cubeList.add(new ModelSquare(bb_main, 34, 54, -5.0F, 8.0F, -5.0F, 10, 0, 10, 0.0F, 3));
         bb_main.cubeList.add(new ModelBox(bb_main, 0, 51, 1.0F, 7.0F, -5.0F, 4, 1, 10, 0.0F));
         bb_main.cubeList.add(new ModelBox(bb_main, 0, 40, -5.0F, 7.0F, -5.0F, 4, 1, 10, 0.0F));
         bb_main.cubeList.add(new ModelBox(bb_main, 29, 46, -1.0F, 7.0F, -5.0F, 2, 1, 4, 0.0F));
@@ -50,6 +52,6 @@ public class ModelHandstone extends ModelPrimal {
 
     @Override
     public String getName() {
-        return "blocks/quern";
+        return "blocks/handstone";
     }
 }

@@ -3,6 +3,7 @@ package net.pufferlab.primal.events;
 import net.minecraft.block.BlockLeavesBase;
 import net.minecraft.block.BlockTallGrass;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
@@ -83,11 +84,13 @@ public class ToolHandler {
 
         if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
             ItemStack heldItem = event.entityPlayer.getHeldItem();
-            if (Utils.isLighter(heldItem)) {
-                TileEntity te = event.world.getTileEntity(event.x, event.y, event.z);
-                if (te instanceof TileEntityInventory tef) {
-                    if (tef.canBeFired()) {
-                        tef.setFired(true);
+            if (heldItem != null) {
+                if (heldItem.getItem() instanceof ItemFlintAndSteel) {
+                    TileEntity te = event.world.getTileEntity(event.x, event.y, event.z);
+                    if (te instanceof TileEntityInventory tef) {
+                        if (tef.canBeFired()) {
+                            tef.setFired(true);
+                        }
                     }
                 }
             }

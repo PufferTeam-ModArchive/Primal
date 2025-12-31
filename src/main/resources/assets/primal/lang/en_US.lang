@@ -12,6 +12,7 @@ tile.primal.oven.name=Oven
 tile.primal.brick_chimney.name=Brick Chimney
 tile.primal.crucible.name=Crucible
 tile.primal.forge.name=Forge
+tile.primal.quern.name=Quern
 item.primal.knapping_icon.name=Knapping
 
 
@@ -99,7 +100,10 @@ item.primal.flint_pickaxe.name=Flint Pickaxe
 item.primal.flint_shovel.name=Flint Shovel
 item.primal.flint_knife.name=Flint Knife
 item.primal.firestarter.name=Fire Starter
+item.primal.handstone.name=Handstone
 item.primal.firewood.name=Firewood
 item.primal.ash.name=Wood Ash
 item.primal.stone_rock.name=Stone Rock
 item.primal.lime.name=Lime Powder
+item.primal.wheat_dough.name=Wheat Dough
+item.primal.wheat_flour.name=Wheat Flour

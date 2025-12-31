@@ -6,12 +6,14 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityLogPile;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
@@ -25,6 +27,7 @@ public class BlockLogPile extends BlockPile {
         this.setStepSound(soundTypeWood);
         this.setHardness(2.5F);
         this.setTickRandomly(true);
+        this.canBlockGrass = false;
     }
 
     @Override
@@ -79,6 +82,8 @@ public class BlockLogPile extends BlockPile {
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX,
         float hitY, float hitZ) {
+        ItemStack heldItem = player.getHeldItem();
+        if (Utils.isLighter(heldItem)) return false;
         boolean result = super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
         for (int i = 0; i < 10; i++) {
             TileEntity te = world.getTileEntity(x, y + i, z);

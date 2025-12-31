@@ -29,6 +29,7 @@ public class BlockFaucet extends BlockContainer {
         this.setStepSound(soundTypeWood);
         this.setHardness(1.0F);
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+        this.canBlockGrass = false;
     }
 
     @Override

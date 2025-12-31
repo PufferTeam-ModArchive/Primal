@@ -1,13 +1,17 @@
 package net.pufferlab.primal;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.pufferlab.primal.client.audio.SoundQuernGrinding;
+import net.pufferlab.primal.client.particle.EntityGrindingFX;
 import net.pufferlab.primal.client.renderer.*;
 import net.pufferlab.primal.inventory.container.ContainerKnapping;
 import net.pufferlab.primal.inventory.gui.GuiCrucible;
@@ -19,6 +23,7 @@ import net.pufferlab.primal.tileentities.*;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
 public class ClientProxy extends CommonProxy {
 
@@ -94,6 +99,7 @@ public class ClientProxy extends CommonProxy {
         register(Registry.crucible, new ItemCrucibleRenderer());
         register(Registry.forge, new ItemForgeRenderer());
         register(Registry.handstone, new ItemHandstoneRenderer());
+        register(Registry.quern, new ItemQuernRenderer());
     }
 
     public int getNextId() {
@@ -135,6 +141,38 @@ public class ClientProxy extends CommonProxy {
             }
         }
         return null;
+    }
+
+    @Override
+    public <T extends IMessage> void sendPacketToServer(T object) {
+        Primal.network.sendToServer(object);
+    }
+
+    @Override
+    public void playClientSound(TileEntity te) {
+        if (te instanceof TileEntityQuern tef) {
+            Minecraft.getMinecraft()
+                .getSoundHandler()
+                .playSound(new SoundQuernGrinding(tef));
+        }
+    }
+
+    @Override
+    public void renderFX(TileEntity te, double x, double y, double z, ItemStack stack) {
+        if (te instanceof TileEntityQuern) {
+            if (stack != null) {
+                Item item = stack.getItem();
+                int meta = stack.getItemDamage();
+                EntityGrindingFX fx = new EntityGrindingFX(
+                    te.getWorldObj(),
+                    te.xCoord + x,
+                    te.yCoord + y,
+                    te.zCoord + z,
+                    item,
+                    meta);
+                Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+            }
+        }
     }
 
     @Override

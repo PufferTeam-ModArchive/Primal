@@ -21,6 +21,7 @@ public class BlockCharcoalPile extends BlockPile {
         super(Material.sand);
         this.setStepSound(SoundTypePrimal.soundTypeCharcoal);
         this.setHardness(0.5F);
+        this.canBlockGrass = false;
     }
 
     @Override

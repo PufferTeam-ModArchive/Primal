@@ -8,22 +8,24 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ModelBox {
 
     /** The (x,y,z) vertex positions and (u,v) texture coordinates for each of the 8 points on a cube */
-    private PositionTextureVertex[] vertexPositions;
+    public PositionTextureVertex[] vertexPositions;
     /** An array of 6 TexturedQuads, one for each face of a cube */
     public TexturedQuad[] quadList;
     /** X vertex coordinate of lower box corner */
-    public final float posX1;
+    public float posX1;
     /** Y vertex coordinate of lower box corner */
-    public final float posY1;
+    public float posY1;
     /** Z vertex coordinate of lower box corner */
-    public final float posZ1;
+    public float posZ1;
     /** X vertex coordinate of upper box corner */
-    public final float posX2;
+    public float posX2;
     /** Y vertex coordinate of upper box corner */
-    public final float posY2;
+    public float posY2;
     /** Z vertex coordinate of upper box corner */
-    public final float posZ2;
+    public float posZ2;
     public String field_78247_g;
+
+    public ModelBox() {}
 
     public ModelBox(ModelRenderer body, int U, int V, float x, float y, float z, int xWidth, int yHeight, int zDepth,
         float scaleFactor) {
@@ -145,6 +147,7 @@ public class ModelBox {
     @SideOnly(Side.CLIENT)
     public void render(Tessellator tessellator, float scale) {
         for (int i = 0; i < this.quadList.length; ++i) {
+            if (this.quadList[i] == null) continue;
             this.quadList[i].draw(tessellator, scale);
         }
     }

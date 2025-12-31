@@ -25,22 +25,22 @@ public class ItemClayRenderer extends ItemPrimalRenderer {
     }
 
     @Override
-    public ModelPrimal[] getItemBlockModel(ItemStack stack) {
+    public ModelPrimal[] getModel(ItemStack stack) {
         return models;
     }
 
     @Override
-    public int[] getItemBlockMeta() {
+    public int[] getMeta() {
         return modelsMeta;
     }
 
     @Override
-    public boolean isItemBlock(ItemStack stack) {
+    public boolean handleRendering(ItemStack stack) {
         return true;
     }
 
     @Override
-    public boolean hasBigModel(ItemStack stack) {
+    public boolean shouldScaleModel(ItemStack stack) {
         if (stack.getItemDamage() == crucibleMeta) {
             return true;
         }
@@ -48,7 +48,7 @@ public class ItemClayRenderer extends ItemPrimalRenderer {
     }
 
     @Override
-    public boolean needsNormalItemRender() {
+    public boolean isNormal() {
         return true;
     }
 }

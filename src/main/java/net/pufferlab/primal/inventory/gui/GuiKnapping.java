@@ -86,7 +86,7 @@ public class GuiKnapping extends GuiContainer {
 
     public void sendKnappingPacket(int x, int y) {
         if (this.containerKnapping.invPlayer.player.worldObj.isRemote) {
-            Primal.network.sendToServer(new PacketKnappingClick(x, y));
+            Primal.proxy.sendPacketToServer(new PacketKnappingClick(x, y));
         }
     }
 

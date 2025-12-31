@@ -1,14 +1,18 @@
 package net.pufferlab.primal.tileentities;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.events.PacketSpeedUpdate;
+import net.pufferlab.primal.recipes.QuernRecipe;
 
 public class TileEntityQuern extends TileEntityInventory {
 
     public static final float maxSpeed = 8F;
     public static final float speedAcceleration = 2F;
     public static final float speedDeceleration = 0.6F;
+    int timeToUse = 20 * 10;
+    int timeToGrind = 20 * 5;
 
     public TileEntityQuern() {
         super(3);
@@ -20,6 +24,10 @@ public class TileEntityQuern extends TileEntityInventory {
     public float speed;
     public float lastSpeed;
     public int pressed;
+    public boolean isMoving;
+    public int timeUsed;
+    public int timePassed;
+    public int timeGround;
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
@@ -28,7 +36,10 @@ public class TileEntityQuern extends TileEntityInventory {
         this.rotation = tag.getFloat("rotation");
         this.speed = tag.getFloat("speed");
         this.lastSpeed = tag.getFloat("lastSpeed");
-        this.pressed = tag.getInteger("pressed");
+        this.isMoving = tag.getBoolean("isMoving");
+        this.timeUsed = tag.getInteger("timeUsed");
+        this.timePassed = tag.getInteger("timePassed");
+        this.timeGround = tag.getInteger("timeGround");
     }
 
     @Override
@@ -38,19 +49,29 @@ public class TileEntityQuern extends TileEntityInventory {
         tag.setFloat("rotation", this.rotation);
         tag.setFloat("speed", this.speed);
         tag.setFloat("lastSpeed", this.lastSpeed);
-        tag.setInteger("pressed", this.pressed);
+        tag.setBoolean("isMoving", this.isMoving);
+        tag.setInteger("timeUsed", this.timeUsed);
+        tag.setInteger("timePassed", this.timePassed);
+        tag.setInteger("timeGround", this.timeGround);
     }
 
     public void sendUpdate() {
         if (!worldObj.isRemote) {
-            Primal.network.sendToAll(new PacketSpeedUpdate(this));
+            Primal.proxy.sendPacketToClient(new PacketSpeedUpdate(this));
+            this.markDirty();
         }
     }
 
+    public float getPercentageSpeed() {
+        return this.speed / maxSpeed;
+    }
+
     public void addSpeed() {
-        if (!worldObj.isRemote) {
-            if (this.pressed < 20) {
-                this.pressed++;
+        if (this.blockMetadata == 1) {
+            if (!worldObj.isRemote) {
+                if (this.pressed < 20) {
+                    this.pressed++;
+                }
             }
         }
     }
@@ -58,10 +79,13 @@ public class TileEntityQuern extends TileEntityInventory {
     @Override
     public void updateEntity() {
         if (!worldObj.isRemote) {
+
             float newSpeed = this.speed;
 
             if (newSpeed > 0) {
                 newSpeed = Math.max(0, this.speed - speedDeceleration);
+                timeUsed++;
+                timePassed++;
             }
 
             if (this.pressed > 0) {
@@ -76,10 +100,56 @@ public class TileEntityQuern extends TileEntityInventory {
                 this.speed = newSpeed;
                 sendUpdate();
             }
+
+            if (timeUsed > timeToUse) {
+                timeUsed = 0;
+                ItemStack handstone = getInventoryStack(0);
+                if (handstone != null) {
+                    boolean broke = handstone.attemptDamageItem(1, worldObj.rand);
+                    if (broke) {
+                        this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 0, 2);
+                        setInventorySlotContentsUpdate(0);
+                    }
+                }
+            }
+
+            int newTimeGround = this.timeGround;
+            if (this.timePassed > 20) {
+                this.timePassed = 0;
+                if (getInventoryStack(1) != null) {
+                    newTimeGround = this.timeGround + (int) Math.floor(20 * getPercentageSpeed());
+                } else {
+                    newTimeGround = 0;
+                }
+            }
+
+            if (newTimeGround != this.timeGround) {
+                this.timeGround = newTimeGround;
+            }
+
+            if (this.timeGround > timeToGrind) {
+                this.timeGround = 0;
+                ItemStack output = QuernRecipe.getOutput(getInventoryStack(1));
+                if (output != null) {
+                    addItemInSlotUpdate(2, output);
+                    decrStackSize(1, 1);
+                }
+            }
         }
 
         if (worldObj.isRemote) {
             this.rotation = (this.rotation + this.speed) % 360.0F;
+
+            if (this.speed > 0) {
+                Primal.proxy.renderFX(this, 0.5, 1.1, 0.5, getInventoryStack(1));
+                if (!this.isMoving) {
+                    this.isMoving = true;
+                    Primal.proxy.playClientSound(this);
+                }
+            } else {
+                this.isMoving = false;
+            }
+
         }
     }
 }

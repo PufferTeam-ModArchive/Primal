@@ -8,20 +8,13 @@ public class ItemForgeRenderer extends ItemPrimalRenderer {
 
     ModelForge[] modelForge = new ModelForge[] { new ModelForge() };
 
-    int[] forgeMeta = new int[] { 0 };
-
     @Override
-    public ModelPrimal[] getItemBlockModel(ItemStack stack) {
+    public ModelPrimal[] getModel(ItemStack stack) {
         return modelForge;
     }
 
     @Override
-    public int[] getItemBlockMeta() {
-        return forgeMeta;
-    }
-
-    @Override
-    public boolean isItemBlock(ItemStack stack) {
+    public boolean handleRendering(ItemStack stack) {
         return true;
     }
 

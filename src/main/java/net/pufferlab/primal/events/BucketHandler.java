@@ -2,7 +2,6 @@ package net.pufferlab.primal.events;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -23,8 +22,7 @@ public class BucketHandler {
 
     public void updatePacket(EntityPlayer player) {
         if (!player.worldObj.isRemote) {
-            EntityPlayerMP playerMP = (EntityPlayerMP) player;
-            Primal.network.sendTo(new PacketSwingArm(player), playerMP);
+            Primal.proxy.sendPacketToClient(new PacketSwingArm(player));
             player.inventoryContainer.detectAndSendChanges();
         }
     }

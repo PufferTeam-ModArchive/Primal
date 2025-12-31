@@ -21,6 +21,7 @@ public class BlockAshPile extends BlockPile {
         super(Material.sand);
         this.setStepSound(soundTypeSand);
         this.setHardness(0.5F);
+        this.canBlockGrass = false;
     }
 
     @Override

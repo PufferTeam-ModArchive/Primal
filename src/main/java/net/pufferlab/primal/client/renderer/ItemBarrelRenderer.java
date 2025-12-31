@@ -11,17 +11,17 @@ public class ItemBarrelRenderer extends ItemPrimalRenderer {
     int[] barrelMeta = new int[] { 0 };
 
     @Override
-    public ModelPrimal[] getItemBlockModel(ItemStack stack) {
+    public ModelPrimal[] getModel(ItemStack stack) {
         return modelBarrel;
     }
 
     @Override
-    public int[] getItemBlockMeta() {
+    public int[] getMeta() {
         return barrelMeta;
     }
 
     @Override
-    public boolean isItemBlock(ItemStack stack) {
+    public boolean handleRendering(ItemStack stack) {
         return true;
     }
 

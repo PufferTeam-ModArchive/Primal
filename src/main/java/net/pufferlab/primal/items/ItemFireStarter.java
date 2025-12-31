@@ -78,15 +78,14 @@ public class ItemFireStarter extends Item {
                 float pHitZ = mop.blockZ + hitZ;
                 world.spawnParticle("smoke", pHitX, pHitY, pHitZ, 0.0F, 0.0F, 0.0F);
                 stack.damageItem(1, player);
-                updatePacket(player, mop.blockX, mop.blockY, mop.blockZ, pHitX, pHitY, pHitZ, success);
+                updatePacket(player, success);
             }
         }
     }
 
-    public void updatePacket(EntityPlayer player, int x, int y, int z, float hitX, float hitY, float hitZ,
-        boolean success) {
+    public void updatePacket(EntityPlayer player, boolean success) {
         if (!player.worldObj.isRemote) {
-            Primal.network.sendToAll(new PacketFireStarter(player, x, y, z, hitX, hitY, hitZ, success));
+            Primal.proxy.sendPacketToClient(new PacketFireStarter(player, success));
         }
     }
 

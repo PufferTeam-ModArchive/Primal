@@ -1,16 +1,16 @@
 package net.pufferlab.primal.client.renderer;
 
 import net.minecraft.item.ItemStack;
-import net.pufferlab.primal.client.models.ModelLargeVessel;
 import net.pufferlab.primal.client.models.ModelPrimal;
+import net.pufferlab.primal.client.models.ModelQuern;
 
-public class ItemLargeVesselRenderer extends ItemPrimalRenderer {
+public class ItemQuernRenderer extends ItemPrimalRenderer {
 
-    ModelLargeVessel[] modelLargeVessel = new ModelLargeVessel[] { new ModelLargeVessel() };
+    ModelQuern[] modelQuern = new ModelQuern[] { new ModelQuern() };
 
     @Override
     public ModelPrimal[] getModel(ItemStack stack) {
-        return modelLargeVessel;
+        return modelQuern;
     }
 
     @Override

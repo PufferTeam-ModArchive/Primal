@@ -31,6 +31,7 @@ public class BlockCast extends BlockContainer {
 
         this.setHardness(0.2F);
         super.setBlockBounds(0.125F, 0.0F, 0.125F, 0.875F, 0.125F, 0.875F);
+        this.canBlockGrass = false;
     }
 
     @Override
