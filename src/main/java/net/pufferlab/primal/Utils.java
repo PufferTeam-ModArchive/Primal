@@ -3,11 +3,11 @@ package net.pufferlab.primal;
 import java.util.*;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLog;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.stats.StatList;
@@ -22,6 +22,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.blocks.BlockPile;
 import net.pufferlab.primal.blocks.SoundTypePrimal;
 import net.pufferlab.primal.items.ItemDummy;
+import net.pufferlab.primal.items.ItemKnifePrimitive;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -85,7 +86,7 @@ public class Utils {
 
         int number = 1;
         if (array.length > 3) {
-            number = array[3].equals("*") ? OreDictionary.WILDCARD_VALUE : Integer.parseInt(array[3]);
+            number = array[3].equals("*") ? 1 : Integer.parseInt(array[3]);
         }
 
         return getItem(mod, item, meta, number);
@@ -228,9 +229,7 @@ public class Utils {
 
     public static void setTemperatureToNBT(NBTTagCompound nbt, int temperature) {
         if (nbt == null) return;
-        if (nbt.hasKey("temperature")) {
-            nbt.setInteger("temperature", temperature);
-        }
+        nbt.setInteger("temperature", temperature);
     }
 
     public static String getFluidInfoFromNBT(NBTTagCompound nbt) {
@@ -294,14 +293,14 @@ public class Utils {
         if (Primal.BOPLoaded) {
             ItemStack bopEmptyBucket = getItem("BiomesOPlenty:bopBucket:*:1");
             ItemStack emptyBucket = getItem("minecraft:bucket:0:1");
-            if (Utils.areStackEquals(filled, bopEmptyBucket)) {
+            if (Utils.equalsStack(filled, bopEmptyBucket)) {
                 return emptyBucket.copy();
             }
         }
 
         if (Primal.WGLoaded) {
             ItemStack capsule = getItem("WitchingGadgets:item.WG_CrystalFlask:*:1");
-            if (Utils.areStackEquals(filled, capsule)) {
+            if (Utils.equalsStack(filled, capsule)) {
                 capsule.stackTagCompound = null;
                 capsule.setItemDamage(0);
                 capsule.stackSize = 1;
@@ -354,6 +353,58 @@ public class Utils {
         }
 
         return FluidContainerRegistry.isEmptyContainer(stack);
+    }
+
+    public static boolean isLogBlock(Block block) {
+        if (block == null) return false;
+        if (block instanceof BlockLog) return true;
+        if (containsOreDict(block, "logWood")) return true;
+        return false;
+    }
+
+    public static boolean isSoilBlock(Block block, int meta) {
+        if (block == null) return false;
+        if (block.getHarvestTool(meta) == "shovel") return true;
+        return false;
+    }
+
+    public static boolean isShovelTool(ItemStack itemStack) {
+        if (itemStack == null) return false;
+        if (itemStack.getItem() == null) return false;
+        if (itemStack.getItem() instanceof ItemSpade) return true;
+        if (containsOreDict(itemStack, "toolShovel")) return true;
+        return false;
+    }
+
+    public static boolean isAxeTool(ItemStack itemStack) {
+        if (itemStack == null) return false;
+        if (itemStack.getItem() == null) return false;
+        if (itemStack.getItem() instanceof ItemAxe) return true;
+        if (containsOreDict(itemStack, "toolAxe")) return true;
+        return false;
+    }
+
+    public static boolean isKnifeTool(ItemStack itemStack) {
+        if (itemStack == null) return false;
+        if (itemStack.getItem() == null) return false;
+        if (itemStack.getItem() instanceof ItemKnifePrimitive) return true;
+        if (containsOreDict(itemStack, "toolKnife")) return true;
+        return false;
+    }
+
+    public static boolean isBrokenTool(ItemStack itemStack) {
+        if (itemStack == null) return false;
+        if (itemStack.getItem() == null) return false;
+        if (containsOreDict(itemStack, "toolBroken")) return true;
+        return false;
+    }
+
+    public static boolean isLighter(ItemStack itemStack) {
+        if (itemStack == null) return false;
+        if (itemStack.getItem() == null) return false;
+        if (itemStack.getItem() instanceof ItemFlintAndSteel) return true;
+        if (containsOreDict(itemStack, "itemLighter")) return true;
+        return false;
     }
 
     public static Random getSeededRandom(Random random, int x, int y, int z) {
@@ -439,7 +490,7 @@ public class Utils {
         return getSimpleAxisFromFacing(facingMeta) == getSimpleAxisFromFacing(facingMeta2);
     }
 
-    public static boolean areStackEquals(ItemStack wild, ItemStack check) {
+    public static boolean equalsStack(ItemStack wild, ItemStack check) {
         if (wild == null || check == null) {
             return check == wild;
         }
@@ -452,7 +503,7 @@ public class Utils {
         return false;
     }
 
-    public static boolean areStackEquals(FluidStack wild, FluidStack check) {
+    public static boolean equalsStack(FluidStack wild, FluidStack check) {
         if (wild == null || check == null) {
             return check == wild;
         }
@@ -460,7 +511,7 @@ public class Utils {
         return wild.getFluid() == check.getFluid();
     }
 
-    public static boolean areStackEquals(ItemStack check, FluidStack wild) {
+    public static boolean equalsStack(ItemStack check, FluidStack wild) {
         if (wild == null || check == null) {
             return false;
         }
@@ -545,7 +596,7 @@ public class Utils {
             block.stepSound.getPitch() * 0.8F);
     }
 
-    public static void playSoundOther(World world, int x, int y, int z, SoundTypePrimal stepSound) {
+    public static void playSound(World world, int x, int y, int z, SoundTypePrimal stepSound) {
         world.playSoundEffect(
             x + 0.5f,
             y + 0.5f,
@@ -580,7 +631,7 @@ public class Utils {
 
     public static boolean contains(String[] array, String targetString) {
         if (targetString == null) {
-            return true;
+            return false;
         }
         for (String element : array) {
             if (targetString.equals(element)) {
@@ -592,7 +643,7 @@ public class Utils {
 
     public static boolean contains(Block[] array, Block targetString) {
         if (targetString == null) {
-            return true;
+            return false;
         }
         for (Block element : array) {
             if (targetString == element) {
@@ -602,23 +653,23 @@ public class Utils {
         return false;
     }
 
-    public static boolean containsList(List<ItemStack> list, ItemStack b) {
+    public static boolean containsStack(List<ItemStack> list, ItemStack b) {
         for (ItemStack item : list) {
-            if (Utils.areStackEquals(item, b)) {
+            if (Utils.equalsStack(item, b)) {
                 return true;
             }
         }
         return false;
     }
 
-    public static boolean containsList(ItemStack b, List<ItemStack> list) {
-        return containsList(list, b);
+    public static boolean containsStack(ItemStack b, List<ItemStack> list) {
+        return containsStack(list, b);
     }
 
-    public static boolean containsList(List<ItemStack> list, List<ItemStack> list2) {
+    public static boolean containsStack(List<ItemStack> list, List<ItemStack> list2) {
         for (ItemStack item : list) {
             for (ItemStack item2 : list2) {
-                if (Utils.areStackEquals(item, item2)) {
+                if (Utils.equalsStack(item, item2)) {
                     return true;
                 }
             }
@@ -627,7 +678,7 @@ public class Utils {
     }
 
     public static boolean containsOreDict(ItemStack b, String oreDict) {
-        return containsList(b, OreDictionary.getOres(oreDict));
+        return containsStack(b, OreDictionary.getOres(oreDict));
     }
 
     public static boolean containsOreDict(ItemStack b, String[] oreDict) {
@@ -729,6 +780,14 @@ public class Utils {
         System.arraycopy(a, 0, result, 0, a.length);
         System.arraycopy(b, 0, result, a.length, b.length);
         return result;
+    }
+
+    public static void sameIndexArrays(Fluid[] big, Fluid[] small) {
+        System.arraycopy(small, 0, big, 0, small.length);
+    }
+
+    public static void sameIndexArrays(Block[] big, Block[] small) {
+        System.arraycopy(small, 0, big, 0, small.length);
     }
 
     public static String getItemKey(ItemStack itemstack) {

@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.Utils;
 
-public class ChoppingLogRecipe {
+public class QuernRecipe {
 
     private static final Map<List<ItemStack>, ItemStack> recipeMap = new HashMap<>();
 

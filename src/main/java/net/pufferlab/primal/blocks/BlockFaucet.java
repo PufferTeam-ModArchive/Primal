@@ -60,7 +60,7 @@ public class BlockFaucet extends BlockContainer {
         float subY, float subZ) {
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityFaucet tef) {
-            tef.toggleValve();
+            tef.setOpen(!tef.isOpen);
         }
         return true;
     }

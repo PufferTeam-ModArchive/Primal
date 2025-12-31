@@ -1,12 +1,8 @@
 package net.pufferlab.primal.events;
 
 import net.minecraft.block.BlockLeavesBase;
-import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockTallGrass;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemAxe;
-import net.minecraft.item.ItemFlintAndSteel;
-import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
@@ -27,9 +23,9 @@ public class ToolHandler {
     public void setBreakSpeed(PlayerEvent.BreakSpeed event) {
         ItemStack heldItem = event.entityPlayer.inventory.getCurrentItem();
 
-        if (Utils.containsOreDict(event.block, "logWood") || event.block instanceof BlockLog) {
+        if (Utils.isLogBlock(event.block)) {
             if (heldItem != null) {
-                if (!(heldItem.getItem() instanceof ItemAxe)) {
+                if (!Utils.isAxeTool(heldItem)) {
                     event.setCanceled(true);
                 }
             } else {
@@ -37,9 +33,9 @@ public class ToolHandler {
             }
         }
 
-        if (event.block.getHarvestTool(event.metadata) == "shovel") {
+        if (Utils.isSoilBlock(event.block, event.metadata)) {
             if (heldItem != null) {
-                if (!(heldItem.getItem() instanceof ItemSpade)) {
+                if (!Utils.isShovelTool(heldItem)) {
                     event.newSpeed = event.originalSpeed / 2;
                 }
             } else {
@@ -52,12 +48,12 @@ public class ToolHandler {
     @SubscribeEvent
     public void tooltipEvent(ItemTooltipEvent event) {
         if (Config.vanillaToolsRemovalMode == 2) {
-            if (Utils.containsOreDict(event.itemStack, "toolBroken")) {
+            if (Utils.isBrokenTool(event.itemStack)) {
                 event.toolTip.add("§cThis tool is too weak to be used!");
             }
         }
         if (Config.vanillaToolsRemovalMode == 1) {
-            if (Utils.containsOreDict(event.itemStack, "toolBroken")) {
+            if (Utils.isBrokenTool(event.itemStack)) {
                 event.toolTip.add("§cThis tool cannot be crafted!");
             }
         }
@@ -67,7 +63,7 @@ public class ToolHandler {
     public void attackEntityEvent(AttackEntityEvent event) {
         if (Config.vanillaToolsRemovalMode == 2) {
             ItemStack heldItem = event.entityPlayer.getHeldItem();
-            if (Utils.containsOreDict(heldItem, "toolBroken")) {
+            if (Utils.isBrokenTool(heldItem)) {
                 event.entityPlayer.destroyCurrentEquippedItem();
             }
         }
@@ -79,7 +75,7 @@ public class ToolHandler {
         if (Config.vanillaToolsRemovalMode == 2) {
             if (event.action != PlayerInteractEvent.Action.RIGHT_CLICK_AIR) {
                 ItemStack heldItem = event.entityPlayer.getHeldItem();
-                if (Utils.containsOreDict(heldItem, "toolBroken")) {
+                if (Utils.isBrokenTool(heldItem)) {
                     event.entityPlayer.destroyCurrentEquippedItem();
                 }
             }
@@ -87,13 +83,11 @@ public class ToolHandler {
 
         if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
             ItemStack heldItem = event.entityPlayer.getHeldItem();
-            if (heldItem != null) {
-                if (heldItem.getItem() instanceof ItemFlintAndSteel) {
-                    TileEntity te = event.world.getTileEntity(event.x, event.y, event.z);
-                    if (te instanceof TileEntityInventory tef) {
-                        if (tef.canBeFired()) {
-                            tef.setFired(true);
-                        }
+            if (Utils.isLighter(heldItem)) {
+                TileEntity te = event.world.getTileEntity(event.x, event.y, event.z);
+                if (te instanceof TileEntityInventory tef) {
+                    if (tef.canBeFired()) {
+                        tef.setFired(true);
                     }
                 }
             }
@@ -113,7 +107,7 @@ public class ToolHandler {
         if (event.harvester != null) {
             ItemStack heldItem = event.harvester.getHeldItem();
             if (Config.vanillaToolsRemovalMode == 2) {
-                if (Utils.containsOreDict(heldItem, "toolBroken")) {
+                if (Utils.isBrokenTool(heldItem)) {
                     event.drops.clear();
                     event.harvester.destroyCurrentEquippedItem();
                 }

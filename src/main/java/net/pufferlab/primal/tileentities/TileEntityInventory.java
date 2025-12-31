@@ -220,7 +220,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
     public void addItemInSlotUpdate(int index, ItemStack item) {
         if (getInventoryStack(1) == null) {
             setInventorySlotContentsUpdate(index, item);
-        } else if (Utils.areStackEquals(getInventoryStack(1), item)) {
+        } else if (Utils.equalsStack(getInventoryStack(1), item)) {
             getInventoryStack(1).stackSize++;
         }
     }

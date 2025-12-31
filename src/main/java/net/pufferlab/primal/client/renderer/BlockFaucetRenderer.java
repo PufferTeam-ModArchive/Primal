@@ -42,7 +42,7 @@ public class BlockFaucetRenderer extends BlockPrimalRenderer {
             FluidStack stack = tef.getFluidStack();
             FluidStack inputStack = tef.getFluidStackInput();
             if (stack != null) {
-                if (!Utils.areStackEquals(stack, inputStack)) {
+                if (!Utils.equalsStack(stack, inputStack)) {
                     stack = null;
                 }
             }
@@ -61,14 +61,14 @@ public class BlockFaucetRenderer extends BlockPrimalRenderer {
                 modelFluid.setFacingOffset(0.0F, 0.0F, 0.0F);
             }
             modelValve.bb_main.rotateAngleY = 0;
-            if (tef.isActive) {
+            if (tef.isOpen) {
                 modelValve.bb_main.rotateAngleY = (float) (Math.PI / 4);
             }
             modelFaucet.setFacing(meta);
             modelValve.setFacing(meta);
             modelFluid.setFacing(meta);
             modelFluid.dumpVertices(tess, x, y, z);
-            if (renderPass == 1 && tef.isActive == true && tef.getInputTile() != null && tef.getExtractTile() != null) {
+            if (renderPass == 1 && tef.isOpen == true && tef.getInputTile() != null && tef.getExtractTile() != null) {
                 modelFluid.render(
                     renderer,
                     tess,

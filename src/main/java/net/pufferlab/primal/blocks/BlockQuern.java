@@ -13,27 +13,24 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.ChoppingLogRecipe;
-import net.pufferlab.primal.tileentities.TileEntityChoppingLog;
+import net.pufferlab.primal.recipes.QuernRecipe;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
+import net.pufferlab.primal.tileentities.TileEntityQuern;
 
-public class BlockChoppingLog extends BlockContainer {
+public class BlockQuern extends BlockContainer {
 
-    private IIcon[] icons = new IIcon[2];
+    public IIcon[] icons = new IIcon[2];
+    private static final ItemStack handstoneItem = new ItemStack(Registry.handstone, 1, 0);
 
-    public BlockChoppingLog() {
-        super(Material.wood);
-        this.setStepSound(soundTypeWood);
-        this.setHardness(2.5F);
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.75F, 1.0F);
-    }
+    public BlockQuern() {
+        super(Material.rock);
 
-    @Override
-    public void registerBlockIcons(IIconRegister reg) {
-        icons[0] = reg.registerIcon(Primal.MODID + ":chopping_log_side");
-        icons[1] = reg.registerIcon(Primal.MODID + ":chopping_log_top");
+        this.setHardness(0.4F);
     }
 
     @Override
@@ -41,34 +38,60 @@ public class BlockChoppingLog extends BlockContainer {
         float subY, float subZ) {
         ItemStack heldItem = player.getHeldItem();
         TileEntity te = worldIn.getTileEntity(x, y, z);
-        if (te instanceof TileEntityChoppingLog log) {
-            if (Utils.isAxeTool(heldItem) || ChoppingLogRecipe.hasRecipe(heldItem)) {
-                if (Utils.isAxeTool(heldItem)) {
-                    boolean result = log.process();
-                    if (result) {
-                        heldItem.damageItem(1, player);
+        if (te instanceof TileEntityQuern quern) {
+            if (!player.isSneaking()) {
+                if (Utils.equalsStack(heldItem, handstoneItem) || QuernRecipe.hasRecipe(heldItem)) {
+                    if (Utils.equalsStack(heldItem, handstoneItem)) {
+                        return quern.addInventorySlotContentsUpdate(0, player);
                     }
-                    return result;
-                }
-                if (ChoppingLogRecipe.hasRecipe(heldItem)) {
-                    log.addInventorySlotContentsUpdate(0, player);
-                    return true;
+                    if (ChoppingLogRecipe.hasRecipe(heldItem)) {
+                        return quern.addInventorySlotContentsUpdate(1, player);
+                    }
+                } else {
+                    if (quern.getInventoryStack(2) != null) {
+                        dropItemStack(worldIn, x, y, z, quern.getInventoryStack(2));
+                        quern.setInventorySlotContentsUpdate(2);
+                        return true;
+                    }
+                    if (quern.getInventoryStack(1) != null) {
+                        dropItemStack(worldIn, x, y, z, quern.getInventoryStack(1));
+                        quern.setInventorySlotContentsUpdate(1);
+                        return true;
+                    }
+                    if (quern.getInventoryStack(0) != null) {
+                        dropItemStack(worldIn, x, y, z, quern.getInventoryStack(0));
+                        quern.setInventorySlotContentsUpdate(0);
+                        return true;
+                    }
                 }
             } else {
-                if (log.getInventoryStack(0) != null) {
-                    dropItems(worldIn, x, y, z);
-                    log.setInventorySlotContentsUpdate(0);
-                    return true;
-                }
-
+                quern.addSpeed();
+                return true;
             }
         }
         return false;
     }
 
+    public void dropItemStack(World world, int x, int y, int z, ItemStack item) {
+        if (item != null && item.stackSize > 0) {
+            EntityItem entityItem = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, item.copy());
+            entityItem.motionX = 0.0D;
+            entityItem.motionY = 0.0D;
+            entityItem.motionZ = 0.0D;
+            spawnEntity(world, entityItem);
+            item.stackSize = 0;
+        }
+    }
+
+    @Override
+    public void registerBlockIcons(IIconRegister reg) {
+        icons[0] = reg.registerIcon("minecraft:stone");
+        icons[1] = reg.registerIcon(Primal.MODID + ":quern");
+    }
+
     @Override
     public IIcon getIcon(int side, int meta) {
-        if (side == 0 || side == 1) {
+        if (side == 99) {
             return icons[1];
         }
         return icons[0];
@@ -77,6 +100,7 @@ public class BlockChoppingLog extends BlockContainer {
     @Override
     public void onBlockPreDestroy(World worldIn, int x, int y, int z, int meta) {
         super.onBlockPreDestroy(worldIn, x, y, z, meta);
+
         dropItems(worldIn, x, y, z);
     }
 
@@ -103,6 +127,11 @@ public class BlockChoppingLog extends BlockContainer {
         }
     }
 
+    @Override
+    public boolean isSideSolid(IBlockAccess world, int x, int y, int z, ForgeDirection side) {
+        return false;
+    }
+
     public void spawnEntity(World world, Entity entityItem) {
         if (!world.isRemote) {
             world.spawnEntityInWorld((Entity) entityItem);
@@ -110,18 +139,11 @@ public class BlockChoppingLog extends BlockContainer {
     }
 
     @Override
-    public String getUnlocalizedName() {
-        return "tile." + Primal.MODID + ".chopping_log";
-    }
+    protected void dropBlockAsItem(World worldIn, int x, int y, int z, ItemStack itemIn) {}
 
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
-        return new TileEntityChoppingLog();
-    }
-
-    @Override
-    public boolean isOpaqueCube() {
-        return false;
+        return new TileEntityQuern();
     }
 
     @Override
@@ -135,7 +157,17 @@ public class BlockChoppingLog extends BlockContainer {
     }
 
     @Override
+    public boolean isOpaqueCube() {
+        return false;
+    }
+
+    @Override
     public boolean hasTileEntity(int metadata) {
         return true;
+    }
+
+    @Override
+    public int getRenderType() {
+        return Primal.proxy.getQuernRenderID();
     }
 }

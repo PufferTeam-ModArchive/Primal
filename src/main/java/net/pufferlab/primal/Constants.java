@@ -1,7 +1,10 @@
 package net.pufferlab.primal;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.pufferlab.primal.blocks.MaterialPrimal;
+import net.minecraft.init.Blocks;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 
 public class Constants {
 
@@ -31,14 +34,16 @@ public class Constants {
     public static final String[] fluids = new String[] { "empty", "water", "lava", "limewater", "tannin", "white",
         "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray", "light_gray", "cyan", "purple", "blue",
         "brown", "green", "red", "black" };
-    public static final Material[] fluidsMaterial = new Material[] { null, null, null, MaterialPrimal.limewater,
-        MaterialPrimal.tannin, MaterialPrimal.dye, MaterialPrimal.dye, MaterialPrimal.dye, MaterialPrimal.dye,
-        MaterialPrimal.dye, MaterialPrimal.dye, MaterialPrimal.dye, MaterialPrimal.dye, MaterialPrimal.dye,
-        MaterialPrimal.dye, MaterialPrimal.dye, MaterialPrimal.dye, MaterialPrimal.dye, MaterialPrimal.dye,
-        MaterialPrimal.dye, MaterialPrimal.dye };
+    public static final Material[] fluidsMaterial = new Material[] { null, Material.water, Material.lava,
+        Material.water, Material.water, Material.water, Material.water, Material.water, Material.water, Material.water,
+        Material.water, Material.water, Material.water, Material.water, Material.water, Material.water, Material.water,
+        Material.water, Material.water, Material.water, Material.water };
     public static final boolean[] fluidsBreak = new boolean[] { false, false, true, false, false, false, false, false,
         false, false, false, false, false, false, false, false, false, false, false, false, false };
     public static final String[] vanillaFluids = new String[] { "empty", "water", "lava" };
+    public static final Fluid[] vanillaFluidsObjects = new Fluid[] { null, FluidRegistry.WATER, FluidRegistry.LAVA };
+    public static final Block[] vanillaFluidsBlocks = new Block[] { Blocks.air, Blocks.flowing_water,
+        Blocks.flowing_lava };
     public static final String[] ashPileOreDicts = new String[] { "ash" };
     public static final String[] charcoalPileOreDicts = new String[] { "charcoal", "coal" };
     public static final String[] groundRockOreDicts = new String[] { "rock" };

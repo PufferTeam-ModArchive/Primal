@@ -7,10 +7,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.blocks.SoundTypePrimal;
 
 public class TileEntityFaucet extends TileEntityMetaFacing {
 
-    public boolean isActive = false;
+    public boolean isOpen = false;
 
     public int timePassed;
     public int flowLevel;
@@ -19,7 +20,7 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        this.isActive = tag.getBoolean("isActive");
+        this.isOpen = tag.getBoolean("isOpen");
         this.timePassed = tag.getInteger("timePassed");
         this.flowLevel = tag.getInteger("flowLevel");
     }
@@ -28,7 +29,7 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setBoolean("isActive", this.isActive);
+        tag.setBoolean("isOpen", this.isOpen);
         tag.setInteger("timePassed", this.timePassed);
         tag.setInteger("flowLevel", this.flowLevel);
     }
@@ -36,20 +37,25 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
     @Override
     public void readFromNBTPacket(NBTTagCompound tag) {
         super.readFromNBTPacket(tag);
-        this.isActive = tag.getBoolean("isActive");
+        this.isOpen = tag.getBoolean("isOpen");
         this.flowLevel = tag.getInteger("flowLevel");
     }
 
     @Override
     public void writeToNBTPacket(NBTTagCompound tag) {
         super.writeToNBTPacket(tag);
-        tag.setBoolean("isActive", this.isActive);
+        tag.setBoolean("isOpen", this.isOpen);
         tag.setInteger("flowLevel", this.flowLevel);
     }
 
-    public void toggleValve() {
-        this.isActive = !this.isActive;
-        this.updateTEState();
+    public void setOpen(boolean meta) {
+        this.isOpen = meta;
+        if (meta) {
+            playSound(SoundTypePrimal.soundFaucetOpen);
+        } else {
+            playSound(SoundTypePrimal.soundFaucetClose);
+        }
+        updateTEState();
     }
 
     public TileEntity getExtractTile() {
@@ -105,7 +111,7 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
 
     @Override
     public void updateEntity() {
-        if (this.isActive) {
+        if (this.isOpen) {
             this.timePassed++;
         }
         if (this.timePassed > 10) {
@@ -113,7 +119,7 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
             TileEntity teBel = getInputTile();
             if (teAdj instanceof TileEntityBarrel tef) {
                 if (teBel instanceof TileEntityBarrel tef2) {
-                    if ((Utils.areStackEquals(tef.getFluidStackRelative(), tef2.getFluidStackRelative()))
+                    if ((Utils.equalsStack(tef.getFluidStackRelative(), tef2.getFluidStackRelative()))
                         || tef2.getFluidStack() == null) {
                         FluidStack fluid = tef.drain(Utils.getDirectionFromFacing(this.facingMeta), 100, true);
                         tef2.fill(ForgeDirection.UP, fluid, true);

@@ -11,11 +11,10 @@ import org.lwjgl.opengl.GL11;
 
 public class TileEntityCrucibleRenderer extends TileEntitySpecialRenderer {
 
-    private static final ThreadLocal<ModelCrucible> modelCrucibleThread = ThreadLocal.withInitial(ModelCrucible::new);
+    ModelCrucible model = new ModelCrucible();
 
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float partialTicks) {
-        ModelCrucible model = modelCrucibleThread.get();
         GL11.glPushMatrix();
         if (tileEntity instanceof TileEntityCrucible tef) {
             Block blockBelow = tef.getWorldObj()

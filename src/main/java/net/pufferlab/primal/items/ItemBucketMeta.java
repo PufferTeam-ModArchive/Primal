@@ -118,7 +118,7 @@ public class ItemBucketMeta extends ItemMeta {
                     }
 
                     if (this.tryPlaceContainedLiquid(worldIn, i, j, k, meta) && !player.capabilities.isCreativeMode) {
-                        if (Constants.fluidsBreak[itemStackIn.getItemDamage()]) {
+                        if (isBreakable(itemStackIn)) {
                             itemStackIn.stackSize = 0;
                             return itemStackIn;
                         }
@@ -200,5 +200,9 @@ public class ItemBucketMeta extends ItemMeta {
                 return false;
             }
         }
+    }
+
+    public boolean isBreakable(ItemStack itemStack) {
+        return Constants.fluidsBreak[itemStack.getItemDamage()];
     }
 }

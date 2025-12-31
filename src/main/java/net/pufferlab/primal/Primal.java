@@ -1,6 +1,5 @@
 package net.pufferlab.primal;
 
-import net.pufferlab.primal.events.*;
 import net.pufferlab.primal.scripts.ScriptRegistry;
 
 import org.apache.logging.log4j.LogManager;
@@ -28,7 +27,7 @@ public class Primal {
     public static Registry registry = new Registry();
     public static ScriptRegistry scriptRegistry = new ScriptRegistry();
 
-    public static SimpleNetworkWrapper networkWrapper;
+    public static SimpleNetworkWrapper network;
 
     public static boolean EFRLoaded = Loader.isModLoaded("etfuturum");
     public static boolean NEILoaded = Loader.isModLoaded("NotEnoughItems");

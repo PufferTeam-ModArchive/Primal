@@ -25,7 +25,7 @@ public class MTTanningHandler {
         public void apply() {
             ItemStack output = MTCompat.get(this.output);
             List<ItemStack> input = MTCompat.get(this.input);
-            TanningRecipe.removeTanningRecipe(output, input);
+            TanningRecipe.removeRecipe(output, input);
         }
 
         @Override
@@ -42,7 +42,7 @@ public class MTTanningHandler {
         public void undo() {
             ItemStack output = MTCompat.get(this.output);
             List<ItemStack> input = MTCompat.get(this.input);
-            TanningRecipe.addTanningRecipe(output, input);
+            TanningRecipe.addRecipe(output, input);
         }
 
         @Override
@@ -70,7 +70,7 @@ public class MTTanningHandler {
         public void apply() {
             ItemStack output = MTCompat.get(this.output);
             List<ItemStack> input = MTCompat.get(this.input);
-            TanningRecipe.addTanningRecipe(output, input);
+            TanningRecipe.addRecipe(output, input);
         }
 
         @Override
@@ -87,7 +87,7 @@ public class MTTanningHandler {
         public void undo() {
             ItemStack output = MTCompat.get(this.output);
             List<ItemStack> input = MTCompat.get(this.input);
-            TanningRecipe.removeTanningRecipe(output, input);
+            TanningRecipe.removeRecipe(output, input);
         }
 
         @Override

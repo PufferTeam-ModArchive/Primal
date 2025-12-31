@@ -86,7 +86,7 @@ public class ItemFireStarter extends Item {
     public void updatePacket(EntityPlayer player, int x, int y, int z, float hitX, float hitY, float hitZ,
         boolean success) {
         if (!player.worldObj.isRemote) {
-            Primal.networkWrapper.sendToAll(new PacketFireStarter(player, x, y, z, hitX, hitY, hitZ, success));
+            Primal.network.sendToAll(new PacketFireStarter(player, x, y, z, hitX, hitY, hitZ, success));
         }
     }
 

@@ -58,7 +58,7 @@ public class PitKilnHandler {
 
     public void sendPitKilnPacket(EntityPlayer player) {
         if (player.worldObj.isRemote) {
-            Primal.networkWrapper.sendToServer(new PacketPitKilnPlace());
+            Primal.network.sendToServer(new PacketPitKilnPlace());
             player.swingItem();
         }
     }

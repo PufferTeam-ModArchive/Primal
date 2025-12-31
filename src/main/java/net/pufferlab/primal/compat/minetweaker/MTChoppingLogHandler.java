@@ -25,7 +25,7 @@ public class MTChoppingLogHandler {
         public void apply() {
             ItemStack output = MTCompat.get(this.output);
             List<ItemStack> input = MTCompat.get(this.input);
-            ChoppingLogRecipe.removeChoppingLogRecipe(output, input);
+            ChoppingLogRecipe.removeRecipe(output, input);
         }
 
         @Override
@@ -42,7 +42,7 @@ public class MTChoppingLogHandler {
         public void undo() {
             ItemStack output = MTCompat.get(this.output);
             List<ItemStack> input = MTCompat.get(this.input);
-            ChoppingLogRecipe.addChoppingLogRecipe(output, input);
+            ChoppingLogRecipe.addRecipe(output, input);
         }
 
         @Override
@@ -70,7 +70,7 @@ public class MTChoppingLogHandler {
         public void apply() {
             ItemStack output = MTCompat.get(this.output);
             List<ItemStack> input = MTCompat.get(this.input);
-            ChoppingLogRecipe.addChoppingLogRecipe(output, input);
+            ChoppingLogRecipe.addRecipe(output, input);
         }
 
         @Override
@@ -87,7 +87,7 @@ public class MTChoppingLogHandler {
         public void undo() {
             ItemStack output = MTCompat.get(this.output);
             List<ItemStack> input = MTCompat.get(this.input);
-            ChoppingLogRecipe.removeChoppingLogRecipe(output, input);
+            ChoppingLogRecipe.removeRecipe(output, input);
         }
 
         @Override

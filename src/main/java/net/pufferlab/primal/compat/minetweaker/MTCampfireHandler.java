@@ -25,7 +25,7 @@ public class MTCampfireHandler {
         public void apply() {
             ItemStack output = MTCompat.get(this.output);
             List<ItemStack> input = MTCompat.get(this.input);
-            CampfireRecipe.removeCampfireRecipe(output, input);
+            CampfireRecipe.removeRecipe(output, input);
         }
 
         @Override
@@ -42,7 +42,7 @@ public class MTCampfireHandler {
         public void undo() {
             ItemStack output = MTCompat.get(this.output);
             List<ItemStack> input = MTCompat.get(this.input);
-            CampfireRecipe.addCampfireRecipe(output, input);
+            CampfireRecipe.addRecipe(output, input);
         }
 
         @Override
@@ -70,7 +70,7 @@ public class MTCampfireHandler {
         public void apply() {
             ItemStack output = MTCompat.get(this.output);
             List<ItemStack> input = MTCompat.get(this.input);
-            CampfireRecipe.addCampfireRecipe(output, input);
+            CampfireRecipe.addRecipe(output, input);
         }
 
         @Override
@@ -87,7 +87,7 @@ public class MTCampfireHandler {
         public void undo() {
             ItemStack output = MTCompat.get(this.output);
             List<ItemStack> input = MTCompat.get(this.input);
-            CampfireRecipe.removeCampfireRecipe(output, input);
+            CampfireRecipe.removeRecipe(output, input);
         }
 
         @Override

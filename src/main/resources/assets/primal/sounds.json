@@ -74,6 +74,24 @@
             }
         ]
     },
+    "open.faucet": {
+        "category": "master",
+        "sounds": [
+            {
+                "name": "faucet/open",
+                "stream": false
+            }
+        ]
+    },
+        "close.faucet": {
+        "category": "master",
+        "sounds": [
+            {
+                "name": "faucet/close",
+                "stream": false
+            }
+        ]
+    },
     "scraping": {
         "category": "master",
         "sounds": [

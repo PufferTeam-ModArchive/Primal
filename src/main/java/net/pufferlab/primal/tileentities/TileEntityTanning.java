@@ -2,7 +2,6 @@ package net.pufferlab.primal.tileentities;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.blocks.SoundTypePrimal;
 import net.pufferlab.primal.recipes.TanningRecipe;
 
@@ -37,12 +36,7 @@ public class TileEntityTanning extends TileEntityInventory {
                 ItemStack output = TanningRecipe.getOutput(item);
                 if (output != null) {
                     decrStackSize(0, 1);
-                    Utils.playSoundOther(
-                        this.worldObj,
-                        this.xCoord,
-                        this.yCoord,
-                        this.zCoord,
-                        SoundTypePrimal.soundTypeScraping);
+                    playSound(SoundTypePrimal.soundScraping);
                     setInventorySlotContentsUpdate(0, output);
                     return true;
                 }

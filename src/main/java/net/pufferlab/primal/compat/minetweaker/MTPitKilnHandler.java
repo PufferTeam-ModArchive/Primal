@@ -25,7 +25,7 @@ public class MTPitKilnHandler {
         public void apply() {
             ItemStack output = MTCompat.get(this.output);
             List<ItemStack> input = MTCompat.get(this.input);
-            PitKilnRecipe.removePitKilnRecipe(output, input);
+            PitKilnRecipe.removeRecipe(output, input);
         }
 
         @Override
@@ -42,7 +42,7 @@ public class MTPitKilnHandler {
         public void undo() {
             ItemStack output = MTCompat.get(this.output);
             List<ItemStack> input = MTCompat.get(this.input);
-            PitKilnRecipe.addPitKilnRecipe(output, input);
+            PitKilnRecipe.addRecipe(output, input);
         }
 
         @Override
@@ -70,7 +70,7 @@ public class MTPitKilnHandler {
         public void apply() {
             ItemStack output = MTCompat.get(this.output);
             List<ItemStack> input = MTCompat.get(this.input);
-            PitKilnRecipe.addPitKilnRecipe(output, input);
+            PitKilnRecipe.addRecipe(output, input);
         }
 
         @Override
@@ -87,7 +87,7 @@ public class MTPitKilnHandler {
         public void undo() {
             ItemStack output = MTCompat.get(this.output);
             List<ItemStack> input = MTCompat.get(this.input);
-            PitKilnRecipe.removePitKilnRecipe(output, input);
+            PitKilnRecipe.removeRecipe(output, input);
         }
 
         @Override

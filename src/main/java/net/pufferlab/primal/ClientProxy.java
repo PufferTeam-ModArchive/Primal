@@ -37,6 +37,7 @@ public class ClientProxy extends CommonProxy {
     int crucibleRenderID;
     int forgeRenderID;
     int castRenderID;
+    int quernRenderID;
 
     @Override
     public void setupRenders() {
@@ -55,6 +56,7 @@ public class ClientProxy extends CommonProxy {
         crucibleRenderID = getNextId();
         forgeRenderID = getNextId();
         castRenderID = getNextId();
+        quernRenderID = getNextId();
 
         register(new BlockPitKilnRenderer());
         register(new BlockLogPileRenderer());
@@ -71,6 +73,7 @@ public class ClientProxy extends CommonProxy {
         register(new BlockCrucibleRenderer());
         register(new BlockForgeRenderer());
         register(new BlockCastRenderer());
+        register(new BlockQuernRenderer());
 
         register(TileEntityPitKiln.class, new TileEntityPitKilnRenderer());
         register(TileEntityChoppingLog.class, new TileEntityChoppingLogRenderer());
@@ -80,6 +83,7 @@ public class ClientProxy extends CommonProxy {
         register(TileEntityOven.class, new TileEntityOvenRenderer());
         register(TileEntityCast.class, new TileEntityMoldRenderer());
         register(TileEntityCrucible.class, new TileEntityCrucibleRenderer());
+        register(TileEntityQuern.class, new TileEntityQuernRenderer());
 
         register(Registry.wood, new ItemWoodRenderer());
         register(Registry.clay, new ItemClayRenderer());
@@ -89,6 +93,7 @@ public class ClientProxy extends CommonProxy {
         register(Registry.oven, new ItemOvenRenderer());
         register(Registry.crucible, new ItemCrucibleRenderer());
         register(Registry.forge, new ItemForgeRenderer());
+        register(Registry.handstone, new ItemHandstoneRenderer());
     }
 
     public int getNextId() {
@@ -205,5 +210,10 @@ public class ClientProxy extends CommonProxy {
     @Override
     public int getCastRenderID() {
         return castRenderID;
+    }
+
+    @Override
+    public int getQuernRenderID() {
+        return quernRenderID;
     }
 }

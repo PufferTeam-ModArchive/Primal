@@ -24,7 +24,7 @@ public class CastHandler {
                 int z = Utils.getBlockZ(event.face, event.z);
                 Block blockBelow = event.world.getBlock(x, y - 1, z);
                 if (blockBelow.isSideSolid(event.world, x, y - 1, z, ForgeDirection.UP)) {
-                    Utils.placeSilent(heldItem, event.world, x, y, z, Registry.cast, 0, event.entityPlayer);
+                    Utils.placeNoConsume(heldItem, event.world, x, y, z, Registry.cast, 0, event.entityPlayer);
                     Block block1 = event.world.getBlock(x, y, z);
                     block1.onBlockActivated(event.world, x, y, z, event.entityPlayer, event.face, 0.5F, 0.5F, 0.5F);
                 }

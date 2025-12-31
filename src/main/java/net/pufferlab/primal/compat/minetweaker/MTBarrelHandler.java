@@ -36,7 +36,7 @@ public class MTBarrelHandler {
             FluidStack outputLiquid = MTCompat.get(this.outputLiquid);
             List<ItemStack> input = MTCompat.get(this.input);
             FluidStack inputLiquid = MTCompat.get(this.inputLiquid);
-            BarrelRecipe.removeBarrelRecipe(output, outputLiquid, input, inputLiquid);
+            BarrelRecipe.removeRecipe(output, outputLiquid, input, inputLiquid);
         }
 
         @Override
@@ -55,7 +55,7 @@ public class MTBarrelHandler {
             FluidStack outputLiquid = MTCompat.get(this.outputLiquid);
             List<ItemStack> input = MTCompat.get(this.input);
             FluidStack inputLiquid = MTCompat.get(this.inputLiquid);
-            BarrelRecipe.addBarrelRecipe(output, outputLiquid, input, inputLiquid, this.processingTime);
+            BarrelRecipe.addRecipe(output, outputLiquid, input, inputLiquid, this.processingTime);
         }
 
         @Override
@@ -92,7 +92,7 @@ public class MTBarrelHandler {
             FluidStack outputLiquid = MTCompat.get(this.outputLiquid);
             List<ItemStack> input = MTCompat.get(this.input);
             FluidStack inputLiquid = MTCompat.get(this.inputLiquid);
-            BarrelRecipe.addBarrelRecipe(output, outputLiquid, input, inputLiquid, this.processingTime);
+            BarrelRecipe.addRecipe(output, outputLiquid, input, inputLiquid, this.processingTime);
         }
 
         @Override
@@ -111,7 +111,7 @@ public class MTBarrelHandler {
             FluidStack outputLiquid = MTCompat.get(this.outputLiquid);
             List<ItemStack> input = MTCompat.get(this.input);
             FluidStack inputLiquid = MTCompat.get(this.inputLiquid);
-            BarrelRecipe.removeBarrelRecipe(output, outputLiquid, input, inputLiquid);
+            BarrelRecipe.removeRecipe(output, outputLiquid, input, inputLiquid);
         }
 
         @Override

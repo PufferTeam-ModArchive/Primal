@@ -25,7 +25,7 @@ public class MTKnappingHandler {
         public void apply() {
             ItemStack output = MTCompat.get(this.output);
             KnappingType type = KnappingType.getType(this.type);
-            KnappingRecipe.removeKnappingRecipe(type, output, icons);
+            KnappingRecipe.removeRecipe(type, output, icons);
         }
 
         @Override
@@ -42,7 +42,7 @@ public class MTKnappingHandler {
         public void undo() {
             ItemStack output = MTCompat.get(this.output);
             KnappingType type = KnappingType.getType(this.type);
-            KnappingRecipe.addKnappingRecipe(type, output, this.icons);
+            KnappingRecipe.addRecipe(type, output, this.icons);
         }
 
         @Override
@@ -72,7 +72,7 @@ public class MTKnappingHandler {
         public void apply() {
             ItemStack output = MTCompat.get(this.output);
             KnappingType type = KnappingType.getType(this.type);
-            KnappingRecipe.addKnappingRecipe(type, output, this.icons);
+            KnappingRecipe.addRecipe(type, output, this.icons);
         }
 
         @Override
@@ -89,7 +89,7 @@ public class MTKnappingHandler {
         public void undo() {
             ItemStack output = MTCompat.get(this.output);
             KnappingType type = KnappingType.getType(this.type);
-            KnappingRecipe.removeKnappingRecipe(type, output, this.icons);
+            KnappingRecipe.removeRecipe(type, output, this.icons);
         }
 
         @Override

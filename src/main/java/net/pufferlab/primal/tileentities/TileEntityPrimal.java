@@ -5,6 +5,9 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.blocks.SoundTypePrimal;
 
 public abstract class TileEntityPrimal extends TileEntity {
 
@@ -38,4 +41,12 @@ public abstract class TileEntityPrimal extends TileEntity {
     public void writeToNBTPacket(NBTTagCompound tag) {}
 
     public void readFromNBTPacket(NBTTagCompound tag) {}
+
+    public void playSound(SoundTypePrimal stepSound) {
+        World world = this.getWorldObj();
+        int x = this.xCoord;
+        int y = this.yCoord;
+        int z = this.zCoord;
+        Utils.playSound(world, x, y, z, stepSound);
+    }
 }

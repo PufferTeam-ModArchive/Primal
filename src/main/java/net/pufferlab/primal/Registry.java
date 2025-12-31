@@ -3,7 +3,6 @@ package net.pufferlab.primal;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -39,43 +38,45 @@ public class Registry {
         }
     };
 
-    public static Block ground_rock;
-    public static Block pit_kiln;
-    public static Block thatch;
-    public static Block thatch_roof;
-    public static Block chimney;
-    public static Block log_pile;
-    public static Block charcoal_pile;
-    public static Block ash_pile;
-    public static Block tanning;
-    public static Block chopping_log;
-    public static Block campfire;
-    public static Block oven;
-    public static Block forge;
-    public static Block crucible;
-    public static Block cast;
-    public static Block large_vessel;
-    public static Block barrel;
-    public static Block faucet;
-    public static Item icons;
-    public static Item straw;
-    public static Item hide;
-    public static Item rock;
-    public static Item flint;
-    public static Item wood;
-    public static Item powder;
-    public static Item mold;
-    public static Item clay;
-    public static Item ceramic_bucket;
-    public static Item flint_axe;
-    public static Item flint_pickaxe;
-    public static Item flint_shovel;
-    public static Item flint_knife;
-    public static Item firestarter;
-    public static Item bucket;
-    public static Item.ToolMaterial toolFlint;
+    public static final Block ground_rock;
+    public static final Block pit_kiln;
+    public static final Block thatch;
+    public static final Block thatch_roof;
+    public static final Block chimney;
+    public static final Block log_pile;
+    public static final Block charcoal_pile;
+    public static final Block ash_pile;
+    public static final Block tanning;
+    public static final Block chopping_log;
+    public static final Block campfire;
+    public static final Block oven;
+    public static final Block forge;
+    public static final Block crucible;
+    public static final Block cast;
+    public static final Block large_vessel;
+    public static final Block barrel;
+    public static final Block faucet;
+    public static final Block quern;
+    public static final Item icons;
+    public static final Item straw;
+    public static final Item hide;
+    public static final Item rock;
+    public static final Item flint;
+    public static final Item wood;
+    public static final Item powder;
+    public static final Item handstone;
+    public static final Item mold;
+    public static final Item clay;
+    public static final Item ceramic_bucket;
+    public static final Item flint_axe;
+    public static final Item flint_pickaxe;
+    public static final Item flint_shovel;
+    public static final Item flint_knife;
+    public static final Item firestarter;
+    public static final Item bucket;
+    public static final Item.ToolMaterial toolFlint;
 
-    public void setup() {
+    static {
         toolFlint = EnumHelper.addToolMaterial("flint", 0, 100, 2.0F, 0.0F, 15);
 
         ground_rock = new BlockGroundcover(Material.rock, Constants.rockTypes, "ground_rock")
@@ -88,6 +89,7 @@ public class Registry {
         chopping_log = new BlockChoppingLog();
         campfire = new BlockCampfire();
         oven = new BlockOven();
+        quern = new BlockQuern();
         forge = new BlockForge();
         cast = new BlockCast();
         crucible = new BlockCrucible();
@@ -106,6 +108,7 @@ public class Registry {
         flint = new ItemMeta(Constants.flintItems, "flint");
         rock = new ItemMeta(Constants.rockTypes, "rock");
         powder = new ItemMeta(Constants.powderItems, "powder");
+        handstone = new ItemSimple("handstone");
         mold = new ItemMeta(Constants.moldItems, "mold");
         clay = new ItemMeta(Constants.clayItems, "clay");
         ((BlockGroundcover) ground_rock).setItem(rock);
@@ -119,7 +122,9 @@ public class Registry {
         flint_knife = new ItemKnifePrimitive(toolFlint, "flint_knife");
 
         firestarter = new ItemFireStarter();
+    }
 
+    public void setup() {
         register(thatch, "thatch");
         register(thatch_roof, "thatch_roof");
         register(ground_rock, "ground_rock");
@@ -133,6 +138,7 @@ public class Registry {
         register(chimney, "chimney");
         register(forge, "forge");
         register(cast, "cast");
+        register(quern, "quern");
         register(large_vessel, "large_vessel");
         register(crucible, "crucible");
         register(barrel, "barrel");
@@ -144,6 +150,7 @@ public class Registry {
         register(hide, "hide");
         register(wood, "wood");
         register(powder, "powder");
+        register(handstone, "handstone");
         register(rock, "rock");
         register(flint, "flint");
         register(mold, "mold");
@@ -172,17 +179,15 @@ public class Registry {
         register(TileEntityCrucible.class, "crucible");
         register(TileEntityForge.class, "forge");
         register(TileEntityCast.class, "cast");
+        register(TileEntityQuern.class, "quern");
     }
 
     public static final Block[] fluidsBlocks = new Block[Constants.fluids.length];
     public static final Fluid[] fluidsObjects = new Fluid[Constants.fluids.length];
 
     public void setupFluids() {
-        fluidsBlocks[0] = Blocks.air;
-        fluidsBlocks[1] = Blocks.flowing_water;
-        fluidsBlocks[2] = Blocks.flowing_lava;
-        fluidsObjects[1] = FluidRegistry.WATER;
-        fluidsObjects[2] = FluidRegistry.LAVA;
+        Utils.sameIndexArrays(fluidsBlocks, Constants.vanillaFluidsBlocks);
+        Utils.sameIndexArrays(fluidsObjects, Constants.vanillaFluidsObjects);
         for (int i = 0; i < Constants.fluids.length; i++) {
             String name = Constants.fluids[i];
             if (!Utils.contains(Constants.vanillaFluids, name)) {
@@ -217,11 +222,12 @@ public class Registry {
     }
 
     public void setupPackets() {
-        Primal.networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(Primal.MODID);
+        Primal.network = NetworkRegistry.INSTANCE.newSimpleChannel(Primal.MODID);
         registerPacket(PacketSwingArm.class, Side.CLIENT);
         registerPacket(PacketKnappingClick.class, Side.SERVER);
         registerPacket(PacketFireStarter.class, Side.CLIENT);
         registerPacket(PacketPitKilnPlace.class, Side.SERVER);
+        registerPacket(PacketSpeedUpdate.class, Side.CLIENT);
     }
 
     public void setupNEI() {
@@ -279,11 +285,11 @@ public class Registry {
         MinecraftForge.EVENT_BUS.register(event);
     }
 
-    int nextPacketID = 0;
+    private static int nextPacketID = 0;
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public void registerPacket(Class cl, Side side) {
-        Primal.networkWrapper.registerMessage(cl, cl, nextPacketID++, side);
+        Primal.network.registerMessage(cl, cl, nextPacketID++, side);
     }
 
     public void registerWorld(IWorldGenerator world) {

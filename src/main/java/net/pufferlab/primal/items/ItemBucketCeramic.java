@@ -37,10 +37,6 @@ public class ItemBucketCeramic extends ItemBucketMeta implements IFluidContainer
         return Utils.getIndex(Registry.fluidsObjects, fluidStack.getFluid());
     }
 
-    public boolean isBreakable(ItemStack itemStack) {
-        return Constants.fluidsBreak[itemStack.getItemDamage()];
-    }
-
     public int fill(ItemStack container, FluidStack resource, boolean doFill) {
         int meta = container.getItemDamage();
         Fluid fluid = Registry.fluidsObjects[meta];

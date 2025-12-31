@@ -13,34 +13,33 @@ public class BarrelRecipe {
 
     private static final List<BarrelRecipe> recipeList = new ArrayList<>();
 
-    public static void addBarrelRecipe(ItemStack output, FluidStack outputLiquid, ItemStack input,
-        FluidStack inputLiquid) {
+    public static void addRecipe(ItemStack output, FluidStack outputLiquid, ItemStack input, FluidStack inputLiquid) {
         recipeList.add(new BarrelRecipe(output, outputLiquid, Collections.singletonList(input), inputLiquid, 60));
     }
 
-    public static void addBarrelRecipe(ItemStack output, FluidStack outputLiquid, List<ItemStack> input,
+    public static void addRecipe(ItemStack output, FluidStack outputLiquid, List<ItemStack> input,
         FluidStack inputLiquid, int processingTime) {
         recipeList.add(new BarrelRecipe(output, outputLiquid, input, inputLiquid, processingTime));
     }
 
-    public static void addBarrelRecipe(ItemStack output, FluidStack outputLiquid, ItemStack input,
-        FluidStack inputLiquid, int processingTime) {
+    public static void addRecipe(ItemStack output, FluidStack outputLiquid, ItemStack input, FluidStack inputLiquid,
+        int processingTime) {
         recipeList
             .add(new BarrelRecipe(output, outputLiquid, Collections.singletonList(input), inputLiquid, processingTime));
     }
 
-    public static void addBarrelRecipe(ItemStack output, FluidStack outputLiquid, String input, FluidStack inputLiquid,
+    public static void addRecipe(ItemStack output, FluidStack outputLiquid, String input, FluidStack inputLiquid,
         int processingTime) {
         recipeList
             .add(new BarrelRecipe(output, outputLiquid, OreDictionary.getOres(input), inputLiquid, processingTime));
     }
 
-    public static void removeBarrelRecipe(ItemStack output, FluidStack outputLiquid, List<ItemStack> input,
+    public static void removeRecipe(ItemStack output, FluidStack outputLiquid, List<ItemStack> input,
         FluidStack inputLiquid) {
         recipeList.removeIf(r -> {
-            if (Utils.containsList(r.input, input) && Utils.areStackEquals(r.inputLiquid, inputLiquid)
-                && Utils.areStackEquals(r.output, output)
-                && Utils.areStackEquals(r.outputLiquid, outputLiquid)) {
+            if (Utils.containsStack(r.input, input) && Utils.equalsStack(r.inputLiquid, inputLiquid)
+                && Utils.equalsStack(r.output, output)
+                && Utils.equalsStack(r.outputLiquid, outputLiquid)) {
                 return true;
             }
             return false;
@@ -95,7 +94,7 @@ public class BarrelRecipe {
     }
 
     public boolean equals(ItemStack input, FluidStack inputLiquid) {
-        if (Utils.areStackEquals(this.inputLiquid, inputLiquid) && Utils.containsList(input, this.input)) {
+        if (Utils.equalsStack(this.inputLiquid, inputLiquid) && Utils.containsStack(input, this.input)) {
             if (this.inputLiquid.amount <= inputLiquid.amount) {
                 return true;
             }

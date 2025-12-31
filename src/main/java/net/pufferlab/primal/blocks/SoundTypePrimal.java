@@ -10,7 +10,9 @@ public class SoundTypePrimal extends Block.SoundType {
     public static final Block.SoundType soundTypeCharcoal = new SoundTypePrimal("charcoal", 1.0F, 1.0F);
     public static final Block.SoundType soundTypeThatch = new SoundTypePrimal("thatch", 1.0F, 1.2F);
 
-    public static final SoundTypePrimal soundTypeScraping = new SoundTypePrimal("scraping", 1.0F, 1.2F);
+    public static final SoundTypePrimal soundScraping = new SoundTypePrimal("scraping", 1.0F, 1.2F);
+    public static final SoundTypePrimal soundFaucetOpen = new SoundTypePrimal("open.faucet", 1.0F, 1.0F);
+    public static final SoundTypePrimal soundFaucetClose = new SoundTypePrimal("close.faucet", 1.0F, 1.0F);
 
     public static final Random rand = new Random();
 

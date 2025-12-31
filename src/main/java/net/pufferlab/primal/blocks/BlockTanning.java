@@ -14,7 +14,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.items.ItemKnifePrimitive;
 import net.pufferlab.primal.recipes.TanningRecipe;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
@@ -60,9 +59,8 @@ public class BlockTanning extends BlockContainer {
         ItemStack heldItem = player.getHeldItem();
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityTanning scraping) {
-            if (heldItem != null
-                && (heldItem.getItem() instanceof ItemKnifePrimitive || TanningRecipe.hasRecipe(heldItem))) {
-                if (heldItem.getItem() instanceof ItemKnifePrimitive) {
+            if (Utils.isKnifeTool(heldItem) || TanningRecipe.hasRecipe(heldItem)) {
+                if (Utils.isKnifeTool(heldItem)) {
                     boolean result = scraping.process();
                     if (result) {
                         heldItem.damageItem(10, player);

@@ -9,15 +9,15 @@ public class KnappingRecipe {
 
     private static final List<KnappingRecipe> recipeList = new ArrayList<>();
 
-    public static void addKnappingRecipe(KnappingType type, ItemStack item, boolean[][] icons) {
+    public static void addRecipe(KnappingType type, ItemStack item, boolean[][] icons) {
         recipeList.add(new KnappingRecipe(type, item, icons));
     }
 
-    public static void addKnappingRecipe(KnappingType type, ItemStack item, String... rows) {
+    public static void addRecipe(KnappingType type, ItemStack item, String... rows) {
         recipeList.add(new KnappingRecipe(type, item, rows));
     }
 
-    public static void removeKnappingRecipe(KnappingType type, ItemStack item, boolean[][] icons) {
+    public static void removeRecipe(KnappingType type, ItemStack item, boolean[][] icons) {
         recipeList.removeIf(r -> {
             if (r.equals(type, icons)) {
                 return true;

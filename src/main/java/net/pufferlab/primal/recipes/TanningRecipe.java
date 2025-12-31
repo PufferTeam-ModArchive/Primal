@@ -13,22 +13,22 @@ public class TanningRecipe {
 
     private static final Map<List<ItemStack>, ItemStack> recipeMap = new HashMap<>();
 
-    public static void addTanningRecipe(ItemStack output, ItemStack input) {
-        recipeMap.put(Collections.singletonList(input), output);
-    }
-
-    public static void addTanningRecipe(ItemStack output, List<ItemStack> input) {
+    public static void addRecipe(ItemStack output, List<ItemStack> input) {
         recipeMap.put(input, output);
     }
 
-    public static void addTanningRecipe(ItemStack output, String input) {
+    public static void addRecipe(ItemStack output, String input) {
         recipeMap.put(OreDictionary.getOres(input), output);
     }
 
-    public static void removeTanningRecipe(ItemStack output, List<ItemStack> input) {
+    public static void addRecipe(ItemStack output, ItemStack input) {
+        recipeMap.put(Collections.singletonList(input), output);
+    }
+
+    public static void removeRecipe(ItemStack output, List<ItemStack> input) {
         recipeMap.entrySet()
             .removeIf(r -> {
-                if (Utils.containsList(r.getKey(), input) && Utils.areStackEquals(r.getValue(), output)) {
+                if (Utils.containsStack(r.getKey(), input) && Utils.equalsStack(r.getValue(), output)) {
                     return true;
                 }
                 return false;
@@ -36,9 +36,8 @@ public class TanningRecipe {
     }
 
     public static ItemStack getOutput(ItemStack input) {
-        if (input == null) return null;
         for (Map.Entry<List<ItemStack>, ItemStack> recipe : recipeMap.entrySet()) {
-            if (Utils.containsList(input, recipe.getKey())) {
+            if (Utils.containsStack(recipe.getKey(), input)) {
                 return recipe.getValue();
             }
         }

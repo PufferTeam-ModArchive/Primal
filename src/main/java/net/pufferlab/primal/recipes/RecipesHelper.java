@@ -32,7 +32,7 @@ public class RecipesHelper {
                 return false;
             }
             for (ItemStack i : toRemove) {
-                if (Utils.areStackEquals(rCopy, i)) {
+                if (Utils.equalsStack(rCopy, i)) {
                     return true;
                 }
             }
@@ -47,7 +47,7 @@ public class RecipesHelper {
         for (int scan = 0; scan < recipes.size(); scan++) {
             ItemStack rCopy = recipes.get(scan)
                 .getRecipeOutput();
-            if (Utils.areStackEquals(rCopy, toRemove)) {
+            if (Utils.equalsStack(rCopy, toRemove)) {
                 recipes.remove(scan);
             }
         } ;
@@ -68,7 +68,7 @@ public class RecipesHelper {
             .removeIf(r -> {
                 ItemStack rCopy = r.getValue();
                 for (ItemStack i : toRemove) {
-                    if (Utils.areStackEquals(rCopy, i)) {
+                    if (Utils.equalsStack(rCopy, i)) {
                         return true;
                     }
                 }
@@ -84,7 +84,7 @@ public class RecipesHelper {
             .iterator(); entries.hasNext();) {
             Map.Entry<ItemStack, ItemStack> entry = entries.next();
             ItemStack result = entry.getValue();
-            if (Utils.areStackEquals(result, resultItem)) {
+            if (Utils.equalsStack(result, resultItem)) {
                 entries.remove();
             }
         }

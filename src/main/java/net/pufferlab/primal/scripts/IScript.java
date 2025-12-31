@@ -35,19 +35,19 @@ public interface IScript {
     }
 
     default void addCampfireRecipe(ItemStack output, ItemStack input) {
-        CampfireRecipe.addCampfireRecipe(output, input);
+        CampfireRecipe.addRecipe(output, input);
     }
 
     default void addChoppingLogRecipe(ItemStack output, String input) {
-        ChoppingLogRecipe.addChoppingLogRecipe(output, input);
+        ChoppingLogRecipe.addRecipe(output, input);
     }
 
     default void addTanningRecipe(ItemStack output, ItemStack input) {
-        TanningRecipe.addTanningRecipe(output, input);
+        TanningRecipe.addRecipe(output, input);
     }
 
     default void addKnappingRecipe(KnappingType type, ItemStack item, String... rows) {
-        KnappingRecipe.addKnappingRecipe(type, item, rows);
+        KnappingRecipe.addRecipe(type, item, rows);
     }
 
     default void addShapelessRecipe(ItemStack output, Object... recipe) {
@@ -59,16 +59,16 @@ public interface IScript {
     }
 
     default void addPitKilnRecipe(ItemStack output, ItemStack input) {
-        PitKilnRecipe.addPitKilnRecipe(output, input);
+        PitKilnRecipe.addRecipe(output, input);
     }
 
     default void addBarrelRecipe(ItemStack output, FluidStack outputLiquid, ItemStack input, FluidStack inputLiquid,
         int processing) {
-        BarrelRecipe.addBarrelRecipe(output, outputLiquid, input, inputLiquid, processing);
+        BarrelRecipe.addRecipe(output, outputLiquid, input, inputLiquid, processing);
     }
 
     default void addBarrelRecipe(ItemStack output, FluidStack outputLiquid, String input, FluidStack inputLiquid,
         int processing) {
-        BarrelRecipe.addBarrelRecipe(output, outputLiquid, input, inputLiquid, processing);
+        BarrelRecipe.addRecipe(output, outputLiquid, input, inputLiquid, processing);
     }
 }

@@ -72,7 +72,7 @@ public class NEIKnappingHandler extends TemplateRecipeHandler {
     public void loadCraftingRecipes(ItemStack result) {
         List<KnappingRecipe> recipes = KnappingRecipe.getRecipeList();
         for (KnappingRecipe pattern : recipes) {
-            if (Utils.areStackEquals(pattern.output, result)) {
+            if (Utils.equalsStack(pattern.output, result)) {
                 arecipes.add(new KnappingPair(pattern.type, pattern.pattern, pattern.output));
             }
         }
@@ -82,7 +82,7 @@ public class NEIKnappingHandler extends TemplateRecipeHandler {
     public void loadUsageRecipes(ItemStack ingredient) {
         List<KnappingRecipe> recipes = KnappingRecipe.getRecipeList();
         for (KnappingRecipe pattern : recipes) {
-            if (Utils.areStackEquals(pattern.type.item, ingredient)) {
+            if (Utils.equalsStack(pattern.type.item, ingredient)) {
                 KnappingPair pair = new KnappingPair(pattern.type, pattern.pattern, pattern.output);
                 pair.setIngredientPermutation(Collections.singletonList(pair.ingred), ingredient);
                 arecipes.add(pair);

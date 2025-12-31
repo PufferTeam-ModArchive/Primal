@@ -24,7 +24,7 @@ public class BucketHandler {
     public void updatePacket(EntityPlayer player) {
         if (!player.worldObj.isRemote) {
             EntityPlayerMP playerMP = (EntityPlayerMP) player;
-            Primal.networkWrapper.sendTo(new PacketSwingArm(player), playerMP);
+            Primal.network.sendTo(new PacketSwingArm(player), playerMP);
             player.inventoryContainer.detectAndSendChanges();
         }
     }

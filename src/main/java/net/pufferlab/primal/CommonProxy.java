@@ -120,4 +120,8 @@ public class CommonProxy implements IGuiHandler {
     public int getCastRenderID() {
         return 0;
     }
+
+    public int getQuernRenderID() {
+        return 0;
+    }
 }

@@ -82,6 +82,11 @@ public class ModelRenderer {
         return this;
     }
 
+    public ModelRenderer addBox(int U, int V, float x, float y, float z, int xWidth, int yHeight, int zDepth) {
+        this.cubeList.add(new ModelBox(this, U, V, x, y, z, xWidth, yHeight, zDepth, 0.0F));
+        return this;
+    }
+
     public ModelRenderer addBox(String boxNameSuffix, float x, float y, float z, int width, int height, int depth) {
         boxNameSuffix = this.boxName + "." + boxNameSuffix;
         TextureOffset textureoffset = this.baseModel.getTextureOffset(boxNameSuffix);
