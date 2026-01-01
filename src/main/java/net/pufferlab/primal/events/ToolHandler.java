@@ -17,6 +17,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.pufferlab.primal.Config;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.items.ItemKnifePrimitive;
@@ -102,7 +103,7 @@ public class ToolHandler {
                 }
             }
 
-            if (Utils.isKnifeTool(heldItem)) {
+            if (Utils.isKnifeTool(heldItem) && Primal.EFRLoaded) {
                 World world = event.world;
                 Block block = world.getBlock(event.x, event.y, event.z);
                 int meta = world.getBlockMetadata(event.x, event.y, event.z);
