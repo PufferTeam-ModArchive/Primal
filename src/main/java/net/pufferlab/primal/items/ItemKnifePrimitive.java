@@ -58,15 +58,19 @@ public class ItemKnifePrimitive extends ItemSword {
             target = GameRegistry.findBlock("etfuturum", "log2_stripped");
         }
 
-
-        System.out.println(target);
-
         if (target!=null)  {
+            int woodType = meta & 3;
+            ItemStack droppedStack = null;
             world.setBlock(x,y,z, target, meta,3);
             itemStack.damageItem(1, player);
             world.playSoundEffect(x+0.5F, y+0.5F, z+0.5F, "dig_wood", 1.0F, 0.8F);
 
-            ItemStack droppedStack = new ItemStack(Registry.wood, 1, 2);
+            if(block == Blocks.log) {
+                droppedStack = new ItemStack(Registry.bark, 1, woodType);
+            } else {
+                droppedStack = new ItemStack(Registry.bark, 1, woodType+4);
+            }
+
             EntityItem entityItem = new EntityItem(world, x+0.5F, y+0.5F, z+0.5F, droppedStack);
 
             entityItem.motionX = world.rand.nextGaussian() *0.05D;

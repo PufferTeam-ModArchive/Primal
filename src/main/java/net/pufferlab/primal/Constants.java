@@ -19,7 +19,8 @@ public class Constants {
         "clay", "mold" };
     public static final String[] strawItems = new String[] { "straw", "straw_cordage", "straw_kindling" };
     public static final String[] hideItems = new String[] { "hide", "soaked_hide", "scraped_hide" };
-    public static final String[] woodItems = new String[] { "firewood", "ash", "bark"};
+    public static final String[] woodItems = new String[] { "firewood", "ash"};
+    public static final String[] barkItems = new String[] {"oak", "spruce", "birch" ,"jungle", "acacia", "dark_oak"};
     public static final String[] powderItems = new String[] { "lime" };
     public static final String[] flintItems = new String[] { "flint_shard", "flint_axe_head", "flint_pickaxe_head",
         "flint_shovel_head", "flint_knife_blade" };

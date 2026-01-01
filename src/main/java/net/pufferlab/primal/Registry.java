@@ -63,6 +63,7 @@ public class Registry {
     public static final Item rock;
     public static final Item flint;
     public static final Item wood;
+    public static final Item bark;
     public static final Item flour;
     public static final Item dough;
     public static final Item powder;
@@ -107,6 +108,7 @@ public class Registry {
         straw = new ItemMeta(Constants.strawItems, "straw");
         hide = new ItemMeta(Constants.hideItems, "hide");
         wood = new ItemMeta(Constants.woodItems, "wood");
+        bark = new ItemMeta(Constants.barkItems, "bark");
         flint = new ItemMeta(Constants.flintItems, "flint");
         rock = new ItemMeta(Constants.rockTypes, "rock");
         powder = new ItemMeta(Constants.powderItems, "powder");
@@ -154,6 +156,7 @@ public class Registry {
         register(straw, "straw");
         register(hide, "hide");
         register(wood, "wood");
+        register(bark, "bark");
         register(flour, "flour");
         register(dough, "dough");
         register(powder, "powder");
