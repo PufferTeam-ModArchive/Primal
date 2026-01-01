@@ -368,6 +368,7 @@ public class ScriptPrimitive implements IScript {
     }
 
     public void addBarrelRecipes() {
+        addBarrelRecipe(getModItem("wheat_dough", 1), null, getModItem("wheat_flour", 1), getFluid("water", 100), 100);
         addBarrelRecipe(null, getFluid("limewater", 500), getModItem("lime", 1), getFluid("water", 500), 100);
         addBarrelRecipe(getModItem("soaked_hide", 1), null, getModItem("hide", 1), getFluid("limewater", 500), 1200);
         addBarrelRecipe(

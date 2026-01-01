@@ -79,6 +79,7 @@ public class Utils {
         if (itemCache.containsKey(s)) {
             return itemCache.get(s);
         }
+        if (s == null) return null;
         String[] array = s.split(":");
         String mod = array[0];
         String item = array[1];

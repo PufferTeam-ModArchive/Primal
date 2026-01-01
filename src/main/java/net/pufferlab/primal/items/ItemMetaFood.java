@@ -109,18 +109,17 @@ public class ItemMetaFood extends ItemFood {
 
     @Override
     protected void onFoodEaten(ItemStack itemstack, World world, EntityPlayer player) {
-
-        if (elements[itemstack.getItemDamage()].hasExtraItem()) {
-            String item = elements[itemstack.getItemDamage()].extraItem;
+        Food food = elements[itemstack.getItemDamage()];
+        if (food.hasExtraItem()) {
+            String item = food.extraItem;
             player.inventory.addItemStackToInventory(Utils.getItem(item));
         }
 
-        boolean hasEffect = elements[itemstack.getItemDamage()].hasEffect();
-        if (hasEffect) {
-            int potionId = elements[itemstack.getItemDamage()].effectId;
-            int potionDuration = elements[itemstack.getItemDamage()].effectDuration;
+        if (food.hasEffect()) {
+            int potionId = food.effectId;
+            int potionDuration = food.effectDuration;
             int potionAmplifier = 0;
-            float potionEffectProbability = elements[itemstack.getItemDamage()].effectProbability;
+            float potionEffectProbability = food.effectProbability;
 
             if (!world.isRemote && potionId > 0 && world.rand.nextFloat() < potionEffectProbability) {
                 player.addPotionEffect(new PotionEffect(potionId, potionDuration * 20, potionAmplifier));

@@ -66,20 +66,23 @@ public class BlockBarrel extends BlockContainer {
         if (te instanceof TileEntityBarrel tef) {
             if (player.isSneaking()) {
                 tef.setOpen(!tef.isOpen);
-            }
-            if (heldItem != null && BarrelRecipe.hasRecipe(heldItem, tef.getFluidStack())) {
-                return tef.addInventorySlotContentsUpdateWhole(0, player);
             } else {
-                if (tef.getInventoryStack(1) != null) {
-                    dropItems(worldIn, x, y, z);
-                    tef.setInventorySlotContentsUpdate(1);
-                    return true;
-                } else if (tef.getInventoryStack(0) != null) {
-                    dropItems(worldIn, x, y, z);
-                    tef.setInventorySlotContentsUpdate(0);
-                    return true;
+                if (heldItem != null && BarrelRecipe.hasRecipe(heldItem, tef.getFluidStack())) {
+                    return tef.addInventorySlotContentsUpdateWhole(0, player);
+                } else {
+                    if (tef.getInventoryStack(1) != null) {
+                        dropItems(worldIn, x, y, z);
+                        tef.setInventorySlotContentsUpdate(1);
+                        return true;
+                    }
+                    if (tef.getInventoryStack(0) != null) {
+                        dropItems(worldIn, x, y, z);
+                        tef.setInventorySlotContentsUpdate(0);
+                        return true;
+                    }
                 }
             }
+
         }
         return true;
     }
