@@ -136,6 +136,7 @@ public class ScriptPrimitive implements IScript {
     }
 
     public void addCampfireRecipes() {
+        addCampfireRecipe(getItem("minecraft:bread:0:1"), getModItem("wheat_dough", 1));
         addCampfireRecipe(getItem("minecraft:cooked_beef:0:1"), getItem("minecraft:beef:0:1"));
         addCampfireRecipe(getItem("minecraft:cooked_chicken:0:1"), getItem("minecraft:chicken:0:1"));
         addCampfireRecipe(getItem("minecraft:cooked_porkchop:0:1"), getItem("minecraft:porkchop:0:1"));

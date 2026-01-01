@@ -42,7 +42,7 @@ public class ItemWoodRenderer extends ItemPrimalRenderer {
             if (type == ItemRenderType.ENTITY) {
                 GL11.glScalef(0.5F, 0.5F, 0.5F);
             }
-            modelFirewood.render();
+            renderModel(modelFirewood);
             GL11.glPopMatrix();
         }
     }

@@ -82,30 +82,16 @@ public class ModelRenderer {
         return this;
     }
 
-    public ModelRenderer addBox(int U, int V, float x, float y, float z, int xWidth, int yHeight, int zDepth) {
-        this.cubeList.add(new ModelBox(this, U, V, x, y, z, xWidth, yHeight, zDepth, 0.0F));
+    public ModelRenderer addBox(int U, int V, float x, float y, float z, int xWidth, int yHeight, int zDepth,
+        float scaleFactor, ModelQuad config) {
+        this.cubeList.add(new ModelBox(this, U, V, x, y, z, xWidth, yHeight, zDepth, scaleFactor, config));
         return this;
     }
 
-    public ModelRenderer addBox(String boxNameSuffix, float x, float y, float z, int width, int height, int depth) {
-        boxNameSuffix = this.boxName + "." + boxNameSuffix;
-        TextureOffset textureoffset = this.baseModel.getTextureOffset(boxNameSuffix);
-        this.setTextureOffset(textureoffset.textureOffsetX, textureoffset.textureOffsetY);
-        this.cubeList.add(
-            (new ModelBox(this, this.textureOffsetX, this.textureOffsetY, x, y, z, width, height, depth, 0.0F))
-                .func_78244_a(boxNameSuffix));
+    public ModelRenderer addBox(int U, int V, float x, float y, float z, int xWidth, int yHeight, int zDepth,
+        float scaleFactor) {
+        this.cubeList.add(new ModelBox(this, U, V, x, y, z, xWidth, yHeight, zDepth, scaleFactor));
         return this;
-    }
-
-    public ModelRenderer addBox(float x, float y, float z, int width, int height, int depth) {
-        this.cubeList
-            .add(new ModelBox(this, this.textureOffsetX, this.textureOffsetY, x, y, z, width, height, depth, 0.0F));
-        return this;
-    }
-
-    public void addBox(float x, float y, float z, int width, int height, int depth, float scaleFactor) {
-        this.cubeList.add(
-            new ModelBox(this, this.textureOffsetX, this.textureOffsetY, x, y, z, width, height, depth, scaleFactor));
     }
 
     public void setRotationPoint(float rotPointX, float rotPointY, float rotPointZ) {

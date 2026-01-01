@@ -108,6 +108,16 @@ public class MTCompat {
         MineTweakerAPI.apply(new MTBarrelHandler.RemoveRecipe(output, outputLiquid, input, inputLiquid, 100));
     }
 
+    @ZenMethod
+    public static void addQuernRecipe(IItemStack output, IIngredient input) {
+        MineTweakerAPI.apply(new MTQuernHandler.AddRecipe(output, input));
+    }
+
+    @ZenMethod
+    public static void removeQuernRecipe(IItemStack output, IIngredient input) {
+        MineTweakerAPI.apply(new MTQuernHandler.RemoveRecipe(output, input));
+    }
+
     public static ItemStack get(IItemStack iStack) {
         return MineTweakerMC.getItemStack(iStack);
     }

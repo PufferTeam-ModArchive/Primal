@@ -42,12 +42,14 @@ public class PacketFireStarter implements IMessage, IMessageHandler<PacketFireSt
         EntityPlayer player = (EntityPlayer) Minecraft.getMinecraft().theWorld.getEntityByID(msg.playerEntityId);
         World world = player.worldObj;
         MovingObjectPosition mop = Utils.getMovingObjectPositionFromPlayer(world, player, false);
-        world.spawnParticle("smoke", mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 0.0F, 0.0F, 0.0F);
-        if (msg.success) {
-            TileEntity te = world.getTileEntity(mop.blockX, mop.blockY, mop.blockZ);
-            if (te instanceof TileEntityInventory tef) {
-                if (tef.canBeFired()) {
-                    tef.setFired(true);
+        if (mop != null) {
+            world.spawnParticle("smoke", mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 0.0F, 0.0F, 0.0F);
+            if (msg.success) {
+                TileEntity te = world.getTileEntity(mop.blockX, mop.blockY, mop.blockZ);
+                if (te instanceof TileEntityInventory tef) {
+                    if (tef.canBeFired()) {
+                        tef.setFired(true);
+                    }
                 }
             }
         }

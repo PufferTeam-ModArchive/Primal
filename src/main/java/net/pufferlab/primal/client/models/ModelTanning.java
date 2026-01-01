@@ -1,6 +1,5 @@
 package net.pufferlab.primal.client.models;
 
-import net.pufferlab.primal.client.utils.ModelBox;
 import net.pufferlab.primal.client.utils.ModelRenderer;
 
 public class ModelTanning extends ModelPrimal {
@@ -13,8 +12,8 @@ public class ModelTanning extends ModelPrimal {
         cube_r1.setRotationPoint(0.0F, 0.0F, -5.0F);
         bb_main.addChild(cube_r1);
         setRotationAngle(cube_r1, 0.1745F, 0.0F, 0.0F);
-        cube_r1.cubeList.add(new ModelBox(cube_r1, 0, 0, -1.1F - 8F, 0.0F, -1.0F, 2, 15, 2, 0.0F));
-        cube_r1.cubeList.add(new ModelBox(cube_r1, 0, 0, 13.1F - 8F, 0.0F, -1.0F, 2, 15, 2, 0.0F));
+        cube_r1.addBox(0, 0, -1.1F - 8F, 0.0F, -1.0F, 2, 15, 2, 0.0F);
+        cube_r1.addBox(0, 0, 13.1F - 8F, 0.0F, -1.0F, 2, 15, 2, 0.0F);
     }
 
     @Override

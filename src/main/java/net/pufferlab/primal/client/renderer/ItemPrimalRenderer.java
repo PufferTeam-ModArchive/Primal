@@ -103,20 +103,24 @@ public class ItemPrimalRenderer implements IItemRenderer {
                 if (handleTemperatureRendering()) {
                     RenderTemperature.renderTemperature(model, Utils.getTemperatureFromNBT(item.getTagCompound()));
                 } else {
-                    GL11.glEnable(GL11.GL_BLEND);
-                    GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                    GL11.glEnable(GL11.GL_ALPHA_TEST);
-                    GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
-                    GL11.glDisable(GL11.GL_CULL_FACE);
-
-                    model.render();
-
-                    GL11.glEnable(GL11.GL_CULL_FACE);
-                    GL11.glDisable(GL11.GL_BLEND);
+                    renderModel(model);
                 }
                 GL11.glPopMatrix();
             }
         }
+    }
+
+    public void renderModel(ModelPrimal model) {
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glEnable(GL11.GL_ALPHA_TEST);
+        GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+        GL11.glDisable(GL11.GL_CULL_FACE);
+
+        model.render();
+
+        GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glDisable(GL11.GL_BLEND);
     }
 
     public void baseTranslation(ItemRenderType type) {

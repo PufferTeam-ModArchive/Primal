@@ -25,10 +25,22 @@ public class ModelBox {
     public float posZ2;
     public String field_78247_g;
 
+    public boolean[] quadsEnabled;
+
     public ModelBox() {}
 
     public ModelBox(ModelRenderer body, int U, int V, float x, float y, float z, int xWidth, int yHeight, int zDepth,
         float scaleFactor) {
+        this(body, U, V, x, y, z, xWidth, yHeight, zDepth, scaleFactor, null);
+    }
+
+    public ModelBox(ModelRenderer body, int U, int V, float x, float y, float z, int xWidth, int yHeight, int zDepth,
+        float scaleFactor, ModelQuad config) {
+        if (config != null) {
+            this.quadsEnabled = config.quadsEnabled;
+        } else {
+            this.quadsEnabled = new boolean[] { true, true, true, true, true, true };
+        }
         this.posX1 = x;
         this.posY1 = y;
         this.posZ1 = z;
@@ -69,60 +81,72 @@ public class ModelBox {
         this.vertexPositions[5] = positiontexturevertex4;
         this.vertexPositions[6] = positiontexturevertex5;
         this.vertexPositions[7] = positiontexturevertex6;
-        this.quadList[0] = new TexturedQuad(
-            new PositionTextureVertex[] { positiontexturevertex4, positiontexturevertex, positiontexturevertex1,
-                positiontexturevertex5 },
-            U + zDepth + xWidth,
-            V + zDepth,
-            U + zDepth + xWidth + zDepth,
-            V + zDepth + yHeight,
-            body.textureWidth,
-            body.textureHeight);
-        this.quadList[1] = new TexturedQuad(
-            new PositionTextureVertex[] { positiontexturevertex7, positiontexturevertex3, positiontexturevertex6,
-                positiontexturevertex2 },
-            U,
-            V + zDepth,
-            U + zDepth,
-            V + zDepth + yHeight,
-            body.textureWidth,
-            body.textureHeight);
-        this.quadList[2] = new TexturedQuad(
-            new PositionTextureVertex[] { positiontexturevertex4, positiontexturevertex3, positiontexturevertex7,
-                positiontexturevertex },
-            U + zDepth,
-            V,
-            U + zDepth + xWidth,
-            V + zDepth,
-            body.textureWidth,
-            body.textureHeight);
-        this.quadList[3] = new TexturedQuad(
-            new PositionTextureVertex[] { positiontexturevertex1, positiontexturevertex2, positiontexturevertex6,
-                positiontexturevertex5 },
-            U + zDepth + xWidth,
-            V + zDepth,
-            U + zDepth + xWidth + xWidth,
-            V,
-            body.textureWidth,
-            body.textureHeight);
-        this.quadList[4] = new TexturedQuad(
-            new PositionTextureVertex[] { positiontexturevertex, positiontexturevertex7, positiontexturevertex2,
-                positiontexturevertex1 },
-            U + zDepth,
-            V + zDepth,
-            U + zDepth + xWidth,
-            V + zDepth + yHeight,
-            body.textureWidth,
-            body.textureHeight);
-        this.quadList[5] = new TexturedQuad(
-            new PositionTextureVertex[] { positiontexturevertex3, positiontexturevertex4, positiontexturevertex5,
-                positiontexturevertex6 },
-            U + zDepth + xWidth + zDepth,
-            V + zDepth,
-            U + zDepth + xWidth + zDepth + xWidth,
-            V + zDepth + yHeight,
-            body.textureWidth,
-            body.textureHeight);
+        if (this.quadsEnabled[0]) {
+            this.quadList[0] = new TexturedQuad(
+                new PositionTextureVertex[] { positiontexturevertex4, positiontexturevertex, positiontexturevertex1,
+                    positiontexturevertex5 },
+                U + zDepth + xWidth,
+                V + zDepth,
+                U + zDepth + xWidth + zDepth,
+                V + zDepth + yHeight,
+                body.textureWidth,
+                body.textureHeight);
+        }
+        if (this.quadsEnabled[1]) {
+            this.quadList[1] = new TexturedQuad(
+                new PositionTextureVertex[] { positiontexturevertex7, positiontexturevertex3, positiontexturevertex6,
+                    positiontexturevertex2 },
+                U,
+                V + zDepth,
+                U + zDepth,
+                V + zDepth + yHeight,
+                body.textureWidth,
+                body.textureHeight);
+        }
+        if (this.quadsEnabled[2]) {
+            this.quadList[2] = new TexturedQuad(
+                new PositionTextureVertex[] { positiontexturevertex4, positiontexturevertex3, positiontexturevertex7,
+                    positiontexturevertex },
+                U + zDepth,
+                V,
+                U + zDepth + xWidth,
+                V + zDepth,
+                body.textureWidth,
+                body.textureHeight);
+        }
+        if (this.quadsEnabled[3]) {
+            this.quadList[3] = new TexturedQuad(
+                new PositionTextureVertex[] { positiontexturevertex1, positiontexturevertex2, positiontexturevertex6,
+                    positiontexturevertex5 },
+                U + zDepth + xWidth,
+                V + zDepth,
+                U + zDepth + xWidth + xWidth,
+                V,
+                body.textureWidth,
+                body.textureHeight);
+        }
+        if (this.quadsEnabled[4]) {
+            this.quadList[4] = new TexturedQuad(
+                new PositionTextureVertex[] { positiontexturevertex, positiontexturevertex7, positiontexturevertex2,
+                    positiontexturevertex1 },
+                U + zDepth,
+                V + zDepth,
+                U + zDepth + xWidth,
+                V + zDepth + yHeight,
+                body.textureWidth,
+                body.textureHeight);
+        }
+        if (this.quadsEnabled[5]) {
+            this.quadList[5] = new TexturedQuad(
+                new PositionTextureVertex[] { positiontexturevertex3, positiontexturevertex4, positiontexturevertex5,
+                    positiontexturevertex6 },
+                U + zDepth + xWidth + zDepth,
+                V + zDepth,
+                U + zDepth + xWidth + zDepth + xWidth,
+                V + zDepth + yHeight,
+                body.textureWidth,
+                body.textureHeight);
+        }
 
         if (body.mirror) {
             for (int j1 = 0; j1 < this.quadList.length; ++j1) {

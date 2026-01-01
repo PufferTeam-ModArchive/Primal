@@ -41,8 +41,8 @@ public class ItemFaucetRenderer extends ItemPrimalRenderer {
                 GL11.glTranslatef(-0.18F, -0.8F, 0.0F);
             }
             modelFaucet.bb_main.rotateAngleY = (float) Math.toRadians(-180);
-            modelFaucet.render();
-            modelValve.render();
+            renderModel(modelFaucet);
+            renderModel(modelValve);
             GL11.glPopMatrix();
         }
     }
