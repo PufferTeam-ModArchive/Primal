@@ -32,10 +32,9 @@ public class ItemPickaxePrimitive extends ItemPickaxe {
         return "item." + Primal.MODID + "." + toolName;
     }
 
-
     @Override
     public boolean getIsRepairable(ItemStack damagedItem, ItemStack repairMaterial) {
-        ItemStack material = this.toolMaterial.getRepairItemStack();
-        return material != null && net.minecraftforge.oredict.OreDictionary.itemMatches(material, repairMaterial, false);
+        String material = toolMaterial.name();
+        return Utils.containsOreDict(repairMaterial, Utils.getOreDictionaryName("ingot", material));
     }
 }

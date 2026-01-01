@@ -37,8 +37,11 @@ public class ScriptPrimitive implements IScript {
         addOreDict("coal", getItem("minecraft", "coal", 0, 1));
         addOreDict("ash", getModItem("ash", 1));
         addOreDict("kindling", getModItem("straw_kindling", 1));
-        addOreDict("rock", getItem(Primal.MODID + ":rock:*:1"));
-        addOreDict("mold", getItem(Primal.MODID + ":mold:*:1"));
+        addOreDict("rock", getItem(Primal.MODID, "rock", wildcard, 1));
+        addOreDict("mold", getItem(Primal.MODID, "mold", wildcard, 1));
+        addOreDict("barkWood", getItem(Primal.MODID, "bark", wildcard, 1));
+        addOreDict("barkWoodTannin", getItem(Primal.MODID, "bark", Utils.getIndex(Constants.barkItems, "oak"), 1));
+        addOreDict("barkWoodTannin", getItem(Primal.MODID, "bark", Utils.getIndex(Constants.barkItems, "acacia"), 1));
         addOreDict("itemLarge", getModItem("clay_large_vessel", 1));
         addOreDict("itemLarge", getModItem("clay_crucible", 1));
         addOreDict("itemLarge", getItem(Primal.MODID, "large_vessel"));
@@ -378,7 +381,7 @@ public class ScriptPrimitive implements IScript {
             getModItem("scraped_hide", 1),
             getFluid("tannin", 500),
             1200);
-        addBarrelRecipe(null, getFluid("tannin", 1000), "logWood", getFluid("water", 1000), 2400);
+        addBarrelRecipe(null, getFluid("tannin", 1000), "barkWoodTannin", getFluid("water", 1000), 2400);
         for (String color : Constants.colorTypes) {
             addBarrelRecipe(
                 null,

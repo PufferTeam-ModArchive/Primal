@@ -109,7 +109,7 @@ public class Registry {
         straw = new ItemMeta(Constants.strawItems, "straw");
         hide = new ItemMeta(Constants.hideItems, "hide");
         wood = new ItemMeta(Constants.woodItems, "wood");
-        bark = new ItemMeta(Constants.barkItems, "bark");
+        bark = new ItemMeta(Constants.barkItems, "bark").setHasSuffix();
         flint = new ItemMeta(Constants.flintItems, "flint");
         rock = new ItemMeta(Constants.rockTypes, "rock").setHasSuffix();
         powder = new ItemMeta(Constants.powderItems, "powder");

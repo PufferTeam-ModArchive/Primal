@@ -21,7 +21,7 @@ import org.lwjgl.opengl.GL11;
 
 public class RenderContainer {
 
-    public static final double epsilon = 1e-3;
+    public static final double epsilon = 0.0D;
 
     public static void renderContainer(ItemStack stack, IItemRenderer.ItemRenderType type) {
         if (stack == null) return;
@@ -94,8 +94,7 @@ public class RenderContainer {
         float r = Utils.getR(color);
         float g = Utils.getG(color);
         float b = Utils.getB(color);
-        float a = Utils.getA(color);
-        GL11.glColor4f(r, g, b, a);
+        GL11.glColor4f(r, g, b, 1.0F);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
