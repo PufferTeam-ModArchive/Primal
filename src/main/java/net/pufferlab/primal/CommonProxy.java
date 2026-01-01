@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.pufferlab.primal.events.*;
 import net.pufferlab.primal.inventory.container.ContainerCrucible;
 import net.pufferlab.primal.inventory.container.ContainerKnapping;
 import net.pufferlab.primal.inventory.container.ContainerLargeVessel;
@@ -18,11 +19,13 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.relauncher.Side;
 
 public class CommonProxy implements IGuiHandler {
 
     public final int largeVesselContainerID = 0;
     public final int crucibleContainerID = 1;
+    private int nextPacketID;
 
     public void preInit(FMLPreInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(Primal.instance, Primal.proxy);
@@ -31,7 +34,23 @@ public class CommonProxy implements IGuiHandler {
 
     public void setupRenders() {}
 
-    public void init(FMLInitializationEvent event) {}
+    public void setupPackets() {
+        registerPacket(PacketKnappingClick.class, Side.SERVER);
+        registerPacket(PacketPitKilnPlace.class, Side.SERVER);
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public void registerPacket(Class cl, Side side) {
+        int offset = 0;
+        if (side == Side.CLIENT) {
+            offset = 100;
+        }
+        Primal.network.registerMessage(cl, cl, offset + nextPacketID++, side);
+    }
+
+    public void init(FMLInitializationEvent event) {
+        Primal.network = NetworkRegistry.INSTANCE.newSimpleChannel(Primal.MODID);
+    }
 
     public void postInit(FMLPostInitializationEvent event) {}
 

@@ -47,8 +47,8 @@ public class Primal {
     public void init(FMLInitializationEvent event) {
         proxy.init(event);
         proxy.setupRenders();
+        proxy.setupPackets();
 
-        registry.setupPackets();
         registry.setupNEI();
         registry.setupMT();
 

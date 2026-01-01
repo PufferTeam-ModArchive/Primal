@@ -13,6 +13,9 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import net.pufferlab.primal.client.audio.SoundQuernGrinding;
 import net.pufferlab.primal.client.particle.EntityGrindingFX;
 import net.pufferlab.primal.client.renderer.*;
+import net.pufferlab.primal.events.PacketFireStarter;
+import net.pufferlab.primal.events.PacketSpeedUpdate;
+import net.pufferlab.primal.events.PacketSwingArm;
 import net.pufferlab.primal.inventory.container.ContainerKnapping;
 import net.pufferlab.primal.inventory.gui.GuiCrucible;
 import net.pufferlab.primal.inventory.gui.GuiKnapping;
@@ -24,6 +27,7 @@ import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.relauncher.Side;
 
 public class ClientProxy extends CommonProxy {
 
@@ -102,6 +106,13 @@ public class ClientProxy extends CommonProxy {
         register(Registry.quern, new ItemQuernRenderer());
         register(Registry.bucket, new ItemBucketRenderer());
         register(Registry.ceramic_bucket, new ItemBucketCeramicRenderer());
+    }
+
+    @Override
+    public void setupPackets() {
+        registerPacket(PacketSwingArm.class, Side.CLIENT);
+        registerPacket(PacketFireStarter.class, Side.CLIENT);
+        registerPacket(PacketSpeedUpdate.class, Side.CLIENT);
     }
 
     public int getNextId() {
