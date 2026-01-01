@@ -48,6 +48,8 @@ public class KnappingType {
     private static int nextId = 0;
     private static final int idOffset = 100;
 
+
+
     public final int id;
     public final String name;
     public final ItemStack item;
