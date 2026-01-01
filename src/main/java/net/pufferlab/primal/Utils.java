@@ -774,14 +774,6 @@ public class Utils {
         return result;
     }
 
-    public static void sameIndexArrays(Fluid[] big, Fluid[] small) {
-        System.arraycopy(small, 0, big, 0, small.length);
-    }
-
-    public static void sameIndexArrays(Block[] big, Block[] small) {
-        System.arraycopy(small, 0, big, 0, small.length);
-    }
-
     public static String getItemKey(Item item, int meta) {
         if (item != null) {
             return Item.getIdFromItem(item) + ":" + meta;
