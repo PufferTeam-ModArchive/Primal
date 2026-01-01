@@ -1,6 +1,6 @@
 package net.pufferlab.primal.items;
 
-public class Food {
+public class FoodType {
 
     public String name;
     public int hunger;
@@ -11,23 +11,23 @@ public class Food {
     public int effectDuration;
     public float effectProbability;
 
-    public Food(String name, int hunger, float saturation) {
+    public FoodType(String name, int hunger, float saturation) {
         this.name = name;
         this.hunger = hunger;
         this.saturation = saturation;
     }
 
-    public Food(String name, int hunger, float saturation, boolean isMeat) {
+    public FoodType(String name, int hunger, float saturation, boolean isMeat) {
         this(name, hunger, saturation);
         this.isMeat = isMeat;
     }
 
-    public Food(String name, int hunger, float saturation, boolean isMeat, String extraItem) {
+    public FoodType(String name, int hunger, float saturation, boolean isMeat, String extraItem) {
         this(name, hunger, saturation, isMeat);
         this.extraItem = extraItem;
     }
 
-    public Food(String name, int hunger, float saturation, boolean isMeat, int effectId, int effectDuration,
+    public FoodType(String name, int hunger, float saturation, boolean isMeat, int effectId, int effectDuration,
         float effectProbability) {
         this(name, hunger, saturation, isMeat);
         this.effectId = effectId;
@@ -35,7 +35,7 @@ public class Food {
         this.effectProbability = effectProbability;
     }
 
-    public Food(String name, int hunger, float saturation, boolean isMeat, String extraItem, int effectId,
+    public FoodType(String name, int hunger, float saturation, boolean isMeat, String extraItem, int effectId,
         int effectDuration, float effectProbability) {
         this(name, hunger, saturation, isMeat);
         this.extraItem = extraItem;
@@ -50,5 +50,13 @@ public class Food {
 
     public boolean hasExtraItem() {
         return extraItem != null;
+    }
+
+    public static String[] getNames(FoodType[] foods) {
+        String[] names = new String[foods.length];
+        for (int i = 0; i < foods.length; i++) {
+            names[i] = foods[i].name;
+        }
+        return names;
     }
 }

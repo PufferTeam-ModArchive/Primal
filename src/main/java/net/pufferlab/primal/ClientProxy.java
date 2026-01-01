@@ -100,6 +100,8 @@ public class ClientProxy extends CommonProxy {
         register(Registry.forge, new ItemForgeRenderer());
         register(Registry.handstone, new ItemHandstoneRenderer());
         register(Registry.quern, new ItemQuernRenderer());
+        register(Registry.bucket, new ItemBucketRenderer());
+        register(Registry.ceramic_bucket, new ItemBucketCeramicRenderer());
     }
 
     public int getNextId() {

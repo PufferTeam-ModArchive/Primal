@@ -1,8 +1,11 @@
 package net.pufferlab.primal.items;
 
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 import net.minecraftforge.fluids.*;
 import net.pufferlab.primal.Constants;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
 
@@ -61,5 +64,30 @@ public class ItemBucketCeramic extends ItemBucketMeta implements IFluidContainer
             return new FluidStack(fluid, 1000);
         }
         return null;
+    }
+
+    @Override
+    public void registerIcons(IIconRegister register) {
+        bucketIcons = new IIcon[4];
+
+        bucketIcons[0] = register.registerIcon(Primal.MODID + ":empty_ceramic_bucket");
+        bucketIcons[1] = register.registerIcon(Primal.MODID + ":bucket_mask");
+        bucketIcons[2] = register.registerIcon(Primal.MODID + ":water_ceramic_bucket");
+        bucketIcons[3] = register.registerIcon(Primal.MODID + ":lava_ceramic_bucket");
+    }
+
+    @Override
+    public IIcon getIconFromDamageForRenderPass(int meta, int pass) {
+        IIcon icon = super.getIconFromDamageForRenderPass(meta, pass);
+        if (meta == 0) {
+            icon = bucketIcons[0];
+        }
+        if (meta == 1) {
+            icon = bucketIcons[2];
+        }
+        if (meta == 2) {
+            icon = bucketIcons[3];
+        }
+        return icon;
     }
 }

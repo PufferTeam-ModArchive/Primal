@@ -38,6 +38,10 @@ public class ItemPrimalRenderer implements IItemRenderer {
         return null;
     }
 
+    public int[] getMetaBlacklist() {
+        return null;
+    }
+
     public boolean handleRendering(ItemStack stack) {
         return false;
     }
@@ -47,6 +51,10 @@ public class ItemPrimalRenderer implements IItemRenderer {
     }
 
     public boolean handleTemperatureRendering() {
+        return false;
+    }
+
+    public boolean handleContainerRendering() {
         return false;
     }
 
@@ -60,6 +68,7 @@ public class ItemPrimalRenderer implements IItemRenderer {
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
+        if (Utils.contains(getMetaBlacklist(), item.getItemDamage())) return false;
         if (Utils.contains(getMeta(), item.getItemDamage()) || getMeta() == null) {
             return true;
         }
@@ -68,20 +77,31 @@ public class ItemPrimalRenderer implements IItemRenderer {
 
     @Override
     public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
+        if (Utils.contains(getMetaBlacklist(), item.getItemDamage())) return false;
+        if (handleContainerRendering()) {
+            if (helper == ItemRendererHelper.BLOCK_3D) {
+                return false;
+            }
+            return type == ItemRenderType.ENTITY;
+        }
         if (Utils.contains(getMeta(), item.getItemDamage()) || getMeta() == null) {
             return true;
         }
+
         return false;
     }
 
     @Override
     public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
+        if (Utils.contains(getMetaBlacklist(), item.getItemDamage())) return;
         if (handleRendering(item)) {
             model = getModel(item);
             meta = getMeta();
             if (Utils.contains(meta, item.getItemDamage()) || meta == null) {
                 GL11.glPushMatrix();
-                baseTranslation(type);
+                if (model != null) {
+                    baseTranslation(type);
+                }
                 if (isNormal()) {
                     if (type == ItemRenderType.ENTITY) {
                         GL11.glScalef(0.5F, 0.5F, 0.5F);
@@ -95,15 +115,22 @@ public class ItemPrimalRenderer implements IItemRenderer {
                 if (meta != null) {
                     index = Utils.getIndex(meta, item.getItemDamage());
                 }
-                ModelPrimal model = this.model[index];
 
                 if (hasOffset) {
                     GL11.glTranslatef(offsetX, offsetY, offsetZ);
                 }
                 if (handleTemperatureRendering()) {
-                    RenderTemperature.renderTemperature(model, Utils.getTemperatureFromNBT(item.getTagCompound()));
+                    if (this.model != null) {
+                        ModelPrimal model = this.model[index];
+                        RenderTemperature.renderTemperature(model, Utils.getTemperatureFromNBT(item.getTagCompound()));
+                    }
+                } else if (handleContainerRendering()) {
+                    RenderContainer.renderContainer(item, type);
                 } else {
-                    renderModel(model);
+                    if (this.model != null) {
+                        ModelPrimal model = this.model[index];
+                        renderModel(model);
+                    }
                 }
                 GL11.glPopMatrix();
             }

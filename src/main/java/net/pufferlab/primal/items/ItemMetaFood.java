@@ -18,16 +18,18 @@ import net.pufferlab.primal.Utils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemMetaFood extends ItemFood {
+public class ItemMetaFood extends ItemFood implements IMetaItem {
 
-    private Food[] elements;
+    private FoodType[] elements;
+    private String[] elementsNames;
     private String[] elementsBlacklist;
     private IIcon[] icons;
     private String name;
 
-    public ItemMetaFood(Food[] elements, String type) {
+    public ItemMetaFood(FoodType[] elements, String type) {
         super(0, 0.0f, false);
         this.elements = elements;
+        this.elementsNames = FoodType.getNames(elements);
         this.name = type;
         this.elementsBlacklist = Constants.none;
         this.setHasSubtypes(true);
@@ -109,7 +111,7 @@ public class ItemMetaFood extends ItemFood {
 
     @Override
     protected void onFoodEaten(ItemStack itemstack, World world, EntityPlayer player) {
-        Food food = elements[itemstack.getItemDamage()];
+        FoodType food = elements[itemstack.getItemDamage()];
         if (food.hasExtraItem()) {
             String item = food.extraItem;
             player.inventory.addItemStackToInventory(Utils.getItem(item));
@@ -126,5 +128,21 @@ public class ItemMetaFood extends ItemFood {
             }
         }
 
+    }
+
+    public String[] getElements() {
+        return elementsNames;
+    }
+
+    public boolean hasSuffix() {
+        return false;
+    }
+
+    public String getElementName() {
+        return name;
+    }
+
+    public Item getItemObject() {
+        return this;
     }
 }

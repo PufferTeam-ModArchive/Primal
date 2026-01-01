@@ -14,13 +14,14 @@ import net.pufferlab.primal.Utils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemMeta extends Item {
+public class ItemMeta extends Item implements IMetaItem {
 
     private String[] elements;
     private String[] elementsBlacklist;
     private String[] elementsHidden;
     private IIcon[] icons;
     private String name;
+    private boolean hasSuffix;
 
     public ItemMeta(String[] materials, String type) {
         elements = materials;
@@ -46,6 +47,11 @@ public class ItemMeta extends Item {
         return this;
     }
 
+    public ItemMeta setHasSuffix() {
+        this.hasSuffix = true;
+        return this;
+    }
+
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister register) {
@@ -53,10 +59,10 @@ public class ItemMeta extends Item {
 
         for (int i = 0; i < elements.length; i++) {
             if (!Utils.contains(elementsBlacklist, elements[i])) {
-                if (Utils.contains(Constants.uniqueItemTypes, name)) {
-                    icons[i] = register.registerIcon(Primal.MODID + ":" + elements[i]);
-                } else {
+                if (hasSuffix) {
                     icons[i] = register.registerIcon(Primal.MODID + ":" + elements[i] + "_" + name);
+                } else {
+                    icons[i] = register.registerIcon(Primal.MODID + ":" + elements[i]);
                 }
             }
         }
@@ -86,10 +92,11 @@ public class ItemMeta extends Item {
             || Utils.contains(elementsBlacklist, elements[stack.getItemDamage()])) {
             return "item." + Primal.MODID + ".error";
         }
-        if (Utils.contains(Constants.uniqueItemTypes, name)) {
+        if (hasSuffix) {
+            return "item." + Primal.MODID + "." + elements[stack.getItemDamage()] + "_" + name;
+        } else {
             return "item." + Primal.MODID + "." + elements[stack.getItemDamage()];
         }
-        return "item." + Primal.MODID + "." + elements[stack.getItemDamage()] + "_" + name;
     }
 
     @Override
@@ -101,4 +108,19 @@ public class ItemMeta extends Item {
         return icons[meta];
     }
 
+    public String[] getElements() {
+        return elements;
+    }
+
+    public boolean hasSuffix() {
+        return hasSuffix;
+    }
+
+    public String getElementName() {
+        return name;
+    }
+
+    public Item getItemObject() {
+        return this;
+    }
 }

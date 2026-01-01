@@ -1,10 +1,12 @@
 package net.pufferlab.primal.items;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -12,16 +14,20 @@ import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.IFluidHandler;
 import net.pufferlab.primal.Constants;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 
 import cpw.mods.fml.common.eventhandler.Event;
 
 public class ItemBucketMeta extends ItemMeta {
 
+    protected IIcon[] bucketIcons;
+
     public ItemBucketMeta(String type) {
         super(Constants.fluids, type);
         this.maxStackSize = 1;
-        this.setBlacklist(Constants.vanillaFluids);
+        this.setBlacklist(Constants.existingFluids);
+        this.setHasSuffix();
     }
 
     @Override
@@ -200,6 +206,40 @@ public class ItemBucketMeta extends ItemMeta {
                 return false;
             }
         }
+    }
+
+    @Override
+    public void registerIcons(IIconRegister register) {
+        bucketIcons = new IIcon[2];
+
+        bucketIcons[0] = register.registerIcon(Primal.MODID + ":bucket");
+        bucketIcons[1] = register.registerIcon(Primal.MODID + ":bucket_mask");
+    }
+
+    @Override
+    public IIcon getIconFromDamage(int meta) {
+        return bucketIcons[0];
+    }
+
+    @Override
+    public IIcon getIconFromDamageForRenderPass(int meta, int pass) {
+        if (pass == 0) {
+            return bucketIcons[0];
+        }
+        if (pass == 1) {
+            return bucketIcons[1];
+        }
+        return bucketIcons[0];
+    }
+
+    @Override
+    public boolean requiresMultipleRenderPasses() {
+        return true;
+    }
+
+    @Override
+    public int getRenderPasses(int metadata) {
+        return 2;
     }
 
     public boolean isBreakable(ItemStack itemStack) {

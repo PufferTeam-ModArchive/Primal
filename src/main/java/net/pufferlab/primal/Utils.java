@@ -31,6 +31,7 @@ public class Utils {
     private static final Map<Integer, ItemStack> cacheIS = new HashMap<>();
     private static final Map<String, ItemStack> itemCache = new HashMap<>();
     private static final Map<String, FluidStack> fluidCache = new HashMap<>();
+    private static final Map<String, ItemStack> modItemCache = new HashMap<>();
 
     public static final ForgeDirection[] sideDirections = new ForgeDirection[] { ForgeDirection.WEST,
         ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.NORTH, ForgeDirection.DOWN };
@@ -96,38 +97,18 @@ public class Utils {
         return getItem(mod, item, meta, number);
     }
 
-    public static ItemStack getModItem(String name, int number) {
-        if (Utils.contains(Constants.strawItems, name)) {
-            return getItem(Primal.MODID, "straw", Utils.getIndex(Constants.strawItems, name), number);
-        }
-        if (Utils.contains(Constants.hideItems, name)) {
-            return getItem(Primal.MODID, "hide", Utils.getIndex(Constants.hideItems, name), number);
-        }
-        if (Utils.contains(Constants.woodItems, name)) {
-            return getItem(Primal.MODID, "wood", Utils.getIndex(Constants.woodItems, name), number);
-        }
-        if (Utils.contains(Constants.flintItems, name)) {
-            return getItem(Primal.MODID, "flint", Utils.getIndex(Constants.flintItems, name), number);
-        }
-        if (Utils.contains(Constants.powderItems, name)) {
-            return getItem(Primal.MODID, "powder", Utils.getIndex(Constants.powderItems, name), number);
-        }
-        if (Utils.contains(Constants.clayItems, name)) {
-            return getItem(Primal.MODID, "clay", Utils.getIndex(Constants.clayItems, name), number);
-        }
-        if (Utils.contains(Constants.moldItems, name)) {
-            return getItem(Primal.MODID, "mold", Utils.getIndex(Constants.moldItems, name), number);
-        }
-        if (Utils.contains(Constants.flourItems, name)) {
-            return getItem(Primal.MODID, "flour", Utils.getIndex(Constants.flourItems, name), number);
-        }
-        if (Utils.contains(Constants.doughItems, name)) {
-            return getItem(Primal.MODID, "dough", Utils.getIndex(Constants.doughItems, name), number);
-        }
-        if (Utils.contains(Constants.icons, name)) {
-            return getItem(Primal.MODID, "icon", Utils.getIndex(Constants.icons, name), number);
-        }
+    public static void registerModItem(String name, ItemStack stack) {
+        modItemCache.put(name, stack);
+    }
 
+    public static ItemStack getModItem(String name, int number) {
+        ItemStack stack = modItemCache.get(name);
+        if (stack != null) {
+            ItemStack tempStack = stack.copy();
+            tempStack.stackSize = number;
+            return tempStack;
+        }
+        Primal.LOG.error("Tried to get invalid Custom Mod ItemStack from {}:{}.", name, number);
         return null;
     }
 
@@ -636,18 +617,6 @@ public class Utils {
         return false;
     }
 
-    public static boolean contains(Food[] array, String targetString) {
-        if (targetString == null) {
-            return false;
-        }
-        for (Food element : array) {
-            if (targetString.equals(element.name)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public static boolean contains(String[] array, String targetString) {
         if (targetString == null) {
             return false;
@@ -749,16 +718,6 @@ public class Utils {
         return 0;
     }
 
-    public static int getIndex(Food[] array, String name) {
-        for (int i = 0; i < array.length; i++) {
-            if (array[i] == null) continue;
-            if (name.equals(array[i].name)) {
-                return i;
-            }
-        }
-        return 0;
-    }
-
     public static int getIndex(Block[] array, Block name) {
         for (int i = 0; i < array.length; i++) {
             if (array[i] == null) continue;
@@ -802,6 +761,10 @@ public class Utils {
 
     public static float getB(int color) {
         return (color & 0xFF) / 255f;
+    }
+
+    public static float getA(int color) {
+        return ((color >> 24) & 0xFF) / 255f;
     }
 
     public static int[] combineArrays(int[] a, int[] b) {

@@ -103,12 +103,13 @@ public class Registry {
         thatch_roof = new BlockThatchRoof();
         chimney = new BlockChimney();
 
-        icons = new ItemMeta(Constants.icons, "icon").setHiddenAll();
+        icons = new ItemMeta(Constants.icons, "icon").setHiddenAll()
+            .setHasSuffix();
         straw = new ItemMeta(Constants.strawItems, "straw");
         hide = new ItemMeta(Constants.hideItems, "hide");
         wood = new ItemMeta(Constants.woodItems, "wood");
         flint = new ItemMeta(Constants.flintItems, "flint");
-        rock = new ItemMeta(Constants.rockTypes, "rock");
+        rock = new ItemMeta(Constants.rockTypes, "rock").setHasSuffix();
         powder = new ItemMeta(Constants.powderItems, "powder");
         mold = new ItemMeta(Constants.moldItems, "mold");
         clay = new ItemMeta(Constants.clayItems, "clay");
@@ -189,25 +190,25 @@ public class Registry {
         register(TileEntityQuern.class, "quern");
     }
 
-    public static final Block[] fluidsBlocks = new Block[Constants.fluids.length];
-    public static final Fluid[] fluidsObjects = new Fluid[Constants.fluids.length];
+    public static final Block[] fluidsBlocks = new Block[Constants.fluidsTypes.length];
+    public static final Fluid[] fluidsObjects = new Fluid[Constants.fluidsTypes.length];
 
     public void setupFluids() {
-        Utils.sameIndexArrays(fluidsBlocks, Constants.vanillaFluidsBlocks);
-        Utils.sameIndexArrays(fluidsObjects, Constants.vanillaFluidsObjects);
-        for (int i = 0; i < Constants.fluids.length; i++) {
-            String name = Constants.fluids[i];
-            if (!Utils.contains(Constants.vanillaFluids, name)) {
-                Fluid fluid = new FluidPrimal(name).setDensity(1000)
-                    .setViscosity(1000);
+        for (int i = 0; i < Constants.fluidsTypes.length; i++) {
+            FluidType fluidType = Constants.fluidsTypes[i];
+            if (fluidType.block == null && fluidType.fluid == null) {
+                Fluid fluid = new FluidPrimal(fluidType.name).setDensity(fluidType.density)
+                    .setViscosity(fluidType.viscosity);
                 register(fluid);
-                Block block = new BlockFluidPrimal(fluid, Constants.fluidsMaterial[i], name);
+                Block block = new BlockFluidPrimal(fluid, fluidType.material, fluidType.name);
                 fluid.setBlock(block);
-                register(block, name);
-                register(fluid, name);
-                fluidsObjects[i] = fluid;
-                fluidsBlocks[i] = block;
+                register(block, fluidType.name);
+                register(fluid, fluidType.name);
+                fluidType.setFluid(fluid);
+                fluidType.setBlock(block);
             }
+            fluidsObjects[i] = fluidType.fluid;
+            fluidsBlocks[i] = fluidType.block;
         }
     }
 
@@ -252,26 +253,24 @@ public class Registry {
 
     public void register(Item item, String name) {
         GameRegistry.registerItem(item.setCreativeTab(Registry.creativeTab), name);
+        registerModItem(item);
     }
 
     public void register(Block block, String name) {
-        if (block instanceof BlockLogPile || block instanceof BlockCharcoalPile
-            || block instanceof BlockAshPile
-            || block instanceof BlockGroundcover
-            || block instanceof BlockCast) {
+        if (block instanceof BlockPile || block instanceof BlockGroundcover || block instanceof BlockCast) {
             GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), null, name);
-        } else if ((block instanceof BlockLargeVessel || block instanceof BlockBarrel || block instanceof BlockCampfire)
-            && !(block instanceof BlockOven)) {
-                GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockPrimal.class, name);
-            } else if (block instanceof BlockFluidPrimal) {
-                GameRegistry.registerBlock(block.setCreativeTab(null), name);
-            } else if (block instanceof BlockMeta) {
-                GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockMeta.class, name);
-            } else if (block instanceof BlockCrucible) {
-                GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockHeatable.class, name);
-            } else {
-                GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), name);
-            }
+        } else if ((block instanceof BlockLargeVessel || block instanceof BlockBarrel || block == campfire)) {
+            GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockPrimal.class, name);
+        } else if (block instanceof BlockFluidPrimal) {
+            GameRegistry.registerBlock(block.setCreativeTab(null), name);
+        } else if (block instanceof BlockMeta) {
+            GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockMeta.class, name);
+        } else if (block instanceof BlockCrucible) {
+            GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockHeatable.class, name);
+        } else {
+            GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), name);
+        }
+        registerModItem(block);
     }
 
     public void register(Fluid fluid) {
@@ -283,6 +282,20 @@ public class Registry {
             new FluidStack(fluid, FluidContainerRegistry.BUCKET_VOLUME),
             new ItemStack(bucket, 1, Utils.getIndex(Constants.fluids, name)),
             new ItemStack(Items.bucket));
+    }
+
+    public void registerModItem(Object item) {
+        if (item instanceof IMetaItem item2) {
+            String[] elements = item2.getElements();
+            String elementName = item2.getElementName();
+            String suffix = "";
+            if (item2.hasSuffix()) {
+                suffix = "_" + elementName;
+            }
+            for (int i = 0; i < elements.length; i++) {
+                Utils.registerModItem(elements[i] + suffix, new ItemStack(item2.getItemObject(), 1, i));
+            }
+        }
     }
 
     public void register(Class<? extends TileEntity> cls, String baseName) {
