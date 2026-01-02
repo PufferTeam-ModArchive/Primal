@@ -25,7 +25,6 @@ import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.relauncher.Side;
 
 public class ClientProxy extends CommonProxy {
 
@@ -104,12 +103,6 @@ public class ClientProxy extends CommonProxy {
         register(Registry.quern, new ItemQuernRenderer());
         register(Registry.bucket, new ItemBucketRenderer());
         register(Registry.ceramic_bucket, new ItemBucketCeramicRenderer());
-    }
-
-    @Override
-    public void setupPackets() {
-        registerPacket(PacketKnappingClick.class, Side.SERVER, 0);
-        registerPacket(PacketPitKilnPlace.class, Side.SERVER, 1);
     }
 
     public int getNextId() {

@@ -19,7 +19,6 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.relauncher.Side;
 
 public class CommonProxy implements IGuiHandler {
 
@@ -34,20 +33,7 @@ public class CommonProxy implements IGuiHandler {
 
     public void setupRenders() {}
 
-    public void setupPackets() {
-        registerPacket(PacketSwingArm.class, Side.CLIENT, 2);
-        registerPacket(PacketFireStarter.class, Side.CLIENT, 3);
-        registerPacket(PacketSpeedUpdate.class, Side.CLIENT, 4);
-    }
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public void registerPacket(Class cl, Side side, int id) {
-        Primal.network.registerMessage(cl, cl, id, side);
-    }
-
-    public void init(FMLInitializationEvent event) {
-        Primal.network = NetworkRegistry.INSTANCE.newSimpleChannel(Primal.MODID);
-    }
+    public void init(FMLInitializationEvent event) {}
 
     public void postInit(FMLPostInitializationEvent event) {}
 

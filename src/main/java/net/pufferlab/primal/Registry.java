@@ -18,7 +18,9 @@ import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.tileentities.*;
 
 import cpw.mods.fml.common.IWorldGenerator;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
 import minetweaker.MineTweakerAPI;
 
 public class Registry {
@@ -213,6 +215,15 @@ public class Registry {
         }
     }
 
+    public void setupPackets() {
+        Primal.network = NetworkRegistry.INSTANCE.newSimpleChannel(Primal.MODID);
+        registerPacket(PacketKnappingClick.class, Side.SERVER);
+        registerPacket(PacketPitKilnPlace.class, Side.SERVER);
+        registerPacket(PacketSwingArm.class, Side.CLIENT);
+        registerPacket(PacketFireStarter.class, Side.CLIENT);
+        registerPacket(PacketSpeedUpdate.class, Side.CLIENT);
+    }
+
     public void setupEvents() {
         registerEvent(new PitKilnHandler());
         registerEvent(new KnappingHandler());
@@ -299,6 +310,11 @@ public class Registry {
     }
 
     private static int nextPacketID = 0;
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public void registerPacket(Class cl, Side side) {
+        Primal.network.registerMessage(cl, cl, nextPacketID++, side);
+    }
 
     public void registerWorld(IWorldGenerator world) {
         GameRegistry.registerWorldGenerator(world, 0);
