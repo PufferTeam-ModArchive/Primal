@@ -35,17 +35,14 @@ public class CommonProxy implements IGuiHandler {
     public void setupRenders() {}
 
     public void setupPackets() {
-        registerPacket(PacketKnappingClick.class, Side.SERVER);
-        registerPacket(PacketPitKilnPlace.class, Side.SERVER);
+        registerPacket(PacketSwingArm.class, Side.CLIENT, 2);
+        registerPacket(PacketFireStarter.class, Side.CLIENT, 3);
+        registerPacket(PacketSpeedUpdate.class, Side.CLIENT, 4);
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public void registerPacket(Class cl, Side side) {
-        int offset = 0;
-        if (side == Side.CLIENT) {
-            offset = 100;
-        }
-        Primal.network.registerMessage(cl, cl, offset + nextPacketID++, side);
+    public void registerPacket(Class cl, Side side, int id) {
+        Primal.network.registerMessage(cl, cl, id, side);
     }
 
     public void init(FMLInitializationEvent event) {
