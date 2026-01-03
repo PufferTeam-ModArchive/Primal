@@ -1,8 +1,8 @@
 package net.pufferlab.primal.events;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.tileentities.TileEntityQuern;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -42,7 +42,7 @@ public class PacketSpeedUpdate implements IMessage, IMessageHandler<PacketSpeedU
 
     @Override
     public IMessage onMessage(PacketSpeedUpdate message, MessageContext ctx) {
-        World world = Minecraft.getMinecraft().theWorld;
+        World world = Primal.proxy.getClientWorld();
         if (world == null) return null;
 
         TileEntity tile = world.getTileEntity(message.x, message.y, message.z);

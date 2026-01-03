@@ -1,7 +1,8 @@
 package net.pufferlab.primal.events;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
+import net.pufferlab.primal.Primal;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -30,7 +31,8 @@ public class PacketSwingArm implements IMessage, IMessageHandler<PacketSwingArm,
 
     @Override
     public IMessage onMessage(PacketSwingArm msg, MessageContext ctx) {
-        EntityPlayer player = (EntityPlayer) Minecraft.getMinecraft().theWorld.getEntityByID(msg.playerEntityId);
+        World world = Primal.proxy.getClientWorld();
+        EntityPlayer player = (EntityPlayer) world.getEntityByID(msg.playerEntityId);
         if (player != null) {
             player.swingItem();
         }

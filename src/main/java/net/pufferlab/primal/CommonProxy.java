@@ -65,6 +65,10 @@ public class CommonProxy implements IGuiHandler {
         return null;
     }
 
+    public World getClientWorld() {
+        return null;
+    }
+
     public void playClientSound(TileEntity te) {}
 
     public void renderFX(TileEntity te, double x, double y, double z, ItemStack stack) {}

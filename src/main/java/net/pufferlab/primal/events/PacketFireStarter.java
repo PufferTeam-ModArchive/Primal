@@ -1,10 +1,10 @@
 package net.pufferlab.primal.events;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 
@@ -39,8 +39,8 @@ public class PacketFireStarter implements IMessage, IMessageHandler<PacketFireSt
 
     @Override
     public IMessage onMessage(PacketFireStarter msg, MessageContext ctx) {
-        EntityPlayer player = (EntityPlayer) Minecraft.getMinecraft().theWorld.getEntityByID(msg.playerEntityId);
-        World world = player.worldObj;
+        World world = Primal.proxy.getClientWorld();
+        EntityPlayer player = (EntityPlayer) world.getEntityByID(msg.playerEntityId);
         MovingObjectPosition mop = Utils.getMovingObjectPositionFromPlayer(world, player, false);
         if (mop != null) {
             world.spawnParticle("smoke", mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 0.0F, 0.0F, 0.0F);

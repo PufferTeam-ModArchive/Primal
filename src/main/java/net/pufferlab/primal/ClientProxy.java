@@ -152,6 +152,11 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
+    public World getClientWorld() {
+        return Minecraft.getMinecraft().theWorld;
+    }
+
+    @Override
     public void playClientSound(TileEntity te) {
         if (te instanceof TileEntityQuern tef) {
             Minecraft.getMinecraft()
