@@ -8,10 +8,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.pufferlab.primal.recipes.PitKilnRecipe;
 
-public class TileEntityPitKiln extends TileEntityInventory {
+public class TileEntityPitKiln extends TileEntityInventory implements IHeatable {
 
-    public int timePassed;
-    int timeToSmelt = 20 * 60;
+    public int timeFired;
+    public static int slotItem1 = 0;
+    public static int slotItem2 = 1;
+    public static int slotItem3 = 2;
+    public static int slotItem4 = 3;
+    public static int slotItemLarge = 4;
+    public static int smeltTime = 20 * 60;
 
     public TileEntityPitKiln() {
         super(13);
@@ -21,14 +26,26 @@ public class TileEntityPitKiln extends TileEntityInventory {
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
 
-        this.timePassed = compound.getInteger("timePassed");
+        this.timeFired = compound.getInteger("timeFired");
     }
 
     @Override
     public void writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
 
-        compound.setInteger("timePassed", this.timePassed);
+        compound.setInteger("timeFired", this.timeFired);
+    }
+
+    @Override
+    public void writeToNBTPacket(NBTTagCompound tag) {
+        super.writeToNBTPacket(tag);
+        this.writeToNBT(tag);
+    }
+
+    @Override
+    public void readFromNBTPacket(NBTTagCompound tag) {
+        super.readFromNBTPacket(tag);
+        this.readFromNBT(tag);
     }
 
     @Override
@@ -41,11 +58,12 @@ public class TileEntityPitKiln extends TileEntityInventory {
             setFired(false);
         }
         if (isFired) {
+            this.timeFired++;
             if (blockAbove.getMaterial() == Material.air || blockAbove.getMaterial() == Material.fire) {
                 this.worldObj.setBlock(this.xCoord, this.yCoord + 1, this.zCoord, Blocks.fire);
             } else {
                 setFired(false);
-                timePassed = 0;
+                timeFired = 0;
             }
             TileEntity te = this.worldObj.getTileEntity(this.xCoord + 1, this.yCoord, this.zCoord + 1);
             if (te instanceof TileEntityPitKiln tef) {
@@ -63,10 +81,9 @@ public class TileEntityPitKiln extends TileEntityInventory {
             if (te4 instanceof TileEntityPitKiln tef) {
                 tef.setFired(true);
             }
-            this.timePassed++;
         }
         boolean reset = false;
-        if (this.timePassed > timeToSmelt) {
+        if (this.timeFired > smeltTime) {
             reset = true;
             for (int i = 0; i < getSizeInventory(); i++) {
                 ItemStack input = this.getStackInSlot(i);
@@ -77,7 +94,7 @@ public class TileEntityPitKiln extends TileEntityInventory {
         }
         if (reset) {
             this.worldObj.setBlockToAir(this.xCoord, this.yCoord + 1, this.zCoord);
-            this.timePassed = 0;
+            this.timeFired = 0;
             this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 0, 2);
             for (int x = 5; x < this.getSizeInventory(); x++) {
                 setInventorySlotContentsUpdate(x);
@@ -87,12 +104,40 @@ public class TileEntityPitKiln extends TileEntityInventory {
     }
 
     @Override
+    public int getInventoryStackLimit() {
+        return 1;
+    }
+
+    @Override
     public boolean canBeFired() {
         return true;
     }
 
     @Override
-    public int getInventoryStackLimit() {
-        return 1;
+    public void setFired(boolean state) {
+        if (this.isFired != state) {
+            this.isFired = state;
+            this.updateTEState();
+        }
+    }
+
+    @Override
+    public boolean isFired() {
+        return this.isFired;
+    }
+
+    @Override
+    public int getMaxTemperature() {
+        return 200;
+    }
+
+    @Override
+    public int getTemperature() {
+        return 0;
+    }
+
+    @Override
+    public boolean isHeatProvider() {
+        return true;
     }
 }

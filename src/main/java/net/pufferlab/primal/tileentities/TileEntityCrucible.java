@@ -2,12 +2,10 @@ package net.pufferlab.primal.tileentities;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.pufferlab.primal.Utils;
 
-public class TileEntityCrucible extends TileEntityFluidInventory {
+public class TileEntityCrucible extends TileEntityFluidInventory implements IHeatable {
 
     public int temperature;
-    public int timeUpdate;
     public int timeHeat;
     public int lastLevel;
 
@@ -23,7 +21,6 @@ public class TileEntityCrucible extends TileEntityFluidInventory {
     @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
-        this.timeUpdate = tag.getInteger("timeUpdate");
         this.timeHeat = tag.getInteger("timeHeat");
         this.lastLevel = tag.getInteger("lastLevel");
     }
@@ -31,7 +28,6 @@ public class TileEntityCrucible extends TileEntityFluidInventory {
     @Override
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
-        tag.setInteger("timeUpdate", this.timeUpdate);
         tag.setInteger("timeHeat", this.timeHeat);
         tag.setInteger("lastLevel", this.lastLevel);
     }
@@ -51,12 +47,14 @@ public class TileEntityCrucible extends TileEntityFluidInventory {
     @Override
     public void updateEntity() {
         TileEntity teBelow = this.worldObj.getTileEntity(this.xCoord, this.yCoord - 1, this.zCoord);
-        if (teBelow instanceof TileEntityForge tef) {
-            if (tef.temperature > this.temperature) {
-                if (tef.isFired) {
-                    this.timeHeat++;
-                } else {
-                    this.timeHeat--;
+        if (teBelow instanceof IHeatable tef) {
+            if (tef.isHeatProvider()) {
+                if (tef.getTemperature() > this.temperature) {
+                    if (tef.isFired()) {
+                        this.timeHeat++;
+                    } else {
+                        this.timeHeat--;
+                    }
                 }
             }
         } else {
@@ -65,22 +63,41 @@ public class TileEntityCrucible extends TileEntityFluidInventory {
             }
         }
 
-        if (timeHeat > 60) {
+        if (timeHeat > 3) {
             timeHeat = 0;
-            this.temperature = this.temperature + 20;
+            this.temperature++;
         }
-        if (timeHeat < -60) {
+        if (timeHeat < -3) {
             timeHeat = 0;
-            this.temperature = this.temperature - 20;
+            this.temperature--;
         }
+    }
 
-        timeUpdate++;
-        if (timeUpdate > 20) {
-            timeUpdate = 0;
-            if (Utils.getHeatingLevel(this.temperature) != this.lastLevel) {
-                this.lastLevel = Utils.getHeatingLevel(this.temperature);
-                updateTEState();
-            }
-        }
+    @Override
+    public boolean canBeFired() {
+        return false;
+    }
+
+    @Override
+    public void setFired(boolean state) {}
+
+    @Override
+    public boolean isFired() {
+        return this.isFired;
+    }
+
+    @Override
+    public int getMaxTemperature() {
+        return 0;
+    }
+
+    @Override
+    public int getTemperature() {
+        return this.temperature;
+    }
+
+    @Override
+    public boolean isHeatProvider() {
+        return false;
     }
 }

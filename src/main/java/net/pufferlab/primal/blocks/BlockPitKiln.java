@@ -1,5 +1,7 @@
 package net.pufferlab.primal.blocks;
 
+import static net.pufferlab.primal.tileentities.TileEntityPitKiln.*;
+
 import java.util.List;
 import java.util.Random;
 
@@ -89,24 +91,24 @@ public class BlockPitKiln extends BlockContainer {
                     left = true;
                 }
 
-                if (Utils.containsOreDict(heldItem, "itemLarge") || (tef.getInventoryStack(4) != null)) {
-                    if (tef.getInventoryStack(0) == null && tef.getInventoryStack(1) == null
-                        && tef.getInventoryStack(2) == null
-                        && tef.getInventoryStack(3) == null) {
-                        return addOrRemoveItem(worldIn, x, y, z, player, tef, 4, heldItem);
+                if (Utils.containsOreDict(heldItem, "itemLarge") || (tef.getInventoryStack(slotItemLarge) != null)) {
+                    if (tef.getInventoryStack(slotItem1) == null && tef.getInventoryStack(slotItem2) == null
+                        && tef.getInventoryStack(slotItem3) == null
+                        && tef.getInventoryStack(slotItem4) == null) {
+                        return addOrRemoveItem(worldIn, x, y, z, player, tef, slotItemLarge, heldItem);
                     }
-                } else if (tef.getInventoryStack(4) == null) {
+                } else if (tef.getInventoryStack(slotItemLarge) == null) {
                     if (!top && left) {
-                        return addOrRemoveItem(worldIn, x, y, z, player, tef, 0, heldItem);
+                        return addOrRemoveItem(worldIn, x, y, z, player, tef, slotItem1, heldItem);
                     }
                     if (!top && !left) {
-                        return addOrRemoveItem(worldIn, x, y, z, player, tef, 1, heldItem);
+                        return addOrRemoveItem(worldIn, x, y, z, player, tef, slotItem2, heldItem);
                     }
                     if (top && left) {
-                        return addOrRemoveItem(worldIn, x, y, z, player, tef, 2, heldItem);
+                        return addOrRemoveItem(worldIn, x, y, z, player, tef, slotItem3, heldItem);
                     }
                     if (top && !left) {
-                        return addOrRemoveItem(worldIn, x, y, z, player, tef, 3, heldItem);
+                        return addOrRemoveItem(worldIn, x, y, z, player, tef, slotItem4, heldItem);
                     }
                 }
 
@@ -124,9 +126,10 @@ public class BlockPitKiln extends BlockContainer {
         } else {
             dropItem(world, x, y, z, index);
             tef.setInventorySlotContentsUpdate(index);
-            if (tef.getInventoryStack(0) == null && tef.getInventoryStack(1) == null
-                && tef.getInventoryStack(2) == null
-                && tef.getInventoryStack(3) == null) {
+            if (tef.getInventoryStack(slotItem1) == null && tef.getInventoryStack(slotItem2) == null
+                && tef.getInventoryStack(slotItem3) == null
+                && tef.getInventoryStack(slotItem4) == null
+                && tef.getInventoryStack(slotItemLarge) == null) {
                 world.setBlockToAir(x, y, z);
             }
             return true;

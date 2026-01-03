@@ -16,6 +16,9 @@ public class ItemPrimalRenderer implements IItemRenderer {
     private ModelPrimal[] model;
     private int[] meta;
 
+    protected RenderContainer containerRenderer = new RenderContainer();
+    protected RenderHeat heatRenderer = new RenderHeat();
+
     public ItemPrimalRenderer() {
         this.offsetX = 0.0F;
         this.offsetY = 0.0F;
@@ -122,10 +125,10 @@ public class ItemPrimalRenderer implements IItemRenderer {
                 if (handleTemperatureRendering()) {
                     if (this.model != null) {
                         ModelPrimal model = this.model[index];
-                        RenderTemperature.renderTemperature(model, Utils.getTemperatureFromNBT(item.getTagCompound()));
+                        heatRenderer.renderHeat(model, Utils.getTemperatureFromNBT(item.getTagCompound()));
                     }
                 } else if (handleContainerRendering()) {
-                    RenderContainer.renderContainer(item, type);
+                    containerRenderer.renderContainer(item, type);
                 } else {
                     if (this.model != null) {
                         ModelPrimal model = this.model[index];

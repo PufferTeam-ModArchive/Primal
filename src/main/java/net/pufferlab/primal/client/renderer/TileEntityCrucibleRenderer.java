@@ -1,7 +1,6 @@
 package net.pufferlab.primal.client.renderer;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.pufferlab.primal.blocks.BlockForge;
 import net.pufferlab.primal.client.models.ModelCrucible;
@@ -9,7 +8,7 @@ import net.pufferlab.primal.tileentities.TileEntityCrucible;
 
 import org.lwjgl.opengl.GL11;
 
-public class TileEntityCrucibleRenderer extends TileEntitySpecialRenderer {
+public class TileEntityCrucibleRenderer extends TileEntityPrimalRenderer {
 
     ModelCrucible model = new ModelCrucible();
 
@@ -26,7 +25,7 @@ public class TileEntityCrucibleRenderer extends TileEntitySpecialRenderer {
                 offsetY = 0.125F + 0.0625F * (4 - blockBelowMeta);
             }
             GL11.glTranslated(x + 0.5, y - offsetY, z + 0.5);
-            RenderTemperature.renderTemperature(model, tef.temperature);
+            renderHeat.renderHeat(model, tef.temperature);
         }
         GL11.glPopMatrix();
     }

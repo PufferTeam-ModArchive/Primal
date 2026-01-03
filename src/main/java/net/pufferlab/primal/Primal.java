@@ -34,7 +34,7 @@ public class Primal {
     public static boolean BOPLoaded = Loader.isModLoaded("BiomesOPlenty");
     public static boolean WGLoaded = Loader.isModLoaded("WitchingGadgets");
     public static boolean MTLoaded = Loader.isModLoaded("MineTweaker3");
-    public static boolean WAILALoaded = Loader.isModLoaded("Waila");
+    public static boolean WLLoaded = Loader.isModLoaded("Waila");
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {

@@ -14,10 +14,14 @@ public class TileEntityQuern extends TileEntityInventory {
     int timeToUse = 20 * 10;
     int timeToGrind = 20 * 5;
 
+    public static int slotHandstone = 0;
+    public static int slotInput = 1;
+    public static int slotOutput = 2;
+
     public TileEntityQuern() {
         super(3);
-        this.setInputSlots(1);
-        this.setOutputSlots(2);
+        this.setInputSlots(slotInput);
+        this.setOutputSlots(slotOutput);
     }
 
     public float rotation;
@@ -103,12 +107,12 @@ public class TileEntityQuern extends TileEntityInventory {
 
             if (timeUsed > timeToUse) {
                 timeUsed = 0;
-                ItemStack handstone = getInventoryStack(0);
+                ItemStack handstone = getInventoryStack(slotHandstone);
                 if (handstone != null) {
                     boolean broke = handstone.attemptDamageItem(1, worldObj.rand);
                     if (broke) {
                         this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 0, 2);
-                        setInventorySlotContentsUpdate(0);
+                        setInventorySlotContentsUpdate(slotHandstone);
                     }
                 }
             }
@@ -116,7 +120,7 @@ public class TileEntityQuern extends TileEntityInventory {
             int newTimeGround = this.timeGround;
             if (this.timePassed > 20) {
                 this.timePassed = 0;
-                if (getInventoryStack(1) != null) {
+                if (getInventoryStack(slotInput) != null) {
                     newTimeGround = this.timeGround + (int) Math.floor(20 * getPercentageSpeed());
                 } else {
                     newTimeGround = 0;
@@ -129,10 +133,10 @@ public class TileEntityQuern extends TileEntityInventory {
 
             if (this.timeGround > timeToGrind) {
                 this.timeGround = 0;
-                ItemStack output = QuernRecipe.getOutput(getInventoryStack(1));
+                ItemStack output = QuernRecipe.getOutput(getInventoryStack(slotInput));
                 if (output != null) {
-                    addItemInSlotUpdate(2, output);
-                    decrStackSize(1, 1);
+                    addItemInSlotUpdate(slotOutput, output);
+                    decrStackSize(slotInput, 1);
                 }
             }
         }
@@ -141,7 +145,7 @@ public class TileEntityQuern extends TileEntityInventory {
             this.rotation = (this.rotation + this.speed) % 360.0F;
 
             if (this.speed > 0) {
-                Primal.proxy.renderFX(this, 0.5, 1.1, 0.5, getInventoryStack(1));
+                Primal.proxy.renderFX(this, 0.5, 1.1, 0.5, getInventoryStack(slotInput));
                 if (!this.isMoving) {
                     this.isMoving = true;
                     Primal.proxy.playClientSound(this);

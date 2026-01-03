@@ -13,7 +13,7 @@ import net.minecraftforge.fluids.*;
 import net.pufferlab.primal.blocks.*;
 import net.pufferlab.primal.compat.minetweaker.MTCompat;
 import net.pufferlab.primal.compat.nei.NEICompat;
-import net.pufferlab.primal.compat.waila.WAILACompat;
+import net.pufferlab.primal.compat.waila.WLCompat;
 import net.pufferlab.primal.events.*;
 import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.tileentities.*;
@@ -239,7 +239,7 @@ public class Registry {
         registerEvent(new GroundcoverRockHandler());
         registerEvent(new MobDropHandler());
         registerEvent(new CastHandler());
-        registerEvent(new TemperatureHandler());
+        registerEvent(new HeatHandler());
         registerEvent(new FoodHandler());
     }
 
@@ -256,8 +256,8 @@ public class Registry {
     }
 
     public void setupWAILA() {
-        if (Primal.WAILALoaded) {
-            WAILACompat.loadConfig();
+        if (Primal.WLLoaded) {
+            new WLCompat().loadConfig();
         }
     }
 

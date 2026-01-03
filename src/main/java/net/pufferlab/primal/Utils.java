@@ -11,6 +11,7 @@ import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.stats.StatList;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -208,6 +209,64 @@ public class Utils {
         } else {
             return 0;
         }
+    }
+
+    public static String getDisplayName(Object... objects) {
+        for (Object object : objects) {
+            if (object instanceof List list) {
+                if (list.get(0) instanceof ItemStack is) {
+                    return is.getDisplayName();
+                }
+            }
+            if (object instanceof ItemStack is) {
+                return is.getDisplayName();
+            }
+            if (object instanceof FluidStack fs) {
+                return fs.getLocalizedName();
+            }
+        }
+        return "";
+    }
+
+    public static String getRecipeTooltip(String name, int timePassed, int timeToProcess, String suffix) {
+        float percentagePassed = (float) timePassed / (float) timeToProcess;
+        int percentage = (int) Math.floor(percentagePassed * 100);
+        return EnumChatFormatting.GRAY + name + ": " + percentage + "% " + suffix;
+    }
+
+    public static String getRecipeTooltip(int timePassed, int timeToProcess, String suffix) {
+        float percentagePassed = (float) timePassed / (float) timeToProcess;
+        int percentage = (int) Math.floor(percentagePassed * 100);
+        return percentage + "% " + suffix;
+    }
+
+    public static String getStateTooltip(boolean state, String on, String off) {
+        if (state) {
+            return EnumChatFormatting.GRAY + "State: " + EnumChatFormatting.GREEN + on;
+        } else {
+            return EnumChatFormatting.GRAY + "State: " + EnumChatFormatting.RED + off;
+        }
+    }
+
+    public static String getTemperatureTooltip(int temperature) {
+        return EnumChatFormatting.GRAY + "Temperature: "
+            + EnumChatFormatting.WHITE
+            + temperature
+            + EnumChatFormatting.GRAY
+            + " C";
+    }
+
+    public static int getTimePassedFromNBT(NBTTagCompound nbt) {
+        if (nbt == null) return 0;
+        if (nbt.hasKey("timePassed")) {
+            return nbt.getInteger("timePassed");
+        }
+        return 0;
+    }
+
+    public static void setTimePassedToNBT(NBTTagCompound nbt, int timePassed) {
+        if (nbt == null) return;
+        nbt.setInteger("timePassed", timePassed);
     }
 
     public static int getTemperatureFromNBT(NBTTagCompound nbt) {

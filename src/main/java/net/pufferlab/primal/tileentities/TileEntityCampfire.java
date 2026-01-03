@@ -5,7 +5,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.CampfireRecipe;
 
-public class TileEntityCampfire extends TileEntityInventory {
+public class TileEntityCampfire extends TileEntityInventory implements IHeatable {
 
     public TileEntityCampfire() {
         super(10);
@@ -19,6 +19,14 @@ public class TileEntityCampfire extends TileEntityInventory {
     public int timePassedItem2;
     public int timePassedItem3;
     public int timePassedItem4;
+    public static int slotAsh = 0;
+    public static int slotItem1 = 6;
+    public static int slotItem2 = 7;
+    public static int slotItem3 = 8;
+    public static int slotItem4 = 9;
+
+    public static int burnTime = 20 * 60;
+    public static int smeltTime = 20 * 60;
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {
@@ -49,54 +57,61 @@ public class TileEntityCampfire extends TileEntityInventory {
     @Override
     public void writeToNBTPacket(NBTTagCompound tag) {
         super.writeToNBTPacket(tag);
-        tag.setBoolean("isBuilt", this.isBuilt);
-        tag.setBoolean("hasSpit", this.hasSpit);
+        this.writeToNBT(tag);
     }
 
     @Override
     public void readFromNBTPacket(NBTTagCompound tag) {
         super.readFromNBTPacket(tag);
-        this.isBuilt = tag.getBoolean("isBuilt");
-        this.hasSpit = tag.getBoolean("hasSpit");
+        this.readFromNBT(tag);
     }
-
-    public int burnTime = 20 * 60;
-    public int smeltTime = 20 * 60;
 
     @Override
     public void updateEntity() {
+        if (getInventoryStack(slotItem1) == null) {
+            this.timePassedItem1 = 0;
+        }
+        if (getInventoryStack(slotItem2) == null) {
+            this.timePassedItem2 = 0;
+        }
+        if (getInventoryStack(slotItem3) == null) {
+            this.timePassedItem3 = 0;
+        }
+        if (getInventoryStack(slotItem4) == null) {
+            this.timePassedItem4 = 0;
+        }
         if (isFired) {
             timeFired++;
             if (this.blockMetadata == 0) {
                 setFired(false);
             }
-            if (canProcess(6)) {
-                timePassedItem1++;
+            if (canProcess(slotItem1)) {
+                this.timePassedItem1++;
             }
-            if (canProcess(7)) {
-                timePassedItem2++;
+            if (canProcess(slotItem2)) {
+                this.timePassedItem2++;
             }
-            if (canProcess(8)) {
-                timePassedItem3++;
+            if (canProcess(slotItem3)) {
+                this.timePassedItem3++;
             }
-            if (canProcess(9)) {
-                timePassedItem4++;
+            if (canProcess(slotItem4)) {
+                this.timePassedItem4++;
             }
             if (timePassedItem1 > smeltTime) {
                 timePassedItem1 = 0;
-                setOutput(6);
+                setOutput(slotItem1);
             }
             if (timePassedItem2 > smeltTime) {
                 timePassedItem2 = 0;
-                setOutput(7);
+                setOutput(slotItem2);
             }
             if (timePassedItem3 > smeltTime) {
                 timePassedItem3 = 0;
-                setOutput(8);
+                setOutput(slotItem3);
             }
             if (timePassedItem4 > smeltTime) {
                 timePassedItem4 = 0;
-                setOutput(9);
+                setOutput(slotItem4);
             }
         }
 
@@ -108,12 +123,12 @@ public class TileEntityCampfire extends TileEntityInventory {
                     markDirty();
                     setInventorySlotContentsUpdate(i);
                     int i2 = 1;
-                    if (getInventoryStack(0) != null) {
-                        if (getInventoryStack(0).stackSize < 10) {
-                            i2 = getInventoryStack(0).stackSize++;
+                    if (getInventoryStack(slotAsh) != null) {
+                        if (getInventoryStack(slotAsh).stackSize < 10) {
+                            i2 = getInventoryStack(slotAsh).stackSize++;
                         }
                     }
-                    setInventorySlotContentsUpdateIgnoreMax(0, Utils.getModItem("ash", i2));
+                    setInventorySlotContentsUpdateIgnoreMax(slotAsh, Utils.getModItem("ash", i2));
                     this.worldObj
                         .setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, this.blockMetadata - 1, 2);
                     markDirty();
@@ -178,6 +193,34 @@ public class TileEntityCampfire extends TileEntityInventory {
 
     @Override
     public boolean canBeFired() {
+        return true;
+    }
+
+    @Override
+    public void setFired(boolean state) {
+        if (this.isFired != state) {
+            this.isFired = state;
+            this.updateTEState();
+        }
+    }
+
+    @Override
+    public boolean isFired() {
+        return this.isFired;
+    }
+
+    @Override
+    public int getMaxTemperature() {
+        return 200;
+    }
+
+    @Override
+    public int getTemperature() {
+        return 0;
+    }
+
+    @Override
+    public boolean isHeatProvider() {
         return true;
     }
 }

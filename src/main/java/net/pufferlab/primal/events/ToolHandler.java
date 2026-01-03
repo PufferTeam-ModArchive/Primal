@@ -21,7 +21,7 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.items.ItemKnifePrimitive;
-import net.pufferlab.primal.tileentities.TileEntityInventory;
+import net.pufferlab.primal.tileentities.IHeatable;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -95,7 +95,7 @@ public class ToolHandler {
             if (heldItem != null) {
                 if (heldItem.getItem() instanceof ItemFlintAndSteel) {
                     TileEntity te = event.world.getTileEntity(event.x, event.y, event.z);
-                    if (te instanceof TileEntityInventory tef) {
+                    if (te instanceof IHeatable tef) {
                         if (tef.canBeFired()) {
                             tef.setFired(true);
                         }

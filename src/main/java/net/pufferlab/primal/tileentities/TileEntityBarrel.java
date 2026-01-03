@@ -16,13 +16,16 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
     public int timePassed;
     public int timePassedRain;
     public int lastStackSize;
+    public int timeToProcess;
     public boolean canProcess;
+    public static int slotInput = 0;
+    public static int slotOutput = 1;
 
     public TileEntityBarrel() {
         super(10000, 2);
         tankOutput = new FluidTank(10000);
-        this.setInputSlots(0);
-        this.setOutputSlots(1);
+        this.setInputSlots(slotInput);
+        this.setOutputSlots(slotOutput);
     }
 
     @Override
@@ -35,6 +38,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
         this.timePassedRain = tag.getInteger("timePassedRain");
         this.lastStackSize = tag.getInteger("lastStackSize");
         this.canProcess = tag.getBoolean("canProcess");
+        this.timeToProcess = tag.getInteger("timeToProcess");
     }
 
     @Override
@@ -47,6 +51,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
         tag.setInteger("timePassedRain", this.timePassedRain);
         tag.setInteger("lastStackSize", this.lastStackSize);
         tag.setBoolean("canProcess", this.canProcess);
+        tag.setInteger("timeToProcess", this.timeToProcess);
     }
 
     public void setFloorBarrel(boolean meta) {
@@ -82,15 +87,13 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
     @Override
     public void writeToNBTPacket(NBTTagCompound tag) {
         super.writeToNBTPacket(tag);
-        tag.setBoolean("isOpen", this.isOpen);
-        tag.setBoolean("isFloorBarrel", this.isFloorBarrel);
+        this.writeToNBT(tag);
     }
 
     @Override
     public void readFromNBTPacket(NBTTagCompound tag) {
         super.readFromNBTPacket(tag);
-        this.isOpen = tag.getBoolean("isOpen");
-        this.isFloorBarrel = tag.getBoolean("isFloorBarrel");
+        this.readFromNBT(tag);
     }
 
     @Override
@@ -110,14 +113,6 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
     public FluidStack getFluidStackRelative() {
         if (getFluidStackOutput() != null) {
             return getFluidStackOutput();
-        }
-        return getFluidStack();
-    }
-
-    public FluidStack getFluidStackProcessed() {
-        BarrelRecipe recipe = BarrelRecipe.getRecipe(getInventoryStack(0), getFluidStack());
-        if (recipe != null) {
-            return recipe.outputLiquid;
         }
         return getFluidStack();
     }
@@ -164,9 +159,10 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
             }
         }
 
-        BarrelRecipe recipe = BarrelRecipe.getRecipe(getInventoryStack(0), getFluidStack());
+        BarrelRecipe recipe = BarrelRecipe.getRecipe(getInventoryStack(slotInput), getFluidStack());
         if (recipe != null) {
-            int numberInput = getInventoryStack(0).stackSize;
+            this.timeToProcess = recipe.processingTime;
+            int numberInput = getInventoryStack(slotInput).stackSize;
             if (numberInput != lastStackSize) {
                 timePassed = 0;
                 lastStackSize = numberInput;
@@ -175,14 +171,14 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
             if (getFluidStack().amount >= (scaledAmount)) {
                 this.canProcess = true;
                 timePassed++;
-                if (timePassed > recipe.processingTime) {
+                if (timePassed > this.timeToProcess) {
                     timePassed = 0;
-                    setInventorySlotContentsUpdate(0);
+                    setInventorySlotContentsUpdate(slotInput);
                     tank.drain(scaledAmount, true);
                     if (recipe.output != null) {
                         ItemStack scaledOutput = recipe.output.copy();
                         scaledOutput.stackSize = lastStackSize;
-                        setInventorySlotContentsUpdate(1, scaledOutput);
+                        setInventorySlotContentsUpdate(slotOutput, scaledOutput);
                     }
                     int scaledAmountO = recipe.inputLiquid.amount * lastStackSize;
                     if (recipe.outputLiquid != null) {
@@ -200,6 +196,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
         }
         if (!this.canProcess) {
             timePassed = 0;
+            timeToProcess = 0;
         }
     }
 

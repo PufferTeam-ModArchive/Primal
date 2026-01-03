@@ -156,11 +156,15 @@ public class BlockBarrel extends BlockContainer {
     @Override
     public void onBlockPreDestroy(World worldIn, int x, int y, int z, int meta) {
         ItemStack item = new ItemStack(this, 1, 0);
-        NBTTagCompound tagCompound = new NBTTagCompound();
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityBarrel tef) {
-            tef.writeToNBTInventory(tagCompound);
-            item.setTagCompound(tagCompound);
+            if (!tef.isOpen) {
+                NBTTagCompound tagCompound = new NBTTagCompound();
+                tef.writeToNBTInventory(tagCompound);
+                item.setTagCompound(tagCompound);
+            } else {
+                dropItems(worldIn, x, y, z);
+            }
         }
         dropItemStack(worldIn, x, y, z, item);
     }

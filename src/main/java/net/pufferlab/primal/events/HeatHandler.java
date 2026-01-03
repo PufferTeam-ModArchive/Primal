@@ -5,15 +5,15 @@ import net.pufferlab.primal.Utils;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class TemperatureHandler {
+public class HeatHandler {
 
     @SubscribeEvent
     public void tooltipEvent(ItemTooltipEvent event) {
         if (event.itemStack.hasTagCompound()) {
             if (event.itemStack.getTagCompound() != null) {
                 int temperature = Utils.getTemperatureFromNBT(event.itemStack.getTagCompound());
-                if (temperature > 0) {
-                    event.toolTip.add("Temperature: " + temperature + " C°");
+                if (temperature > 30) {
+                    event.toolTip.add(Utils.getTemperatureTooltip(temperature));
                 }
             }
         }

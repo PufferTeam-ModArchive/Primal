@@ -23,13 +23,13 @@ public class RenderContainer {
 
     public static final double epsilon = 0.0D;
 
-    public static void renderContainer(ItemStack stack, IItemRenderer.ItemRenderType type) {
+    public void renderContainer(ItemStack stack, IItemRenderer.ItemRenderType type) {
         if (stack == null) return;
 
         GL11.glPushMatrix();
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
-        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+        OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
 
         Tessellator tess = Tessellator.instance;
 
@@ -83,7 +83,7 @@ public class RenderContainer {
 
     }
 
-    public static void renderIconWithMask(IIcon icon, IIcon mask, int color) {
+    public void renderIconWithMask(IIcon icon, IIcon mask, int color) {
 
         if ((mask == null) || (icon == null)) {
             return;
@@ -115,7 +115,7 @@ public class RenderContainer {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    public static void drawIcon(IIcon icon) {
+    public void drawIcon(IIcon icon) {
         Tessellator tess = Tessellator.instance;
         tess.startDrawingQuads();
         tess.setNormal(0.0F, 0.0F, 1.0F);

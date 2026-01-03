@@ -1,5 +1,7 @@
 package net.pufferlab.primal.blocks;
 
+import static net.pufferlab.primal.tileentities.TileEntityQuern.*;
+
 import java.util.List;
 import java.util.Random;
 
@@ -60,29 +62,29 @@ public class BlockQuern extends BlockContainer {
                 if (Utils.isHandstoneTool(heldItem) || QuernRecipe.hasRecipe(heldItem)) {
                     if (Utils.isHandstoneTool(heldItem)) {
                         worldIn.setBlockMetadataWithNotify(x, y, z, 1, 2);
-                        return quern.addInventorySlotContentsUpdate(0, player);
+                        return quern.addInventorySlotContentsUpdate(slotHandstone, player);
                     }
                     int meta = worldIn.getBlockMetadata(x, y, z);
                     if (meta == 1) {
                         if (QuernRecipe.hasRecipe(heldItem)) {
-                            return quern.addInventorySlotContentsUpdateWhole(1, player);
+                            return quern.addInventorySlotContentsUpdateWhole(slotInput, player);
                         }
                     }
                 } else {
-                    if (quern.getInventoryStack(2) != null) {
-                        dropItemStack(worldIn, x, y, z, quern.getInventoryStack(2));
-                        quern.setInventorySlotContentsUpdate(2);
+                    if (quern.getInventoryStack(slotOutput) != null) {
+                        dropItemStack(worldIn, x, y, z, quern.getInventoryStack(slotOutput));
+                        quern.setInventorySlotContentsUpdate(slotOutput);
                         return true;
                     }
-                    if (quern.getInventoryStack(1) != null) {
-                        dropItemStack(worldIn, x, y, z, quern.getInventoryStack(1));
-                        quern.setInventorySlotContentsUpdate(1);
+                    if (quern.getInventoryStack(slotInput) != null) {
+                        dropItemStack(worldIn, x, y, z, quern.getInventoryStack(slotInput));
+                        quern.setInventorySlotContentsUpdate(slotInput);
                         return true;
                     }
-                    if (quern.getInventoryStack(0) != null) {
+                    if (quern.getInventoryStack(slotHandstone) != null) {
                         worldIn.setBlockMetadataWithNotify(x, y, z, 0, 2);
-                        dropItemStack(worldIn, x, y, z, quern.getInventoryStack(0));
-                        quern.setInventorySlotContentsUpdate(0);
+                        dropItemStack(worldIn, x, y, z, quern.getInventoryStack(slotHandstone));
+                        quern.setInventorySlotContentsUpdate(slotHandstone);
                         return true;
                     }
                 }

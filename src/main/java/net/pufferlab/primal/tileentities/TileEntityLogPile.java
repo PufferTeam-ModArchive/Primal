@@ -8,7 +8,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
 
-public class TileEntityLogPile extends TileEntityInventory {
+public class TileEntityLogPile extends TileEntityInventory implements IHeatable {
 
     public int timePassed;
     public int timeExposed;
@@ -176,12 +176,40 @@ public class TileEntityLogPile extends TileEntityInventory {
     }
 
     @Override
+    public int getInventoryStackLimit() {
+        return 1;
+    }
+
+    @Override
     public boolean canBeFired() {
         return true;
     }
 
     @Override
-    public int getInventoryStackLimit() {
-        return 1;
+    public void setFired(boolean state) {
+        if (this.isFired != state) {
+            this.isFired = state;
+            this.updateTEState();
+        }
+    }
+
+    @Override
+    public boolean isFired() {
+        return this.isFired;
+    }
+
+    @Override
+    public int getMaxTemperature() {
+        return 200;
+    }
+
+    @Override
+    public int getTemperature() {
+        return 0;
+    }
+
+    @Override
+    public boolean isHeatProvider() {
+        return true;
     }
 }

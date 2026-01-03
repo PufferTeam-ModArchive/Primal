@@ -4,10 +4,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.pufferlab.primal.Utils;
 
-public class TileEntityForge extends TileEntityInventory {
+public class TileEntityForge extends TileEntityInventory implements IHeatable {
 
     public int temperature;
     public int timeFired;
+    public int timeHeat;
     public int timeUpdate;
     public int lastLevel;
 
@@ -19,6 +20,7 @@ public class TileEntityForge extends TileEntityInventory {
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
         this.timeFired = tag.getInteger("timeFired");
+        this.timeHeat = tag.getInteger("timeHeat");
         this.timeUpdate = tag.getInteger("timeUpdate");
         this.temperature = tag.getInteger("temperature");
         this.lastLevel = tag.getInteger("lastLevel");
@@ -28,6 +30,7 @@ public class TileEntityForge extends TileEntityInventory {
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
         tag.setInteger("timeFired", this.timeFired);
+        tag.setInteger("timeHeat", this.timeHeat);
         tag.setInteger("timeUpdate", this.timeUpdate);
         tag.setInteger("temperature", this.temperature);
         tag.setInteger("lastLevel", this.lastLevel);
@@ -49,18 +52,20 @@ public class TileEntityForge extends TileEntityInventory {
 
     @Override
     public void updateEntity() {
-        if (this.isFired) {
-            timeFired++;
-            if (this.blockMetadata == 0) {
-                this.setFired(false);
+        if (this.getMaxTemperature() > this.temperature) {
+            if (this.isFired()) {
+                this.timeHeat++;
+            } else {
+                this.timeHeat--;
             }
-            if (temperature < 1300) {
-                temperature++;
-            }
-        } else {
-            if (temperature > 0) {
-                temperature--;
-            }
+        }
+        if (timeHeat > 5) {
+            timeHeat = 0;
+            this.temperature++;
+        }
+        if (timeHeat < -3) {
+            timeHeat = 0;
+            this.temperature--;
         }
 
         timeUpdate++;
@@ -103,6 +108,34 @@ public class TileEntityForge extends TileEntityInventory {
 
     @Override
     public boolean canBeFired() {
+        return true;
+    }
+
+    @Override
+    public void setFired(boolean state) {
+        if (this.isFired != state) {
+            this.isFired = state;
+        }
+        this.updateTEState();
+    }
+
+    @Override
+    public boolean isFired() {
+        return this.isFired;
+    }
+
+    @Override
+    public int getMaxTemperature() {
+        return 1300;
+    }
+
+    @Override
+    public int getTemperature() {
+        return this.temperature;
+    }
+
+    @Override
+    public boolean isHeatProvider() {
         return true;
     }
 }

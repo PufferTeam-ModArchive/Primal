@@ -24,10 +24,6 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         this.maxSize = slots;
     }
 
-    public boolean canBeFired() {
-        return false;
-    }
-
     public void setInputSlots(int... inputSlots) {
         this.inputSlots = inputSlots;
     }
@@ -179,15 +175,6 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         ItemStack copy = stack.copy();
         this.inventory[index] = copy;
         this.updateTEState();
-    }
-
-    public boolean setFired(boolean state) {
-        if (this.isFired != state) {
-            this.isFired = state;
-            this.updateTEState();
-            return true;
-        }
-        return false;
     }
 
     public boolean addInventorySlotContentsUpdate(int index, EntityPlayer player) {

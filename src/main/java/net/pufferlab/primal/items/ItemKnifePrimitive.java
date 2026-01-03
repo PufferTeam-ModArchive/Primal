@@ -1,7 +1,6 @@
 package net.pufferlab.primal.items;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -23,7 +22,6 @@ public class ItemKnifePrimitive extends ItemSword {
         this.maxStackSize = 1;
         this.toolName = name;
         this.setMaxDamage(material.getMaxUses());
-        this.setCreativeTab(CreativeTabs.tabTools);
         this.field_150934_a = 3.0F + toolMaterial.getDamageVsEntity();
     }
 

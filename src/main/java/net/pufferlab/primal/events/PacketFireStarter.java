@@ -6,7 +6,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.tileentities.TileEntityInventory;
+import net.pufferlab.primal.tileentities.IHeatable;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -46,7 +46,7 @@ public class PacketFireStarter implements IMessage, IMessageHandler<PacketFireSt
             world.spawnParticle("smoke", mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 0.0F, 0.0F, 0.0F);
             if (msg.success) {
                 TileEntity te = world.getTileEntity(mop.blockX, mop.blockY, mop.blockZ);
-                if (te instanceof TileEntityInventory tef) {
+                if (te instanceof IHeatable tef) {
                     if (tef.canBeFired()) {
                         tef.setFired(true);
                     }

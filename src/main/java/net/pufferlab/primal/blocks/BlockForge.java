@@ -44,10 +44,11 @@ public class BlockForge extends BlockContainer {
                 Utils.playSound(worldIn, x, y, z, Registry.charcoal_pile);
                 tef.addInventorySlotContentsUpdate(meta, player);
                 worldIn.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
+                return true;
             }
         }
 
-        return true;
+        return false;
     }
 
     @Override
