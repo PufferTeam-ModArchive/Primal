@@ -1,5 +1,6 @@
 package net.pufferlab.primal.tileentities;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -14,6 +15,8 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
     private final FluidTank tankOutput;
     public int timePassed;
     public int timePassedRain;
+    public int lastStackSize;
+    public boolean canProcess;
 
     public TileEntityBarrel() {
         super(10000, 2);
@@ -30,6 +33,8 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
         this.isFloorBarrel = tag.getBoolean("isFloorBarrel");
         this.timePassed = tag.getInteger("timePassed");
         this.timePassedRain = tag.getInteger("timePassedRain");
+        this.lastStackSize = tag.getInteger("lastStackSize");
+        this.canProcess = tag.getBoolean("canProcess");
     }
 
     @Override
@@ -40,6 +45,8 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
         tag.setBoolean("isFloorBarrel", this.isFloorBarrel);
         tag.setInteger("timePassed", this.timePassed);
         tag.setInteger("timePassedRain", this.timePassedRain);
+        tag.setInteger("lastStackSize", this.lastStackSize);
+        tag.setBoolean("canProcess", this.canProcess);
     }
 
     public void setFloorBarrel(boolean meta) {
@@ -48,7 +55,11 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
     }
 
     public void setOpen(boolean meta) {
-        this.isOpen = meta;
+        if (this.isFloorBarrel) {
+            this.isOpen = false;
+        } else {
+            this.isOpen = meta;
+        }
         updateTEState();
     }
 
@@ -152,22 +163,43 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
                 this.timePassedRain = 0;
             }
         }
+
         BarrelRecipe recipe = BarrelRecipe.getRecipe(getInventoryStack(0), getFluidStack());
-        if (getInventoryStack(0) == null) {
-            timePassed = 0;
-        }
         if (recipe != null) {
-            timePassed++;
-            if (timePassed > recipe.processingTime) {
+            int numberInput = getInventoryStack(0).stackSize;
+            if (numberInput != lastStackSize) {
                 timePassed = 0;
-                if (recipe.output != null) {
-                    addItemInSlotUpdate(1, recipe.output);
-                }
-                decrStackSize(0, 1);
-                tank.drain(recipe.inputLiquid.amount, true);
-                tankOutput.fill(recipe.outputLiquid, true);
-                updateTEState();
+                lastStackSize = numberInput;
             }
+            int scaledAmount = recipe.inputLiquid.amount * lastStackSize;
+            if (getFluidStack().amount >= (scaledAmount)) {
+                this.canProcess = true;
+                timePassed++;
+                if (timePassed > recipe.processingTime) {
+                    timePassed = 0;
+                    setInventorySlotContentsUpdate(0);
+                    tank.drain(scaledAmount, true);
+                    if (recipe.output != null) {
+                        ItemStack scaledOutput = recipe.output.copy();
+                        scaledOutput.stackSize = lastStackSize;
+                        setInventorySlotContentsUpdate(1, scaledOutput);
+                    }
+                    int scaledAmountO = recipe.inputLiquid.amount * lastStackSize;
+                    if (recipe.outputLiquid != null) {
+                        FluidStack scaledOutput = recipe.outputLiquid.copy();
+                        scaledOutput.amount = scaledAmountO;
+                        tankOutput.fill(scaledOutput, true);
+                    }
+                    updateTEState();
+                }
+            } else {
+                this.canProcess = false;
+            }
+        } else {
+            this.canProcess = false;
+        }
+        if (!this.canProcess) {
+            timePassed = 0;
         }
     }
 

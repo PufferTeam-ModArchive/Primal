@@ -46,8 +46,10 @@ public class TileEntityBarrelRenderer extends TileEntitySpecialRenderer {
         ItemStack slot = barrel.getInventoryStack(0);
         ItemStack slot2 = barrel.getInventoryStack(1);
 
-        renderSlotItem(slot, x + 0.5, y + 0.50F, z + 0.5);
-        renderSlotItem(slot2, x + 0.5, y + 0.50F, z + 0.5);
+        if (!barrel.isFloorBarrel) {
+            renderSlotItem(slot, x + 0.5, y + 0.50F, z + 0.5);
+            renderSlotItem(slot2, x + 0.5, y + 0.50F, z + 0.5);
+        }
     }
 
     public void renderSlotItem(ItemStack stack, double xAdjust, double yAdjust, double zAdjust) {

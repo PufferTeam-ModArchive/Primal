@@ -13,6 +13,7 @@ import net.minecraftforge.fluids.*;
 import net.pufferlab.primal.blocks.*;
 import net.pufferlab.primal.compat.minetweaker.MTCompat;
 import net.pufferlab.primal.compat.nei.NEICompat;
+import net.pufferlab.primal.compat.waila.WAILACompat;
 import net.pufferlab.primal.events.*;
 import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.tileentities.*;
@@ -251,6 +252,12 @@ public class Registry {
     public void setupMT() {
         if (Primal.MTLoaded) {
             MineTweakerAPI.registerClass(MTCompat.class);
+        }
+    }
+
+    public void setupWAILA() {
+        if (Primal.WAILALoaded) {
+            WAILACompat.loadConfig();
         }
     }
 

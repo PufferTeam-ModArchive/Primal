@@ -48,24 +48,22 @@ public class RenderContainer {
                 GL11.glTranslatef(-0.5F, -0.3F, 0.0F);
             }
 
-            if (meta != 0) {
-                IIcon blockIcon = fluid.getIcon();
-                int color = fluid.getColor();
+            IIcon blockIcon = fluid.getIcon();
+            int color = fluid.getColor();
 
-                if (fluid.getBlock() != null) {
-                    blockIcon = fluid.getBlock()
-                        .getBlockTextureFromSide(0);
+            if (fluid.getBlock() != null) {
+                blockIcon = fluid.getBlock()
+                    .getBlockTextureFromSide(0);
 
-                    color = fluid.getBlock()
-                        .colorMultiplier(
-                            Minecraft.getMinecraft().theWorld,
-                            (int) Minecraft.getMinecraft().thePlayer.posX,
-                            (int) Minecraft.getMinecraft().thePlayer.posY,
-                            (int) Minecraft.getMinecraft().thePlayer.posZ);
-                }
-
-                renderIconWithMask(blockIcon, mask, color);
+                color = fluid.getBlock()
+                    .colorMultiplier(
+                        Minecraft.getMinecraft().theWorld,
+                        (int) Minecraft.getMinecraft().thePlayer.posX,
+                        (int) Minecraft.getMinecraft().thePlayer.posY,
+                        (int) Minecraft.getMinecraft().thePlayer.posZ);
             }
+
+            renderIconWithMask(blockIcon, mask, color);
 
             bindItemAtlas();
             IIcon iicon = item2.getIconFromDamageForRenderPass(meta, 0);
