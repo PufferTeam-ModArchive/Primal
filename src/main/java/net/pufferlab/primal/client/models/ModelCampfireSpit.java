@@ -9,6 +9,8 @@ public class ModelCampfireSpit extends ModelPrimal {
 
     public ModelCampfireSpit() {
         super(64);
+
+        // spotless:off
         bb_main.addBox(0, 4, -10.0F, 0.0F, -1.0F, 2, 15, 2, 0.0F);
         bb_main.addBox(0, 4, 8.0F, 0.0F, -1.0F, 2, 15, 2, 0.0F);
         bb_main.addBox(0, 0, -12.0F, 15.0F, -1.0F, 24, 2, 2, 0.0F);
@@ -26,5 +28,6 @@ public class ModelCampfireSpit extends ModelPrimal {
         setRotationAngle(cube_r2, -2.7488F, 0.0F, 0.0F);
         cube_r2.addBox(0, 4, 1.01F + 7F, -3.0F + 8F, -1.0F + 1.0F, 2, 9, 2, 0.0F);
         cube_r2.addBox(0, 4, -17.01F + 7F, -3.0F + 8F, -1.0F + 1.0F, 2, 9, 2, 0.0F);
+        // spotless:on
     }
 }

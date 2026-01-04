@@ -10,6 +10,8 @@ public class ModelTanningFrame extends ModelPrimal {
 
     public ModelTanningFrame() {
         super(64);
+
+        // spotless:off
         cube_r1 = new ModelRenderer(this);
         cube_r1.setRotationPoint(0.0F, 7.9F, 2.0F);
         bb_main.addChild(cube_r1);
@@ -29,6 +31,8 @@ public class ModelTanningFrame extends ModelPrimal {
         bb_main.addChild(strings);
         setRotationAngle(strings, 1.0472F, 0.0F, 0.0F);
         strings.addBox(-14, 25, -6.0F, 0.0F, -7.0F, 12, 0, 14, 0.0F);
+        // spotless:on
+
     }
 
     @Override

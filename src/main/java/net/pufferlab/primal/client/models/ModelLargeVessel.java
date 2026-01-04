@@ -8,6 +8,8 @@ public class ModelLargeVessel extends ModelPrimal {
 
     public ModelLargeVessel() {
         super(64);
+
+        // spotless:off
         bb_main.addBox(18, 20, -4.0F, 1.0F, -5.0F, 8, 9, 1, 0.0F);
         bb_main.addBox(18, 20, -4.0F, 1.0F, 4.0F, 8, 9, 1, 0.0F);
         bb_main.addBox(0, 20, 4.0F, 1.0F, -4.0F, 1, 9, 8, 0.0F);
@@ -23,6 +25,8 @@ public class ModelLargeVessel extends ModelPrimal {
         lid.addBox(0, 0, -5.0F, 11.0F, -5.0F, 10, 1, 10, 0.0F);
         lid.addBox(30, 0, -1.0F, 12.0F, -1.0F, 2, 1, 2, 0.0F);
         bb_main.addChild(lid);
+        // spotless:on
+
     }
 
     @Override

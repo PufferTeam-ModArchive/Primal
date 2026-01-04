@@ -13,34 +13,14 @@ public class ModelHandstone extends ModelPrimal {
 
     public ModelHandstone() {
         super(64);
+
+        // spotless:off
         bb_main.addBox(0, 26, -5.0F, 3.0F, -5.0F, 10, 4, 10, 0.0F);
         bb_main.addBox(34, 54, -5.0F, 8.0F, -5.0F, 10, 0, 10, 0.0F, new ModelQuad(true).setUp(true));
         bb_main.addBox(0, 51, 1.0F, 7.0F, -5.0F, 4, 1, 10, 0.0F);
         bb_main.addBox(0, 40, -5.0F, 7.0F, -5.0F, 4, 1, 10, 0.0F);
-        bb_main.addBox(
-            29,
-            46,
-            -1.0F,
-            7.0F,
-            -5.0F,
-            2,
-            1,
-            4,
-            0.0F,
-            new ModelQuad().setEast(false)
-                .setWest(false));
-        bb_main.addBox(
-            41,
-            46,
-            -1.0F,
-            7.0F,
-            1.0F,
-            2,
-            1,
-            4,
-            0.0F,
-            new ModelQuad().setEast(false)
-                .setWest(false));
+        bb_main.addBox(29, 46, -1.0F, 7.0F, -5.0F, 2, 1, 4, 0.0F, new ModelQuad().setEast(false).setWest(false));
+        bb_main.addBox(41, 46, -1.0F, 7.0F, 1.0F, 2, 1, 4, 0.0F, new ModelQuad().setEast(false).setWest(false));
 
         handle = new ModelRenderer(this);
         handle.setRotationPoint(0.0F, 5.0F, 0.0F);
@@ -69,6 +49,7 @@ public class ModelHandstone extends ModelPrimal {
         handle.addChild(cube_r4);
         setRotationAngle(cube_r4, 0.0F, 2.3562F, 0.0F);
         cube_r4.addBox(0, 0, -0.7071F, 0.0F, 6.7782F, 1, 1, 4, 0.0F);
+        // spotless:on
     }
 
     @Override

@@ -8,6 +8,8 @@ public class ModelFaucet extends ModelPrimal {
 
     public ModelFaucet() {
         super(64);
+
+        // spotless:off
         bb_main.addBox(0, 6, -11.0F + 8F, 8.0F, 14.0F - 8F, 6, 6, 2, 0.0F);
         bb_main.addBox(0, 14, -10.0F + 8F, 9.0F, 10.0F - 8F, 4, 4, 4, 0.0F);
         bb_main.addBox(16, 6, -10.0F + 8F, 9.0F, 6.0F - 8F, 4, 4, 4, 0.0F);
@@ -21,6 +23,7 @@ public class ModelFaucet extends ModelPrimal {
         valve = new ModelRenderer(this);
         valve.setRotationPoint(0.0F, 0.0F, 0.0F);
         valve.addBox(0, 0, -3.0F, 14.01F, -2.0F, 6, 0, 6, 0.0F);
+        // spotless:on
     }
 
     @Override

@@ -16,6 +16,7 @@ public class ModelCampfire extends ModelPrimal {
     public ModelCampfire() {
         super(64);
 
+        // spotless:off
         kindling = new ModelRenderer(this);
         kindling.setRotationPoint(0.0F, 0.0F, 1.0F);
         kindling.addBox(1, 1, -1.0F, 0.0F, -3.0F, 2, 1, 1, 0.0F);
@@ -66,5 +67,6 @@ public class ModelCampfire extends ModelPrimal {
         rocks.addBox(3, 31, -1.0F, 0.0F, -7.0F, 2, 1, 2, 0.0F);
         rocks.addBox(3, 31, -7.0F, 0.0F, -1.0F, 2, 1, 2, 0.0F);
         bb_main.addChild(rocks);
+        // spotless:on
     }
 }

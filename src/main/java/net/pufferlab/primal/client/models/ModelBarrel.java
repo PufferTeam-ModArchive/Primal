@@ -9,6 +9,7 @@ public class ModelBarrel extends ModelPrimal {
     public ModelBarrel() {
         super(64);
 
+        // spotless:off
         top = new ModelRenderer(this);
         top.setRotationPoint(0.0F, 0.0F, 0.0F);
         top.addBox(0, 0, -5.0F, 14.0F, -5.0F, 10, 1, 10, 0.0F);
@@ -19,6 +20,7 @@ public class ModelBarrel extends ModelPrimal {
         bb_main.addBox(0, 11, 5.0F, 0.0F, -5.0F, 1, 16, 10, 0.0F);
         bb_main.addBox(0, 11, -6.0F, 0.0F, -5.0F, 1, 16, 10, 0.0F);
         bb_main.addBox(0, 0, -5.0F, 1.0F, -5.0F, 10, 1, 10, 0.0F);
+        // spotless:on
     }
 
     @Override
