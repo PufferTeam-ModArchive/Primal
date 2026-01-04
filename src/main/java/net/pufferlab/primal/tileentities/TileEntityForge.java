@@ -77,6 +77,10 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable {
             }
         }
 
+        if (isFired) {
+            timeFired++;
+        }
+
         if (timeFired > burnTime) {
             timeFired = 0;
             int i = findLastFuel();
