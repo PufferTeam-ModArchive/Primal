@@ -1,6 +1,7 @@
 package net.pufferlab.primal.scripts;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Config;
@@ -8,8 +9,8 @@ import net.pufferlab.primal.recipes.RecipesHelper;
 
 public class ScriptRemove implements IScript {
 
-    ArrayList<ItemStack> remove = new ArrayList<ItemStack>();
-    ArrayList<ItemStack> removeSmelting = new ArrayList<ItemStack>();
+    List<ItemStack> remove = new ArrayList<ItemStack>();
+    List<ItemStack> removeSmelting = new ArrayList<ItemStack>();
 
     public static final String[] itemsToRemove = new String[] { "minecraft:flower_pot", "minecraft:leather",
         "minecraft:leather_helmet", "minecraft:leather_chestplate", "minecraft:leather_leggings",

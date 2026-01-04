@@ -2,6 +2,7 @@ package net.pufferlab.primal.recipes;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import net.minecraft.item.ItemStack;
@@ -16,7 +17,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class RecipesHelper {
 
-    public static void removeRecipe(ArrayList<ItemStack> toRemove) {
+    public static void removeRecipe(List<ItemStack> toRemove) {
         ArrayList<IRecipe> recipes = (ArrayList<IRecipe>) CraftingManager.getInstance()
             .getRecipeList();
         recipes.removeIf(r -> {
@@ -61,7 +62,7 @@ public class RecipesHelper {
         GameRegistry.addRecipe(new ShapelessOreRecipe(output, recipe));
     }
 
-    public static void removeFurnaceSmelting(ArrayList<ItemStack> toRemove) {
+    public static void removeFurnaceSmelting(List<ItemStack> toRemove) {
         Map<ItemStack, ItemStack> recipes = FurnaceRecipes.smelting()
             .getSmeltingList();
         recipes.entrySet()
