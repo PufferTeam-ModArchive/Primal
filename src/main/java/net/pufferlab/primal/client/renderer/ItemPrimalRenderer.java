@@ -37,6 +37,10 @@ public class ItemPrimalRenderer implements IItemRenderer {
         return null;
     }
 
+    public ModelPrimal[] getModelToRender(int index) {
+        return null;
+    }
+
     public int[] getMeta() {
         return null;
     }
@@ -132,7 +136,14 @@ public class ItemPrimalRenderer implements IItemRenderer {
                 } else {
                     if (this.model != null) {
                         ModelPrimal model = this.model[index];
-                        renderModel(model);
+                        ModelPrimal[] models = getModelToRender(index);
+                        if (models != null) {
+                            for (ModelPrimal modelCurrent : models) {
+                                renderModel(modelCurrent);
+                            }
+                        } else {
+                            renderModel(model);
+                        }
                     }
                 }
                 GL11.glPopMatrix();
@@ -157,7 +168,7 @@ public class ItemPrimalRenderer implements IItemRenderer {
         if (type == ItemRenderType.EQUIPPED || type == ItemRenderType.EQUIPPED_FIRST_PERSON) {
             GL11.glTranslatef(0.5F, 0.0F, 0.5F);
         }
-        if (type == ItemRenderType.INVENTORY) {
+        if (type == ItemRenderType.INVENTORY || type == ItemRenderType.ENTITY) {
             GL11.glTranslatef(0.0F, -0.5F, 0.0F);
         }
     }

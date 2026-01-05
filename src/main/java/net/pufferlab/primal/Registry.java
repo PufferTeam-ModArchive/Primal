@@ -18,6 +18,7 @@ import net.pufferlab.primal.events.*;
 import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.tileentities.*;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -58,6 +59,9 @@ public class Registry {
     public static final Block barrel;
     public static final Block faucet;
     public static final Block quern;
+    public static final Block axle;
+    public static final Block generator;
+    public static final Item gear;
     public static final Item icons;
     public static final Item straw;
     public static final Item hide;
@@ -101,12 +105,16 @@ public class Registry {
         barrel = new BlockBarrel();
         faucet = new BlockFaucet();
 
+        axle = new BlockAxle();
+        generator = new BlockGenerator();
+
         thatch = new BlockThatch();
         thatch_roof = new BlockThatchRoof();
         chimney = new BlockChimney();
 
         icons = new ItemMeta(Constants.icons, "icon").setHiddenAll()
             .setHasSuffix();
+        gear = new ItemMeta(Constants.gearItems, "gear");
         straw = new ItemMeta(Constants.strawItems, "straw");
         hide = new ItemMeta(Constants.hideItems, "hide");
         wood = new ItemMeta(Constants.woodItems, "wood");
@@ -153,8 +161,11 @@ public class Registry {
         register(barrel, "barrel");
         register(faucet, "faucet");
         register(tanning, "tanning_frame");
+        register(axle, "axle");
+        register(generator, "generator");
 
         register(icons, "icon");
+        register(gear, "gear");
         register(straw, "straw");
         register(hide, "hide");
         register(wood, "wood");
@@ -192,6 +203,8 @@ public class Registry {
         register(TileEntityForge.class, "forge");
         register(TileEntityCast.class, "cast");
         register(TileEntityQuern.class, "quern");
+        register(TileEntityAxle.class, "axle");
+        register(TileEntityGenerator.class, "generator");
     }
 
     public static final Block[] fluidsBlocks = new Block[Constants.fluidsTypes.length];
@@ -241,6 +254,7 @@ public class Registry {
         registerEvent(new CastHandler());
         registerEvent(new HeatHandler());
         registerEvent(new FoodHandler());
+        registerEvent(new TickHandler());
     }
 
     public void setupNEI() {
@@ -277,6 +291,8 @@ public class Registry {
             GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockMeta.class, name);
         } else if (block instanceof BlockCrucible) {
             GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockHeatable.class, name);
+        } else if (block instanceof BlockMotion) {
+            GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockMotion.class, name);
         } else {
             GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), name);
         }
@@ -313,6 +329,11 @@ public class Registry {
     }
 
     public void registerEvent(Object event) {
+        if (event instanceof TickHandler) {
+            FMLCommonHandler.instance()
+                .bus()
+                .register(event);
+        }
         MinecraftForge.EVENT_BUS.register(event);
     }
 

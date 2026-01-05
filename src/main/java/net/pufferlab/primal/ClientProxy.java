@@ -44,6 +44,8 @@ public class ClientProxy extends CommonProxy {
     int forgeRenderID;
     int castRenderID;
     int quernRenderID;
+    int axleRenderID;
+    int generatorRenderID;
 
     @Override
     public void setupRenders() {
@@ -63,6 +65,8 @@ public class ClientProxy extends CommonProxy {
         forgeRenderID = getNextId();
         castRenderID = getNextId();
         quernRenderID = getNextId();
+        axleRenderID = getNextId();
+        generatorRenderID = getNextId();
 
         register(new BlockPitKilnRenderer());
         register(new BlockLogPileRenderer());
@@ -80,6 +84,8 @@ public class ClientProxy extends CommonProxy {
         register(new BlockForgeRenderer());
         register(new BlockCastRenderer());
         register(new BlockQuernRenderer());
+        register(new BlockAxleRenderer());
+        register(new BlockGeneratorRenderer());
 
         register(TileEntityPitKiln.class, new TileEntityPitKilnRenderer());
         register(TileEntityChoppingLog.class, new TileEntityChoppingLogRenderer());
@@ -90,6 +96,8 @@ public class ClientProxy extends CommonProxy {
         register(TileEntityCast.class, new TileEntityMoldRenderer());
         register(TileEntityCrucible.class, new TileEntityCrucibleRenderer());
         register(TileEntityQuern.class, new TileEntityQuernRenderer());
+        register(TileEntityAxle.class, new TileEntityAxleRenderer());
+        register(TileEntityGenerator.class, new TileEntityGeneratorRenderer());
 
         register(Registry.wood, new ItemWoodRenderer());
         register(Registry.clay, new ItemClayRenderer());
@@ -103,6 +111,9 @@ public class ClientProxy extends CommonProxy {
         register(Registry.quern, new ItemQuernRenderer());
         register(Registry.bucket, new ItemBucketRenderer());
         register(Registry.ceramic_bucket, new ItemBucketCeramicRenderer());
+        register(Registry.axle, new ItemAxleRenderer());
+        register(Registry.generator, new ItemGeneratorRenderer());
+        register(Registry.gear, new ItemGearRenderer());
     }
 
     public int getNextId() {
@@ -266,5 +277,15 @@ public class ClientProxy extends CommonProxy {
     @Override
     public int getQuernRenderID() {
         return quernRenderID;
+    }
+
+    @Override
+    public int getAxleRenderID() {
+        return axleRenderID;
+    }
+
+    @Override
+    public int getGeneratorRenderID() {
+        return generatorRenderID;
     }
 }

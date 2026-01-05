@@ -40,6 +40,9 @@ public class ItemFaucetRenderer extends ItemPrimalRenderer {
                 GL11.glScalef(1.3F, 1.3F, 1.3F);
                 GL11.glTranslatef(-0.18F, -0.8F, 0.0F);
             }
+            if (type == ItemRenderType.ENTITY) {
+                GL11.glTranslatef(0.0F, -0.5F, 0.0F);
+            }
             modelFaucet.bb_main.rotateAngleY = (float) Math.toRadians(-180);
             renderModel(modelFaucet);
             renderModel(modelValve);

@@ -104,6 +104,38 @@ public abstract class ModelPrimal extends ModelBase {
         bb_main.facingMetaGlobal = meta;
     }
 
+    public void setAxis(int meta) {
+        if (meta == 1) {
+            bb_main.rotateAngleX = (float) (Math.PI / 2);
+            bb_main.rotateAngleY = 0;
+            bb_main.rotateAngleZ = 0;
+        } else if (meta == 2) {
+            bb_main.rotateAngleZ = (float) (-Math.PI / 2);
+            bb_main.rotateAngleY = 0;
+            bb_main.rotateAngleX = 0;
+        } else if (meta == 0) {
+            bb_main.rotateAngleX = 0;
+            bb_main.rotateAngleY = 0;
+            bb_main.rotateAngleZ = 0;
+        }
+    }
+
+    public void setAxisReversed(int meta) {
+        if (meta == 1) {
+            bb_main.rotateAngleX = (float) (Math.PI / 2);
+            bb_main.rotateAngleY = (float) Math.PI;
+            bb_main.rotateAngleZ = 0;
+        } else if (meta == 2) {
+            bb_main.rotateAngleZ = (float) (-Math.PI / 2);
+            bb_main.rotateAngleY = 0;
+            bb_main.rotateAngleX = (float) Math.PI;
+        } else if (meta == 0) {
+            bb_main.rotateAngleX = 0;
+            bb_main.rotateAngleY = 0;
+            bb_main.rotateAngleZ = (float) Math.PI;
+        }
+    }
+
     public static float getFacingAngle(int meta) {
         float angle = 0.0F;
         switch (meta) {

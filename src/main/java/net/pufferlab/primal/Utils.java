@@ -536,6 +536,24 @@ public class Utils {
         };
     }
 
+    public static int getAxis(int side) {
+        if (side == 0 || side == 1) {
+            return 0;
+        } else if (side == 2 || side == 3) {
+            return 1;
+        } else if (side == 4 || side == 5) {
+            return 2;
+        }
+        return 0;
+    }
+
+    public static boolean isSidePositive(int side) {
+        if (side == 1 || side == 3 || side == 5) {
+            return true;
+        }
+        return false;
+    }
+
     public static boolean isSimpleAxisConnected(int facingMeta, int facingMeta2) {
         return getSimpleAxisFromFacing(facingMeta) == getSimpleAxisFromFacing(facingMeta2);
     }

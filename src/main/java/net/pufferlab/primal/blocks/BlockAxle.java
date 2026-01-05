@@ -1,0 +1,89 @@
+package net.pufferlab.primal.blocks;
+
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.tileentities.TileEntityAxle;
+
+public class BlockAxle extends BlockMotion {
+
+    public BlockAxle() {
+        super(Material.wood);
+    }
+
+    @Override
+    public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
+        float subY, float subZ) {
+        TileEntity te = worldIn.getTileEntity(x, y, z);
+        if (te instanceof TileEntityAxle tef) {
+            ItemStack heldItem = player.getHeldItem();
+            if (Utils.containsOreDict(heldItem, "gear")) {
+                int axis = tef.axisMeta;
+                int axisClicked = Utils.getAxis(side);
+                if (axis == axisClicked) {
+                    tef.setGear(Utils.isSidePositive(side), player);
+                    return true;
+                }
+            }
+
+        }
+        return false;
+    }
+
+    @Override
+    public void onBlockPreDestroy(World worldIn, int x, int y, int z, int meta) {
+        super.onBlockPreDestroy(worldIn, x, y, z, meta);
+
+        TileEntity te = worldIn.getTileEntity(x, y, z);
+        if (te instanceof TileEntityAxle tef) {
+            int numberGear = 0;
+            if (tef.hasGearPos) {
+                numberGear++;
+            }
+            if (tef.hasGearNeg) {
+                numberGear++;
+            }
+            if (numberGear > 0) {
+                dropItemStack(worldIn, x, y, z, Utils.getModItem("gear", numberGear));
+            }
+        }
+    }
+
+    public void dropItemStack(World world, int x, int y, int z, ItemStack item) {
+        if (item != null && item.stackSize > 0) {
+            EntityItem entityItem = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, item.copy());
+            entityItem.motionX = 0.0D;
+            entityItem.motionY = 0.0D;
+            entityItem.motionZ = 0.0D;
+            spawnEntity(world, entityItem);
+            item.stackSize = 0;
+        }
+    }
+
+    public void spawnEntity(World world, Entity entityItem) {
+        if (!world.isRemote) {
+            world.spawnEntityInWorld((Entity) entityItem);
+        }
+    }
+
+    @Override
+    public TileEntity createNewTileEntity(World worldIn, int meta) {
+        return new TileEntityAxle();
+    }
+
+    @Override
+    public String getUnlocalizedName() {
+        return "tile." + Primal.MODID + ".axle";
+    }
+
+    @Override
+    public int getRenderType() {
+        return Primal.proxy.getAxleRenderID();
+    }
+}

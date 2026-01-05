@@ -3,7 +3,7 @@ package net.pufferlab.primal.events;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.tileentities.TileEntityQuern;
+import net.pufferlab.primal.tileentities.IMotion;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -13,15 +13,18 @@ import io.netty.buffer.ByteBuf;
 public class PacketSpeedUpdate implements IMessage, IMessageHandler<PacketSpeedUpdate, IMessage> {
 
     private int x, y, z;
-    private float speed;
+    private float speed, speedModifier;
+    private boolean hasNetwork;
 
     public PacketSpeedUpdate() {}
 
-    public PacketSpeedUpdate(TileEntityQuern tile) {
-        this.x = tile.xCoord;
-        this.y = tile.yCoord;
-        this.z = tile.zCoord;
-        this.speed = tile.speed;
+    public PacketSpeedUpdate(IMotion tile) {
+        this.x = tile.getX();
+        this.y = tile.getY();
+        this.z = tile.getZ();
+        this.speed = tile.getSpeed();
+        this.speedModifier = tile.getSpeedModifier();
+        this.hasNetwork = tile.hasNetwork();
     }
 
     @Override
@@ -30,6 +33,8 @@ public class PacketSpeedUpdate implements IMessage, IMessageHandler<PacketSpeedU
         y = buf.readInt();
         z = buf.readInt();
         speed = buf.readFloat();
+        speedModifier = buf.readFloat();
+        hasNetwork = buf.readBoolean();
     }
 
     @Override
@@ -38,6 +43,8 @@ public class PacketSpeedUpdate implements IMessage, IMessageHandler<PacketSpeedU
         buf.writeInt(y);
         buf.writeInt(z);
         buf.writeFloat(speed);
+        buf.writeFloat(speedModifier);
+        buf.writeBoolean(hasNetwork);
     }
 
     @Override
@@ -46,8 +53,10 @@ public class PacketSpeedUpdate implements IMessage, IMessageHandler<PacketSpeedU
         if (world == null) return null;
 
         TileEntity tile = world.getTileEntity(message.x, message.y, message.z);
-        if (tile instanceof TileEntityQuern quern) {
-            quern.speed = message.speed;
+        if (tile instanceof IMotion tef) {
+            tef.setSpeed(message.speed);
+            tef.setSpeedModifier(message.speedModifier);
+            tef.setHasNetwork(message.hasNetwork);
         }
         return null;
     }

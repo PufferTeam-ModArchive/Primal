@@ -15,6 +15,7 @@ import org.lwjgl.opengl.GL11;
 public class TileEntityQuernRenderer extends TileEntityPrimalRenderer {
 
     ModelHandstone modelHandstone = new ModelHandstone();
+    ModelHandstone modelHandstoneNetwork = new ModelHandstone();
 
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float partialTicks) {
@@ -35,20 +36,28 @@ public class TileEntityQuernRenderer extends TileEntityPrimalRenderer {
     }
 
     public void renderTileEntityRotationAt(TileEntity tileEntity, double x, double y, double z, float partialTicks) {
-        TileEntityQuern quern = (TileEntityQuern) tileEntity;
+        if (tileEntity instanceof TileEntityQuern tef) {
+            if (!tef.hasNetwork()) {
+                float partialRotation = tef.rotation;
 
-        float partialRotation = quern.rotation;
+                if (tef.getSpeed() > 0) {
+                    partialRotation = tef.rotation + (partialTicks * tef.getSpeed());
+                }
+                GL11.glPushMatrix();
+                GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
+                GL11.glRotatef(partialRotation, 0.0F, 1.0F, 0.0F);
+                modelHandstone.render();
 
-        if (quern.speed > 0) {
-            partialRotation = quern.rotation + (partialTicks * quern.speed);
+                GL11.glPopMatrix();
+            } else {
+                GL11.glPushMatrix();
+                GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
+                float angle = RenderMotion.getInterpolatedRotationDeg(tef.getSpeed(), 0.0F, partialTicks);
+                GL11.glRotatef(angle, 0.0F, 1.0F, 0.0F);
+                modelHandstoneNetwork.render();
+                GL11.glPopMatrix();
+            }
         }
-
-        GL11.glPushMatrix();
-        GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
-        GL11.glRotatef(partialRotation, 0.0F, 1.0F, 0.0F);
-        modelHandstone.render();
-
-        GL11.glPopMatrix();
     }
 
     public void renderSlotItem(ItemStack stack, double xAdjust, double yAdjust, double zAdjust) {

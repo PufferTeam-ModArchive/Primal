@@ -146,4 +146,12 @@ public class CommonProxy implements IGuiHandler {
     public int getQuernRenderID() {
         return 0;
     }
+
+    public int getAxleRenderID() {
+        return 0;
+    }
+
+    public int getGeneratorRenderID() {
+        return 0;
+    }
 }

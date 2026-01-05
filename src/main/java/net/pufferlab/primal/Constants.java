@@ -14,6 +14,7 @@ public class Constants {
     public static final String[] rockTextures = new String[] { "minecraft:stone" };
     public static final String[] chimneyTypes = new String[] { "brick" };
     public static final String[] chimneyTextures = new String[] { "minecraft:brick" };
+    public static final String[] gearItems = new String[] { "gear" };
     public static final String[] strawItems = new String[] { "straw", "straw_cordage", "straw_kindling" };
     public static final String[] hideItems = new String[] { "hide", "soaked_hide", "scraped_hide" };
     public static final String[] woodItems = new String[] { "firewood", "ash" };
