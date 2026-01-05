@@ -1,9 +1,7 @@
 package net.pufferlab.primal.tileentities;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.events.PacketSpeedUpdate;
@@ -17,6 +15,7 @@ public abstract class TileEntityMotion extends TileEntityMetaFacing implements I
     boolean needsUpdate;
     boolean needsStrongUpdate;
     boolean needsSpeedUpdate;
+    boolean hasOffset;
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
@@ -28,6 +27,7 @@ public abstract class TileEntityMotion extends TileEntityMetaFacing implements I
         this.needsUpdate = tag.getBoolean("needsUpdate");
         this.needsStrongUpdate = tag.getBoolean("needsStrongUpdate");
         this.needsSpeedUpdate = tag.getBoolean("needsSpeedUpdate");
+        this.hasOffset = tag.getBoolean("hasOffset");
     }
 
     @Override
@@ -40,6 +40,7 @@ public abstract class TileEntityMotion extends TileEntityMetaFacing implements I
         tag.setBoolean("needsUpdate", this.needsUpdate);
         tag.setBoolean("needsStrongUpdate", this.needsStrongUpdate);
         tag.setBoolean("needsSpeedUpdate", this.needsSpeedUpdate);
+        tag.setBoolean("hasOffset", this.hasOffset);
     }
 
     @Override
@@ -47,6 +48,7 @@ public abstract class TileEntityMotion extends TileEntityMetaFacing implements I
         super.readFromNBTPacket(tag);
 
         this.speed = tag.getFloat("speed");
+        this.hasOffset = tag.getBoolean("hasOffset");
     }
 
     @Override
@@ -54,6 +56,7 @@ public abstract class TileEntityMotion extends TileEntityMetaFacing implements I
         super.writeToNBTPacket(tag);
 
         tag.setFloat("speed", this.speed);
+        tag.setBoolean("hasOffset", this.hasOffset);
     }
 
     int ticks;
@@ -66,24 +69,12 @@ public abstract class TileEntityMotion extends TileEntityMetaFacing implements I
         }
         if (this.needsStrongUpdate) {
             this.needsStrongUpdate = false;
-            for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
-                for (ForgeDirection direction2 : ForgeDirection.VALID_DIRECTIONS) {
-                    TileEntity te = getWorld().getTileEntity(
-                        getX() + direction.offsetX + direction2.offsetX,
-                        getY() + direction.offsetY + direction2.offsetY,
-                        getZ() + direction.offsetZ + direction2.offsetZ);
-                    if (te instanceof IMotion tef) {
-                        tef.scheduleUpdate();
-                    }
-                }
-            }
-            this.scheduleUpdate();
+            NetworkMotion.sendStrongUpdate(this);
         }
         if (this.needsSpeedUpdate) {
             this.needsSpeedUpdate = false;
             NetworkMotion.sendSpeedUpdate(this);
         }
-
     }
 
     @Override
@@ -180,4 +171,14 @@ public abstract class TileEntityMotion extends TileEntityMetaFacing implements I
 
     @Override
     public void setHasNetwork(boolean state) {}
+
+    @Override
+    public boolean hasOffset() {
+        return this.hasOffset;
+    }
+
+    @Override
+    public void setHasOffset(boolean state) {
+        this.hasOffset = state;
+    }
 }

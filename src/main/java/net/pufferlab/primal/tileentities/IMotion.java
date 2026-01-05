@@ -18,6 +18,8 @@ public interface IMotion {
 
     public void setHasNetwork(boolean state);
 
+    public void setHasOffset(boolean state);
+
     public float getTorque();
 
     public void scheduleUpdate();
@@ -39,4 +41,6 @@ public interface IMotion {
     public void sendClientUpdate();
 
     public boolean hasNetwork();
+
+    public boolean hasOffset();
 }

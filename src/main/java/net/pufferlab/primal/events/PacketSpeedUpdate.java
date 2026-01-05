@@ -14,7 +14,7 @@ public class PacketSpeedUpdate implements IMessage, IMessageHandler<PacketSpeedU
 
     private int x, y, z;
     private float speed, speedModifier;
-    private boolean hasNetwork;
+    private boolean hasNetwork, hasOffset;
 
     public PacketSpeedUpdate() {}
 
@@ -25,6 +25,7 @@ public class PacketSpeedUpdate implements IMessage, IMessageHandler<PacketSpeedU
         this.speed = tile.getSpeed();
         this.speedModifier = tile.getSpeedModifier();
         this.hasNetwork = tile.hasNetwork();
+        this.hasOffset = tile.hasOffset();
     }
 
     @Override
@@ -35,6 +36,7 @@ public class PacketSpeedUpdate implements IMessage, IMessageHandler<PacketSpeedU
         speed = buf.readFloat();
         speedModifier = buf.readFloat();
         hasNetwork = buf.readBoolean();
+        hasOffset = buf.readBoolean();
     }
 
     @Override
@@ -45,6 +47,7 @@ public class PacketSpeedUpdate implements IMessage, IMessageHandler<PacketSpeedU
         buf.writeFloat(speed);
         buf.writeFloat(speedModifier);
         buf.writeBoolean(hasNetwork);
+        buf.writeBoolean(hasOffset);
     }
 
     @Override
@@ -57,6 +60,7 @@ public class PacketSpeedUpdate implements IMessage, IMessageHandler<PacketSpeedU
             tef.setSpeed(message.speed);
             tef.setSpeedModifier(message.speedModifier);
             tef.setHasNetwork(message.hasNetwork);
+            tef.setHasOffset(message.hasOffset);
         }
         return null;
     }

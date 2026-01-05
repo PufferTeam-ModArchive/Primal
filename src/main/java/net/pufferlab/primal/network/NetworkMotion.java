@@ -22,6 +22,24 @@ public class NetworkMotion {
         generateNetwork(te2, false);
     }
 
+    public static void sendStrongUpdate(IMotion te) {
+        IMotion te2 = (IMotion) te.getWorld()
+            .getTileEntity(te.getX(), te.getY(), te.getZ());
+        for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
+            for (ForgeDirection direction2 : ForgeDirection.VALID_DIRECTIONS) {
+                TileEntity te3 = te2.getWorld()
+                    .getTileEntity(
+                        te2.getX() + direction.offsetX + direction2.offsetX,
+                        te2.getY() + direction.offsetY + direction2.offsetY,
+                        te2.getZ() + direction.offsetZ + direction2.offsetZ);
+                if (te3 instanceof IMotion tef) {
+                    tef.scheduleUpdate();
+                }
+            }
+        }
+        te2.scheduleUpdate();
+    }
+
     public static void sendSpeedUpdate(IMotion te) {
         IMotion te2 = (IMotion) te.getWorld()
             .getTileEntity(te.getX(), te.getY(), te.getZ());
@@ -109,9 +127,10 @@ public class NetworkMotion {
                                                     direction2,
                                                     te.getSpeedModifier());
                                                 tef.setSpeedModifier(modifier);
+                                                tef.setHasOffset(!te.hasOffset());
                                             }
-                                            connected.add(tef);
                                         }
+                                        connected.add(tef);
                                     }
                                 }
                             }
@@ -127,6 +146,7 @@ public class NetworkMotion {
                                 .ordinal())) {
                             if (spreadSpeed) {
                                 tef.setSpeedModifier(te.getSpeedModifier());
+                                tef.setHasOffset(te.hasOffset());
                             }
                             connected.add(tef);
                         }

@@ -17,8 +17,8 @@ public class TileEntityMotionRenderer extends TileEntityPrimalRenderer {
         GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
         if (tileEntity instanceof IMotion tef) {
             float offset = 0.0F;
-            if (tef.getSpeedModifier() < 1) {
-                offset = 0.5F;
+            if (tef.hasOffset()) {
+                offset = 10F;
             }
             float angle = RenderMotion.getInterpolatedRotationDeg(tef.getSpeed(), offset, partialTicks);
             int axis = getAxisToRotate(tileEntity);
