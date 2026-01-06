@@ -1,6 +1,7 @@
 package net.pufferlab.primal.tileentities;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.pufferlab.primal.Utils;
 
@@ -47,18 +48,14 @@ public class TileEntityAxle extends TileEntityMotion {
             if (this.hasGearPos) {
                 player.getHeldItem().stackSize--;
             } else {
-                player.inventory.addItemStackToInventory(
-                    Utils.getModItem("gear", 1)
-                        .copy());
+                player.inventory.addItemStackToInventory(new ItemStack(this.blockType, 1, 1));
             }
         } else {
             this.hasGearNeg = !this.hasGearNeg;
             if (this.hasGearNeg) {
                 player.getHeldItem().stackSize--;
             } else {
-                player.inventory.addItemStackToInventory(
-                    Utils.getModItem("gear", 1)
-                        .copy());
+                player.inventory.addItemStackToInventory(new ItemStack(this.blockType, 1, 1));
             }
         }
         this.scheduleStrongUpdate();

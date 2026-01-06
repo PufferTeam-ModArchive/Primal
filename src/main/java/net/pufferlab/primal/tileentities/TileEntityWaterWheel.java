@@ -1,0 +1,147 @@
+package net.pufferlab.primal.tileentities;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockLiquid;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.pufferlab.primal.Utils;
+
+public class TileEntityWaterWheel extends TileEntityMotion {
+
+    public boolean isExtension;
+    public int baseXCoord;
+    public int baseYCoord;
+    public int baseZCoord;
+    public boolean needsRemove;
+    public boolean needsFlowUpdate;
+    public float generatedSpeed;
+
+    @Override
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
+
+        this.isExtension = tag.getBoolean("isExtension");
+        this.baseXCoord = tag.getInteger("baseX");
+        this.baseYCoord = tag.getInteger("baseY");
+        this.baseZCoord = tag.getInteger("baseZ");
+        this.needsRemove = tag.getBoolean("needsRemove");
+        this.needsFlowUpdate = tag.getBoolean("needsFlowUpdate");
+        this.generatedSpeed = tag.getFloat("generatedSpeed");
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound tag) {
+        super.writeToNBT(tag);
+
+        tag.setBoolean("isExtension", this.isExtension);
+        tag.setInteger("baseX", this.baseXCoord);
+        tag.setInteger("baseY", this.baseYCoord);
+        tag.setInteger("baseZ", this.baseZCoord);
+        tag.setBoolean("needsRemove", this.needsRemove);
+        tag.setBoolean("needsFlowUpdate", this.needsFlowUpdate);
+        tag.setFloat("generatedSpeed", this.generatedSpeed);
+    }
+
+    @Override
+    public void readFromNBTPacket(NBTTagCompound tag) {
+        super.readFromNBTPacket(tag);
+
+        this.isExtension = tag.getBoolean("isExtension");
+        this.generatedSpeed = tag.getFloat("generatedSpeed");
+    }
+
+    @Override
+    public void writeToNBTPacket(NBTTagCompound tag) {
+        super.writeToNBTPacket(tag);
+
+        tag.setBoolean("isExtension", this.isExtension);
+        tag.setFloat("generatedSpeed", this.generatedSpeed);
+    }
+
+    @Override
+    public void updateEntity() {
+        super.updateEntity();
+
+        if (needsRemove) {
+            this.worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
+        }
+        if (this.needsFlowUpdate) {
+            this.needsFlowUpdate = false;
+            this.generatedSpeed = getSpeedFromFlow();
+            this.speed = this.generatedSpeed;
+            this.updateTEState();
+            this.scheduleStrongUpdate();
+        }
+    }
+
+    @Override
+    public boolean hasConnection(int side) {
+        if (!isExtension) {
+            return super.hasConnection(side);
+        }
+        return false;
+    }
+
+    @Override
+    public float getGeneratedSpeed() {
+        return this.generatedSpeed;
+    }
+
+    @Override
+    public float getSpeed() {
+        return getGeneratedSpeed();
+    }
+
+    @Override
+    public float getTorque() {
+        return 10.0F;
+    }
+
+    @Override
+    public AxisAlignedBB getRenderBoundingBox() {
+        return AxisAlignedBB.getBoundingBox(xCoord - 2, yCoord - 2, zCoord - 2, xCoord + 2, yCoord + 2, zCoord + 2);
+    }
+
+    public float getSpeedFromFlow() {
+        float totalSpeed = 0.0F;
+        if (axisMeta == 1) {
+            if (hasLiquid(ForgeDirection.WEST)) {
+                totalSpeed = totalSpeed + 5F;
+            }
+            if (hasLiquid(ForgeDirection.EAST)) {
+                totalSpeed = totalSpeed - 5F;
+            }
+        }
+        if (axisMeta == 2) {
+            if (hasLiquid(ForgeDirection.SOUTH)) {
+                totalSpeed = totalSpeed + 5F;
+            }
+            if (hasLiquid(ForgeDirection.NORTH)) {
+                totalSpeed = totalSpeed - 5F;
+            }
+        }
+        return totalSpeed;
+    }
+
+    public boolean hasLiquid(ForgeDirection facing) {
+        for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
+            if (Utils.getAxis(direction.ordinal()) != axisMeta
+                && Utils.getAxis(direction.ordinal()) != Utils.getAxis(facing.ordinal())) {
+                Block block = worldObj.getBlock(
+                    this.xCoord + (facing.offsetX * 2) + direction.offsetX,
+                    this.yCoord + (facing.offsetY * 2) + direction.offsetY,
+                    this.zCoord + (facing.offsetZ * 2) + direction.offsetZ);
+                if (!(block instanceof BlockLiquid)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public void scheduleFlowUpdate() {
+        this.needsFlowUpdate = true;
+    }
+}

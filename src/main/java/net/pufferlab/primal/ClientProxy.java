@@ -16,6 +16,7 @@ import net.pufferlab.primal.client.renderer.*;
 import net.pufferlab.primal.events.*;
 import net.pufferlab.primal.inventory.container.ContainerKnapping;
 import net.pufferlab.primal.inventory.gui.GuiCrucible;
+import net.pufferlab.primal.inventory.gui.GuiGenerator;
 import net.pufferlab.primal.inventory.gui.GuiKnapping;
 import net.pufferlab.primal.inventory.gui.GuiLargeVessel;
 import net.pufferlab.primal.recipes.KnappingType;
@@ -98,6 +99,7 @@ public class ClientProxy extends CommonProxy {
         register(TileEntityQuern.class, new TileEntityQuernRenderer());
         register(TileEntityAxle.class, new TileEntityAxleRenderer());
         register(TileEntityGenerator.class, new TileEntityGeneratorRenderer());
+        register(TileEntityWaterWheel.class, new TileEntityWaterWheelRenderer());
 
         register(Registry.wood, new ItemWoodRenderer());
         register(Registry.clay, new ItemClayRenderer());
@@ -113,7 +115,7 @@ public class ClientProxy extends CommonProxy {
         register(Registry.ceramic_bucket, new ItemBucketCeramicRenderer());
         register(Registry.axle, new ItemAxleRenderer());
         register(Registry.generator, new ItemGeneratorRenderer());
-        register(Registry.gear, new ItemGearRenderer());
+        register(Registry.waterwheel, new ItemWaterWheelRenderer());
     }
 
     public int getNextId() {
@@ -152,6 +154,12 @@ public class ClientProxy extends CommonProxy {
             TileEntity te = world.getTileEntity(x, y, z);
             if (te instanceof TileEntityCrucible tef) {
                 return new GuiCrucible(player.inventory, tef);
+            }
+        }
+        if (ID == generatorGuiID) {
+            TileEntity te = world.getTileEntity(x, y, z);
+            if (te instanceof TileEntityGenerator tef) {
+                return new GuiGenerator(tef);
             }
         }
         return null;

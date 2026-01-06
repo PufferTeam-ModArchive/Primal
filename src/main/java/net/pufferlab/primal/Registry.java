@@ -61,7 +61,7 @@ public class Registry {
     public static final Block quern;
     public static final Block axle;
     public static final Block generator;
-    public static final Item gear;
+    public static final Block waterwheel;
     public static final Item icons;
     public static final Item straw;
     public static final Item hide;
@@ -107,6 +107,7 @@ public class Registry {
 
         axle = new BlockAxle();
         generator = new BlockGenerator();
+        waterwheel = new BlockWaterWheel();
 
         thatch = new BlockThatch();
         thatch_roof = new BlockThatchRoof();
@@ -114,7 +115,6 @@ public class Registry {
 
         icons = new ItemMeta(Constants.icons, "icon").setHiddenAll()
             .setHasSuffix();
-        gear = new ItemMeta(Constants.gearItems, "gear");
         straw = new ItemMeta(Constants.strawItems, "straw");
         hide = new ItemMeta(Constants.hideItems, "hide");
         wood = new ItemMeta(Constants.woodItems, "wood");
@@ -163,9 +163,9 @@ public class Registry {
         register(tanning, "tanning_frame");
         register(axle, "axle");
         register(generator, "generator");
+        register(waterwheel, "waterwheel");
 
         register(icons, "icon");
-        register(gear, "gear");
         register(straw, "straw");
         register(hide, "hide");
         register(wood, "wood");
@@ -205,6 +205,7 @@ public class Registry {
         register(TileEntityQuern.class, "quern");
         register(TileEntityAxle.class, "axle");
         register(TileEntityGenerator.class, "generator");
+        register(TileEntityWaterWheel.class, "waterwheel");
     }
 
     public static final Block[] fluidsBlocks = new Block[Constants.fluidsTypes.length];
@@ -233,6 +234,8 @@ public class Registry {
         Primal.network = NetworkRegistry.INSTANCE.newSimpleChannel(Primal.MODID);
         registerPacket(PacketKnappingClick.class, Side.SERVER);
         registerPacket(PacketPitKilnPlace.class, Side.SERVER);
+        registerPacket(PacketSpeedChange.class, Side.SERVER);
+
         registerPacket(PacketSwingArm.class, Side.CLIENT);
         registerPacket(PacketFireStarter.class, Side.CLIENT);
         registerPacket(PacketSpeedUpdate.class, Side.CLIENT);
@@ -291,6 +294,10 @@ public class Registry {
             GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockMeta.class, name);
         } else if (block instanceof BlockCrucible) {
             GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockHeatable.class, name);
+        } else if (block instanceof BlockAxle) {
+            GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockAxle.class, name);
+        } else if (block instanceof BlockWaterWheel) {
+            GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockWaterWheel.class, name);
         } else if (block instanceof BlockMotion) {
             GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockMotion.class, name);
         } else {

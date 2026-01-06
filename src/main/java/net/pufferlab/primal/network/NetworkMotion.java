@@ -54,7 +54,7 @@ public class NetworkMotion {
 
         if (!spreadSpeed) {
             for (IMotion tile : network.tiles) {
-                if (tile.getGeneratedSpeed() > 0) {
+                if (tile.getGeneratedSpeed() != 0) {
                     if (network.generator == null) {
                         network.generator = tile;
                     } else {
@@ -75,7 +75,7 @@ public class NetworkMotion {
             }
         } else {
             for (IMotion tile : network.tiles) {
-                if ((tile.getGeneratedSpeed() <= 0)) {
+                if ((tile.getGeneratedSpeed() == 0)) {
                     tile.setSpeed(network.startTile.getGeneratedSpeed() * tile.getSpeedModifier());
                     tile.sendClientUpdate();
                 }
@@ -96,14 +96,29 @@ public class NetworkMotion {
     public static List<IMotion> getConnectedTiles(NetworkMotion network, IMotion te, boolean spreadSpeed) {
         List<IMotion> connected = new ArrayList<>();
         connected.add(te);
+        int connection = 0;
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
             int ordinal = direction.ordinal();
             if (te != null) {
                 int offsetX = direction.offsetX;
                 int offsetY = direction.offsetY;
                 int offsetZ = direction.offsetZ;
-                int connection = 0;
-                if (te.hasGear(ordinal)) {
+                if (te.hasConnection(ordinal)) {
+                    TileEntity te2 = te.getWorld()
+                        .getTileEntity(te.getX() + offsetX, te.getY() + offsetY, te.getZ() + offsetZ);
+                    if (te2 instanceof IMotion tef) {
+                        if (tef.hasConnection(
+                            direction.getOpposite()
+                                .ordinal())) {
+                            if (spreadSpeed) {
+                                tef.setSpeedModifier(te.getSpeedModifier());
+                                tef.setHasOffset(te.hasOffset());
+                            }
+                            connected.add(tef);
+                        }
+                    }
+                }
+                if (te.hasGear(ordinal) && te.hasConnection(ordinal)) {
                     for (ForgeDirection direction2 : ForgeDirection.VALID_DIRECTIONS) {
                         if (direction2 != direction && direction2 != direction.getOpposite()) {
                             int offsetX2 = direction2.offsetX;
@@ -117,10 +132,13 @@ public class NetworkMotion {
                             if (te2 instanceof IMotion tef) {
                                 if (tef.hasGear(
                                     direction2.getOpposite()
-                                        .ordinal())) {
+                                        .ordinal())
+                                    && tef.hasConnection(
+                                        direction2.getOpposite()
+                                            .ordinal())) {
                                     if (!network.tiles.contains(tef)) {
                                         connection++;
-                                        if (connection < 2) {
+                                        if (connection <= 2) {
                                             if (spreadSpeed) {
                                                 float modifier = getModifierFromSides(
                                                     direction,
@@ -129,26 +147,11 @@ public class NetworkMotion {
                                                 tef.setSpeedModifier(modifier);
                                                 tef.setHasOffset(!te.hasOffset());
                                             }
+                                            connected.add(tef);
                                         }
-                                        connected.add(tef);
                                     }
                                 }
                             }
-                        }
-                    }
-                }
-                if (te.hasConnection(ordinal)) {
-                    TileEntity te2 = te.getWorld()
-                        .getTileEntity(te.getX() + offsetX, te.getY() + offsetY, te.getZ() + offsetZ);
-                    if (te2 instanceof IMotion tef) {
-                        if (tef.hasConnection(
-                            direction.getOpposite()
-                                .ordinal())) {
-                            if (spreadSpeed) {
-                                tef.setSpeedModifier(te.getSpeedModifier());
-                                tef.setHasOffset(te.hasOffset());
-                            }
-                            connected.add(tef);
                         }
                     }
                 }
@@ -170,12 +173,12 @@ public class NetworkMotion {
                 break;
 
             case NORTH:
-                // Z- → X+ / Y+
+                // Z+ → X+ / Y+
                 if (outSide == ForgeDirection.EAST || outSide == ForgeDirection.UP) return -baseSign;
                 break;
 
             case SOUTH:
-                // Z+ → X- / Y-
+                // Z- → X- / Y-
                 if (outSide == ForgeDirection.WEST || outSide == ForgeDirection.DOWN) return -baseSign;
                 break;
 

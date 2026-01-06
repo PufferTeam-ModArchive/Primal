@@ -24,6 +24,7 @@ public class CommonProxy implements IGuiHandler {
 
     public final int largeVesselContainerID = 0;
     public final int crucibleContainerID = 1;
+    public final int generatorGuiID = 2;
     private int nextPacketID;
 
     public void preInit(FMLPreInitializationEvent event) {

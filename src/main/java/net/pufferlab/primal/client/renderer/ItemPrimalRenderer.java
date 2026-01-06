@@ -9,9 +9,9 @@ import org.lwjgl.opengl.GL11;
 
 public class ItemPrimalRenderer implements IItemRenderer {
 
-    private final float offsetX;
-    private final float offsetY;
-    private final float offsetZ;
+    float offsetX;
+    float offsetY;
+    float offsetZ;
     private final boolean hasOffset;
     private ModelPrimal[] model;
     private int[] meta;
@@ -31,6 +31,10 @@ public class ItemPrimalRenderer implements IItemRenderer {
         this.offsetY = offsetY;
         this.offsetZ = offsetZ;
         hasOffset = true;
+    }
+
+    public boolean shouldRenderOffset(ItemStack stack) {
+        return true;
     }
 
     public ModelPrimal[] getModel(ItemStack stack) {
@@ -108,6 +112,9 @@ public class ItemPrimalRenderer implements IItemRenderer {
                 GL11.glPushMatrix();
                 if (model != null) {
                     baseTranslation(type);
+                    if (hasOffset && shouldRenderOffset(item)) {
+                        GL11.glTranslatef(offsetX, offsetY, offsetZ);
+                    }
                 }
                 if (isNormal()) {
                     if (type == ItemRenderType.ENTITY) {
@@ -121,10 +128,6 @@ public class ItemPrimalRenderer implements IItemRenderer {
                 int index = 0;
                 if (meta != null) {
                     index = Utils.getIndex(meta, item.getItemDamage());
-                }
-
-                if (hasOffset) {
-                    GL11.glTranslatef(offsetX, offsetY, offsetZ);
                 }
                 if (handleTemperatureRendering()) {
                     if (this.model != null) {

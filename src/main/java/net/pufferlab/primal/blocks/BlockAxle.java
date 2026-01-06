@@ -1,11 +1,13 @@
 package net.pufferlab.primal.blocks;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
@@ -13,8 +15,12 @@ import net.pufferlab.primal.tileentities.TileEntityAxle;
 
 public class BlockAxle extends BlockMotion {
 
+    public IIcon[] icons = new IIcon[1];
+
     public BlockAxle() {
         super(Material.wood);
+        this.setHardness(2.0F);
+        this.setStepSound(soundTypeWood);
     }
 
     @Override
@@ -50,7 +56,7 @@ public class BlockAxle extends BlockMotion {
                 numberGear++;
             }
             if (numberGear > 0) {
-                dropItemStack(worldIn, x, y, z, Utils.getModItem("gear", numberGear));
+                dropItemStack(worldIn, x, y, z, new ItemStack(this, 1, 1));
             }
         }
     }
@@ -70,6 +76,16 @@ public class BlockAxle extends BlockMotion {
         if (!world.isRemote) {
             world.spawnEntityInWorld((Entity) entityItem);
         }
+    }
+
+    @Override
+    public void registerBlockIcons(IIconRegister reg) {
+        icons[0] = reg.registerIcon("minecraft:planks_spruce");
+    }
+
+    @Override
+    public IIcon getIcon(int side, int meta) {
+        return icons[0];
     }
 
     @Override
