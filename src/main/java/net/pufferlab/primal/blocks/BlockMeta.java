@@ -7,16 +7,19 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.items.itemblocks.ItemBlockMeta;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockMeta extends Block {
+public class BlockMeta extends Block implements IPrimalBlock {
 
     protected String[] elements;
     protected String[] elementsBlacklist;
@@ -101,5 +104,15 @@ public class BlockMeta extends Block {
 
     public String getElementName() {
         return name;
+    }
+
+    @Override
+    public Class<? extends ItemBlock> getItemBlockClass() {
+        return ItemBlockMeta.class;
+    }
+
+    @Override
+    public CreativeTabs getCreativeTab() {
+        return Registry.creativeTab;
     }
 }

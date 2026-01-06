@@ -13,7 +13,6 @@ public class TileEntityWaterWheel extends TileEntityMotion {
     public int baseXCoord;
     public int baseYCoord;
     public int baseZCoord;
-    public boolean needsRemove;
     public boolean needsFlowUpdate;
     public float generatedSpeed;
 
@@ -25,7 +24,6 @@ public class TileEntityWaterWheel extends TileEntityMotion {
         this.baseXCoord = tag.getInteger("baseX");
         this.baseYCoord = tag.getInteger("baseY");
         this.baseZCoord = tag.getInteger("baseZ");
-        this.needsRemove = tag.getBoolean("needsRemove");
         this.needsFlowUpdate = tag.getBoolean("needsFlowUpdate");
         this.generatedSpeed = tag.getFloat("generatedSpeed");
     }
@@ -38,7 +36,6 @@ public class TileEntityWaterWheel extends TileEntityMotion {
         tag.setInteger("baseX", this.baseXCoord);
         tag.setInteger("baseY", this.baseYCoord);
         tag.setInteger("baseZ", this.baseZCoord);
-        tag.setBoolean("needsRemove", this.needsRemove);
         tag.setBoolean("needsFlowUpdate", this.needsFlowUpdate);
         tag.setFloat("generatedSpeed", this.generatedSpeed);
     }
@@ -63,9 +60,6 @@ public class TileEntityWaterWheel extends TileEntityMotion {
     public void updateEntity() {
         super.updateEntity();
 
-        if (needsRemove) {
-            this.worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
-        }
         if (this.needsFlowUpdate) {
             this.needsFlowUpdate = false;
             this.generatedSpeed = getSpeedFromFlow();

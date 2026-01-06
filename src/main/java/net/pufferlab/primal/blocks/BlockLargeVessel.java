@@ -2,7 +2,6 @@ package net.pufferlab.primal.blocks;
 
 import java.util.Random;
 
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -21,7 +20,7 @@ import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityLargeVessel;
 
-public class BlockLargeVessel extends BlockContainer {
+public class BlockLargeVessel extends BlockPrimal {
 
     public IIcon[] icons = new IIcon[2];
 

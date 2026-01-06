@@ -5,7 +5,6 @@ import static net.pufferlab.primal.tileentities.TileEntityQuern.*;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -24,7 +23,7 @@ import net.pufferlab.primal.recipes.QuernRecipe;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityQuern;
 
-public class BlockQuern extends BlockContainer {
+public class BlockQuern extends BlockPrimal {
 
     public IIcon[] icons = new IIcon[2];
 

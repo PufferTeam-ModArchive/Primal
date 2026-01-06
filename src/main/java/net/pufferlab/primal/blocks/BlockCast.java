@@ -3,7 +3,6 @@ package net.pufferlab.primal.blocks;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -11,6 +10,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -22,7 +22,7 @@ import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.TileEntityCast;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 
-public class BlockCast extends BlockContainer {
+public class BlockCast extends BlockPrimal {
 
     public IIcon[] icons = new IIcon[2];
 
@@ -208,5 +208,10 @@ public class BlockCast extends BlockContainer {
     @Override
     public int getRenderType() {
         return Primal.proxy.getCastRenderID();
+    }
+
+    @Override
+    public Class<? extends ItemBlock> getItemBlockClass() {
+        return null;
     }
 }

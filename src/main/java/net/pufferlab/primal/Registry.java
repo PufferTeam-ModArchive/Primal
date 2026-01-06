@@ -15,6 +15,7 @@ import net.pufferlab.primal.compat.minetweaker.MTCompat;
 import net.pufferlab.primal.compat.nei.NEICompat;
 import net.pufferlab.primal.compat.waila.WLCompat;
 import net.pufferlab.primal.events.*;
+import net.pufferlab.primal.events.packets.*;
 import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.tileentities.*;
 
@@ -284,22 +285,8 @@ public class Registry {
     }
 
     public void register(Block block, String name) {
-        if (block instanceof BlockPile || block instanceof BlockGroundcover || block instanceof BlockCast) {
-            GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), null, name);
-        } else if ((block instanceof BlockLargeVessel || block instanceof BlockBarrel || block == campfire)) {
-            GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockPrimal.class, name);
-        } else if (block instanceof BlockFluidPrimal) {
-            GameRegistry.registerBlock(block.setCreativeTab(null), name);
-        } else if (block instanceof BlockMeta) {
-            GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockMeta.class, name);
-        } else if (block instanceof BlockCrucible) {
-            GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockHeatable.class, name);
-        } else if (block instanceof BlockAxle) {
-            GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockAxle.class, name);
-        } else if (block instanceof BlockWaterWheel) {
-            GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockWaterWheel.class, name);
-        } else if (block instanceof BlockMotion) {
-            GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), ItemBlockMotion.class, name);
+        if (block instanceof IPrimalBlock block2) {
+            GameRegistry.registerBlock(block.setCreativeTab(block2.getCreativeTab()), block2.getItemBlockClass(), name);
         } else {
             GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), name);
         }

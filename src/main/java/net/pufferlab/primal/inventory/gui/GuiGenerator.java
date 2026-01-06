@@ -3,7 +3,7 @@ package net.pufferlab.primal.inventory.gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.events.PacketSpeedChange;
+import net.pufferlab.primal.events.packets.PacketSpeedChange;
 import net.pufferlab.primal.tileentities.TileEntityGenerator;
 
 import org.lwjgl.opengl.GL11;

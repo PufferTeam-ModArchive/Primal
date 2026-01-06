@@ -2,7 +2,6 @@ package net.pufferlab.primal.blocks;
 
 import java.util.Random;
 
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -19,7 +18,7 @@ import net.pufferlab.primal.recipes.ChoppingLogRecipe;
 import net.pufferlab.primal.tileentities.TileEntityChoppingLog;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 
-public class BlockChoppingLog extends BlockContainer {
+public class BlockChoppingLog extends BlockPrimal {
 
     private IIcon[] icons = new IIcon[2];
 

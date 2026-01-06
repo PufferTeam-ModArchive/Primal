@@ -2,7 +2,6 @@ package net.pufferlab.primal.blocks;
 
 import java.util.List;
 
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -20,7 +19,7 @@ import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.TileEntityFaucet;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 
-public class BlockFaucet extends BlockContainer {
+public class BlockFaucet extends BlockPrimal {
 
     public IIcon[] icons = new IIcon[3];
 

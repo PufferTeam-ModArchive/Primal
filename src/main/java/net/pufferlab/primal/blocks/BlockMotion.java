@@ -1,10 +1,10 @@
 package net.pufferlab.primal.blocks;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
@@ -12,10 +12,11 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.items.itemblocks.ItemBlockMotion;
 import net.pufferlab.primal.tileentities.IMotion;
 import net.pufferlab.primal.tileentities.TileEntityMotion;
 
-public abstract class BlockMotion extends BlockContainer {
+public abstract class BlockMotion extends BlockPrimal {
 
     protected BlockMotion(Material material) {
         super(material);
@@ -89,5 +90,10 @@ public abstract class BlockMotion extends BlockContainer {
     @Override
     public boolean shouldSideBeRendered(IBlockAccess worldIn, int x, int y, int z, int side) {
         return true;
+    }
+
+    @Override
+    public Class<? extends ItemBlock> getItemBlockClass() {
+        return ItemBlockMotion.class;
     }
 }

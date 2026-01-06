@@ -3,12 +3,14 @@ package net.pufferlab.primal.blocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.items.itemblocks.ItemBlockWaterWheel;
 import net.pufferlab.primal.tileentities.TileEntityWaterWheel;
 
 public class BlockWaterWheel extends BlockMotion {
@@ -47,16 +49,14 @@ public class BlockWaterWheel extends BlockMotion {
 
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityWaterWheel tef) {
-            if (!tef.needsRemove) {
-                if (tef.isExtension) {
-                    clearExtensions(worldIn, tef.baseXCoord, tef.baseYCoord, tef.baseZCoord, tef.axisMeta);
-                    TileEntity te2 = worldIn.getTileEntity(tef.baseXCoord, tef.baseYCoord, tef.baseZCoord);
-                    if (te2 instanceof TileEntityWaterWheel tef2) {
-                        tef2.needsRemove = true;
-                    }
-                } else {
-                    clearExtensions(worldIn, tef.xCoord, tef.yCoord, tef.zCoord, tef.axisMeta);
+            if (tef.isExtension) {
+                clearExtensions(worldIn, tef.baseXCoord, tef.baseYCoord, tef.baseZCoord, tef.axisMeta);
+                TileEntity te2 = worldIn.getTileEntity(tef.baseXCoord, tef.baseYCoord, tef.baseZCoord);
+                if (te2 instanceof TileEntityWaterWheel tef2) {
+                    tef2.scheduleRemoval();
                 }
+            } else {
+                clearExtensions(worldIn, tef.xCoord, tef.yCoord, tef.zCoord, tef.axisMeta);
             }
         }
     }
@@ -78,7 +78,7 @@ public class BlockWaterWheel extends BlockMotion {
                             }
                             TileEntity te = worldObj.getTileEntity(x2, y2, z2);
                             if (te instanceof TileEntityWaterWheel tef) {
-                                tef.needsRemove = true;
+                                tef.scheduleRemoval();
                             }
                         }
                     }
@@ -110,5 +110,10 @@ public class BlockWaterWheel extends BlockMotion {
     @Override
     public int getRenderType() {
         return Primal.proxy.getAxleRenderID();
+    }
+
+    @Override
+    public Class<? extends ItemBlock> getItemBlockClass() {
+        return ItemBlockWaterWheel.class;
     }
 }

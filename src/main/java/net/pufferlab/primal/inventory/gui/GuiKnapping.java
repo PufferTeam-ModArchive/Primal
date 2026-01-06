@@ -6,7 +6,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.events.PacketKnappingClick;
+import net.pufferlab.primal.events.packets.PacketKnappingClick;
 import net.pufferlab.primal.inventory.container.ContainerKnapping;
 
 import org.lwjgl.opengl.GL11;

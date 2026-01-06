@@ -1,12 +1,12 @@
 package net.pufferlab.primal.blocks;
 
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -16,9 +16,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.items.itemblocks.ItemBlockHeatable;
 import net.pufferlab.primal.tileentities.TileEntityCrucible;
 
-public class BlockCrucible extends BlockContainer {
+public class BlockCrucible extends BlockPrimal {
 
     public IIcon[] icons = new IIcon[2];
 
@@ -139,5 +140,10 @@ public class BlockCrucible extends BlockContainer {
     @Override
     public boolean shouldSideBeRendered(IBlockAccess worldIn, int x, int y, int z, int side) {
         return true;
+    }
+
+    @Override
+    public Class<? extends ItemBlock> getItemBlockClass() {
+        return ItemBlockHeatable.class;
     }
 }

@@ -29,10 +29,14 @@ public class ModelWaterWheel extends ModelPrimal {
         for (int i = 0; i < 8; i++) {
             ModelRenderer ring = new ModelRenderer(this);
             float angle = (float) Math.toRadians(45 * i);
+            float offset = 0.0F;
+            if (i % 2 == 0) {
+                offset = 0.001F;
+            }
             ring.setRotationPoint(0.0F, 0.0F, 0.0F);
             setRotationAngle(ring, 0.0F, angle, 0.0F);
-            ring.addBox(0, 31, -11.0F, -8.0F - 1F, -25.0F, 22, 4, 4, 0.0F);
-            ring.addBox(0, 31, -11.0F, -8.0F + 12F + 1F, -25.0F, 22, 4, 4, 0.0F);
+            ring.addBox(0, 31, -11.0F, -8.0F - 1F + offset, -25.0F, 22, 4, 4, 0.0F);
+            ring.addBox(0, 31, -11.0F, -8.0F + 12F + 1F + offset, -25.0F, 22, 4, 4, 0.0F);
             ring_45.addChild(ring);
         }
         bb_main.addChild(ring_45);

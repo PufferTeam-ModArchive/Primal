@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -170,5 +171,10 @@ public class BlockOven extends BlockCampfire {
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
         return new TileEntityOven();
+    }
+
+    @Override
+    public Class<? extends ItemBlock> getItemBlockClass() {
+        return ItemBlock.class;
     }
 }

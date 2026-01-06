@@ -6,6 +6,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
@@ -105,5 +106,10 @@ public class BlockGroundcover extends BlockMeta {
     @Override
     public int getRenderType() {
         return Primal.proxy.getGroundcoverRenderID();
+    }
+
+    @Override
+    public Class<? extends ItemBlock> getItemBlockClass() {
+        return null;
     }
 }

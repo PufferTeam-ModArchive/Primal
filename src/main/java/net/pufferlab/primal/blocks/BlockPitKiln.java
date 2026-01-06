@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -28,7 +27,7 @@ import net.pufferlab.primal.recipes.PitKilnRecipe;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityPitKiln;
 
-public class BlockPitKiln extends BlockContainer {
+public class BlockPitKiln extends BlockPrimal {
 
     public IIcon[] icons = new IIcon[7];
 

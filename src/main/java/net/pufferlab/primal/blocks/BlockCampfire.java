@@ -3,7 +3,6 @@ package net.pufferlab.primal.blocks;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -11,6 +10,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -22,12 +22,13 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.items.itemblocks.ItemBlockCampfire;
 import net.pufferlab.primal.recipes.CampfireRecipe;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 
-public class BlockCampfire extends BlockContainer {
+public class BlockCampfire extends BlockPrimal {
 
     public IIcon[] icons = new IIcon[6];
 
@@ -347,5 +348,10 @@ public class BlockCampfire extends BlockContainer {
     @Override
     public boolean shouldSideBeRendered(IBlockAccess worldIn, int x, int y, int z, int side) {
         return true;
+    }
+
+    @Override
+    public Class<? extends ItemBlock> getItemBlockClass() {
+        return ItemBlockCampfire.class;
     }
 }

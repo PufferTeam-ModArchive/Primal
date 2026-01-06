@@ -13,6 +13,7 @@ import net.minecraftforge.fluids.IFluidHandler;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.events.packets.PacketSwingArm;
 import net.pufferlab.primal.items.ItemBucketCeramic;
 
 import cpw.mods.fml.common.eventhandler.Event;

@@ -26,7 +26,9 @@ public interface IMotion {
 
     public void scheduleStrongUpdate();
 
-    public void scheduleSpeedUpdate();
+    public void scheduleSpreadUpdate();
+
+    public void scheduleRemoval();
 
     public float getGeneratedSpeed();
 

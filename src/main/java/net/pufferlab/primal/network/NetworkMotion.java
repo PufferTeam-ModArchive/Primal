@@ -11,7 +11,6 @@ public class NetworkMotion {
 
     List<IMotion> tiles = new ArrayList<>();
     IMotion generator;
-    IMotion startTile;
     float totalTorque;
 
     public NetworkMotion() {}
@@ -40,7 +39,7 @@ public class NetworkMotion {
         te2.scheduleUpdate();
     }
 
-    public static void sendSpeedUpdate(IMotion te) {
+    public static void sendSpreadUpdate(IMotion te) {
         IMotion te2 = (IMotion) te.getWorld()
             .getTileEntity(te.getX(), te.getY(), te.getZ());
         generateNetwork(te2, true);
@@ -49,7 +48,9 @@ public class NetworkMotion {
     public static void generateNetwork(IMotion te, boolean spreadSpeed) {
         if (te == null) return;
         NetworkMotion network = new NetworkMotion();
-        network.startTile = te;
+        if (spreadSpeed) {
+            network.generator = te;
+        }
         recurseTile(network, te, spreadSpeed);
 
         if (!spreadSpeed) {
@@ -66,7 +67,7 @@ public class NetworkMotion {
                 network.totalTorque = network.totalTorque + tile.getTorque();
             }
             if (network.generator != null && network.totalTorque > 0) {
-                network.generator.scheduleSpeedUpdate();
+                network.generator.scheduleSpreadUpdate();
             } else {
                 for (IMotion tile : network.tiles) {
                     tile.setSpeed(0);
@@ -75,10 +76,8 @@ public class NetworkMotion {
             }
         } else {
             for (IMotion tile : network.tiles) {
-                if ((tile.getGeneratedSpeed() == 0)) {
-                    tile.setSpeed(network.startTile.getGeneratedSpeed() * tile.getSpeedModifier());
-                    tile.sendClientUpdate();
-                }
+                tile.setSpeed(network.generator.getGeneratedSpeed() * tile.getSpeedModifier());
+                tile.sendClientUpdate();
             }
         }
 

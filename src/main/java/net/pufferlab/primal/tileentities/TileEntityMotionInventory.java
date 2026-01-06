@@ -4,7 +4,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.events.PacketSpeedUpdate;
+import net.pufferlab.primal.events.packets.PacketSpeedUpdate;
 import net.pufferlab.primal.network.NetworkMotion;
 
 public abstract class TileEntityMotionInventory extends TileEntityInventory implements IMotion {
@@ -14,7 +14,8 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
     float speedModifier = 1;
     boolean needsUpdate;
     boolean needsStrongUpdate;
-    boolean needsSpeedUpdate;
+    boolean needsSpreadUpdate;
+    boolean needsRemovalUpdate;
     boolean hasOffset;
 
     public TileEntityMotionInventory(int slots) {
@@ -30,7 +31,8 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
         this.speedModifier = tag.getFloat("speedModifier");
         this.needsUpdate = tag.getBoolean("needsUpdate");
         this.needsStrongUpdate = tag.getBoolean("needsStrongUpdate");
-        this.needsSpeedUpdate = tag.getBoolean("needsSpeedUpdate");
+        this.needsSpreadUpdate = tag.getBoolean("needsSpreadUpdate");
+        this.needsRemovalUpdate = tag.getBoolean("needsRemovalUpdate");
         this.hasOffset = tag.getBoolean("hasOffset");
     }
 
@@ -43,7 +45,8 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
         tag.setFloat("speedModifier", this.speedModifier);
         tag.setBoolean("needsUpdate", this.needsUpdate);
         tag.setBoolean("needsStrongUpdate", this.needsStrongUpdate);
-        tag.setBoolean("needsSpeedUpdate", this.needsSpeedUpdate);
+        tag.setBoolean("needsSpreadUpdate", this.needsSpreadUpdate);
+        tag.setBoolean("needsRemovalUpdate", this.needsRemovalUpdate);
         tag.setBoolean("hasOffset", this.hasOffset);
     }
 
@@ -63,10 +66,11 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
         tag.setBoolean("hasOffset", this.hasOffset);
     }
 
-    int ticks;
-
     @Override
     public void updateEntity() {
+        if (this.needsRemovalUpdate) {
+            this.worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
+        }
         if (this.needsUpdate) {
             this.needsUpdate = false;
             NetworkMotion.sendUpdate(this);
@@ -75,9 +79,9 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
             this.needsStrongUpdate = false;
             NetworkMotion.sendStrongUpdate(this);
         }
-        if (this.needsSpeedUpdate) {
-            this.needsSpeedUpdate = false;
-            NetworkMotion.sendSpeedUpdate(this);
+        if (this.needsSpreadUpdate) {
+            this.needsSpreadUpdate = false;
+            NetworkMotion.sendSpreadUpdate(this);
         }
     }
 
@@ -140,8 +144,13 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
     }
 
     @Override
-    public void scheduleSpeedUpdate() {
-        this.needsSpeedUpdate = true;
+    public void scheduleSpreadUpdate() {
+        this.needsSpreadUpdate = true;
+    }
+
+    @Override
+    public void scheduleRemoval() {
+        this.needsRemovalUpdate = true;
     }
 
     @Override

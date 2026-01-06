@@ -3,7 +3,6 @@ package net.pufferlab.primal.blocks;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -24,7 +23,7 @@ import net.pufferlab.primal.recipes.BarrelRecipe;
 import net.pufferlab.primal.tileentities.TileEntityBarrel;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 
-public class BlockBarrel extends BlockContainer {
+public class BlockBarrel extends BlockPrimal {
 
     public IIcon[] icons = new IIcon[2];
 

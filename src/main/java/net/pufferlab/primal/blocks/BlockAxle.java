@@ -5,12 +5,14 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.items.itemblocks.ItemBlockAxle;
 import net.pufferlab.primal.tileentities.TileEntityAxle;
 
 public class BlockAxle extends BlockMotion {
@@ -101,5 +103,10 @@ public class BlockAxle extends BlockMotion {
     @Override
     public int getRenderType() {
         return Primal.proxy.getAxleRenderID();
+    }
+
+    @Override
+    public Class<? extends ItemBlock> getItemBlockClass() {
+        return ItemBlockAxle.class;
     }
 }

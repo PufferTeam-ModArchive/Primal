@@ -1,6 +1,5 @@
 package net.pufferlab.primal.blocks;
 
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -19,7 +18,7 @@ import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 import net.pufferlab.primal.tileentities.TileEntityTanning;
 
-public class BlockTanning extends BlockContainer {
+public class BlockTanning extends BlockPrimal {
 
     public IIcon[] icons = new IIcon[2];
 

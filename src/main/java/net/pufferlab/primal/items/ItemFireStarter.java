@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.events.PacketFireStarter;
+import net.pufferlab.primal.events.packets.PacketFireStarter;
 import net.pufferlab.primal.tileentities.IHeatable;
 
 import cpw.mods.fml.relauncher.Side;
