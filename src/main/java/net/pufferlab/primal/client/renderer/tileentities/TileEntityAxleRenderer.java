@@ -4,7 +4,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.pufferlab.primal.client.models.ModelAxle;
 import net.pufferlab.primal.client.models.ModelGear;
 import net.pufferlab.primal.tileentities.TileEntityAxle;
-import net.pufferlab.primal.tileentities.TileEntityMotion;
 
 public class TileEntityAxleRenderer extends TileEntityMotionRenderer {
 
@@ -27,13 +26,5 @@ public class TileEntityAxleRenderer extends TileEntityMotionRenderer {
             modelAxle.setAxis(axis);
             modelAxle.render();
         }
-    }
-
-    @Override
-    public int getAxisToRotate(TileEntity tileEntity) {
-        if (tileEntity instanceof TileEntityMotion tef) {
-            return tef.axisMeta;
-        }
-        return -1;
     }
 }

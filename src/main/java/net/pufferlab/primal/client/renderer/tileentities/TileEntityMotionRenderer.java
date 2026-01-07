@@ -3,6 +3,7 @@ package net.pufferlab.primal.client.renderer.tileentities;
 import net.minecraft.tileentity.TileEntity;
 import net.pufferlab.primal.client.renderer.RenderMotion;
 import net.pufferlab.primal.tileentities.IMotion;
+import net.pufferlab.primal.tileentities.TileEntityMotion;
 
 import org.lwjgl.opengl.GL11;
 
@@ -38,6 +39,9 @@ public class TileEntityMotionRenderer extends TileEntityPrimalRenderer {
     }
 
     public int getAxisToRotate(TileEntity tileEntity) {
+        if (tileEntity instanceof TileEntityMotion tef) {
+            return tef.axisMeta;
+        }
         return -1;
     }
 

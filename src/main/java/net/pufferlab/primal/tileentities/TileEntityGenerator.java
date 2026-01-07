@@ -9,7 +9,7 @@ public class TileEntityGenerator extends TileEntityMotion {
     public float newGeneratedSpeed;
 
     public TileEntityGenerator() {
-        this.generatedSpeed = 10.0F;
+        this.scheduleGeneratorUpdate(10.0F);
     }
 
     @Override
@@ -45,17 +45,13 @@ public class TileEntityGenerator extends TileEntityMotion {
     }
 
     @Override
-    public float getGeneratedSpeed() {
-        return this.generatedSpeed;
-    }
-
-    @Override
     public void updateEntity() {
         super.updateEntity();
 
         if (this.needsGeneratorUpdate) {
             this.needsGeneratorUpdate = false;
             this.generatedSpeed = this.newGeneratedSpeed;
+            this.speed = this.newGeneratedSpeed;
             this.newGeneratedSpeed = 0.0F;
             this.updateTEState();
             this.scheduleUpdate();
@@ -68,8 +64,8 @@ public class TileEntityGenerator extends TileEntityMotion {
     }
 
     @Override
-    public float getSpeed() {
-        return getGeneratedSpeed();
+    public float getGeneratedSpeed() {
+        return this.generatedSpeed;
     }
 
     @Override

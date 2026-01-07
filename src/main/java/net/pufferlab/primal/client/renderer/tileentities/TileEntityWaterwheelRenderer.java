@@ -2,18 +2,17 @@ package net.pufferlab.primal.client.renderer.tileentities;
 
 import net.minecraft.tileentity.TileEntity;
 import net.pufferlab.primal.client.models.ModelAxle;
-import net.pufferlab.primal.client.models.ModelWaterWheel;
-import net.pufferlab.primal.tileentities.TileEntityMotion;
-import net.pufferlab.primal.tileentities.TileEntityWaterWheel;
+import net.pufferlab.primal.client.models.ModelWaterwheel;
+import net.pufferlab.primal.tileentities.TileEntityWaterwheel;
 
-public class TileEntityWaterWheelRenderer extends TileEntityMotionRenderer {
+public class TileEntityWaterwheelRenderer extends TileEntityMotionRenderer {
 
     ModelAxle modelAxle = new ModelAxle();
-    ModelWaterWheel modelWaterWheel = new ModelWaterWheel();
+    ModelWaterwheel modelWaterWheel = new ModelWaterwheel();
 
     @Override
     public void renderModel(TileEntity tileEntity, double x, double y, double z, float partialTicks, float angle) {
-        if (tileEntity instanceof TileEntityWaterWheel tef) {
+        if (tileEntity instanceof TileEntityWaterwheel tef) {
             if (!tef.isExtension) {
                 int axis = tef.axisMeta;
                 modelAxle.setAxis(axis);
@@ -22,13 +21,5 @@ public class TileEntityWaterWheelRenderer extends TileEntityMotionRenderer {
                 modelWaterWheel.render();
             }
         }
-    }
-
-    @Override
-    public int getAxisToRotate(TileEntity tileEntity) {
-        if (tileEntity instanceof TileEntityMotion tef) {
-            return tef.axisMeta;
-        }
-        return -1;
     }
 }

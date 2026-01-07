@@ -60,6 +60,7 @@ public class BlockAxle extends BlockMotion {
             if (numberGear > 0) {
                 dropItemStack(worldIn, x, y, z, new ItemStack(this, 1, 1));
             }
+            tef.scheduleStrongUpdate();
         }
     }
 

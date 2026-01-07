@@ -77,7 +77,7 @@ public class TileEntityQuern extends TileEntityMotionInventory {
     }
 
     public float getPercentageSpeed() {
-        return this.speed / maxSpeed;
+        return Math.abs(this.speed) / maxSpeed;
     }
 
     public void addSpeed() {
@@ -94,35 +94,31 @@ public class TileEntityQuern extends TileEntityMotionInventory {
     public void updateEntity() {
         super.updateEntity();
 
-        if (!worldObj.isRemote && !hasNetwork()) {
+        if (this.getSpeed() != 0) {
+            timePassed++;
+            if (getInventoryStack(slotInput) != null) {
+                timeUsed++;
+            }
+        }
+        if (!worldObj.isRemote) {
+            if (!this.hasNetwork) {
+                float newSpeed = this.speed;
 
-            float newSpeed = this.speed;
-
-            if (newSpeed > 0) {
-                newSpeed = Math.max(0, this.speed - speedDeceleration);
-                timePassed++;
-                if (getInventoryStack(slotInput) != null) {
-                    timeUsed++;
+                if (newSpeed > 0) {
+                    newSpeed = Math.max(0, this.speed - speedDeceleration);
                 }
-            }
 
-            if (this.pressed > 0) {
-                if (newSpeed < maxSpeed) {
-                    newSpeed = newSpeed + speedAcceleration;
-                } else {
-                    this.pressed--;
+                if (this.pressed > 0) {
+                    if (newSpeed < maxSpeed) {
+                        newSpeed = newSpeed + speedAcceleration;
+                    } else {
+                        this.pressed--;
+                    }
                 }
-            }
 
-            if (newSpeed != speed) {
-                this.speed = newSpeed;
-                sendClientUpdate();
-            }
-        } else {
-            if (this.speed > 0) {
-                timePassed++;
-                if (getInventoryStack(slotInput) != null) {
-                    timeUsed++;
+                if (newSpeed != speed) {
+                    this.speed = newSpeed;
+                    sendClientUpdate();
                 }
             }
         }
@@ -131,13 +127,16 @@ public class TileEntityQuern extends TileEntityMotionInventory {
         if (teAbove instanceof IMotion) {
             this.hasNetwork = true;
         } else {
-            this.hasNetwork = false;
+            if (this.hasNetwork) {
+                this.hasNetwork = false;
+                scheduleUpdate();
+            }
         }
 
         if (this.timePassed > 1) {
             this.timePassed = 0;
             if (getInventoryStack(slotInput) != null) {
-                this.timeGround = this.timeGround + (int) Math.floor(3 * getPercentageSpeed());
+                this.timeGround = this.timeGround + (int) Math.floor(4 * getPercentageSpeed());
             } else {
                 this.timeGround = 0;
             }
@@ -147,7 +146,7 @@ public class TileEntityQuern extends TileEntityMotionInventory {
             this.timeGround = 0;
             ItemStack output = QuernRecipe.getOutput(getInventoryStack(slotInput));
             if (output != null) {
-                addItemInSlotUpdate(slotOutput, output);
+                addItemInSlotUpdate(slotOutput, output.copy());
                 decrStackSize(slotInput, 1);
             }
         }
@@ -167,8 +166,7 @@ public class TileEntityQuern extends TileEntityMotionInventory {
         if (worldObj.isRemote) {
             this.rotation = (this.rotation + this.speed) % 360.0F;
 
-            if (this.speed > 0) {
-                timePassed++;
+            if (this.speed != 0) {
                 if (blockMetadata == 1) {
                     Primal.proxy.renderFX(this, 0.5, 1.1, 0.5, getInventoryStack(slotInput));
                     if (!this.isMoving) {
@@ -185,7 +183,7 @@ public class TileEntityQuern extends TileEntityMotionInventory {
 
     @Override
     public float getTorque() {
-        return -1.0F;
+        return -5.0F;
     }
 
     @Override

@@ -19,6 +19,7 @@ tile.primal.axle.name=Axle
 tile.primal.generator.name=Generator
 tile.primal.gear.name=Gear
 tile.primal.waterwheel.name=Waterwheel
+tile.primal.windmill.name=Windmill
 
 nei.recipe.primal.barrel.smeltTime=Takes %s seconds
 nei.recipe.primal.barrel.smeltTimeMinute=Takes %s minute

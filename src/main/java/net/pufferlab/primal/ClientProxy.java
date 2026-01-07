@@ -100,7 +100,8 @@ public class ClientProxy extends CommonProxy {
         register(TileEntityQuern.class, new TileEntityQuernRenderer());
         register(TileEntityAxle.class, new TileEntityAxleRenderer());
         register(TileEntityGenerator.class, new TileEntityGeneratorRenderer());
-        register(TileEntityWaterWheel.class, new TileEntityWaterWheelRenderer());
+        register(TileEntityWaterwheel.class, new TileEntityWaterwheelRenderer());
+        register(TileEntityWindmill.class, new TileEntityWindmillRenderer());
 
         register(Registry.wood, new ItemWoodRenderer());
         register(Registry.clay, new ItemClayRenderer());
@@ -116,7 +117,8 @@ public class ClientProxy extends CommonProxy {
         register(Registry.ceramic_bucket, new ItemBucketCeramicRenderer());
         register(Registry.axle, new ItemAxleRenderer());
         register(Registry.generator, new ItemGeneratorRenderer());
-        register(Registry.waterwheel, new ItemWaterWheelRenderer());
+        register(Registry.waterwheel, new ItemWaterwheelRenderer());
+        register(Registry.windmill, new ItemWindmillRenderer());
     }
 
     public int getNextId() {

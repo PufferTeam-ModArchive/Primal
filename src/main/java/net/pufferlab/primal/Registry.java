@@ -63,6 +63,7 @@ public class Registry {
     public static final Block axle;
     public static final Block generator;
     public static final Block waterwheel;
+    public static final Block windmill;
     public static final Item icons;
     public static final Item straw;
     public static final Item hide;
@@ -108,7 +109,8 @@ public class Registry {
 
         axle = new BlockAxle();
         generator = new BlockGenerator();
-        waterwheel = new BlockWaterWheel();
+        waterwheel = new BlockWaterwheel();
+        windmill = new BlockWindmill();
 
         thatch = new BlockThatch();
         thatch_roof = new BlockThatchRoof();
@@ -165,6 +167,7 @@ public class Registry {
         register(axle, "axle");
         register(generator, "generator");
         register(waterwheel, "waterwheel");
+        register(windmill, "windmill");
 
         register(icons, "icon");
         register(straw, "straw");
@@ -206,7 +209,8 @@ public class Registry {
         register(TileEntityQuern.class, "quern");
         register(TileEntityAxle.class, "axle");
         register(TileEntityGenerator.class, "generator");
-        register(TileEntityWaterWheel.class, "waterwheel");
+        register(TileEntityWaterwheel.class, "waterwheel");
+        register(TileEntityWindmill.class, "windmill");
     }
 
     public static final Block[] fluidsBlocks = new Block[Constants.fluidsTypes.length];

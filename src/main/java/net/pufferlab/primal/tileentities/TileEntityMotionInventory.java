@@ -13,7 +13,6 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
     float speed;
     float speedModifier = 1;
     boolean needsUpdate;
-    boolean needsStrongUpdate;
     boolean needsSpreadUpdate;
     boolean needsRemovalUpdate;
     boolean hasOffset;
@@ -30,7 +29,6 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
         this.speed = tag.getFloat("speed");
         this.speedModifier = tag.getFloat("speedModifier");
         this.needsUpdate = tag.getBoolean("needsUpdate");
-        this.needsStrongUpdate = tag.getBoolean("needsStrongUpdate");
         this.needsSpreadUpdate = tag.getBoolean("needsSpreadUpdate");
         this.needsRemovalUpdate = tag.getBoolean("needsRemovalUpdate");
         this.hasOffset = tag.getBoolean("hasOffset");
@@ -44,7 +42,6 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
         tag.setFloat("speed", this.speed);
         tag.setFloat("speedModifier", this.speedModifier);
         tag.setBoolean("needsUpdate", this.needsUpdate);
-        tag.setBoolean("needsStrongUpdate", this.needsStrongUpdate);
         tag.setBoolean("needsSpreadUpdate", this.needsSpreadUpdate);
         tag.setBoolean("needsRemovalUpdate", this.needsRemovalUpdate);
         tag.setBoolean("hasOffset", this.hasOffset);
@@ -74,10 +71,6 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
         if (this.needsUpdate) {
             this.needsUpdate = false;
             NetworkMotion.sendUpdate(this);
-        }
-        if (this.needsStrongUpdate) {
-            this.needsStrongUpdate = false;
-            NetworkMotion.sendStrongUpdate(this);
         }
         if (this.needsSpreadUpdate) {
             this.needsSpreadUpdate = false;
@@ -140,7 +133,7 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
 
     @Override
     public void scheduleStrongUpdate() {
-        this.needsStrongUpdate = true;
+        NetworkMotion.sendStrongUpdate(this);
     }
 
     @Override

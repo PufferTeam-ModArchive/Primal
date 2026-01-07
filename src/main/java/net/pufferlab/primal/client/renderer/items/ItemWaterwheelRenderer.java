@@ -3,25 +3,25 @@ package net.pufferlab.primal.client.renderer.items;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.client.models.ModelAxle;
 import net.pufferlab.primal.client.models.ModelPrimal;
-import net.pufferlab.primal.client.models.ModelWaterWheel;
+import net.pufferlab.primal.client.models.ModelWaterwheel;
 
-public class ItemWaterWheelRenderer extends ItemPrimalRenderer {
+public class ItemWaterwheelRenderer extends ItemPrimalRenderer {
 
-    public ItemWaterWheelRenderer() {
+    public ItemWaterwheelRenderer() {
         super(0.0F, 0.5F, 0.0F);
     }
 
-    ModelWaterWheel[] modelWaterWheel = new ModelWaterWheel[] { new ModelWaterWheel() };
-    ModelPrimal[] modelWaterWheelWithAxle = new ModelPrimal[] { new ModelAxle(), new ModelWaterWheel() };
+    ModelWaterwheel[] modelWaterwheelWheel = new ModelWaterwheel[] { new ModelWaterwheel() };
+    ModelPrimal[] modelWaterwheelWithAxle = new ModelPrimal[] { new ModelAxle(), new ModelWaterwheel() };
 
     @Override
     public ModelPrimal[] getModel(ItemStack stack) {
-        return modelWaterWheel;
+        return modelWaterwheelWheel;
     }
 
     @Override
     public ModelPrimal[] getModelToRender(int index) {
-        return modelWaterWheelWithAxle;
+        return modelWaterwheelWithAxle;
     }
 
     @Override

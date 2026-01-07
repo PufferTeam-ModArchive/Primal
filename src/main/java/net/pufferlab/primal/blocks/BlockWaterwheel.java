@@ -7,17 +7,15 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.items.itemblocks.ItemBlockWaterWheel;
-import net.pufferlab.primal.tileentities.TileEntityWaterWheel;
+import net.pufferlab.primal.items.itemblocks.ItemBlockWaterwheel;
+import net.pufferlab.primal.tileentities.TileEntityWaterwheel;
 
-public class BlockWaterWheel extends BlockMotion {
+public class BlockWaterwheel extends BlockMotion {
 
     public IIcon[] icons = new IIcon[1];
 
-    public BlockWaterWheel() {
+    public BlockWaterwheel() {
         super(Material.wood);
         this.setHardness(2.0F);
         this.setStepSound(soundTypeWood);
@@ -26,10 +24,10 @@ public class BlockWaterWheel extends BlockMotion {
     @Override
     public void onNeighborBlockChange(World worldIn, int x, int y, int z, Block neighbor) {
         TileEntity te = worldIn.getTileEntity(x, y, z);
-        if (te instanceof TileEntityWaterWheel tef) {
+        if (te instanceof TileEntityWaterwheel tef) {
             if (tef.isExtension) {
                 TileEntity te2 = worldIn.getTileEntity(tef.baseXCoord, tef.baseYCoord, tef.baseZCoord);
-                if (te2 instanceof TileEntityWaterWheel tef2) {
+                if (te2 instanceof TileEntityWaterwheel tef2) {
                     tef2.scheduleFlowUpdate();
                 }
             } else {
@@ -48,11 +46,11 @@ public class BlockWaterWheel extends BlockMotion {
         super.onBlockPreDestroy(worldIn, x, y, z, meta);
 
         TileEntity te = worldIn.getTileEntity(x, y, z);
-        if (te instanceof TileEntityWaterWheel tef) {
+        if (te instanceof TileEntityWaterwheel tef) {
             if (tef.isExtension) {
                 clearExtensions(worldIn, tef.baseXCoord, tef.baseYCoord, tef.baseZCoord, tef.axisMeta);
                 TileEntity te2 = worldIn.getTileEntity(tef.baseXCoord, tef.baseYCoord, tef.baseZCoord);
-                if (te2 instanceof TileEntityWaterWheel tef2) {
+                if (te2 instanceof TileEntityWaterwheel tef2) {
                     tef2.scheduleRemoval();
                 }
             } else {
@@ -61,26 +59,28 @@ public class BlockWaterWheel extends BlockMotion {
         }
     }
 
-    public void clearExtensions(World worldObj, int x, int y, int z, int axis) {
-        for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
-            for (ForgeDirection direction0 : ForgeDirection.VALID_DIRECTIONS) {
-                if (Utils.getAxis(direction.ordinal()) != axis && Utils.getAxis(direction0.ordinal()) != axis) {
-                    for (ForgeDirection direction2 : ForgeDirection.VALID_DIRECTIONS) {
-                        if (direction2 != direction && direction2 != direction.getOpposite()
-                            && Utils.getAxis(direction2.ordinal()) != axis) {
-                            int x2 = x + direction.offsetX + direction2.offsetX;
-                            int y2 = y + direction.offsetY + direction2.offsetY;
-                            int z2 = z + direction.offsetZ + direction2.offsetZ;
-                            if (direction2 == direction0) {
-                                x2 = x + direction.offsetX;
-                                y2 = y + direction.offsetY;
-                                z2 = z + direction.offsetZ;
-                            }
-                            TileEntity te = worldObj.getTileEntity(x2, y2, z2);
-                            if (te instanceof TileEntityWaterWheel tef) {
-                                tef.scheduleRemoval();
-                            }
-                        }
+    public void clearExtensions(World world, int x, int y, int z, int axis) {
+        for (int xf = -1; xf <= 1; xf++) {
+            for (int zf = -1; zf <= 1; zf++) {
+                if (!(xf == 0 && zf == 0)) {
+                    int x2 = x;
+                    int y2 = y;
+                    int z2 = z;
+
+                    if (axis == 0) {
+                        x2 += xf;
+                        z2 += zf;
+                    } else if (axis == 1) {
+                        x2 += xf;
+                        y2 += zf;
+                    } else if (axis == 2) {
+                        y2 += xf;
+                        z2 += zf;
+                    }
+
+                    TileEntity te = world.getTileEntity(x2, y2, z2);
+                    if (te instanceof TileEntityWaterwheel tef) {
+                        tef.scheduleRemoval();
                     }
                 }
             }
@@ -99,7 +99,7 @@ public class BlockWaterWheel extends BlockMotion {
 
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
-        return new TileEntityWaterWheel();
+        return new TileEntityWaterwheel();
     }
 
     @Override
@@ -114,6 +114,6 @@ public class BlockWaterWheel extends BlockMotion {
 
     @Override
     public Class<? extends ItemBlock> getItemBlockClass() {
-        return ItemBlockWaterWheel.class;
+        return ItemBlockWaterwheel.class;
     }
 }

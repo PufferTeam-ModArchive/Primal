@@ -18,30 +18,31 @@ public class NetworkMotion {
     public static void sendUpdate(IMotion te) {
         IMotion te2 = (IMotion) te.getWorld()
             .getTileEntity(te.getX(), te.getY(), te.getZ());
+        if (te2 == null) return;
         generateNetwork(te2, false);
     }
 
     public static void sendStrongUpdate(IMotion te) {
         IMotion te2 = (IMotion) te.getWorld()
             .getTileEntity(te.getX(), te.getY(), te.getZ());
-        for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
-            for (ForgeDirection direction2 : ForgeDirection.VALID_DIRECTIONS) {
-                TileEntity te3 = te2.getWorld()
-                    .getTileEntity(
-                        te2.getX() + direction.offsetX + direction2.offsetX,
-                        te2.getY() + direction.offsetY + direction2.offsetY,
-                        te2.getZ() + direction.offsetZ + direction2.offsetZ);
-                if (te3 instanceof IMotion tef) {
-                    tef.scheduleUpdate();
+        if (te2 == null) return;
+        for (int x = -1; x <= 1; x++) {
+            for (int y = -1; y <= 1; y++) {
+                for (int z = -1; z <= 1; z++) {
+                    TileEntity te3 = te2.getWorld()
+                        .getTileEntity(te2.getX() + x, te2.getY() + y, te2.getZ() + z);
+                    if (te3 instanceof IMotion tef) {
+                        tef.scheduleUpdate();
+                    }
                 }
             }
         }
-        te2.scheduleUpdate();
     }
 
     public static void sendSpreadUpdate(IMotion te) {
         IMotion te2 = (IMotion) te.getWorld()
             .getTileEntity(te.getX(), te.getY(), te.getZ());
+        if (te2 == null) return;
         generateNetwork(te2, true);
     }
 

@@ -2,13 +2,13 @@ package net.pufferlab.primal.client.models;
 
 import net.pufferlab.primal.client.utils.ModelRenderer;
 
-public class ModelWaterWheel extends ModelPrimal {
+public class ModelWaterwheel extends ModelPrimal {
 
     public ModelRenderer ring_45;
     public ModelRenderer beam_90;
     public ModelRenderer side_30;
 
-    public ModelWaterWheel() {
+    public ModelWaterwheel() {
         super(64);
 
         beam_90 = new ModelRenderer(this);

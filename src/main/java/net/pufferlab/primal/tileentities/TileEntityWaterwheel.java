@@ -7,7 +7,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Utils;
 
-public class TileEntityWaterWheel extends TileEntityMotion {
+public class TileEntityWaterwheel extends TileEntityMotion {
 
     public boolean isExtension;
     public int baseXCoord;
@@ -15,6 +15,10 @@ public class TileEntityWaterWheel extends TileEntityMotion {
     public int baseZCoord;
     public boolean needsFlowUpdate;
     public float generatedSpeed;
+
+    public TileEntityWaterwheel() {
+        this.scheduleFlowUpdate();
+    }
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
@@ -62,10 +66,13 @@ public class TileEntityWaterWheel extends TileEntityMotion {
 
         if (this.needsFlowUpdate) {
             this.needsFlowUpdate = false;
-            this.generatedSpeed = getSpeedFromFlow();
-            this.speed = this.generatedSpeed;
-            this.updateTEState();
-            this.scheduleStrongUpdate();
+            float newSpeed = getSpeedFromFlow();
+            if (this.generatedSpeed != newSpeed) {
+                this.generatedSpeed = newSpeed;
+                this.speed = newSpeed;
+                this.updateTEState();
+            }
+            this.scheduleUpdate();
         }
     }
 
@@ -80,11 +87,6 @@ public class TileEntityWaterWheel extends TileEntityMotion {
     @Override
     public float getGeneratedSpeed() {
         return this.generatedSpeed;
-    }
-
-    @Override
-    public float getSpeed() {
-        return getGeneratedSpeed();
     }
 
     @Override
