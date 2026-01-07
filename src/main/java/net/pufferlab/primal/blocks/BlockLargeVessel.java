@@ -40,7 +40,7 @@ public class BlockLargeVessel extends BlockPrimal {
                 tef.setOpen(!tef.isOpen);
             } else {
                 if (!Utils.isFluidContainer(player.getHeldItem())) {
-                    player.openGui(Primal.instance, Primal.proxy.largeVesselContainerID, worldIn, x, y, z);
+                    Primal.proxy.openLargeVesselGui(player, worldIn, x, y, z);
                 }
             }
         }

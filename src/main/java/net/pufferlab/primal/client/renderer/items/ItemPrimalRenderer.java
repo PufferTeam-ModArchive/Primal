@@ -79,6 +79,16 @@ public class ItemPrimalRenderer implements IItemRenderer {
         return false;
     }
 
+    public boolean shouldRotateModel(ItemStack stack) {
+        return false;
+    }
+
+    public void updateRotation(ItemStack stack) {}
+
+    public void updateOffset(ItemStack stack, ItemRenderType type) {
+
+    }
+
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
         if (Utils.contains(getMetaBlacklist(), item.getItemDamage())) return false;
@@ -114,6 +124,7 @@ public class ItemPrimalRenderer implements IItemRenderer {
                 GL11.glPushMatrix();
                 if (model != null) {
                     baseTranslation(type);
+                    updateOffset(item, type);
                     if (hasOffset && shouldRenderOffset(item)) {
                         GL11.glTranslatef(offsetX, offsetY, offsetZ);
                     }
@@ -122,6 +133,9 @@ public class ItemPrimalRenderer implements IItemRenderer {
                     if (type == ItemRenderType.ENTITY) {
                         GL11.glScalef(0.5F, 0.5F, 0.5F);
                     }
+                }
+                if (shouldRotateModel(item)) {
+                    updateRotation(item);
                 }
                 if (shouldScaleModel(item)) {
                     float scale = getScale();

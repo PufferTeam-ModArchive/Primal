@@ -17,7 +17,7 @@ public class ItemBlockAxle extends ItemBlockMotion {
 
     @Override
     public boolean cancelPlacement(ItemStack stack) {
-        if (stack.getItemDamage() == 1) {
+        if (stack.getItemDamage() == 1 || stack.getItemDamage() == 2) {
             return true;
         }
         return false;
@@ -27,12 +27,16 @@ public class ItemBlockAxle extends ItemBlockMotion {
     public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
         list.add(new ItemStack(item, 1, 0));
         list.add(new ItemStack(item, 1, 1));
+        list.add(new ItemStack(item, 1, 2));
     }
 
     @Override
     public String getUnlocalizedName(ItemStack stack) {
         if (stack.getItemDamage() == 1) {
             return "tile." + Primal.MODID + ".gear";
+        }
+        if (stack.getItemDamage() == 2) {
+            return "tile." + Primal.MODID + ".bracket";
         }
         return super.getUnlocalizedName(stack);
     }

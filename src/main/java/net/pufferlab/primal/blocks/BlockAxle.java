@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -17,7 +18,7 @@ import net.pufferlab.primal.tileentities.TileEntityAxle;
 
 public class BlockAxle extends BlockMotion {
 
-    public IIcon[] icons = new IIcon[1];
+    public IIcon[] icons = new IIcon[2];
 
     public BlockAxle() {
         super(Material.wood);
@@ -31,15 +32,18 @@ public class BlockAxle extends BlockMotion {
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityAxle tef) {
             ItemStack heldItem = player.getHeldItem();
-            if (Utils.containsOreDict(heldItem, "gear")) {
+            if (heldItem == null) return false;
+            if (heldItem.getItem() == Item.getItemFromBlock(this) && heldItem.getItemDamage() == 1) {
                 int axis = tef.axisMeta;
                 int axisClicked = Utils.getAxis(side);
                 if (axis == axisClicked) {
-                    tef.setGear(Utils.isSidePositive(side), player);
+                    tef.setGear(side, player);
                     return true;
                 }
             }
-
+            if (heldItem.getItem() == Item.getItemFromBlock(this) && heldItem.getItemDamage() == 2) {
+                return tef.setBracket(side, player);
+            }
         }
         return false;
     }
@@ -61,6 +65,9 @@ public class BlockAxle extends BlockMotion {
                 dropItemStack(worldIn, x, y, z, new ItemStack(this, 1, 1));
             }
             tef.scheduleStrongUpdate();
+            if (tef.hasBracket) {
+                dropItemStack(worldIn, x, y, z, new ItemStack(this, 1, 2));
+            }
         }
     }
 
@@ -84,10 +91,14 @@ public class BlockAxle extends BlockMotion {
     @Override
     public void registerBlockIcons(IIconRegister reg) {
         icons[0] = reg.registerIcon("minecraft:planks_spruce");
+        icons[1] = reg.registerIcon(Primal.MODID + ":bracket");
     }
 
     @Override
     public IIcon getIcon(int side, int meta) {
+        if (side == 99) {
+            return icons[1];
+        }
         return icons[0];
     }
 

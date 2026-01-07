@@ -6,7 +6,9 @@ public class TileEntityGenerator extends TileEntityMotion {
 
     public float generatedSpeed;
     public boolean needsGeneratorUpdate;
+    public boolean needsLateUpdate;
     public float newGeneratedSpeed;
+    public int timePassed;
 
     public TileEntityGenerator() {
         this.scheduleGeneratorUpdate(10.0F);
@@ -18,7 +20,9 @@ public class TileEntityGenerator extends TileEntityMotion {
 
         this.generatedSpeed = tag.getFloat("generatedSpeed");
         this.needsGeneratorUpdate = tag.getBoolean("needsGeneratorUpdate");
+        this.needsLateUpdate = tag.getBoolean("needsLateUpdate");
         this.newGeneratedSpeed = tag.getFloat("newGeneratedSpeed");
+        this.timePassed = tag.getInteger("timePassed");
     }
 
     @Override
@@ -27,7 +31,9 @@ public class TileEntityGenerator extends TileEntityMotion {
 
         tag.setFloat("generatedSpeed", this.generatedSpeed);
         tag.setBoolean("needsGeneratorUpdate", this.needsGeneratorUpdate);
+        tag.setBoolean("needsLateUpdate", this.needsLateUpdate);
         tag.setFloat("newGeneratedSpeed", this.newGeneratedSpeed);
+        tag.setInteger("timePassed", this.timePassed);
     }
 
     @Override
@@ -48,6 +54,15 @@ public class TileEntityGenerator extends TileEntityMotion {
     public void updateEntity() {
         super.updateEntity();
 
+        if (this.needsLateUpdate) {
+            this.timePassed++;
+        }
+        if (this.timePassed > 20) {
+            this.needsLateUpdate = false;
+            this.timePassed = 0;
+            this.scheduleUpdate();
+        }
+
         if (this.needsGeneratorUpdate) {
             this.needsGeneratorUpdate = false;
             this.generatedSpeed = this.newGeneratedSpeed;
@@ -55,12 +70,17 @@ public class TileEntityGenerator extends TileEntityMotion {
             this.newGeneratedSpeed = 0.0F;
             this.updateTEState();
             this.scheduleUpdate();
+            this.scheduleLateUpdate();
         }
     }
 
     public void scheduleGeneratorUpdate(float newSpeed) {
         this.needsGeneratorUpdate = true;
         this.newGeneratedSpeed = newSpeed;
+    }
+
+    public void scheduleLateUpdate() {
+        this.needsLateUpdate = true;
     }
 
     @Override

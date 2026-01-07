@@ -18,6 +18,7 @@ item.primal.knapping_icon.name=Knapping
 tile.primal.axle.name=Axle
 tile.primal.generator.name=Generator
 tile.primal.gear.name=Gear
+tile.primal.bracket.name=Bracket
 tile.primal.waterwheel.name=Waterwheel
 tile.primal.windmill.name=Windmill
 

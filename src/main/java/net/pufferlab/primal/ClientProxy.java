@@ -30,24 +30,24 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
 public class ClientProxy extends CommonProxy {
 
-    int pitKilnRenderID;
-    int logPileRenderID;
-    int charcoalPileRenderID;
-    int ashPileRenderID;
-    int campfireRenderID;
-    int largeVesselRenderID;
-    int barrelRenderID;
-    int faucetRenderID;
-    int groundcoverRenderID;
-    int tanningRenderID;
-    int ovenRenderID;
-    int chimneyRenderID;
-    int crucibleRenderID;
-    int forgeRenderID;
-    int castRenderID;
-    int quernRenderID;
-    int axleRenderID;
-    int generatorRenderID;
+    private int pitKilnRenderID;
+    private int logPileRenderID;
+    private int charcoalPileRenderID;
+    private int ashPileRenderID;
+    private int campfireRenderID;
+    private int largeVesselRenderID;
+    private int barrelRenderID;
+    private int faucetRenderID;
+    private int groundcoverRenderID;
+    private int tanningRenderID;
+    private int ovenRenderID;
+    private int chimneyRenderID;
+    private int crucibleRenderID;
+    private int forgeRenderID;
+    private int castRenderID;
+    private int quernRenderID;
+    private int axleRenderID;
+    private int generatorRenderID;
 
     @Override
     public void setupRenders() {
@@ -147,23 +147,15 @@ public class ClientProxy extends CommonProxy {
         if (knappingType != null) {
             return new GuiKnapping(new ContainerKnapping(knappingType, player.inventory));
         }
-        if (ID == largeVesselContainerID) {
-            TileEntity te = world.getTileEntity(x, y, z);
-            if (te instanceof TileEntityLargeVessel tef) {
-                return new GuiLargeVessel(player.inventory, tef);
-            }
+        TileEntity te = world.getTileEntity(x, y, z);
+        if (ID == largeVesselContainerID && te instanceof TileEntityLargeVessel tef) {
+            return new GuiLargeVessel(player.inventory, tef);
         }
-        if (ID == crucibleContainerID) {
-            TileEntity te = world.getTileEntity(x, y, z);
-            if (te instanceof TileEntityCrucible tef) {
-                return new GuiCrucible(player.inventory, tef);
-            }
+        if (ID == crucibleContainerID && te instanceof TileEntityCrucible tef) {
+            return new GuiCrucible(player.inventory, tef);
         }
-        if (ID == generatorGuiID) {
-            TileEntity te = world.getTileEntity(x, y, z);
-            if (te instanceof TileEntityGenerator tef) {
-                return new GuiGenerator(tef);
-            }
+        if (ID == generatorGuiID && te instanceof TileEntityGenerator tef) {
+            return new GuiGenerator(tef);
         }
         return null;
     }
@@ -208,6 +200,11 @@ public class ClientProxy extends CommonProxy {
                 Minecraft.getMinecraft().effectRenderer.addEffect(fx);
             }
         }
+    }
+
+    @Override
+    public void openGeneratorGui(EntityPlayer player, World worldIn, int x, int y, int z) {
+        player.openGui(Primal.instance, generatorGuiID, worldIn, x, y, z);
     }
 
     @Override

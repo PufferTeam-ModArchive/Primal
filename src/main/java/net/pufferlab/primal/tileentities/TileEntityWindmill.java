@@ -64,8 +64,8 @@ public class TileEntityWindmill extends TileEntityMotion {
                 this.generatedSpeed = newSpeed;
                 this.speed = newSpeed;
                 this.updateTEState();
+                this.scheduleUpdate();
             }
-            this.scheduleUpdate();
         }
     }
 

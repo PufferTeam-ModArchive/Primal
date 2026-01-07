@@ -327,10 +327,13 @@ public class Registry {
     }
 
     public void registerEvent(Object event) {
-        if (event instanceof TickHandler) {
-            FMLCommonHandler.instance()
-                .bus()
-                .register(event);
+        if (event instanceof IEventHandler eventh) {
+            if (eventh.isFMLEvent()) {
+                FMLCommonHandler.instance()
+                    .bus()
+                    .register(event);
+                return;
+            }
         }
         MinecraftForge.EVENT_BUS.register(event);
     }

@@ -23,7 +23,7 @@ public class BlockGenerator extends BlockMotion {
     public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
         float subY, float subZ) {
         if (player.isSneaking() && worldIn.isRemote) {
-            player.openGui(Primal.instance, Primal.proxy.generatorGuiID, worldIn, x, y, z);
+            Primal.proxy.openGeneratorGui(player, worldIn, x, y, z);
             return true;
         }
 

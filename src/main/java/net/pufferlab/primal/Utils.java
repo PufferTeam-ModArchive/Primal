@@ -528,6 +528,37 @@ public class Utils {
         };
     }
 
+    public static int getFacingMeta(int side, int axis) {
+        if (axis == 0) {
+            return switch (side) {
+                case 3 -> 1;
+                case 4 -> 2;
+                case 2 -> 3;
+                case 5 -> 4;
+                default -> 0;
+            };
+        }
+        if (axis == 1) {
+            return switch (side) {
+                case 0 -> 1;
+                case 4 -> 2;
+                case 1 -> 3;
+                case 5 -> 4;
+                default -> 0;
+            };
+        }
+        if (axis == 2) {
+            return switch (side) {
+                case 3 -> 1;
+                case 1 -> 2;
+                case 2 -> 3;
+                case 0 -> 4;
+                default -> 0;
+            };
+        }
+        return 0;
+    }
+
     public static int getSimpleAxisFromFacing(int facingMeta) {
         return switch (facingMeta) {
             case 1, 3 -> 1;

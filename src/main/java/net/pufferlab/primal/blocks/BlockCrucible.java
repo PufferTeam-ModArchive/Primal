@@ -34,7 +34,7 @@ public class BlockCrucible extends BlockPrimal {
     public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
         float subY, float subZ) {
         if (!Utils.isFluidContainer(player.getHeldItem())) {
-            player.openGui(Primal.instance, Primal.proxy.crucibleContainerID, worldIn, x, y, z);
+            Primal.proxy.openCrucibleGui(player, worldIn, x, y, z);
         }
         return true;
     }

@@ -1,6 +1,7 @@
 package net.pufferlab.primal.tileentities;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.pufferlab.primal.Utils;
@@ -9,6 +10,7 @@ public class TileEntityAxle extends TileEntityMotion {
 
     public boolean hasGearPos;
     public boolean hasGearNeg;
+    public boolean hasBracket;
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
@@ -16,6 +18,7 @@ public class TileEntityAxle extends TileEntityMotion {
 
         this.hasGearPos = tag.getBoolean("hasGearPos");
         this.hasGearNeg = tag.getBoolean("hasGearNeg");
+        this.hasBracket = tag.getBoolean("hasBracket");
     }
 
     @Override
@@ -24,6 +27,7 @@ public class TileEntityAxle extends TileEntityMotion {
 
         tag.setBoolean("hasGearPos", this.hasGearPos);
         tag.setBoolean("hasGearNeg", this.hasGearNeg);
+        tag.setBoolean("hasBracket", this.hasBracket);
     }
 
     @Override
@@ -32,6 +36,7 @@ public class TileEntityAxle extends TileEntityMotion {
 
         this.hasGearPos = tag.getBoolean("hasGearPos");
         this.hasGearNeg = tag.getBoolean("hasGearNeg");
+        this.hasBracket = tag.getBoolean("hasBracket");
     }
 
     @Override
@@ -40,12 +45,14 @@ public class TileEntityAxle extends TileEntityMotion {
 
         tag.setBoolean("hasGearPos", this.hasGearPos);
         tag.setBoolean("hasGearNeg", this.hasGearNeg);
+        tag.setBoolean("hasBracket", this.hasBracket);
     }
 
-    public void setGear(boolean side, EntityPlayer player) {
-        if (side) {
+    public void setGear(int side, EntityPlayer player) {
+        if (Utils.isSidePositive(side)) {
             this.hasGearPos = !this.hasGearPos;
             if (this.hasGearPos) {
+                Utils.playSound(this.worldObj, this.xCoord, this.yCoord, this.zCoord, Blocks.log);
                 player.getHeldItem().stackSize--;
             } else {
                 player.inventory.addItemStackToInventory(new ItemStack(this.blockType, 1, 1));
@@ -53,12 +60,31 @@ public class TileEntityAxle extends TileEntityMotion {
         } else {
             this.hasGearNeg = !this.hasGearNeg;
             if (this.hasGearNeg) {
+                Utils.playSound(this.worldObj, this.xCoord, this.yCoord, this.zCoord, Blocks.log);
                 player.getHeldItem().stackSize--;
             } else {
                 player.inventory.addItemStackToInventory(new ItemStack(this.blockType, 1, 1));
             }
         }
         this.scheduleStrongUpdate();
+    }
+
+    public boolean setBracket(int side, EntityPlayer player) {
+        int facing = Utils.getFacingMeta(side, this.axisMeta);
+        if (facing != 0) {
+            this.hasBracket = !this.hasBracket;
+            this.facingMeta = facing;
+            if (this.hasBracket) {
+                Utils.playSound(this.worldObj, this.xCoord, this.yCoord, this.zCoord, Blocks.log);
+                player.getHeldItem().stackSize--;
+            } else {
+                player.inventory.addItemStackToInventory(new ItemStack(this.blockType, 1, 2));
+            }
+            this.updateTEState();
+            this.scheduleUpdate();
+            return true;
+        }
+        return false;
     }
 
     @Override

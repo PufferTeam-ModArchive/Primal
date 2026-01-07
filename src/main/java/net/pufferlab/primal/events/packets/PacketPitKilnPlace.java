@@ -12,8 +12,6 @@ public class PacketPitKilnPlace implements IMessage, IMessageHandler<PacketPitKi
 
     public PacketPitKilnPlace() {}
 
-    public PacketPitKilnPlace(int x, int y) {}
-
     @Override
     public void fromBytes(ByteBuf buf) {}
 

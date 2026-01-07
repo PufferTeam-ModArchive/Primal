@@ -71,8 +71,8 @@ public class TileEntityWaterwheel extends TileEntityMotion {
                 this.generatedSpeed = newSpeed;
                 this.speed = newSpeed;
                 this.updateTEState();
+                this.scheduleUpdate();
             }
-            this.scheduleUpdate();
         }
     }
 

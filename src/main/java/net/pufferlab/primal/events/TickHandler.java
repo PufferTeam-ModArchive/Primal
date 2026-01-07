@@ -9,7 +9,7 @@ import net.pufferlab.primal.client.helper.TickHolder;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 
-public class TickHandler {
+public class TickHandler implements IEventHandler {
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
@@ -37,5 +37,10 @@ public class TickHandler {
 
     protected boolean isGameActive() {
         return !(Primal.proxy.getClientWorld() == null || Primal.proxy.getClientPlayer() == null);
+    }
+
+    @Override
+    public boolean isFMLEvent() {
+        return true;
     }
 }

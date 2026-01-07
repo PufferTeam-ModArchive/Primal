@@ -25,7 +25,6 @@ public class CommonProxy implements IGuiHandler {
     public final int largeVesselContainerID = 0;
     public final int crucibleContainerID = 1;
     public final int generatorGuiID = 2;
-    private int nextPacketID;
 
     public void preInit(FMLPreInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(Primal.instance, Primal.proxy);
@@ -46,17 +45,12 @@ public class CommonProxy implements IGuiHandler {
         if (knappingType != null) {
             return new ContainerKnapping(knappingType, player.inventory);
         }
-        if (ID == largeVesselContainerID) {
-            TileEntity te = world.getTileEntity(x, y, z);
-            if (te instanceof TileEntityLargeVessel tef) {
-                return new ContainerLargeVessel(player.inventory, tef);
-            }
+        TileEntity te = world.getTileEntity(x, y, z);
+        if (ID == largeVesselContainerID && te instanceof TileEntityLargeVessel tef) {
+            return new ContainerLargeVessel(player.inventory, tef);
         }
-        if (ID == crucibleContainerID) {
-            TileEntity te = world.getTileEntity(x, y, z);
-            if (te instanceof TileEntityCrucible tef) {
-                return new ContainerCrucible(player.inventory, tef);
-            }
+        if (ID == crucibleContainerID && te instanceof TileEntityCrucible tef) {
+            return new ContainerCrucible(player.inventory, tef);
         }
         return null;
     }
@@ -83,6 +77,16 @@ public class CommonProxy implements IGuiHandler {
     }
 
     public <T extends IMessage> void sendPacketToServer(T object) {};
+
+    public void openLargeVesselGui(EntityPlayer player, World worldIn, int x, int y, int z) {
+        player.openGui(Primal.instance, largeVesselContainerID, worldIn, x, y, z);
+    }
+
+    public void openCrucibleGui(EntityPlayer player, World worldIn, int x, int y, int z) {
+        player.openGui(Primal.instance, crucibleContainerID, worldIn, x, y, z);
+    }
+
+    public void openGeneratorGui(EntityPlayer player, World worldIn, int x, int y, int z) {}
 
     public int getPitKilnRenderID() {
         return 0;
