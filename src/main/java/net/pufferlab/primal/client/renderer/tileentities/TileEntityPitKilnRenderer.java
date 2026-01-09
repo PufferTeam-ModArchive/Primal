@@ -45,7 +45,7 @@ public class TileEntityPitKilnRenderer extends TileEntityPrimalRenderer {
 
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             if (isLarge) {
-                GL11.glTranslated(xAdjust, yAdjust, zAdjust);
+                GL11.glTranslated(xAdjust, yAdjust + 0.1F, zAdjust);
             } else {
                 GL11.glTranslated(xAdjust, yAdjust + 0.0625, zAdjust - 0.0975);
                 GL11.glRotatef(90, 1.0F, 0.0F, 0.0F);

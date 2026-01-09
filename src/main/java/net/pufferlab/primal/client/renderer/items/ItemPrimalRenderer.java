@@ -1,5 +1,7 @@
 package net.pufferlab.primal.client.renderer.items;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 import net.pufferlab.primal.Utils;
@@ -56,10 +58,6 @@ public class ItemPrimalRenderer implements IItemRenderer {
     }
 
     public boolean handleRendering(ItemStack stack) {
-        return false;
-    }
-
-    public boolean isNormal() {
         return false;
     }
 
@@ -123,15 +121,10 @@ public class ItemPrimalRenderer implements IItemRenderer {
             if (Utils.contains(meta, item.getItemDamage()) || meta == null) {
                 GL11.glPushMatrix();
                 if (model != null) {
-                    baseTranslation(type);
+                    baseTranslation(type, item.getItem());
                     updateOffset(item, type);
                     if (hasOffset && shouldRenderOffset(item)) {
                         GL11.glTranslatef(offsetX, offsetY, offsetZ);
-                    }
-                }
-                if (isNormal()) {
-                    if (type == ItemRenderType.ENTITY) {
-                        GL11.glScalef(0.5F, 0.5F, 0.5F);
                     }
                 }
                 if (shouldRotateModel(item)) {
@@ -183,11 +176,19 @@ public class ItemPrimalRenderer implements IItemRenderer {
         GL11.glDisable(GL11.GL_BLEND);
     }
 
-    public void baseTranslation(ItemRenderType type) {
+    public void baseTranslation(ItemRenderType type, Item item) {
         if (type == ItemRenderType.EQUIPPED || type == ItemRenderType.EQUIPPED_FIRST_PERSON) {
             GL11.glTranslatef(0.5F, 0.0F, 0.5F);
         }
-        if (type == ItemRenderType.INVENTORY || type == ItemRenderType.ENTITY) {
+        if (type == ItemRenderType.INVENTORY) {
+            GL11.glTranslatef(0.0F, -0.5F, 0.0F);
+        }
+        if (!(item instanceof ItemBlock)) {
+            if (type == ItemRenderType.ENTITY) {
+                GL11.glScalef(0.5F, 0.5F, 0.5F);
+            }
+        }
+        if (type == ItemRenderType.ENTITY) {
             GL11.glTranslatef(0.0F, -0.5F, 0.0F);
         }
     }

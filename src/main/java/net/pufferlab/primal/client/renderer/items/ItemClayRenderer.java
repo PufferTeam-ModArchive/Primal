@@ -46,9 +46,4 @@ public class ItemClayRenderer extends ItemPrimalRenderer {
         }
         return false;
     }
-
-    @Override
-    public boolean isNormal() {
-        return true;
-    }
 }

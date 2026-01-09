@@ -27,9 +27,4 @@ public class ItemHandstoneRenderer extends ItemPrimalRenderer {
     public boolean handleRendering(ItemStack stack) {
         return true;
     }
-
-    @Override
-    public boolean isNormal() {
-        return true;
-    }
 }
