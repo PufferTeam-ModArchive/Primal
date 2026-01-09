@@ -13,6 +13,8 @@ import net.pufferlab.primal.client.utils.ModelRenderer;
 import net.pufferlab.primal.client.utils.PositionTextureVertex;
 import net.pufferlab.primal.client.utils.TexturedQuad;
 
+import org.joml.Matrix4f;
+
 public class ModelTESS {
 
     static double epsilon = 2e-5;
@@ -210,6 +212,25 @@ public class ModelTESS {
                 }
             }
         }
+    }
+
+    public Matrix4f matrix = new Matrix4f();
+
+    public void renderBlockJOML(RenderBlocks renderblocks, Tessellator tess, Block block, ModelRenderer renderer,
+        float scale, int x, int y, int z, double offsetX, double offsetY, double offsetZ, int index) {
+
+        if (renderblocks.hasOverrideBlockTexture()) {
+            return;
+        }
+        IIcon icon = block.getIcon(renderblocks.blockAccess, x, y, z, index);
+        if (index < 16) {
+            icon = block.getIcon(0, index);
+        }
+
+        matrix.identity();
+        tess.setBrightness(block.getMixedBrightnessForBlock(renderblocks.blockAccess, x, y, z));
+        int i1 = block.colorMultiplier(renderblocks.blockAccess, x, y, z);
+        renderer.renderJOML(scale, matrix, i1, x, y, z, offsetX, offsetY, offsetZ, icon);
     }
 
     public void renderFluid(RenderBlocks renderblocks, Tessellator tess, int x, int y, int z, FluidStack fs,

@@ -56,7 +56,7 @@ public class BlockOvenRenderer extends BlockPrimalRenderer {
         }
         int renderPass = ForgeHooksClient.getWorldRenderPass();
         if (renderPass == 0) {
-            modelCampfire.render(renderer, tess, block, x, y, z, -0.02F, 0.05F, -0.02F, 99);
+            modelCampfire.render(renderer, tess, block, x, y, z, -0.02F, 0.05F + 0.5F, -0.02F, 99);
             if (te instanceof TileEntityMetaFacing tef) {
                 modelOven.setFacing(tef.facingMeta);
                 modelOven.render(renderer, tess, block, x, y, z, 96);

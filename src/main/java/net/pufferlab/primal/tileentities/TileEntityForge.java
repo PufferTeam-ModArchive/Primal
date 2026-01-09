@@ -79,6 +79,10 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable {
 
         if (isFired) {
             timeFired++;
+            if (this.blockMetadata == 0) {
+                this.temperature = 0;
+                setFired(false);
+            }
         }
 
         if (timeFired > burnTime) {
@@ -117,10 +121,12 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable {
 
     @Override
     public void setFired(boolean state) {
-        if (this.isFired != state) {
-            this.isFired = state;
+        if (this.blockMetadata != 0) {
+            if (this.isFired != state) {
+                this.isFired = state;
+            }
+            this.updateTEState();
         }
-        this.updateTEState();
     }
 
     @Override

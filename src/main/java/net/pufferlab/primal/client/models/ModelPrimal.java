@@ -42,7 +42,7 @@ public abstract class ModelPrimal extends ModelBase {
     }
 
     public void render(RenderBlocks renderblocks, Tessellator tess, Block block, int x, int y, int z, int index) {
-        modelTESS.renderBlock(
+        modelTESS.renderBlockJOML(
             renderblocks,
             tess,
             block,
@@ -59,7 +59,7 @@ public abstract class ModelPrimal extends ModelBase {
 
     public void render(RenderBlocks renderblocks, Tessellator tess, Block block, int x, int y, int z, double offsetX,
         double offsetY, double offsetZ, int index) {
-        modelTESS.renderBlock(
+        modelTESS.renderBlockJOML(
             renderblocks,
             tess,
             block,
@@ -100,7 +100,7 @@ public abstract class ModelPrimal extends ModelBase {
         }
         updateFacingOffset(meta);
 
-        bb_main.rotateAngleYGlobal = (angle + add) % ((float) Math.PI * 2);
+        bb_main.rotateAngleY = (angle + add) % ((float) Math.PI * 2);
         bb_main.facingMetaGlobal = meta;
     }
 
@@ -170,13 +170,13 @@ public abstract class ModelPrimal extends ModelBase {
                 angle = (float) Math.toRadians(-180);
                 break;
             case 2:
-                angle = (float) Math.toRadians(90);
+                angle = (float) Math.toRadians(-90);
                 break;
             case 3:
                 angle = (float) Math.toRadians(0);
                 break;
             case 4:
-                angle = (float) Math.toRadians(270);
+                angle = (float) Math.toRadians(-270);
                 break;
             default:
                 angle = (float) Math.toRadians(90 * meta);
@@ -192,13 +192,13 @@ public abstract class ModelPrimal extends ModelBase {
                 angle = -180;
                 break;
             case 2:
-                angle = 90;
+                angle = -90;
                 break;
             case 3:
                 angle = 0;
                 break;
             case 4:
-                angle = 270;
+                angle = -270;
                 break;
             default:
                 angle = 90 * meta;

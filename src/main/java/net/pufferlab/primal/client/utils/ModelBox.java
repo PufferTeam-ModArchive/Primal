@@ -1,6 +1,9 @@
 package net.pufferlab.primal.client.utils;
 
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.IIcon;
+
+import org.joml.Matrix4f;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -173,6 +176,14 @@ public class ModelBox {
         for (int i = 0; i < this.quadList.length; ++i) {
             if (this.quadList[i] == null) continue;
             this.quadList[i].draw(tessellator, scale);
+        }
+    }
+
+    public void renderJOML(Tessellator tessellator, float scale, Matrix4f matrix, int color, int x, int y, int z,
+        double offsetX, double offsetY, double offsetZ, IIcon icon) {
+        for (int i = 0; i < this.quadList.length; ++i) {
+            if (this.quadList[i] == null) continue;
+            this.quadList[i].drawJOML(tessellator, scale, matrix, color, x, y, z, offsetX, offsetY, offsetZ, icon);
         }
     }
 

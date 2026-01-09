@@ -47,11 +47,11 @@ public class BlockTanningRenderer extends BlockPrimalRenderer {
             modelTanningFrame.strings.isHidden = false;
         }
         modelTanning.setFacingOffset(0.0625F, 0.0F, -0.32F);
-        modelTanningFrame.setFacingOffset(0.0F, 0.0625F, 0.45F);
+        modelTanningFrame.setFacingOffset(0.0F, 0.45F, 0.075F);
         modelTanning.setFacing(tef.facingMeta);
         modelTanningFrame.setFacing(tef.facingMeta);
-        modelTanning.render(renderer, tess, block, x, y, z, 0.0F, 0.0625F, 0.0F, 99);
-        modelTanningFrame.render(renderer, tess, block, x, y, z, 0.0F, 0.0625F, 0.0F, 99);
+        modelTanning.render(renderer, tess, block, x, y, z, 99);
+        modelTanningFrame.render(renderer, tess, block, x, y, z, 99);
 
         return true;
     }

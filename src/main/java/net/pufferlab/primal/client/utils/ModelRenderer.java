@@ -5,7 +5,9 @@ import java.util.List;
 
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.IIcon;
 
+import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
@@ -173,6 +175,32 @@ public class ModelRenderer {
         }
     }
 
+    public Matrix4f localMatrix = new Matrix4f();
+
+    public void renderJOML(float scale, Matrix4f matrix, int color, int x, int y, int z, double offsetX0,
+        double offsetY0, double offsetZ0, IIcon icon) {
+        if (this.isHidden || !this.showModel) return;
+
+        localMatrix.set(matrix);
+
+        localMatrix.translate(this.offsetX, this.offsetY, this.offsetZ);
+
+        localMatrix.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
+
+        if (this.rotateAngleZ != 0.0F) localMatrix.rotateZ(this.rotateAngleZ);
+        if (this.rotateAngleY != 0.0F) localMatrix.rotateY(this.rotateAngleY);
+        if (this.rotateAngleX != 0.0F) localMatrix.rotateX(this.rotateAngleX);
+
+        compileMatrix(scale, localMatrix, color, x, y, z, offsetX0, offsetY0, offsetZ0, icon);
+
+        if (this.childModels != null) {
+            for (Object child : this.childModels) {
+                ((ModelRenderer) child)
+                    .renderJOML(scale, localMatrix, color, x, y, z, offsetX0, offsetY0, offsetZ0, icon);
+            }
+        }
+    }
+
     @SideOnly(Side.CLIENT)
     public void renderWithRotation(float scale) {
         if (!this.isHidden) {
@@ -259,6 +287,18 @@ public class ModelRenderer {
         }
 
         GL11.glEndList();
+        this.compiled = true;
+    }
+
+    private void compileMatrix(float scale, Matrix4f matrix, int color, int x, int y, int z, double offsetX0,
+        double offsetY0, double offsetZ0, IIcon icon) {
+        Tessellator tessellator = Tessellator.instance;
+
+        for (int i = 0; i < this.cubeList.size(); ++i) {
+            ((ModelBox) this.cubeList.get(i))
+                .renderJOML(tessellator, scale, matrix, color, x, y, z, offsetX0, offsetY0, offsetZ0, icon);
+        }
+
         this.compiled = true;
     }
 

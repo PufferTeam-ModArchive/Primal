@@ -60,9 +60,9 @@ public class BlockFaucetRenderer extends BlockPrimalRenderer {
                 modelValve.setFacingOffset(0.0F, -0.1875F, -0.0625F);
                 modelFluid.setFacingOffset(0.0F, 0.0F, 0.0F);
             }
-            modelValve.bb_main.rotateAngleY = 0;
+            modelValve.valve.rotateAngleY = 0;
             if (tef.isOpen) {
-                modelValve.bb_main.rotateAngleY = (float) (Math.PI / 4);
+                modelValve.valve.rotateAngleY = (float) (Math.PI / 4);
             }
             modelFaucet.setFacing(meta);
             modelValve.setFacing(meta);

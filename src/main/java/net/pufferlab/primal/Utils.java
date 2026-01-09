@@ -532,27 +532,27 @@ public class Utils {
         if (axis == 0) {
             return switch (side) {
                 case 3 -> 1;
-                case 4 -> 2;
+                case 4 -> 4;
                 case 2 -> 3;
-                case 5 -> 4;
+                case 5 -> 2;
                 default -> 0;
             };
         }
         if (axis == 1) {
             return switch (side) {
                 case 0 -> 1;
-                case 4 -> 2;
+                case 4 -> 4;
                 case 1 -> 3;
-                case 5 -> 4;
+                case 5 -> 2;
                 default -> 0;
             };
         }
         if (axis == 2) {
             return switch (side) {
                 case 3 -> 1;
-                case 1 -> 2;
+                case 1 -> 4;
                 case 2 -> 3;
-                case 0 -> 4;
+                case 0 -> 2;
                 default -> 0;
             };
         }

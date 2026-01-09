@@ -69,12 +69,12 @@ public class BlockCampfireRenderer extends BlockPrimalRenderer {
         }
         int renderPass = ForgeHooksClient.getWorldRenderPass();
         if (renderPass == 0) {
-            modelCampfire.render(renderer, tess, block, x, y, z, 99);
+            modelCampfire.render(renderer, tess, block, x, y, z, 0.0F, 0.5F, 0.0F, 99);
             if (te instanceof TileEntityCampfire tef) {
                 if (tef.hasSpit) {
-                    modelCampfireSpit.bb_main.rotateAngleYGlobal = 0;
+                    modelCampfireSpit.bb_main.rotateAngleY = 0;
                     if (!rotated) {
-                        modelCampfireSpit.bb_main.rotateAngleYGlobal = (float) Math.PI / 2;
+                        modelCampfireSpit.bb_main.rotateAngleY = (float) Math.PI / 2;
                     }
                     modelCampfireSpit.render(renderer, tess, block, x, y, z, 97);
                 }

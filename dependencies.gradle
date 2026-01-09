@@ -34,8 +34,10 @@
  * For more details, see https://docs.gradle.org/8.0.1/userguide/java_library_plugin.html#sec:java_library_configurations_graph
  */
 dependencies {
+    shadowImplementation("org.joml:joml:1.10.8") { transitive = false } // MIT
+
     api("com.github.GTNewHorizons:NotEnoughItems:2.7.69-GTNH:dev")
-    api("com.github.GTNewHorizons:Angelica:1.0.0-beta68a:dev")
+    api("com.github.GTNewHorizons:Angelica:1.0.0-beta78-pre:dev")
     api("com.github.GTNewHorizons:GTNHLib:0.8.33:dev")
     api("com.github.GTNewHorizons:Backhand:1.8.2:dev")
     api("com.github.GTNewHorizons:WDMla:2.7.4:dev")

@@ -21,9 +21,14 @@ public class WLHeatHandler implements IWailaDataProvider {
     public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,
         IWailaConfigHandler config) {
         TileEntity te = accessor.getTileEntity();
-        if (te instanceof IHeatable) {
+        if (te instanceof IHeatable tef) {
             NBTTagCompound tag = accessor.getNBTData();
             if (tag != null) {
+                boolean isHeatProvider = tef.isHeatProvider();
+                if (isHeatProvider) {
+                    boolean isFired = tag.getBoolean("isFired");
+                    currenttip.add(Utils.getStateTooltip(isFired, "Fired", "Unfired"));
+                }
                 int temperature = tag.getInteger("temperature");
                 if (temperature > 30) {
                     currenttip.add(Utils.getTemperatureTooltip(temperature));
@@ -55,6 +60,7 @@ public class WLHeatHandler implements IWailaDataProvider {
     public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x,
         int y, int z) {
         if (te instanceof IHeatable tef) {
+            tag.setBoolean("isFired", tef.isFired());
             tag.setInteger("temperature", tef.getTemperature());
         }
         return tag;
