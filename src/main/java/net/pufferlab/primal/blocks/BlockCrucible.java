@@ -15,10 +15,10 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.items.itemblocks.ItemBlockHeatable;
 import net.pufferlab.primal.tileentities.TileEntityCrucible;
+import net.pufferlab.primal.utils.FluidUtils;
 
 public class BlockCrucible extends BlockPrimal {
 
@@ -34,7 +34,7 @@ public class BlockCrucible extends BlockPrimal {
     @Override
     public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
         float subY, float subZ) {
-        if (!Utils.isFluidContainer(player.getHeldItem())) {
+        if (!FluidUtils.isFluidContainer(player.getHeldItem())) {
             Primal.proxy.openCrucibleGui(player, worldIn, x, y, z);
         }
         return true;

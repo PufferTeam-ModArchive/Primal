@@ -15,6 +15,7 @@ import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.events.packets.PacketSwingArm;
 import net.pufferlab.primal.items.ItemBucketCeramic;
+import net.pufferlab.primal.utils.FluidUtils;
 
 import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -71,7 +72,7 @@ public class BucketHandler {
             && event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK
             && !event.entityPlayer.isSneaking()
             && event.useItem != Event.Result.DENY) {
-            if (Utils.isFluidContainer(event.entityPlayer.getCurrentEquippedItem())) {
+            if (FluidUtils.isFluidContainer(event.entityPlayer.getCurrentEquippedItem())) {
                 ItemStack itemStack = event.entityPlayer.getCurrentEquippedItem();
                 TileEntity te = event.world.getTileEntity(event.x, event.y, event.z);
                 if (te instanceof IFluidHandler tank) if (Utils.isEmptyFluidContainer(itemStack)) {
@@ -82,14 +83,14 @@ public class BucketHandler {
                         if (!event.world.isRemote) {
                             event.entityPlayer.inventory.decrStackSize(event.entityPlayer.inventory.currentItem, 1);
                             event.entityPlayer.inventory
-                                .addItemStackToInventory(Utils.getStackFromFluid(itemStack, stack));
+                                .addItemStackToInventory(FluidUtils.getStackFromFluid(itemStack, stack));
                             updatePacket(event.entityPlayer);
                             if (event.isCancelable()) event.setCanceled(true);
                         }
                     }
                 } else {
                     ItemStack item = event.entityPlayer.getCurrentEquippedItem();
-                    FluidStack fluid = Utils.getFluidFromStack(item);
+                    FluidStack fluid = FluidUtils.getFluidFromStack(item);
                     if (fluid != null && tank.canFill(ForgeDirection.getOrientation(event.face), fluid.getFluid())) {
                         if (tank.fill(ForgeDirection.getOrientation(event.face), fluid, false) == 1000) {
                             tank.fill(ForgeDirection.getOrientation(event.face), fluid, true);
@@ -102,7 +103,8 @@ public class BucketHandler {
                                     }
                                 }
                                 if (addEmpty) {
-                                    event.entityPlayer.inventory.addItemStackToInventory(Utils.getEmptyContainer(item));
+                                    event.entityPlayer.inventory
+                                        .addItemStackToInventory(FluidUtils.getEmptyContainer(item));
                                 }
                                 updatePacket(event.entityPlayer);
                                 if (event.isCancelable()) event.setCanceled(true);

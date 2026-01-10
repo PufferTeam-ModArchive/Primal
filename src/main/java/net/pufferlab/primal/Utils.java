@@ -22,8 +22,8 @@ import net.minecraftforge.fluids.*;
 import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.blocks.BlockPile;
 import net.pufferlab.primal.blocks.SoundTypePrimal;
-import net.pufferlab.primal.events.ticks.WorldTickingData;
 import net.pufferlab.primal.items.*;
+import net.pufferlab.primal.utils.FluidUtils;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -257,92 +257,6 @@ public class Utils {
             + " C";
     }
 
-    public static int getTemperatureFromNBT(NBTTagCompound nbt) {
-        if (nbt == null) return 0;
-        if (nbt.hasKey("temperature")) {
-            return nbt.getInteger("temperature");
-        }
-        return 0;
-    }
-
-    public static void setTemperatureToNBT(NBTTagCompound nbt, int temperature) {
-        if (nbt == null) return;
-        nbt.setInteger("temperature", temperature);
-    }
-
-    public static int getMaxTemperatureFromNBT(NBTTagCompound nbt) {
-        if (nbt == null) return 0;
-        if (nbt.hasKey("maxTemperature")) {
-            return nbt.getInteger("maxTemperature");
-        }
-        return 0;
-    }
-
-    public static void setMaxTemperatureToNBT(NBTTagCompound nbt, int temperature) {
-        if (nbt == null) return;
-        nbt.setInteger("maxTemperature", temperature);
-    }
-
-    public static long getWorldTimeFromNBT(NBTTagCompound nbt) {
-        if (nbt == null) return 0;
-        if (nbt.hasKey("worldTime")) {
-            return nbt.getLong("worldTime");
-        }
-        return 0;
-    }
-
-    public static void setWorldTimeToNBT(NBTTagCompound nbt, long worldTime) {
-        if (nbt == null) return;
-        nbt.setLong("worldTime", worldTime);
-    }
-
-    public static float getMultiplierFromNBT(NBTTagCompound nbt) {
-        if (nbt == null) return 0.0F;
-        if (nbt.hasKey("multiplier")) {
-            return nbt.getFloat("multiplier");
-        }
-        return 0.0F;
-    }
-
-    public static void setMultiplierToNBT(NBTTagCompound nbt, float multiplier) {
-        if (nbt == null) return;
-        nbt.setFloat("multiplier", multiplier);
-    }
-
-    public static void setInterpolatedTemperatureToNBT(NBTTagCompound tag, World world, float multiplier,
-        int maxTemperature) {
-        Utils.setMaxTemperatureToNBT(tag, maxTemperature);
-        Utils.setTemperatureToNBT(tag, Utils.getInterpolatedTemperature(WorldTickingData.getTickTime(world), tag));
-        Utils.setWorldTimeToNBT(tag, WorldTickingData.getTickTime(world));
-        Utils.setMultiplierToNBT(tag, multiplier);
-    }
-
-    public static void getInterpolatedTemperatureFromNBT(NBTTagCompound tag) {
-        Utils.getMaxTemperatureFromNBT(tag);
-        Utils.getTemperatureFromNBT(tag);
-        Utils.getWorldTimeFromNBT(tag);
-        Utils.getMultiplierFromNBT(tag);
-    }
-
-    public static int getInterpolatedTemperature(long currentTime, NBTTagCompound tag) {
-        if (tag != null) {
-            long worldTime = Utils.getWorldTimeFromNBT(tag);
-            int timePassed = toInt(currentTime - worldTime);
-            int lastTemperature = Utils.getTemperatureFromNBT(tag);
-            float multiplier = getMultiplierFromNBT(tag);
-            int newTemperature = (int) (lastTemperature + ((timePassed / 10) * multiplier));
-            int maxTemperature = Utils.getMaxTemperatureFromNBT(tag);
-            if (newTemperature < 0) {
-                return 0;
-            }
-            if (newTemperature > maxTemperature) {
-                return maxTemperature;
-            }
-            return newTemperature;
-        }
-        return 0;
-    }
-
     public static NBTTagCompound getOrCreateTagCompound(ItemStack item) {
         NBTTagCompound tag = item.getTagCompound();
         if (tag == null) {
@@ -357,117 +271,6 @@ public class Utils {
             return Integer.MAX_VALUE;
         }
         return (int) value;
-    }
-
-    public static String getFluidInfoFromNBT(NBTTagCompound nbt) {
-        if (nbt.hasKey("Tank")) {
-            NBTTagCompound tank = nbt.getCompoundTag("Tank");
-            if (!tank.hasKey("Empty")) {
-                FluidStack fluid = FluidStack.loadFluidStackFromNBT(tank);
-                return fluid.getLocalizedName() + " " + fluid.amount + " mB";
-            }
-        }
-        return null;
-    }
-
-    public static String getFluidInfoOutputFromNBT(NBTTagCompound nbt) {
-        if (nbt.hasKey("TankOutput")) {
-            NBTTagCompound tank = nbt.getCompoundTag("TankOutput");
-            if (!tank.hasKey("Empty")) {
-                FluidStack fluid = FluidStack.loadFluidStackFromNBT(tank);
-                return fluid.getLocalizedName() + " " + fluid.amount + " mB";
-            }
-        }
-        return null;
-    }
-
-    public static FluidStack getFluidFromStack(ItemStack stack) {
-        if (stack == null) return null;
-        ItemStack stack2 = stack.copy();
-        stack2.stackSize = 1;
-
-        if (stack2.getItem() instanceof IFluidContainerItem item) {
-            return item.getFluid(stack2);
-        }
-
-        return FluidContainerRegistry.getFluidForFilledItem(stack2);
-    }
-
-    public static ItemStack getStackFromFluid(ItemStack emptyContainer, FluidStack fluid) {
-        if (emptyContainer == null || fluid == null) return null;
-
-        if (emptyContainer.getItem() instanceof IFluidContainerItem) {
-            ItemStack filled = emptyContainer.copy();
-            IFluidContainerItem item = (IFluidContainerItem) filled.getItem();
-
-            int filledAmount = item.fill(filled, fluid, true);
-            if (filledAmount > 0) {
-                filled.stackSize = 1;
-                return filled;
-            }
-
-            return null;
-        }
-
-        ItemStack stack = FluidContainerRegistry.fillFluidContainer(fluid, emptyContainer);
-        stack.stackSize = 1;
-        return stack;
-    }
-
-    public static ItemStack getEmptyContainer(ItemStack filled) {
-        if (filled == null) return null;
-
-        if (Primal.BOPLoaded) {
-            ItemStack bopEmptyBucket = getItem("BiomesOPlenty:bopBucket:*:1");
-            ItemStack emptyBucket = getItem("minecraft:bucket:0:1");
-            if (Utils.equalsStack(filled, bopEmptyBucket)) {
-                return emptyBucket.copy();
-            }
-        }
-
-        if (Primal.WGLoaded) {
-            ItemStack capsule = getItem("WitchingGadgets:item.WG_CrystalFlask:*:1");
-            if (Utils.equalsStack(filled, capsule)) {
-                capsule.stackTagCompound = null;
-                capsule.setItemDamage(0);
-                capsule.stackSize = 1;
-                return capsule;
-            }
-        }
-
-        if (filled.getItem() instanceof IFluidContainerItem) {
-            ItemStack copy = filled.copy();
-            IFluidContainerItem item = (IFluidContainerItem) copy.getItem();
-            item.drain(copy, Integer.MAX_VALUE, true);
-            copy.stackSize = 1;
-            return copy;
-        }
-
-        ItemStack drained = FluidContainerRegistry.drainFluidContainer(filled);
-        if (drained != null) {
-            drained.stackSize = 1;
-            return drained;
-        }
-
-        return null;
-    }
-
-    public static boolean isFluidContainer(ItemStack stack) {
-        if (stack == null) return false;
-
-        if (stack.getItem() instanceof IFluidContainerItem) {
-            return true;
-        }
-
-        if (FluidContainerRegistry.isFilledContainer(stack)) {
-            return true;
-        }
-
-        if (FluidContainerRegistry.isEmptyContainer(stack)) {
-            return true;
-        }
-
-        return false;
     }
 
     public static boolean isEmptyFluidContainer(ItemStack stack) {
@@ -689,7 +492,7 @@ public class Utils {
             return false;
         }
 
-        FluidStack stack = getFluidFromStack(check);
+        FluidStack stack = FluidUtils.getFluidFromStack(check);
         if (stack == null) {
             return false;
         }

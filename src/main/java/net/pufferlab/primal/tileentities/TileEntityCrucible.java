@@ -4,6 +4,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.pufferlab.primal.items.IHeatableItem;
+import net.pufferlab.primal.utils.TemperatureUtils;
 
 public class TileEntityCrucible extends TileEntityFluidInventory implements IHeatable {
 
@@ -29,9 +30,6 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
         this.timeHeat = tag.getInteger("timeHeat");
         this.lastLevel = tag.getInteger("lastLevel");
         this.isHeating = tag.getBoolean("isHeating");
-
-        this.temperature = tag.getInteger("temperature");
-        this.maxTemperature = tag.getInteger("maxTemperature");
     }
 
     @Override
@@ -40,21 +38,18 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
         tag.setInteger("timeHeat", this.timeHeat);
         tag.setInteger("lastLevel", this.lastLevel);
         tag.setBoolean("isHeating", this.isHeating);
-
-        tag.setInteger("temperature", this.temperature);
-        tag.setInteger("maxTemperature", this.maxTemperature);
     }
 
     @Override
     public void readFromNBTInventory(NBTTagCompound tag) {
         super.readFromNBTInventory(tag);
-        this.temperature = tag.getInteger("temperature");
+        this.temperature = TemperatureUtils.getTemperatureFromNBT(tag);
     }
 
     @Override
     public void writeToNBTInventory(NBTTagCompound tag) {
         super.writeToNBTInventory(tag);
-        tag.setInteger("temperature", this.temperature);
+        TemperatureUtils.setTemperatureToNBT(tag, this.temperature);
     }
 
     @Override
@@ -62,15 +57,19 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
         TileEntity teBelow = this.worldObj.getTileEntity(this.xCoord, this.yCoord - 1, this.zCoord);
         if (teBelow instanceof IHeatable tef) {
             if (tef.isHeatProvider()) {
-                this.maxTemperature = tef.getTemperature();
+                this.maxTemperature = tef.getMaxTemperature();
                 if (tef.getTemperature() > this.temperature) {
                     if (tef.isFired()) {
                         this.timeHeat++;
                     } else {
                         this.timeHeat--;
                     }
+                    this.isHeating = tef.isFired();
+                } else {
+                    if (this.temperature > 0) {
+                        this.timeHeat--;
+                    }
                 }
-                this.isHeating = tef.isFired();
             }
         } else {
             if (this.temperature > 0) {

@@ -6,6 +6,7 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.events.packets.PacketWorldTime;
 import net.pufferlab.primal.events.ticks.ClientTickHolder;
+import net.pufferlab.primal.events.ticks.TickScheduler;
 import net.pufferlab.primal.events.ticks.WorldTickingData;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -31,6 +32,7 @@ public class TickHandler implements IEventHandler {
             if (timer++ > 3) {
                 syncTime(event.world);
             }
+            TickScheduler.tickTasks(WorldTickingData.getTickTime(event.world), event.world);
         }
     }
 

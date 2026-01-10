@@ -21,6 +21,7 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.TileEntityCast;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
+import net.pufferlab.primal.utils.FluidUtils;
 
 public class BlockCast extends BlockPrimal {
 
@@ -40,7 +41,7 @@ public class BlockCast extends BlockPrimal {
         TileEntity te = worldIn.getTileEntity(x, y, z);
         ItemStack heldItem = player.getHeldItem();
         if (te instanceof TileEntityCast tef) {
-            if (Utils.isFluidContainer(heldItem)) {
+            if (FluidUtils.isFluidContainer(heldItem)) {
                 return true;
             } else {
                 return addOrRemoveItem(worldIn, x, y, z, player, tef, 0, heldItem);

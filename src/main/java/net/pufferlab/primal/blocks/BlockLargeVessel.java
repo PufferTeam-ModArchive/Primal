@@ -16,9 +16,9 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityLargeVessel;
+import net.pufferlab.primal.utils.FluidUtils;
 
 public class BlockLargeVessel extends BlockPrimal {
 
@@ -39,7 +39,7 @@ public class BlockLargeVessel extends BlockPrimal {
             if (player.isSneaking()) {
                 tef.setOpen(!tef.isOpen);
             } else {
-                if (!Utils.isFluidContainer(player.getHeldItem())) {
+                if (!FluidUtils.isFluidContainer(player.getHeldItem())) {
                     Primal.proxy.openLargeVesselGui(player, worldIn, x, y, z);
                 }
             }

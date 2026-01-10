@@ -3,6 +3,7 @@ package net.pufferlab.primal.tileentities;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.TemperatureUtils;
 
 public class TileEntityForge extends TileEntityInventory implements IHeatable {
 
@@ -22,7 +23,7 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable {
         this.timeFired = tag.getInteger("timeFired");
         this.timeHeat = tag.getInteger("timeHeat");
         this.timeUpdate = tag.getInteger("timeUpdate");
-        this.temperature = tag.getInteger("temperature");
+        this.temperature = TemperatureUtils.getTemperatureFromNBT(tag);
         this.lastLevel = tag.getInteger("lastLevel");
     }
 
@@ -32,20 +33,20 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable {
         tag.setInteger("timeFired", this.timeFired);
         tag.setInteger("timeHeat", this.timeHeat);
         tag.setInteger("timeUpdate", this.timeUpdate);
-        tag.setInteger("temperature", this.temperature);
+        TemperatureUtils.setTemperatureToNBT(tag, this.temperature);
         tag.setInteger("lastLevel", this.lastLevel);
     }
 
     @Override
     public void readFromNBTPacket(NBTTagCompound tag) {
         super.readFromNBTPacket(tag);
-        this.temperature = tag.getInteger("temperature");
+        this.temperature = TemperatureUtils.getTemperatureFromNBT(tag);
     }
 
     @Override
     public void writeToNBTPacket(NBTTagCompound tag) {
         super.writeToNBTPacket(tag);
-        tag.setInteger("temperature", this.temperature);
+        TemperatureUtils.setTemperatureToNBT(tag, this.temperature);
     }
 
     public int burnTime = 60 * 20;
@@ -121,12 +122,10 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable {
 
     @Override
     public void setFired(boolean state) {
-        if (this.blockMetadata != 0) {
-            if (this.isFired != state) {
-                this.isFired = state;
-            }
-            this.updateTEState();
+        if (this.isFired != state) {
+            this.isFired = state;
         }
+        this.updateTEState();
     }
 
     @Override

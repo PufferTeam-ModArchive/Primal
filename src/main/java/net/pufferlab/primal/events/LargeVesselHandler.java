@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.FluidUtils;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -19,7 +20,7 @@ public class LargeVesselHandler {
             if (event.itemStack.hasTagCompound()) {
                 List<String> tooltips = Utils.getItemStackNameListFromNBT(event.itemStack.getTagCompound());
                 event.toolTip.addAll(tooltips);
-                String tooltip = Utils.getFluidInfoFromNBT(event.itemStack.getTagCompound());
+                String tooltip = FluidUtils.getFluidInfoFromNBT(event.itemStack.getTagCompound());
                 if (tooltip != null) {
                     event.toolTip.add(tooltip);
                 }
