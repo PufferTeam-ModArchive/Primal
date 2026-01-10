@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.blocks.SoundTypePrimal;
 
-public abstract class TileEntityPrimal extends TileEntity {
+public abstract class TileEntityPrimal extends TileEntity implements ITile {
 
     @Override
     public Packet getDescriptionPacket() {
@@ -48,5 +48,25 @@ public abstract class TileEntityPrimal extends TileEntity {
         int y = this.yCoord;
         int z = this.zCoord;
         Utils.playSound(world, x, y, z, stepSound);
+    }
+
+    @Override
+    public int getX() {
+        return this.xCoord;
+    }
+
+    @Override
+    public int getY() {
+        return this.yCoord;
+    }
+
+    @Override
+    public int getZ() {
+        return this.zCoord;
+    }
+
+    @Override
+    public World getWorld() {
+        return getWorldObj();
     }
 }

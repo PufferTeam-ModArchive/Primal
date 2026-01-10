@@ -119,6 +119,7 @@ public class ClientProxy extends CommonProxy {
         register(Registry.generator, new ItemGeneratorRenderer());
         register(Registry.waterwheel, new ItemWaterwheelRenderer());
         register(Registry.windmill, new ItemWindmillRenderer());
+        register(Registry.ingot, new ItemHeatableRenderer());
     }
 
     public int getNextId() {

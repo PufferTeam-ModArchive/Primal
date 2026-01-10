@@ -1,12 +1,15 @@
 package net.pufferlab.primal.items;
 
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.Primal;
 
-public class ItemMetaHeatable extends ItemMeta {
+public class ItemMetaHeatable extends ItemMeta implements IHeatableItem {
+
+    public IIcon[] heatOverlay;
 
     public ItemMetaHeatable(String[] materials, String type) {
         super(materials, type);
@@ -14,15 +17,24 @@ public class ItemMetaHeatable extends ItemMeta {
 
     @Override
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int p_77663_4_, boolean p_77663_5_) {
-        NBTTagCompound tag = stack.getTagCompound();
-        Utils.setTimePassedToNBT(tag, Utils.getTimePassedFromNBT(tag) + 1);
-        if (Utils.getTimePassedFromNBT(tag) > 3) {
-            Utils.setTimePassedToNBT(tag, 0);
-            int temperature = Utils.getTemperatureFromNBT(tag) - 1;
-            if (temperature < 0) {
-                temperature = 0;
-            }
-            Utils.setTemperatureToNBT(tag, temperature);
+        super.onUpdate(stack, worldIn, entityIn, p_77663_4_, p_77663_5_);
+
+        onUpdateHeat(stack, worldIn);
+    }
+
+    @Override
+    public void registerIcons(IIconRegister register) {
+        super.registerIcons(register);
+
+        heatOverlay = new IIcon[1];
+        heatOverlay[0] = register.registerIcon(Primal.MODID + ":" + getElementName() + "_overlay");
+    }
+
+    @Override
+    public IIcon getIconFromDamageForRenderPass(int meta, int pass) {
+        if (pass == 1) {
+            return heatOverlay[0];
         }
+        return super.getIconFromDamage(meta);
     }
 }

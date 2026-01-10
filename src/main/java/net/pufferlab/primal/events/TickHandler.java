@@ -4,7 +4,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.client.helper.TickHolder;
+import net.pufferlab.primal.events.packets.PacketWorldTime;
+import net.pufferlab.primal.events.ticks.ClientTickHolder;
+import net.pufferlab.primal.events.ticks.WorldTickingData;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -14,7 +16,22 @@ public class TickHandler implements IEventHandler {
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
         if (!isGameActive()) return;
-        TickHolder.tick();
+        ClientTickHolder.tick();
+    }
+
+    public int timer;
+
+    @SubscribeEvent
+    public void onTick(TickEvent.WorldTickEvent event) {
+        if (event.phase == TickEvent.Phase.END) {
+            if (!event.world.isRemote) {
+                WorldTickingData.tick(event.world);
+                timer++;
+            }
+            if (timer++ > 3) {
+                syncTime(event.world);
+            }
+        }
     }
 
     @SubscribeEvent
@@ -22,21 +39,31 @@ public class TickHandler implements IEventHandler {
 
     @SubscribeEvent
     public void onLoadWorld(WorldEvent.Load event) {
-        World world = event.world;
-        if (world.isRemote) {
-            TickHolder.reset();
+        if (event.world.isRemote) {
+            ClientTickHolder.reset();
         }
     }
 
     @SubscribeEvent
     public void onUnloadWorld(WorldEvent.Unload event) {
         if (event.world.isRemote) {
-            TickHolder.reset();
+            ClientTickHolder.reset();
         }
     }
 
     protected boolean isGameActive() {
         return !(Primal.proxy.getClientWorld() == null || Primal.proxy.getClientPlayer() == null);
+    }
+
+    public void syncTime(World world) {
+        long tickTime = WorldTickingData.getTickTime(world);
+        updatePacket(world, tickTime);
+    }
+
+    public void updatePacket(World world, long tickTime) {
+        if (!world.isRemote) {
+            Primal.proxy.sendPacketToClient(new PacketWorldTime(tickTime));
+        }
     }
 
     @Override

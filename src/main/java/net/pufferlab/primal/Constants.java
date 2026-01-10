@@ -11,14 +11,14 @@ public class Constants {
     public static final String[] none = new String[] { "none" };
     public static final float modelConst = 0.0625F;
     public static final String[] rockTypes = new String[] { "stone" };
+    public static final String[] woodTypes = new String[] { "oak", "spruce", "birch", "jungle", "acacia", "dark_oak" };
+    public static final String[] metalTypes = new String[] { "iron", "gold", "copper", "tin", "bronze" };
     public static final String[] rockTextures = new String[] { "minecraft:stone" };
     public static final String[] chimneyTypes = new String[] { "brick" };
     public static final String[] chimneyTextures = new String[] { "minecraft:brick" };
-    public static final String[] gearItems = new String[] { "gear" };
     public static final String[] strawItems = new String[] { "straw", "straw_cordage", "straw_kindling" };
     public static final String[] hideItems = new String[] { "hide", "soaked_hide", "scraped_hide" };
     public static final String[] woodItems = new String[] { "firewood", "ash" };
-    public static final String[] barkItems = new String[] { "oak", "spruce", "birch", "jungle", "acacia", "dark_oak" };
     public static final String[] powderItems = new String[] { "lime" };
     public static final String[] flintItems = new String[] { "flint_shard", "flint_axe_head", "flint_pickaxe_head",
         "flint_shovel_head", "flint_knife_blade" };

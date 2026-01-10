@@ -18,6 +18,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
     private int[] outputSlots;
     private int maxSize;
     public boolean isFired;
+    public boolean needsInventoryUpdate;
 
     public TileEntityInventory(int slots) {
         this.inventory = new ItemStack[slots];
@@ -41,6 +42,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         super.readFromNBT(compound);
 
         this.isFired = compound.getBoolean("isFired");
+        this.needsInventoryUpdate = compound.getBoolean("needsInventoryUpdate");
 
         this.readFromNBTInventory(compound);
     }
@@ -60,6 +62,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         super.writeToNBT(compound);
 
         compound.setBoolean("isFired", this.isFired);
+        compound.setBoolean("needsInventoryUpdate", this.needsInventoryUpdate);
 
         this.writeToNBTInventory(compound);
     }
@@ -83,6 +86,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         super.writeToNBTPacket(tag);
         this.writeToNBTInventory(tag);
         tag.setBoolean("isFired", this.isFired);
+        tag.setBoolean("needsInventoryUpdate", this.needsInventoryUpdate);
     }
 
     @Override
@@ -117,6 +121,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
                 itemstack = this.inventory[index];
                 this.inventory[index] = null;
                 this.markDirty();
+                onItemRemoved(itemstack);
                 return itemstack;
             } else {
                 itemstack = this.inventory[index].splitStack(count);
@@ -126,12 +131,15 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
                 }
 
                 this.markDirty();
+                onItemRemoved(itemstack);
                 return itemstack;
             }
         } else {
             return null;
         }
     }
+
+    public void onItemRemoved(ItemStack stack) {};
 
     @Override
     public ItemStack getStackInSlotOnClosing(int index) {
@@ -152,6 +160,11 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
             stack.stackSize = this.getInventoryStackLimit();
         }
         this.updateTEState();
+        this.scheduleInventoryUpdate();
+    }
+
+    public void scheduleInventoryUpdate() {
+        this.needsInventoryUpdate = true;
     }
 
     public void setInventorySlotContentsUpdate(int index, ItemStack stack) {

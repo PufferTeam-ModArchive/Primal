@@ -78,6 +78,7 @@ public class Registry {
     public static final Item mold;
     public static final Item clay;
     public static final Item ceramic_bucket;
+    public static final Item ingot;
     public static final Item flint_axe;
     public static final Item flint_pickaxe;
     public static final Item flint_shovel;
@@ -121,13 +122,15 @@ public class Registry {
         straw = new ItemMeta(Constants.strawItems, "straw");
         hide = new ItemMeta(Constants.hideItems, "hide");
         wood = new ItemMeta(Constants.woodItems, "wood");
-        bark = new ItemMeta(Constants.barkItems, "bark").setHasSuffix();
+        bark = new ItemMeta(Constants.woodTypes, "bark").setHasSuffix();
         flint = new ItemMeta(Constants.flintItems, "flint");
         rock = new ItemMeta(Constants.rockTypes, "rock").setHasSuffix();
         powder = new ItemMeta(Constants.powderItems, "powder");
         mold = new ItemMeta(Constants.moldItems, "mold");
         clay = new ItemMeta(Constants.clayItems, "clay");
         ((BlockGroundcover) ground_rock).setItem(rock);
+
+        ingot = new ItemMetaHeatable(Constants.metalTypes, "ingot").setHasSuffix();
 
         dough = new ItemMetaFood(Constants.doughItems, "dough");
         flour = new ItemMetaFood(Constants.flourItems, "flour");
@@ -181,6 +184,9 @@ public class Registry {
         register(flint, "flint");
         register(mold, "mold");
         register(clay, "clay");
+
+        register(ingot, "ingot");
+
         register(flint_axe, "flint_axe");
         register(flint_pickaxe, "flint_pickaxe");
         register(flint_shovel, "flint_shovel");
@@ -244,6 +250,7 @@ public class Registry {
         registerPacket(PacketSwingArm.class, Side.CLIENT);
         registerPacket(PacketFireStarter.class, Side.CLIENT);
         registerPacket(PacketSpeedUpdate.class, Side.CLIENT);
+        registerPacket(PacketWorldTime.class, Side.CLIENT);
     }
 
     public void setupEvents() {
@@ -332,7 +339,6 @@ public class Registry {
                 FMLCommonHandler.instance()
                     .bus()
                     .register(event);
-                return;
             }
         }
         MinecraftForge.EVENT_BUS.register(event);

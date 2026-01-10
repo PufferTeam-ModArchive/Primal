@@ -1,7 +1,6 @@
 package net.pufferlab.primal.tileentities;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.events.packets.PacketSpeedUpdate;
@@ -94,26 +93,6 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
     @Override
     public float getSpeedModifier() {
         return this.speedModifier;
-    }
-
-    @Override
-    public int getX() {
-        return this.xCoord;
-    }
-
-    @Override
-    public int getY() {
-        return this.yCoord;
-    }
-
-    @Override
-    public int getZ() {
-        return this.zCoord;
-    }
-
-    @Override
-    public World getWorld() {
-        return getWorldObj();
     }
 
     @Override

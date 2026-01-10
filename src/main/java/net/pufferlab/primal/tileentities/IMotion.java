@@ -1,8 +1,6 @@
 package net.pufferlab.primal.tileentities;
 
-import net.minecraft.world.World;
-
-public interface IMotion {
+public interface IMotion extends ITile {
 
     public boolean hasConnection(int side);
 
@@ -31,14 +29,6 @@ public interface IMotion {
     public void scheduleRemoval();
 
     public float getGeneratedSpeed();
-
-    public World getWorld();
-
-    public int getX();
-
-    public int getY();
-
-    public int getZ();
 
     public void sendClientUpdate();
 

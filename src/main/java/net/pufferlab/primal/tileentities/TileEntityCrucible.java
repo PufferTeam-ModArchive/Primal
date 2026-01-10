@@ -1,13 +1,18 @@
 package net.pufferlab.primal.tileentities;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.pufferlab.primal.items.IHeatableItem;
 
 public class TileEntityCrucible extends TileEntityFluidInventory implements IHeatable {
 
-    public int temperature;
     public int timeHeat;
     public int lastLevel;
+    public boolean isHeating;
+
+    public int temperature;
+    public int maxTemperature;
 
     public TileEntityCrucible() {
         super(3000, 5);
@@ -23,6 +28,10 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
         super.readFromNBT(tag);
         this.timeHeat = tag.getInteger("timeHeat");
         this.lastLevel = tag.getInteger("lastLevel");
+        this.isHeating = tag.getBoolean("isHeating");
+
+        this.temperature = tag.getInteger("temperature");
+        this.maxTemperature = tag.getInteger("maxTemperature");
     }
 
     @Override
@@ -30,6 +39,10 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
         super.writeToNBT(tag);
         tag.setInteger("timeHeat", this.timeHeat);
         tag.setInteger("lastLevel", this.lastLevel);
+        tag.setBoolean("isHeating", this.isHeating);
+
+        tag.setInteger("temperature", this.temperature);
+        tag.setInteger("maxTemperature", this.maxTemperature);
     }
 
     @Override
@@ -49,6 +62,7 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
         TileEntity teBelow = this.worldObj.getTileEntity(this.xCoord, this.yCoord - 1, this.zCoord);
         if (teBelow instanceof IHeatable tef) {
             if (tef.isHeatProvider()) {
+                this.maxTemperature = tef.getTemperature();
                 if (tef.getTemperature() > this.temperature) {
                     if (tef.isFired()) {
                         this.timeHeat++;
@@ -56,11 +70,13 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
                         this.timeHeat--;
                     }
                 }
+                this.isHeating = tef.isFired();
             }
         } else {
             if (this.temperature > 0) {
                 this.timeHeat--;
             }
+            this.isHeating = false;
         }
 
         if (timeHeat > 3) {
@@ -70,6 +86,35 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
         if (timeHeat < -3) {
             timeHeat = 0;
             this.temperature--;
+        }
+
+        if (this.needsInventoryUpdate) {
+            this.needsInventoryUpdate = false;
+            float modifier = 1.0F;
+            if (!this.isHeating) {
+                modifier = -1.0F;
+            }
+            updateHeatInventory(modifier, this.maxTemperature);
+        }
+    }
+
+    @Override
+    public void onItemRemoved(ItemStack stack) {
+        if (stack != null) {
+            if (stack.getItem() instanceof IHeatableItem item) {
+                item.updateHeat(stack, this.getWorld(), -1.0F, this.maxTemperature);
+            }
+        }
+    }
+
+    public void updateHeatInventory(float modifier, int maxTemperature) {
+        for (int i = 0; i < getSizeInventory(); i++) {
+            ItemStack stack = getInventoryStack(i);
+            if (stack != null) {
+                if (stack.getItem() instanceof IHeatableItem item) {
+                    item.updateHeat(stack, this.getWorld(), modifier, maxTemperature);
+                }
+            }
         }
     }
 
@@ -99,5 +144,10 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     @Override
     public boolean isHeatProvider() {
         return false;
+    }
+
+    @Override
+    public int getInventoryStackLimit() {
+        return 1;
     }
 }

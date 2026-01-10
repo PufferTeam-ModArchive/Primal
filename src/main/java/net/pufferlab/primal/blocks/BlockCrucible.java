@@ -16,6 +16,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.items.itemblocks.ItemBlockHeatable;
 import net.pufferlab.primal.tileentities.TileEntityCrucible;
 
@@ -66,6 +67,7 @@ public class BlockCrucible extends BlockPrimal {
             TileEntity te = worldIn.getTileEntity(x, y, z);
             if (te instanceof TileEntityCrucible tef) {
                 tef.readFromNBTInventory(tagCompound);
+                tef.scheduleInventoryUpdate();
             }
         }
     }
@@ -76,8 +78,12 @@ public class BlockCrucible extends BlockPrimal {
         NBTTagCompound tagCompound = new NBTTagCompound();
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityCrucible tef) {
+            tef.updateHeatInventory(-1.0F, tef.maxTemperature);
             tef.writeToNBTInventory(tagCompound);
             item.setTagCompound(tagCompound);
+            if (item.getItem() instanceof IHeatableItem item2) {
+                item2.updateHeat(item, worldIn, -1.0F, tef.maxTemperature);
+            }
         }
         dropItemStack(worldIn, x, y, z, item);
     }

@@ -1,8 +1,8 @@
-package net.pufferlab.primal.client.helper;
+package net.pufferlab.primal.events.ticks;
 
 import net.minecraft.client.Minecraft;
 
-public class TickHolder {
+public class ClientTickHolder {
 
     private static int ticks;
     private static int paused_ticks;

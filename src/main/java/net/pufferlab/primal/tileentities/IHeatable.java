@@ -1,6 +1,6 @@
 package net.pufferlab.primal.tileentities;
 
-public interface IHeatable {
+public interface IHeatable extends ITile {
 
     public boolean canBeFired();
 

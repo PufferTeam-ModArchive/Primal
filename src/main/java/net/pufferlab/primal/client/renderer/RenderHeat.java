@@ -1,5 +1,10 @@
 package net.pufferlab.primal.client.renderer;
 
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
+import net.minecraftforge.client.IItemRenderer;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.client.models.ModelPrimal;
 
@@ -50,11 +55,11 @@ public class RenderHeat {
 
         GL11.glColor4f(1f, 1f, 1f, 1f);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glEnable(GL11.GL_ALPHA_TEST);
+        GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
         model.render();
 
-        GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
         GL11.glDisable(GL11.GL_LIGHTING);
-
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
         GL11.glDepthMask(false);
@@ -64,9 +69,71 @@ public class RenderHeat {
         model.setOverlay(false);
         GL11.glDepthMask(true);
         GL11.glDisable(GL11.GL_BLEND);
-
-        GL11.glPopAttrib();
+        GL11.glEnable(GL11.GL_LIGHTING);
 
         GL11.glColor4f(1f, 1f, 1f, 1f);
+    }
+
+    public void renderHeat(ItemStack stack, int temperature, IItemRenderer.ItemRenderType type) {
+        int meta = stack.getItemDamage();
+        IIcon iicon = stack.getItem()
+            .getIconFromDamageForRenderPass(meta, 0);
+        IIcon iiconMask = stack.getItem()
+            .getIconFromDamageForRenderPass(meta, 1);
+        Tessellator tess = Tessellator.instance;
+
+        if (type == IItemRenderer.ItemRenderType.INVENTORY) {
+            GL11.glScalef(16.0F, 16.0F, 16.0F);
+            GL11.glRotatef(180, 0.0F, 0.0F, 1.0F);
+            GL11.glTranslatef(-1.0F, -1.0F, 0.0F);
+        }
+        if (type == IItemRenderer.ItemRenderType.ENTITY) {
+            GL11.glTranslatef(-0.5F, -0.3F, 0.0F);
+        }
+
+        int color = getHeatingColor(temperature);
+        float intensity = getIntensity(temperature);
+        float r = Utils.getR(color);
+        float g = Utils.getG(color);
+        float b = Utils.getB(color);
+
+        GL11.glPushMatrix();
+        GL11.glColor4f(1f, 1f, 1f, 1f);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glDisable(GL11.GL_CULL_FACE);
+        GL11.glEnable(GL11.GL_ALPHA_TEST);
+        GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+        GL11.glDisable(GL11.GL_LIGHTING);
+        ItemRenderer.renderItemIn2D(
+            tess,
+            iicon.getMaxU(),
+            iicon.getMinV(),
+            iicon.getMinU(),
+            iicon.getMaxV(),
+            iicon.getIconWidth(),
+            iicon.getIconHeight(),
+            0.0625F);
+
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+        GL11.glColor4f(r, g, b, intensity);
+        GL11.glDepthMask(false);
+        ItemRenderer.renderItemIn2D(
+            tess,
+            iiconMask.getMaxU(),
+            iiconMask.getMinV(),
+            iiconMask.getMinU(),
+            iiconMask.getMaxV(),
+            iiconMask.getIconWidth(),
+            iiconMask.getIconHeight(),
+            0.0625F);
+        GL11.glDepthMask(true);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL11.GL_CULL_FACE);
+
+        GL11.glColor4f(1f, 1f, 1f, 1f);
+
+        GL11.glPopMatrix();
     }
 }

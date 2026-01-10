@@ -22,6 +22,7 @@ import net.minecraftforge.fluids.*;
 import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.blocks.BlockPile;
 import net.pufferlab.primal.blocks.SoundTypePrimal;
+import net.pufferlab.primal.events.ticks.WorldTickingData;
 import net.pufferlab.primal.items.*;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -256,19 +257,6 @@ public class Utils {
             + " C";
     }
 
-    public static int getTimePassedFromNBT(NBTTagCompound nbt) {
-        if (nbt == null) return 0;
-        if (nbt.hasKey("timePassed")) {
-            return nbt.getInteger("timePassed");
-        }
-        return 0;
-    }
-
-    public static void setTimePassedToNBT(NBTTagCompound nbt, int timePassed) {
-        if (nbt == null) return;
-        nbt.setInteger("timePassed", timePassed);
-    }
-
     public static int getTemperatureFromNBT(NBTTagCompound nbt) {
         if (nbt == null) return 0;
         if (nbt.hasKey("temperature")) {
@@ -280,6 +268,95 @@ public class Utils {
     public static void setTemperatureToNBT(NBTTagCompound nbt, int temperature) {
         if (nbt == null) return;
         nbt.setInteger("temperature", temperature);
+    }
+
+    public static int getMaxTemperatureFromNBT(NBTTagCompound nbt) {
+        if (nbt == null) return 0;
+        if (nbt.hasKey("maxTemperature")) {
+            return nbt.getInteger("maxTemperature");
+        }
+        return 0;
+    }
+
+    public static void setMaxTemperatureToNBT(NBTTagCompound nbt, int temperature) {
+        if (nbt == null) return;
+        nbt.setInteger("maxTemperature", temperature);
+    }
+
+    public static long getWorldTimeFromNBT(NBTTagCompound nbt) {
+        if (nbt == null) return 0;
+        if (nbt.hasKey("worldTime")) {
+            return nbt.getLong("worldTime");
+        }
+        return 0;
+    }
+
+    public static void setWorldTimeToNBT(NBTTagCompound nbt, long worldTime) {
+        if (nbt == null) return;
+        nbt.setLong("worldTime", worldTime);
+    }
+
+    public static float getMultiplierFromNBT(NBTTagCompound nbt) {
+        if (nbt == null) return 0.0F;
+        if (nbt.hasKey("multiplier")) {
+            return nbt.getFloat("multiplier");
+        }
+        return 0.0F;
+    }
+
+    public static void setMultiplierToNBT(NBTTagCompound nbt, float multiplier) {
+        if (nbt == null) return;
+        nbt.setFloat("multiplier", multiplier);
+    }
+
+    public static void setInterpolatedTemperatureToNBT(NBTTagCompound tag, World world, float multiplier,
+        int maxTemperature) {
+        Utils.setMaxTemperatureToNBT(tag, maxTemperature);
+        Utils.setTemperatureToNBT(tag, Utils.getInterpolatedTemperature(WorldTickingData.getTickTime(world), tag));
+        Utils.setWorldTimeToNBT(tag, WorldTickingData.getTickTime(world));
+        Utils.setMultiplierToNBT(tag, multiplier);
+    }
+
+    public static void getInterpolatedTemperatureFromNBT(NBTTagCompound tag) {
+        Utils.getMaxTemperatureFromNBT(tag);
+        Utils.getTemperatureFromNBT(tag);
+        Utils.getWorldTimeFromNBT(tag);
+        Utils.getMultiplierFromNBT(tag);
+    }
+
+    public static int getInterpolatedTemperature(long currentTime, NBTTagCompound tag) {
+        if (tag != null) {
+            long worldTime = Utils.getWorldTimeFromNBT(tag);
+            int timePassed = toInt(currentTime - worldTime);
+            int lastTemperature = Utils.getTemperatureFromNBT(tag);
+            float multiplier = getMultiplierFromNBT(tag);
+            int newTemperature = (int) (lastTemperature + ((timePassed / 10) * multiplier));
+            int maxTemperature = Utils.getMaxTemperatureFromNBT(tag);
+            if (newTemperature < 0) {
+                return 0;
+            }
+            if (newTemperature > maxTemperature) {
+                return maxTemperature;
+            }
+            return newTemperature;
+        }
+        return 0;
+    }
+
+    public static NBTTagCompound getOrCreateTagCompound(ItemStack item) {
+        NBTTagCompound tag = item.getTagCompound();
+        if (tag == null) {
+            tag = new NBTTagCompound();
+            item.setTagCompound(tag);
+        }
+        return tag;
+    }
+
+    public static int toInt(long value) {
+        if ((int) value != value) {
+            return Integer.MAX_VALUE;
+        }
+        return (int) value;
     }
 
     public static String getFluidInfoFromNBT(NBTTagCompound nbt) {

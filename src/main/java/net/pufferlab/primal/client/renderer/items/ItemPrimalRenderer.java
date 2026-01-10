@@ -8,6 +8,7 @@ import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.client.models.ModelPrimal;
 import net.pufferlab.primal.client.renderer.RenderContainer;
 import net.pufferlab.primal.client.renderer.RenderHeat;
+import net.pufferlab.primal.events.ticks.WorldTickingData;
 
 import org.lwjgl.opengl.GL11;
 
@@ -99,7 +100,7 @@ public class ItemPrimalRenderer implements IItemRenderer {
     @Override
     public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
         if (Utils.contains(getMetaBlacklist(), item.getItemDamage())) return false;
-        if (handleContainerRendering()) {
+        if (handleContainerRendering() || (getModel(item) == null && handleTemperatureRendering())) {
             if (helper == ItemRendererHelper.BLOCK_3D) {
                 return false;
             }
@@ -139,9 +140,13 @@ public class ItemPrimalRenderer implements IItemRenderer {
                     index = Utils.getIndex(meta, item.getItemDamage());
                 }
                 if (handleTemperatureRendering()) {
+                    int temperature = Utils
+                        .getInterpolatedTemperature(WorldTickingData.getClientTickTime(), item.getTagCompound());
                     if (this.model != null) {
                         ModelPrimal model = this.model[index];
-                        heatRenderer.renderHeat(model, Utils.getTemperatureFromNBT(item.getTagCompound()));
+                        heatRenderer.renderHeat(model, temperature);
+                    } else {
+                        heatRenderer.renderHeat(item, temperature, type);
                     }
                 } else if (handleContainerRendering()) {
                     containerRenderer.renderContainer(item, type);
