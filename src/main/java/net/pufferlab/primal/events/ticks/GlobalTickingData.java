@@ -5,14 +5,14 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 import net.pufferlab.primal.Primal;
 
-public class WorldTickingData extends WorldSavedData {
+public class GlobalTickingData extends WorldSavedData {
 
-    private static final String name = Primal.MODID + "TickData";
+    private static final String name = Primal.MODID + "GlobalTickData";
 
     public long tickTime = 0;
     public static long clientTickTime = 0;
 
-    public WorldTickingData(String name) {
+    public GlobalTickingData(String name) {
         super(name);
     }
 
@@ -26,19 +26,20 @@ public class WorldTickingData extends WorldSavedData {
         nbt.setLong("tickTime", tickTime);
     }
 
-    public static WorldTickingData get(World world) {
-        WorldTickingData data = (WorldTickingData) world.loadItemData(WorldTickingData.class, name);
+    public static GlobalTickingData get() {
+        World world = Primal.proxy.getOverworld();
+        GlobalTickingData data = (GlobalTickingData) world.loadItemData(GlobalTickingData.class, name);
 
         if (data == null) {
-            data = new WorldTickingData(name);
+            data = new GlobalTickingData(name);
             world.setItemData(name, data);
         }
 
         return data;
     }
 
-    public static void tick(World world) {
-        WorldTickingData data = WorldTickingData.get(world);
+    public static void tick() {
+        GlobalTickingData data = GlobalTickingData.get();
         data.tickTime++;
         data.markDirty();
     }
@@ -47,7 +48,7 @@ public class WorldTickingData extends WorldSavedData {
         if (world.isRemote) {
             return clientTickTime;
         } else {
-            WorldTickingData data = WorldTickingData.get(world);
+            GlobalTickingData data = GlobalTickingData.get();
             return data.tickTime;
         }
     }

@@ -16,15 +16,13 @@ public class NetworkMotion {
     public NetworkMotion() {}
 
     public static void sendUpdate(IMotion te) {
-        IMotion te2 = (IMotion) te.getWorld()
-            .getTileEntity(te.getX(), te.getY(), te.getZ());
+        IMotion te2 = (IMotion) te.getTile();
         if (te2 == null) return;
         generateNetwork(te2, false);
     }
 
     public static void sendStrongUpdate(IMotion te) {
-        IMotion te2 = (IMotion) te.getWorld()
-            .getTileEntity(te.getX(), te.getY(), te.getZ());
+        IMotion te2 = (IMotion) te.getTile();
         if (te2 == null) return;
         for (int x = -1; x <= 1; x++) {
             for (int y = -1; y <= 1; y++) {
@@ -40,8 +38,7 @@ public class NetworkMotion {
     }
 
     public static void sendSpreadUpdate(IMotion te) {
-        IMotion te2 = (IMotion) te.getWorld()
-            .getTileEntity(te.getX(), te.getY(), te.getZ());
+        IMotion te2 = (IMotion) te.getTile();
         if (te2 == null) return;
         generateNetwork(te2, true);
     }

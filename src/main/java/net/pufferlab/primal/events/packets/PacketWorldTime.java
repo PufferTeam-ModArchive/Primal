@@ -1,6 +1,6 @@
 package net.pufferlab.primal.events.packets;
 
-import net.pufferlab.primal.events.ticks.WorldTickingData;
+import net.pufferlab.primal.events.ticks.GlobalTickingData;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -29,7 +29,7 @@ public class PacketWorldTime implements IMessage, IMessageHandler<PacketWorldTim
 
     @Override
     public IMessage onMessage(PacketWorldTime msg, MessageContext ctx) {
-        WorldTickingData.clientTickTime = msg.tickTime;
+        GlobalTickingData.clientTickTime = msg.tickTime;
         return null;
     }
 }

@@ -283,6 +283,7 @@ public class Registry {
         registerCommand(new CommandTickTime());
         registerCommand(new CommandModGive());
         registerCommand(new CommandTemperature());
+        registerCommand(new CommandSchedule());
     }
 
     public void setupNEI() {

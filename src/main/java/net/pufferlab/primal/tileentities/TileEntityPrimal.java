@@ -69,4 +69,9 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
     public World getWorld() {
         return getWorldObj();
     }
+
+    @Override
+    public void mark() {
+        this.markDirty();
+    }
 }

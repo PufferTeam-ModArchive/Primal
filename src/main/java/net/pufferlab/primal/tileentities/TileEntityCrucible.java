@@ -3,7 +3,7 @@ package net.pufferlab.primal.tileentities;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.pufferlab.primal.events.ticks.WorldTickingData;
+import net.pufferlab.primal.events.ticks.GlobalTickingData;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.utils.TemperatureUtils;
 
@@ -15,7 +15,6 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
 
     public int temperature;
     public int maxTemperature;
-    public int needsTemperatureUpdate;
 
     public TileEntityCrucible() {
         super(3000, 5);
@@ -34,7 +33,6 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
         this.isHeating = tag.getBoolean("isHeating");
         this.temperature = tag.getInteger("temperature");
         this.maxTemperature = tag.getInteger("maxTemperature");
-        this.needsTemperatureUpdate = tag.getInteger("needsTemperatureUpdate");
     }
 
     @Override
@@ -45,7 +43,6 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
         tag.setBoolean("isHeating", this.isHeating);
         tag.setInteger("temperature", this.temperature);
         tag.setInteger("maxTemperature", this.maxTemperature);
-        tag.setInteger("needsTemperatureUpdate", this.needsTemperatureUpdate);
     }
 
     @Override
@@ -72,8 +69,14 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
         tag.setInteger("temperature", this.temperature);
     }
 
+    boolean needsUpdate = true;
+
     @Override
     public void updateEntity() {
+        if (needsUpdate) {
+            needsUpdate = false;
+            scheduleInventoryUpdate();
+        }
         TileEntity teBelow = this.worldObj.getTileEntity(this.xCoord, this.yCoord - 1, this.zCoord);
         if (teBelow instanceof IHeatable tef) {
             if (tef.isHeatProvider()) {
@@ -133,11 +136,13 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
                 if (stack.getItem() instanceof IHeatableItem item) {
                     float modifier2 = modifier;
                     if (TemperatureUtils
-                        .getInterpolatedTemperature(WorldTickingData.getTickTime(getWorld()), stack.getTagCompound())
+                        .getInterpolatedTemperature(GlobalTickingData.getTickTime(getWorld()), stack.getTagCompound())
                         > this.temperature) {
                         modifier2 = -0.5F;
                     }
-                    item.updateHeat(stack, this.getWorld(), modifier2, maxTemperature);
+                    if (TemperatureUtils.getMultiplierFromNBT(stack.getTagCompound()) != modifier2) {
+                        item.updateHeat(stack, this.getWorld(), modifier2, maxTemperature);
+                    }
                 }
             }
         }

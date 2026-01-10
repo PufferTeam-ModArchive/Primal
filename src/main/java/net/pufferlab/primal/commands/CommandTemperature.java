@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
-import net.pufferlab.primal.events.ticks.WorldTickingData;
+import net.pufferlab.primal.events.ticks.GlobalTickingData;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.utils.TemperatureUtils;
 
@@ -20,7 +20,7 @@ public class CommandTemperature extends CommandSub {
         if (stack == null) return;
         if (stack.getItem() == null) return;
         if (!(stack.getItem() instanceof IHeatableItem)) return;
-        long currentTick = WorldTickingData.getTickTime(entityplayermp.getEntityWorld());
+        long currentTick = GlobalTickingData.getTickTime(entityplayermp.getEntityWorld());
         NBTTagCompound tag = stack.getTagCompound();
 
         sender.addChatMessage(

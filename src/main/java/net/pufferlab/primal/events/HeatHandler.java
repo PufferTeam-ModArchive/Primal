@@ -3,7 +3,7 @@ package net.pufferlab.primal.events;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.events.ticks.WorldTickingData;
+import net.pufferlab.primal.events.ticks.GlobalTickingData;
 import net.pufferlab.primal.utils.TemperatureUtils;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -18,7 +18,7 @@ public class HeatHandler {
                 event.toolTip.add(
                     Utils.getTemperatureTooltip(
                         TemperatureUtils
-                            .getInterpolatedTemperature(WorldTickingData.getTickTime(event.entity.worldObj), tag)));
+                            .getInterpolatedTemperature(GlobalTickingData.getTickTime(event.entity.worldObj), tag)));
             }
         }
     }

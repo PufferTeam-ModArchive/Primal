@@ -69,6 +69,10 @@ public class CommonProxy implements IGuiHandler {
         return server;
     }
 
+    public World getOverworld() {
+        return server.worldServers[0];
+    }
+
     public World getClientWorld() {
         return null;
     }

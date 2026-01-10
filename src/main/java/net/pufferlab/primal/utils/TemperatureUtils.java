@@ -3,7 +3,7 @@ package net.pufferlab.primal.utils;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.events.ticks.WorldTickingData;
+import net.pufferlab.primal.events.ticks.GlobalTickingData;
 
 public class TemperatureUtils {
 
@@ -62,8 +62,8 @@ public class TemperatureUtils {
     public static void setInterpolatedTemperatureToNBT(NBTTagCompound tag, World world, float multiplier,
         int maxTemperature) {
         setMaxTemperatureToNBT(tag, maxTemperature);
-        setTemperatureToNBT(tag, getInterpolatedTemperature(WorldTickingData.getTickTime(world), tag));
-        setWorldTimeToNBT(tag, WorldTickingData.getTickTime(world));
+        setTemperatureToNBT(tag, getInterpolatedTemperature(GlobalTickingData.getTickTime(world), tag));
+        setWorldTimeToNBT(tag, GlobalTickingData.getTickTime(world));
         setMultiplierToNBT(tag, multiplier);
     }
 
@@ -80,7 +80,7 @@ public class TemperatureUtils {
             int timePassed = Utils.toInt(currentTime - worldTime);
             int lastTemperature = getTemperatureFromNBT(tag);
             float multiplier = getMultiplierFromNBT(tag);
-            int newTemperature = (int) (lastTemperature + ((timePassed / 20) * multiplier));
+            int newTemperature = (int) (lastTemperature + ((timePassed / 10) * multiplier));
             int maxTemperature = getMaxTemperatureFromNBT(tag);
             if (newTemperature < 0) {
                 return 0;
