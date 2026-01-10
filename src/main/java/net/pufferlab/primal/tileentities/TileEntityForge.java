@@ -23,7 +23,7 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable {
         this.timeFired = tag.getInteger("timeFired");
         this.timeHeat = tag.getInteger("timeHeat");
         this.timeUpdate = tag.getInteger("timeUpdate");
-        this.temperature = TemperatureUtils.getTemperatureFromNBT(tag);
+        this.temperature = tag.getInteger("temperature");
         this.lastLevel = tag.getInteger("lastLevel");
     }
 
@@ -33,20 +33,20 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable {
         tag.setInteger("timeFired", this.timeFired);
         tag.setInteger("timeHeat", this.timeHeat);
         tag.setInteger("timeUpdate", this.timeUpdate);
-        TemperatureUtils.setTemperatureToNBT(tag, this.temperature);
+        tag.setInteger("temperature", this.temperature);
         tag.setInteger("lastLevel", this.lastLevel);
     }
 
     @Override
     public void readFromNBTPacket(NBTTagCompound tag) {
         super.readFromNBTPacket(tag);
-        this.temperature = TemperatureUtils.getTemperatureFromNBT(tag);
+        this.temperature = tag.getInteger("temperature");
     }
 
     @Override
     public void writeToNBTPacket(NBTTagCompound tag) {
         super.writeToNBTPacket(tag);
-        TemperatureUtils.setTemperatureToNBT(tag, this.temperature);
+        tag.setInteger("temperature", this.temperature);
     }
 
     public int burnTime = 60 * 20;
@@ -66,14 +66,16 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable {
         }
         if (timeHeat < -3) {
             timeHeat = 0;
-            this.temperature--;
+            if (this.temperature > 0) {
+                this.temperature--;
+            }
         }
 
         timeUpdate++;
         if (timeUpdate > 20) {
             timeUpdate = 0;
-            if (Utils.getHeatingLevel(this.temperature) != this.lastLevel) {
-                this.lastLevel = Utils.getHeatingLevel(this.temperature);
+            if (TemperatureUtils.getHeatingLevel(this.temperature) != this.lastLevel) {
+                this.lastLevel = TemperatureUtils.getHeatingLevel(this.temperature);
                 updateTEState();
             }
         }

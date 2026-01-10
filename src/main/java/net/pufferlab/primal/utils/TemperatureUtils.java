@@ -7,73 +7,55 @@ import net.pufferlab.primal.events.ticks.WorldTickingData;
 
 public class TemperatureUtils {
 
-    public static NBTTagCompound getTemperatureTagList(NBTTagCompound nbt) {
-        if (nbt.hasKey("TemperatureInfo")) {
-            return (NBTTagCompound) nbt.getTag("TemperatureInfo");
-        } else {
-            NBTTagCompound tag = new NBTTagCompound();
-            nbt.setTag("TemperatureInfo", tag);
-            return tag;
-        }
-    }
-
-    public static int getTemperatureFromNBT(NBTTagCompound nbt) {
-        if (nbt == null) return 0;
-        NBTTagCompound tag = getTemperatureTagList(nbt);
+    public static int getTemperatureFromNBT(NBTTagCompound tag) {
+        if (tag == null) return 0;
         if (tag.hasKey("temperature")) {
             return tag.getInteger("temperature");
         }
         return 0;
     }
 
-    public static void setTemperatureToNBT(NBTTagCompound nbt, int temperature) {
-        if (nbt == null) return;
-        NBTTagCompound tag = getTemperatureTagList(nbt);
+    public static void setTemperatureToNBT(NBTTagCompound tag, int temperature) {
+        if (tag == null) return;
         tag.setInteger("temperature", temperature);
     }
 
-    public static int getMaxTemperatureFromNBT(NBTTagCompound nbt) {
-        if (nbt == null) return 0;
-        NBTTagCompound tag = getTemperatureTagList(nbt);
+    public static int getMaxTemperatureFromNBT(NBTTagCompound tag) {
+        if (tag == null) return 0;
         if (tag.hasKey("maxTemperature")) {
             return tag.getInteger("maxTemperature");
         }
         return 0;
     }
 
-    public static void setMaxTemperatureToNBT(NBTTagCompound nbt, int temperature) {
-        if (nbt == null) return;
-        NBTTagCompound tag = getTemperatureTagList(nbt);
+    public static void setMaxTemperatureToNBT(NBTTagCompound tag, int temperature) {
+        if (tag == null) return;
         tag.setInteger("maxTemperature", temperature);
     }
 
-    public static long getWorldTimeFromNBT(NBTTagCompound nbt) {
-        if (nbt == null) return 0;
-        NBTTagCompound tag = getTemperatureTagList(nbt);
+    public static long getWorldTimeFromNBT(NBTTagCompound tag) {
+        if (tag == null) return 0;
         if (tag.hasKey("worldTime")) {
             return tag.getLong("worldTime");
         }
         return 0;
     }
 
-    public static void setWorldTimeToNBT(NBTTagCompound nbt, long worldTime) {
-        if (nbt == null) return;
-        NBTTagCompound tag = getTemperatureTagList(nbt);
+    public static void setWorldTimeToNBT(NBTTagCompound tag, long worldTime) {
+        if (tag == null) return;
         tag.setLong("worldTime", worldTime);
     }
 
-    public static float getMultiplierFromNBT(NBTTagCompound nbt) {
-        if (nbt == null) return 0.0F;
-        NBTTagCompound tag = getTemperatureTagList(nbt);
+    public static float getMultiplierFromNBT(NBTTagCompound tag) {
+        if (tag == null) return 0.0F;
         if (tag.hasKey("multiplier")) {
             return tag.getFloat("multiplier");
         }
         return 0.0F;
     }
 
-    public static void setMultiplierToNBT(NBTTagCompound nbt, float multiplier) {
-        if (nbt == null) return;
-        NBTTagCompound tag = getTemperatureTagList(nbt);
+    public static void setMultiplierToNBT(NBTTagCompound tag, float multiplier) {
+        if (tag == null) return;
         tag.setFloat("multiplier", multiplier);
     }
 
@@ -109,5 +91,25 @@ public class TemperatureUtils {
             return newTemperature;
         }
         return 0;
+    }
+
+    public static int getHeatingLevel(int temperature) {
+        if (temperature > 1 && temperature < 200) {
+            return 1;
+        } else if (temperature >= 200 && temperature < 400) {
+            return 2;
+        } else if (temperature >= 400 && temperature < 600) {
+            return 3;
+        } else if (temperature >= 600 && temperature < 800) {
+            return 4;
+        } else if (temperature >= 800 && temperature < 1000) {
+            return 5;
+        } else if (temperature >= 1000 && temperature < 1200) {
+            return 6;
+        } else if (temperature >= 1200) {
+            return 7;
+        } else {
+            return 0;
+        }
     }
 }

@@ -75,7 +75,7 @@ public class BucketHandler {
             if (FluidUtils.isFluidContainer(event.entityPlayer.getCurrentEquippedItem())) {
                 ItemStack itemStack = event.entityPlayer.getCurrentEquippedItem();
                 TileEntity te = event.world.getTileEntity(event.x, event.y, event.z);
-                if (te instanceof IFluidHandler tank) if (Utils.isEmptyFluidContainer(itemStack)) {
+                if (te instanceof IFluidHandler tank) if (FluidUtils.isEmptyFluidContainer(itemStack)) {
                     FluidStack stack = tank.drain(ForgeDirection.getOrientation(event.face), 1000, false);
                     if (stack != null && stack.amount == 1000
                         && tank.canDrain(ForgeDirection.getOrientation(event.face), stack.getFluid())) {

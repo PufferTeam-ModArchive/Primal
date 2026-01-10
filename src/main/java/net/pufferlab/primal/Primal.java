@@ -70,5 +70,6 @@ public class Primal {
     @Mod.EventHandler
     public void serverStarting(FMLServerStartingEvent event) {
         proxy.serverStarting(event);
+        registry.setupCommands();
     }
 }

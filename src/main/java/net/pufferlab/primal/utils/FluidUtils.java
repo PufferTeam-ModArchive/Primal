@@ -120,4 +120,15 @@ public class FluidUtils {
 
         return false;
     }
+
+    public static boolean isEmptyFluidContainer(ItemStack stack) {
+        if (stack == null) return false;
+
+        if (stack.getItem() instanceof IFluidContainerItem item) {
+            FluidStack fluid = item.getFluid(stack);
+            return fluid == null || fluid.amount <= 0;
+        }
+
+        return FluidContainerRegistry.isEmptyContainer(stack);
+    }
 }

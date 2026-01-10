@@ -116,6 +116,8 @@ item.primal.jungle_bark.name=Jungle Bark
 item.primal.acacia_bark.name=Acacia Bark
 item.primal.dark_oak_bark.name=Dark Oak Bark
 item.primal.stone_rock.name=Stone Rock
-item.primal.lime.name=Lime Powder
+item.primal.lime_powder.name=Lime Powder
 item.primal.wheat_dough.name=Wheat Dough
 item.primal.wheat_flour.name=Wheat Flour
+
+commands.primal.give.usage=/primal give [player] [primal item] <number>

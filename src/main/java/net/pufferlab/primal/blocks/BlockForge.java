@@ -19,6 +19,7 @@ import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.TileEntityForge;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
+import net.pufferlab.primal.utils.TemperatureUtils;
 
 public class BlockForge extends BlockPrimal {
 
@@ -69,7 +70,7 @@ public class BlockForge extends BlockPrimal {
         if (side < 6) {
             TileEntity te = worldIn.getTileEntity(x, y, z);
             if (te instanceof TileEntityForge tef) {
-                int heatingLevel = Utils.getHeatingLevel(tef.temperature);
+                int heatingLevel = TemperatureUtils.getHeatingLevel(tef.temperature);
                 return heatingIcons[heatingLevel];
             }
         }

@@ -3,6 +3,7 @@ package net.pufferlab.primal.tileentities;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.pufferlab.primal.events.ticks.WorldTickingData;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.utils.TemperatureUtils;
 
@@ -14,6 +15,7 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
 
     public int temperature;
     public int maxTemperature;
+    public int needsTemperatureUpdate;
 
     public TileEntityCrucible() {
         super(3000, 5);
@@ -30,6 +32,9 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
         this.timeHeat = tag.getInteger("timeHeat");
         this.lastLevel = tag.getInteger("lastLevel");
         this.isHeating = tag.getBoolean("isHeating");
+        this.temperature = tag.getInteger("temperature");
+        this.maxTemperature = tag.getInteger("maxTemperature");
+        this.needsTemperatureUpdate = tag.getInteger("needsTemperatureUpdate");
     }
 
     @Override
@@ -38,18 +43,33 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
         tag.setInteger("timeHeat", this.timeHeat);
         tag.setInteger("lastLevel", this.lastLevel);
         tag.setBoolean("isHeating", this.isHeating);
+        tag.setInteger("temperature", this.temperature);
+        tag.setInteger("maxTemperature", this.maxTemperature);
+        tag.setInteger("needsTemperatureUpdate", this.needsTemperatureUpdate);
+    }
+
+    @Override
+    public void readFromNBTPacket(NBTTagCompound tag) {
+        super.readFromNBTPacket(tag);
+        this.isHeating = tag.getBoolean("isHeating");
+    }
+
+    @Override
+    public void writeToNBTPacket(NBTTagCompound tag) {
+        super.writeToNBTPacket(tag);
+        tag.setBoolean("isHeating", this.isHeating);
     }
 
     @Override
     public void readFromNBTInventory(NBTTagCompound tag) {
         super.readFromNBTInventory(tag);
-        this.temperature = TemperatureUtils.getTemperatureFromNBT(tag);
+        this.temperature = tag.getInteger("temperature");
     }
 
     @Override
     public void writeToNBTInventory(NBTTagCompound tag) {
         super.writeToNBTInventory(tag);
-        TemperatureUtils.setTemperatureToNBT(tag, this.temperature);
+        tag.setInteger("temperature", this.temperature);
     }
 
     @Override
@@ -64,12 +84,12 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
                     } else {
                         this.timeHeat--;
                     }
-                    this.isHeating = tef.isFired();
                 } else {
-                    if (this.temperature > 0) {
+                    if (this.temperature > 0 && (this.temperature != tef.getTemperature())) {
                         this.timeHeat--;
                     }
                 }
+                this.isHeating = tef.isFired();
             }
         } else {
             if (this.temperature > 0) {
@@ -111,7 +131,13 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
             ItemStack stack = getInventoryStack(i);
             if (stack != null) {
                 if (stack.getItem() instanceof IHeatableItem item) {
-                    item.updateHeat(stack, this.getWorld(), modifier, maxTemperature);
+                    float modifier2 = modifier;
+                    if (TemperatureUtils
+                        .getInterpolatedTemperature(WorldTickingData.getTickTime(getWorld()), stack.getTagCompound())
+                        > this.temperature) {
+                        modifier2 = -0.5F;
+                    }
+                    item.updateHeat(stack, this.getWorld(), modifier2, maxTemperature);
                 }
             }
         }

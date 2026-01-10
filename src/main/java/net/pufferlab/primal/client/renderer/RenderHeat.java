@@ -7,6 +7,7 @@ import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.client.models.ModelPrimal;
+import net.pufferlab.primal.utils.TemperatureUtils;
 
 import org.lwjgl.opengl.GL11;
 
@@ -26,7 +27,7 @@ public class RenderHeat {
     public static float[] stopPositions = { 0.0F, beginCap, 0.7F, 0.8F, 0.9F, 1F };
 
     public static int getHeatingColor(float temperature) {
-        int level = Utils.getHeatingLevel((int) temperature);
+        int level = TemperatureUtils.getHeatingLevel((int) temperature);
         if (level == 0) {
             return Utils.getRGB(255, 255, 255);
         }

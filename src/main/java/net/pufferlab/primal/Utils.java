@@ -34,6 +34,7 @@ public class Utils {
     private static final Map<String, ItemStack> itemCache = new HashMap<>();
     private static final Map<String, FluidStack> fluidCache = new HashMap<>();
     private static final Map<String, ItemStack> modItemCache = new HashMap<>();
+    private static List<String> modItemNames;
 
     public static final ForgeDirection[] sideDirections = new ForgeDirection[] { ForgeDirection.WEST,
         ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.NORTH, ForgeDirection.DOWN };
@@ -101,6 +102,16 @@ public class Utils {
 
     public static void registerModItem(String name, ItemStack stack) {
         modItemCache.put(name, stack);
+    }
+
+    public static List<String> getModItems() {
+        if (modItemNames == null) {
+            modItemNames = new ArrayList<>(modItemCache.size());
+            for (Map.Entry<String, ItemStack> entry : modItemCache.entrySet()) {
+                modItemNames.add(entry.getKey());
+            }
+        }
+        return modItemNames;
     }
 
     public static ItemStack getModItem(String name, int number) {
@@ -192,26 +203,6 @@ public class Utils {
         }
     }
 
-    public static int getHeatingLevel(int temperature) {
-        if (temperature > 1 && temperature < 200) {
-            return 1;
-        } else if (temperature >= 200 && temperature < 400) {
-            return 2;
-        } else if (temperature >= 400 && temperature < 600) {
-            return 3;
-        } else if (temperature >= 600 && temperature < 800) {
-            return 4;
-        } else if (temperature >= 800 && temperature < 1000) {
-            return 5;
-        } else if (temperature >= 1000 && temperature < 1200) {
-            return 6;
-        } else if (temperature >= 1200) {
-            return 7;
-        } else {
-            return 0;
-        }
-    }
-
     public static String getDisplayName(Object... objects) {
         for (Object object : objects) {
             if (object instanceof List list) {
@@ -271,17 +262,6 @@ public class Utils {
             return Integer.MAX_VALUE;
         }
         return (int) value;
-    }
-
-    public static boolean isEmptyFluidContainer(ItemStack stack) {
-        if (stack == null) return false;
-
-        if (stack.getItem() instanceof IFluidContainerItem item) {
-            FluidStack fluid = item.getFluid(stack);
-            return fluid == null || fluid.amount <= 0;
-        }
-
-        return FluidContainerRegistry.isEmptyContainer(stack);
     }
 
     public static boolean isLogBlock(Block block) {
@@ -760,6 +740,16 @@ public class Utils {
         System.arraycopy(a, 0, result, 0, a.length);
         System.arraycopy(b, 0, result, a.length, b.length);
         return result;
+    }
+
+    public static String[] removeFirst(String[] old) {
+        if (old == null || old.length <= 1) {
+            return new String[0];
+        }
+
+        String[] newArr = new String[old.length - 1];
+        System.arraycopy(old, 1, newArr, 0, newArr.length);
+        return newArr;
     }
 
     public static String getItemKey(Item item, int meta) {

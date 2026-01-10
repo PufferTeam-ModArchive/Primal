@@ -2,6 +2,7 @@ package net.pufferlab.primal;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.pufferlab.primal.events.*;
@@ -22,6 +23,8 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
 public class CommonProxy implements IGuiHandler {
 
+    public static MinecraftServer server;
+
     public final int largeVesselContainerID = 0;
     public final int crucibleContainerID = 1;
     public final int generatorGuiID = 2;
@@ -37,7 +40,9 @@ public class CommonProxy implements IGuiHandler {
 
     public void postInit(FMLPostInitializationEvent event) {}
 
-    public void serverStarting(FMLServerStartingEvent event) {}
+    public void serverStarting(FMLServerStartingEvent event) {
+        server = event.getServer();
+    }
 
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
@@ -58,6 +63,10 @@ public class CommonProxy implements IGuiHandler {
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
         return null;
+    }
+
+    public MinecraftServer getServer() {
+        return server;
     }
 
     public World getClientWorld() {

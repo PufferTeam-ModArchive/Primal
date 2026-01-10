@@ -7,8 +7,11 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.items.IMetaItem;
 
-public class ItemBlockAxle extends ItemBlockMotion {
+public class ItemBlockAxle extends ItemBlockMotion implements IMetaItem {
+
+    public static final String[] types = new String[] { "axle", "gear", "bracket" };
 
     public ItemBlockAxle(Block p_i45328_1_) {
         super(p_i45328_1_);
@@ -39,5 +42,25 @@ public class ItemBlockAxle extends ItemBlockMotion {
             return "tile." + Primal.MODID + ".bracket";
         }
         return super.getUnlocalizedName(stack);
+    }
+
+    @Override
+    public String[] getElements() {
+        return types;
+    }
+
+    @Override
+    public String getElementName() {
+        return "axle";
+    }
+
+    @Override
+    public boolean hasSuffix() {
+        return false;
+    }
+
+    @Override
+    public Item getItemObject() {
+        return this;
     }
 }

@@ -30,9 +30,7 @@ public class WLHeatHandler implements IWailaDataProvider {
                     currenttip.add(Utils.getStateTooltip(isFired, "Fired", "Unfired"));
                 }
                 int temperature = tag.getInteger("temperature");
-                if (temperature > 30) {
-                    currenttip.add(Utils.getTemperatureTooltip(temperature));
-                }
+                currenttip.add(Utils.getTemperatureTooltip(temperature));
             }
         }
 

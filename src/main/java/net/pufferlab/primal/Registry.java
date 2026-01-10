@@ -2,6 +2,8 @@ package net.pufferlab.primal;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.command.CommandHandler;
+import net.minecraft.command.ICommand;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -11,6 +13,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fluids.*;
 import net.pufferlab.primal.blocks.*;
+import net.pufferlab.primal.commands.*;
 import net.pufferlab.primal.compat.minetweaker.MTCompat;
 import net.pufferlab.primal.compat.nei.NEICompat;
 import net.pufferlab.primal.compat.waila.WLCompat;
@@ -125,7 +128,7 @@ public class Registry {
         bark = new ItemMeta(Constants.woodTypes, "bark").setHasSuffix();
         flint = new ItemMeta(Constants.flintItems, "flint");
         rock = new ItemMeta(Constants.rockTypes, "rock").setHasSuffix();
-        powder = new ItemMeta(Constants.powderItems, "powder");
+        powder = new ItemMeta(Constants.powderItems, "powder").setHasSuffix();
         mold = new ItemMeta(Constants.moldItems, "mold");
         clay = new ItemMeta(Constants.clayItems, "clay");
         ((BlockGroundcover) ground_rock).setItem(rock);
@@ -254,6 +257,8 @@ public class Registry {
     }
 
     public void setupEvents() {
+        registerEvent(new TickHandler());
+
         registerEvent(new PitKilnHandler());
         registerEvent(new KnappingHandler());
         registerEvent(new BucketHandler());
@@ -269,7 +274,15 @@ public class Registry {
         registerEvent(new CastHandler());
         registerEvent(new HeatHandler());
         registerEvent(new FoodHandler());
-        registerEvent(new TickHandler());
+    }
+
+    public void setupCommands() {
+        registerCommand(new CommandPrimal());
+
+        registerCommand(new CommandTPS());
+        registerCommand(new CommandTickTime());
+        registerCommand(new CommandModGive());
+        registerCommand(new CommandTemperature());
     }
 
     public void setupNEI() {
@@ -292,16 +305,20 @@ public class Registry {
 
     public void register(Item item, String name) {
         GameRegistry.registerItem(item.setCreativeTab(Registry.creativeTab), name);
-        registerModItem(item);
+        registerModItem(item, name);
     }
 
     public void register(Block block, String name) {
+        boolean hasItemBlock = true;
         if (block instanceof IPrimalBlock block2) {
+            if (block2.getItemBlockClass() == null) hasItemBlock = false;
             GameRegistry.registerBlock(block.setCreativeTab(block2.getCreativeTab()), block2.getItemBlockClass(), name);
         } else {
             GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), name);
         }
-        registerModItem(block);
+        if (hasItemBlock) {
+            registerModItem(block, name);
+        }
     }
 
     public void register(Fluid fluid) {
@@ -315,7 +332,11 @@ public class Registry {
             new ItemStack(Items.bucket));
     }
 
-    public void registerModItem(Object item) {
+    public void registerModItem(Block block, String name) {
+        registerModItem(Item.getItemFromBlock(block), name);
+    }
+
+    public void registerModItem(Item item, String name) {
         if (item instanceof IMetaItem item2) {
             String[] elements = item2.getElements();
             String elementName = item2.getElementName();
@@ -326,6 +347,8 @@ public class Registry {
             for (int i = 0; i < elements.length; i++) {
                 Utils.registerModItem(elements[i] + suffix, new ItemStack(item2.getItemObject(), 1, i));
             }
+        } else {
+            Utils.registerModItem(name, new ItemStack(item, 1, 0));
         }
     }
 
@@ -353,5 +376,15 @@ public class Registry {
 
     public void registerWorld(IWorldGenerator world) {
         GameRegistry.registerWorldGenerator(world, 0);
+    }
+
+    public void registerCommand(ICommand command) {
+        if (command instanceof ISubCommand command2) {
+            CommandPrimal.registerSubCommand(command2);
+        } else {
+            CommandHandler ch = (CommandHandler) Primal.proxy.getServer()
+                .getCommandManager();
+            ch.registerCommand(command);
+        }
     }
 }

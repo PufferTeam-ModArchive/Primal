@@ -15,10 +15,12 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.events.ticks.WorldTickingData;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.items.itemblocks.ItemBlockHeatable;
 import net.pufferlab.primal.tileentities.TileEntityCrucible;
 import net.pufferlab.primal.utils.FluidUtils;
+import net.pufferlab.primal.utils.TemperatureUtils;
 
 public class BlockCrucible extends BlockPrimal {
 
@@ -67,6 +69,8 @@ public class BlockCrucible extends BlockPrimal {
             TileEntity te = worldIn.getTileEntity(x, y, z);
             if (te instanceof TileEntityCrucible tef) {
                 tef.readFromNBTInventory(tagCompound);
+                tef.temperature = TemperatureUtils
+                    .getInterpolatedTemperature(WorldTickingData.getTickTime(worldIn), tagCompound);
                 tef.scheduleInventoryUpdate();
             }
         }
