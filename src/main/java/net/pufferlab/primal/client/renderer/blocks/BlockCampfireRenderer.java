@@ -31,6 +31,7 @@ public class BlockCampfireRenderer extends BlockPrimalRenderer {
         ModelCampfireSpit modelCampfireSpit = modelCampfireSpitThread.get();
 
         Tessellator tess = Tessellator.instance;
+        modelCampfire.dumpVertices(tess, x, y, z);
         int meta = world.getBlockMetadata(x, y, z);
         modelCampfire.kindling.isHidden = true;
         modelCampfire.log1.isHidden = true;

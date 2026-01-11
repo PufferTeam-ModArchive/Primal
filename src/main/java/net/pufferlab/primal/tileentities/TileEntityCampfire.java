@@ -64,6 +64,7 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
     public void readFromNBTPacket(NBTTagCompound tag) {
         super.readFromNBTPacket(tag);
         this.readFromNBT(tag);
+        updateTELight();
     }
 
     @Override

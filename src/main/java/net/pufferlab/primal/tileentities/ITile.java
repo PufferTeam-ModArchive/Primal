@@ -15,7 +15,13 @@ public interface ITile {
 
     public void mark();
 
+    public int getWorldID();
+
     default TileEntity getTile() {
         return getWorld().getTileEntity(getX(), getY(), getZ());
     }
+
+    public void updateTEState();
+
+    public void updateTELight();
 }

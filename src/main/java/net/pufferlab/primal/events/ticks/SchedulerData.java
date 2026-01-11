@@ -18,6 +18,11 @@ public class SchedulerData extends WorldSavedData {
         super(name);
     }
 
+    public static PriorityQueue<ScheduledTask> getTasks(World world) {
+        SchedulerData scheduler = get(world);
+        return scheduler.queue;
+    }
+
     @Override
     public void writeToNBT(NBTTagCompound nbt) {
 
@@ -44,11 +49,42 @@ public class SchedulerData extends WorldSavedData {
         }
     }
 
-    public static void scheduleNewTask(int inTime, World world) {
+    public static void addScheduledTask(int inTime, World world) {
         long in = GlobalTickingData.getTickTime(world) + inTime;
         SchedulerData scheduler = get(world);
 
-        scheduler.queue.add(new ScheduledTask(in));
+        scheduler.queue.add(new ScheduledTask(ScheduledTask.simpleTask, in));
+        scheduler.markDirty();
+    }
+
+    public static void addScheduledTask(byte task, int inTime, World world, int x, int y, int z, int type, int id) {
+        long in = GlobalTickingData.getTickTime(world) + inTime;
+        SchedulerData scheduler = get(world);
+
+        scheduler.queue.add(new ScheduledTask(task, in, x, y, z, type, id));
+        scheduler.markDirty();
+    }
+
+    public static void addScheduledBlockTask(int inTime, World world, int x, int y, int z, int type, int id) {
+        addScheduledTask(ScheduledTask.blockTask, inTime, world, x, y, z, type, id);
+    }
+
+    public static void addScheduledTileTask(int inTime, World world, int x, int y, int z, int type, int id) {
+        addScheduledTask(ScheduledTask.tileTask, inTime, world, x, y, z, type, id);
+    }
+
+    public static void removeScheduledTask(World world, int x, int y, int z, int type) {
+        SchedulerData scheduler = get(world);
+
+        scheduler.queue.removeIf(task -> task.equals(x, y, z, type));
+        scheduler.markDirty();
+    }
+
+    public static void removeScheduledTask(World world, int x, int y, int z) {
+        SchedulerData scheduler = get(world);
+
+        scheduler.queue.removeIf(task -> task.equals(x, y, z));
+        scheduler.markDirty();
     }
 
     public static void tickTasks(long currentTick, World world) {
@@ -57,7 +93,10 @@ public class SchedulerData extends WorldSavedData {
         while (!scheduler.queue.isEmpty() && scheduler.queue.peek().timeScheduled <= currentTick) {
             ScheduledTask task = scheduler.queue.poll();
 
-            task.run(world);
+            boolean success = task.run(world);
+            if (success) {
+                scheduler.markDirty();
+            }
         }
     }
 

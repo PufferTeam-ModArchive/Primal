@@ -5,6 +5,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.blocks.SoundTypePrimal;
@@ -38,6 +39,11 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
         this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
     }
 
+    public void updateTELight() {
+        this.worldObj.updateLightByType(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord);
+        this.worldObj.updateLightByType(EnumSkyBlock.Block, this.xCoord, this.yCoord, this.zCoord);
+    }
+
     public void writeToNBTPacket(NBTTagCompound tag) {}
 
     public void readFromNBTPacket(NBTTagCompound tag) {}
@@ -68,6 +74,12 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
     @Override
     public World getWorld() {
         return getWorldObj();
+    }
+
+    @Override
+    public int getWorldID() {
+        if (getWorld() == null) return 0;
+        return getWorld().provider.dimensionId;
     }
 
     @Override

@@ -1,11 +1,18 @@
 package net.pufferlab.primal.events.ticks;
 
+import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-
-import org.jetbrains.annotations.NotNull;
+import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.blocks.IScheduledBlock;
+import net.pufferlab.primal.tileentities.IScheduledTile;
 
 public class ScheduledTask implements Comparable<ScheduledTask> {
+
+    public static final byte simpleTask = 0;
+    public static final byte blockTask = 1;
+    public static final byte tileTask = 2;
 
     long timeScheduled;
     byte taskType;
@@ -15,23 +22,23 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
         readFromNBT(tag);
     }
 
-    public ScheduledTask(long timeToSchedule) {
+    public ScheduledTask(byte taskType, long timeToSchedule) {
+        this.taskType = taskType;
         this.timeScheduled = timeToSchedule;
-        taskType = 0;
     }
 
-    public ScheduledTask(long timeScheduled, int x, int y, int z, int type, int id) {
+    public ScheduledTask(byte taskType, long timeScheduled, int x, int y, int z, int type, int id) {
+        this.taskType = taskType;
         this.timeScheduled = timeScheduled;
         this.x = x;
         this.y = y;
         this.z = z;
         this.type = type;
         this.id = id;
-        taskType = 1;
     }
 
     @Override
-    public int compareTo(@NotNull ScheduledTask o) {
+    public int compareTo(ScheduledTask o) {
         return Long.compare(this.timeScheduled, o.timeScheduled);
     }
 
@@ -55,9 +62,60 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
         id = tag.getInteger("id");
     }
 
-    public void run(World world) {
-        if (this.taskType == 0) {
-            System.out.println("Ran task");
+    public boolean equals(int x, int y, int z) {
+        if (this.x == x && this.y == y && this.z == z) {
+            return true;
         }
+        return false;
+    }
+
+    public boolean equals(int x, int y, int z, int type) {
+        if (this.x == x && this.y == y && this.z == z && this.type == type) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean run(World world) {
+        switch (this.taskType) {
+            case simpleTask: {
+                Primal.LOG.info("ScheduledTask Ran");
+                return true;
+            }
+            case blockTask: {
+                Block block = world.getBlock(this.x, this.y, this.z);
+                if (block instanceof IScheduledBlock block2) {
+                    block2.onSchedule(world, this.x, this.y, this.z, this.type, this.id);
+                    return true;
+                }
+            }
+            case tileTask: {
+                TileEntity te = world.getTileEntity(this.x, this.y, this.z);
+                if (te instanceof IScheduledTile te2) {
+                    te2.onSchedule(world, this.x, this.y, this.z, this.type, this.id);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "ScheduledTask{" + "inTime="
+            + (timeScheduled - GlobalTickingData.getTickTime())
+            + ", taskType="
+            + taskType
+            + ", x="
+            + x
+            + ", y="
+            + y
+            + ", z="
+            + z
+            + ", type="
+            + type
+            + ", id="
+            + id
+            + '}';
     }
 }

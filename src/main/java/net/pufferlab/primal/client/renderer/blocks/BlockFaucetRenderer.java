@@ -36,6 +36,7 @@ public class BlockFaucetRenderer extends BlockPrimalRenderer {
 
         Tessellator tess = Tessellator.instance;
         int renderPass = ForgeHooksClient.getWorldRenderPass();
+        modelFluid.dumpVertices(tess, x, y, z);
         TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileEntityFaucet tef) {
             int meta = tef.facingMeta;
@@ -67,7 +68,6 @@ public class BlockFaucetRenderer extends BlockPrimalRenderer {
             modelFaucet.setFacing(meta);
             modelValve.setFacing(meta);
             modelFluid.setFacing(meta);
-            modelFluid.dumpVertices(tess, x, y, z);
             if (renderPass == 1 && tef.isOpen == true && tef.getInputTile() != null && tef.getExtractTile() != null) {
                 modelFluid.render(
                     renderer,

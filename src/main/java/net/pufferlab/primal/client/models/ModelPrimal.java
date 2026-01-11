@@ -32,6 +32,10 @@ public abstract class ModelPrimal extends ModelBase {
         bb_main.setRotationPoint(0.0F, 0.0F, 0.0F);
     }
 
+    public void dumpVertices(Tessellator tess, int x, int y, int z) {
+        modelTESS.dumpVertices(tess, x, y, z);
+    }
+
     public void render() {
         bindTex();
         bb_main.render(Constants.modelConst);

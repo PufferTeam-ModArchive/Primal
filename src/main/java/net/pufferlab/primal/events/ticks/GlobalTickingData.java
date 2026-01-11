@@ -53,6 +53,11 @@ public class GlobalTickingData extends WorldSavedData {
         }
     }
 
+    public static long getTickTime() {
+        GlobalTickingData data = GlobalTickingData.get();
+        return data.tickTime;
+    }
+
     public static long getClientTickTime() {
         return clientTickTime;
     }

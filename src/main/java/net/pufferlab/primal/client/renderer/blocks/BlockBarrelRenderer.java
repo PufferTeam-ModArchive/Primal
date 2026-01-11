@@ -34,6 +34,7 @@ public class BlockBarrelRenderer extends BlockPrimalRenderer {
 
         Tessellator tess = Tessellator.instance;
         TileEntity te = world.getTileEntity(x, y, z);
+        modelFluid.dumpVertices(tess, x, y, z);
         if (te instanceof TileEntityBarrel tef) {
             int renderPass = ForgeHooksClient.getWorldRenderPass();
             FluidStack stack = tef.getFluidStack();
@@ -55,7 +56,6 @@ public class BlockBarrelRenderer extends BlockPrimalRenderer {
             }
             int meta = tef.facingMeta;
             modelBarrel.setFacing(meta);
-            modelFluid.dumpVertices(tess, x, y, z);
             double o = Constants.modelConst;
             if (renderPass == 1 && !tef.isFloorBarrel) {
                 modelFluid.render(

@@ -51,6 +51,8 @@ public class Registry {
     public static final Block pit_kiln;
     public static final Block thatch;
     public static final Block thatch_roof;
+    public static final Block lit_torch;
+    public static final Block unlit_torch;
     public static final Block chimney;
     public static final Block log_pile;
     public static final Block charcoal_pile;
@@ -121,6 +123,9 @@ public class Registry {
 
         thatch = new BlockThatch();
         thatch_roof = new BlockThatchRoof();
+        lit_torch = new BlockTorchPrimitive("torch_lit").setLightLevel(0.9375F);
+        unlit_torch = new BlockTorchPrimitive("torch_unlit").setLightLevel(0.0F);
+
         chimney = new BlockChimney();
 
         icons = new ItemMeta(Constants.icons, "icon").setHiddenAll()
@@ -157,6 +162,8 @@ public class Registry {
     public void setup() {
         register(thatch, "thatch");
         register(thatch_roof, "thatch_roof");
+        register(lit_torch, "lit_torch");
+        register(unlit_torch, "unlit_torch");
         register(ground_rock, "ground_rock");
         register(pit_kiln, "pit_kiln");
         register(log_pile, "log_pile");

@@ -10,10 +10,6 @@ public class ModelFluid extends ModelPrimal {
         super(0);
     }
 
-    public void dumpVertices(Tessellator tess, int x, int y, int z) {
-        modelTESS.dumpVertices(tess, x, y, z);
-    }
-
     public void render(RenderBlocks renderblocks, Tessellator tess, int x, int y, int z, FluidStack fs, double minX,
         double minY, double minZ, double maxX, double maxY, double maxZ, boolean renderAllSides, boolean isFlowing) {
         modelTESS.renderFluid(

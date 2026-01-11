@@ -16,10 +16,10 @@ public class TexturedQuad {
     public int nVertices;
     private boolean invertNormal;
     public Vec3 normal;
+    public IIcon lastIcon;
 
     public double[] cachedU;
     public double[] cachedV;
-    public boolean hasUVCached;
 
     public TexturedQuad(PositionTextureVertex[] p_i1152_1_) {
         this.vertexPositions = p_i1152_1_;
@@ -58,7 +58,8 @@ public class TexturedQuad {
     }
 
     public void cacheUV(IIcon icon) {
-        if (!hasUVCached) {
+        if (icon != lastIcon) {
+            lastIcon = icon;
             PositionTextureVertex pos1 = this.vertexPositions[0];
             double u1 = icon.getMinU() + pos1.texturePositionX * (icon.getMaxU() - icon.getMinU());
             double v1 = icon.getMinV() + pos1.texturePositionY * (icon.getMaxV() - icon.getMinV());
@@ -80,8 +81,6 @@ public class TexturedQuad {
 
             cachedU = addEpsilonOffset(U);
             cachedV = addEpsilonOffset(V);
-
-            hasUVCached = true;
         }
     }
 

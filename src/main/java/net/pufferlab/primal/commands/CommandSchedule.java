@@ -1,6 +1,8 @@
 package net.pufferlab.primal.commands;
 
 import net.minecraft.command.ICommandSender;
+import net.minecraft.util.ChatComponentText;
+import net.pufferlab.primal.events.ticks.ScheduledTask;
 import net.pufferlab.primal.events.ticks.SchedulerData;
 
 public class CommandSchedule extends CommandSub {
@@ -8,7 +10,28 @@ public class CommandSchedule extends CommandSub {
     @Override
     public void handleCommand(ICommandSender sender, String[] args) {
         if (args.length > 0) {
-            SchedulerData.scheduleNewTask(Integer.parseInt(args[0]), sender.getEntityWorld());
+            if (args[0].equals("list")) {
+                String size = Integer.toString(
+                    SchedulerData.getTasks(sender.getEntityWorld())
+                        .size());
+                sender.addChatMessage(
+                    new ChatComponentText(
+                        "List of ScheduledTasks in dimension " + sender.getEntityWorld().provider.dimensionId));
+                sender.addChatMessage(new ChatComponentText("Size of List :" + size));
+                for (ScheduledTask task : SchedulerData.getTasks(sender.getEntityWorld())) {
+                    sender.addChatMessage(new ChatComponentText(task.toString()));
+                }
+            } else {
+                try {
+                    int number = Integer.parseInt(args[0]);
+                    sender.addChatMessage(
+                        new ChatComponentText(
+                            "Added ScheduledTask in dimension " + sender.getEntityWorld().provider.dimensionId));
+                    sender.addChatMessage(new ChatComponentText("Task is Scheduled in " + number + " ticks"));
+                    SchedulerData.addScheduledTask(number, sender.getEntityWorld());
+                } catch (NumberFormatException ignored) {}
+
+            }
         }
     }
 

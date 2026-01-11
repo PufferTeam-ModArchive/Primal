@@ -94,6 +94,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         super.readFromNBTPacket(tag);
         this.readFromNBTInventory(tag);
         this.isFired = tag.getBoolean("isFired");
+        this.needsInventoryUpdate = tag.getBoolean("needsInventoryUpdate");
     }
 
     public ItemStack getInventoryStack(int slot) {
@@ -122,6 +123,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
                 this.inventory[index] = null;
                 this.markDirty();
                 onItemRemoved(itemstack);
+                onSlotUpdated(index);
                 return itemstack;
             } else {
                 itemstack = this.inventory[index].splitStack(count);
@@ -132,6 +134,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
 
                 this.markDirty();
                 onItemRemoved(itemstack);
+                onSlotUpdated(index);
                 return itemstack;
             }
         } else {
@@ -140,6 +143,8 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
     }
 
     public void onItemRemoved(ItemStack stack) {};
+
+    public void onSlotUpdated(int index) {};
 
     @Override
     public ItemStack getStackInSlotOnClosing(int index) {
@@ -160,6 +165,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
             stack.stackSize = this.getInventoryStackLimit();
         }
         this.updateTEState();
+        this.onSlotUpdated(index);
         this.scheduleInventoryUpdate();
     }
 
@@ -177,6 +183,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
             copy.stackSize = getInventoryStackLimit();
         }
         this.inventory[index] = copy;
+        this.onSlotUpdated(index);
         this.updateTEState();
     }
 

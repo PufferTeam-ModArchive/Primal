@@ -30,10 +30,11 @@ public class BlockCrucibleRenderer extends BlockPrimalRenderer {
         Tessellator tess = Tessellator.instance;
         TileEntity te = world.getTileEntity(x, y, z);
         int renderPass = ForgeHooksClient.getWorldRenderPass();
+        modelFluid.dumpVertices(tess, x, y, z);
         if (te instanceof TileEntityCrucible tef) {
+            System.out.println(tef.isFired());
             FluidStack stack = tef.getFluidStack();
             float height = tef.getFillLevel(0.0625F, 0.600F);
-            modelFluid.dumpVertices(tess, x, y, z);
             double o = 2 * Constants.modelConst;
             if (renderPass == 1) {
                 modelFluid.render(
