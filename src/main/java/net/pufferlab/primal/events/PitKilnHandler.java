@@ -16,7 +16,7 @@ import net.pufferlab.primal.recipes.PitKilnRecipe;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class PitKilnHandler {
+public class PitKilnHandler implements IEventHandler {
 
     @SubscribeEvent
     public void playerInteractEventHandler(PlayerInteractEvent event) {

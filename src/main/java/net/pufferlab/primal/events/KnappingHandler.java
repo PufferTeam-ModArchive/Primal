@@ -8,7 +8,7 @@ import net.pufferlab.primal.recipes.KnappingType;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class KnappingHandler {
+public class KnappingHandler implements IEventHandler {
 
     @SubscribeEvent
     public void playerInteractEventHandler(PlayerInteractEvent event) {

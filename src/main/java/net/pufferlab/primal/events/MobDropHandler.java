@@ -14,7 +14,7 @@ import net.pufferlab.primal.Utils;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class MobDropHandler {
+public class MobDropHandler implements IEventHandler {
 
     @SubscribeEvent
     public void onLivingDrop(LivingDropsEvent event) {

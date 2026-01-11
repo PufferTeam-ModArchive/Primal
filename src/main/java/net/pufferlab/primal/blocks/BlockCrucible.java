@@ -80,13 +80,14 @@ public class BlockCrucible extends BlockPrimal {
     public void onBlockPreDestroy(World worldIn, int x, int y, int z, int meta) {
         ItemStack item = new ItemStack(this, 1, 0);
         NBTTagCompound tagCompound = new NBTTagCompound();
+        item.setTagCompound(tagCompound);
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityCrucible tef) {
             tef.updateHeatInventory(-1.0F, tef.maxTemperature);
             tef.writeToNBTInventory(tagCompound);
-            item.setTagCompound(tagCompound);
-            if (item.getItem() instanceof IHeatableItem item2) {
-                item2.updateHeat(item, worldIn, -1.0F, tef.maxTemperature);
+            if (TemperatureUtils.hasImpl(item)) {
+                IHeatableItem item2 = TemperatureUtils.getImpl(item);
+                item2.updateHeat(item, worldIn, -1.0F, tef.temperature, tef.maxTemperature);
             }
         }
         dropItemStack(worldIn, x, y, z, item);

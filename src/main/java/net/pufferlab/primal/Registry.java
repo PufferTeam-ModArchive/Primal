@@ -1,5 +1,7 @@
 package net.pufferlab.primal;
 
+import java.util.Collections;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.command.CommandHandler;
@@ -21,6 +23,7 @@ import net.pufferlab.primal.events.*;
 import net.pufferlab.primal.events.packets.*;
 import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.tileentities.*;
+import net.pufferlab.primal.utils.TemperatureUtils;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IWorldGenerator;
@@ -133,7 +136,8 @@ public class Registry {
         clay = new ItemMeta(Constants.clayItems, "clay");
         ((BlockGroundcover) ground_rock).setItem(rock);
 
-        ingot = new ItemMetaHeatable(Constants.metalTypes, "ingot").setHasSuffix();
+        ingot = new ItemMetaHeatable(Constants.metalTypes, "ingot").setHasSuffix()
+            .setBlacklist(Constants.vanillaMetaTypes);
 
         dough = new ItemMetaFood(Constants.doughItems, "dough");
         flour = new ItemMetaFood(Constants.flourItems, "flour");
@@ -286,6 +290,11 @@ public class Registry {
         registerCommand(new CommandSchedule());
     }
 
+    public void setupHeatables() {
+        registerHeat(Items.iron_ingot, Registry.ingot);
+        registerHeat(Items.gold_ingot, Registry.ingot);
+    }
+
     public void setupNEI() {
         if (Primal.NEILoaded) {
             new NEICompat().loadConfig();
@@ -387,5 +396,9 @@ public class Registry {
                 .getCommandManager();
             ch.registerCommand(command);
         }
+    }
+
+    public void registerHeat(Item item, Item maskItem) {
+        TemperatureUtils.registerImpl(item, Collections.singletonList(0), maskItem);
     }
 }

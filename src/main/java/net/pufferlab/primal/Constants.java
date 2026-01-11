@@ -13,6 +13,7 @@ public class Constants {
     public static final String[] rockTypes = new String[] { "stone" };
     public static final String[] woodTypes = new String[] { "oak", "spruce", "birch", "jungle", "acacia", "dark_oak" };
     public static final String[] metalTypes = new String[] { "iron", "gold", "copper", "tin", "bronze" };
+    public static final String[] vanillaMetaTypes = new String[] { "iron", "gold" };
     public static final String[] rockTextures = new String[] { "minecraft:stone" };
     public static final String[] chimneyTypes = new String[] { "brick" };
     public static final String[] chimneyTextures = new String[] { "minecraft:brick" };

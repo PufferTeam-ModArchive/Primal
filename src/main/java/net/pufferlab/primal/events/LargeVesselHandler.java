@@ -10,7 +10,7 @@ import net.pufferlab.primal.utils.FluidUtils;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class LargeVesselHandler {
+public class LargeVesselHandler implements IEventHandler {
 
     private final Item itemLargeVessel = Item.getItemFromBlock(Registry.large_vessel);
 

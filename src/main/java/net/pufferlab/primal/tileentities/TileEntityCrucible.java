@@ -78,6 +78,7 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
             scheduleInventoryUpdate();
         }
         TileEntity teBelow = this.worldObj.getTileEntity(this.xCoord, this.yCoord - 1, this.zCoord);
+        this.maxTemperature = 1300;
         if (teBelow instanceof IHeatable tef) {
             if (tef.isHeatProvider()) {
                 this.maxTemperature = tef.getMaxTemperature();
@@ -123,7 +124,8 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     @Override
     public void onItemRemoved(ItemStack stack) {
         if (stack != null) {
-            if (stack.getItem() instanceof IHeatableItem item) {
+            if (TemperatureUtils.hasImpl(stack)) {
+                IHeatableItem item = TemperatureUtils.getImpl(stack);
                 item.updateHeat(stack, this.getWorld(), -1.0F, this.maxTemperature);
             }
         }
@@ -133,7 +135,8 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
         for (int i = 0; i < getSizeInventory(); i++) {
             ItemStack stack = getInventoryStack(i);
             if (stack != null) {
-                if (stack.getItem() instanceof IHeatableItem item) {
+                if (TemperatureUtils.hasImpl(stack)) {
+                    IHeatableItem item = TemperatureUtils.getImpl(stack);
                     float modifier2 = modifier;
                     if (TemperatureUtils
                         .getInterpolatedTemperature(GlobalTickingData.getTickTime(getWorld()), stack.getTagCompound())

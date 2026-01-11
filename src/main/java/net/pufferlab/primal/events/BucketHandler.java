@@ -20,7 +20,7 @@ import net.pufferlab.primal.utils.FluidUtils;
 import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class BucketHandler {
+public class BucketHandler implements IEventHandler {
 
     public void updatePacket(EntityPlayer player) {
         if (!player.worldObj.isRemote) {

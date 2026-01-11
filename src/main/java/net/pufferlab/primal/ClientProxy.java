@@ -1,5 +1,10 @@
 package net.pufferlab.primal;
 
+import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -22,6 +27,9 @@ import net.pufferlab.primal.inventory.gui.GuiKnapping;
 import net.pufferlab.primal.inventory.gui.GuiLargeVessel;
 import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.tileentities.*;
+import net.pufferlab.primal.utils.TemperatureUtils;
+
+import org.apache.commons.io.FileUtils;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -120,6 +128,14 @@ public class ClientProxy extends CommonProxy {
         register(Registry.waterwheel, new ItemWaterwheelRenderer());
         register(Registry.windmill, new ItemWindmillRenderer());
         register(Registry.ingot, new ItemHeatableRenderer());
+
+        for (Item item : TemperatureUtils.getHeatableItems()) {
+            register(
+                item,
+                new ItemHeatableRenderer(
+                    TemperatureUtils.getHeatableMask(item),
+                    TemperatureUtils.getHeatableMeta(item)));
+        }
     }
 
     public int getNextId() {
@@ -140,6 +156,31 @@ public class ClientProxy extends CommonProxy {
 
     public <T extends IItemRenderer> void register(Block block, T object) {
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(block), object);
+    }
+
+    @Override
+    public void setupResources() {
+        try {
+            File rpDir = new File(Minecraft.getMinecraft().mcDataDir, "resourcepacks");
+
+            if (!rpDir.exists()) rpDir.mkdirs();
+
+            File out = new File(rpDir, "Primal-Modern-Resources.zip");
+
+            if (out.exists()) return;
+
+            URL url = new URL(
+                "https://github.com/PufferTeam-ModArchive/Primal/raw/refs/heads/main/builtin/Primal-Modern-Resources.jar");
+            URLConnection connection = url.openConnection();
+            connection.setConnectTimeout(5000);
+            connection.setReadTimeout(5000);
+
+            try (InputStream in = connection.getInputStream()) {
+                FileUtils.copyInputStreamToFile(in, out);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

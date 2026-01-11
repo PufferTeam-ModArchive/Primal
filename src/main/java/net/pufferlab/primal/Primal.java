@@ -47,12 +47,15 @@ public class Primal {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         proxy.init(event);
-        proxy.setupRenders();
+        proxy.setupResources();
 
         registry.setupPackets();
         registry.setupNEI();
         registry.setupMT();
         registry.setupWAILA();
+        registry.setupHeatables();
+
+        proxy.setupRenders();
 
         registry.setupEvents();
     }

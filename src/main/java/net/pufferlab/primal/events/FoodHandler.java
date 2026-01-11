@@ -7,7 +7,7 @@ import net.pufferlab.primal.items.ItemMetaFood;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class FoodHandler {
+public class FoodHandler implements IEventHandler {
 
     @SubscribeEvent
     public void onEntityInteraction(EntityInteractEvent event) {

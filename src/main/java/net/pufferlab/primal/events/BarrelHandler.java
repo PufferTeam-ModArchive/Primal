@@ -7,7 +7,7 @@ import net.pufferlab.primal.utils.FluidUtils;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class BarrelHandler {
+public class BarrelHandler implements IEventHandler {
 
     private final Item itemBarrel = Item.getItemFromBlock(Registry.barrel);
 

@@ -2,6 +2,7 @@ package net.pufferlab.primal.client.renderer;
 
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
@@ -75,12 +76,15 @@ public class RenderHeat {
         GL11.glColor4f(1f, 1f, 1f, 1f);
     }
 
-    public void renderHeat(ItemStack stack, int temperature, IItemRenderer.ItemRenderType type) {
+    public void renderHeat(ItemStack stack, int temperature, IItemRenderer.ItemRenderType type, Item maskItem) {
         int meta = stack.getItemDamage();
         IIcon iicon = stack.getItem()
             .getIconFromDamageForRenderPass(meta, 0);
-        IIcon iiconMask = stack.getItem()
-            .getIconFromDamageForRenderPass(meta, 1);
+        Item item = stack.getItem();
+        if (maskItem != null) {
+            item = maskItem;
+        }
+        IIcon iiconMask = item.getIconFromDamageForRenderPass(meta, 1);
         Tessellator tess = Tessellator.instance;
 
         if (type == IItemRenderer.ItemRenderType.INVENTORY) {

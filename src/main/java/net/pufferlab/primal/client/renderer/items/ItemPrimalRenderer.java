@@ -89,6 +89,10 @@ public class ItemPrimalRenderer implements IItemRenderer {
 
     }
 
+    public Item getMaskItem() {
+        return null;
+    }
+
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
         if (Utils.contains(getMetaBlacklist(), item.getItemDamage())) return false;
@@ -147,7 +151,8 @@ public class ItemPrimalRenderer implements IItemRenderer {
                         ModelPrimal model = this.model[index];
                         heatRenderer.renderHeat(model, temperature);
                     } else {
-                        heatRenderer.renderHeat(item, temperature, type);
+                        Item maskItem = getMaskItem();
+                        heatRenderer.renderHeat(item, temperature, type, maskItem);
                     }
                 } else if (handleContainerRendering()) {
                     containerRenderer.renderContainer(item, type);

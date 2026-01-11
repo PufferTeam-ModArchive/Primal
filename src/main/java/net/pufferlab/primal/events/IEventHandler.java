@@ -2,5 +2,7 @@ package net.pufferlab.primal.events;
 
 public interface IEventHandler {
 
-    public boolean isFMLEvent();
+    default boolean isFMLEvent() {
+        return false;
+    };
 }

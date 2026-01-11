@@ -10,7 +10,7 @@ import net.pufferlab.primal.Utils;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public abstract class PileHandler {
+public abstract class PileHandler implements IEventHandler {
 
     @SubscribeEvent
     public void playerInteractEventHandler(PlayerInteractEvent event) {

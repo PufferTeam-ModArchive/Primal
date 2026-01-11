@@ -9,7 +9,7 @@ import net.pufferlab.primal.Utils;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class CastHandler {
+public class CastHandler implements IEventHandler {
 
     @SubscribeEvent
     public void playerInteractEventHandler(PlayerInteractEvent event) {

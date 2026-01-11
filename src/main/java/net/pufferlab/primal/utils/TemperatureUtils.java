@@ -1,11 +1,75 @@
 package net.pufferlab.primal.utils;
 
+import java.util.*;
+
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.events.ticks.GlobalTickingData;
+import net.pufferlab.primal.items.IHeatableItem;
 
 public class TemperatureUtils {
+
+    private static final Map<Item, IHeatableItem> heatableItems = new HashMap<>();
+    private static final Map<Item, List<Integer>> heatableMetaItems = new HashMap<>();
+    private static final Map<Item, Item> heatableMaskItems = new HashMap<>();
+    private static final List<Item> heatableList = new ArrayList<>();
+
+    public static List<Item> getHeatableItems() {
+        return heatableList;
+    }
+
+    public static List<Integer> getHeatableMeta(Item item) {
+        return heatableMetaItems.get(item);
+    }
+
+    public static Item getHeatableMask(Item item) {
+        return heatableMaskItems.get(item);
+    }
+
+    public static void registerImpl(Item item, List<Integer> meta, Item mask) {
+        registerImpl(item, meta, mask, new IHeatableItem() {
+
+            public void updateHeat(ItemStack stack, World world, float multiplier, int maxTemperature) {
+                IHeatableItem.super.updateHeat(stack, world, multiplier, maxTemperature);
+            }
+        });
+    }
+
+    public static void registerImpl(Item item, List<Integer> meta, Item mask, IHeatableItem impl) {
+        heatableItems.put(item, impl);
+        heatableMetaItems.put(item, meta);
+        heatableMaskItems.put(item, mask);
+        heatableList.add(item);
+    }
+
+    public static boolean hasImpl(ItemStack stack) {
+        Item item = stack.getItem();
+        if (item instanceof IHeatableItem) return true;
+        if (heatableItems.containsKey(item)) {
+            if (item.isDamageable()) return true;
+            if (heatableMetaItems.get(item) == null) return true;
+            if (heatableMetaItems.get(item)
+                .contains(stack.getItemDamage())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static IHeatableItem getImpl(ItemStack stack) {
+        Item item = stack.getItem();
+        if (item instanceof IHeatableItem item2) return item2;
+        if (heatableItems.containsKey(item)) {
+            if (heatableMetaItems.get(item)
+                .contains(stack.getItemDamage())) {
+                return heatableItems.get(item);
+            }
+        }
+        return null;
+    }
 
     public static int getTemperatureFromNBT(NBTTagCompound tag) {
         if (tag == null) return 0;
@@ -61,8 +125,18 @@ public class TemperatureUtils {
 
     public static void setInterpolatedTemperatureToNBT(NBTTagCompound tag, World world, float multiplier,
         int maxTemperature) {
+        setInterpolatedTemperatureToNBT(
+            tag,
+            world,
+            multiplier,
+            TemperatureUtils.getInterpolatedTemperature(GlobalTickingData.getTickTime(world), tag),
+            maxTemperature);
+    }
+
+    public static void setInterpolatedTemperatureToNBT(NBTTagCompound tag, World world, float multiplier,
+        int currentTemperature, int maxTemperature) {
         setMaxTemperatureToNBT(tag, maxTemperature);
-        setTemperatureToNBT(tag, getInterpolatedTemperature(GlobalTickingData.getTickTime(world), tag));
+        setTemperatureToNBT(tag, currentTemperature);
         setWorldTimeToNBT(tag, GlobalTickingData.getTickTime(world));
         setMultiplierToNBT(tag, multiplier);
     }

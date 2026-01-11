@@ -26,7 +26,7 @@ import net.pufferlab.primal.tileentities.IHeatable;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ToolHandler {
+public class ToolHandler implements IEventHandler {
 
     @SubscribeEvent
     public void setBreakSpeed(PlayerEvent.BreakSpeed event) {

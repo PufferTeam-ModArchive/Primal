@@ -36,6 +36,8 @@ public class CommonProxy implements IGuiHandler {
 
     public void setupRenders() {}
 
+    public void setupResources() {}
+
     public void init(FMLInitializationEvent event) {}
 
     public void postInit(FMLPostInitializationEvent event) {}
