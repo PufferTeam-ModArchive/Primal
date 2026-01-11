@@ -170,7 +170,7 @@ public class ClientProxy extends CommonProxy {
             if (out.exists()) return;
 
             URL url = new URL(
-                "https://github.com/PufferTeam-ModArchive/Primal/raw/refs/heads/main/builtin/Primal-Modern-Resources.jar");
+                "https://github.com/PufferTeam-ModArchive/Primal/raw/refs/heads/main/builtin/Primal-Modern-Resources.zip");
             URLConnection connection = url.openConnection();
             connection.setConnectTimeout(5000);
             connection.setReadTimeout(5000);
