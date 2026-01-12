@@ -6,6 +6,10 @@ public interface IMetaItem {
 
     public String[] getElements();
 
+    default String[] getElementsBlacklist() {
+        return null;
+    };
+
     public String getElementName();
 
     public boolean hasSuffix();

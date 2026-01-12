@@ -586,7 +586,7 @@ public class Utils {
     }
 
     public static boolean contains(String[] array, String targetString) {
-        if (targetString == null) {
+        if (targetString == null || array == null) {
             return false;
         }
         for (String element : array) {

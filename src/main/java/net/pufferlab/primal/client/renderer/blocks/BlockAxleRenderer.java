@@ -1,5 +1,7 @@
 package net.pufferlab.primal.client.renderer.blocks;
 
+import static net.pufferlab.primal.blocks.BlockAxle.*;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -28,7 +30,7 @@ public class BlockAxleRenderer extends BlockPrimalRenderer {
             Tessellator tess = Tessellator.instance;
             if (tef.hasBracket) {
                 modelBracket.setFacingFromAxis(tef.facingMeta, tef.axisMeta);
-                modelBracket.render(renderer, tess, block, x, y, z, 99);
+                modelBracket.render(renderer, tess, block, x, y, z, iconAxle);
             }
         }
         return true;

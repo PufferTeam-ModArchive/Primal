@@ -113,7 +113,7 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
 
         if (this.needsInventoryUpdate) {
             this.needsInventoryUpdate = false;
-            float modifier = 1.0F;
+            float modifier = 1.25F;
             if (!this.isHeating) {
                 modifier = -1.0F;
             }

@@ -356,13 +356,16 @@ public class Registry {
     public void registerModItem(Item item, String name) {
         if (item instanceof IMetaItem item2) {
             String[] elements = item2.getElements();
+            String[] elementsBlacklist = item2.getElementsBlacklist();
             String elementName = item2.getElementName();
             String suffix = "";
             if (item2.hasSuffix()) {
                 suffix = "_" + elementName;
             }
             for (int i = 0; i < elements.length; i++) {
-                Utils.registerModItem(elements[i] + suffix, new ItemStack(item2.getItemObject(), 1, i));
+                if (!Utils.contains(elementsBlacklist, elements[i])) {
+                    Utils.registerModItem(elements[i] + suffix, new ItemStack(item2.getItemObject(), 1, i));
+                }
             }
         } else {
             Utils.registerModItem(name, new ItemStack(item, 1, 0));

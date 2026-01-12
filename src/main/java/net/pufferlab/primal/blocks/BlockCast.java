@@ -27,6 +27,8 @@ public class BlockCast extends BlockPrimal {
 
     public IIcon[] icons = new IIcon[2];
 
+    public static final int iconCast = 99;
+
     public BlockCast() {
         super(Material.clay);
 
@@ -83,7 +85,7 @@ public class BlockCast extends BlockPrimal {
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        if (side == 99) {
+        if (side == iconCast) {
             return icons[1];
         }
         return icons[0];

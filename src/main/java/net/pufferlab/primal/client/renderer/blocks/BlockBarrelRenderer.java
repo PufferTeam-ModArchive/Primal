@@ -1,5 +1,7 @@
 package net.pufferlab.primal.client.renderer.blocks;
 
+import static net.pufferlab.primal.blocks.BlockBarrel.*;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -96,7 +98,7 @@ public class BlockBarrelRenderer extends BlockPrimalRenderer {
                     renderer.renderStandardBlock(block, x, y, z);
                     renderer.setOverrideBlockTexture(null);
                 }
-                modelBarrel.render(renderer, tess, block, x, y, z, 99);
+                modelBarrel.render(renderer, tess, block, x, y, z, iconBarrel);
             }
         }
         return true;

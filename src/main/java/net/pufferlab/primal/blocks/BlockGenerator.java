@@ -13,6 +13,8 @@ public class BlockGenerator extends BlockMotion {
 
     public IIcon[] icons = new IIcon[2];
 
+    public static final int iconGenerator = 99;
+
     public BlockGenerator() {
         super(Material.wood);
         this.setHardness(2.0F);
@@ -38,7 +40,7 @@ public class BlockGenerator extends BlockMotion {
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        if (side == 99) {
+        if (side == iconGenerator) {
             return icons[1];
         }
         return icons[0];

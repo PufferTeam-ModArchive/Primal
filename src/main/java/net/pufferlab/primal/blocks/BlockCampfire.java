@@ -32,6 +32,10 @@ public class BlockCampfire extends BlockPrimal {
 
     public IIcon[] icons = new IIcon[6];
 
+    public static final int iconCampfire = 99;
+    public static final int iconFire = 98;
+    public static final int iconCampfireSpit = 97;
+
     public BlockCampfire() {
         super(Material.wood);
         this.setHardness(0.4F);
@@ -236,10 +240,10 @@ public class BlockCampfire extends BlockPrimal {
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityCampfire tef) {
             if (tef.isFired) {
-                if (side == 98) {
+                if (side == iconFire) {
                     return icons[3];
                 }
-                if (side == 99) {
+                if (side == iconCampfire) {
                     return icons[2];
                 }
             }
@@ -307,10 +311,10 @@ public class BlockCampfire extends BlockPrimal {
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        if (side == 99) {
+        if (side == iconCampfire) {
             return icons[0];
         }
-        if (side == 97) {
+        if (side == iconCampfireSpit) {
             return icons[4];
         }
         return icons[1];

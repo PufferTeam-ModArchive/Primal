@@ -21,6 +21,8 @@ public class BlockOven extends BlockCampfire {
 
     public IIcon[] ovenIcons = new IIcon[2];
 
+    public static final int iconOven = 96;
+
     public BlockOven() {}
 
     public boolean isOven() {
@@ -37,13 +39,13 @@ public class BlockOven extends BlockCampfire {
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        if (side == 99) {
+        if (side == iconCampfire) {
             return icons[0];
         }
-        if (side == 97) {
+        if (side == iconCampfireSpit) {
             return icons[4];
         }
-        if (side == 96) {
+        if (side == iconOven) {
             return ovenIcons[0];
         }
         return ovenIcons[1];

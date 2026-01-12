@@ -1,5 +1,7 @@
 package net.pufferlab.primal.client.renderer.blocks;
 
+import static net.pufferlab.primal.blocks.BlockTanning.*;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -50,8 +52,8 @@ public class BlockTanningRenderer extends BlockPrimalRenderer {
         modelTanningFrame.setFacingOffset(0.0F, 0.45F, 0.075F);
         modelTanning.setFacing(tef.facingMeta);
         modelTanningFrame.setFacing(tef.facingMeta);
-        modelTanning.render(renderer, tess, block, x, y, z, 99);
-        modelTanningFrame.render(renderer, tess, block, x, y, z, 99);
+        modelTanning.render(renderer, tess, block, x, y, z, iconTanning);
+        modelTanningFrame.render(renderer, tess, block, x, y, z, iconTanning);
 
         return true;
     }

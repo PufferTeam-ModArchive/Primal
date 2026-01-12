@@ -26,6 +26,8 @@ public class BlockForge extends BlockPrimal {
     public IIcon[] icons = new IIcon[2];
     private IIcon[] heatingIcons = new IIcon[8];
 
+    public static final int iconForge = 99;
+
     public BlockForge() {
         super(Material.rock);
         this.setHardness(1.0F);
@@ -79,7 +81,7 @@ public class BlockForge extends BlockPrimal {
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        if (side == 99) {
+        if (side == iconForge) {
             return icons[0];
         }
         return icons[1];

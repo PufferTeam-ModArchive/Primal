@@ -1,5 +1,7 @@
 package net.pufferlab.primal.client.renderer.blocks;
 
+import static net.pufferlab.primal.blocks.BlockFaucet.*;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -86,8 +88,8 @@ public class BlockFaucetRenderer extends BlockPrimalRenderer {
                     true);
             }
             if (renderPass == 0) {
-                modelFaucet.render(renderer, tess, block, x, y, z, 99);
-                modelValve.render(renderer, tess, block, x, y, z, 98);
+                modelFaucet.render(renderer, tess, block, x, y, z, iconFaucet);
+                modelValve.render(renderer, tess, block, x, y, z, iconValve);
             }
         }
         return true;

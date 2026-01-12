@@ -1,5 +1,7 @@
 package net.pufferlab.primal.client.renderer.blocks;
 
+import static net.pufferlab.primal.blocks.BlockOven.*;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -8,6 +10,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.models.ModelCampfire;
+import net.pufferlab.primal.client.models.ModelCrossed;
 import net.pufferlab.primal.client.models.ModelOven;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
@@ -18,6 +21,7 @@ import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 public class BlockOvenRenderer extends BlockPrimalRenderer {
 
     private final ThreadLocal<ModelCampfire> modelCampfireThread = ThreadLocal.withInitial(ModelCampfire::new);
+    private final ThreadLocal<ModelCrossed> modelFireThread = ThreadLocal.withInitial(ModelCrossed::new);
     private final ThreadLocal<ModelOven> modelOvenThread = ThreadLocal.withInitial(ModelOven::new);
 
     @Override
@@ -27,6 +31,7 @@ public class BlockOvenRenderer extends BlockPrimalRenderer {
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
         ModelCampfire modelCampfire = modelCampfireThread.get();
+        ModelCrossed modelFire = modelFireThread.get();
         ModelOven modelOven = modelOvenThread.get();
 
         Tessellator tess = Tessellator.instance;
@@ -56,14 +61,14 @@ public class BlockOvenRenderer extends BlockPrimalRenderer {
         }
         int renderPass = ForgeHooksClient.getWorldRenderPass();
         if (renderPass == 0) {
-            modelCampfire.render(renderer, tess, block, x, y, z, -0.02F, 0.05F + 0.5F, -0.02F, 99);
+            modelCampfire.render(renderer, tess, block, x, y, z, -0.02F, 0.05F + 0.5F, -0.02F, iconCampfire);
             if (te instanceof TileEntityMetaFacing tef) {
                 modelOven.setFacing(tef.facingMeta);
-                modelOven.render(renderer, tess, block, x, y, z, 96);
+                modelOven.render(renderer, tess, block, x, y, z, iconOven);
             }
             if (te instanceof TileEntityCampfire tef) {
                 if (tef.isFired) {
-                    renderer.drawCrossedSquares(block.getIcon(world, x, y, z, 98), x, y, z, 1.0F);
+                    modelFire.render(renderer, block, x, y, z, iconFire);
                 }
             }
         }

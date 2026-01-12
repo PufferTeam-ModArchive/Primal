@@ -1,5 +1,7 @@
 package net.pufferlab.primal.client.renderer.blocks;
 
+import static net.pufferlab.primal.blocks.BlockForge.*;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -36,7 +38,7 @@ public class BlockForgeRenderer extends BlockPrimalRenderer {
                     renderer.setRenderBounds(0.25F, 0.0F, 0.25F, 0.75F, 0.625F + (0.0625F * metadata), 0.75F);
                     renderer.renderStandardBlock(block, x, y, z);
                 }
-                modelForge.render(renderer, tess, block, x, y, z, 99);
+                modelForge.render(renderer, tess, block, x, y, z, iconForge);
             }
         }
         return true;

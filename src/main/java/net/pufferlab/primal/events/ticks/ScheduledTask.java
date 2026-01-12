@@ -90,6 +90,7 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
                 }
             }
             case tileTask: {
+                Block block = world.getBlock(this.x, this.y, this.z);
                 TileEntity te = world.getTileEntity(this.x, this.y, this.z);
                 if (te instanceof IScheduledTile te2) {
                     te2.onSchedule(world, this.x, this.y, this.z, this.type, this.id);

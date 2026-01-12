@@ -27,6 +27,8 @@ public class BlockBarrel extends BlockPrimal {
 
     public IIcon[] icons = new IIcon[2];
 
+    public static final int iconBarrel = 99;
+
     public BlockBarrel() {
         super(Material.wood);
         this.setStepSound(soundTypeWood);
@@ -117,7 +119,7 @@ public class BlockBarrel extends BlockPrimal {
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        if (side == 99) {
+        if (side == iconBarrel) {
             return icons[0];
         }
         return icons[1];

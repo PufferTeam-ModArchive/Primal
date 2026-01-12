@@ -23,6 +23,9 @@ public class BlockFaucet extends BlockPrimal {
 
     public IIcon[] icons = new IIcon[3];
 
+    public static final int iconFaucet = 99;
+    public static final int iconValve = 98;
+
     public BlockFaucet() {
         super(Material.wood);
         this.setStepSound(soundTypeWood);
@@ -74,10 +77,10 @@ public class BlockFaucet extends BlockPrimal {
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        if (side == 99) {
+        if (side == iconFaucet) {
             return icons[0];
         }
-        if (side == 98) {
+        if (side == iconValve) {
             return icons[2];
         }
         return icons[1];

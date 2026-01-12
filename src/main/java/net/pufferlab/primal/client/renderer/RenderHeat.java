@@ -80,11 +80,13 @@ public class RenderHeat {
         int meta = stack.getItemDamage();
         IIcon iicon = stack.getItem()
             .getIconFromDamageForRenderPass(meta, 0);
+        if (iicon == null) return;
         Item item = stack.getItem();
         if (maskItem != null) {
             item = maskItem;
         }
         IIcon iiconMask = item.getIconFromDamageForRenderPass(meta, 1);
+        if (iiconMask == null) return;
         Tessellator tess = Tessellator.instance;
 
         if (type == IItemRenderer.ItemRenderType.INVENTORY) {

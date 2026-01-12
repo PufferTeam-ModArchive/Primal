@@ -1,5 +1,7 @@
 package net.pufferlab.primal.client.renderer.blocks;
 
+import static net.pufferlab.primal.blocks.BlockCast.*;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -55,7 +57,7 @@ public class BlockCastRenderer extends BlockPrimalRenderer {
                     false,
                     false);
             } else if (renderPass == 0) {
-                modelMold.render(renderer, tess, block, x, y, z, 99);
+                modelMold.render(renderer, tess, block, x, y, z, iconCast);
             }
         }
         return true;

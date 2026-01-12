@@ -28,6 +28,10 @@ nei.recipe.primal.barrel.smeltTime=Takes %s seconds
 nei.recipe.primal.barrel.smeltTimeMinute=Takes %s minute
 nei.recipe.primal.barrel.smeltTimeMinutes=Takes %s minutes
 
+item.primal.copper_ingot.name=Copper Ingot
+item.primal.tin_ingot.name=Tin Ingot
+item.primal.bronze_ingot.name=Bronze Ingot
+
 fluid.primal.limewater.name=Limewater
 fluid.primal.tannin.name=Tannin
 item.primal.tannin_bucket.name=Tannin Bucket

@@ -1,5 +1,7 @@
 package net.pufferlab.primal.client.renderer.blocks;
 
+import static net.pufferlab.primal.blocks.BlockGenerator.*;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -29,8 +31,7 @@ public class BlockGeneratorRenderer extends BlockPrimalRenderer {
         if (te instanceof TileEntityMotion tef) {
             int axis = tef.axisMeta;
             modelGenerator.setAxis(axis);
-            modelGenerator.render(renderer, tess, block, x, y, z, 0.0F, 0.5F, 0.0F, 99);
-
+            modelGenerator.render(renderer, tess, block, x, y, z, 0.0F, 0.5F, 0.0F, iconGenerator);
         }
 
         return true;

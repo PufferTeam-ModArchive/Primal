@@ -22,6 +22,8 @@ public class BlockTanning extends BlockPrimal {
 
     public IIcon[] icons = new IIcon[2];
 
+    public static final int iconTanning = 99;
+
     public BlockTanning() {
         super(Material.wood);
         this.setHardness(1.0F);
@@ -36,7 +38,7 @@ public class BlockTanning extends BlockPrimal {
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        if (side == 99) {
+        if (side == iconTanning) {
             return icons[1];
         }
         return icons[1];

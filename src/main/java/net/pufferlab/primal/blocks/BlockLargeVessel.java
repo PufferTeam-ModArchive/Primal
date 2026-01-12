@@ -24,6 +24,8 @@ public class BlockLargeVessel extends BlockPrimal {
 
     public IIcon[] icons = new IIcon[2];
 
+    public static final int iconLargeVessel = 99;
+
     public BlockLargeVessel() {
         super(Material.rock);
         this.setHardness(1.0F);
@@ -55,7 +57,7 @@ public class BlockLargeVessel extends BlockPrimal {
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        if (side == 99) {
+        if (side == iconLargeVessel) {
             return icons[0];
         }
         return icons[1];

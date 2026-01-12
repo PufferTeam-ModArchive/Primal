@@ -233,6 +233,14 @@ public class ModelTESS {
         renderer.renderJOML(scale, matrix, i1, x, y, z, offsetX, offsetY, offsetZ, icon);
     }
 
+    public void renderCrossed(RenderBlocks renderblocks, Block block, int x, int y, int z, int index) {
+        IIcon icon = block.getIcon(renderblocks.blockAccess, x, y, z, index);
+        if (index < 16) {
+            icon = block.getIcon(0, index);
+        }
+        renderblocks.drawCrossedSquares(icon, x, y, z, 1.0F);
+    }
+
     public void renderFluid(RenderBlocks renderblocks, Tessellator tess, int x, int y, int z, FluidStack fs,
         double minX, double minY, double minZ, double maxX, double maxY, double maxZ, boolean renderAllSides) {
         renderFluid(renderblocks, tess, x, y, z, fs, minX, minY, minZ, maxX, maxY, maxZ, renderAllSides, false);

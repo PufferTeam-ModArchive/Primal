@@ -27,6 +27,8 @@ public class BlockQuern extends BlockPrimal {
 
     public IIcon[] icons = new IIcon[2];
 
+    public static final int iconQuern = 99;
+
     public BlockQuern() {
         super(Material.rock);
 
@@ -115,7 +117,7 @@ public class BlockQuern extends BlockPrimal {
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        if (side == 99) {
+        if (side == iconQuern) {
             return icons[1];
         }
         return icons[0];

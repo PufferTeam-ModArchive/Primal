@@ -83,7 +83,6 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable {
         if (isFired) {
             timeFired++;
             if (this.blockMetadata == 0) {
-                this.temperature = 0;
                 setFired(false);
             }
         }

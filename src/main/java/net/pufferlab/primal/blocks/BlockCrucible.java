@@ -26,6 +26,8 @@ public class BlockCrucible extends BlockPrimal {
 
     public IIcon[] icons = new IIcon[2];
 
+    public static final int iconCrucible = 99;
+
     public BlockCrucible() {
         super(Material.rock);
         this.setHardness(1.0F);
@@ -50,7 +52,7 @@ public class BlockCrucible extends BlockPrimal {
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        if (side == 99) {
+        if (side == iconCrucible) {
             return icons[0];
         }
         return icons[1];

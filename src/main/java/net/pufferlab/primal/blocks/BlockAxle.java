@@ -20,6 +20,8 @@ public class BlockAxle extends BlockMotion {
 
     public IIcon[] icons = new IIcon[2];
 
+    public static final int iconAxle = 99;
+
     public BlockAxle() {
         super(Material.wood);
         this.setHardness(2.0F);
@@ -96,7 +98,7 @@ public class BlockAxle extends BlockMotion {
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        if (side == 99) {
+        if (side == iconAxle) {
             return icons[1];
         }
         return icons[0];

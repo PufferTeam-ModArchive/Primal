@@ -112,6 +112,11 @@ public class ItemMeta extends Item implements IMetaItem {
         return elements;
     }
 
+    @Override
+    public String[] getElementsBlacklist() {
+        return elementsBlacklist;
+    }
+
     public boolean hasSuffix() {
         return hasSuffix;
     }
