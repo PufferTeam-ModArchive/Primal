@@ -2,6 +2,7 @@ package net.pufferlab.primal.events;
 
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.events.packets.PacketWorldTime;
@@ -36,6 +37,11 @@ public class TickHandler implements IEventHandler {
                 syncTime(event.world);
             }
         }
+    }
+
+    @SubscribeEvent
+    public void onChunkLoad(ChunkEvent.Load event) {
+
     }
 
     @SubscribeEvent

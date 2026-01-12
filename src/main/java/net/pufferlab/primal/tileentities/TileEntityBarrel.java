@@ -3,23 +3,32 @@ package net.pufferlab.primal.tileentities;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 import net.pufferlab.primal.recipes.BarrelRecipe;
 
-public class TileEntityBarrel extends TileEntityFluidInventory {
+public class TileEntityBarrel extends TileEntityFluidInventory implements IScheduledTile {
 
     public static final FluidStack waterFluidStack = new FluidStack(FluidRegistry.WATER, 5);
     public boolean isFloorBarrel = false;
     public boolean isOpen = false;
     private final FluidTank tankOutput;
-    public int timePassed;
-    public int timePassedRain;
     public int lastStackSize;
     public int timeToProcess;
     public boolean canProcess;
     public static int slotInput = 0;
     public static int slotOutput = 1;
+
+    public static int updateRain = 0;
+    public long nextUpdateRain;
+    public boolean hasUpdateRain;
+    public boolean needsUpdateRain;
+
+    public static int updateProcess = 1;
+    public long nextUpdateProcess;
+    public boolean hasUpdateProcess;
+    public boolean needsUpdateProcess;
 
     public TileEntityBarrel() {
         super(10000, 2);
@@ -34,8 +43,15 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
 
         this.isOpen = tag.getBoolean("isOpen");
         this.isFloorBarrel = tag.getBoolean("isFloorBarrel");
-        this.timePassed = tag.getInteger("timePassed");
-        this.timePassedRain = tag.getInteger("timePassedRain");
+
+        this.nextUpdateRain = tag.getLong("nextUpdateRain");
+        this.hasUpdateRain = tag.getBoolean("hasUpdateRain");
+        this.needsUpdateRain = tag.getBoolean("needsUpdateRain");
+
+        this.nextUpdateProcess = tag.getLong("nextUpdateProcess");
+        this.hasUpdateProcess = tag.getBoolean("hasUpdateProcess");
+        this.needsUpdateProcess = tag.getBoolean("needsUpdateProcess");
+
         this.lastStackSize = tag.getInteger("lastStackSize");
         this.canProcess = tag.getBoolean("canProcess");
         this.timeToProcess = tag.getInteger("timeToProcess");
@@ -47,8 +63,15 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
 
         tag.setBoolean("isOpen", this.isOpen);
         tag.setBoolean("isFloorBarrel", this.isFloorBarrel);
-        tag.setInteger("timePassed", this.timePassed);
-        tag.setInteger("timePassedRain", this.timePassedRain);
+
+        tag.setLong("nextUpdateRain", this.nextUpdateRain);
+        tag.setBoolean("hasUpdateRain", this.hasUpdateRain);
+        tag.setBoolean("needsUpdateRain", this.needsUpdateRain);
+
+        tag.setLong("nextUpdateProcess", this.nextUpdateProcess);
+        tag.setBoolean("hasUpdateProcess", this.hasUpdateProcess);
+        tag.setBoolean("needsUpdateProcess", this.needsUpdateProcess);
+
         tag.setInteger("lastStackSize", this.lastStackSize);
         tag.setBoolean("canProcess", this.canProcess);
         tag.setInteger("timeToProcess", this.timeToProcess);
@@ -149,14 +172,16 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
     @Override
     public void updateEntity() {
         super.updateEntity();
-        if (worldObj.isRaining() && worldObj.canBlockSeeTheSky(this.xCoord, this.yCoord, this.zCoord)
+        if (!hasUpdateRain && worldObj.isRaining()
+            && worldObj.canBlockSeeTheSky(this.xCoord, this.yCoord, this.zCoord)
             && !this.isFloorBarrel
             && this.isOpen) {
-            this.timePassedRain++;
-            if (this.timePassedRain > 20) {
-                fill(ForgeDirection.UP, waterFluidStack, true);
-                this.timePassedRain = 0;
-            }
+            addSchedule(20, updateRain);
+        }
+
+        if (needsUpdateRain) {
+            needsUpdateRain = false;
+            fill(ForgeDirection.UP, waterFluidStack, true);
         }
 
         BarrelRecipe recipe = BarrelRecipe.getRecipe(getInventoryStack(slotInput), getFluidStack());
@@ -164,15 +189,17 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
             this.timeToProcess = recipe.processingTime;
             int numberInput = getInventoryStack(slotInput).stackSize;
             if (numberInput != lastStackSize) {
-                timePassed = 0;
+                removeSchedule(updateProcess);
                 lastStackSize = numberInput;
             }
             int scaledAmount = recipe.inputLiquid.amount * lastStackSize;
             if (getFluidStack().amount >= (scaledAmount)) {
                 this.canProcess = true;
-                timePassed++;
-                if (timePassed > this.timeToProcess) {
-                    timePassed = 0;
+                if (!hasUpdateProcess) {
+                    addSchedule(this.timeToProcess, updateProcess);
+                }
+                if (needsUpdateProcess) {
+                    needsUpdateProcess = false;
                     setInventorySlotContentsUpdate(slotInput);
                     tank.drain(scaledAmount, true);
                     if (recipe.output != null) {
@@ -195,13 +222,70 @@ public class TileEntityBarrel extends TileEntityFluidInventory {
             this.canProcess = false;
         }
         if (!this.canProcess) {
-            timePassed = 0;
-            timeToProcess = 0;
+            if (hasUpdateProcess) {
+                removeSchedule(updateProcess);
+            }
+        }
+    }
+
+    @Override
+    public void onSlotUpdated(int index) {
+        if (index == slotInput) {
+            removeSchedule(updateProcess);
+        }
+    }
+
+    @Override
+    public void addSchedule(int inTime, int type) {
+        IScheduledTile.super.addSchedule(inTime, type);
+
+        long time = getWorldTime(inTime);
+        if (type == updateRain) {
+            nextUpdateRain = time;
+            hasUpdateRain = true;
+        }
+        if (type == updateProcess) {
+            nextUpdateProcess = time;
+            hasUpdateProcess = true;
+        }
+    }
+
+    @Override
+    public void removeSchedule(int type) {
+        IScheduledTile.super.removeSchedule(type);
+
+        if (type == updateRain) {
+            hasUpdateRain = false;
+        }
+        if (type == updateProcess) {
+            hasUpdateProcess = false;
+        }
+    }
+
+    @Override
+    public void invalidate() {
+        super.invalidate();
+
+        removeAllSchedule();
+    }
+
+    @Override
+    public void onSchedule(World world, int x, int y, int z, int type, int id) {
+        if (type == updateRain) {
+            needsUpdateRain = true;
+        }
+        if (type == updateProcess) {
+            needsUpdateProcess = true;
         }
     }
 
     @Override
     public FluidTankInfo[] getTankInfo(ForgeDirection from) {
         return new FluidTankInfo[] { tank.getInfo(), tankOutput.getInfo() };
+    }
+
+    @Override
+    public int getInventoryStackLimitAutomation() {
+        return 1;
     }
 }

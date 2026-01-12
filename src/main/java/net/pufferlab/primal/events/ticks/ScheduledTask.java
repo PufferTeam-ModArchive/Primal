@@ -76,6 +76,13 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
         return false;
     }
 
+    public boolean equals(int type) {
+        if (this.type == type) {
+            return true;
+        }
+        return false;
+    }
+
     public boolean run(World world) {
         switch (this.taskType) {
             case simpleTask: {

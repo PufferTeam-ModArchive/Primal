@@ -21,10 +21,13 @@ public class HeatHandler implements IEventHandler {
         if (event.itemStack.hasTagCompound()) {
             NBTTagCompound tag = event.itemStack.getTagCompound();
             if (tag != null) {
-                event.toolTip.add(
-                    Utils.getTemperatureTooltip(
-                        TemperatureUtils
-                            .getInterpolatedTemperature(GlobalTickingData.getTickTime(event.entity.worldObj), tag)));
+                if (TemperatureUtils.hasImpl(event.itemStack)) {
+                    event.toolTip.add(
+                        Utils.getTemperatureTooltip(
+                            TemperatureUtils.getInterpolatedTemperature(
+                                GlobalTickingData.getTickTime(event.entity.worldObj),
+                                tag)));
+                }
             }
         }
     }

@@ -1,6 +1,7 @@
 package net.pufferlab.primal.tileentities;
 
 import net.minecraft.world.World;
+import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.events.ticks.SchedulerData;
 
 public interface IScheduledTile extends ITile {
@@ -33,5 +34,9 @@ public interface IScheduledTile extends ITile {
 
     default void removeAllSchedule() {
         removeSchedule();
+    }
+
+    default long getWorldTime(int inTime) {
+        return Utils.getWorldTime(inTime);
     }
 }

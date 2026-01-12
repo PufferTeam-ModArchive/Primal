@@ -22,6 +22,7 @@ import net.minecraftforge.fluids.*;
 import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.blocks.BlockPile;
 import net.pufferlab.primal.blocks.SoundTypePrimal;
+import net.pufferlab.primal.events.ticks.GlobalTickingData;
 import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.utils.FluidUtils;
 
@@ -222,14 +223,26 @@ public class Utils {
 
     public static String getRecipeTooltip(String name, int timePassed, int timeToProcess, String suffix) {
         float percentagePassed = (float) timePassed / (float) timeToProcess;
-        int percentage = (int) Math.floor(percentagePassed * 100);
+        int percentage = (int) Math.floor((percentagePassed) * 100);
         return EnumChatFormatting.GRAY + name + ": " + percentage + "% " + suffix;
     }
 
-    public static String getRecipeTooltip(int timePassed, int timeToProcess, String suffix) {
-        float percentagePassed = (float) timePassed / (float) timeToProcess;
-        int percentage = (int) Math.floor(percentagePassed * 100);
-        return percentage + "% " + suffix;
+    public static String getRecipeTooltip(String name, World world, long nextUpdate, int timeToProcess, String suffix) {
+        long now = GlobalTickingData.getTickTime(world);
+
+        long start = nextUpdate - timeToProcess;
+        long elapsed = now - start;
+
+        float pct = (float) elapsed / (float) timeToProcess;
+        pct = MathHelper.clamp_float(pct, 0f, 1f);
+
+        int percentage = (int) (pct * 100);
+
+        return EnumChatFormatting.GRAY + name + ": " + percentage + "% " + suffix;
+    }
+
+    public static long getWorldTime(int inTime) {
+        return GlobalTickingData.getTickTime() + inTime;
     }
 
     public static String getStateTooltip(boolean state, String on, String off) {

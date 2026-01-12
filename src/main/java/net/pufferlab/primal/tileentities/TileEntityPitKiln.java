@@ -6,11 +6,15 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.pufferlab.primal.recipes.PitKilnRecipe;
 
-public class TileEntityPitKiln extends TileEntityInventory implements IHeatable {
+public class TileEntityPitKiln extends TileEntityInventory implements IHeatable, IScheduledTile {
 
-    public int timeFired;
+    public static int updateProcess = 1;
+    public long nextUpdateProcess;
+    public boolean hasUpdateProcess;
+    public boolean needsUpdateProcess;
     public static int slotItem1 = 0;
     public static int slotItem2 = 1;
     public static int slotItem3 = 2;
@@ -23,17 +27,21 @@ public class TileEntityPitKiln extends TileEntityInventory implements IHeatable 
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
-        super.readFromNBT(compound);
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
 
-        this.timeFired = compound.getInteger("timeFired");
+        this.nextUpdateProcess = tag.getLong("nextUpdateProcess");
+        this.hasUpdateProcess = tag.getBoolean("hasUpdateProcess");
+        this.needsUpdateProcess = tag.getBoolean("needsUpdateProcess");
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound compound) {
-        super.writeToNBT(compound);
+    public void writeToNBT(NBTTagCompound tag) {
+        super.writeToNBT(tag);
 
-        compound.setInteger("timeFired", this.timeFired);
+        tag.setLong("nextUpdateProcess", this.nextUpdateProcess);
+        tag.setBoolean("hasUpdateProcess", this.hasUpdateProcess);
+        tag.setBoolean("needsUpdateProcess", this.needsUpdateProcess);
     }
 
     @Override
@@ -58,12 +66,16 @@ public class TileEntityPitKiln extends TileEntityInventory implements IHeatable 
             setFired(false);
         }
         if (isFired) {
-            this.timeFired++;
+            if (!hasUpdateProcess) {
+                addSchedule(smeltTime, updateProcess);
+            }
             if (blockAbove.getMaterial() == Material.air || blockAbove.getMaterial() == Material.fire) {
                 this.worldObj.setBlock(this.xCoord, this.yCoord + 1, this.zCoord, Blocks.fire);
             } else {
                 setFired(false);
-                timeFired = 0;
+                if (hasUpdateProcess) {
+                    removeSchedule(updateProcess);
+                }
             }
             TileEntity te = this.worldObj.getTileEntity(this.xCoord + 1, this.yCoord, this.zCoord + 1);
             if (te instanceof TileEntityPitKiln tef) {
@@ -83,7 +95,8 @@ public class TileEntityPitKiln extends TileEntityInventory implements IHeatable 
             }
         }
         boolean reset = false;
-        if (this.timeFired > smeltTime) {
+        if (needsUpdateProcess) {
+            needsUpdateProcess = false;
             reset = true;
             for (int i = 0; i < getSizeInventory(); i++) {
                 ItemStack input = this.getStackInSlot(i);
@@ -94,12 +107,52 @@ public class TileEntityPitKiln extends TileEntityInventory implements IHeatable 
         }
         if (reset) {
             this.worldObj.setBlockToAir(this.xCoord, this.yCoord + 1, this.zCoord);
-            this.timeFired = 0;
             this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 0, 2);
             for (int x = 5; x < this.getSizeInventory(); x++) {
                 setInventorySlotContentsUpdate(x);
             }
             this.markDirty();
+        }
+    }
+
+    @Override
+    public void onSlotUpdated(int index) {
+        if (hasUpdateProcess) {
+            removeSchedule(updateProcess);
+        }
+    }
+
+    @Override
+    public void addSchedule(int inTime, int type) {
+        IScheduledTile.super.addSchedule(inTime, type);
+
+        long time = getWorldTime(inTime);
+        if (type == updateProcess) {
+            nextUpdateProcess = time;
+            hasUpdateProcess = true;
+        }
+    }
+
+    @Override
+    public void removeSchedule(int type) {
+        IScheduledTile.super.removeSchedule(type);
+
+        if (type == updateProcess) {
+            hasUpdateProcess = false;
+        }
+    }
+
+    @Override
+    public void invalidate() {
+        super.invalidate();
+
+        removeAllSchedule();
+    }
+
+    @Override
+    public void onSchedule(World world, int x, int y, int z, int type, int id) {
+        if (type == updateProcess) {
+            needsUpdateProcess = true;
         }
     }
 

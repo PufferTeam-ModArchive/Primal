@@ -371,6 +371,10 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         return 64;
     }
 
+    public int getInventoryStackLimitAutomation() {
+        return getInventoryStackLimit();
+    }
+
     @Override
     public boolean isUseableByPlayer(EntityPlayer player) {
         return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false
@@ -402,15 +406,20 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
     }
 
     @Override
-    public boolean canInsertItem(int slot, ItemStack p_102007_2_, int side) {
+    public boolean canInsertItem(int slot, ItemStack stack, int side) {
         if (Utils.contains(this.inputSlots, slot)) {
+            if (getInventoryStack(slot) != null) {
+                if (getInventoryStack(slot).stackSize >= getInventoryStackLimitAutomation()) {
+                    return false;
+                }
+            }
             return true;
         }
         return false;
     }
 
     @Override
-    public boolean canExtractItem(int slot, ItemStack p_102008_2_, int side) {
+    public boolean canExtractItem(int slot, ItemStack stack, int side) {
         if (Utils.contains(this.outputSlots, slot)) {
             return true;
         }

@@ -29,8 +29,9 @@ public class WLPitKilnHandler implements IWailaDataProvider {
                 int timeToProcess = smeltTime;
                 boolean isFired = tag.getBoolean("isFired");
                 if (isFired) {
-                    int timePassed = tag.getInteger("timeFired");
-                    currenttip.add(Utils.getRecipeTooltip("Pottery", timePassed, timeToProcess, "fired"));
+                    long nextUpdate = tag.getLong("nextUpdateProcess");
+                    currenttip
+                        .add(Utils.getRecipeTooltip("Pottery", tef.getWorld(), nextUpdate, timeToProcess, "fired"));
                 }
             }
         }
@@ -60,7 +61,7 @@ public class WLPitKilnHandler implements IWailaDataProvider {
         int y, int z) {
         if (te instanceof TileEntityPitKiln tef) {
             tag.setBoolean("isFired", tef.isFired);
-            tag.setInteger("timeFired", tef.timeFired);
+            tag.setLong("nextUpdateProcess", tef.nextUpdateProcess);
         }
         return tag;
     }
