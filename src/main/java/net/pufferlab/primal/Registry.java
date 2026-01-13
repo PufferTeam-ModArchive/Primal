@@ -78,6 +78,7 @@ public class Registry {
     public static final Item rock;
     public static final Item flint;
     public static final Item wood;
+    public static final Item glowstone;
     public static final Item bark;
     public static final Item flour;
     public static final Item dough;
@@ -87,6 +88,7 @@ public class Registry {
     public static final Item clay;
     public static final Item ceramic_bucket;
     public static final Item ingot;
+    public static final Item nugget;
     public static final Item flint_axe;
     public static final Item flint_pickaxe;
     public static final Item flint_shovel;
@@ -133,6 +135,7 @@ public class Registry {
         straw = new ItemMeta(Constants.strawItems, "straw");
         hide = new ItemMeta(Constants.hideItems, "hide");
         wood = new ItemMeta(Constants.woodItems, "wood");
+        glowstone = new ItemMeta(Constants.glowstoneItems, "glowstone");
         bark = new ItemMeta(Constants.woodTypes, "bark").setHasSuffix();
         flint = new ItemMeta(Constants.flintItems, "flint");
         rock = new ItemMeta(Constants.rockTypes, "rock").setHasSuffix();
@@ -141,8 +144,12 @@ public class Registry {
         clay = new ItemMeta(Constants.clayItems, "clay");
         ((BlockGroundcover) ground_rock).setItem(rock);
 
-        ingot = new ItemMetaHeatable(Constants.metalTypes, "ingot").setHasSuffix()
-            .setBlacklist(Constants.vanillaMetaTypes);
+        ingot = new ItemMetal(Constants.metalTypes, "ingot").setHasSuffix()
+            .setBlacklist(Constants.ingotBlacklist)
+            .setRegisterOre();
+        nugget = new ItemMetal(Constants.metalTypes, "nugget").setHasSuffix()
+            .setBlacklist(Constants.nuggetBlacklist)
+            .setRegisterOre();
 
         dough = new ItemMetaFood(Constants.doughItems, "dough");
         flour = new ItemMetaFood(Constants.flourItems, "flour");
@@ -190,6 +197,7 @@ public class Registry {
         register(straw, "straw");
         register(hide, "hide");
         register(wood, "wood");
+        register(glowstone, "glowstone");
         register(bark, "bark");
         register(flour, "flour");
         register(dough, "dough");
@@ -200,6 +208,7 @@ public class Registry {
         register(clay, "clay");
 
         register(ingot, "ingot");
+        register(nugget, "nugget");
 
         register(flint_axe, "flint_axe");
         register(flint_pickaxe, "flint_pickaxe");
@@ -300,6 +309,7 @@ public class Registry {
     public void setupHeatables() {
         registerHeat(Items.iron_ingot, Registry.ingot);
         registerHeat(Items.gold_ingot, Registry.ingot);
+        registerHeat(Items.gold_nugget, Registry.nugget);
     }
 
     public void setupNEI() {
@@ -364,7 +374,11 @@ public class Registry {
             }
             for (int i = 0; i < elements.length; i++) {
                 if (!Utils.contains(elementsBlacklist, elements[i])) {
-                    Utils.registerModItem(elements[i] + suffix, new ItemStack(item2.getItemObject(), 1, i));
+                    ItemStack stack = new ItemStack(item2.getItemObject(), 1, i);
+                    Utils.registerModItem(elements[i] + suffix, stack);
+                    if (item2.registerOre()) {
+                        Utils.registerModOreDict(Utils.getOreDictionaryName(elementName, elements[i]), stack);
+                    }
                 }
             }
         } else {

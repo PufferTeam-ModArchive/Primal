@@ -39,6 +39,7 @@ public class BlockForge extends BlockPrimal {
     public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
         float subY, float subZ) {
         ItemStack heldItem = player.getHeldItem();
+        if (Utils.canBeLit(heldItem)) return true;
         TileEntity te = worldIn.getTileEntity(x, y, z);
         int meta = worldIn.getBlockMetadata(x, y, z);
         if (te instanceof TileEntityForge tef) {

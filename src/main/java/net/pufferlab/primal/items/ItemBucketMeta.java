@@ -243,6 +243,6 @@ public class ItemBucketMeta extends ItemMeta {
     }
 
     public boolean isBreakable(ItemStack itemStack) {
-        return Constants.fluidsBreak[itemStack.getItemDamage()];
+        return false;
     }
 }

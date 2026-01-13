@@ -22,6 +22,7 @@ public class ItemMeta extends Item implements IMetaItem {
     private IIcon[] icons;
     private String name;
     private boolean hasSuffix;
+    private boolean registerOre;
 
     public ItemMeta(String[] materials, String type) {
         elements = materials;
@@ -49,6 +50,11 @@ public class ItemMeta extends Item implements IMetaItem {
 
     public ItemMeta setHasSuffix() {
         this.hasSuffix = true;
+        return this;
+    }
+
+    public ItemMeta setRegisterOre() {
+        this.registerOre = true;
         return this;
     }
 
@@ -119,6 +125,11 @@ public class ItemMeta extends Item implements IMetaItem {
 
     public boolean hasSuffix() {
         return hasSuffix;
+    }
+
+    @Override
+    public boolean registerOre() {
+        return this.registerOre;
     }
 
     public String getElementName() {

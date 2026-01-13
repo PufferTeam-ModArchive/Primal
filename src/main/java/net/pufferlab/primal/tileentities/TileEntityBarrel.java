@@ -273,9 +273,11 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
     public void onSchedule(World world, int x, int y, int z, int type, int id) {
         if (type == updateRain) {
             needsUpdateRain = true;
+            hasUpdateRain = false;
         }
         if (type == updateProcess) {
             needsUpdateProcess = true;
+            hasUpdateProcess = false;
         }
     }
 

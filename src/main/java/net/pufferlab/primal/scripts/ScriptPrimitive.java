@@ -1,5 +1,9 @@
 package net.pufferlab.primal.scripts;
 
+import java.util.Map;
+
+import net.minecraft.item.ItemStack;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
@@ -35,6 +39,7 @@ public class ScriptPrimitive implements IScript {
         addOreDict("firewood", getModItem("firewood", 1));
         addOreDict("charcoal", getItem("minecraft", "coal", 1, 1));
         addOreDict("coal", getItem("minecraft", "coal", 0, 1));
+        addOreDict("coalAny", getItem("minecraft", "coal", wildcard, 1));
         addOreDict("ash", getModItem("ash", 1));
         addOreDict("kindling", getModItem("straw_kindling", 1));
         addOreDict("rock", getItem(Primal.MODID, "rock", wildcard, 1));
@@ -44,12 +49,12 @@ public class ScriptPrimitive implements IScript {
         addOreDict("barkWoodTannin", getItem(Primal.MODID, "bark", Utils.getIndex(Constants.woodTypes, "acacia"), 1));
         addOreDict("itemLarge", getModItem("clay_large_vessel", 1));
         addOreDict("itemLarge", getModItem("clay_crucible", 1));
-        addOreDict("itemLarge", getItem(Primal.MODID, "large_vessel"));
-        addOreDict("itemLarge", getItem(Primal.MODID, "crucible"));
-        addOreDict("itemLarge", getItem(Primal.MODID, "barrel"));
-        addOreDict("itemContainer", getItem(Primal.MODID, "large_vessel"));
-        addOreDict("itemContainer", getItem(Primal.MODID, "crucible"));
-        addOreDict("itemContainer", getItem(Primal.MODID, "barrel"));
+        addOreDict("itemLarge", getModItem("large_vessel", 1));
+        addOreDict("itemLarge", getModItem("crucible", 1));
+        addOreDict("itemLarge", getModItem("barrel", 1));
+        addOreDict("itemContainer", getModItem("large_vessel", 1));
+        addOreDict("itemContainer", getModItem("crucible", 1));
+        addOreDict("itemContainer", getModItem("barrel", 1));
         addOreDict("toolKnife", getItem(Primal.MODID, "flint_knife", wildcard, 1));
         addOreDict("toolHandstone", getItem(Primal.MODID, "handstone", wildcard, 1));
         addOreDict("blockColoredWool", getItem("minecraft:wool:*:1"));
@@ -60,6 +65,9 @@ public class ScriptPrimitive implements IScript {
         addOreDict("blockColoredHardenedClay", getItem("minecraft:stained_hardened_clay:*:1"));
         addOreDict("blockColoredHardenedClay", getItem("minecraft:hardened_clay:*:1"));
         addOreDict("blockColoredCarpet", getItem("minecraft:carpet:*:1"));
+        for (Map.Entry<String, ItemStack> entry : Utils.getOreDictCache()) {
+            addOreDict(entry.getKey(), entry.getValue());
+        }
     }
 
     public void addEFROredicts() {
@@ -74,28 +82,27 @@ public class ScriptPrimitive implements IScript {
     }
 
     public void addCraftingRecipes() {
-        addShapedRecipe(getItem(Primal.MODID, "chopping_log", 0, 1), "SS", 'S', "logWood");
-        addShapedRecipe(getItem(Primal.MODID, "barrel", 0, 1), "P P", "P P", "PPP", 'P', "plankWood");
+        addShapedRecipe(getModItem("glowstone_crystal", 1), " S ", "SIS", " S ", 'I', "coalAny", 'S', "dustGlowstone");
+        if (Config.torchRebalance.getBoolean()) {
+            addShapedRecipe(
+                getItem("minecraft:torch:0:4"),
+                "I",
+                "S",
+                'I',
+                getModItem("glowstone_crystal", 1),
+                'S',
+                "stickWood");
+            addShapedRecipe(getModItem("unlit_torch", 4), "I", "S", 'I', "coalAny", 'S', "stickWood");
+        }
+        addShapedRecipe(getModItem("unlit_torch", 2), "I", "S", 'I', "straw", 'S', "stickWood");
+
+        addShapedRecipe(getModItem("chopping_log", 1), "SS", 'S', "logWood");
+        addShapedRecipe(getModItem("barrel", 1), "P P", "P P", "PPP", 'P', "plankWood");
+        addShapedRecipe(getModItem("oven", 1), "SSS", "SIS", "SSS", 'I', getModItem("ash", 1), 'S', "ingotBrick");
+        addShapedRecipe(getModItem("chimney", 1), "S S", "S S", "S S", 'S', "ingotBrick");
+        addShapedRecipe(getModItem("flint_axe", 1), "I", "S", 'I', getModItem("flint_axe_head", 1), 'S', "stickWood");
         addShapedRecipe(
-            getItem(Primal.MODID, "oven", 0, 1),
-            "SSS",
-            "SIS",
-            "SSS",
-            'I',
-            getModItem("ash", 1),
-            'S',
-            "ingotBrick");
-        addShapedRecipe(getItem(Primal.MODID, "chimney", 0, 1), "S S", "S S", "S S", 'S', "ingotBrick");
-        addShapedRecipe(
-            getItem(Primal.MODID, "flint_axe", 0, 1),
-            "I",
-            "S",
-            'I',
-            getModItem("flint_axe_head", 1),
-            'S',
-            "stickWood");
-        addShapedRecipe(
-            getItem(Primal.MODID, "flint_pickaxe", 0, 1),
+            getModItem("flint_pickaxe", 1),
             "I",
             "S",
             'I',
@@ -103,7 +110,7 @@ public class ScriptPrimitive implements IScript {
             'S',
             "stickWood");
         addShapedRecipe(
-            getItem(Primal.MODID, "flint_shovel", 0, 1),
+            getModItem("flint_shovel", 1),
             "I",
             "S",
             'I',
@@ -111,7 +118,7 @@ public class ScriptPrimitive implements IScript {
             'S',
             "stickWood");
         addShapedRecipe(
-            getItem(Primal.MODID, "flint_knife", 0, 1),
+            getModItem("flint_knife", 1),
             "I",
             "S",
             'I',
@@ -120,25 +127,12 @@ public class ScriptPrimitive implements IScript {
             "stickWood");
         addShapedRecipe(getItem(Primal.MODID, "thatch", 0, 1), "II", "II", 'I', getModItem("straw", 1));
         addShapedRecipe(getItem(Primal.MODID, "thatch_roof", 0, 1), "I ", "II", 'I', getModItem("straw", 1));
-        addShapedRecipe(
-            getItem(Primal.MODID, "firestarter", 0, 1),
-            "SI",
-            "I ",
-            'S',
-            getModItem("straw", 1),
-            'I',
-            "stickWood");
-        addShapedRecipe(
-            getItem(Primal.MODID, "firestarter", 0, 1),
-            " I",
-            "IS",
-            'S',
-            getModItem("straw", 1),
-            'I',
-            "stickWood");
+        addShapedRecipe(getModItem("firestarter", 1), "SI", "I ", 'S', getModItem("straw", 1), 'I', "stickWood");
+        addShapedRecipe(getModItem("firestarter", 1), " I", "IS", 'S', getModItem("straw", 1), 'I', "stickWood");
     }
 
     public void addCampfireRecipes() {
+        addCampfireRecipe(getModItem("lit_torch", 1), getModItem("unlit_torch", 1));
         addCampfireRecipe(getItem("minecraft:bread:0:1"), getModItem("wheat_dough", 1));
         addCampfireRecipe(getItem("minecraft:cooked_beef:0:1"), getItem("minecraft:beef:0:1"));
         addCampfireRecipe(getItem("minecraft:cooked_chicken:0:1"), getItem("minecraft:chicken:0:1"));
@@ -357,12 +351,12 @@ public class ScriptPrimitive implements IScript {
     }
 
     public void addPitKilnRecipes() {
-        addPitKilnRecipe(getItem(Primal.MODID, "ceramic_bucket", 0, 1), getModItem("clay_bucket", 1));
+        addPitKilnRecipe(getModItem("ceramic_bucket", 1), getModItem("clay_bucket", 1));
         addPitKilnRecipe(getItem("minecraft:brick:0:1"), getModItem("clay_brick", 1));
         addPitKilnRecipe(getItem("minecraft:flower_pot:0:1"), getModItem("clay_flower_pot", 1));
         addPitKilnRecipe(getItem("minecraft:hardened_clay:0:1"), getItem("minecraft:clay:0:1"));
-        addPitKilnRecipe(getItem(Primal.MODID, "large_vessel", 0, 1), getModItem("clay_large_vessel", 1));
-        addPitKilnRecipe(getItem(Primal.MODID, "crucible", 0, 1), getModItem("clay_crucible", 1));
+        addPitKilnRecipe(getModItem("large_vessel", 1), getModItem("clay_large_vessel", 1));
+        addPitKilnRecipe(getModItem("crucible", 1), getModItem("clay_crucible", 1));
     }
 
     public void addEFRPitKilnRecipes() {

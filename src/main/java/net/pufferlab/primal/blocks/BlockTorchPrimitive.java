@@ -8,13 +8,14 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 
 public class BlockTorchPrimitive extends BlockTorch implements IScheduledBlock {
 
     public static final int updateFired = 0;
-
+    public static int burnTime = Config.torchBurnTime.getDefaultInt();
     public IIcon[] icons = new IIcon[1];
     public String name;
 
@@ -22,6 +23,8 @@ public class BlockTorchPrimitive extends BlockTorch implements IScheduledBlock {
         super();
         this.name = name;
         this.setHardness(0.0F);
+
+        burnTime = Config.torchBurnTime.getInt();
 
         this.setStepSound(soundTypeWood);
     }
@@ -31,7 +34,7 @@ public class BlockTorchPrimitive extends BlockTorch implements IScheduledBlock {
         super.onBlockPlacedBy(worldIn, x, y, z, placer, itemIn);
 
         if (this == Registry.lit_torch) {
-            addSchedule(worldIn, x, y, z, 20 * 60 * 20, updateFired);
+            addSchedule(worldIn, x, y, z, burnTime, updateFired);
         }
     }
 

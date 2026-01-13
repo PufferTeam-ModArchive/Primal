@@ -41,6 +41,9 @@ public class CommandModGive extends CommandSub {
             }
 
             ItemStack itemstack = Utils.getModItem(args[1], i);
+            if (itemstack == null) {
+                itemstack = Utils.getItem("minecraft:" + args[1]);
+            }
             if (itemstack == null) return;
 
             if (args.length >= 4) {

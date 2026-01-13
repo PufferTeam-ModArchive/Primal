@@ -4,8 +4,13 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.pufferlab.primal.Config;
 
 public class TileEntityWindmill extends TileEntityMotion {
+
+    public static float defaultSpeed = Config.windmillDefaultSpeed.getDefaultFloat();
+    public static int idealHeight = Config.windmillIdealHeight.getDefaultInt();
+    public static int windRange = Config.windmillRange.getDefaultInt();
 
     public float generatedSpeed;
     public boolean needsWindUpdate;
@@ -13,6 +18,10 @@ public class TileEntityWindmill extends TileEntityMotion {
 
     public TileEntityWindmill() {
         this.scheduleWindUpdate();
+
+        defaultSpeed = Config.windmillDefaultSpeed.getFloat();
+        idealHeight = Config.windmillIdealHeight.getInt();
+        windRange = Config.windmillRange.getInt();
     }
 
     @Override
@@ -77,19 +86,18 @@ public class TileEntityWindmill extends TileEntityMotion {
         } else {
             modifier = 0.0F;
         }
-        int ideal = 100;
-        int relativeY = Math.abs(this.yCoord - ideal);
+        int relativeY = Math.abs(this.yCoord - idealHeight);
 
         float percentage = 1.0F;
 
         if (relativeY > 0) {
-            percentage = (40 - relativeY) / 40.0F;
+            percentage = (((float) windRange) - relativeY) / ((float) windRange);
         }
 
         if (percentage < 0) {
             percentage = 0;
         }
-        return percentage * 5F * modifier;
+        return percentage * defaultSpeed * modifier;
     }
 
     public boolean isClearedAround() {

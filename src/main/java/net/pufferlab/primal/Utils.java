@@ -15,6 +15,8 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
@@ -35,6 +37,7 @@ public class Utils {
     private static final Map<String, ItemStack> itemCache = new HashMap<>();
     private static final Map<String, FluidStack> fluidCache = new HashMap<>();
     private static final Map<String, ItemStack> modItemCache = new HashMap<>();
+    private static final Map<String, ItemStack> oreDictCache = new HashMap<>();
     private static List<String> modItemNames;
 
     public static final ForgeDirection[] sideDirections = new ForgeDirection[] { ForgeDirection.WEST,
@@ -90,7 +93,7 @@ public class Utils {
         String item = array[1];
         int meta = 0;
         if (array.length > 2) {
-            meta = array[2].equals("*") ? OreDictionary.WILDCARD_VALUE : Integer.parseInt(array[2]);
+            meta = array[2].equals("*") ? Constants.wildcard : Integer.parseInt(array[2]);
         }
 
         int number = 1;
@@ -103,6 +106,14 @@ public class Utils {
 
     public static void registerModItem(String name, ItemStack stack) {
         modItemCache.put(name, stack);
+    }
+
+    public static void registerModOreDict(String name, ItemStack stack) {
+        oreDictCache.put(name, stack);
+    }
+
+    public static Set<Map.Entry<String, ItemStack>> getOreDictCache() {
+        return oreDictCache.entrySet();
     }
 
     public static List<String> getModItems() {
@@ -118,6 +129,9 @@ public class Utils {
     public static ItemStack getModItem(String name, int number) {
         ItemStack stack = modItemCache.get(name);
         if (stack != null) {
+            if (stack.stackSize == number) {
+                return stack;
+            }
             ItemStack tempStack = stack.copy();
             tempStack.stackSize = number;
             return tempStack;
@@ -330,6 +344,23 @@ public class Utils {
         return containsOreDict(itemStack, "itemLighter");
     }
 
+    public static boolean canBeLit(ItemStack itemStack) {
+        if (itemStack == null) return false;
+        if (itemStack.getItem() == null) return false;
+        if (itemStack.getItem() == Item.getItemFromBlock(Registry.unlit_torch)) return true;
+        return false;
+    }
+
+    public static boolean isRiverBiome(World world, int x, int y, int z) {
+        BiomeGenBase biome = world.getBiomeGenForCoords(x, z);
+
+        if (BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.OCEAN)
+            || BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.RIVER)) {
+            return true;
+        }
+        return false;
+    }
+
     public static Random getSeededRandom(Random random, int x, int y, int z) {
         long seed = x * 3129871L ^ z * 116129781L ^ (long) y * 42317861L;
         random.setSeed(seed);
@@ -467,9 +498,9 @@ public class Utils {
             return check == wild;
         }
 
-        return wild.getItem() == check.getItem() && (wild.getItemDamage() == OreDictionary.WILDCARD_VALUE
-            || check.getItemDamage() == OreDictionary.WILDCARD_VALUE
-            || wild.getItemDamage() == check.getItemDamage());
+        return wild.getItem() == check.getItem()
+            && (wild.getItemDamage() == Constants.wildcard || check.getItemDamage() == Constants.wildcard
+                || wild.getItemDamage() == check.getItemDamage());
     }
 
     public static boolean equalsStack(FluidStack wild, FluidStack check) {
@@ -626,6 +657,26 @@ public class Utils {
         for (ItemStack item : list) {
             if (Utils.equalsStack(item, b)) {
                 return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean containsStack(ItemStack[] list, ItemStack b) {
+        for (ItemStack item : list) {
+            if (Utils.equalsStack(item, b)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean containsStack(Object[] list, ItemStack b) {
+        for (Object item : list) {
+            if (item instanceof ItemStack stack) {
+                if (Utils.equalsStack(stack, b)) {
+                    return true;
+                }
             }
         }
         return false;

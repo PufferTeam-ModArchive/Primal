@@ -3,15 +3,11 @@ package net.pufferlab.primal.tileentities;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.CampfireRecipe;
 
 public class TileEntityCampfire extends TileEntityInventory implements IHeatable, IScheduledTile {
-
-    public TileEntityCampfire() {
-        super(10);
-        this.isBuilt = false;
-    }
 
     public static int updateFuel = 0;
     public long nextUpdateFuel;
@@ -46,8 +42,16 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
     public static int slotItem3 = 8;
     public static int slotItem4 = 9;
 
-    public static int burnTime = 20 * 120;
-    public static int smeltTime = 20 * 60;
+    public static int burnTime = Config.campfireBurnTime.getDefaultInt();
+    public static int smeltTime = Config.campfireSmeltTime.getDefaultInt();
+
+    public TileEntityCampfire() {
+        super(10);
+        this.isBuilt = false;
+
+        burnTime = Config.campfireBurnTime.getInt();
+        smeltTime = Config.campfireSmeltTime.getInt();
+    }
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {
@@ -141,27 +145,22 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
             }
             if (needsUpdateItem1) {
                 needsUpdateItem1 = false;
-                hasUpdateItem1 = false;
                 setOutput(slotItem1);
             }
             if (needsUpdateItem2) {
                 needsUpdateItem2 = false;
-                hasUpdateItem2 = false;
                 setOutput(slotItem2);
             }
             if (needsUpdateItem3) {
                 needsUpdateItem3 = false;
-                hasUpdateItem3 = false;
                 setOutput(slotItem3);
             }
             if (needsUpdateItem4) {
                 needsUpdateItem4 = false;
-                hasUpdateItem4 = false;
                 setOutput(slotItem4);
             }
             if (needsUpdateFuel) {
                 needsUpdateFuel = false;
-                hasUpdateFuel = false;
                 updateFuel();
             }
         }
@@ -245,18 +244,23 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
     public void onSchedule(World world, int x, int y, int z, int type, int id) {
         if (type == updateFuel) {
             needsUpdateFuel = true;
+            hasUpdateFuel = false;
         }
         if (type == updateItem1) {
             needsUpdateItem1 = true;
+            hasUpdateItem1 = false;
         }
         if (type == updateItem2) {
             needsUpdateItem2 = true;
+            hasUpdateItem2 = false;
         }
         if (type == updateItem3) {
             needsUpdateItem3 = true;
+            hasUpdateItem3 = false;
         }
         if (type == updateItem4) {
             needsUpdateItem4 = true;
+            hasUpdateItem4 = false;
         }
     }
 

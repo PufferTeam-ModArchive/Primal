@@ -5,9 +5,13 @@ import net.minecraft.block.BlockLiquid;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Utils;
 
 public class TileEntityWaterwheel extends TileEntityMotion {
+
+    public static boolean restrictBiome = Config.waterwheelRestrictBiome.getDefaultBoolean();
+    public static float defaultSpeed = Config.waterwheelDefaultSpeed.getDefaultFloat();
 
     public boolean isExtension;
     public int baseXCoord;
@@ -18,6 +22,9 @@ public class TileEntityWaterwheel extends TileEntityMotion {
 
     public TileEntityWaterwheel() {
         this.scheduleFlowUpdate();
+
+        restrictBiome = Config.waterwheelRestrictBiome.getBoolean();
+        defaultSpeed = Config.windmillDefaultSpeed.getFloat();
     }
 
     @Override
@@ -100,21 +107,23 @@ public class TileEntityWaterwheel extends TileEntityMotion {
     }
 
     public float getSpeedFromFlow() {
+        if (restrictBiome && !Utils.isRiverBiome(this.worldObj, this.xCoord, this.yCoord, this.zCoord)) return 0.0F;
+
         float totalSpeed = 0.0F;
         if (axisMeta == 1) {
             if (hasLiquid(ForgeDirection.WEST)) {
-                totalSpeed = totalSpeed + 5F;
+                totalSpeed = totalSpeed + defaultSpeed;
             }
             if (hasLiquid(ForgeDirection.EAST)) {
-                totalSpeed = totalSpeed - 5F;
+                totalSpeed = totalSpeed - defaultSpeed;
             }
         }
         if (axisMeta == 2) {
             if (hasLiquid(ForgeDirection.SOUTH)) {
-                totalSpeed = totalSpeed + 5F;
+                totalSpeed = totalSpeed + defaultSpeed;
             }
             if (hasLiquid(ForgeDirection.NORTH)) {
-                totalSpeed = totalSpeed - 5F;
+                totalSpeed = totalSpeed - defaultSpeed;
             }
         }
         return totalSpeed;

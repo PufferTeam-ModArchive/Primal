@@ -2,25 +2,38 @@ package net.pufferlab.primal.tileentities;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.utils.TemperatureUtils;
 
-public class TileEntityForge extends TileEntityInventory implements IHeatable {
+public class TileEntityForge extends TileEntityInventory implements IHeatable, IScheduledTile {
+
+    public static int burnTime = Config.forgeBurnTime.getDefaultInt();
+
+    public static int updateFuel = 0;
+    public long nextUpdateFuel;
+    public boolean hasUpdateFuel;
+    public boolean needsUpdateFuel;
 
     public int temperature;
-    public int timeFired;
     public int timeHeat;
     public int timeUpdate;
     public int lastLevel;
 
     public TileEntityForge() {
         super(8);
+
+        burnTime = Config.forgeBurnTime.getInt();
     }
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
-        this.timeFired = tag.getInteger("timeFired");
+        this.nextUpdateFuel = tag.getLong("nextUpdateFuel");
+        this.hasUpdateFuel = tag.getBoolean("hasUpdateFuel");
+        this.needsUpdateFuel = tag.getBoolean("needsUpdateFuel");
+
         this.timeHeat = tag.getInteger("timeHeat");
         this.timeUpdate = tag.getInteger("timeUpdate");
         this.temperature = tag.getInteger("temperature");
@@ -30,7 +43,10 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable {
     @Override
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
-        tag.setInteger("timeFired", this.timeFired);
+        tag.setLong("nextUpdateFuel", this.nextUpdateFuel);
+        tag.setBoolean("hasUpdateFuel", this.hasUpdateFuel);
+        tag.setBoolean("needsUpdateFuel", this.needsUpdateFuel);
+
         tag.setInteger("timeHeat", this.timeHeat);
         tag.setInteger("timeUpdate", this.timeUpdate);
         tag.setInteger("temperature", this.temperature);
@@ -48,8 +64,6 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable {
         super.writeToNBTPacket(tag);
         tag.setInteger("temperature", this.temperature);
     }
-
-    public int burnTime = 60 * 20;
 
     @Override
     public void updateEntity() {
@@ -81,25 +95,71 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable {
         }
 
         if (isFired) {
-            timeFired++;
+            if (!hasUpdateFuel) {
+                addSchedule(burnTime, updateFuel);
+            }
             if (this.blockMetadata == 0) {
                 setFired(false);
             }
         }
 
-        if (timeFired > burnTime) {
-            timeFired = 0;
-            int i = findLastFuel();
-            if (i != -1) {
-                if (blockMetadata > 0) {
-                    markDirty();
-                    setInventorySlotContentsUpdate(i);
-                    this.worldObj
-                        .setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, this.blockMetadata - 1, 2);
-                    markDirty();
-                }
+        if (this.needsUpdateFuel) {
+            this.needsUpdateFuel = false;
+            updateFuel();
+        }
+    }
 
+    @Override
+    public void onSlotUpdated(int index) {
+        removeSchedule(updateFuel);
+    }
+
+    @Override
+    public void addSchedule(int inTime, int type) {
+        IScheduledTile.super.addSchedule(inTime, type);
+
+        long time = getWorldTime(inTime);
+        if (type == updateFuel) {
+            nextUpdateFuel = time;
+            hasUpdateFuel = true;
+        }
+    }
+
+    @Override
+    public void removeSchedule(int type) {
+        IScheduledTile.super.removeSchedule(type);
+
+        if (type == updateFuel) {
+            hasUpdateFuel = false;
+        }
+    }
+
+    @Override
+    public void invalidate() {
+        super.invalidate();
+
+        removeAllSchedule();
+    }
+
+    @Override
+    public void onSchedule(World world, int x, int y, int z, int type, int id) {
+        if (type == updateFuel) {
+            needsUpdateFuel = true;
+            hasUpdateFuel = false;
+        }
+    }
+
+    public void updateFuel() {
+        int i = findLastFuel();
+        int meta = this.worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord);
+        if (i != -1) {
+            if (meta > 0) {
+                markDirty();
+                setInventorySlotContentsUpdate(i);
+                this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, meta - 1, 2);
+                markDirty();
             }
+
         }
     }
 

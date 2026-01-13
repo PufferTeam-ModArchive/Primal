@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.world.gen.WorldGenGroundcover;
@@ -20,6 +21,11 @@ public class GroundcoverRockHandler extends PileHandler {
 
     public static WorldGenGroundcover worldGenRock = new WorldGenGroundcover(Registry.ground_rock, 0);
     public static int rockPerChunk = 1;
+    public static boolean enableRock = Config.rockWorldGen.getDefaultBoolean();
+
+    public GroundcoverRockHandler() {
+        enableRock = Config.rockWorldGen.getBoolean();
+    }
 
     @Override
     public Block getPileBlock() {
@@ -56,13 +62,15 @@ public class GroundcoverRockHandler extends PileHandler {
 
         BiomeGenBase biome = world.getBiomeGenForCoords(x + 8, z + 8);
 
-        for (int i = 0; i < rockPerChunk; i++) {
-            int px = x + rand.nextInt(16) + 8;
-            int pz = z + rand.nextInt(16) + 8;
-            int py = world.getHeightValue(px, pz);
-            Block block = world.getBlock(px, py - 5, pz);
-            if (block == Blocks.stone) {
-                worldGenRock.generate(world, rand, px, py, pz);
+        if (enableRock) {
+            for (int i = 0; i < rockPerChunk; i++) {
+                int px = x + rand.nextInt(16) + 8;
+                int pz = z + rand.nextInt(16) + 8;
+                int py = world.getHeightValue(px, pz);
+                Block block = world.getBlock(px, py - 5, pz);
+                if (block == Blocks.stone) {
+                    worldGenRock.generate(world, rand, px, py, pz);
+                }
             }
         }
     }

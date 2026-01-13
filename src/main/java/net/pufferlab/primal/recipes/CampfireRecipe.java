@@ -5,11 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
 
 public class CampfireRecipe {
+
+    public static final Item unlit_torch = Item.getItemFromBlock(Registry.unlit_torch);
 
     private static final Map<List<ItemStack>, ItemStack> recipeMap = new HashMap<>();
 
@@ -45,6 +49,9 @@ public class CampfireRecipe {
     }
 
     public static boolean hasRecipe(ItemStack input) {
+        if (input == null) return false;
+        if (input.getItem() == null) return false;
+        if (input.getItem() == unlit_torch) return false;
         ItemStack output = getOutput(input);
         return output != null;
     }

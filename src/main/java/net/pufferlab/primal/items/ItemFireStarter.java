@@ -51,7 +51,7 @@ public class ItemFireStarter extends Item {
         int max = 60;
         int charge = (getMaxItemUseDuration(stack) - count) % (max + 2);
         boolean success = false;
-        int chance = (int) Math.floor(1 / Config.fireStarterSuccessChance);
+        int chance = Config.fireStarterSuccessChance.getChance();
 
         if (charge > max) {
             MovingObjectPosition mop = this.getMovingObjectPositionFromPlayer(world, player, false);

@@ -5,13 +5,18 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.pufferlab.primal.events.ticks.GlobalTickingData;
 import net.pufferlab.primal.items.IHeatableItem;
+import net.pufferlab.primal.recipes.CrucibleRecipe;
 import net.pufferlab.primal.utils.TemperatureUtils;
 
 public class TileEntityCrucible extends TileEntityFluidInventory implements IHeatable {
 
     public int timeHeat;
+    public boolean canMelt;
+    public int timeMelting;
     public int lastLevel;
     public boolean isHeating;
+
+    public static int meltingTime = 20 * 10;
 
     public int temperature;
     public int maxTemperature;
@@ -29,6 +34,8 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
         this.timeHeat = tag.getInteger("timeHeat");
+        this.canMelt = tag.getBoolean("canMelt");
+        this.timeMelting = tag.getInteger("timeMelting");
         this.lastLevel = tag.getInteger("lastLevel");
         this.isHeating = tag.getBoolean("isHeating");
         this.temperature = tag.getInteger("temperature");
@@ -39,6 +46,8 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
         tag.setInteger("timeHeat", this.timeHeat);
+        tag.setBoolean("canMelt", this.canMelt);
+        tag.setInteger("timeMelting", this.timeMelting);
         tag.setInteger("lastLevel", this.lastLevel);
         tag.setBoolean("isHeating", this.isHeating);
         tag.setInteger("temperature", this.temperature);
@@ -86,7 +95,9 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
                     if (tef.isFired()) {
                         this.timeHeat++;
                     } else {
-                        this.timeHeat--;
+                        if (this.temperature > 0 && (this.temperature != tef.getTemperature())) {
+                            this.timeHeat--;
+                        }
                     }
                 } else {
                     if (this.temperature > 0 && (this.temperature != tef.getTemperature())) {
@@ -118,6 +129,25 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
                 modifier = -1.0F;
             }
             updateHeatInventory(modifier, this.maxTemperature);
+        }
+
+        if (this.timeMelting > meltingTime) {
+            this.timeMelting = 0;
+
+        }
+    }
+
+    @Override
+    public void onSlotUpdated(int index) {
+        super.onSlotUpdated(index);
+
+        this.canMelt = false;
+        this.timeMelting = 0;
+        for (int i = 0; i < getInventoryStackLimit(); i++) {
+            ItemStack stack = getInventoryStack(i);
+            if (CrucibleRecipe.hasRecipe(stack)) {
+                this.canMelt = true;
+            }
         }
     }
 

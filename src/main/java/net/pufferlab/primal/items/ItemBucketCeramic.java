@@ -99,4 +99,9 @@ public class ItemBucketCeramic extends ItemBucketMeta implements IFluidContainer
         }
         return 2;
     }
+
+    @Override
+    public boolean isBreakable(ItemStack itemStack) {
+        return Constants.fluidsBreak[itemStack.getItemDamage()];
+    }
 }

@@ -16,6 +16,7 @@ public class TemperatureUtils {
     private static final Map<Item, List<Integer>> heatableMetaItems = new HashMap<>();
     private static final Map<Item, Item> heatableMaskItems = new HashMap<>();
     private static final List<Item> heatableList = new ArrayList<>();
+    private static final IHeatableItem basicImpl = new IHeatableItem() {};
 
     public static List<Item> getHeatableItems() {
         return heatableList;
@@ -30,12 +31,7 @@ public class TemperatureUtils {
     }
 
     public static void registerImpl(Item item, List<Integer> meta, Item mask) {
-        registerImpl(item, meta, mask, new IHeatableItem() {
-
-            public void updateHeat(ItemStack stack, World world, float multiplier, int maxTemperature) {
-                IHeatableItem.super.updateHeat(stack, world, multiplier, maxTemperature);
-            }
-        });
+        registerImpl(item, meta, mask, basicImpl);
     }
 
     public static void registerImpl(Item item, List<Integer> meta, Item mask, IHeatableItem impl) {

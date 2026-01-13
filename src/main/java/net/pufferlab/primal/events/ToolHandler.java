@@ -16,10 +16,7 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
-import net.pufferlab.primal.Config;
-import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Registry;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.*;
 import net.pufferlab.primal.items.ItemKnifePrimitive;
 import net.pufferlab.primal.tileentities.IHeatable;
 
@@ -56,12 +53,12 @@ public class ToolHandler implements IEventHandler {
 
     @SubscribeEvent
     public void tooltipEvent(ItemTooltipEvent event) {
-        if (Config.vanillaToolsRemovalMode == 2) {
+        if (Config.vanillaToolsRemovalMode.getInt() == 2) {
             if (Utils.isBrokenTool(event.itemStack)) {
                 event.toolTip.add("§cThis tool is too weak to be used!");
             }
         }
-        if (Config.vanillaToolsRemovalMode == 1) {
+        if (Config.vanillaToolsRemovalMode.getInt() == 1) {
             if (Utils.isBrokenTool(event.itemStack)) {
                 event.toolTip.add("§cThis tool cannot be crafted!");
             }
@@ -70,7 +67,7 @@ public class ToolHandler implements IEventHandler {
 
     @SubscribeEvent
     public void attackEntityEvent(AttackEntityEvent event) {
-        if (Config.vanillaToolsRemovalMode == 2) {
+        if (Config.vanillaToolsRemovalMode.getInt() == 2) {
             ItemStack heldItem = event.entityPlayer.getHeldItem();
             if (Utils.isBrokenTool(heldItem)) {
                 event.entityPlayer.destroyCurrentEquippedItem();
@@ -81,7 +78,7 @@ public class ToolHandler implements IEventHandler {
 
     @SubscribeEvent
     public void playerInteractEventHandler(PlayerInteractEvent event) {
-        if (Config.vanillaToolsRemovalMode == 2) {
+        if (Config.vanillaToolsRemovalMode.getInt() == 2) {
             if (event.action != PlayerInteractEvent.Action.RIGHT_CLICK_AIR) {
                 ItemStack heldItem = event.entityPlayer.getHeldItem();
                 if (Utils.isBrokenTool(heldItem)) {
@@ -154,7 +151,7 @@ public class ToolHandler implements IEventHandler {
 
     @SubscribeEvent
     public void harvestDropsEvent(BlockEvent.HarvestDropsEvent event) {
-        int chance = (int) Math.floor(1 / Config.stickDropChance);
+        int chance = Config.stickDropChance.getChance();
 
         if (event.block instanceof BlockLeavesBase) {
             if (event.world.rand.nextInt(chance) == 0) {
@@ -164,7 +161,7 @@ public class ToolHandler implements IEventHandler {
 
         if (event.harvester != null) {
             ItemStack heldItem = event.harvester.getHeldItem();
-            if (Config.vanillaToolsRemovalMode == 2) {
+            if (Config.vanillaToolsRemovalMode.getInt() == 2) {
                 if (Utils.isBrokenTool(heldItem)) {
                     event.drops.clear();
                     event.harvester.destroyCurrentEquippedItem();

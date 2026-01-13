@@ -14,5 +14,9 @@ public interface IMetaItem {
 
     public boolean hasSuffix();
 
+    default boolean registerOre() {
+        return false;
+    };
+
     public Item getItemObject();
 }

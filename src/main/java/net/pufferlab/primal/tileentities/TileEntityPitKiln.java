@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.recipes.PitKilnRecipe;
 
 public class TileEntityPitKiln extends TileEntityInventory implements IHeatable, IScheduledTile {
@@ -20,10 +21,13 @@ public class TileEntityPitKiln extends TileEntityInventory implements IHeatable,
     public static int slotItem3 = 2;
     public static int slotItem4 = 3;
     public static int slotItemLarge = 4;
-    public static int smeltTime = 20 * 60;
+
+    public static int smeltTime = Config.pitKilnSmeltTime.getDefaultInt();
 
     public TileEntityPitKiln() {
         super(13);
+
+        smeltTime = Config.pitKilnSmeltTime.getInt();
     }
 
     @Override
@@ -153,6 +157,7 @@ public class TileEntityPitKiln extends TileEntityInventory implements IHeatable,
     public void onSchedule(World world, int x, int y, int z, int type, int id) {
         if (type == updateProcess) {
             needsUpdateProcess = true;
+            hasUpdateProcess = false;
         }
     }
 

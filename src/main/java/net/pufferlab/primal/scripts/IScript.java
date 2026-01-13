@@ -3,12 +3,15 @@ package net.pufferlab.primal.scripts;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
+import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.*;
 
+import cpw.mods.fml.common.registry.LanguageRegistry;
+
 public interface IScript {
 
-    int wildcard = OreDictionary.WILDCARD_VALUE;
+    int wildcard = Constants.wildcard;
 
     default ItemStack getItem(String s) {
         return Utils.getItem(s);
@@ -78,5 +81,11 @@ public interface IScript {
     default void addBarrelRecipe(ItemStack output, FluidStack outputLiquid, String input, FluidStack inputLiquid,
         int processing) {
         BarrelRecipe.addRecipe(output, outputLiquid, input, inputLiquid, processing);
+    }
+
+    @SuppressWarnings("deprecation")
+    default void addLocalization(String localization, String name) {
+        LanguageRegistry.instance()
+            .addStringLocalization(localization, name);
     }
 }

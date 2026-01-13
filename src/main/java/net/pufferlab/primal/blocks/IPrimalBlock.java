@@ -8,4 +8,8 @@ public interface IPrimalBlock {
     public Class<? extends ItemBlock> getItemBlockClass();
 
     public CreativeTabs getCreativeTab();
+
+    default boolean canRegister() {
+        return true;
+    }
 }

@@ -5,10 +5,13 @@ import net.minecraft.block.material.Material;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
 
 public class TileEntityLogPile extends TileEntityInventory implements IHeatable {
+
+    public static int smeltTime = Config.logPileSmeltTime.getDefaultInt();
 
     public int timePassed;
     public int timeExposed;
@@ -16,11 +19,12 @@ public class TileEntityLogPile extends TileEntityInventory implements IHeatable 
     public boolean hasConverted;
     public boolean isExposed;
     public int coalAmount;
-    int timeToSmelt = 20 * 30;
 
     public TileEntityLogPile() {
         super(9);
         this.isExposed = false;
+
+        smeltTime = Config.logPileSmeltTime.getInt();
     }
 
     @Override
@@ -108,7 +112,7 @@ public class TileEntityLogPile extends TileEntityInventory implements IHeatable 
         }
         boolean reset = false;
         if (!worldObj.isRemote) {
-            if (this.timePassed > timeToSmelt) {
+            if (this.timePassed > smeltTime) {
                 this.syncMetaWithAmount();
                 for (int i = 0; i < getSizeInventory(); i++) {
                     this.setInventorySlotContentsUpdate(i);

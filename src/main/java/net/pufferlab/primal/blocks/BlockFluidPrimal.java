@@ -16,6 +16,9 @@ public class BlockFluidPrimal extends BlockFluidClassic implements IPrimalBlock 
     public BlockFluidPrimal(Fluid fluid, Material mat, String name) {
         super(fluid, mat);
         this.name = name;
+        if (mat == Material.lava) {
+            this.setLightLevel(1.0F);
+        }
     }
 
     protected IIcon stillIcon;

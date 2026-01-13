@@ -32,6 +32,15 @@ item.primal.copper_ingot.name=Copper Ingot
 item.primal.tin_ingot.name=Tin Ingot
 item.primal.bronze_ingot.name=Bronze Ingot
 
+item.primal.iron_nugget.name=Iron Nugget
+item.primal.copper_nugget.name=Copper Nugget
+item.primal.tin_nugget.name=Tin Nugget
+item.primal.bronze_nugget.name=Bronze Nugget
+
+fluid.primal.molten_copper.name=Molten Copper
+item.primal.molten_copper_bucket.name=Molten Copper Bucket
+item.primal.molten_copper_ceramic_bucket.name=Molten Copper Ceramic Bucket
+
 fluid.primal.limewater.name=Limewater
 fluid.primal.tannin.name=Tannin
 item.primal.tannin_bucket.name=Tannin Bucket
@@ -103,6 +112,7 @@ item.primal.straw_kindling.name=Straw Kindling
 item.primal.hide.name=Hide
 item.primal.soaked_hide.name=Soaked Hide
 item.primal.scraped_hide.name=Scraped Hide
+item.primal.glowstone_crystal.name=Glowstone Crystal
 item.primal.clay_brick.name=Clay Brick
 item.primal.clay_flower_pot.name=Clay Flower Pot
 item.primal.clay_large_vessel.name=Clay Large Vessel

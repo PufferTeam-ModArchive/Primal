@@ -9,8 +9,8 @@ import net.pufferlab.primal.recipes.RecipesHelper;
 
 public class ScriptRemove implements IScript {
 
-    List<ItemStack> remove = new ArrayList<ItemStack>();
-    List<ItemStack> removeSmelting = new ArrayList<ItemStack>();
+    public static final List<ItemStack> remove = new ArrayList<>();
+    public static final List<ItemStack> removeSmelting = new ArrayList<>();
 
     public static final String[] itemsToRemove = new String[] { "minecraft:flower_pot", "minecraft:leather",
         "minecraft:leather_helmet", "minecraft:leather_chestplate", "minecraft:leather_leggings",
@@ -23,11 +23,20 @@ public class ScriptRemove implements IScript {
         "minecraft:hardened_clay:1:*" };
 
     public void run() {
+        updateList();
+        removeRecipes();
+    }
+
+    public void updateList() {
+        if (Config.torchRebalance.getBoolean()) {
+            remove.add(getItem("minecraft:torch:0:1"));
+        }
+
         for (String s : itemsToRemove) {
             remove.add(getItem(s));
         }
 
-        if (Config.vanillaToolsRemovalMode == 1) {
+        if (Config.vanillaToolsRemovalMode.getInt() == 1) {
             for (String s : toolsToRemove) {
                 remove.add(getItem(s));
             }
@@ -39,8 +48,9 @@ public class ScriptRemove implements IScript {
         for (String s : itemsToRemoveSmelting) {
             removeSmelting.add(getItem(s));
         }
+    }
 
-        // Remove only at the end
+    public void removeRecipes() {
         RecipesHelper.removeRecipe(remove);
         RecipesHelper.removeFurnaceSmelting(removeSmelting);
     }
