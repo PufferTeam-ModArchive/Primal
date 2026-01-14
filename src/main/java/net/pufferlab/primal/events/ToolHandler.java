@@ -6,9 +6,7 @@ import net.minecraft.block.BlockTallGrass;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
@@ -18,7 +16,6 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.pufferlab.primal.*;
 import net.pufferlab.primal.items.ItemKnifePrimitive;
-import net.pufferlab.primal.tileentities.IHeatable;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -89,17 +86,6 @@ public class ToolHandler implements IEventHandler {
 
         if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
             ItemStack heldItem = event.entityPlayer.getHeldItem();
-            if (heldItem != null) {
-                if (heldItem.getItem() instanceof ItemFlintAndSteel) {
-                    TileEntity te = event.world.getTileEntity(event.x, event.y, event.z);
-                    if (te instanceof IHeatable tef) {
-                        if (tef.canBeFired()) {
-                            tef.setFired(true);
-                        }
-                    }
-                }
-            }
-
             if (Utils.isKnifeTool(heldItem) && Primal.EFRLoaded) {
                 World world = event.world;
                 Block block = world.getBlock(event.x, event.y, event.z);

@@ -351,7 +351,7 @@ public class ScriptPrimitive implements IScript {
     }
 
     public void addPitKilnRecipes() {
-        addPitKilnRecipe(getModItem("ceramic_bucket", 1), getModItem("clay_bucket", 1));
+        addPitKilnRecipe(getModItem("empty_ceramic_bucket", 1), getModItem("clay_bucket", 1));
         addPitKilnRecipe(getItem("minecraft:brick:0:1"), getModItem("clay_brick", 1));
         addPitKilnRecipe(getItem("minecraft:flower_pot:0:1"), getModItem("clay_flower_pot", 1));
         addPitKilnRecipe(getItem("minecraft:hardened_clay:0:1"), getItem("minecraft:clay:0:1"));

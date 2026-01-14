@@ -10,6 +10,21 @@ import net.pufferlab.primal.Utils;
 
 public class FluidUtils {
 
+    public static FluidStack drainFluidFromNBT(NBTTagCompound nbt, int amount) {
+        if (nbt.hasKey("Tank")) {
+            NBTTagCompound tank = nbt.getCompoundTag("Tank");
+            if (!tank.hasKey("Empty")) {
+                FluidStack fluid = FluidStack.loadFluidStackFromNBT(tank);
+                fluid.amount -= amount;
+                fluid.writeToNBT(tank);
+                FluidStack fluid2 = fluid.copy();
+                fluid2.amount = amount;
+                return fluid2;
+            }
+        }
+        return null;
+    }
+
     public static String getFluidInfoFromNBT(NBTTagCompound nbt) {
         if (nbt.hasKey("Tank")) {
             NBTTagCompound tank = nbt.getCompoundTag("Tank");

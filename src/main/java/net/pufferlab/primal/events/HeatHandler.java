@@ -3,6 +3,7 @@ package net.pufferlab.primal.events;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -58,6 +59,15 @@ public class HeatHandler implements IEventHandler {
                     event.entityPlayer.inventory.addItemStackToInventory(lit_torch.copy());
                     event.useBlock = Event.Result.DENY;
                     event.entityPlayer.inventoryContainer.detectAndSendChanges();
+                }
+            }
+        }
+        if (heldItem.getItem() instanceof ItemFlintAndSteel
+            || heldItem.getItem() == Item.getItemFromBlock(Registry.lit_torch)) {
+            TileEntity te = event.world.getTileEntity(event.x, event.y, event.z);
+            if (te instanceof IHeatable tef) {
+                if (tef.canBeFired()) {
+                    tef.setFired(true);
                 }
             }
         }

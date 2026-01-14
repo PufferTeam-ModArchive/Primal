@@ -262,6 +262,7 @@ public class Registry {
             fluidsObjects[i] = fluidType.fluid;
             fluidsBlocks[i] = fluidType.block;
         }
+        MetalType.setFluids(Constants.metalTypes);
     }
 
     public void setupPackets() {
@@ -287,8 +288,7 @@ public class Registry {
         registerEvent(new CharcoalPileHandler());
         registerEvent(new AshPileHandler());
         registerEvent(new CampfireHandler());
-        registerEvent(new LargeVesselHandler());
-        registerEvent(new BarrelHandler());
+        registerEvent(new InventoryHandler());
         registerEvent(new GroundcoverRockHandler());
         registerEvent(new MobDropHandler());
         registerEvent(new CastHandler());

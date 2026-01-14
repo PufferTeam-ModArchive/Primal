@@ -9,6 +9,7 @@ import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.blocks.BlockForge;
 import net.pufferlab.primal.client.models.ModelFluid;
 import net.pufferlab.primal.tileentities.TileEntityCrucible;
 
@@ -32,11 +33,19 @@ public class BlockCrucibleRenderer extends BlockPrimalRenderer {
         int renderPass = ForgeHooksClient.getWorldRenderPass();
         modelFluid.dumpVertices(tess, x, y, z);
         if (te instanceof TileEntityCrucible tef) {
-            System.out.println(tef.isFired());
+            Block blockBelow = tef.getWorldObj()
+                .getBlock(tef.xCoord, tef.yCoord - 1, tef.zCoord);
+            int blockBelowMeta = tef.getWorldObj()
+                .getBlockMetadata(tef.xCoord, tef.yCoord - 1, tef.zCoord);
+            float offsetY = 0.0F;
+            if (blockBelow instanceof BlockForge) {
+                offsetY = 0.125F + 0.0625F * (4 - blockBelowMeta);
+            }
             FluidStack stack = tef.getFluidStack();
             float height = tef.getFillLevel(0.0625F, 0.600F);
             double o = 2 * Constants.modelConst;
             if (renderPass == 1) {
+                modelFluid.setFacingOffset(0.0F, -offsetY, 0.0F);
                 modelFluid.render(
                     renderer,
                     tess,

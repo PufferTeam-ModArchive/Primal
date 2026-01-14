@@ -17,7 +17,9 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.TileEntityCast;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
@@ -43,6 +45,15 @@ public class BlockCast extends BlockPrimal {
         TileEntity te = worldIn.getTileEntity(x, y, z);
         ItemStack heldItem = player.getHeldItem();
         if (te instanceof TileEntityCast tef) {
+            if (heldItem != null) {
+                if (heldItem.getItem() == Item.getItemFromBlock(Registry.crucible)) {
+                    FluidStack fluid = FluidUtils.drainFluidFromNBT(heldItem.getTagCompound(), 144);
+                    if (tef.getFluidStack() == null) {
+                        tef.fill(ForgeDirection.getOrientation(side), fluid, true);
+                    }
+                    return true;
+                }
+            }
             if (FluidUtils.isFluidContainer(heldItem)) {
                 return true;
             } else {

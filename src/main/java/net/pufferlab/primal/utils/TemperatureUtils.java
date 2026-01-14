@@ -9,6 +9,7 @@ import net.minecraft.world.World;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.events.ticks.GlobalTickingData;
 import net.pufferlab.primal.items.IHeatableItem;
+import net.pufferlab.primal.items.MetalType;
 
 public class TemperatureUtils {
 
@@ -17,6 +18,11 @@ public class TemperatureUtils {
     private static final Map<Item, Item> heatableMaskItems = new HashMap<>();
     private static final List<Item> heatableList = new ArrayList<>();
     private static final IHeatableItem basicImpl = new IHeatableItem() {};
+
+    private static final String tagTemperature = "temperature";
+    private static final String tagMaxTemperature = "maxTemperature";
+    private static final String tagWorldTime = "worldTime";
+    private static final String tagMultiplier = "multiplier";
 
     public static List<Item> getHeatableItems() {
         return heatableList;
@@ -32,6 +38,25 @@ public class TemperatureUtils {
 
     public static void registerImpl(Item item, List<Integer> meta, Item mask) {
         registerImpl(item, meta, mask, basicImpl);
+    }
+
+    public static void registerImpl(Item item, int[] meta, Item mask, MetalType[] metals) {
+        registerImpl(item, Arrays.asList(Utils.toIntegerArray(meta)), mask, Arrays.asList(metals));
+    }
+
+    public static void registerImpl(Item item, List<Integer> meta, Item mask, List<MetalType> metals) {
+        registerImpl(item, meta, mask, new IHeatableItem() {
+
+            @Override
+            public int getMeltingTemperature(ItemStack stack) {
+                return metals.get(stack.getItemDamage()).meltingTemperature;
+            }
+
+            @Override
+            public int getWeldingTemperature(ItemStack stack) {
+                return metals.get(stack.getItemDamage()).weldingTemperature;
+            }
+        });
     }
 
     public static void registerImpl(Item item, List<Integer> meta, Item mask, IHeatableItem impl) {
@@ -69,54 +94,54 @@ public class TemperatureUtils {
 
     public static int getTemperatureFromNBT(NBTTagCompound tag) {
         if (tag == null) return 0;
-        if (tag.hasKey("temperature")) {
-            return tag.getInteger("temperature");
+        if (tag.hasKey(tagTemperature)) {
+            return tag.getInteger(tagTemperature);
         }
         return 0;
     }
 
     public static void setTemperatureToNBT(NBTTagCompound tag, int temperature) {
         if (tag == null) return;
-        tag.setInteger("temperature", temperature);
+        tag.setInteger(tagTemperature, temperature);
     }
 
     public static int getMaxTemperatureFromNBT(NBTTagCompound tag) {
         if (tag == null) return 0;
-        if (tag.hasKey("maxTemperature")) {
-            return tag.getInteger("maxTemperature");
+        if (tag.hasKey(tagMaxTemperature)) {
+            return tag.getInteger(tagMaxTemperature);
         }
         return 0;
     }
 
     public static void setMaxTemperatureToNBT(NBTTagCompound tag, int temperature) {
         if (tag == null) return;
-        tag.setInteger("maxTemperature", temperature);
+        tag.setInteger(tagMaxTemperature, temperature);
     }
 
     public static long getWorldTimeFromNBT(NBTTagCompound tag) {
         if (tag == null) return 0;
-        if (tag.hasKey("worldTime")) {
-            return tag.getLong("worldTime");
+        if (tag.hasKey(tagWorldTime)) {
+            return tag.getLong(tagWorldTime);
         }
         return 0;
     }
 
     public static void setWorldTimeToNBT(NBTTagCompound tag, long worldTime) {
         if (tag == null) return;
-        tag.setLong("worldTime", worldTime);
+        tag.setLong(tagWorldTime, worldTime);
     }
 
     public static float getMultiplierFromNBT(NBTTagCompound tag) {
         if (tag == null) return 0.0F;
-        if (tag.hasKey("multiplier")) {
-            return tag.getFloat("multiplier");
+        if (tag.hasKey(tagMultiplier)) {
+            return tag.getFloat(tagMultiplier);
         }
         return 0.0F;
     }
 
     public static void setMultiplierToNBT(NBTTagCompound tag, float multiplier) {
         if (tag == null) return;
-        tag.setFloat("multiplier", multiplier);
+        tag.setFloat(tagMultiplier, multiplier);
     }
 
     public static void setInterpolatedTemperatureToNBT(NBTTagCompound tag, World world, float multiplier,
@@ -142,6 +167,22 @@ public class TemperatureUtils {
         getTemperatureFromNBT(tag);
         getWorldTimeFromNBT(tag);
         getMultiplierFromNBT(tag);
+    }
+
+    public static void resetTemperatureToNBT(NBTTagCompound tag) {
+        if (tag == null) return;
+        if (tag.hasKey(tagMaxTemperature)) {
+            tag.removeTag(tagMaxTemperature);
+        }
+        if (tag.hasKey(tagMultiplier)) {
+            tag.removeTag(tagMultiplier);
+        }
+        if (tag.hasKey(tagWorldTime)) {
+            tag.removeTag(tagWorldTime);
+        }
+        if (tag.hasKey(tagTemperature)) {
+            tag.removeTag(tagTemperature);
+        }
     }
 
     public static int getInterpolatedTemperature(long currentTime, NBTTagCompound tag) {

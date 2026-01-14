@@ -42,22 +42,37 @@ public interface IScript {
     }
 
     default void addCampfireRecipe(ItemStack output, ItemStack input) {
+        if (output == null || input == null) {
+            throw new NullPointerException();
+        }
         CampfireRecipe.addRecipe(output, input);
     }
 
     default void addQuernRecipe(ItemStack output, ItemStack input) {
+        if (output == null || input == null) {
+            throw new NullPointerException();
+        }
         QuernRecipe.addRecipe(output, input);
     }
 
     default void addChoppingLogRecipe(ItemStack output, String input) {
+        if (output == null || input == null) {
+            throw new NullPointerException();
+        }
         ChoppingLogRecipe.addRecipe(output, input);
     }
 
     default void addTanningRecipe(ItemStack output, ItemStack input) {
+        if (output == null || input == null) {
+            throw new NullPointerException();
+        }
         TanningRecipe.addRecipe(output, input);
     }
 
     default void addKnappingRecipe(KnappingType type, ItemStack item, String... rows) {
+        if (type == null || item == null) {
+            throw new NullPointerException();
+        }
         KnappingRecipe.addRecipe(type, item, rows);
     }
 
@@ -70,7 +85,28 @@ public interface IScript {
     }
 
     default void addPitKilnRecipe(ItemStack output, ItemStack input) {
+        if (output == null || input == null) {
+            throw new NullPointerException();
+        }
         PitKilnRecipe.addRecipe(output, input);
+    }
+
+    default void addMeltingRecipe(FluidStack output, String input) {
+        if (OreDictionary.doesOreNameExist(input)) {
+            MeltingRecipe.addRecipe(output, input);
+        }
+    }
+
+    default void addAlloyingRecipe(FluidStack output, Object... inputs) {
+        AlloyingRecipe.addRecipe(output, inputs);
+    }
+
+    default void addMeltingRecipe(FluidStack output, ItemStack input) {
+        MeltingRecipe.addRecipe(output, input);
+    }
+
+    default void addCastingRecipe(ItemStack cast, ItemStack output, FluidStack input) {
+        CastingRecipe.addRecipe(cast, output, input);
     }
 
     default void addBarrelRecipe(ItemStack output, FluidStack outputLiquid, ItemStack input, FluidStack inputLiquid,

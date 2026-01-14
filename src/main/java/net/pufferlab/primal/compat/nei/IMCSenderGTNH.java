@@ -16,6 +16,10 @@ public class IMCSenderGTNH {
         sendHandler(aName, aBlock, 1, Primal.MODNAME, Primal.MODID, 166, 65);
     }
 
+    public static void sendHandler(Class<?> aName, String aBlock, int maxRecipesPerPage, int width, int height) {
+        sendHandler(aName.getName(), aBlock, maxRecipesPerPage, Primal.MODNAME, Primal.MODID, width, height);
+    }
+
     public static void sendHandler(String aName, String aBlock, int maxRecipesPerPage, String modName, String modID,
         int width, int height) {
         NBTTagCompound aNBT = new NBTTagCompound();

@@ -31,6 +31,9 @@ public class NEICompat implements IConfigureNEI {
             registerHandler(new NEIBarrelHandler());
             registerHandler(new NEITanningHandler());
             registerHandler(new NEIQuernHandler());
+            registerHandler(new NEIMeltingHandler());
+            registerHandler(new NEIAlloyingHandler());
+            registerHandler(new NEICastingHandler());
         }
         loadGTNH();
     }
@@ -42,61 +45,20 @@ public class NEICompat implements IConfigureNEI {
 
     public void loadGTNH() {
         sendHandler(
-            "net.pufferlab.primal.compat.nei.NEIKnappingHandler",
+            NEIKnappingHandler.class,
             Primal.MODID + ":icon:" + Utils.getIndex(Constants.icons, "knapping"),
             1,
-            Primal.MODNAME,
-            Primal.MODID,
             166,
             110);
-        sendHandler(
-            "net.pufferlab.primal.compat.nei.NEIPitKilnHandler",
-            Primal.MODID + ":pit_kiln",
-            2,
-            Primal.MODNAME,
-            Primal.MODID,
-            166,
-            65);
-        sendHandler(
-            "net.pufferlab.primal.compat.nei.NEIBarrelHandler",
-            Primal.MODID + ":barrel",
-            2,
-            Primal.MODNAME,
-            Primal.MODID,
-            166,
-            65);
-        sendHandler(
-            "net.pufferlab.primal.compat.nei.NEIChoppingLogHandler",
-            Primal.MODID + ":chopping_log",
-            2,
-            Primal.MODNAME,
-            Primal.MODID,
-            166,
-            65);
-        sendHandler(
-            "net.pufferlab.primal.compat.nei.NEICampfireHandler",
-            Primal.MODID + ":campfire",
-            2,
-            Primal.MODNAME,
-            Primal.MODID,
-            166,
-            65);
-        sendHandler(
-            "net.pufferlab.primal.compat.nei.NEITanningHandler",
-            Primal.MODID + ":tanning_frame",
-            2,
-            Primal.MODNAME,
-            Primal.MODID,
-            166,
-            65);
-        sendHandler(
-            "net.pufferlab.primal.compat.nei.NEIQuernHandler",
-            Primal.MODID + ":quern",
-            2,
-            Primal.MODNAME,
-            Primal.MODID,
-            166,
-            65);
+        sendHandler(NEIPitKilnHandler.class, Primal.MODID + ":pit_kiln", 2, 166, 65);
+        sendHandler(NEIBarrelHandler.class, Primal.MODID + ":barrel", 2, 166, 65);
+        sendHandler(NEIChoppingLogHandler.class, Primal.MODID + ":chopping_log", 2, 166, 65);
+        sendHandler(NEICampfireHandler.class, Primal.MODID + ":campfire", 2, 166, 65);
+        sendHandler(NEITanningHandler.class, Primal.MODID + ":tanning_frame", 2, 166, 65);
+        sendHandler(NEIQuernHandler.class, Primal.MODID + ":quern", 2, 166, 65);
+        sendHandler(NEIMeltingHandler.class, Primal.MODID + ":crucible", 2, 166, 65);
+        sendHandler(NEIAlloyingHandler.class, Primal.MODID + ":crucible", 2, 166, 65);
+        sendHandler(NEICastingHandler.class, Primal.MODID + ":mold", 2, 166, 65);
         sendCatalyst(Primal.MODID + ".chopping_log", Primal.MODID + ":chopping_log");
         sendCatalyst(Primal.MODID + ".barrel", Primal.MODID + ":barrel");
         sendCatalyst(Primal.MODID + ".campfire", Primal.MODID + ":campfire");

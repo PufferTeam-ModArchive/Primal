@@ -33,6 +33,10 @@ public enum Config {
     torchRebalance(Module.lighting, true,
         "Whether to make vanilla torches require glowstone to balance the lit torches"),
 
+    // Metal
+    metalIngotValue(Module.metal, 144, "The value that one ingot of metal should give."),
+    metalNuggetValue(Module.metal, 16, "The value that one nugget of metal should give."),
+
     // Waterwheel
     waterwheelDefaultSpeed(Module.mechanical, 5F, "The default speed that the waterwheel will have."),
     waterwheelRestrictBiome(Module.mechanical, false, "Whether waterwheel should be limited to River/Oceans biomes."),

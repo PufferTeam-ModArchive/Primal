@@ -347,7 +347,8 @@ public class Utils {
     public static boolean canBeLit(ItemStack itemStack) {
         if (itemStack == null) return false;
         if (itemStack.getItem() == null) return false;
-        if (itemStack.getItem() == Item.getItemFromBlock(Registry.unlit_torch)) return true;
+        if (itemStack.getItem() == Item.getItemFromBlock(Registry.unlit_torch)
+            || itemStack.getItem() == Item.getItemFromBlock(Registry.lit_torch)) return true;
         return false;
     }
 
@@ -671,6 +672,24 @@ public class Utils {
         return false;
     }
 
+    public static boolean containsStack(ItemStack b, ItemStack[] list) {
+        for (ItemStack item : list) {
+            if (Utils.equalsStack(item, b)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean containsStack(FluidStack b, FluidStack[] list) {
+        for (FluidStack item : list) {
+            if (Utils.equalsStack(item, b)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static boolean containsStack(Object[] list, ItemStack b) {
         for (Object item : list) {
             if (item instanceof ItemStack stack) {
@@ -806,6 +825,13 @@ public class Utils {
         return result;
     }
 
+    public static FluidStack[] combineArrays(FluidStack[] a, FluidStack b) {
+        FluidStack[] result = new FluidStack[a.length + 1];
+        System.arraycopy(a, 0, result, 0, a.length);
+        result[result.length - 1] = b;
+        return result;
+    }
+
     public static String[] removeFirst(String[] old) {
         if (old == null || old.length <= 1) {
             return new String[0];
@@ -816,11 +842,51 @@ public class Utils {
         return newArr;
     }
 
+    public static Integer[] toIntegerArray(int[] src) {
+        Integer[] dst = new Integer[src.length];
+
+        for (int i = 0; i < src.length; i++) {
+            dst[i] = src[i];
+        }
+        return dst;
+    }
+
     public static String getItemKey(Item item, int meta) {
         if (item != null) {
             return Item.getIdFromItem(item) + ":" + meta;
         }
         return null;
+    }
+
+    public static Map<String, String> metalTypes = new HashMap<>();
+
+    public static String getMetalType(ItemStack item) {
+        if (item == null) return null;
+        Item itemObj = item.getItem();
+        int itemMeta = item.getItemDamage();
+        String key = getItemKey(itemObj, itemMeta);
+        if (metalTypes.containsKey(key)) {
+            return metalTypes.get(key);
+        }
+        int[] oreIDS = OreDictionary.getOreIDs(item);
+        for (int oreID : oreIDS) {
+            String name = OreDictionary.getOreName(oreID);
+            if (name.contains("ingot")) {
+                String[] names = name.split("ingot");
+                if (names.length > 1) {
+                    String metalName = names[1].toLowerCase();
+                    metalTypes.put(key, metalName);
+                    return metalName;
+                }
+            }
+        }
+        return null;
+    }
+
+    public static boolean isValidMetal(ItemStack item) {
+        String metal = getMetalType(item);
+        if (metal == null) return false;
+        return true;
     }
 
     public static boolean isClient() {

@@ -22,13 +22,16 @@ public class Constants {
         "lime", "pink", "gray", "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black" };
 
     // Metals
-    public static final MetalType iron = new MetalType("iron", false, 1148, 1538);
-    public static final MetalType gold = new MetalType("gold", false, 750, 1064);
-    public static final MetalType copper = new MetalType("copper", false, 850, 1085);
-    public static final MetalType tin = new MetalType("tin", false, 220, 232);
-    public static final MetalType bronze = new MetalType("bronze", true, 700, 950);
-    public static final int ingotValue = 144;
-    public static final int nuggetValue = 16;
+    public static final FluidType moltenIron = new FluidType("molten_iron", Material.lava);
+    public static final MetalType iron = new MetalType("iron", false, 1148, 1538, moltenIron);
+    public static final FluidType moltenGold = new FluidType("molten_gold", Material.lava);
+    public static final MetalType gold = new MetalType("gold", false, 750, 1064, moltenGold);
+    public static final FluidType moltenCopper = new FluidType("molten_copper", Material.lava);
+    public static final MetalType copper = new MetalType("copper", false, 850, 1085, moltenCopper);
+    public static final FluidType moltenTin = new FluidType("molten_tin", Material.lava);
+    public static final MetalType tin = new MetalType("tin", false, 220, 232, moltenTin);
+    public static final FluidType moltenBronze = new FluidType("molten_bronze", Material.lava);
+    public static final MetalType bronze = new MetalType("bronze", true, 700, 950, moltenBronze);
     public static final MetalType[] metalTypes = new MetalType[] { iron, gold, copper, tin, bronze, };
     public static final String[] ingotBlacklist = new String[] { "iron", "gold" };
     public static final String[] nuggetBlacklist = new String[] { "gold" };
@@ -69,7 +72,7 @@ public class Constants {
         new FluidType("magenta"), new FluidType("light_blue"), new FluidType("yellow"), new FluidType("lime"),
         new FluidType("pink"), new FluidType("gray"), new FluidType("light_gray"), new FluidType("cyan"),
         new FluidType("purple"), new FluidType("blue"), new FluidType("brown"), new FluidType("green"),
-        new FluidType("red"), new FluidType("black"), new FluidType("molten_copper", Material.lava) };
+        new FluidType("red"), new FluidType("black"), moltenIron, moltenGold, moltenCopper, moltenTin, moltenBronze };
     public static final String[] fluids = FluidType.getNames(Constants.fluidsTypes);
     public static final boolean[] fluidsBreak = FluidType.getBreaks(Constants.fluidsTypes);
     public static final String[] existingFluids = FluidType.getExistingNames(Constants.fluidsTypes);

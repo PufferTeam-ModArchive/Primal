@@ -1,5 +1,7 @@
 package net.pufferlab.primal.items;
 
+import net.minecraft.item.ItemStack;
+
 public class ItemMetal extends ItemMetaHeatable {
 
     public MetalType[] metalTypes;
@@ -9,4 +11,13 @@ public class ItemMetal extends ItemMetaHeatable {
         this.metalTypes = materials;
     }
 
+    @Override
+    public int getMeltingTemperature(ItemStack stack) {
+        return metalTypes[stack.getItemDamage()].meltingTemperature;
+    }
+
+    @Override
+    public int getWeldingTemperature(ItemStack stack) {
+        return metalTypes[stack.getItemDamage()].weldingTemperature;
+    }
 }

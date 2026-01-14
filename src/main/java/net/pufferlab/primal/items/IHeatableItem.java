@@ -4,6 +4,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.events.ticks.GlobalTickingData;
 import net.pufferlab.primal.utils.TemperatureUtils;
 
 public interface IHeatableItem {
@@ -26,7 +27,18 @@ public interface IHeatableItem {
                 if (multiplier > 0) {
                     updateHeat(stack, worldIn, -1.0F, 1300);
                 }
+                if (TemperatureUtils.getInterpolatedTemperature(GlobalTickingData.getTickTime(worldIn), tag) == 0) {
+                    // TemperatureUtils.resetTemperatureToNBT(tag);
+                }
             }
         }
+    }
+
+    default int getMeltingTemperature(ItemStack stack) {
+        return -1;
+    }
+
+    default int getWeldingTemperature(ItemStack stack) {
+        return -1;
     }
 }
