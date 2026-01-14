@@ -5,11 +5,7 @@ import net.minecraft.item.Item;
 public class TileEntityCast extends TileEntityFluidInventory {
 
     public TileEntityCast() {
-        super(1000, 1);
-    }
-
-    public void setCapacity(int capacity) {
-        this.tank.setCapacity(capacity);
+        super(432, 1);
     }
 
     @Override

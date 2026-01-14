@@ -68,26 +68,28 @@ public class ItemBucketCeramic extends ItemBucketMeta implements IFluidContainer
 
     @Override
     public void registerIcons(IIconRegister register) {
-        bucketIcons = new IIcon[5];
+        bucketIcons = new IIcon[7];
 
         bucketIcons[0] = register.registerIcon(Primal.MODID + ":ceramic_bucket");
         bucketIcons[1] = register.registerIcon(Primal.MODID + ":bucket_mask");
-        bucketIcons[2] = register.registerIcon(Primal.MODID + ":empty_ceramic_bucket");
-        bucketIcons[3] = register.registerIcon(Primal.MODID + ":water_ceramic_bucket");
-        bucketIcons[4] = register.registerIcon(Primal.MODID + ":lava_ceramic_bucket");
+        bucketIcons[2] = register.registerIcon(Primal.MODID + ":ceramic_bucket_hot");
+        bucketIcons[3] = register.registerIcon(Primal.MODID + ":bucket_hot_mask");
+        bucketIcons[4] = register.registerIcon(Primal.MODID + ":empty_ceramic_bucket");
+        bucketIcons[5] = register.registerIcon(Primal.MODID + ":water_ceramic_bucket");
+        bucketIcons[6] = register.registerIcon(Primal.MODID + ":lava_ceramic_bucket");
     }
 
     @Override
     public IIcon getIconFromDamageForRenderPass(int meta, int pass) {
         IIcon icon = super.getIconFromDamageForRenderPass(meta, pass);
         if (meta == 0) {
-            icon = bucketIcons[2];
+            icon = bucketIcons[4];
         }
         if (meta == 1) {
-            icon = bucketIcons[3];
+            icon = bucketIcons[5];
         }
         if (meta == 2) {
-            icon = bucketIcons[4];
+            icon = bucketIcons[6];
         }
         return icon;
     }

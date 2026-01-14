@@ -210,10 +210,12 @@ public class ItemBucketMeta extends ItemMeta {
 
     @Override
     public void registerIcons(IIconRegister register) {
-        bucketIcons = new IIcon[2];
+        bucketIcons = new IIcon[4];
 
         bucketIcons[0] = register.registerIcon(Primal.MODID + ":bucket");
         bucketIcons[1] = register.registerIcon(Primal.MODID + ":bucket_mask");
+        bucketIcons[2] = register.registerIcon(Primal.MODID + ":bucket_hot");
+        bucketIcons[3] = register.registerIcon(Primal.MODID + ":bucket_hot_mask");
     }
 
     @Override
@@ -223,12 +225,22 @@ public class ItemBucketMeta extends ItemMeta {
 
     @Override
     public IIcon getIconFromDamageForRenderPass(int meta, int pass) {
-        if (pass == 0) {
-            return bucketIcons[0];
+        if (isHotLiquid(meta)) {
+            if (pass == 0) {
+                return bucketIcons[2];
+            }
+            if (pass == 1) {
+                return bucketIcons[3];
+            }
+        } else {
+            if (pass == 0) {
+                return bucketIcons[0];
+            }
+            if (pass == 1) {
+                return bucketIcons[1];
+            }
         }
-        if (pass == 1) {
-            return bucketIcons[1];
-        }
+
         return bucketIcons[0];
     }
 
@@ -244,5 +256,9 @@ public class ItemBucketMeta extends ItemMeta {
 
     public boolean isBreakable(ItemStack itemStack) {
         return false;
+    }
+
+    public boolean isHotLiquid(int meta) {
+        return Constants.fluidsBreak[meta];
     }
 }

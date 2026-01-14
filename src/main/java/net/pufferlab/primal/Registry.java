@@ -9,6 +9,7 @@ import net.minecraft.command.ICommand;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.MinecraftForge;
@@ -89,16 +90,35 @@ public class Registry {
     public static final Item ceramic_bucket;
     public static final Item ingot;
     public static final Item nugget;
+    public static final Item axe_head;
+    public static final Item pickaxe_head;
+    public static final Item shovel_head;
+    public static final Item sword_blade;
+    public static final Item hoe_head;
     public static final Item flint_axe;
     public static final Item flint_pickaxe;
     public static final Item flint_shovel;
     public static final Item flint_knife;
+    public static final Item bronze_axe;
+    public static final Item bronze_pickaxe;
+    public static final Item bronze_shovel;
+    public static final Item bronze_sword;
+    public static final Item bronze_hoe;
+    public static final Item bronze_helmet;
+    public static final Item bronze_chestplate;
+    public static final Item bronze_leggings;
+    public static final Item bronze_boots;
     public static final Item firestarter;
     public static final Item bucket;
     public static final Item.ToolMaterial toolFlint;
+    public static final Item.ToolMaterial toolBronze;
+    public static final ItemArmor.ArmorMaterial armorBronze;
 
     static {
         toolFlint = EnumHelper.addToolMaterial("flint", 0, 100, 2.0F, 0.0F, 15);
+        toolBronze = EnumHelper.addToolMaterial("bronze", 1, 200, 5.0F, 1.0F, 10);
+
+        armorBronze = EnumHelper.addArmorMaterial("bronze", 15, new int[] { 2, 5, 4, 1 }, 15);
 
         ground_rock = new BlockGroundcover(Material.rock, Constants.rockTypes, "ground_rock")
             .setTextureOverride(Constants.rockTextures);
@@ -144,11 +164,9 @@ public class Registry {
         clay = new ItemMeta(Constants.clayItems, "clay");
         ((BlockGroundcover) ground_rock).setItem(rock);
 
-        ingot = new ItemMetal(Constants.metalTypes, "ingot").setHasSuffix()
-            .setBlacklist(Constants.ingotBlacklist)
+        ingot = new ItemMetal(Constants.metalTypes, "ingot").setBlacklist(Constants.ingotBlacklist)
             .setRegisterOre();
-        nugget = new ItemMetal(Constants.metalTypes, "nugget").setHasSuffix()
-            .setBlacklist(Constants.nuggetBlacklist)
+        nugget = new ItemMetal(Constants.metalTypes, "nugget").setBlacklist(Constants.nuggetBlacklist)
             .setRegisterOre();
 
         dough = new ItemMetaFood(Constants.doughItems, "dough");
@@ -161,6 +179,23 @@ public class Registry {
         flint_pickaxe = new ItemPickaxePrimitive(toolFlint, "flint_pickaxe");
         flint_shovel = new ItemShovelPrimitive(toolFlint, "flint_shovel");
         flint_knife = new ItemKnifePrimitive(toolFlint, "flint_knife");
+
+        axe_head = new ItemMetal(Constants.toolMetalTypes, "axe_head");
+        pickaxe_head = new ItemMetal(Constants.toolMetalTypes, "pickaxe_head");
+        shovel_head = new ItemMetal(Constants.toolMetalTypes, "shovel_head");
+        sword_blade = new ItemMetal(Constants.toolMetalTypes, "sword_blade");
+        hoe_head = new ItemMetal(Constants.toolMetalTypes, "hoe_head");
+
+        bronze_axe = new ItemAxePrimitive(toolBronze, "bronze_axe");
+        bronze_pickaxe = new ItemPickaxePrimitive(toolBronze, "bronze_pickaxe");
+        bronze_shovel = new ItemPickaxePrimitive(toolBronze, "bronze_shovel");
+        bronze_sword = new ItemSwordPrimitive(toolBronze, "bronze_sword");
+        bronze_hoe = new ItemHoePrimitive(toolBronze, "bronze_hoe");
+
+        bronze_helmet = new ItemArmorPrimitive(armorBronze, "bronze_helmet", Constants.helmet);
+        bronze_chestplate = new ItemArmorPrimitive(armorBronze, "bronze_chestplate", Constants.chestplate);
+        bronze_leggings = new ItemArmorPrimitive(armorBronze, "bronze_leggings", Constants.leggings);
+        bronze_boots = new ItemArmorPrimitive(armorBronze, "bronze_boots", Constants.boots);
 
         firestarter = new ItemFireStarter();
         handstone = new ItemHandstone();
@@ -214,6 +249,24 @@ public class Registry {
         register(flint_pickaxe, "flint_pickaxe");
         register(flint_shovel, "flint_shovel");
         register(flint_knife, "flint_knife");
+
+        register(axe_head, "axe_head");
+        register(pickaxe_head, "pickaxe_head");
+        register(shovel_head, "shovel_head");
+        register(sword_blade, "sword_blade");
+        register(hoe_head, "hoe_head");
+
+        register(bronze_axe, "bronze_axe");
+        register(bronze_pickaxe, "bronze_pickaxe");
+        register(bronze_shovel, "bronze_shovel");
+        register(bronze_sword, "bronze_sword");
+        register(bronze_hoe, "bronze_hoe");
+
+        register(bronze_helmet, "bronze_helmet");
+        register(bronze_chestplate, "bronze_chestplate");
+        register(bronze_leggings, "bronze_leggings");
+        register(bronze_boots, "bronze_boots");
+
         register(firestarter, "firestarter");
         register(handstone, "handstone");
         register(bucket, "bucket");
@@ -307,9 +360,9 @@ public class Registry {
     }
 
     public void setupHeatables() {
-        registerHeat(Items.iron_ingot, Registry.ingot);
-        registerHeat(Items.gold_ingot, Registry.ingot);
-        registerHeat(Items.gold_nugget, Registry.nugget);
+        registerHeat(Items.iron_ingot, Registry.ingot, Constants.iron);
+        registerHeat(Items.gold_ingot, Registry.ingot, Constants.gold);
+        registerHeat(Items.gold_nugget, Registry.nugget, Constants.gold);
     }
 
     public void setupNEI() {
@@ -424,5 +477,9 @@ public class Registry {
 
     public void registerHeat(Item item, Item maskItem) {
         TemperatureUtils.registerImpl(item, Collections.singletonList(0), maskItem);
+    }
+
+    public void registerHeat(Item item, Item maskItem, MetalType metal) {
+        TemperatureUtils.registerImpl(item, Collections.singletonList(0), maskItem, Collections.singletonList(metal));
     }
 }

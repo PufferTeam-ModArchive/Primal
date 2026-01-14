@@ -14,6 +14,11 @@ public class Constants {
     public static final String[] none = new String[] { "none" };
     public static final float modelConst = 0.0625F;
 
+    public static final int helmet = 0;
+    public static final int chestplate = 1;
+    public static final int leggings = 2;
+    public static final int boots = 3;
+
     // Types
     public static final String[] rockTypes = new String[] { "stone" };
     public static final String[] rockTextures = new String[] { "minecraft:stone" };
@@ -33,6 +38,7 @@ public class Constants {
     public static final FluidType moltenBronze = new FluidType("molten_bronze", Material.lava);
     public static final MetalType bronze = new MetalType("bronze", true, 700, 950, moltenBronze);
     public static final MetalType[] metalTypes = new MetalType[] { iron, gold, copper, tin, bronze, };
+    public static final MetalType[] toolMetalTypes = new MetalType[] { bronze };
     public static final String[] ingotBlacklist = new String[] { "iron", "gold" };
     public static final String[] nuggetBlacklist = new String[] { "gold" };
 

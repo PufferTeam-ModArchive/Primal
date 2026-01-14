@@ -22,8 +22,6 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     public boolean isHeating;
     public FluidStack[] fluidInventory;
 
-    public static int meltingTime = 20 * 10;
-
     public int temperature;
     public int maxTemperature;
 

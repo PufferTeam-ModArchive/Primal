@@ -129,12 +129,14 @@ public class ClientProxy extends CommonProxy {
         register(Registry.windmill, new ItemWindmillRenderer());
         register(Registry.ingot, new ItemHeatableRenderer());
 
-        for (Item item : TemperatureUtils.getHeatableItems()) {
-            register(
-                item,
-                new ItemHeatableRenderer(
-                    TemperatureUtils.getHeatableMask(item),
-                    TemperatureUtils.getHeatableMeta(item)));
+        if (Config.externalMetalsHeatRendering.getBoolean()) {
+            for (Item item : TemperatureUtils.getHeatableItems()) {
+                register(
+                    item,
+                    new ItemHeatableRenderer(
+                        TemperatureUtils.getHeatableMask(item),
+                        TemperatureUtils.getHeatableMeta(item)));
+            }
         }
     }
 

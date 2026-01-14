@@ -37,9 +37,36 @@ item.primal.copper_nugget.name=Copper Nugget
 item.primal.tin_nugget.name=Tin Nugget
 item.primal.bronze_nugget.name=Bronze Nugget
 
+item.primal.bronze_axe.name=Bronze Axe
+item.primal.bronze_axe_head.name=Bronze Axe Head
+item.primal.bronze_pickaxe.name=Bronze Pickaxe
+item.primal.bronze_pickaxe_head.name=Bronze Pickaxe Head
+item.primal.bronze_shovel.name=Bronze Shovel
+item.primal.bronze_shovel_head.name=Bronze Shovel Head
+item.primal.bronze_sword.name=Bronze Sword
+item.primal.bronze_sword_blade.name=Bronze Sword Blade
+item.primal.bronze_hoe.name=Bronze Hoe
+item.primal.bronze_hoe_head.name=Bronze Hoe Head
+item.primal.bronze_helmet.name=Bronze Helmet
+item.primal.bronze_chestplate.name=Bronze Chestplate
+item.primal.bronze_leggings.name=Bronze Leggings
+item.primal.bronze_boots.name=Bronze Boots
+
 fluid.primal.molten_copper.name=Molten Copper
 item.primal.molten_copper_bucket.name=Molten Copper Bucket
 item.primal.molten_copper_ceramic_bucket.name=Molten Copper Ceramic Bucket
+fluid.primal.molten_iron.name=Molten Iron
+item.primal.molten_iron_bucket.name=Molten Iron Bucket
+item.primal.molten_iron_ceramic_bucket.name=Molten Iron Ceramic Bucket
+fluid.primal.molten_gold.name=Molten Gold
+item.primal.molten_gold_bucket.name=Molten Gold Bucket
+item.primal.molten_gold_ceramic_bucket.name=Molten Gold Ceramic Bucket
+fluid.primal.molten_tin.name=Molten Tin
+item.primal.molten_tin_bucket.name=Molten Tin Bucket
+item.primal.molten_tin_ceramic_bucket.name=Molten Tin Ceramic Bucket
+fluid.primal.molten_bronze.name=Molten Bronze
+item.primal.molten_bronze_bucket.name=Molten Bronze Bucket
+item.primal.molten_bronze_ceramic_bucket.name=Molten Bronze Ceramic Bucket
 
 fluid.primal.limewater.name=Limewater
 fluid.primal.tannin.name=Tannin

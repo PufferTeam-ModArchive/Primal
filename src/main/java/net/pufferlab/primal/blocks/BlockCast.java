@@ -48,7 +48,7 @@ public class BlockCast extends BlockPrimal {
             if (heldItem != null) {
                 if (heldItem.getItem() == Item.getItemFromBlock(Registry.crucible)) {
                     FluidStack fluid = FluidUtils.drainFluidFromNBT(heldItem.getTagCompound(), 144);
-                    if (tef.getFluidStack() == null) {
+                    if (tef.getFluidStack() == null && fluid != null) {
                         tef.fill(ForgeDirection.getOrientation(side), fluid, true);
                     }
                     return true;

@@ -34,6 +34,8 @@ public enum Config {
         "Whether to make vanilla torches require glowstone to balance the lit torches"),
 
     // Metal
+    externalMetalsHeatRendering(Module.metal, true,
+        "Put to false if you are getting some rendering issue with other mod ingots that get registered Primal Heat Rendering overlay."),
     metalIngotValue(Module.metal, 144, "The value that one ingot of metal should give."),
     metalNuggetValue(Module.metal, 16, "The value that one nugget of metal should give."),
 
