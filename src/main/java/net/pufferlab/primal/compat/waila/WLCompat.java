@@ -12,6 +12,7 @@ public class WLCompat {
         registrar.registerBodyProvider(new WLBarrelHandler(), TileEntityBarrel.class);
         registrar.registerBodyProvider(new WLHeatHandler(), TileEntityCrucible.class);
         registrar.registerBodyProvider(new WLHeatHandler(), TileEntityForge.class);
+        registrar.registerBodyProvider(new WLHeatHandler(), TileEntityCast.class);
         registrar.registerBodyProvider(new WLCampfireHandler(), TileEntityCampfire.class);
         registrar.registerBodyProvider(new WLPitKilnHandler(), TileEntityPitKiln.class);
         registrar.registerBodyProvider(new WLLargeVesselHandler(), TileEntityLargeVessel.class);

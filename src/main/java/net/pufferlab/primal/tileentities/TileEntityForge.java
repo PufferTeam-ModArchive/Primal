@@ -183,9 +183,7 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
 
     @Override
     public void setFired(boolean state) {
-        if (this.isFired != state) {
-            this.isFired = state;
-        }
+        this.isFired = state;
         this.updateTEState();
     }
 

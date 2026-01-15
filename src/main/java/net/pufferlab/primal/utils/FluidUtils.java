@@ -10,23 +10,52 @@ import net.pufferlab.primal.Utils;
 
 public class FluidUtils {
 
-    public static FluidStack drainFluidFromNBT(NBTTagCompound nbt, int amount) {
+    public static FluidStack drainFluidTankFromNBT(NBTTagCompound nbt, int amount) {
         if (nbt == null) return null;
         if (nbt.hasKey("Tank")) {
             NBTTagCompound tank = nbt.getCompoundTag("Tank");
             if (!tank.hasKey("Empty")) {
                 FluidStack fluid = FluidStack.loadFluidStackFromNBT(tank);
-                fluid.amount -= amount;
-                fluid.writeToNBT(tank);
-                FluidStack fluid2 = fluid.copy();
-                fluid2.amount = amount;
-                return fluid2;
+                if (fluid.amount >= amount) {
+                    fluid.amount -= amount;
+                    fluid.writeToNBT(tank);
+                    FluidStack fluid2 = fluid.copy();
+                    fluid2.amount = amount;
+                    return fluid2;
+                }
             }
         }
         return null;
     }
 
+    public static FluidStack getFluidTankFromNBT(NBTTagCompound nbt) {
+        if (nbt == null) return null;
+        if (nbt.hasKey("Tank")) {
+            NBTTagCompound tank = nbt.getCompoundTag("Tank");
+            if (!tank.hasKey("Empty")) {
+                return FluidStack.loadFluidStackFromNBT(tank);
+            }
+        }
+        return null;
+    }
+
+    public static void updateFluidTankNBT(NBTTagCompound nbt) {
+        if (nbt == null) return;
+        if (nbt.hasKey("Tank")) {
+            NBTTagCompound tank = nbt.getCompoundTag("Tank");
+            if (!tank.hasKey("Empty")) {
+                FluidStack stack = FluidStack.loadFluidStackFromNBT(tank);
+                if (stack != null) {
+                    if (stack.amount == 0) {
+                        nbt.removeTag("Tank");
+                    }
+                }
+            }
+        }
+    }
+
     public static String getFluidInfoFromNBT(NBTTagCompound nbt) {
+        if (nbt == null) return null;
         if (nbt.hasKey("Tank")) {
             NBTTagCompound tank = nbt.getCompoundTag("Tank");
             if (!tank.hasKey("Empty")) {

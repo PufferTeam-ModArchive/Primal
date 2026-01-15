@@ -8,6 +8,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.*;
+import net.minecraft.launchwrapper.Launch;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.stats.StatList;
@@ -29,6 +30,7 @@ import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.utils.FluidUtils;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class Utils {
@@ -607,7 +609,28 @@ public class Utils {
             stepSound.getPitch() * 0.8F);
     }
 
+    public static boolean isValidOreDict(String oreDict) {
+        if (!OreDictionary.doesOreNameExist(oreDict)) return false;
+        if (OreDictionary.getOres(oreDict)
+            .isEmpty()) return false;
+        return true;
+    }
+
     public static String getOreDictionaryName(String prefix, String suffix) {
+        String prefix2 = decapitalizeFirstLetter(getCapitalizedName(prefix));
+        String suffix2 = getCapitalizedName(suffix);
+        return prefix2 + suffix2;
+    }
+
+    public static String decapitalizeFirstLetter(String str) {
+        if (str == null || str.isEmpty()) {
+            return str;
+        }
+        return str.substring(0, 1)
+            .toLowerCase() + str.substring(1);
+    }
+
+    public static String getCapitalizedName(String suffix) {
         String[] array = suffix.split("_");
         String[] arrayO = new String[array.length];
         for (int i = 0; i < array.length; i++) {
@@ -615,9 +638,105 @@ public class Utils {
             suffixArray[0] = suffixArray[0].toUpperCase();
             arrayO[i] = String.join("", suffixArray);
         }
-        String output = String.join("", arrayO);
+        return String.join("", arrayO);
+    }
 
-        return prefix + output;
+    private static Map<String, Integer> meltingMetalMap;
+
+    public static int getMetalMelting(String metal) {
+        if (meltingMetalMap == null) {
+            meltingMetalMap = new HashMap<>();
+            String[] priorityOverride = Config.metalMelting.getStringList();
+            for (String s : priorityOverride) {
+                String[] spl = s.split("=");
+                if (spl.length == 2) {
+                    String ore = spl[0];
+                    if (Integer.parseInt(spl[1]) != 0) {
+                        int temp = Integer.parseInt(spl[1]);
+                        meltingMetalMap.put(ore, temp);
+                    }
+                }
+            }
+        }
+        if (meltingMetalMap.containsKey(metal)) {
+            return meltingMetalMap.get(metal);
+        }
+        return 0;
+    }
+
+    private static Map<String, Fluid> liquidMetalMap;
+
+    public static Fluid getMetalFluid(String metal) {
+        if (liquidMetalMap == null) {
+            liquidMetalMap = new HashMap<>();
+            String[] priorityOverride = Config.metalLiquids.getStringList();
+            for (String s : priorityOverride) {
+                String[] spl = s.split("=");
+                if (spl.length == 2) {
+                    String ore = spl[0];
+                    if (getFluid(spl[1], 1) != null) {
+                        Fluid item = getFluid(spl[1], 1).getFluid();
+                        liquidMetalMap.put(ore, item);
+                    }
+                }
+            }
+        }
+        if (liquidMetalMap.containsKey(metal)) {
+            return liquidMetalMap.get(metal);
+        }
+        return null;
+    }
+
+    private static Map<String, Integer> priorityMap;
+    private static Map<String, ItemStack> priorityMapOverride;
+
+    public static ItemStack getOreDictItem(String oreDict) {
+        if (priorityMap == null) {
+            priorityMap = new HashMap<>();
+            String[] priority = Config.metalPriority.getStringList();
+            for (int i = 0; i < priority.length; i++) {
+                priorityMap.put(priority[i], i);
+            }
+        }
+        if (priorityMapOverride == null) {
+            priorityMapOverride = new HashMap<>();
+            String[] priorityOverride = Config.metalPriorityOverride.getStringList();
+            for (String s : priorityOverride) {
+                String[] spl = s.split("=");
+                if (spl.length == 2) {
+                    String ore = spl[0];
+                    if (getItem(spl[1]) != null) {
+                        ItemStack item = getItem(spl[1]);
+                        priorityMapOverride.put(ore, item);
+                    }
+                }
+            }
+        }
+        if (priorityMapOverride.containsKey(oreDict)) {
+            return priorityMapOverride.get(oreDict);
+        }
+        ItemStack item = null;
+        int index = Integer.MAX_VALUE;
+        List<ItemStack> list = OreDictionary.getOres(oreDict);
+        for (ItemStack stack : list) {
+            String mod = getModId(stack);
+            int modIndex = priorityMap.getOrDefault(mod, 999999);
+            if (modIndex < index) {
+                index = modIndex;
+                item = stack;
+            }
+        }
+        return item;
+    }
+
+    public static String getModId(ItemStack stack) {
+        if (stack == null || stack.getItem() == null) return "unknown";
+        Item item = stack.getItem();
+
+        String mod = GameData.getItemRegistry()
+            .getNameForObject(item)
+            .split(":")[0];
+        return mod;
     }
 
     public static boolean contains(int[] array, int targetString) {
@@ -766,17 +885,18 @@ public class Utils {
                 return i;
             }
         }
-        return 0;
+        return -1;
     }
 
     public static int getIndex(Block[] array, Block name) {
+        if (array == null || name == null) return -1;
         for (int i = 0; i < array.length; i++) {
             if (array[i] == null) continue;
             if (array[i] == name) {
                 return i;
             }
         }
-        return 0;
+        return -1;
     }
 
     public static int getIndex(int[] array, int name) {
@@ -785,7 +905,7 @@ public class Utils {
                 return i;
             }
         }
-        return 0;
+        return -1;
     }
 
     public static int getIndex(Fluid[] array, Fluid item) {
@@ -795,7 +915,7 @@ public class Utils {
                 return i;
             }
         }
-        return 0;
+        return -1;
     }
 
     public static int getRGB(int r, int g, int b) {
@@ -893,5 +1013,9 @@ public class Utils {
         return FMLCommonHandler.instance()
             .getSide()
             .isClient();
+    }
+
+    public static boolean isDev() {
+        return (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
     }
 }

@@ -7,6 +7,7 @@ import net.minecraft.world.World;
 import net.pufferlab.primal.blocks.BlockCast;
 import net.pufferlab.primal.blocks.BlockCrucible;
 import net.pufferlab.primal.items.IHeatableItem;
+import net.pufferlab.primal.utils.FluidUtils;
 
 public class ItemBlockHeatable extends ItemBlockPrimal implements IHeatableItem {
 
@@ -36,5 +37,14 @@ public class ItemBlockHeatable extends ItemBlockPrimal implements IHeatableItem 
         }
 
         return true;
+    }
+
+    @Override
+    public void onUpdateHeat(ItemStack stack, World worldIn) {
+        IHeatableItem.super.onUpdateHeat(stack, worldIn);
+
+        if (stack.hasTagCompound()) {
+            FluidUtils.updateFluidTankNBT(stack.getTagCompound());
+        }
     }
 }

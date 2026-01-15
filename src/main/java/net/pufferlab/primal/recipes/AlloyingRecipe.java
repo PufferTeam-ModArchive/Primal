@@ -65,7 +65,6 @@ public class AlloyingRecipe {
         int j = 0;
         this.outputs = outputs;
         int size = objects.length / 2;
-        System.out.println("LENGTH" + objects.length);
         this.minPercentage = new int[size];
         this.maxPercentage = new int[size];
         this.inputs = new FluidStack[size];
@@ -123,7 +122,7 @@ public class AlloyingRecipe {
             if (stack != null) {
                 int min = minPercentage[j];
                 int max = maxPercentage[j];
-                int cMin = stack.amount / totalAmount;
+                int cMin = (int) (((float) stack.amount / (float) totalAmount) * 100);
                 if (cMin > max && cMin < min) {
                     valid = false;
                 }

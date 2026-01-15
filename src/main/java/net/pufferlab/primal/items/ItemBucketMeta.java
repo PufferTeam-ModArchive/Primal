@@ -1,5 +1,6 @@
 package net.pufferlab.primal.items;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,6 +12,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.IFluidHandler;
 import net.pufferlab.primal.Constants;
@@ -33,7 +35,7 @@ public class ItemBucketMeta extends ItemMeta {
     @Override
     public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer player) {
         int meta = itemStackIn.getItemDamage();
-        boolean flag = Registry.fluidsObjects[meta] == null;
+        boolean flag = getFluidObjects()[meta] == null;
         MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(worldIn, player, flag);
 
         if (movingobjectposition == null) {
@@ -91,7 +93,7 @@ public class ItemBucketMeta extends ItemMeta {
                         return this.func_150910_a(itemStackIn, player, this, 2);
                     }
                 } else {
-                    if (Registry.fluidsObjects[meta] == null) {
+                    if (getFluidObjects()[meta] == null) {
                         return new ItemStack(this, 0, 1);
                     }
 
@@ -165,7 +167,7 @@ public class ItemBucketMeta extends ItemMeta {
      * Attempts to place the liquid contained inside the bucket.
      */
     public boolean tryPlaceContainedLiquid(World world, int x, int y, int z, int meta) {
-        if (Registry.fluidsObjects[meta] == null) {
+        if (getFluidObjects()[meta] == null) {
             return false;
         } else {
             Material material = world.getBlock(x, y, z)
@@ -175,7 +177,7 @@ public class ItemBucketMeta extends ItemMeta {
             if (!world.isAirBlock(x, y, z) && !flag) {
                 return false;
             } else {
-                if (world.provider.isHellWorld && Registry.fluidsObjects[meta] == FluidRegistry.WATER) {
+                if (world.provider.isHellWorld && getFluidObjects()[meta] == FluidRegistry.WATER) {
                     world.playSoundEffect(
                         (double) ((float) x + 0.5F),
                         (double) ((float) y + 0.5F),
@@ -199,7 +201,7 @@ public class ItemBucketMeta extends ItemMeta {
                         world.func_147480_a(x, y, z, true);
                     }
 
-                    world.setBlock(x, y, z, Registry.fluidsBlocks[meta], 0, 3);
+                    world.setBlock(x, y, z, getFluidBlocks()[meta], 0, 3);
                     return true;
                 }
 
@@ -260,5 +262,13 @@ public class ItemBucketMeta extends ItemMeta {
 
     public boolean isHotLiquid(int meta) {
         return Constants.fluidsBreak[meta];
+    }
+
+    public Block[] getFluidBlocks() {
+        return Registry.fluidsBlocks;
+    }
+
+    public Fluid[] getFluidObjects() {
+        return Registry.fluidsObjects;
     }
 }

@@ -12,6 +12,8 @@ public enum Config {
         "The chance from 0 (0%) to 1 (100%) for a stick to drop from leaves. Putting this to 0 will stop dropping."),
     fireStarterSuccessChance(Module.early, 0.2F,
         "The chance from 0 (0%) to 1 (100%) for the fire starter to succeed making a fire. Putting this to 0 will stop the fire starter from working."),
+    ceramicBucketLiquids(Module.early, new String[] { "fluiddeath", "fluidpure" },
+        "The extra liquids that the ceramic bucket will be able to hold"),
 
     // Campfire
     campfireBurnTime(Module.early, 20 * 120,
@@ -34,8 +36,21 @@ public enum Config {
         "Whether to make vanilla torches require glowstone to balance the lit torches"),
 
     // Metal
-    externalMetalsHeatRendering(Module.metal, true,
+    temperatureCap(Module.metal, 1,
+        "The minimum temperature will be displayed, anything lower will not show in tooltips"),
+    modMetalHeatRendering(Module.metal, true,
         "Put to false if you are getting some rendering issue with other mod ingots that get registered Primal Heat Rendering overlay."),
+    metalPriority(Module.metal, new String[] { "minecraft", "primal", "etfuturum" },
+        "The ingot priority list, higher means the mod items will be taken in priority."),
+    metalPriorityOverride(Module.metal,
+        new String[] { "ingotIron=minecraft:iron_ingot", "ingotGold=minecraft:gold_ingot" },
+        "Override so certain ore dictionary give specific materials"),
+    metalMelting(Module.metal, new String[] { "iron=1538", "gold=1064", "copper=1085", "tin=232", "bronze=950" },
+        "The melting temperature for the correspond metals."),
+    metalLiquids(Module.metal,
+        new String[] { "iron=molten_iron", "gold=molten_gold", "copper=molten_copper", "tin=molten_tin",
+            "bronze=molten_bronze" },
+        "The liquids that will be used for the corresponding metals"),
     metalIngotValue(Module.metal, 144, "The value that one ingot of metal should give."),
     metalNuggetValue(Module.metal, 16, "The value that one nugget of metal should give."),
 
@@ -55,6 +70,7 @@ public enum Config {
     public boolean isBoolean;
     public boolean isInt;
     public boolean isFloat;
+    public boolean isStringList;
     String name;
     String category;
     String comment;
@@ -69,6 +85,8 @@ public enum Config {
     float fDefault;
     float fMinValue;
     float fMaxValue;
+    String[] slValue;
+    String[] slDefault;
 
     Config(Module category, boolean defaultValue, String comment) {
         this.isBoolean = true;
@@ -115,6 +133,15 @@ public enum Config {
             this.fMaxValue = 1.0F;
         }
         this.fValue = fDefault;
+    }
+
+    Config(Module category, String[] defaultList, String comment) {
+        this.isStringList = true;
+        this.name = this.name();
+        this.category = category.name;
+        this.comment = comment;
+        this.slDefault = defaultList;
+        this.slValue = slDefault;
     }
 
     public boolean getBoolean() {
@@ -166,6 +193,13 @@ public enum Config {
         return (int) Math.floor(1 / getFloat());
     }
 
+    public String[] getStringList() {
+        if (!this.isStringList) {
+            throw new IllegalArgumentException();
+        }
+        return slValue;
+    }
+
     public static void synchronizeConfiguration(File configFile) {
         Configuration configuration = new Configuration(configFile);
         for (Config config : Config.values()) {
@@ -189,6 +223,10 @@ public enum Config {
                     config.fMinValue,
                     config.fMaxValue,
                     config.comment);
+            }
+            if (config.isStringList) {
+                config.slValue = configuration
+                    .getStringList(config.name, config.category, config.slDefault, config.comment);
             }
         }
         if (configuration.hasChanged()) {

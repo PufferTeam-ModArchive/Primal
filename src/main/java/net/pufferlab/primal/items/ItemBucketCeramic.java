@@ -6,7 +6,6 @@ import net.minecraft.util.IIcon;
 import net.minecraftforge.fluids.*;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
 
 public class ItemBucketCeramic extends ItemBucketMeta implements IFluidContainerItem {
@@ -25,7 +24,7 @@ public class ItemBucketCeramic extends ItemBucketMeta implements IFluidContainer
     @Override
     public FluidStack getFluid(ItemStack container) {
         int meta = container.getItemDamage();
-        Fluid fluid = Registry.fluidsObjects[meta];
+        Fluid fluid = getFluidObjects()[meta];
         if (fluid == null) {
             return null;
         }
@@ -37,15 +36,15 @@ public class ItemBucketCeramic extends ItemBucketMeta implements IFluidContainer
     }
 
     public int getFluidMeta(FluidStack fluidStack) {
-        return Utils.getIndex(Registry.fluidsObjects, fluidStack.getFluid());
+        return Utils.getIndex(getFluidObjects(), fluidStack.getFluid());
     }
 
     public int fill(ItemStack container, FluidStack resource, boolean doFill) {
         int meta = container.getItemDamage();
-        Fluid fluid = Registry.fluidsObjects[meta];
+        Fluid fluid = getFluidObjects()[meta];
         if (fluid == null) {
             Fluid inputFluid = resource.getFluid();
-            int inputMeta = Utils.getIndex(Registry.fluidsObjects, inputFluid);
+            int inputMeta = Utils.getIndex(getFluidObjects(), inputFluid);
             if (doFill) {
                 container.setItemDamage(inputMeta);
             }
@@ -56,7 +55,7 @@ public class ItemBucketCeramic extends ItemBucketMeta implements IFluidContainer
 
     public FluidStack drain(ItemStack container, int maxDrain, boolean doDrain) {
         int meta = container.getItemDamage();
-        Fluid fluid = Registry.fluidsObjects[meta];
+        Fluid fluid = getFluidObjects()[meta];
         if (fluid != null) {
             if (doDrain) {
                 container.setItemDamage(0);

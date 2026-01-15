@@ -88,6 +88,7 @@ public class Registry {
     public static final Item mold;
     public static final Item clay;
     public static final Item ceramic_bucket;
+    public static final Item ceramic_bucket_modded;
     public static final Item ingot;
     public static final Item nugget;
     public static final Item axe_head;
@@ -164,16 +165,15 @@ public class Registry {
         clay = new ItemMeta(Constants.clayItems, "clay");
         ((BlockGroundcover) ground_rock).setItem(rock);
 
-        ingot = new ItemMetal(Constants.metalTypes, "ingot").setBlacklist(Constants.ingotBlacklist)
-            .setRegisterOre();
-        nugget = new ItemMetal(Constants.metalTypes, "nugget").setBlacklist(Constants.nuggetBlacklist)
-            .setRegisterOre();
+        ingot = new ItemMetal(Constants.metalTypes, "ingot").setBlacklist(Constants.ingotBlacklist);
+        nugget = new ItemMetal(Constants.metalTypes, "nugget").setBlacklist(Constants.nuggetBlacklist);
 
         dough = new ItemMetaFood(Constants.doughItems, "dough");
         flour = new ItemMetaFood(Constants.flourItems, "flour");
 
         bucket = new ItemBucketMeta("bucket");
         ceramic_bucket = new ItemBucketCeramic("ceramic_bucket");
+        ceramic_bucket_modded = new ItemBucketCeramicModded("ceramic_bucket_modded");
 
         flint_axe = new ItemAxePrimitive(toolFlint, "flint_axe");
         flint_pickaxe = new ItemPickaxePrimitive(toolFlint, "flint_pickaxe");
@@ -271,6 +271,7 @@ public class Registry {
         register(handstone, "handstone");
         register(bucket, "bucket");
         register(ceramic_bucket, "ceramic_bucket");
+        register(ceramic_bucket_modded, "ceramic_bucket_modded");
     }
 
     public void setupTiles() {
@@ -303,7 +304,8 @@ public class Registry {
             FluidType fluidType = Constants.fluidsTypes[i];
             if (fluidType.block == null && fluidType.fluid == null) {
                 Fluid fluid = new FluidPrimal(fluidType.name).setDensity(fluidType.density)
-                    .setViscosity(fluidType.viscosity);
+                    .setViscosity(fluidType.viscosity)
+                    .setTemperature(fluidType.temperature);
                 register(fluid);
                 Block block = new BlockFluidPrimal(fluid, fluidType.material, fluidType.name);
                 fluid.setBlock(block);
@@ -315,7 +317,6 @@ public class Registry {
             fluidsObjects[i] = fluidType.fluid;
             fluidsBlocks[i] = fluidType.block;
         }
-        MetalType.setFluids(Constants.metalTypes);
     }
 
     public void setupPackets() {
@@ -359,10 +360,39 @@ public class Registry {
         registerCommand(new CommandSchedule());
     }
 
+    public void setupMetals() {
+        for (MetalType type : Constants.metalTypes) {
+            Fluid fluid = Utils.getMetalFluid(type.name);
+            if (fluid != null) {
+                type.setFluid(fluid);
+            }
+            int temp = Utils.getMetalMelting(type.name);
+            if (temp > 0) {
+                type.setMeltingTemperature(temp);
+            }
+        }
+        MetalType.setFluids(Constants.metalTypes);
+    }
+
+    public void setupModCompat() {
+        ((ItemBucketCeramicModded) ceramic_bucket_modded).registerModdedLiquids();
+    }
+
     public void setupHeatables() {
         registerHeat(Items.iron_ingot, Registry.ingot, Constants.iron);
         registerHeat(Items.gold_ingot, Registry.ingot, Constants.gold);
         registerHeat(Items.gold_nugget, Registry.nugget, Constants.gold);
+    }
+
+    public void setupDebug() {
+        for (MetalType type : Constants.metalTypes) {
+            type.meltingTemperature = 10;
+        }
+        Constants.iron.meltingTemperature = 10;
+        Constants.gold.meltingTemperature = 10;
+        Constants.copper.meltingTemperature = 10;
+        Constants.tin.meltingTemperature = 10;
+        Constants.bronze.meltingTemperature = 10;
     }
 
     public void setupNEI() {

@@ -38,42 +38,39 @@ public interface IScript {
     }
 
     default void addOreDict(String name, ItemStack item) {
-        OreDictionary.registerOre(name, item);
+        if (item != null) {
+            OreDictionary.registerOre(name, item);
+        }
     }
 
     default void addCampfireRecipe(ItemStack output, ItemStack input) {
-        if (output == null || input == null) {
-            throw new NullPointerException();
+        if (output != null && input != null) {
+            CampfireRecipe.addRecipe(output, input);
         }
-        CampfireRecipe.addRecipe(output, input);
     }
 
     default void addQuernRecipe(ItemStack output, ItemStack input) {
-        if (output == null || input == null) {
-            throw new NullPointerException();
+        if (output != null && input != null) {
+            QuernRecipe.addRecipe(output, input);
         }
-        QuernRecipe.addRecipe(output, input);
     }
 
     default void addChoppingLogRecipe(ItemStack output, String input) {
-        if (output == null || input == null) {
-            throw new NullPointerException();
+        if (output != null && input != null) {
+            ChoppingLogRecipe.addRecipe(output, input);
         }
-        ChoppingLogRecipe.addRecipe(output, input);
     }
 
     default void addTanningRecipe(ItemStack output, ItemStack input) {
-        if (output == null || input == null) {
-            throw new NullPointerException();
+        if (output != null && input != null) {
+            TanningRecipe.addRecipe(output, input);
         }
-        TanningRecipe.addRecipe(output, input);
     }
 
     default void addKnappingRecipe(KnappingType type, ItemStack item, String... rows) {
-        if (type == null || item == null) {
-            throw new NullPointerException();
+        if (type != null && item != null) {
+            KnappingRecipe.addRecipe(type, item, rows);
         }
-        KnappingRecipe.addRecipe(type, item, rows);
     }
 
     default void addShapelessRecipe(ItemStack output, Object... recipe) {
@@ -85,14 +82,13 @@ public interface IScript {
     }
 
     default void addPitKilnRecipe(ItemStack output, ItemStack input) {
-        if (output == null || input == null) {
-            throw new NullPointerException();
+        if (output != null && input != null) {
+            PitKilnRecipe.addRecipe(output, input);
         }
-        PitKilnRecipe.addRecipe(output, input);
     }
 
     default void addMeltingRecipe(FluidStack output, String input) {
-        if (OreDictionary.doesOreNameExist(input)) {
+        if (Utils.isValidOreDict(input) && output != null) {
             MeltingRecipe.addRecipe(output, input);
         }
     }
@@ -111,12 +107,16 @@ public interface IScript {
 
     default void addBarrelRecipe(ItemStack output, FluidStack outputLiquid, ItemStack input, FluidStack inputLiquid,
         int processing) {
-        BarrelRecipe.addRecipe(output, outputLiquid, input, inputLiquid, processing);
+        if ((output != null || outputLiquid != null) && (input != null || inputLiquid != null)) {
+            BarrelRecipe.addRecipe(output, outputLiquid, input, inputLiquid, processing);
+        }
     }
 
     default void addBarrelRecipe(ItemStack output, FluidStack outputLiquid, String input, FluidStack inputLiquid,
         int processing) {
-        BarrelRecipe.addRecipe(output, outputLiquid, input, inputLiquid, processing);
+        if ((output != null || outputLiquid != null) && (Utils.isValidOreDict(input) || inputLiquid != null)) {
+            BarrelRecipe.addRecipe(output, outputLiquid, input, inputLiquid, processing);
+        }
     }
 
     @SuppressWarnings("deprecation")

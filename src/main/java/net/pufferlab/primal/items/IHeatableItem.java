@@ -27,9 +27,8 @@ public interface IHeatableItem {
                 if (multiplier > 0) {
                     updateHeat(stack, worldIn, -1.0F, 1300);
                 }
-                if (TemperatureUtils.getInterpolatedTemperature(GlobalTickingData.getTickTime(worldIn), tag) == 0) {
-                    // TemperatureUtils.resetTemperatureToNBT(tag);
-                }
+                System.out
+                    .println(TemperatureUtils.getInterpolatedTemperature(GlobalTickingData.getTickTime(worldIn), tag));
             }
         }
     }

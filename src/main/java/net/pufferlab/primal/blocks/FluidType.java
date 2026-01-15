@@ -13,6 +13,7 @@ public class FluidType {
     public Fluid fluid;
     public int density;
     public int viscosity;
+    public int temperature;
 
     public FluidType(String name) {
         this(name, Material.water);
@@ -23,6 +24,7 @@ public class FluidType {
         this.material = material;
         if (material == Material.lava) {
             hotLiquid = true;
+            this.temperature = 1300;
         } else {
             hotLiquid = false;
         }

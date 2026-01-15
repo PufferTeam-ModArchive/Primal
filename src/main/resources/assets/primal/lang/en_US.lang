@@ -52,6 +52,19 @@ item.primal.bronze_chestplate.name=Bronze Chestplate
 item.primal.bronze_leggings.name=Bronze Leggings
 item.primal.bronze_boots.name=Bronze Boots
 
+item.primal.ingot_mold.name=Ingot Mold
+item.primal.clay_ingot_mold.name=Clay Ingot Mold
+item.primal.pickaxe_mold.name=Pickaxe Head Mold
+item.primal.clay_pickaxe_mold.name=Clay Pickaxe Head Mold
+item.primal.axe_mold.name=Axe Head Mold
+item.primal.clay_axe_mold.name=Clay Axe Head Mold
+item.primal.shovel_mold.name=Shovel Head Mold
+item.primal.clay_shovel_mold.name=Clay Shovel Head Mold
+item.primal.sword_mold.name=Sword Blade Mold
+item.primal.clay_sword_mold.name=Clay Sword Blade Mold
+item.primal.hoe_mold.name=Hoe Head Mold
+item.primal.clay_hoe_mold.name=Clay Hoe Head Mold
+
 fluid.primal.molten_copper.name=Molten Copper
 item.primal.molten_copper_bucket.name=Molten Copper Bucket
 item.primal.molten_copper_ceramic_bucket.name=Molten Copper Ceramic Bucket

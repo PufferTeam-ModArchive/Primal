@@ -24,17 +24,17 @@ public class CastingRecipe {
         });
     }
 
-    public static ItemStack getOutput(ItemStack cast, FluidStack input) {
+    public static CastingRecipe getRecipe(ItemStack cast, FluidStack input) {
         for (CastingRecipe currentRecipe : recipeList) {
             if (currentRecipe.equals(cast, input)) {
-                return currentRecipe.output;
+                return currentRecipe;
             }
         }
         return null;
     }
 
     public static boolean hasRecipe(ItemStack cast, FluidStack input) {
-        ItemStack recipe = getOutput(cast, input);
+        CastingRecipe recipe = getRecipe(cast, input);
         return recipe != null;
     }
 
@@ -62,7 +62,9 @@ public class CastingRecipe {
 
     public boolean equals(ItemStack cast, FluidStack input) {
         if (Utils.equalsStack(this.input, input) && Utils.equalsStack(this.cast, cast)) {
-            return true;
+            if (input.amount >= this.input.amount) {
+                return true;
+            }
         }
         return false;
     }

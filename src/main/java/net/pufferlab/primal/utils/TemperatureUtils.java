@@ -191,7 +191,7 @@ public class TemperatureUtils {
             int timePassed = Utils.toInt(currentTime - worldTime);
             int lastTemperature = getTemperatureFromNBT(tag);
             float multiplier = getMultiplierFromNBT(tag);
-            int newTemperature = (int) (lastTemperature + ((timePassed / 10) * multiplier));
+            int newTemperature = (int) (lastTemperature + ((timePassed / 5) * multiplier));
             int maxTemperature = getMaxTemperatureFromNBT(tag);
             if (newTemperature < 0) {
                 return 0;

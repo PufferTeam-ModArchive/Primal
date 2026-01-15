@@ -53,8 +53,10 @@ public class Constants {
     public static final String[] flintItems = new String[] { "flint_shard", "flint_axe_head", "flint_pickaxe_head",
         "flint_shovel_head", "flint_knife_blade" };
     public static final String[] clayItems = new String[] { "clay_brick", "clay_flower_pot", "clay_large_vessel",
-        "clay_crucible", "clay_pickaxe_mold", "clay_axe_mold", "clay_shovel_mold", "clay_sword_mold", "clay_bucket" };
-    public static final String[] moldItems = new String[] { "pickaxe_mold", "axe_mold", "shovel_mold", "sword_mold" };
+        "clay_crucible", "clay_ingot_mold", "clay_pickaxe_mold", "clay_axe_mold", "clay_shovel_mold", "clay_sword_mold",
+        "clay_hoe_mold", "clay_bucket" };
+    public static final String[] moldItems = new String[] { "ingot_mold", "pickaxe_mold", "axe_mold", "shovel_mold",
+        "sword_mold", "hoe_mold" };
     public static final String[] colorItems = new String[] { "wool", "glass", "glass_pane", "carpet", "hardened_clay" };
     public static final String[] colorItemsEFR = new String[] { "banner", "concrete", "concrete_powder",
         "glazed_terracotta", "bed" };

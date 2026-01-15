@@ -25,9 +25,9 @@ public class NEICastingHandler extends TemplateRecipeHandler {
     public class CastingPair extends CachedRecipe {
 
         public CastingPair(ItemStack cast, ItemStack ingred, ItemStack result, FluidStack ingredFS) {
-            this.ingred = new PositionedStack(ingred, 114, 25, true);
-            this.cast = new PositionedStack(cast, 114, 4, true);
-            this.result = new PositionedStack(result, 43, 25, true);
+            this.ingred = new PositionedStack(ingred, 43, 25, true);
+            this.cast = new PositionedStack(cast, 43, 4, true);
+            this.result = new PositionedStack(result, 114, 25, true);
             this.ingredFS = ingredFS;
         }
 
@@ -95,7 +95,8 @@ public class NEICastingHandler extends TemplateRecipeHandler {
     public void loadUsageRecipes(ItemStack ingredient) {
         List<CastingRecipe> recipes = CastingRecipe.getRecipeList();
         for (CastingRecipe recipe : recipes) {
-            if (Utils.equalsStack(ingredient, recipe.inputBlock) || Utils.equalsStack(ingredient, recipe.cast)) {
+            if (Utils.equalsStack(ingredient, recipe.input) || Utils.equalsStack(ingredient, recipe.inputBlock)
+                || Utils.equalsStack(ingredient, recipe.cast)) {
                 arecipes.add(new CastingPair(recipe.cast, recipe.inputBlock, recipe.output, recipe.input));
             }
         }

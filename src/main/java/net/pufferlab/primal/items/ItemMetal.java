@@ -8,6 +8,7 @@ public class ItemMetal extends ItemMetaHeatable {
 
     public ItemMetal(MetalType[] materials, String type) {
         super(MetalType.getNames(materials), type);
+        this.setRegisterOre();
         this.setHasSuffix();
         this.metalTypes = materials;
     }

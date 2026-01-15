@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.IHeatable;
 
@@ -30,7 +31,9 @@ public class WLHeatHandler implements IWailaDataProvider {
                     currenttip.add(Utils.getStateTooltip(isFired, "Fired", "Unfired"));
                 }
                 int temperature = tag.getInteger("temperature");
-                currenttip.add(Utils.getTemperatureTooltip(temperature));
+                if (temperature > Config.temperatureCap.getInt()) {
+                    currenttip.add(Utils.getTemperatureTooltip(temperature));
+                }
             }
         }
 

@@ -24,6 +24,8 @@ public class Primal {
     @Mod.Instance(Primal.MODID)
     public static Primal instance;
 
+    public static boolean debugMode = false;
+
     public static Registry registry = new Registry();
     public static ScriptRegistry scriptRegistry = new ScriptRegistry();
 
@@ -54,6 +56,12 @@ public class Primal {
         registry.setupMT();
         registry.setupWAILA();
         registry.setupHeatables();
+        registry.setupMetals();
+        registry.setupModCompat();
+
+        if (debugMode && Utils.isDev()) {
+            registry.setupDebug();
+        }
 
         proxy.setupRenders();
 

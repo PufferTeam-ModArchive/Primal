@@ -1,5 +1,7 @@
 package net.pufferlab.primal.blocks;
 
+import static net.pufferlab.primal.tileentities.TileEntityCast.*;
+
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -18,12 +20,17 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
+import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.events.ticks.GlobalTickingData;
+import net.pufferlab.primal.items.MetalType;
+import net.pufferlab.primal.recipes.CastingRecipe;
 import net.pufferlab.primal.tileentities.TileEntityCast;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.utils.FluidUtils;
+import net.pufferlab.primal.utils.TemperatureUtils;
 
 public class BlockCast extends BlockPrimal {
 
@@ -47,9 +54,31 @@ public class BlockCast extends BlockPrimal {
         if (te instanceof TileEntityCast tef) {
             if (heldItem != null) {
                 if (heldItem.getItem() == Item.getItemFromBlock(Registry.crucible)) {
-                    FluidStack fluid = FluidUtils.drainFluidFromNBT(heldItem.getTagCompound(), 144);
-                    if (tef.getFluidStack() == null && fluid != null) {
-                        tef.fill(ForgeDirection.getOrientation(side), fluid, true);
+                    if (TemperatureUtils.hasImpl(heldItem)) {
+                        FluidStack stack = FluidUtils.getFluidTankFromNBT(heldItem.getTagCompound());
+                        MetalType metal = MetalType.getMetalFromFluid(Constants.metalTypes, stack);
+                        if (metal != null) {
+                            int temp = TemperatureUtils.getInterpolatedTemperature(
+                                GlobalTickingData.getTickTime(worldIn),
+                                heldItem.getTagCompound());
+                            if (temp > metal.meltingTemperature) {
+                                FluidStack fluidInfo = FluidUtils.getFluidTankFromNBT(heldItem.getTagCompound());
+                                CastingRecipe recipe = CastingRecipe
+                                    .getRecipe(tef.getInventoryStack(slotCast), fluidInfo);
+                                if (fluidInfo != null && recipe != null) {
+                                    tef.tank.setCapacity(recipe.input.amount);
+                                    if (tef.fill(ForgeDirection.getOrientation(side), fluidInfo, false) > 0) {
+                                        FluidStack fluid = FluidUtils
+                                            .drainFluidTankFromNBT(heldItem.getTagCompound(), recipe.input.amount);
+                                        if (tef.getFluidStack() == null && fluid != null) {
+                                            tef.temperature = temp;
+                                            tef.fill(ForgeDirection.getOrientation(side), fluid, true);
+                                        }
+                                    }
+
+                                }
+                            }
+                        }
                     }
                     return true;
                 }
@@ -57,7 +86,13 @@ public class BlockCast extends BlockPrimal {
             if (FluidUtils.isFluidContainer(heldItem)) {
                 return true;
             } else {
-                return addOrRemoveItem(worldIn, x, y, z, player, tef, 0, heldItem);
+                if (tef.getInventoryStack(slotOutputSmall) != null) {
+                    return addOrRemoveItem(worldIn, x, y, z, player, tef, slotOutputSmall, heldItem);
+                } else if (tef.getInventoryStack(slotOutput) != null) {
+                    return addOrRemoveItem(worldIn, x, y, z, player, tef, slotOutput, heldItem);
+                } else {
+                    return addOrRemoveItem(worldIn, x, y, z, player, tef, slotCast, heldItem);
+                }
             }
         }
         return false;
@@ -71,7 +106,7 @@ public class BlockCast extends BlockPrimal {
         } else {
             dropItem(world, x, y, z, index);
             tef.setInventorySlotContentsUpdate(index);
-            if (tef.getInventoryStack(index) == null) {
+            if (tef.getInventoryStack(slotCast) == null) {
                 world.setBlockToAir(x, y, z);
             }
             return true;

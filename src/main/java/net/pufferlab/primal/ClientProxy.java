@@ -103,7 +103,7 @@ public class ClientProxy extends CommonProxy {
         register(TileEntityBarrel.class, new TileEntityBarrelRenderer());
         register(TileEntityTanning.class, new TileEntityTanningRenderer());
         register(TileEntityOven.class, new TileEntityOvenRenderer());
-        register(TileEntityCast.class, new TileEntityMoldRenderer());
+        register(TileEntityCast.class, new TileEntityCastRenderer());
         register(TileEntityCrucible.class, new TileEntityCrucibleRenderer());
         register(TileEntityQuern.class, new TileEntityQuernRenderer());
         register(TileEntityAxle.class, new TileEntityAxleRenderer());
@@ -123,13 +123,14 @@ public class ClientProxy extends CommonProxy {
         register(Registry.quern, new ItemQuernRenderer());
         register(Registry.bucket, new ItemBucketRenderer());
         register(Registry.ceramic_bucket, new ItemBucketCeramicRenderer());
+        register(Registry.ceramic_bucket_modded, new ItemBucketRenderer());
         register(Registry.axle, new ItemAxleRenderer());
         register(Registry.generator, new ItemGeneratorRenderer());
         register(Registry.waterwheel, new ItemWaterwheelRenderer());
         register(Registry.windmill, new ItemWindmillRenderer());
         register(Registry.ingot, new ItemHeatableRenderer());
 
-        if (Config.externalMetalsHeatRendering.getBoolean()) {
+        if (Config.modMetalHeatRendering.getBoolean()) {
             for (Item item : TemperatureUtils.getHeatableItems()) {
                 register(
                     item,

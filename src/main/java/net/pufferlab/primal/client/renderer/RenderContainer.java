@@ -13,7 +13,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.fluids.Fluid;
-import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.items.ItemBucketMeta;
 
@@ -38,7 +37,7 @@ public class RenderContainer {
 
         if (item instanceof ItemBucketMeta item2) {
             IIcon mask = item2.getIconFromDamageForRenderPass(meta, 1);
-            Fluid fluid = Registry.fluidsObjects[meta];
+            Fluid fluid = item2.getFluidObjects()[meta];
             if (type == IItemRenderer.ItemRenderType.INVENTORY) {
                 GL11.glScalef(16.0F, 16.0F, 16.0F);
                 GL11.glRotatef(180, 0.0F, 0.0F, 1.0F);

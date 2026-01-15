@@ -32,6 +32,11 @@ public class ItemMeta extends Item implements IMetaItem {
         this.setHasSubtypes(true);
     }
 
+    public ItemMeta setMaterials(String[] materials) {
+        this.elements = materials;
+        return this;
+    }
+
     public ItemMeta setBlacklist(String[] blacklist) {
         this.elementsBlacklist = blacklist;
         return this;

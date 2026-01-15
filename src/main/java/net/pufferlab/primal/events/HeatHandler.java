@@ -10,11 +10,16 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fluids.FluidStack;
+import net.pufferlab.primal.Config;
+import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.events.ticks.GlobalTickingData;
 import net.pufferlab.primal.items.IHeatableItem;
+import net.pufferlab.primal.items.MetalType;
 import net.pufferlab.primal.tileentities.IHeatable;
+import net.pufferlab.primal.utils.FluidUtils;
 import net.pufferlab.primal.utils.TemperatureUtils;
 
 import cpw.mods.fml.common.eventhandler.Event;
@@ -23,17 +28,33 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 
 public class HeatHandler implements IEventHandler {
 
+    public static final Item crucible = Item.getItemFromBlock(Registry.crucible);
+
     @SubscribeEvent
     public void tooltipEvent(ItemTooltipEvent event) {
         if (event.itemStack.hasTagCompound()) {
             NBTTagCompound tag = event.itemStack.getTagCompound();
             if (tag != null) {
                 if (TemperatureUtils.hasImpl(event.itemStack)) {
-                    event.toolTip.add(
-                        Utils.getTemperatureTooltip(
-                            TemperatureUtils.getInterpolatedTemperature(
-                                GlobalTickingData.getTickTime(event.entity.worldObj),
-                                tag)));
+                    int temperature = TemperatureUtils
+                        .getInterpolatedTemperature(GlobalTickingData.getTickTime(event.entity.worldObj), tag);
+                    if (temperature > Config.temperatureCap.getInt()) {
+                        event.toolTip.add(Utils.getTemperatureTooltip(temperature));
+                    }
+                    if (event.itemStack.getItem() == crucible) {
+                        FluidStack stack = FluidUtils.getFluidTankFromNBT(event.itemStack.getTagCompound());
+                        if (stack != null) {
+                            MetalType metal = MetalType.getMetalFromFluid(Constants.metalTypes, stack);
+                            if (metal != null) {
+                                int meltingTemperature = metal.meltingTemperature;
+                                if (temperature > meltingTemperature) {
+                                    event.toolTip.add("Content is molten");
+                                } else {
+                                    event.toolTip.add("Content is solid");
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
