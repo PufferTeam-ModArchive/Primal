@@ -6,29 +6,36 @@ import net.minecraftforge.common.config.Configuration;
 
 public enum Config {
 
-    vanillaToolsRemovalMode(Module.early, 1, 0, 2,
+    vanillaToolsRemovalMode(Module.early_game, 1, 0, 2,
         "0: Don't remove vanilla tools. 1: Remove the recipes. 2: Keep the recipes but make tools unusable."),
-    stickDropChance(Module.early, 0.166F,
+    stickDropChance(Module.early_game, 0.166F,
         "The chance from 0 (0%) to 1 (100%) for a stick to drop from leaves. Putting this to 0 will stop dropping."),
-    fireStarterSuccessChance(Module.early, 0.2F,
+    fireStarterSuccessChance(Module.early_game, 0.2F,
         "The chance from 0 (0%) to 1 (100%) for the fire starter to succeed making a fire. Putting this to 0 will stop the fire starter from working."),
-    ceramicBucketLiquids(Module.early, new String[] { "fluiddeath", "fluidpure" },
+    leatherDropReplacement(Module.early_game, true,
+        "Whether to replace leather drops with raw hides to balance the leather recipes."),
+    ceramicBucketLiquids(Module.early_game, new String[] { "fluiddeath", "fluidpure" },
         "The extra liquids that the ceramic bucket will be able to hold"),
+    ceramicBucketLiquidsHotCap(Module.early_game, 1000,
+        "The temperature for a liquid to be considered hot and break the ceramic bucket."),
 
     // Campfire
-    campfireBurnTime(Module.early, 20 * 120,
+    campfireBurnTime(Module.early_game, 20 * 120,
         "The time in ticks that it takes for the campfire to consume one of its fuel."),
-    campfireSmeltTime(Module.early, 20 * 60,
+    campfireSmeltTime(Module.early_game, 20 * 60,
         "The time in ticks that it will take the Campfire to smelt one of its slot."),
 
     // Forge
-    forgeBurnTime(Module.early, 20 * 120, "The time in ticks that it takes for the forge to consume one of its fuel."),
+    forgeBurnTime(Module.early_game, 20 * 120,
+        "The time in ticks that it takes for the forge to consume one of its fuel."),
 
     // Pit Kiln
-    pitKilnSmeltTime(Module.early, 20 * 120, "The time in ticks that it will take the Pit Kiln to smelt it's content."),
+    pitKilnSmeltTime(Module.early_game, 20 * 120,
+        "The time in ticks that it will take the Pit Kiln to smelt it's content."),
 
     // Log Pile
-    logPileSmeltTime(Module.early, 20 * 120, "The time in ticks that it will take the LogPile to smelt into charcoal."),
+    logPileSmeltTime(Module.early_game, 20 * 120,
+        "The time in ticks that it will take the LogPile to smelt into charcoal."),
 
     // Torch
     torchBurnTime(Module.lighting, 20 * 60 * 20, "The time in ticks that lit torches will burn before going out."),
@@ -36,32 +43,33 @@ public enum Config {
         "Whether to make vanilla torches require glowstone to balance the lit torches"),
 
     // Metal
-    temperatureCap(Module.metal, 1,
+    temperatureCap(Module.metalworking, 1,
         "The minimum temperature will be displayed, anything lower will not show in tooltips"),
-    modMetalHeatRendering(Module.metal, true,
+    modMetalHeatRendering(Module.metalworking, true,
         "Put to false if you are getting some rendering issue with other mod ingots that get registered Primal Heat Rendering overlay."),
-    metalPriority(Module.metal, new String[] { "minecraft", "primal", "etfuturum" },
+    metalPriority(Module.metalworking, new String[] { "minecraft", "primal", "etfuturum" },
         "The ingot priority list, higher means the mod items will be taken in priority."),
-    metalPriorityOverride(Module.metal,
+    metalPriorityOverride(Module.metalworking,
         new String[] { "ingotIron=minecraft:iron_ingot", "ingotGold=minecraft:gold_ingot" },
         "Override so certain ore dictionary give specific materials"),
-    metalMelting(Module.metal, new String[] { "iron=1538", "gold=1064", "copper=1085", "tin=232", "bronze=950" },
+    metalMelting(Module.metalworking, new String[] { "iron=1538", "gold=1064", "copper=1085", "tin=232", "bronze=950" },
         "The melting temperature for the correspond metals."),
-    metalLiquids(Module.metal,
+    metalLiquids(Module.metalworking,
         new String[] { "iron=molten_iron", "gold=molten_gold", "copper=molten_copper", "tin=molten_tin",
             "bronze=molten_bronze" },
         "The liquids that will be used for the corresponding metals"),
-    metalIngotValue(Module.metal, 144, "The value that one ingot of metal should give."),
-    metalNuggetValue(Module.metal, 16, "The value that one nugget of metal should give."),
+    metalIngotValue(Module.metalworking, 144, "The value that one ingot of metal should give."),
+    metalNuggetValue(Module.metalworking, 16, "The value that one nugget of metal should give."),
 
     // Waterwheel
-    waterwheelDefaultSpeed(Module.mechanical, 5F, "The default speed that the waterwheel will have."),
-    waterwheelRestrictBiome(Module.mechanical, false, "Whether waterwheel should be limited to River/Oceans biomes."),
+    waterwheelDefaultSpeed(Module.mechanical_power, 5F, "The default speed that the waterwheel will have."),
+    waterwheelRestrictBiome(Module.mechanical_power, false,
+        "Whether waterwheel should be limited to River/Oceans biomes."),
 
     // Windmill
-    windmillDefaultSpeed(Module.mechanical, 5F, "The default speed that the windmill will have."),
-    windmillIdealHeight(Module.mechanical, 100, 0, 256, "The height which the windmill will spin the fastest."),
-    windmillRange(Module.mechanical, 60, 0, 256,
+    windmillDefaultSpeed(Module.mechanical_power, 5F, "The default speed that the windmill will have."),
+    windmillIdealHeight(Module.mechanical_power, 100, 0, 256, "The height which the windmill will spin the fastest."),
+    windmillRange(Module.mechanical_power, 60, 0, 256,
         "The range around the ideal height in which the windmill will operate."),
 
     // WorldGen
@@ -200,8 +208,10 @@ public enum Config {
         return slValue;
     }
 
+    public static Configuration configuration;
+
     public static void synchronizeConfiguration(File configFile) {
-        Configuration configuration = new Configuration(configFile);
+        configuration = new Configuration(configFile);
         for (Config config : Config.values()) {
             if (config.isBoolean) {
                 config.bValue = configuration.getBoolean(config.name, config.category, config.bDefault, config.comment);
@@ -236,19 +246,23 @@ public enum Config {
 
     public static enum Module {
 
-        early(true),
-        metal(true),
-        mechanical(true),
-        worldgen(true),
-        lighting(true);
+        early_game(true,
+            "Includes all the early game stuff such as campfire, pitkiln and everything you will use early on."),
+        metalworking(true, "Includes all of the metalworking aspect of the mod, such as the forge, crucible and such."),
+        mechanical_power(true,
+            "Includes all of the mechanical power machinery, such as windmill, waterwheel and anything that moves."),
+        worldgen(true, "Includes all of the worldgen stuff from the mod."),
+        lighting(true, "Includes all of the changes related to lighting.");
 
-        String name;
+        public String name;
+        public String comment;
         boolean enabled;
         boolean enabledDefault;
 
-        Module(boolean enabled) {
+        Module(boolean enabled, String comment) {
             this.name = this.name();
             this.enabledDefault = enabled;
+            this.comment = comment;
         }
 
         public boolean isEnabled() {

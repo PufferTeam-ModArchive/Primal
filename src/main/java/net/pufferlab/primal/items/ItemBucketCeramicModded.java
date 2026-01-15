@@ -115,12 +115,12 @@ public class ItemBucketCeramicModded extends ItemBucketCeramic {
 
     @Override
     public boolean isBreakable(ItemStack itemStack) {
-        return fluids[itemStack.getItemDamage()].getTemperature() > 1000;
+        return fluids[itemStack.getItemDamage()].getTemperature() > Config.ceramicBucketLiquidsHotCap.getInt();
     }
 
     @Override
     public boolean isHotLiquid(int meta) {
-        return fluids[meta].getTemperature() > 1000;
+        return fluids[meta].getTemperature() > Config.ceramicBucketLiquidsHotCap.getInt();
     }
 
     @Override

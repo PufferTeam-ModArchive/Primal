@@ -11,7 +11,12 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.*;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
-@Mod(modid = Primal.MODID, version = Tags.VERSION, name = Primal.MODNAME, acceptedMinecraftVersions = "[1.7.10]")
+@Mod(
+    modid = Primal.MODID,
+    version = Tags.VERSION,
+    name = Primal.MODNAME,
+    guiFactory = "net.pufferlab.primal.client.config.GuiFactory",
+    acceptedMinecraftVersions = "[1.7.10]")
 public class Primal {
 
     public static final String MODNAME = "Primal";
