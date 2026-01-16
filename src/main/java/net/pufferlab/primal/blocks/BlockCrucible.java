@@ -15,12 +15,12 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.events.ticks.GlobalTickingData;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.items.itemblocks.ItemBlockHeatable;
 import net.pufferlab.primal.tileentities.TileEntityCrucible;
 import net.pufferlab.primal.utils.FluidUtils;
 import net.pufferlab.primal.utils.TemperatureUtils;
+import net.pufferlab.primal.world.GlobalTickingData;
 
 public class BlockCrucible extends BlockPrimal {
 

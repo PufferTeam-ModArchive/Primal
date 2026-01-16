@@ -1,6 +1,6 @@
 package net.pufferlab.primal.client.renderer;
 
-import net.pufferlab.primal.events.ticks.ClientTickHolder;
+import net.pufferlab.primal.client.helper.ClientTickHolder;
 
 public class RenderMotion {
 

@@ -2,7 +2,7 @@ package net.pufferlab.primal.tileentities;
 
 import net.minecraft.world.World;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.events.ticks.SchedulerData;
+import net.pufferlab.primal.world.SchedulerData;
 
 public interface IScheduledTile extends ITile {
 

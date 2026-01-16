@@ -20,17 +20,16 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
-import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.events.ticks.GlobalTickingData;
-import net.pufferlab.primal.items.MetalType;
 import net.pufferlab.primal.recipes.CastingRecipe;
 import net.pufferlab.primal.tileentities.TileEntityCast;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.utils.FluidUtils;
+import net.pufferlab.primal.utils.MetalType;
 import net.pufferlab.primal.utils.TemperatureUtils;
+import net.pufferlab.primal.world.GlobalTickingData;
 
 public class BlockCast extends BlockPrimal {
 
@@ -56,7 +55,7 @@ public class BlockCast extends BlockPrimal {
                 if (heldItem.getItem() == Item.getItemFromBlock(Registry.crucible)) {
                     if (TemperatureUtils.hasImpl(heldItem)) {
                         FluidStack stack = FluidUtils.getFluidTankFromNBT(heldItem.getTagCompound());
-                        MetalType metal = MetalType.getMetalFromFluid(Constants.metalTypes, stack);
+                        MetalType metal = MetalType.getMetalFromFluid(stack);
                         if (metal != null) {
                             int temp = TemperatureUtils.getInterpolatedTemperature(
                                 GlobalTickingData.getTickTime(worldIn),

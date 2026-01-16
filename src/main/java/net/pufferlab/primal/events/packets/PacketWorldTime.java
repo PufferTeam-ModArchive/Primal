@@ -1,6 +1,6 @@
 package net.pufferlab.primal.events.packets;
 
-import net.pufferlab.primal.events.ticks.GlobalTickingData;
+import net.pufferlab.primal.world.GlobalTickingData;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;

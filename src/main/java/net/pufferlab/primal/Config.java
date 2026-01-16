@@ -45,6 +45,8 @@ public enum Config {
     // Metal
     temperatureCap(Module.metalworking, 1,
         "The minimum temperature will be displayed, anything lower will not show in tooltips"),
+    metalHeatRendering(Module.metalworking, true,
+        "Put to false if you don't want heat rendering on items. Will globally disable all rendering even on modded ingots."),
     modMetalHeatRendering(Module.metalworking, true,
         "Put to false if you are getting some rendering issue with other mod ingots that get registered Primal Heat Rendering overlay."),
     metalPriority(Module.metalworking, new String[] { "minecraft", "primal", "etfuturum" },

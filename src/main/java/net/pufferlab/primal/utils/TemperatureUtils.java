@@ -7,9 +7,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.events.ticks.GlobalTickingData;
 import net.pufferlab.primal.items.IHeatableItem;
-import net.pufferlab.primal.items.MetalType;
+import net.pufferlab.primal.world.GlobalTickingData;
 
 public class TemperatureUtils {
 
@@ -183,6 +182,7 @@ public class TemperatureUtils {
         if (tag.hasKey(tagTemperature)) {
             tag.removeTag(tagTemperature);
         }
+
     }
 
     public static int getInterpolatedTemperature(long currentTime, NBTTagCompound tag) {

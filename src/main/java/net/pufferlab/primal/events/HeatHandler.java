@@ -1,5 +1,7 @@
 package net.pufferlab.primal.events;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -12,15 +14,15 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Config;
-import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.events.ticks.GlobalTickingData;
+import net.pufferlab.primal.entities.player.PlayerData;
 import net.pufferlab.primal.items.IHeatableItem;
-import net.pufferlab.primal.items.MetalType;
 import net.pufferlab.primal.tileentities.IHeatable;
 import net.pufferlab.primal.utils.FluidUtils;
+import net.pufferlab.primal.utils.MetalType;
 import net.pufferlab.primal.utils.TemperatureUtils;
+import net.pufferlab.primal.world.GlobalTickingData;
 
 import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -29,6 +31,8 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 public class HeatHandler implements IEventHandler {
 
     public static final Item crucible = Item.getItemFromBlock(Registry.crucible);
+
+    public static final boolean debugTemperatureTooltip = false;
 
     @SubscribeEvent
     public void tooltipEvent(ItemTooltipEvent event) {
@@ -42,9 +46,9 @@ public class HeatHandler implements IEventHandler {
                         event.toolTip.add(Utils.getTemperatureTooltip(temperature));
                     }
                     if (event.itemStack.getItem() == crucible) {
-                        FluidStack stack = FluidUtils.getFluidTankFromNBT(event.itemStack.getTagCompound());
+                        FluidStack stack = FluidUtils.getFluidTankFromNBT(tag);
                         if (stack != null) {
-                            MetalType metal = MetalType.getMetalFromFluid(Constants.metalTypes, stack);
+                            MetalType metal = MetalType.getMetalFromFluid(stack);
                             if (metal != null) {
                                 int meltingTemperature = metal.meltingTemperature;
                                 if (temperature > meltingTemperature) {
@@ -54,6 +58,15 @@ public class HeatHandler implements IEventHandler {
                                 }
                             }
                         }
+                    }
+                    PlayerData data = PlayerData.get(event.entityPlayer);
+                    if (data.temperatureDebug) {
+                        event.toolTip.add("  ");
+                        event.toolTip.add("Advanced Info :");
+                        event.toolTip.add("Last-Temperature: " + TemperatureUtils.getTemperatureFromNBT(tag));
+                        event.toolTip.add("Last-WorldTime: " + TemperatureUtils.getWorldTimeFromNBT(tag));
+                        event.toolTip.add("Modifier: " + TemperatureUtils.getMultiplierFromNBT(tag));
+                        event.toolTip.add("Max-Temperature: " + TemperatureUtils.getMaxTemperatureFromNBT(tag));
                     }
                 }
             }
@@ -121,7 +134,13 @@ public class HeatHandler implements IEventHandler {
 
             IHeatableItem impl = TemperatureUtils.getImpl(stack);
             if (impl != null) {
-                impl.onUpdateHeat(stack, event.world);
+                Block block = event.world
+                    .getBlock((int) Math.floor(ei.posX), (int) Math.floor(ei.posY), (int) Math.floor(ei.posZ));
+                if (block.getMaterial() == Material.water) {
+                    impl.onUpdateHeat(stack, event.world, -5.0F);
+                } else {
+                    impl.onUpdateHeat(stack, event.world);
+                }
             }
         }
     }

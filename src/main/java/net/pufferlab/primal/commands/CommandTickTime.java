@@ -2,7 +2,7 @@ package net.pufferlab.primal.commands;
 
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
-import net.pufferlab.primal.events.ticks.GlobalTickingData;
+import net.pufferlab.primal.world.GlobalTickingData;
 
 public class CommandTickTime extends CommandSub {
 

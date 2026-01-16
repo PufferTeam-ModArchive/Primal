@@ -8,7 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.blocks.SoundTypePrimal;
+import net.pufferlab.primal.utils.SoundType;
 
 public abstract class TileEntityPrimal extends TileEntity implements ITile {
 
@@ -48,7 +48,7 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
 
     public void readFromNBTPacket(NBTTagCompound tag) {}
 
-    public void playSound(SoundTypePrimal stepSound) {
+    public void playSound(SoundType stepSound) {
         World world = this.getWorldObj();
         int x = this.xCoord;
         int y = this.yCoord;

@@ -1,11 +1,16 @@
 package net.pufferlab.primal.commands;
 
+import java.util.Arrays;
+import java.util.List;
+
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
-import net.pufferlab.primal.events.ticks.ScheduledTask;
-import net.pufferlab.primal.events.ticks.SchedulerData;
+import net.pufferlab.primal.world.ScheduledTask;
+import net.pufferlab.primal.world.SchedulerData;
 
 public class CommandSchedule extends CommandSub {
+
+    public static String[] arguments = new String[] { "", "list" };
 
     @Override
     public void handleCommand(ICommandSender sender, String[] args) {
@@ -33,6 +38,11 @@ public class CommandSchedule extends CommandSub {
 
             }
         }
+    }
+
+    @Override
+    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args) {
+        return args.length == 1 ? Arrays.asList(arguments) : null;
     }
 
     @Override

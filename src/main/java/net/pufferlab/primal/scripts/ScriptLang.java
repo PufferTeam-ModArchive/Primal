@@ -2,6 +2,7 @@ package net.pufferlab.primal.scripts;
 
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.items.ItemBucketCeramicModded;
 
 public class ScriptLang implements IScript {
@@ -16,7 +17,7 @@ public class ScriptLang implements IScript {
             Fluid fluidObj = ItemBucketCeramicModded.fluids[i];
             if (fluidObj != null) {
                 addLocalization(
-                    "item.primal." + fluid + "_ceramic_bucket_modded.name",
+                    "item." + Primal.MODID + "." + fluid + "_ceramic_bucket_modded.name",
                     fluidObj.getLocalizedName(new FluidStack(fluidObj, 1000)) + " Ceramic Bucket");
             }
         }

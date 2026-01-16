@@ -1,4 +1,4 @@
-package net.pufferlab.primal.events.ticks;
+package net.pufferlab.primal.client.helper;
 
 import net.minecraft.client.Minecraft;
 

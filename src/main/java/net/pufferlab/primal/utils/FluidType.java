@@ -1,4 +1,4 @@
-package net.pufferlab.primal.blocks;
+package net.pufferlab.primal.utils;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

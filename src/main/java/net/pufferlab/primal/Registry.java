@@ -24,6 +24,8 @@ import net.pufferlab.primal.events.*;
 import net.pufferlab.primal.events.packets.*;
 import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.tileentities.*;
+import net.pufferlab.primal.utils.FluidType;
+import net.pufferlab.primal.utils.MetalType;
 import net.pufferlab.primal.utils.TemperatureUtils;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -329,6 +331,7 @@ public class Registry {
         registerPacket(PacketFireStarter.class, Side.CLIENT);
         registerPacket(PacketSpeedUpdate.class, Side.CLIENT);
         registerPacket(PacketWorldTime.class, Side.CLIENT);
+        registerPacket(PacketPlayerData.class, Side.CLIENT);
     }
 
     public void setupEvents() {
@@ -348,6 +351,7 @@ public class Registry {
         registerEvent(new CastHandler());
         registerEvent(new HeatHandler());
         registerEvent(new FoodHandler());
+        registerEvent(new PlayerHandler());
     }
 
     public void setupCommands() {
@@ -396,19 +400,19 @@ public class Registry {
     }
 
     public void setupNEI() {
-        if (Primal.NEILoaded) {
+        if (Mods.nei.isLoaded()) {
             new NEICompat().loadConfig();
         }
     }
 
     public void setupMT() {
-        if (Primal.MTLoaded) {
+        if (Mods.mt.isLoaded()) {
             MineTweakerAPI.registerClass(MTCompat.class);
         }
     }
 
     public void setupWAILA() {
-        if (Primal.WLLoaded) {
+        if (Mods.wl.isLoaded()) {
             new WLCompat().loadConfig();
         }
     }

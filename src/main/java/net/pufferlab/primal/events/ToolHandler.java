@@ -86,7 +86,7 @@ public class ToolHandler implements IEventHandler {
 
         if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
             ItemStack heldItem = event.entityPlayer.getHeldItem();
-            if (Utils.isKnifeTool(heldItem) && Primal.EFRLoaded) {
+            if (Utils.isKnifeTool(heldItem) && Mods.efr.isLoaded()) {
                 World world = event.world;
                 Block block = world.getBlock(event.x, event.y, event.z);
                 int meta = world.getBlockMetadata(event.x, event.y, event.z);
@@ -98,9 +98,9 @@ public class ToolHandler implements IEventHandler {
                 int offsetY = side.offsetY;
                 int offsetZ = side.offsetZ;
                 if (block == Blocks.log) {
-                    target = GameRegistry.findBlock("etfuturum", "log_stripped");
+                    target = GameRegistry.findBlock(Mods.efr.MODID, "log_stripped");
                 } else if (block == Blocks.log2) {
-                    target = GameRegistry.findBlock("etfuturum", "log2_stripped");
+                    target = GameRegistry.findBlock(Mods.efr.MODID, "log2_stripped");
                 }
 
                 if (target != null) {

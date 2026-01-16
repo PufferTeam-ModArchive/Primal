@@ -12,10 +12,9 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.events.packets.PacketSwingArm;
 import net.pufferlab.primal.items.ItemBucketCeramic;
-import net.pufferlab.primal.items.ItemBucketCeramicModded;
+import net.pufferlab.primal.items.ItemBucketMeta;
 import net.pufferlab.primal.utils.FluidUtils;
 
 import cpw.mods.fml.common.eventhandler.Event;
@@ -44,32 +43,29 @@ public class BucketHandler implements IEventHandler {
                     Block block = event.world.getBlock(x, y, z);
                     int metaBlock = event.world.getBlockMetadata(x, y, z);
                     if (metaBlock == 0) {
-                        if (Utils.contains(Registry.fluidsBlocks, block)) {
-                            int meta = Utils.getIndex(Registry.fluidsBlocks, block);
-                            if (meta > 2) {
-                                if (itemStack.getItem() == Items.bucket) {
-                                    event.world.setBlockToAir(x, y, z);
+                        int bucketMeta = ((ItemBucketMeta) Registry.bucket).getMetaFromFluidBlock(block);
+                        if (bucketMeta > 2) {
+                            if (itemStack.getItem() == Items.bucket) {
+                                event.world.setBlockToAir(x, y, z);
 
-                                    event.result = new ItemStack(Registry.bucket, 1, meta);
-                                    event.setResult(Event.Result.ALLOW);
-                                }
-                                if (itemStack.getItem() == Registry.ceramic_bucket && itemStack.getItemDamage() == 0) {
-                                    event.world.setBlockToAir(x, y, z);
+                                event.result = new ItemStack(Registry.bucket, 1, bucketMeta);
+                                event.setResult(Event.Result.ALLOW);
+                            }
+                            if (itemStack.getItem() == Registry.ceramic_bucket && itemStack.getItemDamage() == 0) {
+                                event.world.setBlockToAir(x, y, z);
 
-                                    event.result = new ItemStack(Registry.ceramic_bucket, 1, meta);
-                                    event.setResult(Event.Result.ALLOW);
-                                }
+                                event.result = new ItemStack(Registry.ceramic_bucket, 1, bucketMeta);
+                                event.setResult(Event.Result.ALLOW);
                             }
                         }
-                        if (Utils.contains(ItemBucketCeramicModded.blocks, block)) {
-                            int moddedMeta = Utils.getIndex(ItemBucketCeramicModded.blocks, block);
-                            if (moddedMeta >= 0) {
-                                if (itemStack.getItem() == Registry.ceramic_bucket && itemStack.getItemDamage() == 0) {
-                                    event.world.setBlockToAir(x, y, z);
+                        int bucketModdedMeta = ((ItemBucketMeta) Registry.ceramic_bucket_modded)
+                            .getMetaFromFluidBlock(block);
+                        if (bucketModdedMeta >= 0) {
+                            if (itemStack.getItem() == Registry.ceramic_bucket && itemStack.getItemDamage() == 0) {
+                                event.world.setBlockToAir(x, y, z);
 
-                                    event.result = new ItemStack(Registry.ceramic_bucket_modded, 1, moddedMeta);
-                                    event.setResult(Event.Result.ALLOW);
-                                }
+                                event.result = new ItemStack(Registry.ceramic_bucket_modded, 1, bucketModdedMeta);
+                                event.setResult(Event.Result.ALLOW);
                             }
                         }
                     }

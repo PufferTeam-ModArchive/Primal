@@ -1,14 +1,14 @@
 package net.pufferlab.primal.client.audio;
 
-import net.pufferlab.primal.blocks.SoundTypePrimal;
 import net.pufferlab.primal.tileentities.TileEntityQuern;
+import net.pufferlab.primal.utils.SoundType;
 
 public class SoundQuernGrinding extends MovingSoundPrimal {
 
     private final TileEntityQuern te;
 
     public SoundQuernGrinding(TileEntityQuern te) {
-        super(SoundTypePrimal.soundQuernGrinding);
+        super(SoundType.soundQuernGrinding);
         this.te = te;
         this.repeat = true;
         this.field_147665_h = 0;

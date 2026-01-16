@@ -24,10 +24,11 @@ import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.blocks.BlockPile;
-import net.pufferlab.primal.blocks.SoundTypePrimal;
-import net.pufferlab.primal.events.ticks.GlobalTickingData;
 import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.utils.FluidUtils;
+import net.pufferlab.primal.utils.ItemDummy;
+import net.pufferlab.primal.utils.SoundType;
+import net.pufferlab.primal.world.GlobalTickingData;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameData;
@@ -160,15 +161,15 @@ public class Utils {
         if (type.equals("bed") && name.equals("red")) {
             return getItem("minecraft", "bed", 0, 1);
         }
-        if (Primal.EFRLoaded) {
+        if (Mods.efr.isLoaded()) {
             if (type.equals("concrete") || type.equals("concrete_powder") || type.equals("banner")) {
                 if (hasColor) {
-                    return getItem("etfuturum", type, color, number);
+                    return getItem(Mods.efr.MODID, type, color, number);
                 }
             }
             if (type.equals("glazed_terracotta") || type.equals("bed")) {
                 if (hasColor) {
-                    return getItem("etfuturum", name + "_" + type, 0, number);
+                    return getItem(Mods.efr.MODID, name + "_" + type, 0, number);
                 }
             }
         }
@@ -599,7 +600,7 @@ public class Utils {
             block.stepSound.getPitch() * 0.8F);
     }
 
-    public static void playSound(World world, int x, int y, int z, SoundTypePrimal stepSound) {
+    public static void playSound(World world, int x, int y, int z, SoundType stepSound) {
         world.playSoundEffect(
             x + 0.5f,
             y + 0.5f,

@@ -3,7 +3,7 @@ package net.pufferlab.primal.scripts;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.items.MetalType;
+import net.pufferlab.primal.utils.MetalType;
 
 public class ScriptOreProcessing implements IScript {
 

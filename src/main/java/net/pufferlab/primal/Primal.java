@@ -5,7 +5,6 @@ import net.pufferlab.primal.scripts.ScriptRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.*;
@@ -35,13 +34,6 @@ public class Primal {
     public static ScriptRegistry scriptRegistry = new ScriptRegistry();
 
     public static SimpleNetworkWrapper network;
-
-    public static boolean EFRLoaded = Loader.isModLoaded("etfuturum");
-    public static boolean NEILoaded = Loader.isModLoaded("NotEnoughItems");
-    public static boolean BOPLoaded = Loader.isModLoaded("BiomesOPlenty");
-    public static boolean WGLoaded = Loader.isModLoaded("WitchingGadgets");
-    public static boolean MTLoaded = Loader.isModLoaded("MineTweaker3");
-    public static boolean WLLoaded = Loader.isModLoaded("Waila");
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {

@@ -1,5 +1,8 @@
 package net.pufferlab.primal.items;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -271,4 +274,21 @@ public class ItemBucketMeta extends ItemMeta {
     public Fluid[] getFluidObjects() {
         return Registry.fluidsObjects;
     }
+
+    public Map<Block, Integer> metaMap;
+
+    public int getMetaFromFluidBlock(Block fluid) {
+        if (metaMap == null) {
+            metaMap = new HashMap<>();
+            for (int i = 0; i < getFluidBlocks().length; i++) {
+                Block block = getFluidBlocks()[i];
+                metaMap.put(block, i);
+            }
+        }
+        if (metaMap.containsKey(fluid)) {
+            return metaMap.get(fluid);
+        }
+        return -1;
+    }
+
 }

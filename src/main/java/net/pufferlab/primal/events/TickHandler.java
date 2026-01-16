@@ -5,10 +5,10 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.client.helper.ClientTickHolder;
 import net.pufferlab.primal.events.packets.PacketWorldTime;
-import net.pufferlab.primal.events.ticks.ClientTickHolder;
-import net.pufferlab.primal.events.ticks.GlobalTickingData;
-import net.pufferlab.primal.events.ticks.SchedulerData;
+import net.pufferlab.primal.world.GlobalTickingData;
+import net.pufferlab.primal.world.SchedulerData;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;

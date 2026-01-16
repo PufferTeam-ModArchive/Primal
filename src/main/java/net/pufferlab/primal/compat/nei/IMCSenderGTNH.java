@@ -1,6 +1,7 @@
 package net.pufferlab.primal.compat.nei;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.pufferlab.primal.Mods;
 import net.pufferlab.primal.Primal;
 
 import cpw.mods.fml.common.event.FMLInterModComms;
@@ -32,7 +33,7 @@ public class IMCSenderGTNH {
         aNBT.setInteger("handlerWidth", width);
         aNBT.setInteger("maxRecipesPerPage", maxRecipesPerPage);
         aNBT.setInteger("yShift", 0);
-        FMLInterModComms.sendMessage("NotEnoughItems", "registerHandlerInfo", aNBT);
+        FMLInterModComms.sendMessage(Mods.nei.MODID, "registerHandlerInfo", aNBT);
     }
 
     public static void sendCatalyst(String aName, String aStack, int aPriority) {
@@ -40,7 +41,7 @@ public class IMCSenderGTNH {
         aNBT.setString("handlerID", aName);
         aNBT.setString("itemName", aStack);
         aNBT.setInteger("priority", aPriority);
-        FMLInterModComms.sendMessage("NotEnoughItems", "registerCatalystInfo", aNBT);
+        FMLInterModComms.sendMessage(Mods.nei.MODID, "registerCatalystInfo", aNBT);
     }
 
     public static void sendCatalyst(String aName, String aStack) {

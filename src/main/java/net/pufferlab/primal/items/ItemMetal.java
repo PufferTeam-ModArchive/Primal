@@ -1,6 +1,7 @@
 package net.pufferlab.primal.items;
 
 import net.minecraft.item.ItemStack;
+import net.pufferlab.primal.utils.MetalType;
 
 public class ItemMetal extends ItemMetaHeatable {
 

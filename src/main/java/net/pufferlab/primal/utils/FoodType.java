@@ -1,4 +1,4 @@
-package net.pufferlab.primal.items;
+package net.pufferlab.primal.utils;
 
 public class FoodType {
 

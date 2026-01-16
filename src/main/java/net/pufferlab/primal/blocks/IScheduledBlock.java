@@ -1,7 +1,7 @@
 package net.pufferlab.primal.blocks;
 
 import net.minecraft.world.World;
-import net.pufferlab.primal.events.ticks.SchedulerData;
+import net.pufferlab.primal.world.SchedulerData;
 
 public interface IScheduledBlock {
 

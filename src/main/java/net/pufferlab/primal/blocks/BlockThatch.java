@@ -18,7 +18,7 @@ public class BlockThatch extends Block {
     public BlockThatch() {
         super(Material.grass);
         this.setHardness(0.2F);
-        this.setStepSound(SoundTypePrimal.soundTypeThatch);
+        this.setStepSound(net.pufferlab.primal.utils.SoundType.soundTypeThatch);
         this.setCreativeTab(CreativeTabs.tabDecorations);
     }
 

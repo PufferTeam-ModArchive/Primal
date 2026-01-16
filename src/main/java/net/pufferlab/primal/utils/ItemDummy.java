@@ -1,4 +1,4 @@
-package net.pufferlab.primal.items;
+package net.pufferlab.primal.utils;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;

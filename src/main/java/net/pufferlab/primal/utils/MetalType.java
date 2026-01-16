@@ -1,10 +1,12 @@
-package net.pufferlab.primal.items;
+package net.pufferlab.primal.utils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Config;
-import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.blocks.FluidType;
+import net.pufferlab.primal.Constants;
 
 public class MetalType {
 
@@ -55,28 +57,20 @@ public class MetalType {
         }
     }
 
-    public static MetalType getMetalType(MetalType[] metals, String name) {
-        for (int i = 0; i < metals.length; i++) {
-            if (metals[i].name.equals(name)) {
-                return metals[i];
+    public static Map<Fluid, MetalType> fluidMap;
+
+    public static MetalType getMetalFromFluid(FluidStack stack) {
+        if (fluidMap == null) {
+            fluidMap = new HashMap<>();
+            for (MetalType type : Constants.metalTypes) {
+                Fluid fluid = type.fluid;
+                fluidMap.put(fluid, type);
             }
         }
-        return null;
-    }
-
-    public static FluidType getFluidType(FluidType[] fluids, String name) {
-        for (int i = 0; i < fluids.length; i++) {
-            if (("molten_" + fluids[i].name).equals(name)) {
-                return fluids[i];
-            }
-        }
-        return null;
-    }
-
-    public static MetalType getMetalFromFluid(MetalType[] metals, FluidStack stack) {
-        for (int i = 0; i < metals.length; i++) {
-            if (Utils.equalsStack(metals[i].fluidStack, stack)) {
-                return metals[i];
+        if (stack != null) {
+            Fluid fluid = stack.getFluid();
+            if (fluidMap.containsKey(fluid)) {
+                return fluidMap.get(fluid);
             }
         }
         return null;

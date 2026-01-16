@@ -1,4 +1,4 @@
-package net.pufferlab.primal.events.ticks;
+package net.pufferlab.primal.world;
 
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;

@@ -70,9 +70,10 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
         if (this.getMaxTemperature() > this.temperature) {
             if (this.isFired()) {
                 this.timeHeat++;
-            } else {
-                this.timeHeat--;
             }
+        }
+        if (!this.isFired()) {
+            this.timeHeat--;
         }
         if (timeHeat > 5) {
             timeHeat = 0;

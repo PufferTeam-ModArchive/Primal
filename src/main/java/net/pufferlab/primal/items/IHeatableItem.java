@@ -4,8 +4,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.events.ticks.GlobalTickingData;
 import net.pufferlab.primal.utils.TemperatureUtils;
+import net.pufferlab.primal.world.GlobalTickingData;
 
 public interface IHeatableItem {
 
@@ -20,12 +20,27 @@ public interface IHeatableItem {
     };
 
     default void onUpdateHeat(ItemStack stack, World worldIn) {
+        onUpdateHeat(stack, worldIn, -1.0F);
+    }
+
+    default void onUpdateHeat(ItemStack stack, World worldIn, float newModifier) {
         if (stack != null) {
             NBTTagCompound tag = stack.getTagCompound();
             if (TemperatureUtils.hasImpl(stack)) {
+                int temperature = TemperatureUtils
+                    .getInterpolatedTemperature(GlobalTickingData.getTickTime(worldIn), tag);
+                if (temperature <= 0) {
+                    TemperatureUtils.resetTemperatureToNBT(tag);
+                    if (tag != null) {
+                        if (tag.hasNoTags()) {
+                            stack.setTagCompound(null);
+                        }
+                    }
+                }
+
                 float multiplier = TemperatureUtils.getMultiplierFromNBT(tag);
                 if (multiplier > 0) {
-                    updateHeat(stack, worldIn, -1.0F, 1300);
+                    updateHeat(stack, worldIn, newModifier, 1300);
                 }
             }
         }

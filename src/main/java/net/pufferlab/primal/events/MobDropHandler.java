@@ -10,7 +10,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.pufferlab.primal.Config;
-import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.Mods;
 import net.pufferlab.primal.Utils;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -31,7 +31,7 @@ public class MobDropHandler implements IEventHandler {
                             addNewEntityItem(event, Utils.getModItem("hide", 1), entityItem.getEntityItem().stackSize));
                         hasLeatherDrop = true;
                     }
-                    if (Primal.EFRLoaded) {
+                    if (Mods.efr.isLoaded()) {
                         if (Utils.containsOreDict(entityItem.getEntityItem(), "rabbitHide")) {
                             event.drops.set(
                                 i,

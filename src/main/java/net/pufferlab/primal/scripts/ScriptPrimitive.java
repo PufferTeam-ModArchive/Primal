@@ -3,10 +3,7 @@ package net.pufferlab.primal.scripts;
 import java.util.Map;
 
 import net.minecraft.item.ItemStack;
-import net.pufferlab.primal.Config;
-import net.pufferlab.primal.Constants;
-import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.*;
 import net.pufferlab.primal.recipes.KnappingType;
 
 public class ScriptPrimitive implements IScript {
@@ -26,7 +23,7 @@ public class ScriptPrimitive implements IScript {
     }
 
     public void runModCompat() {
-        if (Primal.EFRLoaded) {
+        if (Mods.efr.isLoaded()) {
             addEFROredicts();
             addEFRCampfireRecipes();
             addEFRPitKilnRecipes();
@@ -71,14 +68,14 @@ public class ScriptPrimitive implements IScript {
     }
 
     public void addEFROredicts() {
-        addOreDict("blockColoredConcrete", getItem("etfuturum:concrete:*:1"));
-        addOreDict("blockColoredConcretePowder", getItem("etfuturum:concrete_powder:*:1"));
-        addOreDict("blockColoredBanner", getItem("etfuturum:banner:*:1"));
+        addOreDict("blockColoredConcrete", getItem(Mods.efr.MODID, "concrete", wildcard, 1));
+        addOreDict("blockColoredConcretePowder", getItem(Mods.efr.MODID, "concrete_powder", wildcard, 1));
+        addOreDict("blockColoredBanner", getItem(Mods.efr.MODID, "banner", wildcard, 1));
         for (String color : Constants.colorTypes) {
             addOreDict("blockColoredGlazedTerracotta", getModItem("glazed_terracotta", color, 1));
             addOreDict("blockColoredBed", getModItem("bed", color, 1));
         }
-        addOreDict("rabbitHide", getItem("etfuturum:rabbit_hide:*:1"));
+        addOreDict("rabbitHide", getItem(Mods.efr.MODID, "rabbit_hide", wildcard, 1));
     }
 
     public void addCraftingRecipes() {
@@ -143,8 +140,8 @@ public class ScriptPrimitive implements IScript {
     }
 
     public void addEFRCampfireRecipes() {
-        addCampfireRecipe(getItem("etfuturum:mutton_cooked:0:1"), getItem("etfuturum:mutton_raw:0:1"));
-        addCampfireRecipe(getItem("etfuturum:rabbit_cooked:0:1"), getItem("etfuturum:rabbit_raw:0:1"));
+        addCampfireRecipe(getItem(Mods.efr.MODID, "mutton_cooked", 0, 1), getItem(Mods.efr.MODID, "mutton_raw", 0, 1));
+        addCampfireRecipe(getItem(Mods.efr.MODID, "rabbit_cooked", 0, 1), getItem(Mods.efr.MODID, "rabbit_raw", 0, 1));
     }
 
     public void addChoppingLogRecipes() {

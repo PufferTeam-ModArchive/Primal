@@ -5,7 +5,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
-import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.Mods;
 import net.pufferlab.primal.Utils;
 
 public class FluidUtils {
@@ -113,16 +113,16 @@ public class FluidUtils {
     public static ItemStack getEmptyContainer(ItemStack filled) {
         if (filled == null) return null;
 
-        if (Primal.BOPLoaded) {
-            ItemStack bopEmptyBucket = Utils.getItem("BiomesOPlenty:bopBucket:*:1");
+        if (Mods.bop.isLoaded()) {
+            ItemStack bopEmptyBucket = Utils.getItem(Mods.bop.MODID + ":bopBucket:*:1");
             ItemStack emptyBucket = Utils.getItem("minecraft:bucket:0:1");
             if (Utils.equalsStack(filled, bopEmptyBucket)) {
                 return emptyBucket.copy();
             }
         }
 
-        if (Primal.WGLoaded) {
-            ItemStack capsule = Utils.getItem("WitchingGadgets:item.WG_CrystalFlask:*:1");
+        if (Mods.wg.isLoaded()) {
+            ItemStack capsule = Utils.getItem(Mods.wg.MODID + ":item.WG_CrystalFlask:*:1");
             if (Utils.equalsStack(filled, capsule)) {
                 capsule.stackTagCompound = null;
                 capsule.setItemDamage(0);

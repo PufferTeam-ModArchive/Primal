@@ -22,20 +22,30 @@ public class NEICompat implements IConfigureNEI {
 
     @Override
     public void loadConfig() {
-        API.hideItem("primal:icon");
         if (Utils.isClient()) {
-            registerHandler(new NEIChoppingLogHandler());
-            registerHandler(new NEIKnappingHandler());
-            registerHandler(new NEIPitKilnHandler());
-            registerHandler(new NEICampfireHandler());
-            registerHandler(new NEIBarrelHandler());
-            registerHandler(new NEITanningHandler());
-            registerHandler(new NEIQuernHandler());
-            registerHandler(new NEIMeltingHandler());
-            registerHandler(new NEIAlloyingHandler());
-            registerHandler(new NEICastingHandler());
+            if (isGTNHNEI()) {
+                loadHandlersGTNH();
+            }
+            loadHandlers();
         }
-        loadGTNH();
+    }
+
+    public void loadHandlersGTNH() {
+        API.hideItem(Primal.MODID + ":icon");
+        loadGTNHIMC();
+    }
+
+    public void loadHandlers() {
+        registerHandler(new NEIChoppingLogHandler());
+        registerHandler(new NEIKnappingHandler());
+        registerHandler(new NEIPitKilnHandler());
+        registerHandler(new NEICampfireHandler());
+        registerHandler(new NEIBarrelHandler());
+        registerHandler(new NEITanningHandler());
+        registerHandler(new NEIQuernHandler());
+        registerHandler(new NEIMeltingHandler());
+        registerHandler(new NEIAlloyingHandler());
+        registerHandler(new NEICastingHandler());
     }
 
     public void registerHandler(TemplateRecipeHandler handler) {
@@ -43,7 +53,7 @@ public class NEICompat implements IConfigureNEI {
         API.registerUsageHandler(handler);
     }
 
-    public void loadGTNH() {
+    public void loadGTNHIMC() {
         sendHandler(
             NEIKnappingHandler.class,
             Primal.MODID + ":icon:" + Utils.getIndex(Constants.icons, "knapping"),
@@ -92,6 +102,15 @@ public class NEICompat implements IConfigureNEI {
             return GuiUsageRecipe.openRecipeGui("liquid", stack);
         } else {
             return GuiCraftingRecipe.openRecipeGui("liquid", stack);
+        }
+    }
+
+    public static boolean isGTNHNEI() {
+        try {
+            Class.forName("codechicken.nei.recipe.GuiRecipeTabs");
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
         }
     }
 

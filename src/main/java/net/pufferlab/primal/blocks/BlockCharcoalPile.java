@@ -19,7 +19,7 @@ public class BlockCharcoalPile extends BlockPile {
 
     public BlockCharcoalPile() {
         super(Material.sand);
-        this.setStepSound(SoundTypePrimal.soundTypeCharcoal);
+        this.setStepSound(net.pufferlab.primal.utils.SoundType.soundTypeCharcoal);
         this.setHardness(0.5F);
         this.canBlockGrass = false;
     }

@@ -4,15 +4,17 @@ import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
-import net.pufferlab.primal.blocks.FluidType;
-import net.pufferlab.primal.items.FoodType;
-import net.pufferlab.primal.items.MetalType;
+import net.pufferlab.primal.utils.FluidType;
+import net.pufferlab.primal.utils.FoodType;
+import net.pufferlab.primal.utils.MetalType;
 
 public class Constants {
 
     public static final int wildcard = OreDictionary.WILDCARD_VALUE;
     public static final String[] none = new String[] { "none" };
     public static final float modelConst = 0.0625F;
+    public static final int tagCompound = 10;
+    public static final int tagIntArray = 11;
 
     public static final int helmet = 0;
     public static final int chestplate = 1;
