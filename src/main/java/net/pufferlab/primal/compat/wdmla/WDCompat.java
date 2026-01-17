@@ -17,6 +17,7 @@ public class WDCompat implements IWDMlaPlugin {
     public static final WDQuernHandler quernHandler = new WDQuernHandler();
     public static final WDBarrelHandler barrelHandler = new WDBarrelHandler();
     public static final WDPitKilnHandler pitKilnHandler = new WDPitKilnHandler();
+    public static final WDLargeVesselHandler largeVesselHandler = new WDLargeVesselHandler();
 
     @Override
     public void register(IWDMlaCommonRegistration registration) {
@@ -27,9 +28,11 @@ public class WDCompat implements IWDMlaPlugin {
         registration.registerBlockDataProvider(quernHandler, BlockQuern.class);
         registration.registerBlockDataProvider(barrelHandler, BlockBarrel.class);
         registration.registerBlockDataProvider(pitKilnHandler, BlockPitKiln.class);
+        registration.registerBlockDataProvider(largeVesselHandler, BlockLargeVessel.class);
         registration.registerFluidStorage(fluidHandler, BlockBarrel.class);
         registration.registerFluidStorage(fluidHandler, BlockCrucible.class);
         registration.registerFluidStorage(fluidHandler, BlockCast.class);
+        registration.registerFluidStorage(fluidHandler, BlockLargeVessel.class);
     }
 
     @Override
@@ -41,6 +44,7 @@ public class WDCompat implements IWDMlaPlugin {
         registration.registerBlockComponent(quernHandler, BlockQuern.class);
         registration.registerBlockComponent(barrelHandler, BlockBarrel.class);
         registration.registerBlockComponent(pitKilnHandler, BlockPitKiln.class);
+        registration.registerBlockComponent(largeVesselHandler, BlockLargeVessel.class);
         registration.registerFluidStorageClient(fluidHandler);
     }
 

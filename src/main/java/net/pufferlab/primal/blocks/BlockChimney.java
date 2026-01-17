@@ -12,6 +12,7 @@ public class BlockChimney extends BlockMeta {
         super(Material.rock, Constants.chimneyTypes, "chimney");
         this.setHardness(0.6F);
         this.setTextureOverride(Constants.chimneyTextures);
+        this.setHasSuffix();
         this.canBlockGrass = false;
     }
 
