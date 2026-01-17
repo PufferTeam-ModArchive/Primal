@@ -51,6 +51,7 @@ public class Registry {
     };
 
     public static final Block ground_rock;
+    public static final Block ground_shell;
     public static final Block pit_kiln;
     public static final Block thatch;
     public static final Block thatch_roof;
@@ -79,6 +80,7 @@ public class Registry {
     public static final Item straw;
     public static final Item hide;
     public static final Item rock;
+    public static final Item shell;
     public static final Item flint;
     public static final Item wood;
     public static final Item glowstone;
@@ -125,6 +127,7 @@ public class Registry {
 
         ground_rock = new BlockGroundcover(Material.rock, Constants.rockTypes, "ground_rock")
             .setTextureOverride(Constants.rockTextures);
+        ground_shell = new BlockGroundcover(Material.rock, Constants.shellTypes, "ground_shell").setItemTexture();
         pit_kiln = new BlockPitKiln();
         log_pile = new BlockLogPile();
         charcoal_pile = new BlockCharcoalPile();
@@ -162,10 +165,12 @@ public class Registry {
         bark = new ItemMeta(Constants.woodTypes, "bark").setHasSuffix();
         flint = new ItemMeta(Constants.flintItems, "flint");
         rock = new ItemMeta(Constants.rockTypes, "rock").setHasSuffix();
+        shell = new ItemMeta(Constants.shellTypes, "shell");
         powder = new ItemMeta(Constants.powderItems, "powder").setHasSuffix();
         mold = new ItemMeta(Constants.moldItems, "mold");
         clay = new ItemMeta(Constants.clayItems, "clay");
         ((BlockGroundcover) ground_rock).setItem(rock);
+        ((BlockGroundcover) ground_shell).setItem(shell);
 
         ingot = new ItemMetal(Constants.metalTypes, "ingot").setBlacklist(Constants.ingotBlacklist);
         nugget = new ItemMetal(Constants.metalTypes, "nugget").setBlacklist(Constants.nuggetBlacklist);
@@ -209,6 +214,7 @@ public class Registry {
         register(lit_torch, "lit_torch");
         register(unlit_torch, "unlit_torch");
         register(ground_rock, "ground_rock");
+        register(ground_shell, "ground_shell");
         register(pit_kiln, "pit_kiln");
         register(log_pile, "log_pile");
         register(charcoal_pile, "charcoal_pile");
@@ -240,6 +246,7 @@ public class Registry {
         register(dough, "dough");
         register(powder, "powder");
         register(rock, "rock");
+        register(shell, "shell");
         register(flint, "flint");
         register(mold, "mold");
         register(clay, "clay");
@@ -346,7 +353,8 @@ public class Registry {
         registerEvent(new AshPileHandler());
         registerEvent(new CampfireHandler());
         registerEvent(new InventoryHandler());
-        registerEvent(new GroundcoverRockHandler());
+        registerEvent(new GroundRockHandler());
+        registerEvent(new GroundShellHandler());
         registerEvent(new MobDropHandler());
         registerEvent(new CastHandler());
         registerEvent(new HeatHandler());
@@ -412,7 +420,7 @@ public class Registry {
     }
 
     public void setupWAILA() {
-        if (Mods.wl.isLoaded()) {
+        if (Mods.wl.isLoaded() && !Mods.wd.isLoaded()) {
             new WLCompat().loadConfig();
         }
     }

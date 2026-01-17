@@ -7,6 +7,7 @@ import net.minecraft.block.BlockLog;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.*;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,6 +16,7 @@ import net.minecraft.stats.StatList;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
@@ -27,7 +29,7 @@ import net.pufferlab.primal.blocks.BlockPile;
 import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.utils.FluidUtils;
 import net.pufferlab.primal.utils.ItemDummy;
-import net.pufferlab.primal.utils.SoundType;
+import net.pufferlab.primal.utils.SoundTypePrimal;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -258,6 +260,18 @@ public class Utils {
         return EnumChatFormatting.GRAY + name + ": " + percentage + "% " + suffix;
     }
 
+    public static int getCurrentProgress(World world, long nextUpdate, int maxProgress) {
+        long now = GlobalTickingData.getTickTime(world);
+
+        long start = nextUpdate - maxProgress;
+        long elapsed = now - start;
+
+        if (elapsed < 0) elapsed = 0;
+        if (elapsed > maxProgress) elapsed = maxProgress;
+
+        return (int) elapsed;
+    }
+
     public static long getWorldTime(int inTime) {
         return GlobalTickingData.getTickTime() + inTime;
     }
@@ -298,6 +312,12 @@ public class Utils {
         if (block == null) return false;
         if (block instanceof BlockLog) return true;
         return containsOreDict(block, "logWood");
+    }
+
+    public static boolean isSandBlock(Block block) {
+        if (block == null) return false;
+        if (block == Blocks.sand) return true;
+        return false;
     }
 
     public static boolean isSoilBlock(Block block, int meta) {
@@ -355,14 +375,32 @@ public class Utils {
         return false;
     }
 
-    public static boolean isRiverBiome(World world, int x, int y, int z) {
-        BiomeGenBase biome = world.getBiomeGenForCoords(x, z);
-
+    public static boolean isRiverBiome(BiomeGenBase biome) {
         if (BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.OCEAN)
             || BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.RIVER)) {
             return true;
         }
         return false;
+    }
+
+    public static boolean isRiverBiome(World world, int x, int y, int z) {
+        BiomeGenBase biome = world.getBiomeGenForCoords(x, z);
+
+        return isRiverBiome(biome);
+    }
+
+    public static boolean isBeachBiome(BiomeGenBase biome) {
+
+        if (BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.BEACH)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isBeachBiome(World world, int x, int y, int z) {
+        BiomeGenBase biome = world.getBiomeGenForCoords(x, z);
+
+        return isBeachBiome(biome);
     }
 
     public static Random getSeededRandom(Random random, int x, int y, int z) {
@@ -600,7 +638,7 @@ public class Utils {
             block.stepSound.getPitch() * 0.8F);
     }
 
-    public static void playSound(World world, int x, int y, int z, SoundType stepSound) {
+    public static void playSound(World world, int x, int y, int z, SoundTypePrimal stepSound) {
         world.playSoundEffect(
             x + 0.5f,
             y + 0.5f,
@@ -1008,6 +1046,10 @@ public class Utils {
         String metal = getMetalType(item);
         if (metal == null) return false;
         return true;
+    }
+
+    public static String translate(String key) {
+        return StatCollector.translateToLocal(key);
     }
 
     public static boolean isClient() {

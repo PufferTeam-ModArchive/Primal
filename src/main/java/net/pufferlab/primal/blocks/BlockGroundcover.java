@@ -17,11 +17,20 @@ import net.pufferlab.primal.Primal;
 public class BlockGroundcover extends BlockMeta {
 
     public Item item;
+    public static final int typeRock = 0;
+    public static final int typeShell = 1;
+    public int typeID;
 
     public BlockGroundcover(Material material, String[] materials, String type) {
         super(material, materials, type);
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F * 3, 1.0F);
         this.canBlockGrass = true;
+
+        if (type.equals("ground_rock")) {
+            this.typeID = typeRock;
+        } else if (type.equals("ground_shell")) {
+            this.typeID = typeShell;
+        }
     }
 
     @Override
@@ -106,6 +115,10 @@ public class BlockGroundcover extends BlockMeta {
     @Override
     public int getRenderType() {
         return Primal.proxy.getGroundcoverRenderID();
+    }
+
+    public int getGroundcoverRenderType() {
+        return this.typeID;
     }
 
     @Override

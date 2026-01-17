@@ -93,7 +93,7 @@ public class NEIChoppingLogHandler extends TemplateRecipeHandler {
 
     @Override
     public String getRecipeName() {
-        return "Chopping Log";
+        return NEICompat.translateNEI("chopping_log");
     }
 
     @Override

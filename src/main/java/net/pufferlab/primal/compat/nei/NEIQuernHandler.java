@@ -77,7 +77,7 @@ public class NEIQuernHandler extends TemplateRecipeHandler {
 
     @Override
     public String getRecipeName() {
-        return "Quern";
+        return NEICompat.translateNEI("quern");
     }
 
     @Override

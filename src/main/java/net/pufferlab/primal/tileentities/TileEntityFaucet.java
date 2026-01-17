@@ -7,7 +7,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.utils.SoundType;
+import net.pufferlab.primal.utils.SoundTypePrimal;
 
 public class TileEntityFaucet extends TileEntityMetaFacing {
 
@@ -51,9 +51,9 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
     public void setOpen(boolean meta) {
         this.isOpen = meta;
         if (meta) {
-            playSound(SoundType.soundFaucetOpen);
+            playSound(SoundTypePrimal.soundFaucetOpen);
         } else {
-            playSound(SoundType.soundFaucetClose);
+            playSound(SoundTypePrimal.soundFaucetClose);
         }
         updateTEState();
     }

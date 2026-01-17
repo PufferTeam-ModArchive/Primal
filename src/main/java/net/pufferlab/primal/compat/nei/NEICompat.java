@@ -57,18 +57,18 @@ public class NEICompat implements IConfigureNEI {
         sendHandler(
             NEIKnappingHandler.class,
             Primal.MODID + ":icon:" + Utils.getIndex(Constants.icons, "knapping"),
-            1,
+            3,
             166,
             110);
-        sendHandler(NEIPitKilnHandler.class, Primal.MODID + ":pit_kiln", 2, 166, 65);
-        sendHandler(NEIBarrelHandler.class, Primal.MODID + ":barrel", 2, 166, 65);
-        sendHandler(NEIChoppingLogHandler.class, Primal.MODID + ":chopping_log", 2, 166, 65);
-        sendHandler(NEICampfireHandler.class, Primal.MODID + ":campfire", 2, 166, 65);
-        sendHandler(NEITanningHandler.class, Primal.MODID + ":tanning_frame", 2, 166, 65);
-        sendHandler(NEIQuernHandler.class, Primal.MODID + ":quern", 2, 166, 65);
-        sendHandler(NEIMeltingHandler.class, Primal.MODID + ":crucible", 2, 166, 65);
-        sendHandler(NEIAlloyingHandler.class, Primal.MODID + ":crucible", 2, 166, 65);
-        sendHandler(NEICastingHandler.class, Primal.MODID + ":mold", 2, 166, 65);
+        sendHandler(NEIPitKilnHandler.class, Primal.MODID + ":pit_kiln", 4, 166, 65);
+        sendHandler(NEIBarrelHandler.class, Primal.MODID + ":barrel", 4, 166, 65);
+        sendHandler(NEIChoppingLogHandler.class, Primal.MODID + ":chopping_log", 4, 166, 65);
+        sendHandler(NEICampfireHandler.class, Primal.MODID + ":campfire", 4, 166, 65);
+        sendHandler(NEITanningHandler.class, Primal.MODID + ":tanning_frame", 4, 166, 65);
+        sendHandler(NEIQuernHandler.class, Primal.MODID + ":quern", 4, 166, 65);
+        sendHandler(NEIMeltingHandler.class, Primal.MODID + ":crucible", 4, 166, 65);
+        sendHandler(NEIAlloyingHandler.class, Primal.MODID + ":crucible", 4, 166, 65);
+        sendHandler(NEICastingHandler.class, Primal.MODID + ":mold", 4, 166, 65);
         sendCatalyst(Primal.MODID + ".chopping_log", Primal.MODID + ":chopping_log");
         sendCatalyst(Primal.MODID + ".barrel", Primal.MODID + ":barrel");
         sendCatalyst(Primal.MODID + ".campfire", Primal.MODID + ":campfire");
@@ -112,6 +112,10 @@ public class NEICompat implements IConfigureNEI {
         } catch (ClassNotFoundException e) {
             return false;
         }
+    }
+
+    public static String translateNEI(String handler) {
+        return Utils.translate("nei.recipe.primal." + handler + ".name");
     }
 
     @Override

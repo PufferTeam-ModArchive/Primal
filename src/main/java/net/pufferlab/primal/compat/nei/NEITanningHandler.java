@@ -87,7 +87,7 @@ public class NEITanningHandler extends TemplateRecipeHandler {
 
     @Override
     public String getRecipeName() {
-        return "Tanning";
+        return NEICompat.translateNEI("tanning");
     }
 
     @Override

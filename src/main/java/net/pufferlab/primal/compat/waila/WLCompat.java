@@ -1,5 +1,6 @@
 package net.pufferlab.primal.compat.waila;
 
+import net.pufferlab.primal.Mods;
 import net.pufferlab.primal.tileentities.*;
 
 import cpw.mods.fml.common.event.FMLInterModComms;
@@ -20,6 +21,6 @@ public class WLCompat {
     }
 
     public void loadConfig() {
-        FMLInterModComms.sendMessage("Waila", "register", "net.pufferlab.primal.compat.waila.WLCompat.register");
+        FMLInterModComms.sendMessage(Mods.wl.MODID, "register", WLCompat.class.getName() + ".register");
     }
 }

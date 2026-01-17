@@ -26,6 +26,8 @@ public class BlockMeta extends Block implements IPrimalBlock {
     protected IIcon[] icons;
     protected String name;
     protected String[] elementsTextures;
+    public boolean hasSuffix;
+    public boolean isItemTexture;
 
     public BlockMeta(Material material, String[] materials, String type, String[] blacklist, String[] tools,
         int[] levels) {
@@ -57,14 +59,32 @@ public class BlockMeta extends Block implements IPrimalBlock {
         return this;
     }
 
+    public BlockMeta setHasSuffix() {
+        this.hasSuffix = true;
+        return this;
+    }
+
+    public BlockMeta setItemTexture() {
+        this.isItemTexture = true;
+        return this;
+    }
+
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister register) {
         icons = new IIcon[elements.length];
 
+        String prefix = "";
+        if (isItemTexture) {
+            prefix = "items/";
+        }
         for (int i = 0; i < elements.length; i++) {
-            if (elementsTextures[i] == null) {
+            if (elementsTextures == null) {
                 if (!Utils.contains(elementsBlacklist, elements[i])) {
-                    icons[i] = register.registerIcon(Primal.MODID + ":" + elements[i] + "_" + name);
+                    if (hasSuffix) {
+                        icons[i] = register.registerIcon(Primal.MODID + ":" + prefix + elements[i] + "_" + name);
+                    } else {
+                        icons[i] = register.registerIcon(Primal.MODID + ":" + prefix + elements[i]);
+                    }
                 }
             } else {
                 icons[i] = register.registerIcon(elementsTextures[i]);
@@ -104,6 +124,10 @@ public class BlockMeta extends Block implements IPrimalBlock {
 
     public String getElementName() {
         return name;
+    }
+
+    public boolean hasSuffix() {
+        return this.hasSuffix;
     }
 
     @Override

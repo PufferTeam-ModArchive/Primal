@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
+import net.pufferlab.primal.utils.SoundTypePrimal;
 
 public class BlockThatch extends Block {
 
@@ -18,7 +19,7 @@ public class BlockThatch extends Block {
     public BlockThatch() {
         super(Material.grass);
         this.setHardness(0.2F);
-        this.setStepSound(net.pufferlab.primal.utils.SoundType.soundTypeThatch);
+        this.setStepSound(SoundTypePrimal.soundTypeThatch);
         this.setCreativeTab(CreativeTabs.tabDecorations);
     }
 

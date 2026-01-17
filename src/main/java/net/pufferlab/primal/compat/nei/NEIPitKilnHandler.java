@@ -83,7 +83,7 @@ public class NEIPitKilnHandler extends TemplateRecipeHandler {
 
     @Override
     public String getRecipeName() {
-        return "Pit Kiln";
+        return NEICompat.translateNEI("pit_kiln");
     }
 
     @Override

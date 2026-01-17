@@ -77,7 +77,7 @@ public class NEICampfireHandler extends TemplateRecipeHandler {
 
     @Override
     public String getRecipeName() {
-        return "Campfire";
+        return NEICompat.translateNEI("campfire");
     }
 
     @Override

@@ -71,7 +71,7 @@ public class TileEntityPitKiln extends TileEntityInventory implements IHeatable,
         }
         if (isFired) {
             if (!hasUpdateProcess) {
-                addSchedule(smeltTime, updateProcess);
+                addSchedule(getSmeltTime(), updateProcess);
             }
             if (blockAbove.getMaterial() == Material.air || blockAbove.getMaterial() == Material.fire) {
                 this.worldObj.setBlock(this.xCoord, this.yCoord + 1, this.zCoord, Blocks.fire);
@@ -177,6 +177,10 @@ public class TileEntityPitKiln extends TileEntityInventory implements IHeatable,
             this.isFired = state;
             this.updateTEState();
         }
+    }
+
+    public int getSmeltTime() {
+        return smeltTime;
     }
 
     @Override

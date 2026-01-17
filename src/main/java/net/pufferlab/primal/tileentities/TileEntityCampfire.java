@@ -43,14 +43,12 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
     public static int slotItem4 = 9;
 
     public static int burnTime = Config.campfireBurnTime.getDefaultInt();
-    public static int smeltTime = Config.campfireSmeltTime.getDefaultInt();
 
     public TileEntityCampfire() {
         super(10);
         this.isBuilt = false;
 
         burnTime = Config.campfireBurnTime.getInt();
-        smeltTime = Config.campfireSmeltTime.getInt();
     }
 
     @Override
@@ -132,16 +130,16 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
                 setFired(false);
             }
             if (canProcess(slotItem1) && !hasUpdateItem1) {
-                addSchedule(smeltTime, updateItem1);
+                addSchedule(getSmeltTime(), updateItem1);
             }
             if (canProcess(slotItem2) && !hasUpdateItem2) {
-                addSchedule(smeltTime, updateItem2);
+                addSchedule(getSmeltTime(), updateItem2);
             }
             if (canProcess(slotItem3) && !hasUpdateItem3) {
-                addSchedule(smeltTime, updateItem3);
+                addSchedule(getSmeltTime(), updateItem3);
             }
             if (canProcess(slotItem4) && !hasUpdateItem4) {
-                addSchedule(smeltTime, updateItem4);
+                addSchedule(getSmeltTime(), updateItem4);
             }
             if (needsUpdateItem1) {
                 needsUpdateItem1 = false;
@@ -291,8 +289,9 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
     }
 
     public void setOutput(int slot) {
-        ItemStack input = this.getStackInSlot(slot);
+        ItemStack input = this.getInventoryStack(slot);
         ItemStack output = CampfireRecipe.getOutput(input);
+        if (output == null) return;
         this.setInventorySlotContentsUpdate(slot, output.copy());
     }
 
@@ -307,10 +306,10 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
     }
 
     public void updateSpit() {
-        boolean slot1 = canBePlaced(6);
-        boolean slot2 = canBePlaced(7);
-        boolean slot3 = canBePlaced(8);
-        boolean slot4 = canBePlaced(9);
+        boolean slot1 = canBePlaced(slotItem1);
+        boolean slot2 = canBePlaced(slotItem2);
+        boolean slot3 = canBePlaced(slotItem3);
+        boolean slot4 = canBePlaced(slotItem4);
         if (!slot1 && !slot2 && !slot3 && !slot4) {
             setSpit(false);
         } else {
@@ -323,6 +322,10 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
             this.hasSpit = state;
             this.updateTEState();
         }
+    }
+
+    public int getSmeltTime() {
+        return Config.campfireSmeltTime.getInt();
     }
 
     @Override

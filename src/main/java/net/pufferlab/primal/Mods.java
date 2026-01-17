@@ -9,7 +9,8 @@ public enum Mods {
     bop("BiomesOPlenty"),
     wg("WitchingGadgets"),
     mt("MineTweaker3"),
-    wl("Waila");
+    wl("Waila"),
+    wd("wdmla");
 
     public String MODID;
 

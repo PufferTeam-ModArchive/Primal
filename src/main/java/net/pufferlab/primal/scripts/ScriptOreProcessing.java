@@ -3,6 +3,7 @@ package net.pufferlab.primal.scripts;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.utils.MetalType;
 
 public class ScriptOreProcessing implements IScript {
@@ -13,6 +14,7 @@ public class ScriptOreProcessing implements IScript {
         addMeltingRecipes();
         addCastingRecipes();
         addAlloyingRecipes();
+        addKnappingRecipes();
         addPitKilnRecipes();
     }
 
@@ -143,5 +145,96 @@ public class ScriptOreProcessing implements IScript {
         for (String type : Constants.moldItems) {
             addPitKilnRecipe(getModItem(type, 1), getModItem("clay_" + type, 1));
         }
+    }
+
+    public void addKnappingRecipes() {
+        addKnappingRecipe(
+            KnappingType.clay,
+            getModItem("clay_ingot_mold", 1),
+            "CCCCC",
+            "C   C",
+            "C   C",
+            "CCCCC",
+            "CCCCC");
+        addKnappingRecipe(
+            KnappingType.clay,
+            getModItem("clay_ingot_mold", 1),
+            "CCCCC",
+            "CCCCC",
+            "C   C",
+            "C   C",
+            "CCCCC");
+        addKnappingRecipe(
+            KnappingType.clay,
+            getModItem("clay_ingot_mold", 1),
+            "CCCCC",
+            "C  CC",
+            "C  CC",
+            "C  CC",
+            "CCCCC");
+        addKnappingRecipe(
+            KnappingType.clay,
+            getModItem("clay_ingot_mold", 1),
+            "CCCCC",
+            "CC  C",
+            "CC  C",
+            "CC  C",
+            "CCCCC");
+        addKnappingRecipe(
+            KnappingType.clay,
+            getModItem("clay_pickaxe_mold", 1),
+            "CCCCC",
+            "C   C",
+            " CCC ",
+            "CCCCC",
+            "CCCCC");
+        addKnappingRecipe(
+            KnappingType.clay,
+            getModItem("clay_pickaxe_mold", 1),
+            "CCCCC",
+            "CCCCC",
+            "C   C",
+            " CCC ",
+            "CCCCC");
+        addKnappingRecipe(
+            KnappingType.clay,
+            getModItem("clay_axe_mold", 1),
+            "C CCC",
+            "    C",
+            "     ",
+            "    C",
+            "C CCC");
+        addKnappingRecipe(
+            KnappingType.clay,
+            getModItem("clay_shovel_mold", 1),
+            "CC CC",
+            "C   C",
+            "C   C",
+            "C   C",
+            "CCCCC");
+        addKnappingRecipe(
+            KnappingType.clay,
+            getModItem("clay_sword_mold", 1),
+            "CCC  ",
+            "CC   ",
+            "C   C",
+            "C  CC",
+            " CCCC");
+        addKnappingRecipe(
+            KnappingType.clay,
+            getModItem("clay_hoe_mold", 1),
+            "CCCCC",
+            "     ",
+            "  CCC",
+            "CCCCC",
+            "CCCCC");
+        addKnappingRecipe(
+            KnappingType.clay,
+            getModItem("clay_hoe_mold", 1),
+            "CCCCC",
+            "CCCCC",
+            "     ",
+            "  CCC",
+            "CCCCC");
     }
 }

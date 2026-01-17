@@ -4,13 +4,14 @@ import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.Vec3;
+import net.pufferlab.primal.Constants;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 public class TexturedQuad {
 
-    static double epsilon = 2e-5;
+    static double epsilon = Constants.epsilon;
 
     public PositionTextureVertex[] vertexPositions;
     public int nVertices;

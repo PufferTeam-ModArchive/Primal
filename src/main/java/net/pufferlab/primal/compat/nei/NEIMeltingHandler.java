@@ -91,7 +91,7 @@ public class NEIMeltingHandler extends TemplateRecipeHandler {
 
     @Override
     public String getRecipeName() {
-        return "Melting";
+        return NEICompat.translateNEI("melting");
     }
 
     @Override

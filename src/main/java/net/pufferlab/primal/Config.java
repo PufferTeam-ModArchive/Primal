@@ -22,8 +22,9 @@ public enum Config {
     // Campfire
     campfireBurnTime(Module.early_game, 20 * 120,
         "The time in ticks that it takes for the campfire to consume one of its fuel."),
-    campfireSmeltTime(Module.early_game, 20 * 60,
+    campfireSmeltTime(Module.early_game, 20 * 15,
         "The time in ticks that it will take the Campfire to smelt one of its slot."),
+    ovenSmeltTime(Module.early_game, 20 * 7, "The time in ticks that it will take the Oven to smelt one of its slot."),
 
     // Forge
     forgeBurnTime(Module.early_game, 20 * 120,
@@ -75,7 +76,8 @@ public enum Config {
         "The range around the ideal height in which the windmill will operate."),
 
     // WorldGen
-    rockWorldGen(Module.worldgen, true, "Whether to enable loose rocks generating in the world.");
+    rockWorldGen(Module.worldgen, true, "Whether to enable loose rocks generating in the world."),
+    shellWorldGen(Module.worldgen, true, "Whether to enable loose sheel generating bear beaches.");
 
     public boolean isBoolean;
     public boolean isInt;

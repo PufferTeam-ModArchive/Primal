@@ -104,7 +104,7 @@ public class NEICastingHandler extends TemplateRecipeHandler {
 
     @Override
     public String getRecipeName() {
-        return "Casting";
+        return NEICompat.translateNEI("casting");
     }
 
     @Override

@@ -12,6 +12,7 @@ import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.tileentities.TileEntityCharcoalPile;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
+import net.pufferlab.primal.utils.SoundTypePrimal;
 
 public class BlockCharcoalPile extends BlockPile {
 
@@ -19,7 +20,7 @@ public class BlockCharcoalPile extends BlockPile {
 
     public BlockCharcoalPile() {
         super(Material.sand);
-        this.setStepSound(net.pufferlab.primal.utils.SoundType.soundTypeCharcoal);
+        this.setStepSound(SoundTypePrimal.soundTypeCharcoal);
         this.setHardness(0.5F);
         this.canBlockGrass = false;
     }

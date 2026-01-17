@@ -8,16 +8,18 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.client.utils.ModelBox;
 import net.pufferlab.primal.client.utils.ModelRenderer;
 import net.pufferlab.primal.client.utils.PositionTextureVertex;
 import net.pufferlab.primal.client.utils.TexturedQuad;
 
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 public class ModelTESS {
 
-    static double epsilon = 2e-5;
+    static double epsilon = Constants.epsilon;
 
     public void renderBlock(RenderBlocks renderblocks, Tessellator tess, Block block, ModelRenderer renderer,
         float scale, int x, int y, int z, double offsetX, double offsetY, double offsetZ, int index) {
@@ -288,6 +290,142 @@ public class ModelTESS {
             renderblocks.renderFaceZNeg(block, x, y, z, icon);
         }
     }
+
+    public void renderItem(RenderBlocks renderblocks, Tessellator tess, Block block, int x, int y, int z,
+        double offsetX, double offsetY, double offsetZ, int meta, ModelRenderer model, float scale) {
+        IIcon icon = block.getIcon(0, meta);
+
+        Matrix4f matrix2 = model.getLocalMatrix(scale);
+
+        tess.setBrightness(block.getMixedBrightnessForBlock(renderblocks.blockAccess, x, y, z));
+        renderItem(
+            tess,
+            icon.getMaxU(),
+            icon.getMinV(),
+            icon.getMinU(),
+            icon.getMaxV(),
+            icon.getIconWidth(),
+            icon.getIconHeight(),
+            Constants.modelConst,
+            x,
+            y,
+            z,
+            matrix2,
+            scale,
+            offsetX,
+            offsetY,
+            offsetZ);
+    }
+
+    public Vector3f temp = new Vector3f();
+    public Vector3f normalTemp = new Vector3f();
+
+    public void addVertexRotated(Tessellator tess, double x, double y, double z, double u, double v, Matrix4f matrix,
+        int x2, int y2, int z2, float scale, double offsetX, double offsetY, double offsetZ) {
+        temp.set(x, y, z);
+        matrix.transformPosition(temp);
+        temp.mul(scale);
+        tess.addVertexWithUV(temp.x + x2 + offsetX + 0.5, temp.y + offsetY + y2, temp.z + offsetZ + z2 + 0.5, u, v);
+    }
+
+    public void addNormalRotated(Tessellator tess, double x, double y, double z, Matrix4f matrix, float scale) {
+        normalTemp.set(x, y, z);
+
+        matrix.transformDirection(normalTemp);
+        normalTemp.normalize();
+        int color = 16777215;
+        // Color Recoloration from Block
+        float f = (float) (color >> 16 & 255) / 255.0F;
+        float f1 = (float) (color >> 8 & 255) / 255.0F;
+        float f2 = (float) (color & 255) / 255.0F;
+
+        if (EntityRenderer.anaglyphEnable) {
+            float f3 = (f * 30.0F + f1 * 59.0F + f2 * 11.0F) / 100.0F;
+            float f4 = (f * 30.0F + f1 * 70.0F) / 100.0F;
+            float f5 = (f * 30.0F + f2 * 70.0F) / 100.0F;
+            f = f3;
+            f1 = f4;
+            f2 = f5;
+        }
+
+        // Shading (Not automatic in ISBRH)
+        float shade = 1.0F;
+        if (normalTemp.y > 0.5F) shade = 1.0F; // top
+        else if (normalTemp.y < -0.5F) shade = 0.5F; // bottom
+        else if (normalTemp.x > 0.5F || normalTemp.x < -0.5F) shade = 0.6F; // east/west
+        else if (normalTemp.z > 0.5F || normalTemp.z < -0.5F) shade = 0.8F; // north/south
+
+        tess.setColorOpaque_F(f * shade, f1 * shade, f2 * shade);
+
+        tess.setNormal((float) normalTemp.x, (float) normalTemp.y, (float) normalTemp.z);
+    }
+
+    // spotless:off
+    public void renderItem(Tessellator tess, float p_78439_1_, float p_78439_2_, float p_78439_3_, float p_78439_4_, int p_78439_5_, int p_78439_6_, float p_78439_7_, int x, int y, int z, Matrix4f matrix, float scale, double offsetX, double offsetY, double offsetZ)
+        {
+
+            addNormalRotated(tess, 0.0F, 0.0F, 1.0F, matrix, scale);
+            addVertexRotated(tess, 0.0D, 0.0D, 0.0D, p_78439_1_, p_78439_4_, matrix, x, y, z, scale, offsetX, offsetY, offsetZ);
+            addVertexRotated(tess, 1.0D, 0.0D, 0.0D, p_78439_3_, p_78439_4_, matrix, x, y, z, scale, offsetX, offsetY, offsetZ);
+            addVertexRotated(tess, 1.0D, 1.0D, 0.0D, p_78439_3_, p_78439_2_, matrix, x, y, z, scale, offsetX, offsetY, offsetZ);
+            addVertexRotated(tess, 0.0D, 1.0D, 0.0D, p_78439_1_, p_78439_2_, matrix, x, y, z, scale, offsetX, offsetY, offsetZ);
+
+            addNormalRotated(tess, 0.0F, 0.0F, -1.0F, matrix, scale);
+            addVertexRotated(tess, 0.0D, 1.0D, -p_78439_7_, p_78439_1_, p_78439_2_, matrix, x, y, z, scale, offsetX, offsetY, offsetZ);
+            addVertexRotated(tess, 1.0D, 1.0D, -p_78439_7_, p_78439_3_, p_78439_2_, matrix, x, y, z, scale, offsetX, offsetY, offsetZ);
+            addVertexRotated(tess, 1.0D, 0.0D, -p_78439_7_, p_78439_3_, p_78439_4_, matrix, x, y, z, scale, offsetX, offsetY, offsetZ);
+            addVertexRotated(tess, 0.0D, 0.0D, -p_78439_7_, p_78439_1_, p_78439_4_, matrix, x, y, z, scale, offsetX, offsetY, offsetZ);
+
+            float f5 = 0.5F * (p_78439_1_ - p_78439_3_) / (float)p_78439_5_;
+            float f6 = 0.5F * (p_78439_4_ - p_78439_2_) / (float)p_78439_6_;
+
+            addNormalRotated(tess, -1.0F, 0.0F, 0.0F, matrix, scale);
+            for (int k = 0; k < p_78439_5_; ++k) {
+                float f7 = (float)k / (float)p_78439_5_;
+                float f8 = p_78439_1_ + (p_78439_3_ - p_78439_1_) * f7 - f5;
+
+                addVertexRotated(tess, f7, 0.0D, -p_78439_7_, f8, p_78439_4_, matrix, x, y, z, scale, offsetX, offsetY, offsetZ);
+                addVertexRotated(tess, f7, 0.0D, 0.0D,  f8, p_78439_4_, matrix, x, y, z, scale, offsetX, offsetY, offsetZ);
+                addVertexRotated(tess, f7, 1.0D, 0.0D,  f8, p_78439_2_, matrix, x, y, z, scale, offsetX, offsetY, offsetZ);
+                addVertexRotated(tess, f7, 1.0D, -p_78439_7_, f8, p_78439_2_, matrix, x, y, z, scale, offsetX, offsetY, offsetZ);
+            }
+
+            addNormalRotated(tess, 1.0F, 0.0F, 0.0F, matrix, scale);
+            for (int k = 0; k < p_78439_5_; ++k) {
+                float f7 = (float)k / (float)p_78439_5_;
+                float f8 = p_78439_1_ + (p_78439_3_ - p_78439_1_) * f7 - f5;
+                float f9 = f7 + 1.0F / (float)p_78439_5_;
+
+                addVertexRotated(tess, f9, 1.0D, -p_78439_7_, f8, p_78439_2_, matrix, x, y, z, scale, offsetX, offsetY, offsetZ);
+                addVertexRotated(tess, f9, 1.0D, 0.0D,  f8, p_78439_2_, matrix, x, y, z, scale, offsetX, offsetY, offsetZ);
+                addVertexRotated(tess, f9, 0.0D, 0.0D,  f8, p_78439_4_, matrix, x, y, z, scale, offsetX, offsetY, offsetZ);
+                addVertexRotated(tess, f9, 0.0D, -p_78439_7_, f8, p_78439_4_, matrix, x, y, z, scale, offsetX, offsetY, offsetZ);
+            }
+
+            addNormalRotated(tess, 0.0F, 1.0F, 0.0F, matrix, scale);
+            for (int k = 0; k < p_78439_6_; ++k) {
+                float f7 = (float)k / (float)p_78439_6_;
+                float f8 = p_78439_4_ + (p_78439_2_ - p_78439_4_) * f7 - f6;
+                float f9 = f7 + 1.0F / (float)p_78439_6_;
+
+                addVertexRotated(tess, 0.0D, f9, 0.0D, p_78439_1_, f8, matrix, x, y, z, scale, offsetX, offsetY, offsetZ);
+                addVertexRotated(tess, 1.0D, f9, 0.0D, p_78439_3_, f8, matrix, x, y, z, scale, offsetX, offsetY, offsetZ);
+                addVertexRotated(tess, 1.0D, f9, -p_78439_7_, p_78439_3_, f8, matrix, x, y, z, scale, offsetX, offsetY, offsetZ);
+                addVertexRotated(tess, 0.0D, f9, -p_78439_7_, p_78439_1_, f8, matrix, x, y, z, scale, offsetX, offsetY, offsetZ);
+            }
+
+            addNormalRotated(tess, 0.0F, -1.0F, 0.0F, matrix, scale);
+            for (int k = 0; k < p_78439_6_; ++k) {
+                float f7 = (float)k / (float)p_78439_6_;
+                float f8 = p_78439_4_ + (p_78439_2_ - p_78439_4_) * f7 - f6;
+
+                addVertexRotated(tess, 1.0D, f7, 0.0D, p_78439_3_, f8, matrix, x, y, z, scale, offsetX, offsetY, offsetZ);
+                addVertexRotated(tess, 0.0D, f7, 0.0D, p_78439_1_, f8, matrix, x, y, z, scale, offsetX, offsetY, offsetZ);
+                addVertexRotated(tess, 0.0D, f7, -p_78439_7_, p_78439_1_, f8, matrix, x, y, z, scale, offsetX, offsetY, offsetZ);
+                addVertexRotated(tess, 1.0D, f7, -p_78439_7_, p_78439_3_, f8, matrix, x, y, z, scale, offsetX, offsetY, offsetZ);
+            }
+        }
+    // spotless:on
 
     /*
      * --- CRASH FIX ----

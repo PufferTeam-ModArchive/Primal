@@ -13,17 +13,18 @@ import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Registry;
+import net.pufferlab.primal.world.gen.WorldGenGroundRock;
 import net.pufferlab.primal.world.gen.WorldGenGroundcover;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class GroundcoverRockHandler extends PileHandler {
+public class GroundRockHandler extends PileHandler {
 
-    public static WorldGenGroundcover worldGenRock = new WorldGenGroundcover(Registry.ground_rock, 0);
+    public static WorldGenGroundcover worldGenRock = new WorldGenGroundRock(0);
     public static int rockPerChunk = 1;
     public static boolean enableRock = Config.rockWorldGen.getDefaultBoolean();
 
-    public GroundcoverRockHandler() {
+    public GroundRockHandler() {
         enableRock = Config.rockWorldGen.getBoolean();
     }
 

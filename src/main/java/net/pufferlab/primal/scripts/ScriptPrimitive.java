@@ -40,6 +40,7 @@ public class ScriptPrimitive implements IScript {
         addOreDict("ash", getModItem("ash", 1));
         addOreDict("kindling", getModItem("straw_kindling", 1));
         addOreDict("rock", getItem(Primal.MODID, "rock", wildcard, 1));
+        addOreDict("shell", getItem(Primal.MODID, "shell", wildcard, 1));
         addOreDict("mold", getItem(Primal.MODID, "mold", wildcard, 1));
         addOreDict("barkWood", getItem(Primal.MODID, "bark", wildcard, 1));
         addOreDict("barkWoodTannin", getItem(Primal.MODID, "bark", Utils.getIndex(Constants.woodTypes, "oak"), 1));

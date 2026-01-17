@@ -201,6 +201,23 @@ public class ModelRenderer {
         }
     }
 
+    public Matrix4f localMatrix2 = new Matrix4f();
+
+    public Matrix4f getLocalMatrix(float scale) {
+        if (this.isHidden || !this.showModel) return null;
+
+        localMatrix2.identity();
+
+        localMatrix2.translate(this.offsetX, this.offsetY, this.offsetZ);
+
+        localMatrix2.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
+
+        if (this.rotateAngleZ != 0.0F) localMatrix2.rotateZ(this.rotateAngleZ);
+        if (this.rotateAngleY != 0.0F) localMatrix2.rotateY(this.rotateAngleY);
+        if (this.rotateAngleX != 0.0F) localMatrix2.rotateX(this.rotateAngleX);
+        return localMatrix2;
+    }
+
     @SideOnly(Side.CLIENT)
     public void renderWithRotation(float scale) {
         if (!this.isHidden) {

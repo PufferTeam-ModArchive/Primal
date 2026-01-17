@@ -26,7 +26,7 @@ public class WLQuernHandler implements IWailaDataProvider {
         if (te instanceof TileEntityQuern tef) {
             NBTTagCompound tag = accessor.getNBTData();
             if (tag != null) {
-                int timeToProcess = grindTime;
+                int timeToProcess = tef.getGrindTime();
                 boolean isMoving = tag.getBoolean("isMoving");
                 if (isMoving && tef.getInventoryStack(slotInput) != null) {
                     int timePassed = tag.getInteger("timeGround");

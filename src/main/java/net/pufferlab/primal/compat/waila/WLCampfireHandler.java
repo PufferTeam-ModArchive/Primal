@@ -27,7 +27,7 @@ public class WLCampfireHandler implements IWailaDataProvider {
         if (te instanceof TileEntityCampfire tef) {
             NBTTagCompound tag = accessor.getNBTData();
             if (tag != null) {
-                int timeToProcess = smeltTime;
+                int timeToProcess = tef.getSmeltTime();
                 boolean isFired = tag.getBoolean("isFired");
                 if (isFired) {
                     ItemStack outputItem1 = CampfireRecipe.getOutput(tef.getInventoryStack(slotItem1));

@@ -92,7 +92,7 @@ public class NEIKnappingHandler extends TemplateRecipeHandler {
 
     @Override
     public String getRecipeName() {
-        return "Knapping";
+        return NEICompat.translateNEI("knapping");
     }
 
     @Override

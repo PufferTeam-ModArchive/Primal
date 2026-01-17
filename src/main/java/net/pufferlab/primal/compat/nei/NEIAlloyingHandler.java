@@ -171,7 +171,7 @@ public class NEIAlloyingHandler extends TemplateRecipeHandler {
 
     @Override
     public String getRecipeName() {
-        return "Alloying";
+        return NEICompat.translateNEI("alloying");
     }
 
     @Override

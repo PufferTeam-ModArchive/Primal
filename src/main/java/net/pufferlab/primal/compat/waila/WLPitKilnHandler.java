@@ -26,7 +26,7 @@ public class WLPitKilnHandler implements IWailaDataProvider {
         if (te instanceof TileEntityPitKiln tef) {
             NBTTagCompound tag = accessor.getNBTData();
             if (tag != null) {
-                int timeToProcess = smeltTime;
+                int timeToProcess = tef.getSmeltTime();
                 boolean isFired = tag.getBoolean("isFired");
                 if (isFired) {
                     long nextUpdate = tag.getLong("nextUpdateProcess");

@@ -11,6 +11,7 @@ import net.pufferlab.primal.utils.MetalType;
 public class Constants {
 
     public static final int wildcard = OreDictionary.WILDCARD_VALUE;
+    public static final double epsilon = 2e-5;
     public static final String[] none = new String[] { "none" };
     public static final float modelConst = 0.0625F;
     public static final int tagCompound = 10;
@@ -27,6 +28,7 @@ public class Constants {
     public static final String[] woodTypes = new String[] { "oak", "spruce", "birch", "jungle", "acacia", "dark_oak" };
     public static final String[] colorTypes = new String[] { "white", "orange", "magenta", "light_blue", "yellow",
         "lime", "pink", "gray", "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black" };
+    public static final String[] shellTypes = new String[] { "scallop", "conch" };
 
     // Metals
     public static final FluidType moltenIron = new FluidType("molten_iron", Material.lava);
@@ -91,5 +93,6 @@ public class Constants {
     public static final String[] ashPileOreDicts = new String[] { "ash" };
     public static final String[] charcoalPileOreDicts = new String[] { "charcoal", "coal" };
     public static final String[] groundRockOreDicts = new String[] { "rock" };
+    public static final String[] groundShellOreDicts = new String[] { "shell" };
     public static final String[] logPileOreDicts = new String[] { "firewood" };
 }

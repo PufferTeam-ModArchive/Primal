@@ -142,7 +142,7 @@ public class TileEntityQuern extends TileEntityMotionInventory {
             }
         }
 
-        if (this.timeGround > grindTime) {
+        if (this.timeGround > getGrindTime()) {
             this.timeGround = 0;
             ItemStack output = QuernRecipe.getOutput(getInventoryStack(slotInput));
             if (output != null) {
@@ -179,6 +179,10 @@ public class TileEntityQuern extends TileEntityMotionInventory {
             }
 
         }
+    }
+
+    public int getGrindTime() {
+        return grindTime;
     }
 
     @Override

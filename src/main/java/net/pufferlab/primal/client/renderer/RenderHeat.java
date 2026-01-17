@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
+import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.client.models.ModelPrimal;
 import net.pufferlab.primal.utils.TemperatureUtils;
@@ -119,7 +120,7 @@ public class RenderHeat {
             iicon.getMaxV(),
             iicon.getIconWidth(),
             iicon.getIconHeight(),
-            0.0625F);
+            Constants.modelConst);
 
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
@@ -133,7 +134,7 @@ public class RenderHeat {
             iiconMask.getMaxV(),
             iiconMask.getIconWidth(),
             iiconMask.getIconHeight(),
-            0.0625F);
+            Constants.modelConst);
         GL11.glDepthMask(true);
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glEnable(GL11.GL_LIGHTING);

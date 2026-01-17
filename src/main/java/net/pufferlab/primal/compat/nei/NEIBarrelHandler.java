@@ -175,7 +175,7 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
 
     @Override
     public String getRecipeName() {
-        return "Barrel";
+        return NEICompat.translateNEI("barrel");
     }
 
     @Override

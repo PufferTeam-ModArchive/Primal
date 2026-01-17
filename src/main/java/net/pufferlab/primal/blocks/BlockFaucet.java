@@ -38,13 +38,13 @@ public class BlockFaucet extends BlockPrimal {
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
         if (world.getTileEntity(x, y, z) instanceof TileEntityMetaFacing tef) {
             if (tef.facingMeta == 1) {
-                this.setBlockBounds(0.0F, 0.0F, 0.5F, 1.0F, 1.0F, 1.0F);
+                this.setBlockBounds(0.3125F, 0.0F, 0.3125F, 0.6875F, 1.0F, 1.0F);
             } else if (tef.facingMeta == 2) {
-                this.setBlockBounds(0.5F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+                this.setBlockBounds(0.3125F, 0.0F, 0.3125F, 1.0F, 1.0F, 0.6875F);
             } else if (tef.facingMeta == 3) {
-                this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.5F);
+                this.setBlockBounds(0.3125F, 0.0F, 0.0F, 0.6875F, 1.0F, 0.6875F);
             } else if (tef.facingMeta == 4) {
-                this.setBlockBounds(0.0F, 0.0F, 0.0F, 0.5F, 1.0F, 1.0F);
+                this.setBlockBounds(0.0F, 0.0F, 0.3125F, 0.6875F, 1.0F, 0.6875F);
             } else {
                 this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
             }

@@ -13,6 +13,7 @@ public class ItemBlockMeta extends ItemBlock {
     private String[] elementsBlacklist;
     private String name;
     private BlockMeta blockC;
+    private boolean hasSuffix;
 
     public ItemBlockMeta(Block block) {
         super(block);
@@ -22,6 +23,7 @@ public class ItemBlockMeta extends ItemBlock {
         elements = blockC.getElements();
         elementsBlacklist = blockC.getElementsBlacklist();
         name = blockC.getElementName();
+        hasSuffix = blockC.hasSuffix();
         this.setHasSubtypes(true);
     }
 
@@ -31,7 +33,11 @@ public class ItemBlockMeta extends ItemBlock {
             || Utils.contains(elementsBlacklist, elements[stack.getItemDamage()])) {
             return "tile." + Primal.MODID + ".error";
         }
-        return "tile." + Primal.MODID + "." + elements[stack.getItemDamage()] + "_" + name;
+        if (this.hasSuffix) {
+            return "tile." + Primal.MODID + "." + elements[stack.getItemDamage()] + "_" + name;
+        } else {
+            return "tile." + Primal.MODID + "." + elements[stack.getItemDamage()];
+        }
     }
 
     @Override
