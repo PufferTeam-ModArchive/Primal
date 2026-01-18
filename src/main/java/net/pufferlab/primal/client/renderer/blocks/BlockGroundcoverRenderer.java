@@ -42,7 +42,7 @@ public class BlockGroundcoverRenderer extends BlockPrimalRenderer {
         float ox = (rand.nextFloat() * 2F - 1F) * range;
         float oz = (rand.nextFloat() * 2F - 1F) * range;
 
-        float range2 = 0.2F;
+        float range2 = 0.1F;
         float o2 = (rand.nextFloat() * 2F - 1F) * range2;
 
         int rotation = 1 + rand.nextInt(4);

@@ -59,6 +59,11 @@ public class BlockMeta extends Block implements IPrimalBlock {
         return this;
     }
 
+    public BlockMeta setBlacklist(String[] blacklist) {
+        this.elementsBlacklist = blacklist;
+        return this;
+    }
+
     public BlockMeta setHasSuffix() {
         this.hasSuffix = true;
         return this;

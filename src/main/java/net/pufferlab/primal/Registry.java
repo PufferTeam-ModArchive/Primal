@@ -55,6 +55,7 @@ public class Registry {
     public static final Block pit_kiln;
     public static final Block thatch;
     public static final Block thatch_roof;
+    public static final Block block;
     public static final Block lit_torch;
     public static final Block unlit_torch;
     public static final Block chimney;
@@ -104,6 +105,7 @@ public class Registry {
     public static final Item flint_pickaxe;
     public static final Item flint_shovel;
     public static final Item flint_knife;
+    public static final Item flint_hoe;
     public static final Item bronze_axe;
     public static final Item bronze_pickaxe;
     public static final Item bronze_shovel;
@@ -151,6 +153,7 @@ public class Registry {
 
         thatch = new BlockThatch();
         thatch_roof = new BlockThatchRoof();
+        block = new BlockMetal(Constants.blockMetalTypes, "block");
         lit_torch = new BlockTorchPrimitive("torch_lit").setLightLevel(0.9375F);
         unlit_torch = new BlockTorchPrimitive("torch_unlit").setLightLevel(0.0F);
 
@@ -186,6 +189,7 @@ public class Registry {
         flint_pickaxe = new ItemPickaxePrimitive(toolFlint, "flint_pickaxe");
         flint_shovel = new ItemShovelPrimitive(toolFlint, "flint_shovel");
         flint_knife = new ItemKnifePrimitive(toolFlint, "flint_knife");
+        flint_hoe = new ItemHoePrimitive(toolFlint, "flint_hoe");
 
         axe_head = new ItemMetal(Constants.toolMetalTypes, "axe_head");
         pickaxe_head = new ItemMetal(Constants.toolMetalTypes, "pickaxe_head");
@@ -211,6 +215,7 @@ public class Registry {
     public void setup() {
         register(thatch, "thatch");
         register(thatch_roof, "thatch_roof");
+        register(block, "block");
         register(lit_torch, "lit_torch");
         register(unlit_torch, "unlit_torch");
         register(ground_rock, "ground_rock");
@@ -258,6 +263,7 @@ public class Registry {
         register(flint_pickaxe, "flint_pickaxe");
         register(flint_shovel, "flint_shovel");
         register(flint_knife, "flint_knife");
+        register(flint_hoe, "flint_hoe");
 
         register(axe_head, "axe_head");
         register(pickaxe_head, "pickaxe_head");

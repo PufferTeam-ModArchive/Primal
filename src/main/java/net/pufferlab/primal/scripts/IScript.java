@@ -49,6 +49,12 @@ public interface IScript {
         }
     }
 
+    default void addQuernRecipe(ItemStack output, String input) {
+        if (output != null && input != null) {
+            QuernRecipe.addRecipe(output, input);
+        }
+    }
+
     default void addQuernRecipe(ItemStack output, ItemStack input) {
         if (output != null && input != null) {
             QuernRecipe.addRecipe(output, input);

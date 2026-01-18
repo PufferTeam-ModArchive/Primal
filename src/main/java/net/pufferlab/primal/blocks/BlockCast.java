@@ -20,6 +20,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
+import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
@@ -34,6 +35,8 @@ import net.pufferlab.primal.world.GlobalTickingData;
 public class BlockCast extends BlockPrimal {
 
     public IIcon[] icons = new IIcon[2];
+    public IIcon[] moldIcons;
+    public String[] molds;
 
     public static final int iconCast = 99;
 
@@ -43,6 +46,8 @@ public class BlockCast extends BlockPrimal {
         this.setHardness(0.2F);
         super.setBlockBounds(0.125F, 0.0F, 0.125F, 0.875F, 0.125F, 0.875F);
         this.canBlockGrass = false;
+
+        molds = Constants.moldItems;
     }
 
     @Override
@@ -126,6 +131,11 @@ public class BlockCast extends BlockPrimal {
     public void registerBlockIcons(IIconRegister reg) {
         icons[0] = reg.registerIcon(Primal.MODID + ":ceramic");
         icons[1] = reg.registerIcon(Primal.MODID + ":mold");
+
+        moldIcons = new IIcon[molds.length];
+        for (int i = 0; i < molds.length; i++) {
+            moldIcons[i] = reg.registerIcon(Primal.MODID + ":items/" + molds[i]);
+        }
     }
 
     @Override
@@ -133,7 +143,7 @@ public class BlockCast extends BlockPrimal {
         if (side == iconCast) {
             return icons[1];
         }
-        return icons[0];
+        return moldIcons[meta];
     }
 
     @Override

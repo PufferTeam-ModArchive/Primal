@@ -32,16 +32,17 @@ public class Constants {
 
     // Metals
     public static final FluidType moltenIron = new FluidType("molten_iron", Material.lava);
-    public static final MetalType iron = new MetalType("iron", false, 1148, 1538, moltenIron);
+    public static final MetalType iron = new MetalType("iron", false, 1148, 1538, moltenIron, 2);
     public static final FluidType moltenGold = new FluidType("molten_gold", Material.lava);
-    public static final MetalType gold = new MetalType("gold", false, 750, 1064, moltenGold);
+    public static final MetalType gold = new MetalType("gold", false, 750, 1064, moltenGold, 0);
     public static final FluidType moltenCopper = new FluidType("molten_copper", Material.lava);
-    public static final MetalType copper = new MetalType("copper", false, 850, 1085, moltenCopper);
+    public static final MetalType copper = new MetalType("copper", false, 850, 1085, moltenCopper, 0);
     public static final FluidType moltenTin = new FluidType("molten_tin", Material.lava);
-    public static final MetalType tin = new MetalType("tin", false, 220, 232, moltenTin);
+    public static final MetalType tin = new MetalType("tin", false, 220, 232, moltenTin, 0);
     public static final FluidType moltenBronze = new FluidType("molten_bronze", Material.lava);
-    public static final MetalType bronze = new MetalType("bronze", true, 700, 950, moltenBronze);
+    public static final MetalType bronze = new MetalType("bronze", true, 700, 950, moltenBronze, 1);
     public static final MetalType[] metalTypes = new MetalType[] { iron, gold, copper, tin, bronze, };
+    public static final MetalType[] blockMetalTypes = new MetalType[] { copper, tin, bronze };
     public static final MetalType[] toolMetalTypes = new MetalType[] { bronze };
     public static final String[] ingotBlacklist = new String[] { "iron", "gold" };
     public static final String[] nuggetBlacklist = new String[] { "gold" };
@@ -55,7 +56,7 @@ public class Constants {
     public static final String[] glowstoneItems = new String[] { "glowstone_crystal" };
     public static final String[] powderItems = new String[] { "lime" };
     public static final String[] flintItems = new String[] { "flint_shard", "flint_axe_head", "flint_pickaxe_head",
-        "flint_shovel_head", "flint_knife_blade" };
+        "flint_shovel_head", "flint_knife_blade", "flint_hoe_head" };
     public static final String[] clayItems = new String[] { "clay_brick", "clay_flower_pot", "clay_large_vessel",
         "clay_crucible", "clay_ingot_mold", "clay_pickaxe_mold", "clay_axe_mold", "clay_shovel_mold", "clay_sword_mold",
         "clay_hoe_mold", "clay_bucket" };

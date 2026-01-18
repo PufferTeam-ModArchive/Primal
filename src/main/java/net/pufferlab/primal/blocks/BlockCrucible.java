@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.items.IHeatableItem;
-import net.pufferlab.primal.items.itemblocks.ItemBlockHeatable;
+import net.pufferlab.primal.items.itemblocks.ItemBlockCrucible;
 import net.pufferlab.primal.tileentities.TileEntityCrucible;
 import net.pufferlab.primal.utils.FluidUtils;
 import net.pufferlab.primal.utils.TemperatureUtils;
@@ -157,6 +157,6 @@ public class BlockCrucible extends BlockPrimal {
 
     @Override
     public Class<? extends ItemBlock> getItemBlockClass() {
-        return ItemBlockHeatable.class;
+        return ItemBlockCrucible.class;
     }
 }

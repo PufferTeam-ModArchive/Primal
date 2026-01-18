@@ -40,7 +40,8 @@ public class ScriptPrimitive implements IScript {
         addOreDict("ash", getModItem("ash", 1));
         addOreDict("kindling", getModItem("straw_kindling", 1));
         addOreDict("rock", getItem(Primal.MODID, "rock", wildcard, 1));
-        addOreDict("shell", getItem(Primal.MODID, "shell", wildcard, 1));
+        addOreDict("shell", getModItem("scallop", 1));
+        addOreDict("shell", getModItem("conch", 1));
         addOreDict("mold", getItem(Primal.MODID, "mold", wildcard, 1));
         addOreDict("barkWood", getItem(Primal.MODID, "bark", wildcard, 1));
         addOreDict("barkWoodTannin", getItem(Primal.MODID, "bark", Utils.getIndex(Constants.woodTypes, "oak"), 1));
@@ -97,7 +98,7 @@ public class ScriptPrimitive implements IScript {
         addShapedRecipe(getModItem("chopping_log", 1), "SS", 'S', "logWood");
         addShapedRecipe(getModItem("barrel", 1), "P P", "P P", "PPP", 'P', "plankWood");
         addShapedRecipe(getModItem("oven", 1), "SSS", "SIS", "SSS", 'I', getModItem("ash", 1), 'S', "ingotBrick");
-        addShapedRecipe(getModItem("chimney", 1), "S S", "S S", "S S", 'S', "ingotBrick");
+        addShapedRecipe(getModItem("brick_chimney", 1), "S S", "S S", "S S", 'S', "ingotBrick");
         addShapedRecipe(getModItem("flint_axe", 1), "I", "S", 'I', getModItem("flint_axe_head", 1), 'S', "stickWood");
         addShapedRecipe(
             getModItem("flint_pickaxe", 1),
@@ -123,6 +124,7 @@ public class ScriptPrimitive implements IScript {
             getModItem("flint_knife_blade", 1),
             'S',
             "stickWood");
+        addShapedRecipe(getModItem("flint_hoe", 1), "I", "S", 'I', getModItem("flint_hoe_head", 1), 'S', "stickWood");
         addShapedRecipe(getItem(Primal.MODID, "thatch", 0, 1), "II", "II", 'I', getModItem("straw", 1));
         addShapedRecipe(getItem(Primal.MODID, "thatch_roof", 0, 1), "I ", "II", 'I', getModItem("straw", 1));
         addShapedRecipe(getModItem("firestarter", 1), "SI", "I ", 'S', getModItem("straw", 1), 'I', "stickWood");
@@ -151,6 +153,7 @@ public class ScriptPrimitive implements IScript {
 
     public void addQuernRecipes() {
         addQuernRecipe(getModItem("wheat_flour", 1), getItem("minecraft:wheat:0:1"));
+        addQuernRecipe(getModItem("lime_powder", 1), "shell");
     }
 
     public void addTanningRecipes() {
@@ -274,6 +277,38 @@ public class ScriptPrimitive implements IScript {
             "CC CC",
             "CC CC",
             "CC CC");
+        addKnappingRecipe(
+            KnappingType.flint,
+            getModItem("flint_hoe_head", 1),
+            "CCCCC",
+            "   CC",
+            "     ",
+            "     ",
+            "     ");
+        addKnappingRecipe(
+            KnappingType.flint,
+            getModItem("flint_hoe_head", 1),
+            "     ",
+            "CCCCC",
+            "   CC",
+            "     ",
+            "     ");
+        addKnappingRecipe(
+            KnappingType.flint,
+            getModItem("flint_hoe_head", 1),
+            "     ",
+            "     ",
+            "CCCCC",
+            "   CC",
+            "     ");
+        addKnappingRecipe(
+            KnappingType.flint,
+            getModItem("flint_hoe_head", 1),
+            "     ",
+            "     ",
+            "     ",
+            "CCCCC",
+            "   CC");
         addKnappingRecipe(
             KnappingType.straw,
             getModItem("straw_cordage", 1),

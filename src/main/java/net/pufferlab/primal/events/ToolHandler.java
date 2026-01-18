@@ -26,23 +26,27 @@ public class ToolHandler implements IEventHandler {
     public void setBreakSpeed(PlayerEvent.BreakSpeed event) {
         ItemStack heldItem = event.entityPlayer.inventory.getCurrentItem();
 
-        if (Utils.isLogBlock(event.block)) {
-            if (heldItem != null) {
-                if (!Utils.isAxeTool(heldItem)) {
+        if (Config.noTreeFistPunching.getBoolean()) {
+            if (Utils.isLogBlock(event.block)) {
+                if (heldItem != null) {
+                    if (!Utils.isAxeTool(heldItem)) {
+                        event.setCanceled(true);
+                    }
+                } else {
                     event.setCanceled(true);
                 }
-            } else {
-                event.setCanceled(true);
             }
         }
 
-        if (Utils.isSoilBlock(event.block, event.metadata)) {
-            if (heldItem != null) {
-                if (!Utils.isShovelTool(heldItem)) {
+        if (Config.harderSoil.getBoolean()) {
+            if (Utils.isSoilBlock(event.block, event.metadata)) {
+                if (heldItem != null) {
+                    if (!Utils.isShovelTool(heldItem)) {
+                        event.newSpeed = event.originalSpeed / 2;
+                    }
+                } else {
                     event.newSpeed = event.originalSpeed / 2;
                 }
-            } else {
-                event.newSpeed = event.originalSpeed / 2;
             }
         }
 

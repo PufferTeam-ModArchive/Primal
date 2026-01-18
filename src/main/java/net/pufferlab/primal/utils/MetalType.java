@@ -15,18 +15,20 @@ public class MetalType {
     public boolean isAlloy;
     public int weldingTemperature;
     public int meltingTemperature;
+    public int level;
     public FluidStack fluidStack;
     public FluidStack ingotFluid;
     public FluidStack doubleIngotFluid;
     public FluidStack tripleIngotFluid;
     public FluidStack nuggetFluid;
 
-    public MetalType(String name, boolean isAlloy, int welding, int melting, FluidType fluid) {
+    public MetalType(String name, boolean isAlloy, int welding, int melting, FluidType fluid, int level) {
         this.name = name;
         this.isAlloy = isAlloy;
         this.weldingTemperature = welding;
         this.meltingTemperature = melting;
         this.fluid = fluid.fluid;
+        this.level = level;
     }
 
     public static String[] getNames(MetalType[] metals) {
@@ -74,5 +76,21 @@ public class MetalType {
             }
         }
         return null;
+    }
+
+    public static String[] getTools(MetalType[] metalTypes) {
+        String[] mat = new String[metalTypes.length];
+        for (int i = 0; i < metalTypes.length; i++) {
+            mat[i] = "pickaxe";
+        }
+        return mat;
+    }
+
+    public static int[] getLevels(MetalType[] metalTypes) {
+        int[] lvl = new int[metalTypes.length];
+        for (int i = 0; i < metalTypes.length; i++) {
+            lvl[i] = metalTypes[i].level;
+        }
+        return lvl;
     }
 }

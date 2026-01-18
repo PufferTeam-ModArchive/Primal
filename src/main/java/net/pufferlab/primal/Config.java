@@ -6,6 +6,10 @@ import net.minecraftforge.common.config.Configuration;
 
 public enum Config {
 
+    noTreeFistPunching(Module.early_game, true,
+        "Whether to enable no tree punching mechanics. Meaning that you cannot break logs with your fist."),
+    harderSoil(Module.early_game, true,
+        "Whether to make soil (dirt/sand) slightly harder to break, giving shovels more use"),
     vanillaToolsRemovalMode(Module.early_game, 1, 0, 2,
         "0: Don't remove vanilla tools. 1: Remove the recipes. 2: Keep the recipes but make tools unusable."),
     stickDropChance(Module.early_game, 0.166F,

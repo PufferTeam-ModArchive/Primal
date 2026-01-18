@@ -38,6 +38,10 @@ nei.recipe.primal.pit_kiln.name=Pit Kiln
 nei.recipe.primal.quern.name=Quern
 nei.recipe.primal.tanning.name=Tanning
 
+tile.primal.copper_block.name=Copper Block
+tile.primal.tin_block.name=Tin Block
+tile.primal.bronze_block.name=Bronze Block
+
 item.primal.copper_ingot.name=Copper Ingot
 item.primal.tin_ingot.name=Tin Ingot
 item.primal.bronze_ingot.name=Bronze Ingot
@@ -156,6 +160,7 @@ item.primal.flint_axe_head.name=Flint Axe Head
 item.primal.flint_pickaxe_head.name=Flint Pickaxe Head
 item.primal.flint_shovel_head.name=Flint Shovel Head
 item.primal.flint_knife_blade.name=Flint Knife Blade
+item.primal.flint_hoe_head.name=Flint Hoe Head
 item.primal.straw.name=Straw
 item.primal.straw_cordage.name=Straw Cordage
 item.primal.straw_kindling.name=Straw Kindling
@@ -171,6 +176,7 @@ item.primal.flint_axe.name=Flint Axe
 item.primal.flint_pickaxe.name=Flint Pickaxe
 item.primal.flint_shovel.name=Flint Shovel
 item.primal.flint_knife.name=Flint Knife
+item.primal.flint_hoe.name=Flint Hoe
 item.primal.firestarter.name=Fire Starter
 item.primal.handstone.name=Handstone
 item.primal.firewood.name=Firewood

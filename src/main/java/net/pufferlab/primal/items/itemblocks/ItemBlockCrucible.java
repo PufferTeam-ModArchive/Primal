@@ -9,12 +9,14 @@ import net.pufferlab.primal.blocks.BlockCrucible;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.utils.FluidUtils;
 
-public class ItemBlockHeatable extends ItemBlockPrimal implements IHeatableItem {
+public class ItemBlockCrucible extends ItemBlockPrimal implements IHeatableItem {
 
-    public ItemBlockHeatable(Block p_i45328_1_) {
+    public ItemBlockCrucible(Block p_i45328_1_) {
         super(p_i45328_1_);
 
-        this.setMaxStackSize(1);
+        if (p_i45328_1_ instanceof BlockCrucible) {
+            this.setMaxStackSize(1);
+        }
     }
 
     @Override

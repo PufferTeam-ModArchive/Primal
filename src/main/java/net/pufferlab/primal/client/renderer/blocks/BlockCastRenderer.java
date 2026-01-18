@@ -11,6 +11,7 @@ import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.models.ModelFluid;
+import net.pufferlab.primal.client.models.ModelItem;
 import net.pufferlab.primal.client.models.ModelMold;
 import net.pufferlab.primal.tileentities.TileEntityCast;
 
@@ -21,6 +22,7 @@ public class BlockCastRenderer extends BlockPrimalRenderer {
 
     private final ThreadLocal<ModelFluid> modelFluidThread = ThreadLocal.withInitial(ModelFluid::new);
     private final ThreadLocal<ModelMold> modelMoldThread = ThreadLocal.withInitial(ModelMold::new);
+    private final ThreadLocal<ModelItem> modelItemThread = ThreadLocal.withInitial(ModelItem::new);
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
@@ -32,6 +34,7 @@ public class BlockCastRenderer extends BlockPrimalRenderer {
         RenderBlocks renderer) {
         ModelFluid modelFluid = modelFluidThread.get();
         ModelMold modelMold = modelMoldThread.get();
+        ModelItem modelItem = modelItemThread.get();
 
         Tessellator tess = Tessellator.instance;
         TileEntity te = world.getTileEntity(x, y, z);
@@ -58,6 +61,9 @@ public class BlockCastRenderer extends BlockPrimalRenderer {
                     false);
             } else if (renderPass == 0) {
                 modelMold.render(renderer, tess, block, x, y, z, iconCast);
+
+                modelItem.bb_main.rotateAngleX = (float) Math.PI / 2;
+                modelItem.renderItem(renderer, tess, block, x, y, z, -0.425D, 0.0822D, -0.425D, tef.castIndex, 0.85F);
             }
         }
         return true;

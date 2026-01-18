@@ -17,6 +17,7 @@ public class TileEntityCast extends TileEntityFluidInventory implements IHeatabl
     public static final int slotOutputSmall = 2;
     public int timeHeat;
     public int temperature;
+    public int castIndex;
 
     public TileEntityCast() {
         super(432, 3);
@@ -28,6 +29,7 @@ public class TileEntityCast extends TileEntityFluidInventory implements IHeatabl
 
         this.timeHeat = tag.getInteger("timeHeat");
         this.temperature = tag.getInteger("temperature");
+        this.castIndex = tag.getInteger("castIndex");
     }
 
     @Override
@@ -36,6 +38,7 @@ public class TileEntityCast extends TileEntityFluidInventory implements IHeatabl
 
         tag.setInteger("timeHeat", this.timeHeat);
         tag.setInteger("temperature", this.temperature);
+        tag.setInteger("castIndex", this.castIndex);
     }
 
     @Override

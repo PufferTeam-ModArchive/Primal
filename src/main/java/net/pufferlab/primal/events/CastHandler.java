@@ -2,10 +2,12 @@ package net.pufferlab.primal.events;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.tileentities.TileEntityCast;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -27,6 +29,10 @@ public class CastHandler implements IEventHandler {
                     Utils.placeNoConsume(heldItem, event.world, x, y, z, Registry.cast, 0, event.entityPlayer);
                     Block block1 = event.world.getBlock(x, y, z);
                     block1.onBlockActivated(event.world, x, y, z, event.entityPlayer, event.face, 0.5F, 0.5F, 0.5F);
+                    TileEntity te = event.world.getTileEntity(x, y, z);
+                    if (te instanceof TileEntityCast tef) {
+                        tef.castIndex = heldItem.getItemDamage();
+                    }
                 }
             }
         }

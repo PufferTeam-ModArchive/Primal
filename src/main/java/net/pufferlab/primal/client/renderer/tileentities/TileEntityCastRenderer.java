@@ -23,31 +23,13 @@ public class TileEntityCastRenderer extends TileEntityPrimalRenderer {
         this.itemRenderer.setRenderManager(renderManager);
 
         GL11.glEnable(GL11.GL_LIGHTING);
-        ItemStack slot1 = mold.getInventoryStack(slotCast);
         ItemStack slot2 = mold.getInventoryStack(slotOutput);
         ItemStack slot3 = mold.getInventoryStack(slotOutputSmall);
 
         double xOffset = x + 0.5;
         double zOffset = z + 0.5;
-        renderSlotCast(slot1, xOffset, y, zOffset);
         renderSlotItem(slot2, xOffset, y, zOffset);
         renderSlotItemSmall(slot3, xOffset, y, zOffset);
-    }
-
-    public void renderSlotCast(ItemStack stack, double xAdjust, double yAdjust, double zAdjust) {
-        GL11.glPushMatrix();
-        if (stack != null) {
-            updateItem(stack);
-
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glTranslated(xAdjust, yAdjust + 0.0625, zAdjust - 0.1725F);
-            GL11.glRotatef(90, 1.0F, 0.0F, 0.0F);
-
-            GL11.glScalef(1.65F, 1.65F, 3.0F);
-
-            renderFrameItem();
-        }
-        GL11.glPopMatrix();
     }
 
     public void renderSlotItem(ItemStack stack, double xAdjust, double yAdjust, double zAdjust) {
@@ -72,8 +54,8 @@ public class TileEntityCastRenderer extends TileEntityPrimalRenderer {
             updateItem(stack);
 
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glTranslated(xAdjust, yAdjust + (0.0655 * 2), zAdjust + 0.1);
-            GL11.glRotatef(-90, 1.0F, 0.0F, 0.0F);
+            GL11.glTranslated(xAdjust, yAdjust + 0.0625, zAdjust - 0.1125F);
+            GL11.glRotatef(90, 1.0F, 0.0F, 0.0F);
 
             GL11.glScalef(1.2F, 1.2F, 3.0F);
 

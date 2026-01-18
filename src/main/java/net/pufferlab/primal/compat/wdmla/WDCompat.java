@@ -1,5 +1,6 @@
 package net.pufferlab.primal.compat.wdmla;
 
+import net.minecraft.block.Block;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.*;
 
@@ -18,6 +19,7 @@ public class WDCompat implements IWDMlaPlugin {
     public static final WDBarrelHandler barrelHandler = new WDBarrelHandler();
     public static final WDPitKilnHandler pitKilnHandler = new WDPitKilnHandler();
     public static final WDLargeVesselHandler largeVesselHandler = new WDLargeVesselHandler();
+    public static final WDHarvestHandler harvestHandler = new WDHarvestHandler();
 
     @Override
     public void register(IWDMlaCommonRegistration registration) {
@@ -37,6 +39,7 @@ public class WDCompat implements IWDMlaPlugin {
 
     @Override
     public void registerClient(IWDMlaClientRegistration registration) {
+        registration.registerHarvest(harvestHandler, Block.class);
         registration.registerBlockComponent(heatHandler, BlockCrucible.class);
         registration.registerBlockComponent(heatHandler, BlockForge.class);
         registration.registerBlockComponent(heatHandler, BlockCast.class);
