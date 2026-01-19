@@ -1,4 +1,4 @@
-package net.pufferlab.primal.world.gen;
+package net.pufferlab.primal.world.gen.feature;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;

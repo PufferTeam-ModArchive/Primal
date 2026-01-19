@@ -4,9 +4,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
-import net.pufferlab.primal.utils.FluidType;
-import net.pufferlab.primal.utils.FoodType;
-import net.pufferlab.primal.utils.MetalType;
+import net.pufferlab.primal.utils.*;
 
 public class Constants {
 
@@ -29,6 +27,35 @@ public class Constants {
     public static final String[] colorTypes = new String[] { "white", "orange", "magenta", "light_blue", "yellow",
         "lime", "pink", "gray", "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black" };
     public static final String[] shellTypes = new String[] { "scallop", "conch" };
+
+    // Stones
+
+    // Igneous Extrusive
+    public static final StoneCategory igneousExtrusive = new StoneCategory("igneous_extrusive");
+    public static final StoneType andesite = new StoneType(igneousExtrusive, "andesite", 40, 120);
+    public static final StoneType basalt = new StoneType(igneousExtrusive, "basalt", 0, 70);
+    public static final StoneType dacite = new StoneType(igneousExtrusive, "dacite", 70, 140);
+    public static final StoneType rhyolite = new StoneType(igneousExtrusive, "rhyolite", 90, 255);
+
+    // Igneous Intrusive
+    public static final StoneCategory igneousIntrusive = new StoneCategory("igneous_intrusive");
+    public static final StoneType diorite = new StoneType(igneousIntrusive, "diorite", 20, 60);
+    public static final StoneType gabbro = new StoneType(igneousIntrusive, "gabbro", 0, 30);
+    public static final StoneType granite = new StoneType(igneousIntrusive, "granite", 30, 140);
+
+    // Sedimentary
+    public static final StoneCategory sedimentary = new StoneCategory("sedimentary");
+    public static final StoneType claystone = new StoneType(sedimentary, "claystone", 30, 80);
+    public static final StoneType limestone = new StoneType(sedimentary, "limestone", 40, 90);
+    public static final StoneType sandstone = new StoneType(sedimentary, "sandstone", 60, 120);
+    public static final StoneType shale = new StoneType(sedimentary, "shale", 50, 100);
+
+    // Metamorphic
+    public static final StoneCategory metamorphic = new StoneCategory("metamorphic");
+    public static final StoneType slate = new StoneType(metamorphic, "slate", 10, 50);
+
+    public static final StoneType[] stoneTypes = new StoneType[] { andesite, basalt, dacite, rhyolite, diorite, gabbro,
+        granite, claystone, limestone, sandstone, shale, slate };
 
     // Metals
     public static final FluidType moltenIron = new FluidType("molten_iron", Material.lava);

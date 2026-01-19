@@ -14,8 +14,8 @@ import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.world.gen.WorldGenGroundShell;
-import net.pufferlab.primal.world.gen.WorldGenGroundcover;
+import net.pufferlab.primal.world.gen.feature.WorldGenGroundShell;
+import net.pufferlab.primal.world.gen.feature.WorldGenGroundcover;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 

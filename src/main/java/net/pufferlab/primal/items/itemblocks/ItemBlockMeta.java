@@ -6,7 +6,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.blocks.BlockMeta;
+import net.pufferlab.primal.blocks.IMetaBlock;
 import net.pufferlab.primal.items.IMetaItem;
 
 public class ItemBlockMeta extends ItemBlock implements IMetaItem {
@@ -14,13 +14,13 @@ public class ItemBlockMeta extends ItemBlock implements IMetaItem {
     public String[] elements;
     public String[] elementsBlacklist;
     public String name;
-    public BlockMeta blockC;
+    public IMetaBlock blockC;
     public boolean hasSuffix;
 
     public ItemBlockMeta(Block block) {
         super(block);
 
-        blockC = (BlockMeta) field_150939_a;
+        blockC = (IMetaBlock) field_150939_a;
 
         elements = blockC.getElements();
         elementsBlacklist = blockC.getElementsBlacklist();

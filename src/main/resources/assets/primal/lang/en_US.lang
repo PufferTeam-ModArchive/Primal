@@ -195,3 +195,115 @@ item.primal.wheat_dough.name=Wheat Dough
 item.primal.wheat_flour.name=Wheat Flour
 
 commands.primal.give.usage=/primal give [player] [primal item] <number>
+
+item.primal.andesite_rock.name=Andesite Rock
+item.primal.basalt_rock.name=Basalt Rock
+item.primal.dacite_rock.name=Dacite Rock
+item.primal.rhyolite_rock.name=Rhyolite Rock
+
+item.primal.diorite_rock.name=Diorite Rock
+item.primal.gabbro_rock.name=Gabbro Rock
+item.primal.granite_rock.name=Granite Rock
+
+item.primal.claystone_rock.name=Claystone Rock
+item.primal.limestone_rock.name=Limestone Rock
+item.primal.sandstone_rock.name=Sandstone Rock
+item.primal.shale_rock.name=Shale Rock
+
+item.primal.slate_rock.name=Slate Rock
+
+tile.primal.andesite_raw.name=Andesite
+tile.primal.andesite_cobble.name=Andesite Cobble
+tile.primal.andesite_dirt.name=Andesite Dirt
+tile.primal.andesite_grass.name=Andesite Grass
+tile.primal.andesite_bricks.name=Andesite Bricks
+tile.primal.andesite_small_bricks.name=Andesite Small Bricks
+tile.primal.andesite_gravel.name=Andesite Gravel
+
+tile.primal.basalt_raw.name=Basalt
+tile.primal.basalt_cobble.name=Basalt Cobble
+tile.primal.basalt_dirt.name=Basalt Dirt
+tile.primal.basalt_grass.name=Basalt Grass
+tile.primal.basalt_bricks.name=Basalt Bricks
+tile.primal.basalt_small_bricks.name=Basalt Small Bricks
+tile.primal.basalt_gravel.name=Basalt Gravel
+
+tile.primal.dacite_raw.name=Dacite
+tile.primal.dacite_cobble.name=Dacite Cobble
+tile.primal.dacite_dirt.name=Dacite Dirt
+tile.primal.dacite_grass.name=Dacite Grass
+tile.primal.dacite_bricks.name=Dacite Bricks
+tile.primal.dacite_small_bricks.name=Dacite Small Bricks
+tile.primal.dacite_gravel.name=Dacite Gravel
+
+tile.primal.rhyolite_raw.name=Rhyolite
+tile.primal.rhyolite_cobble.name=Rhyolite Cobble
+tile.primal.rhyolite_dirt.name=Rhyolite Dirt
+tile.primal.rhyolite_grass.name=Rhyolite Grass
+tile.primal.rhyolite_bricks.name=Rhyolite Bricks
+tile.primal.rhyolite_small_bricks.name=Rhyolite Small Bricks
+tile.primal.rhyolite_gravel.name=Rhyolite Gravel
+
+tile.primal.diorite_raw.name=Diorite
+tile.primal.diorite_cobble.name=Diorite Cobble
+tile.primal.diorite_dirt.name=Diorite Dirt
+tile.primal.diorite_grass.name=Diorite Grass
+tile.primal.diorite_bricks.name=Diorite Bricks
+tile.primal.diorite_small_bricks.name=Diorite Small Bricks
+tile.primal.diorite_gravel.name=Diorite Gravel
+
+tile.primal.gabbro_raw.name=Gabbro
+tile.primal.gabbro_cobble.name=Gabbro Cobble
+tile.primal.gabbro_dirt.name=Gabbro Dirt
+tile.primal.gabbro_grass.name=Gabbro Grass
+tile.primal.gabbro_bricks.name=Gabbro Bricks
+tile.primal.gabbro_small_bricks.name=Gabbro Small Bricks
+tile.primal.gabbro_gravel.name=Gabbro Gravel
+
+tile.primal.granite_raw.name=Granite
+tile.primal.granite_cobble.name=Granite Cobble
+tile.primal.granite_dirt.name=Granite Dirt
+tile.primal.granite_grass.name=Granite Grass
+tile.primal.granite_bricks.name=Granite Bricks
+tile.primal.granite_small_bricks.name=Granite Small Bricks
+tile.primal.granite_gravel.name=Granite Gravel
+
+tile.primal.claystone_raw.name=Claystone
+tile.primal.claystone_cobble.name=Claystone Cobble
+tile.primal.claystone_dirt.name=Claystone Dirt
+tile.primal.claystone_grass.name=Claystone Grass
+tile.primal.claystone_bricks.name=Claystone Bricks
+tile.primal.claystone_small_bricks.name=Claystone Small Bricks
+tile.primal.claystone_gravel.name=Claystone Gravel
+
+tile.primal.limestone_raw.name=Limestone
+tile.primal.limestone_cobble.name=Limestone Cobble
+tile.primal.limestone_dirt.name=Limestone Dirt
+tile.primal.limestone_grass.name=Limestone Grass
+tile.primal.limestone_bricks.name=Limestone Bricks
+tile.primal.limestone_small_bricks.name=Limestone Small Bricks
+tile.primal.limestone_gravel.name=Limestone Gravel
+
+tile.primal.sandstone_raw.name=Sandstone
+tile.primal.sandstone_cobble.name=Sandstone Cobble
+tile.primal.sandstone_dirt.name=Sandstone Dirt
+tile.primal.sandstone_grass.name=Sandstone Grass
+tile.primal.sandstone_bricks.name=Sandstone Bricks
+tile.primal.sandstone_small_bricks.name=Sandstone Small Bricks
+tile.primal.sandstone_gravel.name=Sandstone Gravel
+
+tile.primal.shale_raw.name=Shale
+tile.primal.shale_cobble.name=Shale Cobble
+tile.primal.shale_dirt.name=Shale Dirt
+tile.primal.shale_grass.name=Shale Grass
+tile.primal.shale_bricks.name=Shale Bricks
+tile.primal.shale_small_bricks.name=Shale Small Bricks
+tile.primal.shale_gravel.name=Shale Gravel
+
+tile.primal.slate_raw.name=Slate
+tile.primal.slate_cobble.name=Slate Cobble
+tile.primal.slate_dirt.name=Slate Dirt
+tile.primal.slate_grass.name=Slate Grass
+tile.primal.slate_bricks.name=Slate Bricks
+tile.primal.slate_small_bricks.name=Slate Small Bricks
+tile.primal.slate_gravel.name=Slate Gravel

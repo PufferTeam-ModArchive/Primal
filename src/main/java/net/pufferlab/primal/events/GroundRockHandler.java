@@ -13,8 +13,8 @@ import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Registry;
-import net.pufferlab.primal.world.gen.WorldGenGroundRock;
-import net.pufferlab.primal.world.gen.WorldGenGroundcover;
+import net.pufferlab.primal.world.gen.feature.WorldGenGroundRock;
+import net.pufferlab.primal.world.gen.feature.WorldGenGroundcover;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 

@@ -38,6 +38,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
 public class ClientProxy extends CommonProxy {
 
+    private int grassRenderID;
     private int pitKilnRenderID;
     private int logPileRenderID;
     private int charcoalPileRenderID;
@@ -59,6 +60,7 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void setupRenders() {
+        grassRenderID = getNextId();
         pitKilnRenderID = getNextId();
         logPileRenderID = getNextId();
         charcoalPileRenderID = getNextId();
@@ -78,6 +80,7 @@ public class ClientProxy extends CommonProxy {
         axleRenderID = getNextId();
         generatorRenderID = getNextId();
 
+        register(new BlockGrassRenderer());
         register(new BlockPitKilnRenderer());
         register(new BlockLogPileRenderer());
         register(new BlockCharcoalPileRenderer());
@@ -259,6 +262,11 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void openGeneratorGui(EntityPlayer player, World worldIn, int x, int y, int z) {
         player.openGui(Primal.instance, generatorGuiID, worldIn, x, y, z);
+    }
+
+    @Override
+    public int getGrassRenderID() {
+        return grassRenderID;
     }
 
     @Override

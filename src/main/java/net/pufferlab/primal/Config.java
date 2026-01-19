@@ -81,7 +81,12 @@ public enum Config {
 
     // WorldGen
     rockWorldGen(Module.worldgen, true, "Whether to enable loose rocks generating in the world."),
-    shellWorldGen(Module.worldgen, true, "Whether to enable loose sheel generating bear beaches.");
+    shellWorldGen(Module.worldgen, true, "Whether to enable loose sheel generating bear beaches."),
+
+    // Strata
+    strataStoneTypes(Module.worldgen, true, "Put to false if you want to disable all of the stone types of the mod."),
+    strataSoilTypes(Module.worldgen, true, "Put to false if you want to disable the custom grass/dirt blocks"),
+    strataWorldGen(Module.worldgen, true, "Whether to enable the generation of the strata stone types");
 
     public boolean isBoolean;
     public boolean isInt;

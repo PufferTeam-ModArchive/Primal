@@ -19,7 +19,7 @@ import net.pufferlab.primal.items.itemblocks.ItemBlockMeta;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockMeta extends Block implements IPrimalBlock {
+public class BlockMeta extends Block implements IPrimalBlock, IMetaBlock {
 
     protected String[] elements;
     protected String[] elementsBlacklist;

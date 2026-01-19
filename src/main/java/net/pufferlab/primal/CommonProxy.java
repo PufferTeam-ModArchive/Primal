@@ -103,6 +103,10 @@ public class CommonProxy implements IGuiHandler {
 
     public void openGeneratorGui(EntityPlayer player, World worldIn, int x, int y, int z) {}
 
+    public int getGrassRenderID() {
+        return 0;
+    }
+
     public int getPitKilnRenderID() {
         return 0;
     }

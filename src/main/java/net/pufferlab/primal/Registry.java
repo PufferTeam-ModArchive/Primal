@@ -22,11 +22,13 @@ import net.pufferlab.primal.compat.nei.NEICompat;
 import net.pufferlab.primal.compat.waila.WLCompat;
 import net.pufferlab.primal.events.*;
 import net.pufferlab.primal.events.packets.*;
+import net.pufferlab.primal.inventory.CreativeTabsPrimal;
 import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.tileentities.*;
 import net.pufferlab.primal.utils.FluidType;
 import net.pufferlab.primal.utils.MetalType;
 import net.pufferlab.primal.utils.TemperatureUtils;
+import net.pufferlab.primal.world.PrimalWorldGenerator;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IWorldGenerator;
@@ -37,24 +39,21 @@ import minetweaker.MineTweakerAPI;
 
 public class Registry {
 
-    public static final CreativeTabs creativeTab = new CreativeTabs(Primal.MODID + "CreativeTab") {
-
-        @Override
-        public Item getTabIconItem() {
-            return Registry.firestarter;
-        }
-
-        @Override
-        public String getTranslatedTabLabel() {
-            return Primal.MODNAME;
-        }
-    };
+    public static final CreativeTabs creativeTab = new CreativeTabsPrimal("", "firestarter");
+    public static final CreativeTabs creativeTabStone = new CreativeTabsPrimal("Stone", "stone");
 
     public static final Block ground_rock;
     public static final Block ground_shell;
     public static final Block pit_kiln;
     public static final Block thatch;
     public static final Block thatch_roof;
+    public static final Block stone;
+    public static final Block cobble;
+    public static final Block small_bricks;
+    public static final Block bricks;
+    public static final Block gravel;
+    public static final Block dirt;
+    public static final Block grass;
     public static final Block block;
     public static final Block lit_torch;
     public static final Block unlit_torch;
@@ -127,8 +126,14 @@ public class Registry {
 
         armorBronze = EnumHelper.addArmorMaterial("bronze", 15, new int[] { 2, 5, 4, 1 }, 15);
 
-        ground_rock = new BlockGroundcover(Material.rock, Constants.rockTypes, "ground_rock")
-            .setTextureOverride(Constants.rockTextures);
+        ground_rock = new BlockStoneGround(Constants.stoneTypes, "ground_rock");
+        stone = new BlockStoneRaw(Constants.stoneTypes, "raw");
+        cobble = new BlockStoneRaw(Constants.stoneTypes, "cobble");
+        small_bricks = new BlockStoneRaw(Constants.stoneTypes, "small_bricks");
+        bricks = new BlockStoneRaw(Constants.stoneTypes, "bricks");
+        gravel = new BlockStoneGravel(Constants.stoneTypes, "gravel");
+        dirt = new BlockStoneDirt(Constants.stoneTypes, "dirt");
+        grass = new BlockStoneGrass(Constants.stoneTypes, "grass");
         ground_shell = new BlockGroundcover(Material.rock, Constants.shellTypes, "ground_shell").setItemTexture();
         pit_kiln = new BlockPitKiln();
         log_pile = new BlockLogPile();
@@ -159,6 +164,9 @@ public class Registry {
 
         chimney = new BlockChimney();
 
+        rock = new ItemRock(Constants.stoneTypes, "rock");
+        ((BlockGroundcover) ground_rock).setItem(rock);
+
         icons = new ItemMeta(Constants.icons, "icon").setHiddenAll()
             .setHasSuffix();
         straw = new ItemMeta(Constants.strawItems, "straw");
@@ -167,12 +175,10 @@ public class Registry {
         glowstone = new ItemMeta(Constants.glowstoneItems, "glowstone");
         bark = new ItemMeta(Constants.woodTypes, "bark").setHasSuffix();
         flint = new ItemMeta(Constants.flintItems, "flint");
-        rock = new ItemMeta(Constants.rockTypes, "rock").setHasSuffix();
         shell = new ItemMeta(Constants.shellTypes, "shell");
         powder = new ItemMeta(Constants.powderItems, "powder").setHasSuffix();
         mold = new ItemMeta(Constants.moldItems, "mold");
         clay = new ItemMeta(Constants.clayItems, "clay");
-        ((BlockGroundcover) ground_rock).setItem(rock);
         ((BlockGroundcover) ground_shell).setItem(shell);
 
         ingot = new ItemMetal(Constants.metalTypes, "ingot").setBlacklist(Constants.ingotBlacklist);
@@ -215,6 +221,13 @@ public class Registry {
     public void setup() {
         register(thatch, "thatch");
         register(thatch_roof, "thatch_roof");
+        register(stone, "stone");
+        register(cobble, "cobble");
+        register(small_bricks, "small_bricks");
+        register(bricks, "bricks");
+        register(gravel, "gravel");
+        register(dirt, "dirt");
+        register(grass, "grass");
         register(block, "block");
         register(lit_torch, "lit_torch");
         register(unlit_torch, "unlit_torch");
@@ -376,6 +389,7 @@ public class Registry {
         registerCommand(new CommandModGive());
         registerCommand(new CommandTemperature());
         registerCommand(new CommandSchedule());
+        registerCommand(new CommandClearBlocks());
     }
 
     public void setupMetals() {
@@ -394,6 +408,7 @@ public class Registry {
 
     public void setupModCompat() {
         ((ItemBucketCeramicModded) ceramic_bucket_modded).registerModdedLiquids();
+        PrimalWorldGenerator.strataGen.initBlockList();
     }
 
     public void setupHeatables() {
@@ -431,6 +446,10 @@ public class Registry {
         }
     }
 
+    public void setupWorldGen() {
+        registerWorld(new PrimalWorldGenerator());
+    }
+
     public void register(Item item, String name) {
         GameRegistry.registerItem(item.setCreativeTab(Registry.creativeTab), name);
         registerModItem(item, name);
@@ -439,8 +458,13 @@ public class Registry {
     public void register(Block block, String name) {
         boolean hasItemBlock = true;
         if (block instanceof IPrimalBlock block2) {
-            if (block2.getItemBlockClass() == null) hasItemBlock = false;
-            GameRegistry.registerBlock(block.setCreativeTab(block2.getCreativeTab()), block2.getItemBlockClass(), name);
+            if (block2.canRegister()) {
+                if (block2.getItemBlockClass() == null) hasItemBlock = false;
+                GameRegistry
+                    .registerBlock(block.setCreativeTab(block2.getCreativeTab()), block2.getItemBlockClass(), name);
+            } else {
+                hasItemBlock = false;
+            }
         } else {
             GameRegistry.registerBlock(block.setCreativeTab(Registry.creativeTab), name);
         }
@@ -510,7 +534,7 @@ public class Registry {
     }
 
     public void registerWorld(IWorldGenerator world) {
-        GameRegistry.registerWorldGenerator(world, 0);
+        GameRegistry.registerWorldGenerator(world, 9999);
     }
 
     public void registerCommand(ICommand command) {
