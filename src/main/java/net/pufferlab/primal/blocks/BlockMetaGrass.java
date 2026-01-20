@@ -2,7 +2,6 @@ package net.pufferlab.primal.blocks;
 
 import java.util.List;
 
-import net.minecraft.block.BlockBush;
 import net.minecraft.block.BlockGrass;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.Material;
@@ -14,7 +13,6 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Constants;
@@ -183,18 +181,7 @@ public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlo
     @Override
     public boolean canSustainPlant(IBlockAccess world, int x, int y, int z, ForgeDirection direction,
         IPlantable plantable) {
-        EnumPlantType plantType = plantable.getPlantType(world, x, y + 1, z);
-
-        if (plantable instanceof BlockBush && ((BlockBush) plantable).canPlaceBlockOn(Blocks.grass)) {
-            return true;
-        }
-
-        switch (plantType) {
-            case Plains:
-                return true;
-        }
-
-        return false;
+        return Blocks.grass.canSustainPlant(world, x, y, z, direction, plantable);
     }
 
     @Override

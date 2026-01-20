@@ -23,6 +23,7 @@ public class WorldGenStrata {
     private final List<Block> blockList = new ArrayList<>();
     private final List<Block> stoneList = new ArrayList<>();
     private final List<Block> gravelList = new ArrayList<>();
+    private final List<Block> sandList = new ArrayList<>();
     private final List<Block> dirtList = new ArrayList<>();
     private final List<Block> grassList = new ArrayList<>();
 
@@ -41,11 +42,11 @@ public class WorldGenStrata {
         for (int i = 0; i < noiseBiomeGen.length; i++) {
             this.noiseBiomeGen[i] = new NoiseGeneratorPerlin(new Random(), 2);
         }
-
     }
 
     public void initBlockList() {
         stoneList.add(Blocks.stone);
+        stoneList.add(Blocks.sandstone);
         gravelList.add(Blocks.gravel);
         if (Mods.efr.isLoaded()) {
             stoneList.add(GameRegistry.findBlock(Mods.efr.MODID, "stone"));
@@ -54,11 +55,13 @@ public class WorldGenStrata {
         }
         dirtList.add(Blocks.dirt);
         grassList.add(Blocks.grass);
+        sandList.add(Blocks.sand);
 
         blockList.add(Registry.ground_rock);
 
         blockList.addAll(stoneList);
         blockList.addAll(gravelList);
+        blockList.addAll(sandList);
         if (Config.strataSoilTypes.getBoolean()) {
             blockList.addAll(dirtList);
             blockList.addAll(grassList);
@@ -72,13 +75,14 @@ public class WorldGenStrata {
                 int worldZ = (chunk.zPosition << 4) + z;
                 for (int i = 0; i < noiseLayerGen.length; i++) {
                     noiseLayer[i] = WorldUtils.getPerlin(noiseLayerGen[i], worldX, worldZ, 0.03D);
-                    offsetY[i] = (int) (noiseLayer[i] * 6);
+                    offsetY[i] = (int) (noiseLayer[i] * 4);
                 }
                 for (int i = 0; i < noiseBiomeGen.length; i++) {
-                    noiseBiome[i] = WorldUtils.getPerlin(noiseBiomeGen[i], worldX, worldZ, 0.003D);
+                    double noise1 = WorldUtils.getPerlin(noiseBiomeGen[i], worldX, worldZ, 0.001D);
+                    noiseBiome[i] = noise1;
                 }
 
-                for (int y = 0; y < 128; y++) {
+                for (int y = 0; y < (chunk.getHeightValue(x, z) + 5); y++) {
                     ExtendedBlockStorage array = chunk.getBlockStorageArray()[y >> 4];
                     if (array == null) continue;
                     for (int i = 0; i < noiseBiomeGen.length; i++) {
@@ -93,13 +97,13 @@ public class WorldGenStrata {
                         int layerMeta = 0;
                         if ((adjustedY + offsetY[0]) < 20) {
                             layerMeta = 0;
-                        } else if ((adjustedY + offsetY[1]) < 40) {
+                        } else if ((adjustedY + offsetY[1]) < 30) {
                             layerMeta = 1;
                         } else if ((adjustedY - offsetY[2]) < 60) {
                             layerMeta = 2;
-                        } else if ((adjustedY + offsetY[3]) < 100) {
+                        } else if ((adjustedY + offsetY[3]) < 90) {
                             layerMeta = 3;
-                        } else if ((adjustedY - offsetY[4]) < 120) {
+                        } else if ((adjustedY - offsetY[4]) < 110) {
                             layerMeta = 4;
                         }
                         StoneType type = StoneType.pickOneStoneType(
@@ -118,6 +122,7 @@ public class WorldGenStrata {
 
     public Block getCorrectBlock(Block currentBlock) {
         boolean isGravel = gravelList.contains(currentBlock);
+        boolean isSand = sandList.contains(currentBlock);
         boolean isDirt = dirtList.contains(currentBlock);
         boolean isGrass = grassList.contains(currentBlock);
         Block nextBlock = Registry.stone;
@@ -129,6 +134,9 @@ public class WorldGenStrata {
         }
         if (isGrass) {
             nextBlock = Registry.grass;
+        }
+        if (isSand) {
+            nextBlock = Registry.sand;
         }
         if (currentBlock == Registry.ground_rock) {
             return Registry.ground_rock;

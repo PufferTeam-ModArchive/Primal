@@ -35,7 +35,7 @@ public class Constants {
     public static final StoneType andesite = new StoneType(igneousExtrusive, "andesite", 40, 120);
     public static final StoneType basalt = new StoneType(igneousExtrusive, "basalt", 0, 70);
     public static final StoneType dacite = new StoneType(igneousExtrusive, "dacite", 70, 140);
-    public static final StoneType rhyolite = new StoneType(igneousExtrusive, "rhyolite", 90, 255);
+    public static final StoneType rhyolite = new StoneType(igneousExtrusive, "rhyolite", 50, 100);
 
     // Igneous Intrusive
     public static final StoneCategory igneousIntrusive = new StoneCategory("igneous_intrusive");

@@ -52,6 +52,7 @@ public class Registry {
     public static final Block small_bricks;
     public static final Block bricks;
     public static final Block gravel;
+    public static final Block sand;
     public static final Block dirt;
     public static final Block grass;
     public static final Block block;
@@ -132,8 +133,10 @@ public class Registry {
         small_bricks = new BlockStoneRaw(Constants.stoneTypes, "small_bricks");
         bricks = new BlockStoneRaw(Constants.stoneTypes, "bricks");
         gravel = new BlockStoneGravel(Constants.stoneTypes, "gravel");
+        sand = new BlockStoneSand(Constants.stoneTypes, "sand");
         dirt = new BlockStoneDirt(Constants.stoneTypes, "dirt");
         grass = new BlockStoneGrass(Constants.stoneTypes, "grass");
+
         ground_shell = new BlockGroundcover(Material.rock, Constants.shellTypes, "ground_shell").setItemTexture();
         pit_kiln = new BlockPitKiln();
         log_pile = new BlockLogPile();
@@ -226,8 +229,10 @@ public class Registry {
         register(small_bricks, "small_bricks");
         register(bricks, "bricks");
         register(gravel, "gravel");
+        register(sand, "sand");
         register(dirt, "dirt");
         register(grass, "grass");
+
         register(block, "block");
         register(lit_torch, "lit_torch");
         register(unlit_torch, "unlit_torch");

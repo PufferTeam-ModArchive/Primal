@@ -25,16 +25,16 @@ public class WorldUtils {
 
     public static int getPerlinQuad(double perlin) {
         if (perlin > 0.5) {
-            return 1;
+            return 0;
         }
         if (perlin > 0 && perlin < 0.5) {
-            return 2;
+            return 1;
         }
         if (perlin < 0 && perlin > -0.5) {
-            return 4;
+            return 3;
         }
         if (perlin < -0.5) {
-            return 3;
+            return 2;
         }
         return 0;
     }

@@ -44,6 +44,7 @@ dependencies {
     api("com.github.GTNewHorizons:Backhand:1.8.2:dev") { transitive = false }
     api("com.github.GTNewHorizons:WDMla:2.7.4:dev") { transitive = false }
     api(deobfCurse('crafttweaker-239197:2838720')) { transitive = false }
+    api(deobfCurse('biomes-o-plenty-220318:2499612')) { transitive = false }
     api("ganymedes01.etfuturum:Et-Futurum-Requiem:2.6.2.28-GTNH:dev") { transitive = false }
 
     runtimeOnlyNonPublishable("com.github.GTNewHorizons:worldedit-gtnh:v0.0.8:dev") { transitive = false }
