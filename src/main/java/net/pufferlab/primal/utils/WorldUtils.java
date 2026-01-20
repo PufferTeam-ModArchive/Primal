@@ -1,6 +1,8 @@
 package net.pufferlab.primal.utils;
 
 import net.minecraft.block.Block;
+import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
 
@@ -21,6 +23,10 @@ public class WorldUtils {
 
     public static double getPerlin(NoiseGeneratorPerlin noise, int x, int z, double scale) {
         return noise.func_151601_a(x * scale, z * scale);
+    }
+
+    public static BiomeGenBase getBiome(Chunk chunk, int x, int z) {
+        return chunk.getBiomeGenForWorldCoords(x, z, chunk.worldObj.getWorldChunkManager());
     }
 
     public static int getPerlinQuad(double perlin) {

@@ -85,6 +85,8 @@ public enum Config {
 
     // Strata
     strataStoneTypes(Module.worldgen, true, "Put to false if you want to disable all of the stone types of the mod."),
+    strataBiomeSpecific(Module.worldgen, true,
+        "Put to false if you don't want biome-specific stones (ex. Desert will have sandstone, BOP Volcanos have basalt) etc.."),
     strataSoilTypes(Module.worldgen, true, "Put to false if you want to disable the custom grass/dirt blocks"),
     strataWorldGen(Module.worldgen, true, "Whether to enable the generation of the strata stone types");
 

@@ -11,7 +11,7 @@ import net.pufferlab.primal.Primal;
 public class StoneType {
 
     StoneCategory category;
-    String name;
+    public String name;
     int minHeight;
     int maxHeight;
 
@@ -56,12 +56,10 @@ public class StoneType {
         return names;
     }
 
-    public static List<StoneType> possibleStone = new ArrayList<>();
-
-    public static StoneType pickOneStoneType(StoneType[] stoneTypes, int height, int index) {
-        StoneType current = pickRaw(stoneTypes, height, index);
-        StoneType below = pickRaw(stoneTypes, height - 1, index);
-        StoneType above = pickRaw(stoneTypes, height + 1, index);
+    public static StoneType pickOneStoneType(int height, int index) {
+        StoneType current = pickRaw(height, index);
+        StoneType below = pickRaw(height - 1, index);
+        StoneType above = pickRaw(height + 1, index);
 
         if (current != below && current != above) {
             return below;
@@ -70,21 +68,33 @@ public class StoneType {
         return current;
     }
 
-    private static StoneType pickRaw(StoneType[] stoneTypes, int height, int index) {
-        possibleStone.clear();
+    private static StoneType pickRaw(int height, int index) {
+        StoneType[] cache = Constants.stoneTypesLayer[Math.abs(height)];
 
-        for (StoneType type : stoneTypes) {
-            if (type.canGenerate(height)) {
-                possibleStone.add(type);
+        if (cache == null || cache.length == 0) return Constants.dacite;
+
+        int indexM = Math.floorMod(index, cache.length);
+        return cache[indexM];
+    }
+
+    public static StoneType[][] generateLayerCache(StoneType[] stoneTypes) {
+        StoneType[][] cache = new StoneType[Constants.maxHeight][];
+
+        for (int i = 0; i < Constants.maxHeight; i++) {
+            List<StoneType> cacheStone = new ArrayList<>(stoneTypes.length);
+
+            for (StoneType stone : stoneTypes) {
+                if (stone.canGenerate(i)) {
+                    cacheStone.add(stone);
+                }
+            }
+
+            if (!cacheStone.isEmpty()) {
+                cache[i] = cacheStone.toArray(new StoneType[0]);
             }
         }
 
-        if (possibleStone.isEmpty()) {
-            return Constants.dacite;
-        }
-
-        int indexM = Math.floorMod(index, possibleStone.size());
-        return possibleStone.get(indexM);
+        return cache;
     }
 
     public static Map<StoneType, Integer> metaList;

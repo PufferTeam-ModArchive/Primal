@@ -14,6 +14,7 @@ public class Constants {
     public static final float modelConst = 0.0625F;
     public static final int tagCompound = 10;
     public static final int tagIntArray = 11;
+    public static final int maxHeight = 256;
     public static final String downloadPath = "https://github.com/PufferTeam-ModArchive/Primal/raw/refs/heads/main/builtin/";
     public static final String textureFile = "Primal-Modern-Resources";
 
@@ -34,8 +35,8 @@ public class Constants {
 
     // Igneous Extrusive
     public static final StoneCategory igneousExtrusive = new StoneCategory("igneous_extrusive");
-    public static final StoneType andesite = new StoneType(igneousExtrusive, "andesite", 40, 120);
-    public static final StoneType basalt = new StoneType(igneousExtrusive, "basalt", 0, 70);
+    public static final StoneType andesite = new StoneType(igneousExtrusive, "andesite", 40, 110);
+    public static final StoneType basalt = new StoneType(igneousExtrusive, "basalt", 20, 70);
     public static final StoneType dacite = new StoneType(igneousExtrusive, "dacite", 70, 140);
     public static final StoneType rhyolite = new StoneType(igneousExtrusive, "rhyolite", 50, 100);
 
@@ -47,17 +48,18 @@ public class Constants {
 
     // Sedimentary
     public static final StoneCategory sedimentary = new StoneCategory("sedimentary");
-    public static final StoneType claystone = new StoneType(sedimentary, "claystone", 30, 80);
+    public static final StoneType claystone = new StoneType(sedimentary, "claystone", 25, 100);
     public static final StoneType limestone = new StoneType(sedimentary, "limestone", 40, 90);
     public static final StoneType sandstone = new StoneType(sedimentary, "sandstone", 60, 120);
     public static final StoneType shale = new StoneType(sedimentary, "shale", 50, 100);
 
     // Metamorphic
     public static final StoneCategory metamorphic = new StoneCategory("metamorphic");
-    public static final StoneType slate = new StoneType(metamorphic, "slate", 10, 50);
+    public static final StoneType slate = new StoneType(metamorphic, "slate", 0, 50);
 
     public static final StoneType[] stoneTypes = new StoneType[] { andesite, basalt, dacite, rhyolite, diorite, gabbro,
         granite, claystone, limestone, sandstone, shale, slate };
+    public static final StoneType[][] stoneTypesLayer = StoneType.generateLayerCache(Constants.stoneTypes);
 
     // Metals
     public static final FluidType moltenIron = new FluidType("molten_iron", Material.lava);

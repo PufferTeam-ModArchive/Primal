@@ -5,6 +5,7 @@ import java.util.Map;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.*;
 import net.pufferlab.primal.recipes.KnappingType;
+import net.pufferlab.primal.utils.StoneType;
 
 public class ScriptPrimitive implements IScript {
 
@@ -36,10 +37,10 @@ public class ScriptPrimitive implements IScript {
         addOreDict("firewood", getModItem("firewood", 1));
         addOreDict("charcoal", getItem("minecraft", "coal", 1, 1));
         addOreDict("coal", getItem("minecraft", "coal", 0, 1));
-        addOreDict("coalAny", getItem("minecraft", "coal", wildcard, 1));
+        addOreDict("coalAny", getItem("minecraft", "coal", 0, 1));
+        addOreDict("coalAny", getItem("minecraft", "coal", 1, 1));
         addOreDict("ash", getModItem("ash", 1));
         addOreDict("kindling", getModItem("straw_kindling", 1));
-        addOreDict("rock", getItem(Primal.MODID, "rock", wildcard, 1));
         addOreDict("shell", getModItem("scallop", 1));
         addOreDict("shell", getModItem("conch", 1));
         addOreDict("mold", getItem(Primal.MODID, "mold", wildcard, 1));
@@ -64,6 +65,13 @@ public class ScriptPrimitive implements IScript {
         addOreDict("blockColoredHardenedClay", getItem("minecraft:stained_hardened_clay:*:1"));
         addOreDict("blockColoredHardenedClay", getItem("minecraft:hardened_clay:*:1"));
         addOreDict("blockColoredCarpet", getItem("minecraft:carpet:*:1"));
+        for (StoneType type : Constants.stoneTypes) {
+            String name = type.name;
+            addOreDict("rock", Utils.getModItem(name + "_rock", 1));
+            addOreDict("stone", Utils.getModItem(name + "_raw", 1));
+            addOreDict("cobblestone", Utils.getModItem(name + "_cobble", 1));
+            addOreDict("dirt", Utils.getModItem(name + "_dirt", 1));
+        }
         for (Map.Entry<String, ItemStack> entry : Utils.getOreDictCache()) {
             addOreDict(entry.getKey(), entry.getValue());
         }

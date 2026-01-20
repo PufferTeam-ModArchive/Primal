@@ -26,6 +26,8 @@ import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.tileentities.*;
 import net.pufferlab.primal.utils.TemperatureUtils;
 
+import org.apache.commons.io.FileUtils;
+
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -181,10 +183,11 @@ public class ClientProxy extends CommonProxy {
             Utils.downloadFile(Constants.downloadPath + Constants.textureFile + ".txt", temp);
             String newHash = Utils.readFile(temp);
             String oldHash = Utils.readFile(infoFile);
-            if (oldHash == null || oldHash.equals(newHash)) {
+            if (newHash == null || newHash.equals(oldHash)) {
                 return;
             }
 
+            FileUtils.copyFile(temp, infoFile);
             Utils.downloadFile(Constants.downloadPath + Constants.textureFile + ".zip", out);
         } catch (Exception e) {
             e.printStackTrace();

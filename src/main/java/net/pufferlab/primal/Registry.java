@@ -395,6 +395,7 @@ public class Registry {
         registerCommand(new CommandTemperature());
         registerCommand(new CommandSchedule());
         registerCommand(new CommandClearBlocks());
+        registerCommand(new CommandStrata());
     }
 
     public void setupMetals() {
