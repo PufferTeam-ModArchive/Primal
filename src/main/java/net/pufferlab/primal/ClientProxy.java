@@ -1,9 +1,6 @@
 package net.pufferlab.primal;
 
 import java.io.File;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -28,8 +25,6 @@ import net.pufferlab.primal.inventory.gui.GuiLargeVessel;
 import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.tileentities.*;
 import net.pufferlab.primal.utils.TemperatureUtils;
-
-import org.apache.commons.io.FileUtils;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -180,19 +175,17 @@ public class ClientProxy extends CommonProxy {
 
             if (!rpDir.exists()) rpDir.mkdirs();
 
-            File out = new File(rpDir, "Primal-Modern-Resources.zip");
-
-            if (out.exists()) return;
-
-            URL url = new URL(
-                "https://github.com/PufferTeam-ModArchive/Primal/raw/refs/heads/main/builtin/Primal-Modern-Resources.zip");
-            URLConnection connection = url.openConnection();
-            connection.setConnectTimeout(5000);
-            connection.setReadTimeout(5000);
-
-            try (InputStream in = connection.getInputStream()) {
-                FileUtils.copyInputStreamToFile(in, out);
+            File out = new File(rpDir, Constants.textureFile + ".zip");
+            File infoFile = new File(rpDir, Constants.textureFile + ".txt");
+            File temp = File.createTempFile("download", ".tmp");
+            Utils.downloadFile(Constants.downloadPath + Constants.textureFile + ".txt", temp);
+            String newHash = Utils.readFile(temp);
+            String oldHash = Utils.readFile(infoFile);
+            if (oldHash == null || oldHash.equals(newHash)) {
+                return;
             }
+
+            Utils.downloadFile(Constants.downloadPath + Constants.textureFile + ".zip", out);
         } catch (Exception e) {
             e.printStackTrace();
         }

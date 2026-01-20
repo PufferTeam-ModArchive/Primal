@@ -14,6 +14,8 @@ public class Constants {
     public static final float modelConst = 0.0625F;
     public static final int tagCompound = 10;
     public static final int tagIntArray = 11;
+    public static final String downloadPath = "https://github.com/PufferTeam-ModArchive/Primal/raw/refs/heads/main/builtin/";
+    public static final String textureFile = "Primal-Modern-Resources";
 
     public static final int helmet = 0;
     public static final int chestplate = 1;
