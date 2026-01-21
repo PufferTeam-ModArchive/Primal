@@ -3,20 +3,19 @@ package net.pufferlab.primal.events;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeavesBase;
 import net.minecraft.block.BlockTallGrass;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.event.entity.player.AttackEntityEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.*;
 import net.minecraftforge.event.world.BlockEvent;
 import net.pufferlab.primal.*;
 import net.pufferlab.primal.items.ItemKnifePrimitive;
 
+import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -75,6 +74,19 @@ public class ToolHandler implements IEventHandler {
             }
         }
 
+    }
+
+    @SubscribeEvent
+    public void useHoeEvent(UseHoeEvent event) {
+        Block block = event.world.getBlock(event.x, event.y, event.z);
+        Block blockAbove = event.world.getBlock(event.x, event.y + 1, event.z);
+        int meta = event.world.getBlockMetadata(event.x, event.y, event.z);
+        if (blockAbove.getMaterial() == Material.air) {
+            if (block == Registry.dirt || block == Registry.grass) {
+                event.world.setBlock(event.x, event.y, event.z, Registry.farmland, meta, 2);
+                event.setResult(Event.Result.ALLOW);
+            }
+        }
     }
 
     @SubscribeEvent

@@ -29,20 +29,13 @@ public class WorldUtils {
         return chunk.getBiomeGenForWorldCoords(x, z, chunk.worldObj.getWorldChunkManager());
     }
 
-    public static int getPerlinQuad(double perlin) {
-        if (perlin > 0.5) {
-            return 0;
-        }
-        if (perlin > 0 && perlin < 0.5) {
-            return 1;
-        }
-        if (perlin < 0 && perlin > -0.5) {
-            return 3;
-        }
-        if (perlin < -0.5) {
-            return 2;
-        }
-        return 0;
+    public static int getPerlinQuad(double noise) {
+        double n01 = (noise + 1.0) * 0.5;
+
+        double scaled = n01 * 4.0;
+
+        int choice = (int) Math.floor(scaled);
+        return Math.min(3, Math.max(0, choice));
     }
 
     public static int getPerlinNeg(double perlin) {

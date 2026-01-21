@@ -7,14 +7,14 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Registry;
-import net.pufferlab.primal.utils.StoneType;
+import net.pufferlab.primal.utils.SoilType;
 
-public class BlockStoneGrass extends BlockMetaGrass {
+public class BlockSoilGrass extends BlockMetaGrass {
 
-    public StoneType[] stoneTypes;
+    public SoilType[] stoneTypes;
 
-    public BlockStoneGrass(StoneType[] materials, String type) {
-        super(Material.grass, StoneType.getNames(materials), type);
+    public BlockSoilGrass(SoilType[] materials, String type) {
+        super(Material.grass, SoilType.getNames(materials), type);
         this.stoneTypes = materials;
         this.setHasSuffix();
         this.setHardness(0.6F);
@@ -32,11 +32,11 @@ public class BlockStoneGrass extends BlockMetaGrass {
 
     @Override
     public boolean canRegister() {
-        return Config.strataSoilTypes.getBoolean();
+        return Config.soilTypes.getBoolean();
     }
 
     @Override
     public CreativeTabs getCreativeTab() {
-        return Registry.creativeTabStone;
+        return Registry.creativeTabWorld;
     }
 }

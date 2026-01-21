@@ -52,13 +52,15 @@ public class Constants {
     public static final StoneType limestone = new StoneType(sedimentary, "limestone", 40, 90);
     public static final StoneType sandstone = new StoneType(sedimentary, "sandstone", 60, 120);
     public static final StoneType shale = new StoneType(sedimentary, "shale", 50, 100);
+    public static final StoneType chalk = new StoneType(sedimentary, "chalk", 20, 90);
 
     // Metamorphic
     public static final StoneCategory metamorphic = new StoneCategory("metamorphic");
     public static final StoneType slate = new StoneType(metamorphic, "slate", 0, 50);
+    public static final StoneType schist = new StoneType(metamorphic, "schist", 10, 40);
 
     public static final StoneType[] stoneTypes = new StoneType[] { andesite, basalt, dacite, rhyolite, diorite, gabbro,
-        granite, claystone, limestone, sandstone, shale, slate };
+        granite, claystone, limestone, sandstone, shale, chalk, slate, schist };
     public static final StoneType[][] stoneTypesLayer = StoneType.generateLayerCache(Constants.stoneTypes);
 
     // Metals
@@ -78,6 +80,26 @@ public class Constants {
     public static final String[] ingotBlacklist = new String[] { "iron", "gold" };
     public static final String[] nuggetBlacklist = new String[] { "gold" };
 
+    // Ore Types
+    public static final OreType native_copper = new OreType(copper, "native_copper");
+    public static final OreType malachite = new OreType(copper, "malachite");
+    public static final OreType cassiterite = new OreType(tin, "cassiterite");
+    public static final OreType native_gold = new OreType(gold, "native_gold");
+    public static final OreType limonite = new OreType(iron, "limonite");
+    public static final OreType magnetite = new OreType(iron, "magnetite");
+
+    public static final OreType[] oreTypes = new OreType[] { native_copper, malachite, cassiterite, native_gold,
+        limonite, magnetite };
+
+    // Soil Types
+    public static final SoilType loamy = new SoilType("loamy");
+    public static final SoilType sandy = new SoilType("sandy");
+    public static final SoilType silty = new SoilType("silty");
+    public static final SoilType chalky = new SoilType("chalky");
+    public static final SoilType clay = new SoilType("clay");
+    public static final SoilType peaty = new SoilType("peaty");
+
+    public static final SoilType[] soilTypes = new SoilType[] { loamy, sandy, silty, chalky, clay, peaty };
     // Misc
     public static final String[] chimneyTypes = new String[] { "brick" };
     public static final String[] chimneyTextures = new String[] { "minecraft:brick" };

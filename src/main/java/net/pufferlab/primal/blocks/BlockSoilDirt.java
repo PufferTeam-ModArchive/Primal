@@ -4,14 +4,14 @@ import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Registry;
-import net.pufferlab.primal.utils.StoneType;
+import net.pufferlab.primal.utils.SoilType;
 
-public class BlockStoneDirt extends BlockMetaDirt {
+public class BlockSoilDirt extends BlockMetaDirt {
 
-    public StoneType[] stoneTypes;
+    public SoilType[] stoneTypes;
 
-    public BlockStoneDirt(StoneType[] materials, String type) {
-        super(Material.ground, StoneType.getNames(materials), type);
+    public BlockSoilDirt(SoilType[] materials, String type) {
+        super(Material.ground, SoilType.getNames(materials), type);
         this.stoneTypes = materials;
         this.setHasSuffix();
         this.setHardness(0.5F);
@@ -20,11 +20,11 @@ public class BlockStoneDirt extends BlockMetaDirt {
 
     @Override
     public boolean canRegister() {
-        return Config.strataSoilTypes.getBoolean();
+        return Config.soilTypes.getBoolean();
     }
 
     @Override
     public CreativeTabs getCreativeTab() {
-        return Registry.creativeTabStone;
+        return Registry.creativeTabWorld;
     }
 }

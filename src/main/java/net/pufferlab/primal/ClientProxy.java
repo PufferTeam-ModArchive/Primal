@@ -36,6 +36,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 public class ClientProxy extends CommonProxy {
 
     private int grassRenderID;
+    private int oreRenderID;
     private int pitKilnRenderID;
     private int logPileRenderID;
     private int charcoalPileRenderID;
@@ -58,6 +59,7 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void setupRenders() {
         grassRenderID = getNextId();
+        oreRenderID = getNextId();
         pitKilnRenderID = getNextId();
         logPileRenderID = getNextId();
         charcoalPileRenderID = getNextId();
@@ -78,6 +80,7 @@ public class ClientProxy extends CommonProxy {
         generatorRenderID = getNextId();
 
         register(new BlockGrassRenderer());
+        register(new BlockOreRenderer());
         register(new BlockPitKilnRenderer());
         register(new BlockLogPileRenderer());
         register(new BlockCharcoalPileRenderer());
@@ -263,6 +266,11 @@ public class ClientProxy extends CommonProxy {
     @Override
     public int getGrassRenderID() {
         return grassRenderID;
+    }
+
+    @Override
+    public int getOreRenderID() {
+        return oreRenderID;
     }
 
     @Override

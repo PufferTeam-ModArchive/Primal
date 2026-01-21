@@ -51,11 +51,7 @@ public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlo
         name = type;
         elementsBlacklist = blacklist;
         blockTexture = this;
-
-        for (int i = 0; i < elements.length; i++) {
-            this.setHarvestLevel("shovel", 0, i);
-        }
-
+        this.setHarvestLevel("shovel", 0);
     }
 
     public BlockMetaGrass(Material material, String[] materials, String type) {

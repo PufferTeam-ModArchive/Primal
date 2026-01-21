@@ -29,7 +29,7 @@ public class BlockStoneSand extends BlockMetaFalling {
 
     @Override
     public CreativeTabs getCreativeTab() {
-        return Registry.creativeTabStone;
+        return Registry.creativeTabWorld;
     }
 
     @Override

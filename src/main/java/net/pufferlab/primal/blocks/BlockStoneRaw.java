@@ -38,6 +38,6 @@ public class BlockStoneRaw extends BlockMeta {
 
     @Override
     public CreativeTabs getCreativeTab() {
-        return Registry.creativeTabStone;
+        return Registry.creativeTabWorld;
     }
 }

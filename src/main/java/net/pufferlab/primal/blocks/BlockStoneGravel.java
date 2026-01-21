@@ -25,6 +25,6 @@ public class BlockStoneGravel extends BlockMetaFalling {
 
     @Override
     public CreativeTabs getCreativeTab() {
-        return Registry.creativeTabStone;
+        return Registry.creativeTabWorld;
     }
 }

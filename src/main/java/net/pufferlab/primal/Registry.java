@@ -40,7 +40,7 @@ import minetweaker.MineTweakerAPI;
 public class Registry {
 
     public static final CreativeTabs creativeTab = new CreativeTabsPrimal("", "firestarter");
-    public static final CreativeTabs creativeTabStone = new CreativeTabsPrimal("Stone", "stone");
+    public static final CreativeTabs creativeTabWorld = new CreativeTabsPrimal("World", "stone");
 
     public static final Block ground_rock;
     public static final Block ground_shell;
@@ -51,10 +51,18 @@ public class Registry {
     public static final Block cobble;
     public static final Block small_bricks;
     public static final Block bricks;
+    public static final Block smooth;
     public static final Block gravel;
     public static final Block sand;
     public static final Block dirt;
+    public static final Block farmland;
     public static final Block grass;
+    public static final Block native_copper;
+    public static final Block native_gold;
+    public static final Block malachite;
+    public static final Block cassiterite;
+    public static final Block limonite;
+    public static final Block magnetite;
     public static final Block block;
     public static final Block lit_torch;
     public static final Block unlit_torch;
@@ -77,6 +85,8 @@ public class Registry {
     public static final Block generator;
     public static final Block waterwheel;
     public static final Block windmill;
+    public static final Item ore;
+    public static final Item small_ore;
     public static final Item icons;
     public static final Item straw;
     public static final Item hide;
@@ -132,10 +142,19 @@ public class Registry {
         cobble = new BlockStoneRaw(Constants.stoneTypes, "cobble");
         small_bricks = new BlockStoneRaw(Constants.stoneTypes, "small_bricks");
         bricks = new BlockStoneRaw(Constants.stoneTypes, "bricks");
+        smooth = new BlockStoneRaw(Constants.stoneTypes, "smooth");
         gravel = new BlockStoneGravel(Constants.stoneTypes, "gravel");
         sand = new BlockStoneSand(Constants.stoneTypes, "sand");
-        dirt = new BlockStoneDirt(Constants.stoneTypes, "dirt");
-        grass = new BlockStoneGrass(Constants.stoneTypes, "grass");
+        dirt = new BlockSoilDirt(Constants.soilTypes, "dirt");
+        grass = new BlockSoilGrass(Constants.soilTypes, "grass");
+        farmland = new BlockSoilFarmland(Constants.soilTypes, "farmland");
+
+        native_copper = new BlockStoneOre(Constants.stoneTypes, Constants.native_copper);
+        native_gold = new BlockStoneOre(Constants.stoneTypes, Constants.native_gold);
+        malachite = new BlockStoneOre(Constants.stoneTypes, Constants.malachite);
+        cassiterite = new BlockStoneOre(Constants.stoneTypes, Constants.cassiterite);
+        limonite = new BlockStoneOre(Constants.stoneTypes, Constants.limonite);
+        magnetite = new BlockStoneOre(Constants.stoneTypes, Constants.magnetite);
 
         ground_shell = new BlockGroundcover(Material.rock, Constants.shellTypes, "ground_shell").setItemTexture();
         pit_kiln = new BlockPitKiln();
@@ -170,6 +189,8 @@ public class Registry {
         rock = new ItemRock(Constants.stoneTypes, "rock");
         ((BlockGroundcover) ground_rock).setItem(rock);
 
+        ore = new ItemOre(Constants.oreTypes, "ore");
+        small_ore = new ItemSmallOre(Constants.oreTypes, "small_ore");
         icons = new ItemMeta(Constants.icons, "icon").setHiddenAll()
             .setHasSuffix();
         straw = new ItemMeta(Constants.strawItems, "straw");
@@ -208,7 +229,7 @@ public class Registry {
 
         bronze_axe = new ItemAxePrimitive(toolBronze, "bronze_axe");
         bronze_pickaxe = new ItemPickaxePrimitive(toolBronze, "bronze_pickaxe");
-        bronze_shovel = new ItemPickaxePrimitive(toolBronze, "bronze_shovel");
+        bronze_shovel = new ItemShovelPrimitive(toolBronze, "bronze_shovel");
         bronze_sword = new ItemSwordPrimitive(toolBronze, "bronze_sword");
         bronze_hoe = new ItemHoePrimitive(toolBronze, "bronze_hoe");
 
@@ -228,10 +249,19 @@ public class Registry {
         register(cobble, "cobble");
         register(small_bricks, "small_bricks");
         register(bricks, "bricks");
+        register(smooth, "smooth");
         register(gravel, "gravel");
         register(sand, "sand");
         register(dirt, "dirt");
         register(grass, "grass");
+        register(farmland, "farmland");
+
+        register(native_copper, "native_copper");
+        register(malachite, "malachite");
+        register(cassiterite, "cassiterite");
+        register(native_gold, "native_gold");
+        register(limonite, "limonite");
+        register(magnetite, "magnetite");
 
         register(block, "block");
         register(lit_torch, "lit_torch");
@@ -259,6 +289,8 @@ public class Registry {
         register(waterwheel, "waterwheel");
         register(windmill, "windmill");
 
+        register(ore, "ore");
+        register(small_ore, "small_ore");
         register(icons, "icon");
         register(straw, "straw");
         register(hide, "hide");
@@ -415,6 +447,7 @@ public class Registry {
     public void setupModCompat() {
         ((ItemBucketCeramicModded) ceramic_bucket_modded).registerModdedLiquids();
         PrimalWorldGenerator.strataGen.initBlockList();
+        PrimalWorldGenerator.soilGen.initBlockList();
     }
 
     public void setupHeatables() {

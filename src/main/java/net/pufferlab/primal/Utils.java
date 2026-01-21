@@ -334,6 +334,13 @@ public class Utils {
         return block.getHarvestTool(meta) == "shovel";
     }
 
+    public static boolean isHoeTool(ItemStack itemStack) {
+        if (itemStack == null) return false;
+        if (itemStack.getItem() == null) return false;
+        if (itemStack.getItem() instanceof ItemHoe) return true;
+        return containsOreDict(itemStack, "toolHoe");
+    }
+
     public static boolean isShovelTool(ItemStack itemStack) {
         if (itemStack == null) return false;
         if (itemStack.getItem() == null) return false;

@@ -209,13 +209,38 @@ item.primal.claystone_rock.name=Claystone Rock
 item.primal.limestone_rock.name=Limestone Rock
 item.primal.sandstone_rock.name=Sandstone Rock
 item.primal.shale_rock.name=Shale Rock
+item.primal.chalk_rock.name=Chalk Rock
 
 item.primal.slate_rock.name=Slate Rock
+item.primal.schist_rock.name=Schist Rock
+
+tile.primal.loamy_dirt.name=Loamy Dirt
+tile.primal.loamy_grass.name=Loamy Grass
+tile.primal.loamy_farmland.name=Loamy Farmland
+
+tile.primal.sandy_dirt.name=Sandy Dirt
+tile.primal.sandy_grass.name=Sandy Grass
+tile.primal.sandy_farmland.name=Sandy Farmland
+
+tile.primal.silty_dirt.name=Silty Dirt
+tile.primal.silty_grass.name=Silty Grass
+tile.primal.silty_farmland.name=Silty Farmland
+
+tile.primal.chalky_dirt.name=Chalky Dirt
+tile.primal.chalky_grass.name=Chalky Grass
+tile.primal.chalky_farmland.name=Chalky Farmland
+
+tile.primal.clay_dirt.name=Clay Dirt
+tile.primal.clay_grass.name=Clay Grass
+tile.primal.clay_farmland.name=Clay Farmland
+
+tile.primal.peaty_dirt.name=Peaty Dirt
+tile.primal.peaty_grass.name=Peaty Grass
+tile.primal.peaty_farmland.name=Peaty Farmland
 
 tile.primal.andesite_raw.name=Andesite
 tile.primal.andesite_cobble.name=Andesite Cobble
-tile.primal.andesite_dirt.name=Andesite Dirt
-tile.primal.andesite_grass.name=Andesite Grass
+tile.primal.andesite_smooth.name=Smooth Andesite
 tile.primal.andesite_bricks.name=Andesite Bricks
 tile.primal.andesite_small_bricks.name=Andesite Small Bricks
 tile.primal.andesite_gravel.name=Andesite Gravel
@@ -223,8 +248,7 @@ tile.primal.andesite_sand.name=Andesite Sand
 
 tile.primal.basalt_raw.name=Basalt
 tile.primal.basalt_cobble.name=Basalt Cobble
-tile.primal.basalt_dirt.name=Basalt Dirt
-tile.primal.basalt_grass.name=Basalt Grass
+tile.primal.basalt_smooth.name=Smooth Basalt
 tile.primal.basalt_bricks.name=Basalt Bricks
 tile.primal.basalt_small_bricks.name=Basalt Small Bricks
 tile.primal.basalt_gravel.name=Basalt Gravel
@@ -232,8 +256,7 @@ tile.primal.basalt_sand.name=Basalt Sand
 
 tile.primal.dacite_raw.name=Dacite
 tile.primal.dacite_cobble.name=Dacite Cobble
-tile.primal.dacite_dirt.name=Dacite Dirt
-tile.primal.dacite_grass.name=Dacite Grass
+tile.primal.dacite_smooth.name=Smooth Dacite
 tile.primal.dacite_bricks.name=Dacite Bricks
 tile.primal.dacite_small_bricks.name=Dacite Small Bricks
 tile.primal.dacite_gravel.name=Dacite Gravel
@@ -241,8 +264,7 @@ tile.primal.dacite_sand.name=Dacite Sand
 
 tile.primal.rhyolite_raw.name=Rhyolite
 tile.primal.rhyolite_cobble.name=Rhyolite Cobble
-tile.primal.rhyolite_dirt.name=Rhyolite Dirt
-tile.primal.rhyolite_grass.name=Rhyolite Grass
+tile.primal.rhyolite_smooth.name=Smooth Rhyolite
 tile.primal.rhyolite_bricks.name=Rhyolite Bricks
 tile.primal.rhyolite_small_bricks.name=Rhyolite Small Bricks
 tile.primal.rhyolite_gravel.name=Rhyolite Gravel
@@ -250,8 +272,7 @@ tile.primal.rhyolite_sand.name=Rhyolite Sand
 
 tile.primal.diorite_raw.name=Diorite
 tile.primal.diorite_cobble.name=Diorite Cobble
-tile.primal.diorite_dirt.name=Diorite Dirt
-tile.primal.diorite_grass.name=Diorite Grass
+tile.primal.diorite_smooth.name=Smooth Diorite
 tile.primal.diorite_bricks.name=Diorite Bricks
 tile.primal.diorite_small_bricks.name=Diorite Small Bricks
 tile.primal.diorite_gravel.name=Diorite Gravel
@@ -259,8 +280,7 @@ tile.primal.diorite_sand.name=Diorite Sand
 
 tile.primal.gabbro_raw.name=Gabbro
 tile.primal.gabbro_cobble.name=Gabbro Cobble
-tile.primal.gabbro_dirt.name=Gabbro Dirt
-tile.primal.gabbro_grass.name=Gabbro Grass
+tile.primal.gabbro_smooth.name=Smooth Gabbro
 tile.primal.gabbro_bricks.name=Gabbro Bricks
 tile.primal.gabbro_small_bricks.name=Gabbro Small Bricks
 tile.primal.gabbro_gravel.name=Gabbro Gravel
@@ -268,8 +288,7 @@ tile.primal.gabbro_sand.name=Gabbro Sand
 
 tile.primal.granite_raw.name=Granite
 tile.primal.granite_cobble.name=Granite Cobble
-tile.primal.granite_dirt.name=Granite Dirt
-tile.primal.granite_grass.name=Granite Grass
+tile.primal.granite_smooth.name=Smooth Granite
 tile.primal.granite_bricks.name=Granite Bricks
 tile.primal.granite_small_bricks.name=Granite Small Bricks
 tile.primal.granite_gravel.name=Granite Gravel
@@ -277,8 +296,7 @@ tile.primal.granite_sand.name=Granite Sand
 
 tile.primal.claystone_raw.name=Claystone
 tile.primal.claystone_cobble.name=Claystone Cobble
-tile.primal.claystone_dirt.name=Claystone Dirt
-tile.primal.claystone_grass.name=Claystone Grass
+tile.primal.claystone_smooth.name=Smooth Claystone
 tile.primal.claystone_bricks.name=Claystone Bricks
 tile.primal.claystone_small_bricks.name=Claystone Small Bricks
 tile.primal.claystone_gravel.name=Claystone Gravel
@@ -286,8 +304,7 @@ tile.primal.claystone_sand.name=Claystone Sand
 
 tile.primal.limestone_raw.name=Limestone
 tile.primal.limestone_cobble.name=Limestone Cobble
-tile.primal.limestone_dirt.name=Limestone Dirt
-tile.primal.limestone_grass.name=Limestone Grass
+tile.primal.limestone_smooth.name=Smooth Limestone
 tile.primal.limestone_bricks.name=Limestone Bricks
 tile.primal.limestone_small_bricks.name=Limestone Small Bricks
 tile.primal.limestone_gravel.name=Limestone Gravel
@@ -295,8 +312,7 @@ tile.primal.limestone_sand.name=Limestone Sand
 
 tile.primal.sandstone_raw.name=Sandstone
 tile.primal.sandstone_cobble.name=Sandstone Cobble
-tile.primal.sandstone_dirt.name=Sandstone Dirt
-tile.primal.sandstone_grass.name=Sandstone Grass
+tile.primal.sandstone_smooth.name=Smooth Sandstone
 tile.primal.sandstone_bricks.name=Sandstone Bricks
 tile.primal.sandstone_small_bricks.name=Sandstone Small Bricks
 tile.primal.sandstone_gravel.name=Sandstone Gravel
@@ -304,8 +320,7 @@ tile.primal.sandstone_sand.name=Sandstone Sand
 
 tile.primal.shale_raw.name=Shale
 tile.primal.shale_cobble.name=Shale Cobble
-tile.primal.shale_dirt.name=Shale Dirt
-tile.primal.shale_grass.name=Shale Grass
+tile.primal.shale_smooth.name=Smooth Shale
 tile.primal.shale_bricks.name=Shale Bricks
 tile.primal.shale_small_bricks.name=Shale Small Bricks
 tile.primal.shale_gravel.name=Shale Gravel
@@ -313,9 +328,127 @@ tile.primal.shale_sand.name=Shale Sand
 
 tile.primal.slate_raw.name=Slate
 tile.primal.slate_cobble.name=Slate Cobble
-tile.primal.slate_dirt.name=Slate Dirt
-tile.primal.slate_grass.name=Slate Grass
+tile.primal.slate_smooth.name=Smooth Slate
 tile.primal.slate_bricks.name=Slate Bricks
 tile.primal.slate_small_bricks.name=Slate Small Bricks
 tile.primal.slate_gravel.name=Slate Gravel
 tile.primal.slate_sand.name=Slate Sand
+
+tile.primal.schist_raw.name=Schist
+tile.primal.schist_cobble.name=Schist Cobble
+tile.primal.schist_smooth.name=Smooth Schist
+tile.primal.schist_bricks.name=Schist Bricks
+tile.primal.schist_small_bricks.name=Schist Small Bricks
+tile.primal.schist_gravel.name=Schist Gravel
+tile.primal.schist_sand.name=Schist Sand
+
+tile.primal.chalk_raw.name=Chalk
+tile.primal.chalk_cobble.name=Chalk Cobble
+tile.primal.chalk_smooth.name=Smooth Chalk
+tile.primal.chalk_bricks.name=Chalk Bricks
+tile.primal.chalk_small_bricks.name=Chalk Small Bricks
+tile.primal.chalk_gravel.name=Chalk Gravel
+tile.primal.chalk_sand.name=Chalk Sand
+
+tile.primal.andesite_native_copper.name=Andesite Native Copper
+tile.primal.basalt_native_copper.name=Basalt Native Copper
+tile.primal.dacite_native_copper.name=Dacite Native Copper
+tile.primal.rhyolite_native_copper.name=Rhyolite Native Copper
+tile.primal.diorite_native_copper.name=Diorite Native Copper
+tile.primal.gabbro_native_copper.name=Gabbro Native Copper
+tile.primal.granite_native_copper.name=Granite Native Copper
+tile.primal.claystone_native_copper.name=Claystone Native Copper
+tile.primal.limestone_native_copper.name=Limestone Native Copper
+tile.primal.sandstone_native_copper.name=Sandstone Native Copper
+tile.primal.shale_native_copper.name=Shale Native Copper
+tile.primal.chalk_native_copper.name=Chalk Native Copper
+tile.primal.slate_native_copper.name=Slate Native Copper
+tile.primal.schist_native_copper.name=Schist Native Copper
+
+tile.primal.andesite_malachite.name=Andesite Malachite
+tile.primal.basalt_malachite.name=Basalt Malachite
+tile.primal.dacite_malachite.name=Dacite Malachite
+tile.primal.rhyolite_malachite.name=Rhyolite Malachite
+tile.primal.diorite_malachite.name=Diorite Malachite
+tile.primal.gabbro_malachite.name=Gabbro Malachite
+tile.primal.granite_malachite.name=Granite Malachite
+tile.primal.claystone_malachite.name=Claystone Malachite
+tile.primal.limestone_malachite.name=Limestone Malachite
+tile.primal.sandstone_malachite.name=Sandstone Malachite
+tile.primal.shale_malachite.name=Shale Malachite
+tile.primal.chalk_malachite.name=Chalk Malachite
+tile.primal.slate_malachite.name=Slate Malachite
+tile.primal.schist_malachite.name=Schist Malachite
+
+tile.primal.andesite_cassiterite.name=Andesite Cassiterite
+tile.primal.basalt_cassiterite.name=Basalt Cassiterite
+tile.primal.dacite_cassiterite.name=Dacite Cassiterite
+tile.primal.rhyolite_cassiterite.name=Rhyolite Cassiterite
+tile.primal.diorite_cassiterite.name=Diorite Cassiterite
+tile.primal.gabbro_cassiterite.name=Gabbro Cassiterite
+tile.primal.granite_cassiterite.name=Granite Cassiterite
+tile.primal.claystone_cassiterite.name=Claystone Cassiterite
+tile.primal.limestone_cassiterite.name=Limestone Cassiterite
+tile.primal.sandstone_cassiterite.name=Sandstone Cassiterite
+tile.primal.shale_cassiterite.name=Shale Cassiterite
+tile.primal.chalk_cassiterite.name=Chalk Cassiterite
+tile.primal.slate_cassiterite.name=Slate Cassiterite
+tile.primal.schist_cassiterite.name=Schist Cassiterite
+
+tile.primal.andesite_native_gold.name=Andesite Native Gold
+tile.primal.basalt_native_gold.name=Basalt Native Gold
+tile.primal.dacite_native_gold.name=Dacite Native Gold
+tile.primal.rhyolite_native_gold.name=Rhyolite Native Gold
+tile.primal.diorite_native_gold.name=Diorite Native Gold
+tile.primal.gabbro_native_gold.name=Gabbro Native Gold
+tile.primal.granite_native_gold.name=Granite Native Gold
+tile.primal.claystone_native_gold.name=Claystone Native Gold
+tile.primal.limestone_native_gold.name=Limestone Native Gold
+tile.primal.sandstone_native_gold.name=Sandstone Native Gold
+tile.primal.shale_native_gold.name=Shale Native Gold
+tile.primal.chalk_native_gold.name=Chalk Native Gold
+tile.primal.slate_native_gold.name=Slate Native Gold
+tile.primal.schist_native_gold.name=Schist Native Gold
+
+tile.primal.andesite_limonite.name=Andesite Limonite
+tile.primal.basalt_limonite.name=Basalt Limonite
+tile.primal.dacite_limonite.name=Dacite Limonite
+tile.primal.rhyolite_limonite.name=Rhyolite Limonite
+tile.primal.diorite_limonite.name=Diorite Limonite
+tile.primal.gabbro_limonite.name=Gabbro Limonite
+tile.primal.granite_limonite.name=Granite Limonite
+tile.primal.claystone_limonite.name=Claystone Limonite
+tile.primal.limestone_limonite.name=Limestone Limonite
+tile.primal.sandstone_limonite.name=Sandstone Limonite
+tile.primal.shale_limonite.name=Shale Limonite
+tile.primal.chalk_limonite.name=Chalk Limonite
+tile.primal.slate_limonite.name=Slate Limonite
+tile.primal.schist_limonite.name=Schist Limonite
+
+tile.primal.andesite_magnetite.name=Andesite Magnetite
+tile.primal.basalt_magnetite.name=Basalt Magnetite
+tile.primal.dacite_magnetite.name=Dacite Magnetite
+tile.primal.rhyolite_magnetite.name=Rhyolite Magnetite
+tile.primal.diorite_magnetite.name=Diorite Magnetite
+tile.primal.gabbro_magnetite.name=Gabbro Magnetite
+tile.primal.granite_magnetite.name=Granite Magnetite
+tile.primal.claystone_magnetite.name=Claystone Magnetite
+tile.primal.limestone_magnetite.name=Limestone Magnetite
+tile.primal.sandstone_magnetite.name=Sandstone Magnetite
+tile.primal.shale_magnetite.name=Shale Magnetite
+tile.primal.chalk_magnetite.name=Chalk Magnetite
+tile.primal.slate_magnetite.name=Slate Magnetite
+tile.primal.schist_magnetite.name=Schist Magnetite
+
+item.primal.native_gold_ore.name=Native Gold Ore
+item.primal.native_gold_small_ore.name=Small Native Gold Ore
+item.primal.native_copper_ore.name=Native Copper Ore
+item.primal.native_copper_small_ore.name=Small Native Copper Ore
+item.primal.malachite_ore.name=Malachite Ore
+item.primal.malachite_small_ore.name=Small Malachite Ore
+item.primal.cassiterite_ore.name=Cassiterite Ore
+item.primal.cassiterite_small_ore.name=Small Cassiterite Ore
+item.primal.magnetite_ore.name=Magnetite Ore
+item.primal.magnetite_small_ore.name=Small Magnetite Ore
+item.primal.limonite_ore.name=Limonite Ore
+item.primal.limonite_small_ore.name=Small Limonite Ore

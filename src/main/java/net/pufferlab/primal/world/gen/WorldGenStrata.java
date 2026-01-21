@@ -3,7 +3,9 @@ package net.pufferlab.primal.world.gen;
 import java.util.*;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
@@ -24,8 +26,7 @@ public class WorldGenStrata {
     private final List<Block> stoneList = new ArrayList<>();
     private final List<Block> gravelList = new ArrayList<>();
     private final List<Block> sandList = new ArrayList<>();
-    private final List<Block> dirtList = new ArrayList<>();
-    private final List<Block> grassList = new ArrayList<>();
+    private final Map<Block, Block> blockReplacement = new HashMap<>();
 
     private final Map<Block, List<BiomeGenBase>> stoneTypeBiomeMap = new HashMap<>();
     private final Map<Block, StoneType> stoneTypeMap = new HashMap<>();
@@ -38,13 +39,18 @@ public class WorldGenStrata {
     private final double[] noiseBiome = new double[5];
     private final int[] offsetB = new int[5];
 
-    public WorldGenStrata() {
+    public WorldGenStrata() {}
+
+    public World lastWorld;
+
+    public void initNoiseSeed(World world) {
         for (int i = 0; i < noiseLayerGen.length; i++) {
-            this.noiseLayerGen[i] = new NoiseGeneratorPerlin(new Random(), 2);
+            this.noiseLayerGen[i] = new NoiseGeneratorPerlin(new Random(world.getSeed() + (i * 200L)), 2);
         }
         for (int i = 0; i < noiseBiomeGen.length; i++) {
-            this.noiseBiomeGen[i] = new NoiseGeneratorPerlin(new Random(), 2);
+            this.noiseBiomeGen[i] = new NoiseGeneratorPerlin(new Random(world.getSeed() + (i * 100L)), 2);
         }
+        lastWorld = world;
     }
 
     public void initBlockList() {
@@ -60,8 +66,6 @@ public class WorldGenStrata {
             Block rocks = GameRegistry.findBlock(Mods.bop.MODID, "rocks");
             stoneList.add(volcanicStone);
             stoneList.add(rocks);
-            dirtList.add(GameRegistry.findBlock(Mods.bop.MODID, "newBopDirt"));
-            grassList.add(GameRegistry.findBlock(Mods.bop.MODID, "newBopGrass"));
 
             // Volcano are with basalt
             BiomeGenBase biomeVolcano = BOPCBiomes.volcano;
@@ -79,18 +83,22 @@ public class WorldGenStrata {
         stoneTypeBiomeMap.put(sand, Arrays.asList(desert));
         stoneTypeMap.put(sand, Constants.sandstone);
 
-        dirtList.add(Blocks.dirt);
-        grassList.add(Blocks.grass);
-
         blockList.add(Registry.ground_rock);
+        blockReplacement.put(Registry.ground_rock, Registry.ground_rock);
+
+        for (Block block : stoneList) {
+            blockReplacement.put(block, Registry.stone);
+        }
+        for (Block block : sandList) {
+            blockReplacement.put(block, Registry.sand);
+        }
+        for (Block block : gravelList) {
+            blockReplacement.put(block, Registry.gravel);
+        }
 
         blockList.addAll(stoneList);
         blockList.addAll(gravelList);
         blockList.addAll(sandList);
-        if (Config.strataSoilTypes.getBoolean()) {
-            blockList.addAll(dirtList);
-            blockList.addAll(grassList);
-        }
     }
 
     public void genStrata(Chunk chunk) {
@@ -107,7 +115,7 @@ public class WorldGenStrata {
                     noiseBiome[i] = noise1;
                 }
 
-                for (int y = 0; y < (chunk.getHeightValue(x, z) + 5); y++) {
+                for (int y = 0; y < Constants.maxHeight; y++) {
                     ExtendedBlockStorage array = chunk.getBlockStorageArray()[y >> 4];
                     if (array == null) continue;
                     for (int i = 0; i < noiseBiomeGen.length; i++) {
@@ -117,12 +125,13 @@ public class WorldGenStrata {
                     double adjustedY = y;
 
                     Block currentBlock = WorldUtils.getChunkBlock(array, x, y, z);
+                    if (currentBlock.getMaterial() == Material.air) continue;
                     if (blockList.contains(currentBlock)) {
-                        Block nextBlock = getCorrectBlock(currentBlock);
+                        Block nextBlock = blockReplacement.get(currentBlock);
                         int layerMeta = 0;
                         if ((adjustedY + offsetY[0]) < 20) {
                             layerMeta = 0;
-                        } else if ((adjustedY + offsetY[1]) < 30) {
+                        } else if ((adjustedY + offsetY[1]) < 40) {
                             layerMeta = 1;
                         } else if ((adjustedY - offsetY[2]) < 60) {
                             layerMeta = 2;
@@ -157,29 +166,5 @@ public class WorldGenStrata {
             }
         }
         chunk.isModified = true;
-    }
-
-    public Block getCorrectBlock(Block currentBlock) {
-        boolean isGravel = gravelList.contains(currentBlock);
-        boolean isSand = sandList.contains(currentBlock);
-        boolean isDirt = dirtList.contains(currentBlock);
-        boolean isGrass = grassList.contains(currentBlock);
-        Block nextBlock = Registry.stone;
-        if (isGravel) {
-            nextBlock = Registry.gravel;
-        }
-        if (isDirt) {
-            nextBlock = Registry.dirt;
-        }
-        if (isGrass) {
-            nextBlock = Registry.grass;
-        }
-        if (isSand) {
-            nextBlock = Registry.sand;
-        }
-        if (currentBlock == Registry.ground_rock) {
-            return Registry.ground_rock;
-        }
-        return nextBlock;
     }
 }

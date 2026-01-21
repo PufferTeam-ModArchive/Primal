@@ -40,10 +40,7 @@ public class BlockMetaDirt extends BlockDirt implements IPrimalBlock, IMetaBlock
         elements = materials;
         name = type;
         elementsBlacklist = blacklist;
-
-        for (int i = 0; i < elements.length; i++) {
-            this.setHarvestLevel("shovel", 0, i);
-        }
+        this.setHarvestLevel("shovel", 0);
 
     }
 

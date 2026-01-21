@@ -13,6 +13,6 @@ public class ItemRock extends ItemMeta {
 
     @Override
     public CreativeTabs getCreativeTab() {
-        return Registry.creativeTabStone;
+        return Registry.creativeTabWorld;
     }
 }

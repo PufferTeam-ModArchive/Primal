@@ -293,6 +293,9 @@ public class ModelTESS {
 
     public void renderItem(RenderBlocks renderblocks, Tessellator tess, Block block, int x, int y, int z,
         double offsetX, double offsetY, double offsetZ, int meta, ModelRenderer model, float scale) {
+        if (renderblocks.hasOverrideBlockTexture()) {
+            return;
+        }
         IIcon icon = block.getIcon(0, meta);
 
         Matrix4f matrix2 = model.getLocalMatrix(scale);
