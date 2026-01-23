@@ -4,6 +4,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.MetalType;
 import net.pufferlab.primal.utils.TemperatureUtils;
 import net.pufferlab.primal.world.GlobalTickingData;
 
@@ -45,6 +46,10 @@ public interface IHeatableItem {
             }
         }
     }
+
+    default MetalType getMetal(ItemStack stack) {
+        return null;
+    };
 
     default int getMeltingTemperature(ItemStack stack) {
         return -1;

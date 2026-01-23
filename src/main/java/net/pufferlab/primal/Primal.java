@@ -1,5 +1,7 @@
 package net.pufferlab.primal;
 
+import static net.pufferlab.primal.Constants.*;
+
 import net.pufferlab.primal.scripts.ScriptRegistry;
 
 import org.apache.logging.log4j.LogManager;
@@ -14,15 +16,15 @@ import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
     modid = Primal.MODID,
     version = Tags.VERSION,
     name = Primal.MODNAME,
-    guiFactory = "net.pufferlab.primal.client.config.GuiFactory",
-    acceptedMinecraftVersions = "[1.7.10]")
+    guiFactory = guiFactory,
+    acceptedMinecraftVersions = version)
 public class Primal {
 
     public static final String MODNAME = "Primal";
     public static final String MODID = "primal";
     public static final Logger LOG = LogManager.getLogger(MODID);
 
-    @SidedProxy(clientSide = "net.pufferlab.primal.ClientProxy", serverSide = "net.pufferlab.primal.CommonProxy")
+    @SidedProxy(clientSide = clientProxy, serverSide = commonProxy)
     public static CommonProxy proxy;
 
     @Mod.Instance(Primal.MODID)

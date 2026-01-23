@@ -5,6 +5,7 @@ import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.utils.MetalType;
+import net.pufferlab.primal.utils.OreType;
 
 public class ScriptOreProcessing implements IScript {
 
@@ -19,10 +20,17 @@ public class ScriptOreProcessing implements IScript {
     }
 
     public void addOreDicts() {
+        addOreDict("axeCopper", getModItem("copper_axe", 1));
+        addOreDict("pickaxeCopper", getModItem("copper_pickaxe", 1));
+        addOreDict("shovelCopper", getModItem("copper_shovel", 1));
+        addOreDict("swordCopper", getModItem("copper_sword", 1));
+        addOreDict("knifeCopper", getModItem("copper_knife", 1));
+        addOreDict("hoeCopper", getModItem("copper_hoe", 1));
         addOreDict("axeBronze", getModItem("bronze_axe", 1));
         addOreDict("pickaxeBronze", getModItem("bronze_pickaxe", 1));
         addOreDict("shovelBronze", getModItem("bronze_shovel", 1));
         addOreDict("swordBronze", getModItem("bronze_sword", 1));
+        addOreDict("knifeBronze", getModItem("bronze_knife", 1));
         addOreDict("hoeBronze", getModItem("bronze_hoe", 1));
     }
 
@@ -63,6 +71,14 @@ public class ScriptOreProcessing implements IScript {
                 'S',
                 "stickWood");
             addShapedRecipe(
+                Utils.getOreDictItem(Utils.getOreDictionaryName("knife", name)),
+                "I",
+                "S",
+                'I',
+                Utils.getOreDictItem(Utils.getOreDictionaryName("knife_blade", name)),
+                'S',
+                "stickWood");
+            addShapedRecipe(
                 Utils.getOreDictItem(Utils.getOreDictionaryName("hoe", name)),
                 "I",
                 "S",
@@ -80,6 +96,11 @@ public class ScriptOreProcessing implements IScript {
             addMeltingRecipe(type.ingotFluid, Utils.getOreDictionaryName("ingot", name));
             addMeltingRecipe(type.nuggetFluid, Utils.getOreDictionaryName("nugget", name));
         }
+        for (OreType type : Constants.oreTypes) {
+            String name = type.name;
+            addMeltingRecipe(type.metalType.oreFluid, Utils.getOreDictionaryName("medium_ore", name));
+            addMeltingRecipe(type.metalType.smallOreFluid, Utils.getOreDictionaryName("small_ore", name));
+        }
         for (MetalType type : Constants.toolMetalTypes) {
             String name = type.name;
 
@@ -87,6 +108,7 @@ public class ScriptOreProcessing implements IScript {
             addMeltingRecipe(type.tripleIngotFluid, Utils.getOreDictionaryName("axe_head", name));
             addMeltingRecipe(type.ingotFluid, Utils.getOreDictionaryName("shovel_head", name));
             addMeltingRecipe(type.doubleIngotFluid, Utils.getOreDictionaryName("sword_blade", name));
+            addMeltingRecipe(type.ingotFluid, Utils.getOreDictionaryName("knife_blade", name));
             addMeltingRecipe(type.doubleIngotFluid, Utils.getOreDictionaryName("hoe_head", name));
         }
     }
@@ -106,6 +128,7 @@ public class ScriptOreProcessing implements IScript {
         ItemStack axeMold = getModItem("axe_mold", 1);
         ItemStack shovelMold = getModItem("shovel_mold", 1);
         ItemStack swordMold = getModItem("sword_mold", 1);
+        ItemStack knifeMold = getModItem("knife_mold", 1);
         ItemStack hoeMold = getModItem("hoe_mold", 1);
         for (MetalType type : Constants.toolMetalTypes) {
             String name = type.name;
@@ -125,6 +148,10 @@ public class ScriptOreProcessing implements IScript {
                 swordMold,
                 Utils.getOreDictItem(Utils.getOreDictionaryName("sword_blade", name)),
                 type.doubleIngotFluid);
+            addCastingRecipe(
+                knifeMold,
+                Utils.getOreDictItem(Utils.getOreDictionaryName("knife_blade", name)),
+                type.ingotFluid);
             addCastingRecipe(
                 hoeMold,
                 Utils.getOreDictItem(Utils.getOreDictionaryName("hoe_head", name)),

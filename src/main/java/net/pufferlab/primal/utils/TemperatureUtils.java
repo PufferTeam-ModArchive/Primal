@@ -47,6 +47,11 @@ public class TemperatureUtils {
         registerImpl(item, meta, mask, new IHeatableItem() {
 
             @Override
+            public MetalType getMetal(ItemStack stack) {
+                return metals.get(stack.getItemDamage());
+            }
+
+            @Override
             public int getMeltingTemperature(ItemStack stack) {
                 return metals.get(stack.getItemDamage()).meltingTemperature;
             }

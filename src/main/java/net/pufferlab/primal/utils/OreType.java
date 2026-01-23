@@ -1,5 +1,9 @@
 package net.pufferlab.primal.utils;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 
 public class OreType {
@@ -9,8 +13,7 @@ public class OreType {
     public int miningLevel;
     public Item oreItem;
     public int oreMeta;
-    public Item smallOreItem;
-    public int smallOreMeta;
+    public Block oreBlock;
 
     public OreType(MetalType metalType, String name) {
         this.metalType = metalType;
@@ -24,6 +27,21 @@ public class OreType {
             names[i] = stones[i].name;
         }
         return names;
+    }
+
+    public static Map<String, Block> oreMap;
+
+    public static Block getOre(OreType[] oreTypes, String name) {
+        if (oreMap == null) {
+            oreMap = new HashMap<>();
+            for (int i = 0; i < oreTypes.length; i++) {
+                oreMap.put(oreTypes[i].name, oreTypes[i].oreBlock);
+            }
+        }
+        if (oreMap.containsKey(name)) {
+            return oreMap.get(name);
+        }
+        return null;
     }
 
 }

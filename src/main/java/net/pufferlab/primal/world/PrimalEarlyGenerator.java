@@ -12,7 +12,7 @@ import net.pufferlab.primal.world.gen.WorldGenStrata;
 
 import cpw.mods.fml.common.IWorldGenerator;
 
-public class PrimalWorldGenerator implements IWorldGenerator {
+public class PrimalEarlyGenerator implements IWorldGenerator {
 
     public static final WorldGenStrata strataGen = new WorldGenStrata();
     public static final WorldGenSoil soilGen = new WorldGenSoil();
@@ -20,12 +20,12 @@ public class PrimalWorldGenerator implements IWorldGenerator {
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator,
         IChunkProvider chunkProvider) {
+        Chunk chunk = world.getChunkFromChunkCoords(chunkX, chunkZ);
 
         if (Config.strataStoneTypes.getBoolean() && Config.strataWorldGen.getBoolean()) {
             if (strataGen.lastWorld != world) {
                 strataGen.initNoiseSeed(world);
             }
-            Chunk chunk = world.getChunkFromChunkCoords(chunkX, chunkZ);
             strataGen.genStrata(chunk);
         }
 
@@ -33,7 +33,6 @@ public class PrimalWorldGenerator implements IWorldGenerator {
             if (soilGen.lastWorld != world) {
                 soilGen.initNoiseSeed(world);
             }
-            Chunk chunk = world.getChunkFromChunkCoords(chunkX, chunkZ);
             soilGen.genSoil(chunk);
         }
     }

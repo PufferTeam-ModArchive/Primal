@@ -9,7 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
+import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.entities.player.PlayerData;
@@ -42,26 +42,24 @@ public class CommandTemperature extends CommandSub {
 
         sender.addChatMessage(
             new ChatComponentText(
-                "Temperature: " + EnumChatFormatting.GRAY
+                "Temperature: " + Constants.gray
                     + TemperatureUtils.getInterpolatedTemperature(currentTick, tag)
-                    + EnumChatFormatting.WHITE
+                    + Constants.white
                     + "C"));
         sender.addChatMessage(new ChatComponentText("Advanced Info :"));
         sender.addChatMessage(
             new ChatComponentText(
-                "Last-Temperature: " + EnumChatFormatting.GRAY
+                "Last-Temperature: " + Constants.gray
                     + TemperatureUtils.getTemperatureFromNBT(tag)
-                    + EnumChatFormatting.WHITE
+                    + Constants.white
                     + "C"));
         sender.addChatMessage(
-            new ChatComponentText(
-                "Last-WorldTime: " + EnumChatFormatting.GRAY + TemperatureUtils.getWorldTimeFromNBT(tag)));
+            new ChatComponentText("Last-WorldTime: " + Constants.gray + TemperatureUtils.getWorldTimeFromNBT(tag)));
+        sender.addChatMessage(
+            new ChatComponentText("Multiplier: " + Constants.gray + TemperatureUtils.getMultiplierFromNBT(tag)));
         sender.addChatMessage(
             new ChatComponentText(
-                "Multiplier: " + EnumChatFormatting.GRAY + TemperatureUtils.getMultiplierFromNBT(tag)));
-        sender.addChatMessage(
-            new ChatComponentText(
-                "Max-Temperature: " + EnumChatFormatting.GRAY + TemperatureUtils.getMaxTemperatureFromNBT(tag)));
+                "Max-Temperature: " + Constants.gray + TemperatureUtils.getMaxTemperatureFromNBT(tag)));
     }
 
     @Override

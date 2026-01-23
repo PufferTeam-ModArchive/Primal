@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.block.Block;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.Utils;
 
 public class StoneType {
 
@@ -110,5 +112,21 @@ public class StoneType {
             return metaList.get(type);
         }
         return 0;
+    }
+
+    public static final Map<Integer, StoneType> typeMap = new HashMap<>();
+
+    public static void registerStone(StoneType[] stoneTypes, Block block) {
+        for (int i = 0; i < stoneTypes.length; i++) {
+            typeMap.put(Utils.getBlockKey(block, i), stoneTypes[i]);
+        }
+    }
+
+    public static StoneType getStoneType(Block block, int meta) {
+        int id = Utils.getBlockKey(block, meta);
+        if (typeMap.containsKey(id)) {
+            return typeMap.get(id);
+        }
+        return null;
     }
 }

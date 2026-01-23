@@ -22,6 +22,7 @@ public class BlockStoneOre extends BlockMetaOre {
         super(Material.rock, StoneType.getNames(materials), type.name, type.miningLevel);
         this.stoneTypes = materials;
         this.oreType = type;
+        type.oreBlock = this;
         this.setHasSuffix();
         this.setHardness(1.5F);
         this.setResistance(10.0F);
@@ -61,7 +62,7 @@ public class BlockStoneOre extends BlockMetaOre {
 
     @Override
     public boolean canRegister() {
-        return Config.strataStoneTypes.getBoolean();
+        return Config.oreVeins.getBoolean();
     }
 
     @Override

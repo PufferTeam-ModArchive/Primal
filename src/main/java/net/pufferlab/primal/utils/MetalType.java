@@ -21,6 +21,8 @@ public class MetalType {
     public FluidStack doubleIngotFluid;
     public FluidStack tripleIngotFluid;
     public FluidStack nuggetFluid;
+    public FluidStack oreFluid;
+    public FluidStack smallOreFluid;
 
     public MetalType(String name, boolean isAlloy, int welding, int melting, FluidType fluid, int level) {
         this.name = name;
@@ -56,6 +58,8 @@ public class MetalType {
             metals[i].doubleIngotFluid = new FluidStack(metals[i].fluid, Config.metalIngotValue.getInt() * 2);
             metals[i].tripleIngotFluid = new FluidStack(metals[i].fluid, Config.metalIngotValue.getInt() * 3);
             metals[i].nuggetFluid = new FluidStack(metals[i].fluid, Config.metalNuggetValue.getInt());
+            metals[i].oreFluid = new FluidStack(metals[i].fluid, Config.metalOreValue.getInt());
+            metals[i].smallOreFluid = new FluidStack(metals[i].fluid, Config.metalSmallOreValue.getInt());
         }
     }
 

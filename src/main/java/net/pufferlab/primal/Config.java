@@ -65,6 +65,8 @@ public enum Config {
         new String[] { "iron=molten_iron", "gold=molten_gold", "copper=molten_copper", "tin=molten_tin",
             "bronze=molten_bronze" },
         "The liquids that will be used for the corresponding metals"),
+    metalOreValue(Module.metalworking, 36, "The value that one ore should give."),
+    metalSmallOreValue(Module.metalworking, 16, "The value that one small ore should give."),
     metalIngotValue(Module.metalworking, 144, "The value that one ingot of metal should give."),
     metalNuggetValue(Module.metalworking, 16, "The value that one nugget of metal should give."),
 
@@ -89,7 +91,10 @@ public enum Config {
         "Put to false if you don't want biome-specific stones (ex. Desert will have sandstone, BOP Volcanos have basalt) etc.."),
     strataWorldGen(Module.worldgen, true, "Whether to enable the generation of the strata stone types"),
     soilTypes(Module.worldgen, true, "Put to false if you want to disable all of the soil types of the mod."),
-    soilWorldGen(Module.worldgen, true, "Whether to enable the generation of the soil types");
+    soilWorldGen(Module.worldgen, true, "Whether to enable the generation of the soil types"),
+    enableVanillaOres(Module.worldgen, false, "Put to true if you want the vanilla ores back"),
+    oreVeins(Module.worldgen, true, "Whether to enable large ore veins"),
+    oreVeinsWorldGen(Module.worldgen, true, "Whether to enable the generation of the ore types");
 
     public boolean isBoolean;
     public boolean isInt;

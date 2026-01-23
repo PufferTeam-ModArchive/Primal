@@ -1,8 +1,10 @@
 package net.pufferlab.primal.commands;
 
+import net.minecraft.block.Block;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
+import net.pufferlab.primal.blocks.BlockMetaOre;
 
 public class CommandClearBlocks extends CommandSub {
 
@@ -23,6 +25,8 @@ public class CommandClearBlocks extends CommandSub {
                     // Prevent clearing outside world bounds
                     if (by < 0 || by > 255) continue;
 
+                    Block block = world.getBlock(bx, by, bz);
+                    if (block instanceof BlockMetaOre) continue;
                     world.setBlockToAir(bx, by, bz);
                 }
             }

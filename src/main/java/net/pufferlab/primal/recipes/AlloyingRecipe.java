@@ -122,8 +122,8 @@ public class AlloyingRecipe {
             if (stack != null) {
                 int min = minPercentage[j];
                 int max = maxPercentage[j];
-                int cMin = (int) (((float) stack.amount / (float) totalAmount) * 100);
-                if (cMin > max && cMin < min) {
+                int cMin = (int) Math.floor(((float) stack.amount / (float) totalAmount) * 100F);
+                if (cMin > max || cMin < min) {
                     valid = false;
                 }
             } else {

@@ -14,6 +14,7 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Config;
+import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.entities.player.PlayerData;
@@ -36,6 +37,23 @@ public class HeatHandler implements IEventHandler {
 
     @SubscribeEvent
     public void tooltipEvent(ItemTooltipEvent event) {
+        if (TemperatureUtils.hasImpl(event.itemStack)) {
+            IHeatableItem impl = TemperatureUtils.getImpl(event.itemStack);
+            MetalType metal0 = impl.getMetal(event.itemStack);
+            int meltingTemperature0 = impl.getMeltingTemperature(event.itemStack);
+            if (meltingTemperature0 > 0 && metal0 != null) {
+                event.toolTip.add(
+                    Constants.gray + "Melts into "
+                        + Constants.white
+                        + Utils.getCapitalizedName(metal0.name)
+                        + Constants.gray
+                        + " at "
+                        + Constants.white
+                        + meltingTemperature0
+                        + Constants.gray
+                        + " C");
+            }
+        }
         if (event.itemStack.hasTagCompound()) {
             NBTTagCompound tag = event.itemStack.getTagCompound();
             if (tag != null) {

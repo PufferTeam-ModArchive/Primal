@@ -37,7 +37,7 @@ public class SoilType {
         return 0;
     }
 
-    public static SoilType getDirtForBiome(BiomeGenBase biome, int x, int y, int z) {
+    public static SoilType pickOneSoilType(BiomeGenBase biome, int x, int y, int z) {
         float temp = biome.getFloatTemperature(x, y, z);
         float rain = biome.rainfall;
 
@@ -46,7 +46,7 @@ public class SoilType {
             return Constants.peaty;
         } else if (temp < 0.3F) {
             // Cold → Chalky
-            return Constants.chalky;
+            return Constants.sandy_loam;
         } else if (temp < 0.5F) {
             // Mild → Loamy
             return Constants.loamy;
@@ -58,7 +58,7 @@ public class SoilType {
             return Constants.sandy;
         } else {
             // Hot + wet → Clay
-            return Constants.clay;
+            return Constants.silty_loam;
         }
     }
 }

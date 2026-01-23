@@ -62,7 +62,7 @@ public class ItemArmorPrimitive extends ItemArmor {
         return Primal.MODID + ":textures/models/"
             + getArmorMaterial().name()
                 .toLowerCase()
-            + "_"
+            + "_layer_"
             + layer
             + ".png";
     }

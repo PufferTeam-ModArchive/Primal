@@ -15,6 +15,11 @@ public class ItemMetal extends ItemMetaHeatable {
     }
 
     @Override
+    public MetalType getMetal(ItemStack stack) {
+        return metalTypes[stack.getItemDamage()];
+    }
+
+    @Override
     public int getMeltingTemperature(ItemStack stack) {
         return metalTypes[stack.getItemDamage()].meltingTemperature;
     }

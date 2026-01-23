@@ -222,6 +222,12 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
             if (hasIngotMelting) {
                 scheduleMeltingUpdate();
             }
+            FluidStack[] fluids = getFluidInventory();
+            for (FluidStack fluid : fluids) {
+                if (fluid != null) {
+                    scheduleMeltingUpdate();
+                }
+            }
         }
 
         if (this.needsMeltingUpdate) {

@@ -37,6 +37,7 @@ import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.utils.FluidUtils;
 import net.pufferlab.primal.utils.ItemDummy;
 import net.pufferlab.primal.utils.SoundTypePrimal;
+import net.pufferlab.primal.utils.StoneType;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 import org.apache.commons.io.FileUtils;
@@ -252,7 +253,7 @@ public class Utils {
     public static String getRecipeTooltip(String name, int timePassed, int timeToProcess, String suffix) {
         float percentagePassed = (float) timePassed / (float) timeToProcess;
         int percentage = (int) Math.floor((percentagePassed) * 100);
-        return EnumChatFormatting.GRAY + name + ": " + percentage + "% " + suffix;
+        return Constants.gray + name + ": " + percentage + "% " + suffix;
     }
 
     public static String getRecipeTooltip(String name, World world, long nextUpdate, int timeToProcess, String suffix) {
@@ -266,7 +267,7 @@ public class Utils {
 
         int percentage = (int) (pct * 100);
 
-        return EnumChatFormatting.GRAY + name + ": " + percentage + "% " + suffix;
+        return Constants.gray + name + ": " + percentage + "% " + suffix;
     }
 
     public static int getCurrentProgress(World world, long nextUpdate, int maxProgress) {
@@ -287,18 +288,14 @@ public class Utils {
 
     public static String getStateTooltip(boolean state, String on, String off) {
         if (state) {
-            return EnumChatFormatting.GRAY + "State: " + EnumChatFormatting.GREEN + on;
+            return Constants.gray + "State: " + EnumChatFormatting.GREEN + on;
         } else {
-            return EnumChatFormatting.GRAY + "State: " + EnumChatFormatting.RED + off;
+            return Constants.gray + "State: " + EnumChatFormatting.RED + off;
         }
     }
 
     public static String getTemperatureTooltip(int temperature) {
-        return EnumChatFormatting.GRAY + "Temperature: "
-            + EnumChatFormatting.WHITE
-            + temperature
-            + EnumChatFormatting.GRAY
-            + " C";
+        return Constants.gray + "Temperature: " + Constants.white + temperature + Constants.gray + " C";
     }
 
     public static NBTTagCompound getOrCreateTagCompound(ItemStack item) {
@@ -798,6 +795,18 @@ public class Utils {
         if (array == null) return false;
         for (int element : array) {
             if (targetString == element) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean contains(StoneType[] array, StoneType targetString) {
+        if (targetString == null || array == null) {
+            return false;
+        }
+        for (StoneType element : array) {
+            if (targetString.equals(element)) {
                 return true;
             }
         }

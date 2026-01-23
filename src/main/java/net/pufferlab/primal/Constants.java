@@ -2,11 +2,20 @@ package net.pufferlab.primal;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.utils.*;
 
 public class Constants {
+
+    // spotless:off
+    public static final String guiFactory = "net.pufferlab.primal.client.config.GuiFactory";
+    public static final String clientProxy = "net.pufferlab.primal.ClientProxy";
+    public static final String commonProxy = "net.pufferlab.primal.CommonProxy";
+    public static final String version = "[1.7.10]";
+    public static final String downloadPath = "https://github.com/PufferTeam-ModArchive/Primal/raw/refs/heads/main/builtin/";
+    public static final String textureFile = "Primal-Modern-Resources";
 
     public static final int wildcard = OreDictionary.WILDCARD_VALUE;
     public static final double epsilon = 2e-5;
@@ -15,8 +24,9 @@ public class Constants {
     public static final int tagCompound = 10;
     public static final int tagIntArray = 11;
     public static final int maxHeight = 256;
-    public static final String downloadPath = "https://github.com/PufferTeam-ModArchive/Primal/raw/refs/heads/main/builtin/";
-    public static final String textureFile = "Primal-Modern-Resources";
+    public static final String white = EnumChatFormatting.WHITE.toString();
+    public static final String gray = EnumChatFormatting.GRAY.toString();
+    public static final String reset = EnumChatFormatting.RESET.toString();
 
     public static final int helmet = 0;
     public static final int chestplate = 1;
@@ -76,7 +86,7 @@ public class Constants {
     public static final MetalType bronze = new MetalType("bronze", true, 700, 950, moltenBronze, 1);
     public static final MetalType[] metalTypes = new MetalType[] { iron, gold, copper, tin, bronze, };
     public static final MetalType[] blockMetalTypes = new MetalType[] { copper, tin, bronze };
-    public static final MetalType[] toolMetalTypes = new MetalType[] { bronze };
+    public static final MetalType[] toolMetalTypes = new MetalType[] { copper, bronze };
     public static final String[] ingotBlacklist = new String[] { "iron", "gold" };
     public static final String[] nuggetBlacklist = new String[] { "gold" };
 
@@ -91,15 +101,25 @@ public class Constants {
     public static final OreType[] oreTypes = new OreType[] { native_copper, malachite, cassiterite, native_gold,
         limonite, magnetite };
 
+    //Vein Type
+
+    public static final VeinType surface_copper = new VeinType(native_copper, "surface_copper", 40, 100, 3, 5, 0.3F, 0.3F, andesite, granite, dacite, basalt, rhyolite, diorite);
+    public static final VeinType deep_copper = new VeinType(native_copper, "deep_copper", 10, 40, 5, 6, 0.3F, 0.15F, gabbro, diorite, schist);
+    public static final VeinType deep_malachite = new VeinType(malachite, "malachite", 10, 40, 5, 6, 0.3F, 0.15F, slate, diorite, schist);
+    public static final VeinType medium_cassiterite = new VeinType(cassiterite, "medium_cassiterite", 20, 50, 3, 5, 0.5F, 0.2F, diorite, granite, dacite, claystone, andesite);
+    public static final VeinType[] veinTypes = new VeinType[] { surface_copper, deep_copper, deep_malachite, medium_cassiterite };
+    public static final VeinType[][] veinTypesLayer = VeinType.generateVeinCache(Constants.veinTypes);
+
     // Soil Types
     public static final SoilType loamy = new SoilType("loamy");
-    public static final SoilType sandy = new SoilType("sandy");
+    public static final SoilType silty_loam = new SoilType("silty_loam");
     public static final SoilType silty = new SoilType("silty");
-    public static final SoilType chalky = new SoilType("chalky");
-    public static final SoilType clay = new SoilType("clay");
+    public static final SoilType sandy = new SoilType("sandy");
+    public static final SoilType sandy_loam = new SoilType("sandy_loam");
     public static final SoilType peaty = new SoilType("peaty");
 
-    public static final SoilType[] soilTypes = new SoilType[] { loamy, sandy, silty, chalky, clay, peaty };
+    public static final SoilType[] soilTypes = new SoilType[] { loamy, silty_loam, silty, sandy, sandy_loam, peaty };
+
     // Misc
     public static final String[] chimneyTypes = new String[] { "brick" };
     public static final String[] chimneyTextures = new String[] { "minecraft:brick" };
@@ -112,9 +132,9 @@ public class Constants {
         "flint_shovel_head", "flint_knife_blade", "flint_hoe_head" };
     public static final String[] clayItems = new String[] { "clay_brick", "clay_flower_pot", "clay_large_vessel",
         "clay_crucible", "clay_ingot_mold", "clay_pickaxe_mold", "clay_axe_mold", "clay_shovel_mold", "clay_sword_mold",
-        "clay_hoe_mold", "clay_bucket" };
+        "clay_knife_mold", "clay_hoe_mold", "clay_bucket" };
     public static final String[] moldItems = new String[] { "ingot_mold", "pickaxe_mold", "axe_mold", "shovel_mold",
-        "sword_mold", "hoe_mold" };
+        "sword_mold", "knife_mold", "hoe_mold" };
     public static final String[] colorItems = new String[] { "wool", "glass", "glass_pane", "carpet", "hardened_clay" };
     public static final String[] colorItemsEFR = new String[] { "banner", "concrete", "concrete_powder",
         "glazed_terracotta", "bed" };
@@ -149,4 +169,6 @@ public class Constants {
     public static final String[] groundRockOreDicts = new String[] { "rock" };
     public static final String[] groundShellOreDicts = new String[] { "shell" };
     public static final String[] logPileOreDicts = new String[] { "firewood" };
+
+    // spotless:on
 }

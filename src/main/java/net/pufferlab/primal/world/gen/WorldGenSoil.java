@@ -75,7 +75,7 @@ public class WorldGenSoil {
                     if (blockList.contains(currentBlock)) {
                         Block nextBlock = blockReplacement.get(currentBlock);
 
-                        SoilType type = SoilType.getDirtForBiome(WorldUtils.getBiome(chunk, x, z), x, y, z);
+                        SoilType type = SoilType.pickOneSoilType(WorldUtils.getBiome(chunk, x, z), x, y, z);
                         int meta = SoilType.getMeta(Constants.soilTypes, type);
 
                         WorldUtils.setChunkBlock(array, x, y, z, nextBlock, meta);
@@ -83,7 +83,6 @@ public class WorldGenSoil {
                 }
             }
         }
-        chunk.isModified = true;
     }
 
 }
