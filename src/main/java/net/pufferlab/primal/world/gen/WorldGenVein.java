@@ -5,8 +5,7 @@ import java.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
-import net.pufferlab.primal.Constants;
-import net.pufferlab.primal.Registry;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.utils.StoneType;
 import net.pufferlab.primal.utils.VeinType;
 
@@ -16,8 +15,7 @@ public class WorldGenVein {
     public VeinType[] vein = new VeinType[3];
 
     public void initNoiseSeed(World world) {
-        StoneType.registerStone(Constants.stoneTypes, Registry.stone);
-        StoneType.registerStone(Constants.stoneTypes, Registry.gravel);
+        Primal.registry.setupServer();
         lastWorld = world;
     }
 

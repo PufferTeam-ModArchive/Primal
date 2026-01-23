@@ -60,11 +60,6 @@ public class WorldGenSoil {
             for (int z = 0; z < 16; z++) {
                 int worldX = (chunk.xPosition << 4) + x;
                 int worldZ = (chunk.zPosition << 4) + z;
-                for (int i = 0; i < noiseBiomeGen.length; i++) {
-                    double noise1 = WorldUtils.getPerlin(noiseBiomeGen[i], worldX, worldZ, 0.002D);
-                    noiseBiome[i] = noise1;
-                    offsetB[i] = WorldUtils.getPerlinQuad(noiseBiome[i]);
-                }
 
                 for (int y = 0; y < Constants.maxHeight; y++) {
                     ExtendedBlockStorage array = chunk.getBlockStorageArray()[y >> 4];

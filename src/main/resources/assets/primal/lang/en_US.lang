@@ -38,6 +38,12 @@ nei.recipe.primal.pit_kiln.name=Pit Kiln
 nei.recipe.primal.quern.name=Quern
 nei.recipe.primal.tanning.name=Tanning
 
+metal.primal.iron.name=Iron
+metal.primal.gold.name=Gold
+metal.primal.copper.name=Copper
+metal.primal.tin.name=Tin
+metal.primal.bronze.name=Bronze
+
 tile.primal.copper_block.name=Copper Block
 tile.primal.tin_block.name=Tin Block
 tile.primal.bronze_block.name=Bronze Block
@@ -258,6 +264,11 @@ tile.primal.silty_loam_farmland.name=Silty Loam Farmland
 tile.primal.peaty_dirt.name=Peaty Dirt
 tile.primal.peaty_grass.name=Peaty Grass
 tile.primal.peaty_farmland.name=Peaty Farmland
+
+stone.primal.igneous_extrusive.name=Igneous Extrusive
+stone.primal.igneous_intrusive.name=Igneous Intrusive
+stone.primal.sedimentary.name=Sedimentary
+stone.primal.metamorphic.name=Metamorphic
 
 tile.primal.andesite_raw.name=Andesite
 tile.primal.andesite_cobble.name=Andesite Cobble

@@ -12,7 +12,7 @@ import net.pufferlab.primal.Utils;
 
 public class StoneType {
 
-    StoneCategory category;
+    public StoneCategory category;
     public String name;
     int minHeight;
     int maxHeight;

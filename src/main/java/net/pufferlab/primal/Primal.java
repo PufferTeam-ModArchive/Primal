@@ -40,6 +40,7 @@ public class Primal {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         proxy.preInit(event);
+        proxy.setupResources();
         registry.setup();
         registry.setupTiles();
         registry.setupFluids();
@@ -49,7 +50,6 @@ public class Primal {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         proxy.init(event);
-        proxy.setupResources();
 
         registry.setupPackets();
         registry.setupNEI();
@@ -81,6 +81,7 @@ public class Primal {
     @Mod.EventHandler
     public void serverStarting(FMLServerStartingEvent event) {
         proxy.serverStarting(event);
+        registry.setupServer();
         registry.setupCommands();
     }
 }

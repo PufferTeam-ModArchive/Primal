@@ -27,6 +27,7 @@ import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.tileentities.*;
 import net.pufferlab.primal.utils.FluidType;
 import net.pufferlab.primal.utils.MetalType;
+import net.pufferlab.primal.utils.StoneType;
 import net.pufferlab.primal.utils.TemperatureUtils;
 import net.pufferlab.primal.world.PrimalEarlyGenerator;
 import net.pufferlab.primal.world.PrimalLateGenerator;
@@ -454,6 +455,7 @@ public class Registry {
         registerEvent(new AshPileHandler());
         registerEvent(new CampfireHandler());
         registerEvent(new InventoryHandler());
+        registerEvent(new StoneHandler());
         registerEvent(new GroundRockHandler());
         registerEvent(new GroundShellHandler());
         registerEvent(new MobDropHandler());
@@ -461,6 +463,11 @@ public class Registry {
         registerEvent(new HeatHandler());
         registerEvent(new FoodHandler());
         registerEvent(new PlayerHandler());
+    }
+
+    public void setupServer() {
+        StoneType.registerStone(Constants.stoneTypes, Registry.stone);
+        StoneType.registerStone(Constants.stoneTypes, Registry.gravel);
     }
 
     public void setupCommands() {

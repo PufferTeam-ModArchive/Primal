@@ -1082,7 +1082,7 @@ public class Utils {
         FileUtils.writeStringToFile(file, content.trim(), "UTF-8");
     }
 
-    public static void downloadFile(String urlTxt, File out) {
+    public static void downloadFile(String urlTxt, File out) throws IOException {
         try {
             URL url = new URL(urlTxt);
             URLConnection connection = url.openConnection();

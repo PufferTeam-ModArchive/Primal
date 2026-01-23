@@ -1,6 +1,7 @@
 package net.pufferlab.primal;
 
 import java.io.File;
+import java.io.IOException;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -181,17 +182,23 @@ public class ClientProxy extends CommonProxy {
             if (!rpDir.exists()) rpDir.mkdirs();
 
             File out = new File(rpDir, Constants.textureFile + ".zip");
+            File outTemp = File.createTempFile("texture", ".tmp");
             File infoFile = new File(rpDir, Constants.textureFile + ".txt");
-            File temp = File.createTempFile("download", ".tmp");
-            Utils.downloadFile(Constants.downloadPath + Constants.textureFile + ".txt", temp);
-            String newHash = Utils.readFile(temp);
+            File infoTemp = File.createTempFile("download", ".tmp");
+            Utils.downloadFile(Constants.downloadPath + Constants.textureFile + ".txt", infoTemp);
+            String newHash = Utils.readFile(infoTemp);
             String oldHash = Utils.readFile(infoFile);
             if (newHash == null || newHash.equals(oldHash)) {
                 return;
             }
 
-            FileUtils.copyFile(temp, infoFile);
-            Utils.downloadFile(Constants.downloadPath + Constants.textureFile + ".zip", out);
+            FileUtils.copyFile(infoTemp, infoFile);
+            try {
+                Utils.downloadFile(Constants.downloadPath + Constants.textureFile + ".zip", outTemp);
+            } catch (IOException e) {
+                return;
+            }
+            FileUtils.copyFile(outTemp, out);
         } catch (Exception e) {
             e.printStackTrace();
         }

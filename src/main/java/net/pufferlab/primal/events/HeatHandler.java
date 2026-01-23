@@ -45,7 +45,7 @@ public class HeatHandler implements IEventHandler {
                 event.toolTip.add(
                     Constants.gray + "Melts into "
                         + Constants.white
-                        + Utils.getCapitalizedName(metal0.name)
+                        + metal0.getTranslatedName()
                         + Constants.gray
                         + " at "
                         + Constants.white
