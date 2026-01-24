@@ -16,16 +16,18 @@ public class StoneType {
     public String name;
     int minHeight;
     int maxHeight;
+    int weight;
 
     public StoneType(StoneCategory category, String name) {
         this.category = category;
         this.name = name;
     }
 
-    public StoneType(StoneCategory category, String name, int minHeight, int maxHeight) {
+    public StoneType(StoneCategory category, String name, int minHeight, int maxHeight, int weight) {
         this(category, name);
         this.minHeight = minHeight;
         this.maxHeight = maxHeight;
+        this.weight = weight;
     }
 
     public boolean canGenerate(int height) {

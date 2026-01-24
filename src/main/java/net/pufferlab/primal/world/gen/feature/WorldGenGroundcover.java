@@ -17,6 +17,11 @@ public class WorldGenGroundcover extends WorldGenerator {
         this.meta = meta;
     }
 
+    public WorldGenGroundcover(Block block) {
+        this.block = block;
+        this.meta = 0;
+    }
+
     public WorldGenGroundcover(Block block, int meta, boolean randomMeta) {
         this(block, meta);
         this.randomMeta = randomMeta;
@@ -36,6 +41,21 @@ public class WorldGenGroundcover extends WorldGenerator {
                 if (this.randomMeta) {
                     meta = world.rand.nextInt(this.meta + 1);
                 }
+                world.setBlock(i1, j1, k1, this.block, meta, 2);
+            }
+        }
+        return true;
+    }
+
+    public boolean generate(World world, Random ran, int x, int y, int z, int meta) {
+        for (int l = 0; l < getAmount(); ++l) {
+            int i1 = x + ran.nextInt(8) - ran.nextInt(8);
+            int k1 = z + ran.nextInt(8) - ran.nextInt(8);
+            int j1 = world.getHeightValue(i1, k1);
+
+            if (world.isAirBlock(i1, j1, k1) && (!world.provider.hasNoSky || j1 < 255)
+                && this.block.canBlockStay(world, i1, j1, k1)
+                && canPlaceBlock(world, i1, j1, k1)) {
                 world.setBlock(i1, j1, k1, this.block, meta, 2);
             }
         }

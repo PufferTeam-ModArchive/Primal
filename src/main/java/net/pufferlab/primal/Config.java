@@ -94,7 +94,11 @@ public enum Config {
     soilWorldGen(Module.worldgen, true, "Whether to enable the generation of the soil types"),
     enableVanillaOres(Module.worldgen, false, "Put to true if you want the vanilla ores back"),
     oreVeins(Module.worldgen, true, "Whether to enable large ore veins"),
-    oreVeinsWorldGen(Module.worldgen, true, "Whether to enable the generation of the ore types");
+    oreVeinsWorldGen(Module.worldgen, true, "Whether to enable the generation of the ore types"),
+
+    // Mixins
+    dragonAPIPlantFix(Module.compat, true,
+        "This enables the mixins to DragonAPI to make it recognize the mod dirt, and avoid plants popping off.");
 
     public boolean isBoolean;
     public boolean isInt;
@@ -273,7 +277,8 @@ public enum Config {
         mechanical_power(true,
             "Includes all of the mechanical power machinery, such as windmill, waterwheel and anything that moves."),
         worldgen(true, "Includes all of the worldgen stuff from the mod."),
-        lighting(true, "Includes all of the changes related to lighting.");
+        lighting(true, "Includes all of the changes related to lighting."),
+        compat(true, "Includes all of the changes made to other mods to make the mod work correctly.");
 
         public String name;
         public String comment;

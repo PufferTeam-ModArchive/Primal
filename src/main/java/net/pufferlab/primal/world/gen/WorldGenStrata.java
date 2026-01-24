@@ -125,11 +125,11 @@ public class WorldGenStrata {
                 int worldX = (chunk.xPosition << 4) + x;
                 int worldZ = (chunk.zPosition << 4) + z;
                 for (int i = 0; i < noiseLayerGen.length; i++) {
-                    noiseLayer[i] = WorldUtils.getPerlin(noiseLayerGen[i], worldX, worldZ, 0.03D);
+                    noiseLayer[i] = WorldUtils.getPerlin(noiseLayerGen[i], worldX, worldZ, 0.02D);
                     offsetY[i] = (int) (noiseLayer[i] * 4);
                 }
                 for (int i = 0; i < noiseBiomeGen.length; i++) {
-                    double noise1 = WorldUtils.getPerlin(noiseBiomeGen[i], worldX, worldZ, 0.002D);
+                    double noise1 = WorldUtils.getPerlin(noiseBiomeGen[i], worldX, worldZ, 0.0004D);
                     noiseBiome[i] = noise1;
                 }
 

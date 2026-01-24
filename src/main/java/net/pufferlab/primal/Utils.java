@@ -32,7 +32,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.oredict.OreDictionary;
-import net.pufferlab.primal.blocks.BlockPile;
+import net.pufferlab.primal.blocks.*;
 import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.utils.FluidUtils;
 import net.pufferlab.primal.utils.ItemDummy;
@@ -45,6 +45,7 @@ import org.apache.commons.io.FileUtils;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.FMLLaunchHandler;
 
 public class Utils {
 
@@ -320,8 +321,27 @@ public class Utils {
         return containsOreDict(block, "logWood");
     }
 
+    public static boolean isNaturalStone(Block block) {
+        if (block == null) return false;
+        if (block instanceof BlockStoneRaw) return true;
+        return false;
+    }
+
+    public static boolean isDirtBlock(Block block) {
+        if (block == null) return false;
+        if (block instanceof BlockMetaDirt) return true;
+        return false;
+    }
+
+    public static boolean isGrassBlock(Block block) {
+        if (block == null) return false;
+        if (block instanceof BlockMetaGrass) return true;
+        return false;
+    }
+
     public static boolean isSandBlock(Block block) {
         if (block == null) return false;
+        if (block instanceof BlockStoneSand) return true;
         if (block == Blocks.sand) return true;
         return false;
     }
@@ -403,7 +423,6 @@ public class Utils {
     }
 
     public static boolean isBeachBiome(BiomeGenBase biome) {
-
         if (BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.BEACH)) {
             return true;
         }
@@ -1123,6 +1142,11 @@ public class Utils {
     public static boolean isClient() {
         return FMLCommonHandler.instance()
             .getSide()
+            .isClient();
+    }
+
+    public static boolean isClientEarly() {
+        return FMLLaunchHandler.side()
             .isClient();
     }
 

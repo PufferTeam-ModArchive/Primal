@@ -30,21 +30,22 @@ public class WorldUtils {
     }
 
     public static int getPerlinQuad(double noise) {
+        int number = 10;
         double n01 = (noise + 1.0) * 0.5;
 
-        double scaled = n01 * 4.0;
+        double scaled = n01 * (double) number;
 
         int choice = (int) Math.floor(scaled);
-        return Math.min(3, Math.max(0, choice));
+        return Math.min(number - 1, Math.max(0, choice));
     }
 
-    public static int getPerlinNeg(double perlin) {
+    public static boolean getPerlinNeg(double perlin) {
         if (perlin > 0) {
-            return 1;
+            return true;
         }
         if (perlin < 0) {
-            return -1;
+            return false;
         }
-        return 1;
+        return false;
     }
 }

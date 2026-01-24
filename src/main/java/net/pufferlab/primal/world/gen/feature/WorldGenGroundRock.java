@@ -7,8 +7,8 @@ import net.pufferlab.primal.Utils;
 
 public class WorldGenGroundRock extends WorldGenGroundcover {
 
-    public WorldGenGroundRock(int meta) {
-        super(Registry.ground_rock, meta);
+    public WorldGenGroundRock() {
+        super(Registry.ground_rock);
     }
 
     @Override

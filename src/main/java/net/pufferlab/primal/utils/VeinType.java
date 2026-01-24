@@ -13,18 +13,20 @@ public class VeinType {
     public OreType oreType;
     public float rarity;
     public float rarityBlock;
+    public float rarityIndicator;
     public int sizeMin;
     public int sizeMax;
     public int minY;
     public int maxY;
     public StoneType[] stoneTypes;
 
-    public VeinType(OreType oreType, String name, int minY, int maxY, int sizeMin, int sizeMax, float rarityBlock,
-        float rarity, StoneType... stoneTypes) {
+    public VeinType(OreType oreType, String name, int minY, int maxY, int sizeMin, int sizeMax, float rarityIndicator,
+        float rarityBlock, float rarity, StoneType... stoneTypes) {
         this.name = name;
         this.oreType = oreType;
         this.sizeMin = sizeMin;
         this.sizeMax = sizeMax;
+        this.rarityIndicator = rarityIndicator;
         this.rarityBlock = rarityBlock;
         this.rarity = rarity;
         this.maxY = maxY;
@@ -56,6 +58,13 @@ public class VeinType {
 
     public boolean getChanceBlock(Random random) {
         if (random.nextFloat() < this.rarityBlock) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean getChanceIndicator(Random random) {
+        if (random.nextFloat() < this.rarityIndicator) {
             return true;
         }
         return false;

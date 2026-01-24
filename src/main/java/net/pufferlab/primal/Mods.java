@@ -1,5 +1,7 @@
 package net.pufferlab.primal;
 
+import java.util.Set;
+
 import cpw.mods.fml.common.Loader;
 
 public enum Mods {
@@ -10,7 +12,9 @@ public enum Mods {
     wg("WitchingGadgets"),
     mt("MineTweaker3"),
     wl("Waila"),
-    wd("wdmla");
+    wd("wdmla"),
+    dapi("DragonAPI"),
+    chrc("ChromatiCraft");
 
     public String MODID;
 
@@ -20,5 +24,9 @@ public enum Mods {
 
     public boolean isLoaded() {
         return Loader.isModLoaded(this.MODID);
+    }
+
+    public boolean isLoaded(Set<String> loadedMods) {
+        return loadedMods.contains(this.MODID);
     }
 }

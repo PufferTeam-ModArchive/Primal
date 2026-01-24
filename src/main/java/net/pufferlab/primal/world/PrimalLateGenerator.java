@@ -12,6 +12,7 @@ import cpw.mods.fml.common.IWorldGenerator;
 
 public class PrimalLateGenerator implements IWorldGenerator {
 
+    public static final PrimalLateGenerator instance = new PrimalLateGenerator();
     public static final WorldGenVein veinGen = new WorldGenVein();
 
     @Override

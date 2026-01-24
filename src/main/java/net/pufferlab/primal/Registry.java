@@ -29,6 +29,7 @@ import net.pufferlab.primal.utils.FluidType;
 import net.pufferlab.primal.utils.MetalType;
 import net.pufferlab.primal.utils.StoneType;
 import net.pufferlab.primal.utils.TemperatureUtils;
+import net.pufferlab.primal.world.PrimalDecorator;
 import net.pufferlab.primal.world.PrimalEarlyGenerator;
 import net.pufferlab.primal.world.PrimalLateGenerator;
 
@@ -44,6 +45,7 @@ public class Registry {
     public static final CreativeTabs creativeTab = new CreativeTabsPrimal("", "firestarter");
     public static final CreativeTabs creativeTabWorld = new CreativeTabsPrimal("World", "stone");
 
+    public static final Block ground_ore;
     public static final Block ground_rock;
     public static final Block ground_shell;
     public static final Block pit_kiln;
@@ -156,6 +158,7 @@ public class Registry {
         armorBronze = EnumHelper.addArmorMaterial("bronze", 15, new int[] { 2, 5, 4, 1 }, 15);
 
         ground_rock = new BlockStoneGround(Constants.stoneTypes, "ground_rock");
+        ground_ore = new BlockStoneGroundOre(Constants.oreTypes, "ground_ore");
         stone = new BlockStoneRaw(Constants.stoneTypes, "raw");
         cobble = new BlockStoneRaw(Constants.stoneTypes, "cobble");
         small_bricks = new BlockStoneRaw(Constants.stoneTypes, "small_bricks");
@@ -209,6 +212,8 @@ public class Registry {
 
         ore = new ItemOre(Constants.oreTypes, "medium_ore");
         small_ore = new ItemOre(Constants.oreTypes, "small_ore");
+        ((BlockGroundcover) ground_ore).setItem(small_ore);
+
         icons = new ItemMeta(Constants.icons, "icon").setHiddenAll()
             .setHasSuffix();
         straw = new ItemMeta(Constants.strawItems, "straw");
@@ -260,15 +265,15 @@ public class Registry {
         bronze_knife = new ItemKnifePrimitive(toolBronze, "bronze_knife");
         bronze_hoe = new ItemHoePrimitive(toolBronze, "bronze_hoe");
 
-        copper_helmet = new ItemArmorPrimitive(armorCopper, "copper_helmet", Constants.helmet);
-        copper_chestplate = new ItemArmorPrimitive(armorCopper, "copper_chestplate", Constants.chestplate);
-        copper_leggings = new ItemArmorPrimitive(armorCopper, "copper_leggings", Constants.leggings);
-        copper_boots = new ItemArmorPrimitive(armorCopper, "copper_boots", Constants.boots);
+        copper_helmet = new ItemArmorCopper(armorCopper, "copper_helmet", Constants.helmet);
+        copper_chestplate = new ItemArmorCopper(armorCopper, "copper_chestplate", Constants.chestplate);
+        copper_leggings = new ItemArmorCopper(armorCopper, "copper_leggings", Constants.leggings);
+        copper_boots = new ItemArmorCopper(armorCopper, "copper_boots", Constants.boots);
 
-        bronze_helmet = new ItemArmorPrimitive(armorBronze, "bronze_helmet", Constants.helmet);
-        bronze_chestplate = new ItemArmorPrimitive(armorBronze, "bronze_chestplate", Constants.chestplate);
-        bronze_leggings = new ItemArmorPrimitive(armorBronze, "bronze_leggings", Constants.leggings);
-        bronze_boots = new ItemArmorPrimitive(armorBronze, "bronze_boots", Constants.boots);
+        bronze_helmet = new ItemArmorBronze(armorBronze, "bronze_helmet", Constants.helmet);
+        bronze_chestplate = new ItemArmorBronze(armorBronze, "bronze_chestplate", Constants.chestplate);
+        bronze_leggings = new ItemArmorBronze(armorBronze, "bronze_leggings", Constants.leggings);
+        bronze_boots = new ItemArmorBronze(armorBronze, "bronze_boots", Constants.boots);
 
         firestarter = new ItemFireStarter();
         handstone = new ItemHandstone();
@@ -295,10 +300,12 @@ public class Registry {
         register(limonite, "limonite");
         register(magnetite, "magnetite");
 
+        register(ground_rock, "ground_rock");
+        register(ground_ore, "ground_ore");
+
         register(block, "block");
         register(lit_torch, "lit_torch");
         register(unlit_torch, "unlit_torch");
-        register(ground_rock, "ground_rock");
         register(ground_shell, "ground_shell");
         register(pit_kiln, "pit_kiln");
         register(log_pile, "log_pile");
@@ -539,8 +546,9 @@ public class Registry {
     }
 
     public void setupWorldGen() {
-        registerWorld(new PrimalEarlyGenerator(), 10000);
-        registerWorld(new PrimalLateGenerator(), 20000);
+        registerWorld(PrimalEarlyGenerator.instance, 10000);
+        registerWorld(PrimalLateGenerator.instance, 20000);
+        registerWorld(PrimalDecorator.instance, 30000);
     }
 
     public void register(Item item, String name) {

@@ -16,6 +16,8 @@ public class Constants {
     public static final String version = "[1.7.10]";
     public static final String downloadPath = "https://github.com/PufferTeam-ModArchive/Primal/raw/refs/heads/main/builtin/";
     public static final String textureFile = "Primal-Modern-Resources";
+    public static final String mixinEarly = "mixins.primal.early.json";
+    public static final String mixinLate = "mixins.primal.late.json";
 
     public static final int wildcard = OreDictionary.WILDCARD_VALUE;
     public static final double epsilon = 2e-5;
@@ -44,33 +46,36 @@ public class Constants {
     // Stones
 
     // Igneous Extrusive
+// Igneous Extrusive
     public static final StoneCategory igneousExtrusive = new StoneCategory("igneous_extrusive");
-    public static final StoneType andesite = new StoneType(igneousExtrusive, "andesite", 40, 110);
-    public static final StoneType basalt = new StoneType(igneousExtrusive, "basalt", 20, 70);
-    public static final StoneType dacite = new StoneType(igneousExtrusive, "dacite", 70, 140);
-    public static final StoneType rhyolite = new StoneType(igneousExtrusive, "rhyolite", 50, 100);
+    public static final StoneType andesite  = new StoneType(igneousExtrusive, "andesite", 40, 110, 15);
+    public static final StoneType basalt    = new StoneType(igneousExtrusive, "basalt", 20, 70, 15);
+    public static final StoneType dacite    = new StoneType(igneousExtrusive, "dacite", 70, 140, 15);
+    public static final StoneType rhyolite  = new StoneType(igneousExtrusive, "rhyolite", 50, 100, 15);
 
     // Igneous Intrusive
     public static final StoneCategory igneousIntrusive = new StoneCategory("igneous_intrusive");
-    public static final StoneType diorite = new StoneType(igneousIntrusive, "diorite", 20, 60);
-    public static final StoneType gabbro = new StoneType(igneousIntrusive, "gabbro", 0, 30);
-    public static final StoneType granite = new StoneType(igneousIntrusive, "granite", 30, 140);
+    public static final StoneType diorite   = new StoneType(igneousIntrusive, "diorite", 20, 60, 15);
+    public static final StoneType gabbro    = new StoneType(igneousIntrusive, "gabbro", 0, 30, 10);
+    public static final StoneType granite   = new StoneType(igneousIntrusive, "granite", 30, 140, 15);
 
     // Sedimentary
     public static final StoneCategory sedimentary = new StoneCategory("sedimentary");
-    public static final StoneType claystone = new StoneType(sedimentary, "claystone", 25, 100);
-    public static final StoneType limestone = new StoneType(sedimentary, "limestone", 40, 90);
-    public static final StoneType sandstone = new StoneType(sedimentary, "sandstone", 60, 120);
-    public static final StoneType shale = new StoneType(sedimentary, "shale", 50, 100);
-    public static final StoneType chalk = new StoneType(sedimentary, "chalk", 20, 90);
+    public static final StoneType claystone  = new StoneType(sedimentary, "claystone", 25, 100, 15);
+    public static final StoneType limestone  = new StoneType(sedimentary, "limestone", 40, 70, 2);
+    public static final StoneType sandstone  = new StoneType(sedimentary, "sandstone", 60, 120, 2);
+    public static final StoneType shale      = new StoneType(sedimentary, "shale", 50, 100, 8);
+    public static final StoneType chalk      = new StoneType(sedimentary, "chalk", 50, 90, 8);
 
     // Metamorphic
     public static final StoneCategory metamorphic = new StoneCategory("metamorphic");
-    public static final StoneType slate = new StoneType(metamorphic, "slate", 0, 50);
-    public static final StoneType schist = new StoneType(metamorphic, "schist", 10, 40);
+    public static final StoneType slate  = new StoneType(metamorphic, "slate", 0, 50, 10);
+    public static final StoneType schist = new StoneType(metamorphic, "schist", 10, 40, 10);
+
 
     public static final StoneType[] stoneTypes = new StoneType[] { andesite, basalt, dacite, rhyolite, diorite, gabbro,
         granite, claystone, limestone, sandstone, shale, chalk, slate, schist };
+
     public static final StoneType[][] stoneTypesLayer = StoneType.generateLayerCache(Constants.stoneTypes);
 
     // Metals
@@ -103,10 +108,10 @@ public class Constants {
 
     //Vein Type
 
-    public static final VeinType surface_copper = new VeinType(native_copper, "surface_copper", 40, 100, 3, 5, 0.3F, 0.3F, andesite, granite, dacite, basalt, rhyolite, diorite);
-    public static final VeinType deep_copper = new VeinType(native_copper, "deep_copper", 10, 40, 5, 6, 0.3F, 0.15F, gabbro, diorite, schist);
-    public static final VeinType deep_malachite = new VeinType(malachite, "malachite", 10, 40, 5, 6, 0.3F, 0.15F, slate, diorite, schist);
-    public static final VeinType medium_cassiterite = new VeinType(cassiterite, "medium_cassiterite", 20, 50, 3, 5, 0.5F, 0.2F, diorite, granite, dacite, claystone, andesite);
+    public static final VeinType surface_copper = new VeinType(native_copper, "surface_copper", 40, 100, 3, 5, 0.5F,0.3F, 0.3F, andesite, granite, dacite, basalt, rhyolite, diorite);
+    public static final VeinType deep_copper = new VeinType(native_copper, "deep_copper", 10, 40, 5, 6, 0.0F, 0.3F, 0.15F, gabbro, diorite, schist);
+    public static final VeinType deep_malachite = new VeinType(malachite, "malachite", 10, 40, 5, 6, 0.0F, 0.3F, 0.15F, slate, diorite, schist);
+    public static final VeinType medium_cassiterite = new VeinType(cassiterite, "medium_cassiterite", 20, 50, 3, 5, 0.0F,0.5F, 0.2F, diorite, granite, dacite, claystone, andesite);
     public static final VeinType[] veinTypes = new VeinType[] { surface_copper, deep_copper, deep_malachite, medium_cassiterite };
     public static final VeinType[][] veinTypesLayer = VeinType.generateVeinCache(Constants.veinTypes);
 

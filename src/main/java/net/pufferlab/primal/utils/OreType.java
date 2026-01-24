@@ -5,6 +5,7 @@ import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.pufferlab.primal.Primal;
 
 public class OreType {
 
@@ -25,6 +26,14 @@ public class OreType {
         String[] names = new String[stones.length];
         for (int i = 0; i < stones.length; i++) {
             names[i] = stones[i].name;
+        }
+        return names;
+    }
+
+    public static String[] getTextures(OreType[] stones) {
+        String[] names = new String[stones.length];
+        for (int i = 0; i < stones.length; i++) {
+            names[i] = Primal.MODID + ":" + stones[i].name + "_full_ore";
         }
         return names;
     }
