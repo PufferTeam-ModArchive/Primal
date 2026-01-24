@@ -64,6 +64,8 @@ public class WorldGenStrata {
             stoneList.add(Blocks.diamond_ore);
             stoneList.add(Blocks.emerald_ore);
             if (Mods.efr.isLoaded()) {
+                stoneList.add(GameRegistry.findBlock(Mods.efr.MODID, "copper_ore"));
+                stoneList.add(GameRegistry.findBlock(Mods.efr.MODID, "deepslate_copper_ore"));
                 stoneList.add(GameRegistry.findBlock(Mods.efr.MODID, "deepslate_coal_ore"));
                 stoneList.add(GameRegistry.findBlock(Mods.efr.MODID, "deepslate_iron_ore"));
                 stoneList.add(GameRegistry.findBlock(Mods.efr.MODID, "deepslate_gold_ore"));

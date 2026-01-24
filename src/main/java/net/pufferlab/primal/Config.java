@@ -92,6 +92,7 @@ public enum Config {
     strataWorldGen(Module.worldgen, true, "Whether to enable the generation of the strata stone types"),
     soilTypes(Module.worldgen, true, "Put to false if you want to disable all of the soil types of the mod."),
     soilWorldGen(Module.worldgen, true, "Whether to enable the generation of the soil types"),
+    grassColorFix(Module.worldgen, true, "Whether to enable the mixin to fix the grass digging particles"),
     enableVanillaOres(Module.worldgen, false, "Put to true if you want the vanilla ores back"),
     oreVeins(Module.worldgen, true, "Whether to enable large ore veins"),
     oreVeinsWorldGen(Module.worldgen, true, "Whether to enable the generation of the ore types"),

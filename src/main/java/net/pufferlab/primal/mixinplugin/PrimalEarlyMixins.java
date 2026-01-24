@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.Utils;
 
 import com.gtnewhorizon.gtnhmixins.IEarlyMixinLoader;
 
@@ -25,6 +27,11 @@ public class PrimalEarlyMixins implements IFMLLoadingPlugin, IEarlyMixinLoader {
 
     @Override
     public List<String> getMixins(Set<String> loadedCoreMods) {
+        if (Config.grassColorFix.getBoolean()) {
+            if (Utils.isClientEarly()) {
+                mixins.add("minecraft.MixinEntityDiggingFX");
+            }
+        }
         return mixins;
     }
 

@@ -1,6 +1,7 @@
 package net.pufferlab.primal.blocks;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.block.BlockGrass;
 import net.minecraft.block.IGrowable;
@@ -13,6 +14,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Constants;
@@ -171,6 +173,45 @@ public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlo
             return renderPass2;
         } else {
             return renderPass;
+        }
+    }
+
+    @Override
+    public void func_149853_b(World worldIn, Random random, int x, int y, int z) {
+        int l = 0;
+
+        while (l < 128) {
+            int i1 = x;
+            int j1 = y + 1;
+            int k1 = z;
+            int l1 = 0;
+
+            while (true) {
+                if (l1 < l / 16) {
+                    i1 += random.nextInt(3) - 1;
+                    j1 += (random.nextInt(3) - 1) * random.nextInt(3) / 2;
+                    k1 += random.nextInt(3) - 1;
+
+                    if (Utils.isGrassBlock(worldIn.getBlock(i1, j1 - 1, k1)) && !worldIn.getBlock(i1, j1, k1)
+                        .isNormalCube()) {
+                        ++l1;
+                        continue;
+                    }
+                } else if (worldIn.getBlock(i1, j1, k1)
+                    .getMaterial() == Material.air) {
+                        if (random.nextInt(8) != 0) {
+                            if (Blocks.tallgrass.canBlockStay(worldIn, i1, j1, k1)) {
+                                worldIn.setBlock(i1, j1, k1, Blocks.tallgrass, 1, 3);
+                            }
+                        } else {
+                            worldIn.getBiomeGenForCoords(i1, k1)
+                                .plantFlower(worldIn, random, i1, j1, k1);
+                        }
+                    }
+
+                ++l;
+                break;
+            }
         }
     }
 
