@@ -2,15 +2,11 @@ package net.pufferlab.primal.blocks;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
-import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.utils.StoneType;
 
-public class BlockStoneSand extends BlockMetaFalling {
+public class BlockStoneSand extends BlockMetaSand {
 
     public StoneType[] stoneTypes;
 
@@ -30,11 +26,5 @@ public class BlockStoneSand extends BlockMetaFalling {
     @Override
     public CreativeTabs getCreativeTab() {
         return Registry.creativeTabWorld;
-    }
-
-    @Override
-    public boolean canSustainPlant(IBlockAccess world, int x, int y, int z, ForgeDirection direction,
-        IPlantable plantable) {
-        return Blocks.sand.canSustainPlant(world, x, y, z, direction, plantable);
     }
 }

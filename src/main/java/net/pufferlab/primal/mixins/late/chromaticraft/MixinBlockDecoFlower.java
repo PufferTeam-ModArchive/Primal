@@ -20,7 +20,7 @@ public abstract class MixinBlockDecoFlower {
      * @author JBT
      * @reason This fixes Primal grass/dirt not being detected as valid soil
      **/
-    @Overwrite(remap = true)
+    @Overwrite()
     public boolean canBlockStay(World world, int x, int y, int z) {
         Block block = world.getBlock(x, y, z);
         BlockDecoFlower.Flowers flower = BlockDecoFlower.Flowers.list[world.getBlockMetadata(x, y, z)];

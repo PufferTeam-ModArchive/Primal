@@ -321,28 +321,45 @@ public class Utils {
         return containsOreDict(block, "logWood");
     }
 
+    public static boolean isTerrainBlock(Block block) {
+        return isNaturalStone(block) || isDirtBlock(block)
+            || isGrassBlock(block)
+            || isGravelBlock(block)
+            || isSandBlock(block);
+    }
+
     public static boolean isNaturalStone(Block block) {
         if (block == null) return false;
-        if (block instanceof BlockStoneRaw) return true;
+        if (block == Registry.stone) return true;
+        if (block == Blocks.stone) return true;
         return false;
     }
 
     public static boolean isDirtBlock(Block block) {
         if (block == null) return false;
         if (block instanceof BlockMetaDirt) return true;
+        if (block == Blocks.dirt) return true;
         return false;
     }
 
     public static boolean isGrassBlock(Block block) {
         if (block == null) return false;
         if (block instanceof BlockMetaGrass) return true;
+        if (block == Blocks.grass) return true;
         return false;
     }
 
     public static boolean isSandBlock(Block block) {
         if (block == null) return false;
-        if (block instanceof BlockStoneSand) return true;
+        if (block instanceof BlockMetaSand) return true;
         if (block == Blocks.sand) return true;
+        return false;
+    }
+
+    public static boolean isGravelBlock(Block block) {
+        if (block == null) return false;
+        if (block instanceof BlockMetaGravel) return true;
+        if (block == Blocks.gravel) return true;
         return false;
     }
 

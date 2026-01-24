@@ -6,7 +6,7 @@ import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.utils.StoneType;
 
-public class BlockStoneGravel extends BlockMetaFalling {
+public class BlockStoneGravel extends BlockMetaGravel {
 
     public StoneType[] stoneTypes;
 

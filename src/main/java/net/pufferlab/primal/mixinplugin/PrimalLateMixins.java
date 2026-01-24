@@ -31,6 +31,11 @@ public class PrimalLateMixins implements ILateMixinLoader {
                 }
             }
         }
+        if (Mods.bop.isLoaded(loadedMods)) {
+            if (Config.bopPlantFix.getBoolean()) {
+                mixins.add("bop.MixinBlockBOPCoral");
+            }
+        }
         return mixins;
     }
 }
