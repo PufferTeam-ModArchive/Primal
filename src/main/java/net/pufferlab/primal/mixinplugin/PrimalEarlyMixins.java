@@ -6,12 +6,13 @@ import java.util.Map;
 import java.util.Set;
 
 import net.pufferlab.primal.Constants;
+import net.pufferlab.primal.Primal;
 
 import com.gtnewhorizon.gtnhmixins.IEarlyMixinLoader;
 
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
-@IFMLLoadingPlugin.Name("BugTorchEarlyMixins")
+@IFMLLoadingPlugin.Name(Primal.MODNAME + "EarlyMixins")
 @IFMLLoadingPlugin.MCVersion("1.7.10")
 public class PrimalEarlyMixins implements IFMLLoadingPlugin, IEarlyMixinLoader {
 
