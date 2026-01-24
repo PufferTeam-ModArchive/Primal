@@ -181,11 +181,11 @@ public class ClientProxy extends CommonProxy {
 
             if (!rpDir.exists()) rpDir.mkdirs();
 
-            File out = new File(rpDir, Constants.textureFile + ".zip");
+            File out = new File(rpDir, Primal.textureFile + ".zip");
             File outTemp = File.createTempFile("texture", ".tmp");
-            File infoFile = new File(rpDir, Constants.textureFile + ".txt");
+            File infoFile = new File(rpDir, Primal.textureFile + ".txt");
             File infoTemp = File.createTempFile("download", ".tmp");
-            Utils.downloadFile(Constants.downloadPath + Constants.textureFile + ".txt", infoTemp);
+            Utils.downloadFile(Primal.downloadPath + Primal.textureFile + ".txt", infoTemp);
             String newHash = Utils.readFile(infoTemp);
             String oldHash = Utils.readFile(infoFile);
             if (newHash == null || newHash.equals(oldHash)) {
@@ -194,7 +194,7 @@ public class ClientProxy extends CommonProxy {
 
             FileUtils.copyFile(infoTemp, infoFile);
             try {
-                Utils.downloadFile(Constants.downloadPath + Constants.textureFile + ".zip", outTemp);
+                Utils.downloadFile(Primal.downloadPath + Primal.textureFile + ".zip", outTemp);
             } catch (IOException e) {
                 return;
             }

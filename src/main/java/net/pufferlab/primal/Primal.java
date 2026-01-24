@@ -1,7 +1,5 @@
 package net.pufferlab.primal;
 
-import static net.pufferlab.primal.Constants.*;
-
 import net.pufferlab.primal.scripts.ScriptRegistry;
 
 import org.apache.logging.log4j.LogManager;
@@ -16,12 +14,21 @@ import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
     modid = Primal.MODID,
     version = Tags.VERSION,
     name = Primal.MODNAME,
-    guiFactory = guiFactory,
-    acceptedMinecraftVersions = version)
+    guiFactory = Primal.guiFactory,
+    acceptedMinecraftVersions = Primal.version,
+    dependencies = Primal.dependencies)
 public class Primal {
 
     public static final String MODNAME = "Primal";
     public static final String MODID = "primal";
+    public static final String version = "[1.7.10]";
+    public static final String dependencies = "required-after:gtnhmixins@[2.0.0,);";
+    public static final String guiFactory = "net.pufferlab.primal.client.config.GuiFactory";
+    public static final String clientProxy = "net.pufferlab.primal.ClientProxy";
+    public static final String commonProxy = "net.pufferlab.primal.CommonProxy";
+    public static final String downloadPath = "https://github.com/PufferTeam-ModArchive/Primal/raw/refs/heads/main/builtin/";
+    public static final String textureFile = "Primal-Modern-Resources";
+
     public static final Logger LOG = LogManager.getLogger(MODID);
 
     @SidedProxy(clientSide = clientProxy, serverSide = commonProxy)

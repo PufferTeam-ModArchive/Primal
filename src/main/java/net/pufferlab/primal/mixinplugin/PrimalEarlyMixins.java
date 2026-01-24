@@ -5,33 +5,30 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.pufferlab.primal.Config;
-import net.pufferlab.primal.Constants;
-import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
-
 import com.gtnewhorizon.gtnhmixins.IEarlyMixinLoader;
 
+import cpw.mods.fml.relauncher.FMLLaunchHandler;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
-@IFMLLoadingPlugin.Name(Primal.MODNAME + "EarlyMixins")
+@IFMLLoadingPlugin.Name("PrimalEarlyMixins")
 @IFMLLoadingPlugin.MCVersion("1.7.10")
 public class PrimalEarlyMixins implements IFMLLoadingPlugin, IEarlyMixinLoader {
 
     @Override
     public String getMixinConfig() {
-        return Constants.mixinEarly;
+        return "mixins.primal.early.json";
     }
 
     List<String> mixins = new ArrayList<>();
 
     @Override
     public List<String> getMixins(Set<String> loadedCoreMods) {
-        if (Config.grassColorFix.getBoolean()) {
-            if (Utils.isClientEarly()) {
-                mixins.add("minecraft.MixinEntityDiggingFX");
-            }
+        boolean isClient = FMLLaunchHandler.side()
+            .isClient();
+        if (isClient) {
+            mixins.add("minecraft.MixinEntityDiggingFX");
         }
+        mixins.add("minecraft.MixinEntityAIEatGrass");
         return mixins;
     }
 

@@ -2,6 +2,7 @@ package net.pufferlab.primal.mixins.early.minecraft;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.particle.EntityDiggingFX;
+import net.minecraft.init.Blocks;
 import net.pufferlab.primal.Utils;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,9 +19,9 @@ public abstract class MixinEntityDiggingFX {
     @Shadow(remap = false)
     private int side;
 
-    @Inject(method = "applyColourMultiplier", at = @At("HEAD"), cancellable = true, remap = true)
+    @Inject(method = "applyColourMultiplier", at = @At("HEAD"), cancellable = true)
     public void applyColourMultiplier$primal(int x, int y, int z, CallbackInfoReturnable<EntityDiggingFX> cir) {
-        if (Utils.isGrassBlock(this.field_145784_a) && this.side != 1) {
+        if (Utils.isGrassBlock(this.field_145784_a) && this.field_145784_a != Blocks.grass) {
             cir.setReturnValue((EntityDiggingFX) (Object) this);
         }
     }

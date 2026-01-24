@@ -45,7 +45,6 @@ import org.apache.commons.io.FileUtils;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.FMLLaunchHandler;
 
 public class Utils {
 
@@ -1159,11 +1158,6 @@ public class Utils {
     public static boolean isClient() {
         return FMLCommonHandler.instance()
             .getSide()
-            .isClient();
-    }
-
-    public static boolean isClientEarly() {
-        return FMLLaunchHandler.side()
             .isClient();
     }
 

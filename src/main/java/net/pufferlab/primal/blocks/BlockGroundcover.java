@@ -55,6 +55,10 @@ public class BlockGroundcover extends BlockMeta {
 
     @Override
     public boolean canBlockStay(World worldIn, int x, int y, int z) {
+        if (worldIn.getBlock(x, y - 1, z)
+            .getMaterial() == Material.air) {
+            return false;
+        }
         return worldIn.isSideSolid(x, y - 1, z, ForgeDirection.UP);
     }
 
