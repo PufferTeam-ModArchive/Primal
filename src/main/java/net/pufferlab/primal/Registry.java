@@ -21,6 +21,7 @@ import net.pufferlab.primal.compat.minetweaker.MTCompat;
 import net.pufferlab.primal.compat.nei.NEICompat;
 import net.pufferlab.primal.compat.waila.WLCompat;
 import net.pufferlab.primal.events.*;
+import net.pufferlab.primal.events.compat.ForbiddenMagicHandler;
 import net.pufferlab.primal.events.packets.*;
 import net.pufferlab.primal.inventory.CreativeTabsPrimal;
 import net.pufferlab.primal.items.*;
@@ -60,6 +61,7 @@ public class Registry {
     public static final Block sand;
     public static final Block dirt;
     public static final Block farmland;
+    public static final Block path;
     public static final Block grass;
     public static final Block native_copper;
     public static final Block native_gold;
@@ -149,6 +151,13 @@ public class Registry {
     public static final ItemArmor.ArmorMaterial armorBronze;
     public static final ItemArmor.ArmorMaterial armorCopper;
 
+    public static Block tc_air_ore;
+    public static Block tc_fire_ore;
+    public static Block tc_water_ore;
+    public static Block tc_earth_ore;
+    public static Block tc_order_ore;
+    public static Block tc_entropy_ore;
+
     static {
         toolFlint = EnumHelper.addToolMaterial("flint", 0, 100, 2.0F, 0.0F, 15);
         toolCopper = EnumHelper.addToolMaterial("copper", 0, 150, 4.0F, 0.5F, 15);
@@ -169,6 +178,7 @@ public class Registry {
         dirt = new BlockSoilDirt(Constants.soilTypes, "dirt");
         grass = new BlockSoilGrass(Constants.soilTypes, "grass");
         farmland = new BlockSoilFarmland(Constants.soilTypes, "farmland");
+        path = new BlockSoilPath(Constants.soilTypes, "path");
 
         native_copper = new BlockStoneOre(Constants.stoneTypes, Constants.native_copper);
         native_gold = new BlockStoneOre(Constants.stoneTypes, Constants.native_gold);
@@ -292,6 +302,7 @@ public class Registry {
         register(dirt, "dirt");
         register(grass, "grass");
         register(farmland, "farmland");
+        register(path, "path");
 
         register(native_copper, "native_copper");
         register(malachite, "malachite");
@@ -392,6 +403,24 @@ public class Registry {
         register(ceramic_bucket_modded, "ceramic_bucket_modded");
     }
 
+    public void setupThaumcraft() {
+        if (Mods.tc.isLoaded()) {
+            tc_air_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.aer);
+            tc_fire_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.ignis);
+            tc_water_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.aqua);
+            tc_earth_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.terra);
+            tc_order_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.ordo);
+            tc_entropy_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.perditio);
+
+            register(tc_air_ore, "tc_infused_air");
+            register(tc_fire_ore, "tc_infused_fire");
+            register(tc_water_ore, "tc_infused_water");
+            register(tc_earth_ore, "tc_infused_earth");
+            register(tc_order_ore, "tc_infused_order");
+            register(tc_entropy_ore, "tc_infused_entropy");
+        }
+    }
+
     public void setupTiles() {
         register(TileEntityPitKiln.class, "pit_kiln");
         register(TileEntityLogPile.class, "log_pile");
@@ -470,6 +499,10 @@ public class Registry {
         registerEvent(new HeatHandler());
         registerEvent(new FoodHandler());
         registerEvent(new PlayerHandler());
+
+        if (Mods.fm.isLoaded()) {
+            registerEvent(new ForbiddenMagicHandler());
+        }
     }
 
     public void setupServer() {
@@ -508,6 +541,7 @@ public class Registry {
         ((ItemBucketCeramicModded) ceramic_bucket_modded).registerModdedLiquids();
         PrimalEarlyGenerator.strataGen.initBlockList();
         PrimalEarlyGenerator.soilGen.initBlockList();
+        BlockStoneOreThaumcraft.setupShards();
     }
 
     public void setupHeatables() {
@@ -520,11 +554,6 @@ public class Registry {
         for (MetalType type : Constants.metalTypes) {
             type.meltingTemperature = 10;
         }
-        Constants.iron.meltingTemperature = 10;
-        Constants.gold.meltingTemperature = 10;
-        Constants.copper.meltingTemperature = 10;
-        Constants.tin.meltingTemperature = 10;
-        Constants.bronze.meltingTemperature = 10;
     }
 
     public void setupNEI() {

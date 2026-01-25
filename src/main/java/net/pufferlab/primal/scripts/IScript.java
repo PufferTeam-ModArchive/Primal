@@ -37,6 +37,14 @@ public interface IScript {
         return Utils.getFluid(fluid, number);
     }
 
+    default String getOreDictionaryName(String prefix, String suffix) {
+        return Utils.getOreDictionaryName(prefix, suffix);
+    }
+
+    default ItemStack getOreDictItem(String oreDict) {
+        return Utils.getOreDictItem(oreDict);
+    }
+
     default void addOreDict(String name, ItemStack item) {
         if (item != null) {
             OreDictionary.registerOre(name, item);

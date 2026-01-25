@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -51,6 +52,12 @@ public class BlockGroundcover extends BlockMeta {
     @Override
     public boolean canPlaceBlockAt(World worldIn, int x, int y, int z) {
         return this.canBlockStay(worldIn, x, y, z);
+    }
+
+    @Override
+    public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
+        float subY, float subZ) {
+        return worldIn.setBlockToAir(x, y, z);
     }
 
     @Override

@@ -97,6 +97,14 @@ public class Constants {
     public static final OreType[] oreTypes = new OreType[] { native_copper, malachite, cassiterite, native_gold,
         limonite, magnetite };
 
+    //Mod Compat
+    public static final OreType aer = new OreType("aer", 1, 0xFFFF7E);
+    public static final OreType ignis = new OreType("ignis", 1, 0xFF3C01);
+    public static final OreType aqua = new OreType("aqua", 1, 0x0090FF);
+    public static final OreType terra = new OreType("terra", 1, 0x00A000);
+    public static final OreType ordo = new OreType("ordo", 1, 0xEECCFF);
+    public static final OreType perditio = new OreType("perditio", 1,0x555577);
+
     //Vein Type
 
     public static final VeinType surface_copper = new VeinType(native_copper, "surface_copper", 40, 100, 3, 5, 0.5F,0.3F, 0.3F, andesite, granite, dacite, basalt, rhyolite, diorite);
@@ -105,6 +113,15 @@ public class Constants {
     public static final VeinType medium_cassiterite = new VeinType(cassiterite, "medium_cassiterite", 20, 50, 3, 5, 0.0F,0.5F, 0.2F, diorite, granite, dacite, claystone, andesite);
     public static final VeinType[] veinTypes = new VeinType[] { surface_copper, deep_copper, deep_malachite, medium_cassiterite };
     public static final VeinType[][] veinTypesLayer = VeinType.generateVeinCache(Constants.veinTypes);
+
+    public static final VeinType common_aer = new VeinType(aer, "common_aer", 0, 100, 2, 4, 0.0F, 0.3F, 0.4F, stoneTypes);
+    public static final VeinType common_ignis = new VeinType(ignis, "common_ignis", 0, 100, 2, 4, 0.0F, 0.3F, 0.4F, stoneTypes);
+    public static final VeinType common_aqua = new VeinType(aqua, "common_aqua", 0, 100, 2, 4, 0.0F, 0.3F, 0.4F, stoneTypes);
+    public static final VeinType common_terra  = new VeinType(terra, "common_terra", 0, 100, 2, 4, 0.0F, 0.3F, 0.4F, stoneTypes);
+    public static final VeinType common_ordo  = new VeinType(ordo, "common_ordo", 0, 100, 2, 4, 0.0F, 0.3F, 0.4F, stoneTypes);
+    public static final VeinType common_perditio  = new VeinType(perditio, "common_perditio", 0, 100, 2, 4, 0.0F, 0.3F, 0.4F, stoneTypes);
+    public static final VeinType[] tcVeinTypes = new VeinType[] { common_aer, common_ignis, common_aqua, common_terra, common_ordo, common_perditio };
+    public static final VeinType[][] tcVeinTypesLayer = VeinType.generateVeinCache(Constants.tcVeinTypes);
 
     // Soil Types
     public static final SoilType loamy = new SoilType("loamy");

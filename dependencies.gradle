@@ -38,6 +38,7 @@ dependencies {
 
     api("thaumcraft:Thaumcraft:1.7.10-4.2.3.5:dev") { transitive = false }
     api("com.github.GTNewHorizons:Baubles-Expanded:2.2.6-GTNH:dev") { transitive = false }
+    api("com.github.GTNewHorizons:ForbiddenMagic:0.9.7-GTNH:dev") {transitive = false}
     api("com.github.GTNewHorizons:NotEnoughItems:2.7.69-GTNH:dev")
     api("com.github.GTNewHorizons:Angelica:1.0.0-beta68a:dev") { transitive = false }
     api("com.github.GTNewHorizons:GTNHLib:0.8.33:dev") { transitive = false }

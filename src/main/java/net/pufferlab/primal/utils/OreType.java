@@ -15,11 +15,29 @@ public class OreType {
     public Item oreItem;
     public int oreMeta;
     public Block oreBlock;
+    public int color;
 
     public OreType(MetalType metalType, String name) {
         this.metalType = metalType;
         this.name = name;
         this.miningLevel = metalType.level;
+    }
+
+    public OreType(String name, int level) {
+        this.name = name;
+        this.miningLevel = level;
+    }
+
+    public OreType(String name, int level, int color) {
+        this.name = name;
+        this.miningLevel = level;
+        this.color = color;
+    }
+
+    public OreType setOreItem(Item item, int meta) {
+        this.oreItem = item;
+        this.oreMeta = meta;
+        return this;
     }
 
     public static String[] getNames(OreType[] stones) {

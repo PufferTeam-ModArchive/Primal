@@ -19,9 +19,9 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class WorldGenSoil {
 
-    private final List<Block> blockList = new ArrayList<>();
-    private final List<Block> dirtList = new ArrayList<>();
-    private final List<Block> grassList = new ArrayList<>();
+    private List<Block> blockList;
+    private List<Block> dirtList;
+    private List<Block> grassList;
     private final Map<Block, Block> blockReplacement = new HashMap<>();
 
     private final NoiseGeneratorPerlin[] noiseBiomeGen = new NoiseGeneratorPerlin[1];
@@ -38,20 +38,26 @@ public class WorldGenSoil {
     }
 
     public void initBlockList() {
-        if (Mods.bop.isLoaded()) {
-            dirtList.add(GameRegistry.findBlock(Mods.bop.MODID, "newBopDirt"));
-            dirtList.add(GameRegistry.findBlock(Mods.bop.MODID, "hardDirt"));
-            grassList.add(GameRegistry.findBlock(Mods.bop.MODID, "newBopGrass"));
-        }
-        dirtList.add(Blocks.dirt);
-        grassList.add(Blocks.grass);
-        blockList.addAll(dirtList);
-        blockList.addAll(grassList);
-        for (Block block : dirtList) {
-            blockReplacement.put(block, Registry.dirt);
-        }
-        for (Block block : grassList) {
-            blockReplacement.put(block, Registry.grass);
+        if (blockList == null && dirtList == null && grassList == null) {
+            blockList = new ArrayList<>();
+            dirtList = new ArrayList<>();
+            grassList = new ArrayList<>();
+
+            if (Mods.bop.isLoaded()) {
+                dirtList.add(GameRegistry.findBlock(Mods.bop.MODID, "newBopDirt"));
+                dirtList.add(GameRegistry.findBlock(Mods.bop.MODID, "hardDirt"));
+                grassList.add(GameRegistry.findBlock(Mods.bop.MODID, "newBopGrass"));
+            }
+            dirtList.add(Blocks.dirt);
+            grassList.add(Blocks.grass);
+            blockList.addAll(dirtList);
+            blockList.addAll(grassList);
+            for (Block block : dirtList) {
+                blockReplacement.put(block, Registry.dirt);
+            }
+            for (Block block : grassList) {
+                blockReplacement.put(block, Registry.grass);
+            }
         }
     }
 

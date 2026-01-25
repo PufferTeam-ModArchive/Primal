@@ -1,22 +1,18 @@
 package net.pufferlab.primal.blocks;
 
 import java.util.List;
-import java.util.Random;
 
-import net.minecraft.block.BlockGrass;
-import net.minecraft.block.IGrowable;
+import net.minecraft.block.BlockDirt;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
@@ -26,57 +22,69 @@ import net.pufferlab.primal.items.itemblocks.ItemBlockMeta;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlock, IGrowable {
+public class BlockMetaPath extends BlockDirt implements IPrimalBlock, IMetaBlock {
 
     protected String[] elements;
     protected String[] elementsBlacklist;
     protected IIcon[] icons;
-    public IIcon[] grassIcons;
-    public static final int grassSide = 0;
-    public static final int grassTop = 1;
-    public static final int grassSideSnowed = 2;
-    public static final int grassSideOverlay = 3;
-    public static final int empty = 4;
+    public IIcon[] pathIcons;
+    public static final int pathSide = 0;
+    public static final int pathTop = 1;
+    public static final int empty = 2;
     protected String name;
     protected String[] elementsTextures;
     public boolean hasSuffix;
-    public BlockMetaGrass blockTexture;
+    public BlockMetaPath blockTexture;
 
     public int renderPass;
     public int renderPass2;
     public boolean isInventory;
 
-    public BlockMetaGrass(Material material, String[] materials, String type, String[] blacklist, String[] tools,
+    public BlockMetaPath(Material material, String[] materials, String type, String[] blacklist, String[] tools,
         int[] levels) {
         super();
         elements = materials;
         name = type;
         elementsBlacklist = blacklist;
         blockTexture = this;
+        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.9375F, 1.0F);
+        this.useNeighborBrightness = true;
         this.setHarvestLevel("shovel", 0);
     }
 
-    public BlockMetaGrass(Material material, String[] materials, String type) {
+    public BlockMetaPath(Material material, String[] materials, String type) {
         this(material, materials, type, Constants.none, null, null);
     }
 
-    public BlockMetaGrass() {
+    public BlockMetaPath() {
         super();
+        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.9375F, 1.0F);
+        this.useNeighborBrightness = true;
     }
 
-    public BlockMetaGrass setTextureOverride(String[] elementsTextures) {
+    public BlockMetaPath setTextureOverride(String[] elementsTextures) {
         this.elementsTextures = elementsTextures;
         return this;
     }
 
-    public BlockMetaGrass setBlacklist(String[] blacklist) {
+    public BlockMetaPath setBlacklist(String[] blacklist) {
         this.elementsBlacklist = blacklist;
         return this;
     }
 
-    public BlockMetaGrass setHasSuffix() {
+    public BlockMetaPath setHasSuffix() {
         this.hasSuffix = true;
         return this;
+    }
+
+    public AxisAlignedBB getCollisionBoundingBoxFromPool(World worldIn, int x, int y, int z) {
+        return AxisAlignedBB.getBoundingBox(
+            (double) (x + 0),
+            (double) (y + 0),
+            (double) (z + 0),
+            (double) (x + 1),
+            (double) (y + 1),
+            (double) (z + 1));
     }
 
     @SideOnly(Side.CLIENT)
@@ -87,13 +95,11 @@ public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlo
             icons[i] = register.registerIcon(Primal.MODID + ":" + elements[i] + "_dirt");
         }
 
-        this.grassIcons = new IIcon[5];
+        this.pathIcons = new IIcon[3];
 
-        this.grassIcons[grassSide] = register.registerIcon("grass_side");
-        this.grassIcons[grassTop] = register.registerIcon("grass_top");
-        this.grassIcons[grassSideSnowed] = register.registerIcon(Primal.MODID + ":grass_side_snowed_overlay");
-        this.grassIcons[grassSideOverlay] = register.registerIcon("grass_side_overlay");
-        this.grassIcons[empty] = register.registerIcon(Primal.MODID + ":empty");
+        this.pathIcons[pathSide] = register.registerIcon(Primal.MODID + ":dirt_path_side");
+        this.pathIcons[pathTop] = register.registerIcon(Primal.MODID + ":dirt_path_top");
+        this.pathIcons[empty] = register.registerIcon(Primal.MODID + ":empty");
     }
 
     @SideOnly(Side.CLIENT)
@@ -112,23 +118,20 @@ public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlo
     }
 
     public IIcon getIcon(IBlockAccess worldIn, int x, int y, int z, int side, int meta) {
-        BlockMetaGrass inc = this.blockTexture;
+        BlockMetaPath inc = this.blockTexture;
         if (getPass() == 0) {
             if (side == 1) {
-                return inc.grassIcons[empty];
+                return inc.pathIcons[empty];
             } else {
                 return inc.icons[meta];
             }
         } else {
             if (side == 1) {
-                return inc.grassIcons[grassTop];
+                return inc.pathIcons[pathTop];
             } else if (side == 0) {
-                return inc.grassIcons[empty];
+                return inc.pathIcons[empty];
             } else {
-                Material material = worldIn.getBlock(x, y + 1, z)
-                    .getMaterial();
-                return material != Material.snow && material != Material.craftedSnow ? inc.grassIcons[grassSideOverlay]
-                    : inc.grassIcons[grassSideSnowed];
+                return inc.pathIcons[pathSide];
             }
         }
     }
@@ -146,21 +149,21 @@ public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlo
 
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
-        BlockMetaGrass inc = this.blockTexture;
+        BlockMetaPath inc = this.blockTexture;
         if (isInventory) {
             if (getPass() == 0) {
                 if (side == 1) {
-                    return inc.grassIcons[empty];
+                    return inc.pathIcons[empty];
                 } else {
                     return inc.icons[meta];
                 }
             } else {
                 if (side == 1) {
-                    return inc.grassIcons[grassTop];
+                    return inc.pathIcons[pathTop];
                 } else if (side == 0) {
-                    return inc.grassIcons[empty];
+                    return inc.pathIcons[empty];
                 } else {
-                    return inc.grassIcons[grassSideOverlay];
+                    return inc.pathIcons[pathSide];
                 }
             }
         } else {
@@ -177,53 +180,18 @@ public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlo
     }
 
     @Override
+    public boolean isOpaqueCube() {
+        return false;
+    }
+
+    @Override
+    public boolean renderAsNormalBlock() {
+        return false;
+    }
+
+    @Override
     public boolean hasOverlay() {
         return true;
-    }
-
-    @Override
-    public void func_149853_b(World worldIn, Random random, int x, int y, int z) {
-        int l = 0;
-
-        while (l < 128) {
-            int i1 = x;
-            int j1 = y + 1;
-            int k1 = z;
-            int l1 = 0;
-
-            while (true) {
-                if (l1 < l / 16) {
-                    i1 += random.nextInt(3) - 1;
-                    j1 += (random.nextInt(3) - 1) * random.nextInt(3) / 2;
-                    k1 += random.nextInt(3) - 1;
-
-                    if (Utils.isGrassBlock(worldIn.getBlock(i1, j1 - 1, k1)) && !worldIn.getBlock(i1, j1, k1)
-                        .isNormalCube()) {
-                        ++l1;
-                        continue;
-                    }
-                } else if (worldIn.getBlock(i1, j1, k1)
-                    .getMaterial() == Material.air) {
-                        if (random.nextInt(8) != 0) {
-                            if (Blocks.tallgrass.canBlockStay(worldIn, i1, j1, k1)) {
-                                worldIn.setBlock(i1, j1, k1, Blocks.tallgrass, 1, 3);
-                            }
-                        } else {
-                            worldIn.getBiomeGenForCoords(i1, k1)
-                                .plantFlower(worldIn, random, i1, j1, k1);
-                        }
-                    }
-
-                ++l;
-                break;
-            }
-        }
-    }
-
-    @Override
-    public boolean canSustainPlant(IBlockAccess world, int x, int y, int z, ForgeDirection direction,
-        IPlantable plantable) {
-        return Blocks.grass.canSustainPlant(world, x, y, z, direction, plantable);
     }
 
     @Override
@@ -259,6 +227,6 @@ public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlo
 
     @Override
     public int getRenderType() {
-        return Primal.proxy.getGrassRenderID();
+        return Primal.proxy.getPathRenderID();
     }
 }

@@ -3,9 +3,12 @@ package net.pufferlab.primal.commands;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.utils.StoneType;
+import net.pufferlab.primal.world.gen.WorldGenSoil;
+import net.pufferlab.primal.world.gen.WorldGenStrata;
 
 public class CommandStrata extends CommandSub {
 
@@ -14,27 +17,43 @@ public class CommandStrata extends CommandSub {
         World world = sender.getEntityWorld();
         ChunkCoordinates c = sender.getPlayerCoordinates();
 
-        StoneType[][] layers = Constants.stoneTypesLayer;
-        for (int x = -32; x <= 32; x++) {
-            for (int y = 0; y <= Constants.maxHeight; y++) {
-                for (int z = -32; z <= 32; z++) {
+        if (args.length > 0) {
+            if (args[0].equals("debug")) {
+                StoneType[][] layers = Constants.stoneTypesLayer;
+                for (int x = -32; x <= 32; x++) {
+                    for (int y = 0; y <= Constants.maxHeight; y++) {
+                        for (int z = -32; z <= 32; z++) {
 
-                    int bx = c.posX + x;
-                    int bz = c.posZ + z;
+                            int bx = c.posX + x;
+                            int bz = c.posZ + z;
 
-                    world.setBlockToAir(bx, y, bz);
+                            world.setBlockToAir(bx, y, bz);
+                        }
+                    }
                 }
-            }
-        }
-        for (int i = 0; i < layers.length; i++) {
-            StoneType[] stones = layers[i];
-            if (stones == null) continue;
-            for (int j = 0; j < stones.length; j++) {
-                int meta = StoneType.getMeta(Constants.stoneTypes, stones[j]);
+                for (int i = 0; i < layers.length; i++) {
+                    StoneType[] stones = layers[i];
+                    if (stones == null) continue;
+                    for (int j = 0; j < stones.length; j++) {
+                        int meta = StoneType.getMeta(Constants.stoneTypes, stones[j]);
 
-                world.setBlock(c.posX, i, c.posZ + j, Registry.stone, meta, 2);
-            }
+                        world.setBlock(c.posX, i, c.posZ + j, Registry.stone, meta, 2);
+                    }
 
+                }
+            } else if (args[0].equals("chunk")) {
+                WorldGenStrata gen = new WorldGenStrata();
+                WorldGenSoil genSoil = new WorldGenSoil();
+                int chunkX = c.posX >> 4;
+                int chunkZ = c.posZ >> 4;
+                Chunk chunk = world.getChunkFromChunkCoords(chunkX, chunkZ);
+                gen.initNoiseSeed(world);
+                gen.initBlockList();
+                genSoil.initNoiseSeed(world);
+                genSoil.initBlockList();
+                gen.genStrata(chunk);
+                genSoil.genSoil(chunk);
+            }
         }
     }
 

@@ -5,7 +5,6 @@ import java.util.Map;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.*;
 import net.pufferlab.primal.recipes.KnappingType;
-import net.pufferlab.primal.utils.StoneType;
 
 public class ScriptPrimitive implements IScript {
 
@@ -26,6 +25,7 @@ public class ScriptPrimitive implements IScript {
     public void runModCompat() {
         if (Mods.efr.isLoaded()) {
             addEFROredicts();
+            addEFRCraftingRecipes();
             addEFRCampfireRecipes();
             addEFRPitKilnRecipes();
             addEFRBarrelRecipes();
@@ -43,6 +43,8 @@ public class ScriptPrimitive implements IScript {
         addOreDict("kindling", getModItem("straw_kindling", 1));
         addOreDict("shell", getModItem("scallop", 1));
         addOreDict("shell", getModItem("conch", 1));
+        addOreDict("limeAny", getModItem("scallop", 1));
+        addOreDict("limeAny", getModItem("conch", 1));
         addOreDict("mold", getItem(Primal.MODID, "mold", wildcard, 1));
         addOreDict("barkWood", getItem(Primal.MODID, "bark", wildcard, 1));
         addOreDict("barkWoodTannin", getItem(Primal.MODID, "bark", Utils.getIndex(Constants.woodTypes, "oak"), 1));
@@ -65,13 +67,6 @@ public class ScriptPrimitive implements IScript {
         addOreDict("blockColoredHardenedClay", getItem("minecraft:stained_hardened_clay:*:1"));
         addOreDict("blockColoredHardenedClay", getItem("minecraft:hardened_clay:*:1"));
         addOreDict("blockColoredCarpet", getItem("minecraft:carpet:*:1"));
-        for (StoneType type : Constants.stoneTypes) {
-            String name = type.name;
-            addOreDict("rock", Utils.getModItem(name + "_rock", 1));
-            addOreDict("stone", Utils.getModItem(name + "_raw", 1));
-            addOreDict("cobblestone", Utils.getModItem(name + "_cobble", 1));
-            addOreDict("dirt", Utils.getModItem(name + "_dirt", 1));
-        }
         for (Map.Entry<String, ItemStack> entry : Utils.getOreDictCache()) {
             addOreDict(entry.getKey(), entry.getValue());
         }
@@ -139,6 +134,10 @@ public class ScriptPrimitive implements IScript {
         addShapedRecipe(getModItem("firestarter", 1), " I", "IS", 'S', getModItem("straw", 1), 'I', "stickWood");
     }
 
+    public void addEFRCraftingRecipes() {
+
+    }
+
     public void addCampfireRecipes() {
         addCampfireRecipe(getModItem("lit_torch", 1), getModItem("unlit_torch", 1));
         addCampfireRecipe(getItem("minecraft:bread:0:1"), getModItem("wheat_dough", 1));
@@ -161,7 +160,7 @@ public class ScriptPrimitive implements IScript {
 
     public void addQuernRecipes() {
         addQuernRecipe(getModItem("wheat_flour", 1), getItem("minecraft:wheat:0:1"));
-        addQuernRecipe(getModItem("lime_powder", 1), "shell");
+        addQuernRecipe(getModItem("lime_powder", 1), "limeAny");
     }
 
     public void addTanningRecipes() {

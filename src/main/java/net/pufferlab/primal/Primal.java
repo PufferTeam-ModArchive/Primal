@@ -49,6 +49,7 @@ public class Primal {
         proxy.preInit(event);
         proxy.setupResources();
         registry.setup();
+        registry.setupThaumcraft();
         registry.setupTiles();
         registry.setupFluids();
         registry.setupWorldGen();

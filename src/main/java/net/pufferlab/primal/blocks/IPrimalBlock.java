@@ -9,6 +9,14 @@ public interface IPrimalBlock {
 
     public CreativeTabs getCreativeTab();
 
+    default boolean isEmissive() {
+        return false;
+    };
+
+    default boolean hasOverlay() {
+        return false;
+    }
+
     default boolean canRegister() {
         return true;
     }

@@ -2,7 +2,6 @@ package net.pufferlab.primal.scripts;
 
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Constants;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.utils.MetalType;
 import net.pufferlab.primal.utils.OreType;
@@ -11,6 +10,7 @@ public class ScriptOreProcessing implements IScript {
 
     public void run() {
         addOreDicts();
+        addCraftingRecipes();
         addToolRecipes();
         addMeltingRecipes();
         addCastingRecipes();
@@ -34,56 +34,87 @@ public class ScriptOreProcessing implements IScript {
         addOreDict("hoeBronze", getModItem("bronze_hoe", 1));
     }
 
+    public void addCraftingRecipes() {
+        for (MetalType type : Constants.metalTypes) {
+            String name = type.name;
+            addShapedRecipe(
+                getOreDictItem(getOreDictionaryName("block", name)),
+                "PPP",
+                "PPP",
+                "PPP",
+                'P',
+                getOreDictItem(getOreDictionaryName("ingot", name)));
+            addShapedRecipe(
+                getOreDictItem(getOreDictionaryName("ingot", name)),
+                "P",
+                'P',
+                getOreDictItem(getOreDictionaryName("block", name)));
+
+            addShapedRecipe(
+                getOreDictItem(getOreDictionaryName("ingot", name)),
+                "PPP",
+                "PPP",
+                "PPP",
+                'P',
+                getOreDictItem(getOreDictionaryName("nugget", name)));
+            addShapedRecipe(
+                getOreDictItem(getOreDictionaryName("nugget", name)),
+                "P",
+                'P',
+                getOreDictItem(getOreDictionaryName("ingot", name)));
+        }
+    }
+
     public void addToolRecipes() {
         for (MetalType type : Constants.toolMetalTypes) {
             String name = type.name;
 
             addShapedRecipe(
-                Utils.getOreDictItem(Utils.getOreDictionaryName("pickaxe", name)),
+                getOreDictItem(getOreDictionaryName("pickaxe", name)),
                 "I",
                 "S",
                 'I',
-                Utils.getOreDictItem(Utils.getOreDictionaryName("pickaxe_head", name)),
+                getOreDictItem(getOreDictionaryName("pickaxe_head", name)),
                 'S',
                 "stickWood");
             addShapedRecipe(
-                Utils.getOreDictItem(Utils.getOreDictionaryName("axe", name)),
+                getOreDictItem(getOreDictionaryName("axe", name)),
                 "I",
                 "S",
                 'I',
-                Utils.getOreDictItem(Utils.getOreDictionaryName("axe_head", name)),
+                getOreDictItem(getOreDictionaryName("axe_head", name)),
                 'S',
                 "stickWood");
             addShapedRecipe(
-                Utils.getOreDictItem(Utils.getOreDictionaryName("shovel", name)),
+                getOreDictItem(getOreDictionaryName("shovel", name)),
                 "I",
                 "S",
                 'I',
-                Utils.getOreDictItem(Utils.getOreDictionaryName("shovel_head", name)),
+                getOreDictItem(getOreDictionaryName("shovel_head", name)),
                 'S',
                 "stickWood");
             addShapedRecipe(
-                Utils.getOreDictItem(Utils.getOreDictionaryName("sword", name)),
+                getOreDictItem(getOreDictionaryName("sword", name)),
                 "I",
                 "S",
                 'I',
-                Utils.getOreDictItem(Utils.getOreDictionaryName("sword_blade", name)),
+                getOreDictItem(getOreDictionaryName("sword_blade", name)),
                 'S',
                 "stickWood");
             addShapedRecipe(
-                Utils.getOreDictItem(Utils.getOreDictionaryName("knife", name)),
+                getOreDictItem(getOreDictionaryName("knife", name)),
                 "I",
                 "S",
                 'I',
-                Utils.getOreDictItem(Utils.getOreDictionaryName("knife_blade", name)),
+                getOreDictItem(getOreDictionaryName("knife_blade", name)),
                 'S',
                 "stickWood");
             addShapedRecipe(
-                Utils.getOreDictItem(Utils.getOreDictionaryName("hoe", name)),
+                getOreDictItem(getOreDictionaryName("hoe", name)),
                 "I",
                 "S",
                 'I',
-                Utils.getOreDictItem(Utils.getOreDictionaryName("hoe_head", name)),
+                getOreDictItem(getOreDictionaryName("hoe_head", name)),
                 'S',
                 "stickWood");
         }
@@ -93,23 +124,23 @@ public class ScriptOreProcessing implements IScript {
         for (MetalType type : Constants.metalTypes) {
             String name = type.name;
 
-            addMeltingRecipe(type.ingotFluid, Utils.getOreDictionaryName("ingot", name));
-            addMeltingRecipe(type.nuggetFluid, Utils.getOreDictionaryName("nugget", name));
+            addMeltingRecipe(type.ingotFluid, getOreDictionaryName("ingot", name));
+            addMeltingRecipe(type.nuggetFluid, getOreDictionaryName("nugget", name));
         }
         for (OreType type : Constants.oreTypes) {
             String name = type.name;
-            addMeltingRecipe(type.metalType.oreFluid, Utils.getOreDictionaryName("medium_ore", name));
-            addMeltingRecipe(type.metalType.smallOreFluid, Utils.getOreDictionaryName("small_ore", name));
+            addMeltingRecipe(type.metalType.oreFluid, getOreDictionaryName("medium_ore", name));
+            addMeltingRecipe(type.metalType.smallOreFluid, getOreDictionaryName("small_ore", name));
         }
         for (MetalType type : Constants.toolMetalTypes) {
             String name = type.name;
 
-            addMeltingRecipe(type.tripleIngotFluid, Utils.getOreDictionaryName("pickaxe_head", name));
-            addMeltingRecipe(type.tripleIngotFluid, Utils.getOreDictionaryName("axe_head", name));
-            addMeltingRecipe(type.ingotFluid, Utils.getOreDictionaryName("shovel_head", name));
-            addMeltingRecipe(type.doubleIngotFluid, Utils.getOreDictionaryName("sword_blade", name));
-            addMeltingRecipe(type.ingotFluid, Utils.getOreDictionaryName("knife_blade", name));
-            addMeltingRecipe(type.doubleIngotFluid, Utils.getOreDictionaryName("hoe_head", name));
+            addMeltingRecipe(type.tripleIngotFluid, getOreDictionaryName("pickaxe_head", name));
+            addMeltingRecipe(type.tripleIngotFluid, getOreDictionaryName("axe_head", name));
+            addMeltingRecipe(type.ingotFluid, getOreDictionaryName("shovel_head", name));
+            addMeltingRecipe(type.doubleIngotFluid, getOreDictionaryName("sword_blade", name));
+            addMeltingRecipe(type.ingotFluid, getOreDictionaryName("knife_blade", name));
+            addMeltingRecipe(type.doubleIngotFluid, getOreDictionaryName("hoe_head", name));
         }
     }
 
@@ -118,10 +149,7 @@ public class ScriptOreProcessing implements IScript {
         for (MetalType type : Constants.metalTypes) {
             String name = type.name;
 
-            addCastingRecipe(
-                ingotMold,
-                Utils.getOreDictItem(Utils.getOreDictionaryName("ingot", name)),
-                type.ingotFluid);
+            addCastingRecipe(ingotMold, getOreDictItem(getOreDictionaryName("ingot", name)), type.ingotFluid);
 
         }
         ItemStack pickaxeMold = getModItem("pickaxe_mold", 1);
@@ -134,28 +162,16 @@ public class ScriptOreProcessing implements IScript {
             String name = type.name;
             addCastingRecipe(
                 pickaxeMold,
-                Utils.getOreDictItem(Utils.getOreDictionaryName("pickaxe_head", name)),
+                getOreDictItem(getOreDictionaryName("pickaxe_head", name)),
                 type.tripleIngotFluid);
-            addCastingRecipe(
-                axeMold,
-                Utils.getOreDictItem(Utils.getOreDictionaryName("axe_head", name)),
-                type.tripleIngotFluid);
-            addCastingRecipe(
-                shovelMold,
-                Utils.getOreDictItem(Utils.getOreDictionaryName("shovel_head", name)),
-                type.ingotFluid);
+            addCastingRecipe(axeMold, getOreDictItem(getOreDictionaryName("axe_head", name)), type.tripleIngotFluid);
+            addCastingRecipe(shovelMold, getOreDictItem(getOreDictionaryName("shovel_head", name)), type.ingotFluid);
             addCastingRecipe(
                 swordMold,
-                Utils.getOreDictItem(Utils.getOreDictionaryName("sword_blade", name)),
+                getOreDictItem(getOreDictionaryName("sword_blade", name)),
                 type.doubleIngotFluid);
-            addCastingRecipe(
-                knifeMold,
-                Utils.getOreDictItem(Utils.getOreDictionaryName("knife_blade", name)),
-                type.ingotFluid);
-            addCastingRecipe(
-                hoeMold,
-                Utils.getOreDictItem(Utils.getOreDictionaryName("hoe_head", name)),
-                type.doubleIngotFluid);
+            addCastingRecipe(knifeMold, getOreDictItem(getOreDictionaryName("knife_blade", name)), type.ingotFluid);
+            addCastingRecipe(hoeMold, getOreDictItem(getOreDictionaryName("hoe_head", name)), type.doubleIngotFluid);
         }
     }
 

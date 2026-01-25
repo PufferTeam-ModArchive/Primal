@@ -32,6 +32,9 @@ public class BlockMetaOre extends BlockStone implements IPrimalBlock, IMetaBlock
     protected String[] elementsTextures;
     public boolean hasSuffix;
     public BlockMetaOre blockTexture;
+    public boolean isEmissive;
+    public String topTexture;
+    public int color = 16777215;
 
     public int renderPass;
     public int renderPass2;
@@ -73,6 +76,42 @@ public class BlockMetaOre extends BlockStone implements IPrimalBlock, IMetaBlock
         return this;
     }
 
+    public BlockMetaOre setEmissive(int color) {
+        this.isEmissive = true;
+        this.color = color;
+        return this;
+    }
+
+    public BlockMetaOre setEmissiveTexture(String topTexture) {
+        this.topTexture = topTexture;
+        return this;
+    }
+
+    @Override
+    public boolean hasOverlay() {
+        return true;
+    }
+
+    @Override
+    public boolean isEmissive() {
+        return this.blockTexture.isEmissive;
+    }
+
+    @Override
+    public int getBlockColor() {
+        return this.blockTexture.color;
+    }
+
+    @Override
+    public int colorMultiplier(IBlockAccess worldIn, int x, int y, int z) {
+        return this.blockTexture.color;
+    }
+
+    @Override
+    public int getRenderColor(int meta) {
+        return this.blockTexture.color;
+    }
+
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister register) {
         icons = new IIcon[elements.length];
@@ -83,7 +122,11 @@ public class BlockMetaOre extends BlockStone implements IPrimalBlock, IMetaBlock
 
         this.oreIcons = new IIcon[2];
 
-        this.oreIcons[oreOverlay] = register.registerIcon(Primal.MODID + ":" + name + "_ore");
+        if (topTexture != null) {
+            this.oreIcons[oreOverlay] = register.registerIcon(Primal.MODID + ":" + topTexture);
+        } else {
+            this.oreIcons[oreOverlay] = register.registerIcon(Primal.MODID + ":" + name + "_ore");
+        }
         this.oreIcons[empty] = register.registerIcon(Primal.MODID + ":empty");
     }
 

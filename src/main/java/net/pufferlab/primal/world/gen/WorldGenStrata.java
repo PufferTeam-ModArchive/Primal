@@ -18,14 +18,13 @@ import net.pufferlab.primal.utils.StoneType;
 import net.pufferlab.primal.utils.WorldUtils;
 
 import biomesoplenty.api.content.BOPCBiomes;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class WorldGenStrata {
 
-    private final List<Block> blockList = new ArrayList<>();
-    private final List<Block> stoneList = new ArrayList<>();
-    private final List<Block> gravelList = new ArrayList<>();
-    private final List<Block> sandList = new ArrayList<>();
+    private List<Block> blockList;
+    private List<Block> stoneList;
+    private List<Block> gravelList;
+    private List<Block> sandList;
     private final Map<Block, Block> blockReplacement = new HashMap<>();
 
     private final Map<Block, List<BiomeGenBase>> stoneTypeBiomeMap = new HashMap<>();
@@ -54,71 +53,84 @@ public class WorldGenStrata {
     }
 
     public void initBlockList() {
-        stoneList.add(Blocks.stone);
-        if (!Config.enableVanillaOres.getBoolean()) {
-            stoneList.add(Blocks.coal_ore);
-            stoneList.add(Blocks.iron_ore);
-            stoneList.add(Blocks.gold_ore);
-            stoneList.add(Blocks.redstone_ore);
-            stoneList.add(Blocks.lapis_ore);
-            stoneList.add(Blocks.diamond_ore);
-            stoneList.add(Blocks.emerald_ore);
-            if (Mods.efr.isLoaded()) {
-                stoneList.add(GameRegistry.findBlock(Mods.efr.MODID, "copper_ore"));
-                stoneList.add(GameRegistry.findBlock(Mods.efr.MODID, "deepslate_copper_ore"));
-                stoneList.add(GameRegistry.findBlock(Mods.efr.MODID, "deepslate_coal_ore"));
-                stoneList.add(GameRegistry.findBlock(Mods.efr.MODID, "deepslate_iron_ore"));
-                stoneList.add(GameRegistry.findBlock(Mods.efr.MODID, "deepslate_gold_ore"));
-                stoneList.add(GameRegistry.findBlock(Mods.efr.MODID, "deepslate_redstone_ore"));
-                stoneList.add(GameRegistry.findBlock(Mods.efr.MODID, "deepslate_lapis_ore"));
-                stoneList.add(GameRegistry.findBlock(Mods.efr.MODID, "deepslate_diamond_ore"));
-                stoneList.add(GameRegistry.findBlock(Mods.efr.MODID, "deepslate_emerald_ore"));
+        if (blockList == null && stoneList == null && gravelList == null && sandList == null) {
+            blockList = new ArrayList<>();
+            stoneList = new ArrayList<>();
+            gravelList = new ArrayList<>();
+            sandList = new ArrayList<>();
+
+            stoneList.add(Blocks.stone);
+            if (!Config.enableVanillaOres.getBoolean()) {
+                stoneList.add(Blocks.coal_ore);
+                stoneList.add(Blocks.iron_ore);
+                stoneList.add(Blocks.gold_ore);
+                stoneList.add(Blocks.redstone_ore);
+                stoneList.add(Blocks.lapis_ore);
+                stoneList.add(Blocks.diamond_ore);
+                stoneList.add(Blocks.emerald_ore);
+                if (Mods.tc.isLoaded()) {
+                    stoneList.add(Mods.tc.getModBlock("blockCustomOre"));
+                }
+                if (Mods.efr.isLoaded()) {
+                    stoneList.add(Mods.efr.getModBlock("copper_ore"));
+                    stoneList.add(Mods.efr.getModBlock("deepslate_copper_ore"));
+                    stoneList.add(Mods.efr.getModBlock("deepslate_coal_ore"));
+                    stoneList.add(Mods.efr.getModBlock("deepslate_iron_ore"));
+                    stoneList.add(Mods.efr.getModBlock("deepslate_gold_ore"));
+                    stoneList.add(Mods.efr.getModBlock("deepslate_redstone_ore"));
+                    stoneList.add(Mods.efr.getModBlock("deepslate_lapis_ore"));
+                    stoneList.add(Mods.efr.getModBlock("deepslate_diamond_ore"));
+                    stoneList.add(Mods.efr.getModBlock("deepslate_emerald_ore"));
+                    if (Mods.tc.isLoaded()) {
+                        stoneList.add(Mods.efr.getModBlock("deepslate_thaumcraft_ore"));
+                    }
+                }
             }
-        }
-        gravelList.add(Blocks.gravel);
-        if (Mods.efr.isLoaded()) {
-            stoneList.add(GameRegistry.findBlock(Mods.efr.MODID, "stone"));
-            stoneList.add(GameRegistry.findBlock(Mods.efr.MODID, "deepslate"));
-            stoneList.add(GameRegistry.findBlock(Mods.efr.MODID, "tuff"));
-        }
-        if (Mods.bop.isLoaded()) {
-            Block volcanicStone = GameRegistry.findBlock(Mods.bop.MODID, "ashStone");
-            Block rocks = GameRegistry.findBlock(Mods.bop.MODID, "rocks");
-            stoneList.add(volcanicStone);
-            stoneList.add(rocks);
+            gravelList.add(Blocks.gravel);
+            if (Mods.efr.isLoaded()) {
+                stoneList.add(Mods.efr.getModBlock("stone"));
+                stoneList.add(Mods.efr.getModBlock("deepslate"));
+                stoneList.add(Mods.efr.getModBlock("tuff"));
+            }
+            if (Mods.bop.isLoaded()) {
+                Block volcanicStone = Mods.bop.getModBlock("ashStone");
+                Block rocks = Mods.bop.getModBlock("rocks");
+                stoneList.add(volcanicStone);
+                stoneList.add(rocks);
 
-            // Volcano are with basalt
-            BiomeGenBase biomeVolcano = BOPCBiomes.volcano;
-            stoneTypeBiomeMap.put(volcanicStone, Collections.singletonList(biomeVolcano));
-            stoneTypeMap.put(volcanicStone, Constants.basalt);
-        }
-        // Desert Sandstone
-        BiomeGenBase[] desert = new BiomeGenBase[] { BiomeGenBase.desert, BiomeGenBase.desertHills };
-        Block sandstone = Blocks.sandstone;
-        Block sand = Blocks.sand;
-        stoneList.add(sandstone);
-        sandList.add(sand);
-        stoneTypeBiomeMap.put(sandstone, Arrays.asList(desert));
-        stoneTypeMap.put(sandstone, Constants.sandstone);
-        stoneTypeBiomeMap.put(sand, Arrays.asList(desert));
-        stoneTypeMap.put(sand, Constants.sandstone);
+                // Volcano are with basalt
+                BiomeGenBase biomeVolcano = BOPCBiomes.volcano;
+                stoneTypeBiomeMap.put(volcanicStone, Collections.singletonList(biomeVolcano));
+                stoneTypeMap.put(volcanicStone, Constants.basalt);
+            }
+            // Desert Sandstone
+            BiomeGenBase[] desert = new BiomeGenBase[] { BiomeGenBase.desert, BiomeGenBase.desertHills };
+            Block sandstone = Blocks.sandstone;
+            Block sand = Blocks.sand;
+            stoneList.add(sandstone);
+            sandList.add(sand);
+            stoneTypeBiomeMap.put(sandstone, Arrays.asList(desert));
+            stoneTypeMap.put(sandstone, Constants.sandstone);
+            stoneTypeBiomeMap.put(sand, Arrays.asList(desert));
+            stoneTypeMap.put(sand, Constants.sandstone);
 
-        blockList.add(Registry.ground_rock);
-        blockReplacement.put(Registry.ground_rock, Registry.ground_rock);
+            blockList.add(Registry.ground_rock);
+            blockReplacement.put(Registry.ground_rock, Registry.ground_rock);
 
-        for (Block block : stoneList) {
-            blockReplacement.put(block, Registry.stone);
-        }
-        for (Block block : sandList) {
-            blockReplacement.put(block, Registry.sand);
-        }
-        for (Block block : gravelList) {
-            blockReplacement.put(block, Registry.gravel);
-        }
+            for (Block block : stoneList) {
+                blockReplacement.put(block, Registry.stone);
+            }
+            for (Block block : sandList) {
+                blockReplacement.put(block, Registry.sand);
+            }
+            for (Block block : gravelList) {
+                blockReplacement.put(block, Registry.gravel);
+            }
 
-        blockList.addAll(stoneList);
-        blockList.addAll(gravelList);
-        blockList.addAll(sandList);
+            blockList.addAll(stoneList);
+            blockList.addAll(gravelList);
+            blockList.addAll(sandList);
+        }
     }
 
     public void genStrata(Chunk chunk) {

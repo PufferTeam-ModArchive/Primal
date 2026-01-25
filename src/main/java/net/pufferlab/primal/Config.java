@@ -95,6 +95,9 @@ public enum Config {
     enableVanillaOres(Module.worldgen, false, "Put to true if you want the vanilla ores back"),
     oreVeins(Module.worldgen, true, "Whether to enable large ore veins"),
     oreVeinsWorldGen(Module.worldgen, true, "Whether to enable the generation of the ore types"),
+    thaumcraftOreVeins(Module.worldgen, true, "Whether to enable large ore veins for Thaumcraft"),
+    thaumcraftOreVeinsWorldGen(Module.worldgen, true,
+        "Whether to enable the generation of the ore types for Thaumcraft"),
 
     // Mixins
     dragonAPIPlantFix(Module.compat, true,
@@ -181,56 +184,56 @@ public enum Config {
 
     public boolean getBoolean() {
         if (!this.isBoolean) {
-            throw new IllegalArgumentException();
+            throw new NullPointerException();
         }
         return bValue;
     }
 
     public boolean getDefaultBoolean() {
         if (!this.isBoolean) {
-            throw new IllegalArgumentException();
+            throw new NullPointerException();
         }
         return bDefault;
     }
 
     public int getInt() {
         if (!this.isInt) {
-            throw new IllegalArgumentException();
+            throw new NullPointerException();
         }
         return iValue;
     }
 
     public int getDefaultInt() {
         if (!this.isInt) {
-            throw new IllegalArgumentException();
+            throw new NullPointerException();
         }
         return iDefault;
     }
 
     public float getFloat() {
         if (!this.isFloat) {
-            throw new IllegalArgumentException();
+            throw new NullPointerException();
         }
         return fValue;
     }
 
     public float getDefaultFloat() {
         if (!this.isFloat) {
-            throw new IllegalArgumentException();
+            throw new NullPointerException();
         }
         return fDefault;
     }
 
     public int getChance() {
         if (!this.isFloat) {
-            throw new IllegalArgumentException();
+            throw new NullPointerException();
         }
         return (int) Math.floor(1 / getFloat());
     }
 
     public String[] getStringList() {
         if (!this.isStringList) {
-            throw new IllegalArgumentException();
+            throw new NullPointerException();
         }
         return slValue;
     }

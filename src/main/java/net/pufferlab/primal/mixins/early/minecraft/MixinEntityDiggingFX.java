@@ -2,8 +2,7 @@ package net.pufferlab.primal.mixins.early.minecraft;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.particle.EntityDiggingFX;
-import net.minecraft.init.Blocks;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.blocks.IPrimalBlock;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -21,15 +20,19 @@ public abstract class MixinEntityDiggingFX {
 
     @Inject(method = "applyColourMultiplier", at = @At("HEAD"), cancellable = true)
     public void applyColourMultiplier$primal(int x, int y, int z, CallbackInfoReturnable<EntityDiggingFX> cir) {
-        if (Utils.isGrassBlock(this.field_145784_a) && this.field_145784_a != Blocks.grass) {
-            cir.setReturnValue((EntityDiggingFX) (Object) this);
+        if (this.field_145784_a instanceof IPrimalBlock block) {
+            if (block.hasOverlay()) {
+                cir.setReturnValue((EntityDiggingFX) (Object) this);
+            }
         }
     }
 
     @Inject(method = "applyRenderColor", at = @At("HEAD"), cancellable = true)
     public void applyRenderColor$primal(int p_90019_1_, CallbackInfoReturnable<EntityDiggingFX> cir) {
-        if (Utils.isGrassBlock(this.field_145784_a)) {
-            cir.setReturnValue((EntityDiggingFX) (Object) this);
+        if (this.field_145784_a instanceof IPrimalBlock block) {
+            if (block.hasOverlay()) {
+                cir.setReturnValue((EntityDiggingFX) (Object) this);
+            }
         }
     }
 

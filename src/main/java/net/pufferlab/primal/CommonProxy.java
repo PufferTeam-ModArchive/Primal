@@ -107,6 +107,10 @@ public class CommonProxy implements IGuiHandler {
         return 0;
     }
 
+    public int getPathRenderID() {
+        return 0;
+    }
+
     public int getOreRenderID() {
         return 0;
     }

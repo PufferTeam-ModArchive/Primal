@@ -78,6 +78,14 @@ public class VeinType {
         return null;
     }
 
+    public static VeinType pickOneThaumcraftVeinType(Random rand, int y) {
+        VeinType[] cache = Constants.tcVeinTypesLayer[y];
+        if (cache != null) {
+            return cache[rand.nextInt(cache.length)];
+        }
+        return null;
+    }
+
     public static VeinType[][] generateVeinCache(VeinType[] stoneTypes) {
         VeinType[][] cache = new VeinType[Constants.maxHeight][];
 

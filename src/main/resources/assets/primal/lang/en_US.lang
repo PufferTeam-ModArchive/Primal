@@ -242,26 +242,32 @@ item.primal.slate_rock.name=Slate Rock
 item.primal.schist_rock.name=Schist Rock
 
 tile.primal.loamy_dirt.name=Loamy Dirt
+tile.primal.loamy_path.name=Loamy Path
 tile.primal.loamy_grass.name=Loamy Grass
 tile.primal.loamy_farmland.name=Loamy Farmland
 
 tile.primal.sandy_dirt.name=Sandy Dirt
+tile.primal.sandy_path.name=Sandy Path
 tile.primal.sandy_grass.name=Sandy Grass
 tile.primal.sandy_farmland.name=Sandy Farmland
 
 tile.primal.silty_dirt.name=Silty Dirt
+tile.primal.silty_path.name=Silty Path
 tile.primal.silty_grass.name=Silty Grass
 tile.primal.silty_farmland.name=Silty Farmland
 
 tile.primal.sandy_loam_dirt.name=Sandy Loam Dirt
+tile.primal.sandy_loam_path.name=Sandy Loam Path
 tile.primal.sandy_loam_grass.name=Sandy Loam Grass
 tile.primal.sandy_loam_farmland.name=Sandy Loam Farmland
 
 tile.primal.silty_loam_dirt.name=Silty Loam Dirt
+tile.primal.silty_loam_path.name=Silty Loam Path
 tile.primal.silty_loam_grass.name=Silty Loam Grass
 tile.primal.silty_loam_farmland.name=Silty Loam Farmland
 
 tile.primal.peaty_dirt.name=Peaty Dirt
+tile.primal.peaty_path.name=Peaty Path
 tile.primal.peaty_grass.name=Peaty Grass
 tile.primal.peaty_farmland.name=Peaty Farmland
 
@@ -484,3 +490,93 @@ item.primal.magnetite_medium_ore.name=Magnetite Ore
 item.primal.magnetite_small_ore.name=Small Magnetite Ore
 item.primal.limonite_medium_ore.name=Limonite Ore
 item.primal.limonite_small_ore.name=Small Limonite Ore
+
+tile.primal.andesite_aer.name=Air Infused Andesite
+tile.primal.basalt_aer.name=Air Infused Basalt
+tile.primal.dacite_aer.name=Air Infused Dacite
+tile.primal.rhyolite_aer.name=Air Infused Rhyolite
+tile.primal.diorite_aer.name=Air Infused Diorite
+tile.primal.gabbro_aer.name=Air Infused Gabbro
+tile.primal.granite_aer.name=Air Infused Granite
+tile.primal.claystone_aer.name=Air Infused Claystone
+tile.primal.limestone_aer.name=Air Infused Limestone
+tile.primal.sandstone_aer.name=Air Infused Sandstone
+tile.primal.shale_aer.name=Air Infused Shale
+tile.primal.chalk_aer.name=Air Infused Chalk
+tile.primal.slate_aer.name=Air Infused Slate
+tile.primal.schist_aer.name=Air Infused Schist
+
+tile.primal.andesite_ignis.name=Fire Infused Andesite
+tile.primal.basalt_ignis.name=Fire Infused Basalt
+tile.primal.dacite_ignis.name=Fire Infused Dacite
+tile.primal.rhyolite_ignis.name=Fire Infused Rhyolite
+tile.primal.diorite_ignis.name=Fire Infused Diorite
+tile.primal.gabbro_ignis.name=Fire Infused Gabbro
+tile.primal.granite_ignis.name=Fire Infused Granite
+tile.primal.claystone_ignis.name=Fire Infused Claystone
+tile.primal.limestone_ignis.name=Fire Infused Limestone
+tile.primal.sandstone_ignis.name=Fire Infused Sandstone
+tile.primal.shale_ignis.name=Fire Infused Shale
+tile.primal.chalk_ignis.name=Fire Infused Chalk
+tile.primal.slate_ignis.name=Fire Infused Slate
+tile.primal.schist_ignis.name=Fire Infused Schist
+
+tile.primal.andesite_aqua.name=Water Infused Andesite
+tile.primal.basalt_aqua.name=Water Infused Basalt
+tile.primal.dacite_aqua.name=Water Infused Dacite
+tile.primal.rhyolite_aqua.name=Water Infused Rhyolite
+tile.primal.diorite_aqua.name=Water Infused Diorite
+tile.primal.gabbro_aqua.name=Water Infused Gabbro
+tile.primal.granite_aqua.name=Water Infused Granite
+tile.primal.claystone_aqua.name=Water Infused Claystone
+tile.primal.limestone_aqua.name=Water Infused Limestone
+tile.primal.sandstone_aqua.name=Water Infused Sandstone
+tile.primal.shale_aqua.name=Water Infused Shale
+tile.primal.chalk_aqua.name=Water Infused Chalk
+tile.primal.slate_aqua.name=Water Infused Slate
+tile.primal.schist_aqua.name=Water Infused Schist
+
+tile.primal.andesite_terra.name=Earth Infused Andesite
+tile.primal.basalt_terra.name=Earth Infused Basalt
+tile.primal.dacite_terra.name=Earth Infused Dacite
+tile.primal.rhyolite_terra.name=Earth Infused Rhyolite
+tile.primal.diorite_terra.name=Earth Infused Diorite
+tile.primal.gabbro_terra.name=Earth Infused Gabbro
+tile.primal.granite_terra.name=Earth Infused Granite
+tile.primal.claystone_terra.name=Earth Infused Claystone
+tile.primal.limestone_terra.name=Earth Infused Limestone
+tile.primal.sandstone_terra.name=Earth Infused Sandstone
+tile.primal.shale_terra.name=Earth Infused Shale
+tile.primal.chalk_terra.name=Earth Infused Chalk
+tile.primal.slate_terra.name=Earth Infused Slate
+tile.primal.schist_terra.name=Earth Infused Schist
+
+tile.primal.andesite_ordo.name=Order Infused Andesite
+tile.primal.basalt_ordo.name=Order Infused Basalt
+tile.primal.dacite_ordo.name=Order Infused Dacite
+tile.primal.rhyolite_ordo.name=Order Infused Rhyolite
+tile.primal.diorite_ordo.name=Order Infused Diorite
+tile.primal.gabbro_ordo.name=Order Infused Gabbro
+tile.primal.granite_ordo.name=Order Infused Granite
+tile.primal.claystone_ordo.name=Order Infused Claystone
+tile.primal.limestone_ordo.name=Order Infused Limestone
+tile.primal.sandstone_ordo.name=Order Infused Sandstone
+tile.primal.shale_ordo.name=Order Infused Shale
+tile.primal.chalk_ordo.name=Order Infused Chalk
+tile.primal.slate_ordo.name=Order Infused Slate
+tile.primal.schist_ordo.name=Order Infused Schist
+
+tile.primal.andesite_perditio.name=Entropy Infused Andesite
+tile.primal.basalt_perditio.name=Entropy Infused Basalt
+tile.primal.dacite_perditio.name=Entropy Infused Dacite
+tile.primal.rhyolite_perditio.name=Entropy Infused Rhyolite
+tile.primal.diorite_perditio.name=Entropy Infused Diorite
+tile.primal.gabbro_perditio.name=Entropy Infused Gabbro
+tile.primal.granite_perditio.name=Entropy Infused Granite
+tile.primal.claystone_perditio.name=Entropy Infused Claystone
+tile.primal.limestone_perditio.name=Entropy Infused Limestone
+tile.primal.sandstone_perditio.name=Entropy Infused Sandstone
+tile.primal.shale_perditio.name=Entropy Infused Shale
+tile.primal.chalk_perditio.name=Entropy Infused Chalk
+tile.primal.slate_perditio.name=Entropy Infused Slate
+tile.primal.schist_perditio.name=Entropy Infused Schist
