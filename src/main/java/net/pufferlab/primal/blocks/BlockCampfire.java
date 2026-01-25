@@ -19,16 +19,19 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Registry;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.*;
 import net.pufferlab.primal.items.itemblocks.ItemBlockCampfire;
 import net.pufferlab.primal.recipes.CampfireRecipe;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 
-public class BlockCampfire extends BlockPrimal {
+import com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness;
+
+import cpw.mods.fml.common.Optional;
+
+@Optional.Interface(iface = "com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness", modid = "rple")
+public class BlockCampfire extends BlockPrimal implements RPLECustomBlockBrightness {
 
     public IIcon[] icons = new IIcon[6];
 
@@ -41,6 +44,27 @@ public class BlockCampfire extends BlockPrimal {
         this.setHardness(0.4F);
         this.setTickRandomly(true);
         this.canBlockGrass = false;
+    }
+
+    @Override
+    public short rple$getCustomBrightnessColor() {
+        return Constants.lightNone;
+    }
+
+    @Override
+    public short rple$getCustomBrightnessColor(int blockMeta) {
+        return Constants.lightNone;
+    }
+
+    @Override
+    public short rple$getCustomBrightnessColor(IBlockAccess world, int blockMeta, int posX, int posY, int posZ) {
+        TileEntity te = world.getTileEntity(posX, posY, posZ);
+        if (te instanceof TileEntityCampfire tef) {
+            if (tef.isFired()) {
+                return Constants.lightFire;
+            }
+        }
+        return Constants.lightNone;
     }
 
     @Override

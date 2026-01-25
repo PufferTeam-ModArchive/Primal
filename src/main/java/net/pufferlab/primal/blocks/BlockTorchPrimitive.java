@@ -7,12 +7,19 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Config;
+import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 
-public class BlockTorchPrimitive extends BlockTorch implements IScheduledBlock {
+import com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness;
+
+import cpw.mods.fml.common.Optional;
+
+@Optional.Interface(iface = "com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness", modid = "rple")
+public class BlockTorchPrimitive extends BlockTorch implements IScheduledBlock, RPLECustomBlockBrightness {
 
     public static final int updateFired = 0;
     public static int burnTime = Config.torchBurnTime.getDefaultInt();
@@ -27,6 +34,30 @@ public class BlockTorchPrimitive extends BlockTorch implements IScheduledBlock {
         burnTime = Config.torchBurnTime.getInt();
 
         this.setStepSound(soundTypeWood);
+    }
+
+    @Override
+    public short rple$getCustomBrightnessColor() {
+        if (this == Registry.lit_torch) {
+            return Constants.lightTorch;
+        }
+        return Constants.lightNone;
+    }
+
+    @Override
+    public short rple$getCustomBrightnessColor(int blockMeta) {
+        if (this == Registry.lit_torch) {
+            return Constants.lightTorch;
+        }
+        return Constants.lightNone;
+    }
+
+    @Override
+    public short rple$getCustomBrightnessColor(IBlockAccess world, int blockMeta, int posX, int posY, int posZ) {
+        if (this == Registry.lit_torch) {
+            return Constants.lightTorch;
+        }
+        return Constants.lightNone;
     }
 
     @Override

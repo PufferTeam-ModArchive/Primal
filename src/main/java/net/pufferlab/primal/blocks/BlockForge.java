@@ -21,7 +21,12 @@ import net.pufferlab.primal.tileentities.TileEntityForge;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.utils.TemperatureUtils;
 
-public class BlockForge extends BlockPrimal {
+import com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness;
+
+import cpw.mods.fml.common.Optional;
+
+@Optional.Interface(iface = "com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness", modid = "rple")
+public class BlockForge extends BlockPrimal implements RPLECustomBlockBrightness {
 
     public IIcon[] icons = new IIcon[2];
     private IIcon[] heatingIcons = new IIcon[8];
@@ -33,6 +38,25 @@ public class BlockForge extends BlockPrimal {
         this.setHardness(1.0F);
         this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 1.0F, 0.9375F);
         this.canBlockGrass = false;
+    }
+
+    @Override
+    public short rple$getCustomBrightnessColor() {
+        return Constants.lightNone;
+    }
+
+    @Override
+    public short rple$getCustomBrightnessColor(int blockMeta) {
+        return Constants.lightNone;
+    }
+
+    @Override
+    public short rple$getCustomBrightnessColor(IBlockAccess world, int blockMeta, int posX, int posY, int posZ) {
+        TileEntity te = world.getTileEntity(posX, posY, posZ);
+        if (te instanceof TileEntityForge tef) {
+            return TemperatureUtils.getHeatingColor(tef.getTemperature());
+        }
+        return Constants.lightNone;
     }
 
     @Override

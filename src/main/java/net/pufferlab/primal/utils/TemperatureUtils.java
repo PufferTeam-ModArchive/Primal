@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.world.GlobalTickingData;
@@ -227,5 +228,21 @@ public class TemperatureUtils {
         } else {
             return 0;
         }
+    }
+
+    public static short getHeatingColor(int temperature) {
+        int heatingLevel = TemperatureUtils.getHeatingLevel(temperature);
+        if (heatingLevel > 0) {
+            if (heatingLevel < 3) {
+                return Constants.lightHeat1;
+            }
+            if (heatingLevel < 5) {
+                return Constants.lightHeat2;
+            }
+            if (heatingLevel < 8) {
+                return Constants.lightHeat3;
+            }
+        }
+        return Constants.lightNone;
     }
 }

@@ -21,6 +21,13 @@ public class Constants {
     public static final String gray = EnumChatFormatting.GRAY.toString();
     public static final String reset = EnumChatFormatting.RESET.toString();
 
+    public static final short lightNone = 0x000;
+    public static final short lightFire = 0xEC0;
+    public static final short lightTorch = 0xDA8;
+    public static final short lightHeat1 = 0xDA8;
+    public static final short lightHeat2 = 0xEBA;
+    public static final short lightHeat3 = 0xFDC;
+
     public static final int helmet = 0;
     public static final int chestplate = 1;
     public static final int leggings = 2;

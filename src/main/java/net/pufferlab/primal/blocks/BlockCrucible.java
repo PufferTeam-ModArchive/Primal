@@ -14,6 +14,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.items.itemblocks.ItemBlockCrucible;
@@ -22,7 +23,12 @@ import net.pufferlab.primal.utils.FluidUtils;
 import net.pufferlab.primal.utils.TemperatureUtils;
 import net.pufferlab.primal.world.GlobalTickingData;
 
-public class BlockCrucible extends BlockPrimal {
+import com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness;
+
+import cpw.mods.fml.common.Optional;
+
+@Optional.Interface(iface = "com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness", modid = "rple")
+public class BlockCrucible extends BlockPrimal implements RPLECustomBlockBrightness {
 
     public IIcon[] icons = new IIcon[2];
 
@@ -33,6 +39,25 @@ public class BlockCrucible extends BlockPrimal {
         this.setHardness(1.0F);
         this.setBlockBounds(0.25F, 0.0F, 0.25F, 0.75F, 0.5F, 0.75F);
         this.canBlockGrass = false;
+    }
+
+    @Override
+    public short rple$getCustomBrightnessColor() {
+        return Constants.lightNone;
+    }
+
+    @Override
+    public short rple$getCustomBrightnessColor(int blockMeta) {
+        return Constants.lightNone;
+    }
+
+    @Override
+    public short rple$getCustomBrightnessColor(IBlockAccess world, int blockMeta, int posX, int posY, int posZ) {
+        TileEntity te = world.getTileEntity(posX, posY, posZ);
+        if (te instanceof TileEntityCrucible tef) {
+            return TemperatureUtils.getHeatingColor(tef.getTemperature());
+        }
+        return Constants.lightNone;
     }
 
     @Override

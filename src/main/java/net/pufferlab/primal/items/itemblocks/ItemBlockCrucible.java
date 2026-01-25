@@ -4,12 +4,20 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.blocks.BlockCast;
 import net.pufferlab.primal.blocks.BlockCrucible;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.utils.FluidUtils;
+import net.pufferlab.primal.utils.TemperatureUtils;
+import net.pufferlab.primal.world.GlobalTickingData;
 
-public class ItemBlockCrucible extends ItemBlockPrimal implements IHeatableItem {
+import com.falsepattern.rple.api.common.item.RPLECustomItemBrightness;
+
+import cpw.mods.fml.common.Optional;
+
+@Optional.Interface(iface = "com.falsepattern.rple.api.common.item.RPLECustomItemBrightness", modid = "rple")
+public class ItemBlockCrucible extends ItemBlockPrimal implements IHeatableItem, RPLECustomItemBrightness {
 
     public ItemBlockCrucible(Block p_i45328_1_) {
         super(p_i45328_1_);
@@ -48,5 +56,15 @@ public class ItemBlockCrucible extends ItemBlockPrimal implements IHeatableItem 
         if (stack.hasTagCompound()) {
             FluidUtils.updateFluidTankNBT(stack.getTagCompound());
         }
+    }
+
+    @Override
+    public short rple$getCustomBrightnessColor(ItemStack stack) {
+        if (TemperatureUtils.hasImpl(stack)) {
+            int temperature = TemperatureUtils
+                .getInterpolatedTemperature(GlobalTickingData.getClientTickTime(), stack.getTagCompound());
+            return TemperatureUtils.getHeatingColor(temperature);
+        }
+        return Constants.lightNone;
     }
 }

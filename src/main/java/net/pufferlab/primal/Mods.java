@@ -11,6 +11,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public enum Mods {
 
     tc("Thaumcraft"),
+    rple("rple"),
     fm("ForbiddenMagic"),
     efr("etfuturum"),
     nei("NotEnoughItems"),

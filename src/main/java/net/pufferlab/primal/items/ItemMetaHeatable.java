@@ -1,10 +1,19 @@
 package net.pufferlab.primal.items;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.utils.TemperatureUtils;
+import net.pufferlab.primal.world.GlobalTickingData;
 
-public class ItemMetaHeatable extends ItemMeta implements IHeatableItem {
+import com.falsepattern.rple.api.common.item.RPLECustomItemBrightness;
+
+import cpw.mods.fml.common.Optional;
+
+@Optional.Interface(iface = "com.falsepattern.rple.api.common.item.RPLECustomItemBrightness", modid = "rple")
+public class ItemMetaHeatable extends ItemMeta implements IHeatableItem, RPLECustomItemBrightness {
 
     public IIcon[] heatOverlay;
 
@@ -26,5 +35,15 @@ public class ItemMetaHeatable extends ItemMeta implements IHeatableItem {
             return heatOverlay[0];
         }
         return super.getIconFromDamage(meta);
+    }
+
+    @Override
+    public short rple$getCustomBrightnessColor(ItemStack stack) {
+        if (TemperatureUtils.hasImpl(stack)) {
+            int temperature = TemperatureUtils
+                .getInterpolatedTemperature(GlobalTickingData.getClientTickTime(), stack.getTagCompound());
+            return TemperatureUtils.getHeatingColor(temperature);
+        }
+        return Constants.lightNone;
     }
 }
