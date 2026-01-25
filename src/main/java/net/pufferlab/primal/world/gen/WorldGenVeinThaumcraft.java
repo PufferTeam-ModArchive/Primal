@@ -24,7 +24,7 @@ public class WorldGenVeinThaumcraft {
             int x = (chunkX << 4) + rand.nextInt(16) + 8;
             int z = (chunkZ << 4) + rand.nextInt(16) + 8;
             int maxY = world.getTopSolidOrLiquidBlock(x, z);
-            int y = rand.nextInt(maxY);
+            int y = rand.nextInt(Math.abs(maxY));
             VeinType vein = VeinType.pickOneThaumcraftVeinType(rand, y);
             if (vein != null) {
                 if (vein.getChance(rand)) {
