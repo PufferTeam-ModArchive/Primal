@@ -32,6 +32,12 @@ public class ScriptOreProcessing implements IScript {
         addOreDict("swordBronze", getModItem("bronze_sword", 1));
         addOreDict("knifeBronze", getModItem("bronze_knife", 1));
         addOreDict("hoeBronze", getModItem("bronze_hoe", 1));
+        addOreDict("axeIron", getItem("minecraft", "iron_axe", wildcard, 1));
+        addOreDict("pickaxeIron", getItem("minecraft", "iron_pickaxe", wildcard, 1));
+        addOreDict("shovelIron", getItem("minecraft", "iron_shovel", wildcard, 1));
+        addOreDict("swordIron", getItem("minecraft", "iron_sword", wildcard, 1));
+        addOreDict("hoeIron", getItem("minecraft", "iron_hoe", wildcard, 1));
+        addOreDict("knifeIron", getModItem("iron_knife", 1));
     }
 
     public void addCraftingRecipes() {

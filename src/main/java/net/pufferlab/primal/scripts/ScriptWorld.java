@@ -15,6 +15,8 @@ public class ScriptWorld implements IScript {
     public void addOredicts() {
         if (Config.strataStoneTypes.getBoolean()) {
             addOreDict("limeAny", getModItem("limestone_rock", 1));
+            addOreDict("coalAny", getModItem("anthracite_coal", 1));
+            addOreDict("coalAny", getModItem("lignite_coal", 1));
             for (StoneType type : Constants.stoneTypes) {
                 String name = type.name;
                 addOreDict("rock", Utils.getModItem(name + "_rock", 1));

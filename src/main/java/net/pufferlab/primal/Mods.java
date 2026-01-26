@@ -16,6 +16,7 @@ public enum Mods {
     efr("etfuturum"),
     nei("NotEnoughItems"),
     bop("BiomesOPlenty"),
+    exbl("ExtrabiomesXL"),
     wg("WitchingGadgets"),
     mt("MineTweaker3"),
     wl("Waila"),

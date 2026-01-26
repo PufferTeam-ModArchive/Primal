@@ -1,7 +1,6 @@
 package net.pufferlab.primal.client.renderer.blocks;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;
 import net.pufferlab.primal.Primal;
@@ -23,7 +22,7 @@ public class BlockPathRenderer extends BlockPrimalRenderer {
 
         BlockMetaPath block2 = pathThread2.get();
         block2.blockTexture = (BlockMetaPath) block;
-        renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.9375F, 1.0F);
+        renderer.setRenderBounds(0.0D, 0.0D, 0.0D, 1.0D, 0.9375D, 1.0D);
 
         block2.isInventory = true;
         block2.renderPass2 = 0;
@@ -39,12 +38,9 @@ public class BlockPathRenderer extends BlockPrimalRenderer {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
-        Material material = world.getBlock(x, y + 1, z)
-            .getMaterial();
-
         BlockMetaPath block2 = pathThread.get();
         block2.blockTexture = (BlockMetaPath) block;
-        renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.9375F, 1.0F);
+        renderer.setRenderBounds(0.0D, 0.0D, 0.0D, 1.0D, 0.9375D, 1.0D);
 
         block2.isInventory = false;
         block2.renderPass = 0;

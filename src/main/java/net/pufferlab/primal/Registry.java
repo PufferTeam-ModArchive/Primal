@@ -93,6 +93,7 @@ public class Registry {
     public static final Block windmill;
     public static final Item ore;
     public static final Item small_ore;
+    public static final Item coal;
     public static final Item icons;
     public static final Item straw;
     public static final Item hide;
@@ -143,11 +144,13 @@ public class Registry {
     public static final Item copper_chestplate;
     public static final Item copper_leggings;
     public static final Item copper_boots;
+    public static final Item iron_knife;
     public static final Item firestarter;
     public static final Item bucket;
     public static final Item.ToolMaterial toolFlint;
     public static final Item.ToolMaterial toolCopper;
     public static final Item.ToolMaterial toolBronze;
+    public static final Item.ToolMaterial toolIron;
     public static final ItemArmor.ArmorMaterial armorBronze;
     public static final ItemArmor.ArmorMaterial armorCopper;
 
@@ -162,6 +165,7 @@ public class Registry {
         toolFlint = EnumHelper.addToolMaterial("flint", 0, 100, 2.0F, 0.0F, 15);
         toolCopper = EnumHelper.addToolMaterial("copper", 0, 150, 4.0F, 0.5F, 15);
         toolBronze = EnumHelper.addToolMaterial("bronze", 1, 200, 5.0F, 1.0F, 10);
+        toolIron = Item.ToolMaterial.IRON;
 
         armorCopper = EnumHelper.addArmorMaterial("copper", 10, new int[] { 1, 4, 3, 1 }, 15);
         armorBronze = EnumHelper.addArmorMaterial("bronze", 15, new int[] { 2, 5, 4, 1 }, 15);
@@ -220,9 +224,10 @@ public class Registry {
         rock = new ItemRock(Constants.stoneTypes, "rock");
         ((BlockGroundcover) ground_rock).setItem(rock);
 
-        ore = new ItemOre(Constants.oreTypes, "medium_ore");
+        ore = new ItemOre(Constants.oreTypes, "medium_ore", true);
         small_ore = new ItemOre(Constants.oreTypes, "small_ore");
         ((BlockGroundcover) ground_ore).setItem(small_ore);
+        coal = new ItemGem(Constants.coalOreTypes, "coal", true).setBlacklist(Constants.coalOreBlacklist);;
 
         icons = new ItemMeta(Constants.icons, "icon").setHiddenAll()
             .setHasSuffix();
@@ -274,6 +279,8 @@ public class Registry {
         bronze_sword = new ItemSwordPrimitive(toolBronze, "bronze_sword");
         bronze_knife = new ItemKnifePrimitive(toolBronze, "bronze_knife");
         bronze_hoe = new ItemHoePrimitive(toolBronze, "bronze_hoe");
+
+        iron_knife = new ItemKnifePrimitive(toolIron, "iron_knife");
 
         copper_helmet = new ItemArmorCopper(armorCopper, "copper_helmet", Constants.helmet);
         copper_chestplate = new ItemArmorCopper(armorCopper, "copper_chestplate", Constants.chestplate);
@@ -341,6 +348,7 @@ public class Registry {
 
         register(ore, "ore");
         register(small_ore, "small_ore");
+        register(coal, "coal");
         register(icons, "icon");
         register(straw, "straw");
         register(hide, "hide");
@@ -385,6 +393,8 @@ public class Registry {
         register(bronze_sword, "bronze_sword");
         register(bronze_knife, "bronze_knife");
         register(bronze_hoe, "bronze_hoe");
+
+        register(iron_knife, "iron_knife");
 
         register(copper_helmet, "copper_helmet");
         register(copper_chestplate, "copper_chestplate");

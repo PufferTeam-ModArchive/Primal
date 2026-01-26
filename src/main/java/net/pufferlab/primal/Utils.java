@@ -341,6 +341,13 @@ public class Utils {
         return false;
     }
 
+    public static boolean isFarmlandBlock(Block block) {
+        if (block == null) return false;
+        if (block instanceof BlockMetaFarmland) return true;
+        if (block == Blocks.farmland) return true;
+        return false;
+    }
+
     public static boolean isGrassBlock(Block block) {
         if (block == null) return false;
         if (block instanceof BlockMetaGrass) return true;

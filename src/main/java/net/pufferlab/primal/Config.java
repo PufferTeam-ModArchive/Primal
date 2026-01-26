@@ -103,7 +103,9 @@ public enum Config {
     dragonAPIPlantFix(Module.compat, true,
         "This enables the mixins to DragonAPI to make it recognize the mod dirt, and avoid plants popping off."),
     bopPlantFix(Module.compat, true,
-        "This enables the mixins to Biomes O' Plenty to make it recognize the mod dirt, and avoid plants popping off.");
+        "This enables the mixins to Biomes O' Plenty to make it recognize the mod dirt, and avoid plants popping off."),
+    exblPlantFix(Module.compat, true,
+        "This enables the mixins to Extra Biomes XL to make it recognize the mod dirt, and avoid plants popping off.");
 
     public boolean isBoolean;
     public boolean isInt;

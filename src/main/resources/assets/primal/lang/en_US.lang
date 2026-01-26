@@ -91,6 +91,14 @@ item.primal.bronze_chestplate.name=Bronze Chestplate
 item.primal.bronze_leggings.name=Bronze Leggings
 item.primal.bronze_boots.name=Bronze Boots
 
+item.primal.iron_axe_head.name=Iron Axe Head
+item.primal.iron_pickaxe_head.name=Iron Pickaxe Head
+item.primal.iron_shovel_head.name=Iron Shovel Head
+item.primal.iron_sword_blade.name=Iron Sword Blade
+item.primal.iron_knife_blade.name=Iron Knife Blade
+item.primal.iron_hoe_head.name=Iron Hoe Head
+item.primal.iron_knife.name=Iron Knife
+
 item.primal.ingot_mold.name=Ingot Mold
 item.primal.clay_ingot_mold.name=Clay Ingot Mold
 item.primal.pickaxe_mold.name=Pickaxe Head Mold
@@ -109,6 +117,9 @@ item.primal.clay_hoe_mold.name=Clay Hoe Head Mold
 fluid.primal.molten_copper.name=Molten Copper
 item.primal.molten_copper_bucket.name=Molten Copper Bucket
 item.primal.molten_copper_ceramic_bucket.name=Molten Copper Ceramic Bucket
+fluid.primal.molten_cast_iron.name=Molten Cast Iron
+item.primal.molten_cast_iron_bucket.name=Molten Cast Iron Bucket
+item.primal.molten_cast_iron_ceramic_bucket.name=Molten Cast Iron Ceramic Bucket
 fluid.primal.molten_iron.name=Molten Iron
 item.primal.molten_iron_bucket.name=Molten Iron Bucket
 item.primal.molten_iron_ceramic_bucket.name=Molten Iron Ceramic Bucket
@@ -490,6 +501,9 @@ item.primal.magnetite_medium_ore.name=Magnetite Ore
 item.primal.magnetite_small_ore.name=Small Magnetite Ore
 item.primal.limonite_medium_ore.name=Limonite Ore
 item.primal.limonite_small_ore.name=Small Limonite Ore
+
+item.primal.anthracite_coal.name=Anthracite Coal
+item.primal.lignite_coal.name=Lignite Coal
 
 tile.primal.andesite_aer.name=Air Infused Andesite
 tile.primal.basalt_aer.name=Air Infused Basalt

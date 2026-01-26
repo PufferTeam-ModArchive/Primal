@@ -79,6 +79,8 @@ public class Constants {
     // Metals
     public static final FluidType moltenIron = new FluidType("molten_iron", Material.lava);
     public static final MetalType iron = new MetalType("iron", false, 1148, 1538, moltenIron, 2);
+    public static final FluidType moltenCastIron = new FluidType("molten_cast_iron", Material.lava);
+    public static final MetalType castIron = new MetalType("cast_iron", false, 1148, 1538, moltenCastIron, 2);
     public static final FluidType moltenGold = new FluidType("molten_gold", Material.lava);
     public static final MetalType gold = new MetalType("gold", false, 750, 1064, moltenGold, 0);
     public static final FluidType moltenCopper = new FluidType("molten_copper", Material.lava);
@@ -89,7 +91,7 @@ public class Constants {
     public static final MetalType bronze = new MetalType("bronze", true, 700, 950, moltenBronze, 1);
     public static final MetalType[] metalTypes = new MetalType[] { iron, gold, copper, tin, bronze, };
     public static final MetalType[] blockMetalTypes = new MetalType[] { copper, tin, bronze };
-    public static final MetalType[] toolMetalTypes = new MetalType[] { copper, bronze };
+    public static final MetalType[] toolMetalTypes = new MetalType[] { iron, copper, bronze };
     public static final String[] ingotBlacklist = new String[] { "iron", "gold" };
     public static final String[] nuggetBlacklist = new String[] { "gold" };
 
@@ -104,13 +106,21 @@ public class Constants {
     public static final OreType[] oreTypes = new OreType[] { native_copper, malachite, cassiterite, native_gold,
         limonite, magnetite };
 
+    //Special
+
+    public static final OreType anthracite_coal = new OreType("anthracite", 0);
+    public static final OreType bituminous_coal = new OreType("bituminous", 0);
+    public static final OreType lignite_coal = new OreType("lignite", 0);
+    public static final OreType[] coalOreTypes = new OreType[] {anthracite_coal, bituminous_coal, lignite_coal};
+    public static final String[] coalOreBlacklist = new String[] { bituminous_coal.name };
+
     //Mod Compat
-    public static final OreType aer = new OreType("aer", 1, 0xFFFF7E);
-    public static final OreType ignis = new OreType("ignis", 1, 0xFF3C01);
-    public static final OreType aqua = new OreType("aqua", 1, 0x0090FF);
-    public static final OreType terra = new OreType("terra", 1, 0x00A000);
-    public static final OreType ordo = new OreType("ordo", 1, 0xEECCFF);
-    public static final OreType perditio = new OreType("perditio", 1,0x555577);
+    public static final OreType aer = new OreType("aer", 0, 0xFFFF7E);
+    public static final OreType ignis = new OreType("ignis", 0, 0xFF3C01);
+    public static final OreType aqua = new OreType("aqua", 0, 0x0090FF);
+    public static final OreType terra = new OreType("terra", 0, 0x00A000);
+    public static final OreType ordo = new OreType("ordo", 0, 0xEECCFF);
+    public static final OreType perditio = new OreType("perditio", 0,0x555577);
 
     //Vein Type
 
@@ -178,14 +188,14 @@ public class Constants {
         new FluidType("magenta"), new FluidType("light_blue"), new FluidType("yellow"), new FluidType("lime"),
         new FluidType("pink"), new FluidType("gray"), new FluidType("light_gray"), new FluidType("cyan"),
         new FluidType("purple"), new FluidType("blue"), new FluidType("brown"), new FluidType("green"),
-        new FluidType("red"), new FluidType("black"), moltenIron, moltenGold, moltenCopper, moltenTin, moltenBronze };
+        new FluidType("red"), new FluidType("black"), moltenIron, moltenCastIron, moltenGold, moltenCopper, moltenTin, moltenBronze };
     public static final String[] fluids = FluidType.getNames(Constants.fluidsTypes);
     public static final boolean[] fluidsBreak = FluidType.getBreaks(Constants.fluidsTypes);
     public static final String[] existingFluids = FluidType.getExistingNames(Constants.fluidsTypes);
 
     // OreDict
     public static final String[] ashPileOreDicts = new String[] { "ash" };
-    public static final String[] charcoalPileOreDicts = new String[] { "charcoal", "coal" };
+    public static final String[] charcoalPileOreDicts = new String[] { "coalAny" };
     public static final String[] groundRockOreDicts = new String[] { "rock" };
     public static final String[] groundShellOreDicts = new String[] { "shell" };
     public static final String[] logPileOreDicts = new String[] { "firewood" };

@@ -13,11 +13,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.*;
 import net.minecraftforge.event.world.BlockEvent;
 import net.pufferlab.primal.*;
-import net.pufferlab.primal.items.ItemKnifePrimitive;
 
 import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ToolHandler implements IEventHandler {
 
@@ -82,8 +80,10 @@ public class ToolHandler implements IEventHandler {
         Block blockAbove = event.world.getBlock(event.x, event.y + 1, event.z);
         int meta = event.world.getBlockMetadata(event.x, event.y, event.z);
         if (blockAbove.getMaterial() == Material.air) {
-            if (block == Registry.dirt || block == Registry.grass) {
+            if (Utils.isGrassBlock(block) || Utils.isDirtBlock(block)) {
+                Utils.playSound(event.world, event.x, event.y, event.z, Blocks.farmland);
                 event.world.setBlock(event.x, event.y, event.z, Registry.farmland, meta, 2);
+
                 event.setResult(Event.Result.ALLOW);
             }
         }
@@ -102,6 +102,20 @@ public class ToolHandler implements IEventHandler {
 
         if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
             ItemStack heldItem = event.entityPlayer.getHeldItem();
+            if (Utils.isShovelTool(heldItem)) {
+                World world = event.world;
+                Block block = world.getBlock(event.x, event.y, event.z);
+                Block blockAbove = event.world.getBlock(event.x, event.y + 1, event.z);
+                int meta = world.getBlockMetadata(event.x, event.y, event.z);
+                if (blockAbove.getMaterial() == Material.air) {
+                    if (Utils.isGrassBlock(block)) {
+                        Utils.playSound(world, event.x, event.y, event.z, Blocks.dirt);
+                        world.setBlock(event.x, event.y, event.z, Registry.path, meta, 2);
+                        heldItem.damageItem(1, event.entityPlayer);
+                        event.entityPlayer.swingItem();
+                    }
+                }
+            }
             if (Utils.isKnifeTool(heldItem) && Mods.efr.isLoaded()) {
                 World world = event.world;
                 Block block = world.getBlock(event.x, event.y, event.z);
@@ -114,9 +128,9 @@ public class ToolHandler implements IEventHandler {
                 int offsetY = side.offsetY;
                 int offsetZ = side.offsetZ;
                 if (block == Blocks.log) {
-                    target = GameRegistry.findBlock(Mods.efr.MODID, "log_stripped");
+                    target = Mods.efr.getModBlock("log_stripped");
                 } else if (block == Blocks.log2) {
-                    target = GameRegistry.findBlock(Mods.efr.MODID, "log2_stripped");
+                    target = Mods.efr.getModBlock("log2_stripped");
                 }
 
                 if (target != null) {
@@ -171,16 +185,13 @@ public class ToolHandler implements IEventHandler {
             }
 
             if (event.block instanceof BlockTallGrass) {
-                if (event.harvester.getCurrentEquippedItem() != null) {
-                    if (event.harvester.getCurrentEquippedItem()
-                        .getItem() != null) {
-                        if (event.harvester.getCurrentEquippedItem()
-                            .getItem() instanceof ItemKnifePrimitive) {
-                            if (event.world.rand.nextInt(3) == 0) {
-                                event.drops.add(
-                                    Utils.getModItem("straw", 1)
-                                        .copy());
-                            }
+                if (heldItem != null) {
+                    if (Utils.isKnifeTool(heldItem)) {
+                        heldItem.damageItem(1, event.harvester);
+                        if (event.world.rand.nextInt(3) == 0) {
+                            event.drops.add(
+                                Utils.getModItem("straw", 1)
+                                    .copy());
                         }
                     }
                 }

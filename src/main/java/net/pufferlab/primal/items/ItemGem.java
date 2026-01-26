@@ -1,21 +1,19 @@
 package net.pufferlab.primal.items;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Registry;
-import net.pufferlab.primal.utils.MetalType;
 import net.pufferlab.primal.utils.OreType;
 
-public class ItemOre extends ItemMetaHeatable {
+public class ItemGem extends ItemMeta {
 
     public OreType[] oreTypes;
     public boolean isMainOre;
 
-    public ItemOre(OreType[] oreTypes, String type) {
+    public ItemGem(OreType[] oreTypes, String type) {
         this(oreTypes, type, false);
     }
 
-    public ItemOre(OreType[] oreTypes, String type, boolean isMainOre) {
+    public ItemGem(OreType[] oreTypes, String type, boolean isMainOre) {
         super(OreType.getNames(oreTypes), type);
         this.oreTypes = oreTypes;
         this.isMainOre = isMainOre;
@@ -27,21 +25,6 @@ public class ItemOre extends ItemMetaHeatable {
                 oreTypes[i].oreMeta = i;
             }
         }
-    }
-
-    @Override
-    public MetalType getMetal(ItemStack stack) {
-        return oreTypes[stack.getItemDamage()].metalType;
-    }
-
-    @Override
-    public int getMeltingTemperature(ItemStack stack) {
-        return oreTypes[stack.getItemDamage()].metalType.meltingTemperature;
-    }
-
-    @Override
-    public int getWeldingTemperature(ItemStack stack) {
-        return oreTypes[stack.getItemDamage()].metalType.weldingTemperature;
     }
 
     @Override
