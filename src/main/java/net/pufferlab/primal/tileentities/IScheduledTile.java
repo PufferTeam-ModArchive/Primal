@@ -9,7 +9,7 @@ public interface IScheduledTile extends ITile {
     default void onSchedule(World world, int x, int y, int z, int type, int id) {};
 
     default void addSchedule(World world, int x, int y, int z, int inTime, int type) {
-        SchedulerData.addScheduledTileTask(inTime, world, x, y, z, type, 0);
+        SchedulerData.addScheduledTileTask(inTime, getBlock(), world, x, y, z, type, 0);
     }
 
     default void addSchedule(int inTime, int type) {
@@ -17,11 +17,11 @@ public interface IScheduledTile extends ITile {
     }
 
     default void removeSchedule(World world, int x, int y, int z) {
-        SchedulerData.removeScheduledTask(world, x, y, z);
+        SchedulerData.removeScheduledTask(getBlock(), world, x, y, z);
     }
 
     default void removeSchedule(World world, int x, int y, int z, int type) {
-        SchedulerData.removeScheduledTask(world, x, y, z, type);
+        SchedulerData.removeScheduledTask(getBlock(), world, x, y, z, type);
     }
 
     default void removeSchedule() {
@@ -34,6 +34,14 @@ public interface IScheduledTile extends ITile {
 
     default void removeAllSchedule() {
         removeSchedule();
+    }
+
+    default void moveAllSchedule(World world, int oldX, int oldY, int oldZ, int newX, int newY, int newZ) {
+        SchedulerData.moveScheduledTask(getBlock(), world, oldX, oldY, oldZ, newX, newY, newZ);
+    }
+
+    default void moveAllSchedule(World world, int oldX, int oldY, int oldZ) {
+        moveAllSchedule(world, oldX, oldY, oldZ, getX(), getY(), getZ());
     }
 
     default long getWorldTime(int inTime) {

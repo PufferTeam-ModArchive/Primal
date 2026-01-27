@@ -2,6 +2,7 @@ package net.pufferlab.primal.blocks;
 
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockTorch;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
@@ -90,6 +91,11 @@ public class BlockTorchPrimitive extends BlockTorch implements IScheduledBlock, 
         if (this == Registry.lit_torch) {
             super.randomDisplayTick(worldIn, x, y, z, random);
         }
+    }
+
+    @Override
+    public Block getBlock() {
+        return this;
     }
 
     @Override

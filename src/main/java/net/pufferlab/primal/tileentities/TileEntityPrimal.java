@@ -12,6 +12,10 @@ import net.pufferlab.primal.utils.SoundTypePrimal;
 
 public abstract class TileEntityPrimal extends TileEntity implements ITile {
 
+    public int xCached;
+    public int yCached;
+    public int zCached;
+
     @Override
     public Packet getDescriptionPacket() {
         NBTTagCompound dataTag = new NBTTagCompound();
@@ -31,6 +35,24 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
         NBTTagCompound nbtData = packet.func_148857_g();
         this.readFromNBTPacket(nbtData);
         this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound compound) {
+        super.writeToNBT(compound);
+
+        compound.setInteger("xCached", this.xCached);
+        compound.setInteger("yCached", this.yCached);
+        compound.setInteger("zCached", this.zCached);
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound compound) {
+        super.readFromNBT(compound);
+
+        this.xCached = compound.getInteger("xCached");
+        this.yCached = compound.getInteger("yCached");
+        this.zCached = compound.getInteger("zCached");
     }
 
     public void updateTEState() {
@@ -86,4 +108,18 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
     public void mark() {
         this.markDirty();
     }
+
+    @Override
+    public void markDirty() {
+        super.markDirty();
+
+        if (this.xCoord != this.xCached || this.yCoord != this.yCached || this.zCoord != this.zCached) {
+            onCoordChange(this.xCached, this.yCached, this.zCached);
+            this.xCached = this.xCoord;
+            this.yCached = this.yCoord;
+            this.zCached = this.zCoord;
+        }
+    }
+
+    public void onCoordChange(int oldX, int oldY, int oldZ) {}
 }

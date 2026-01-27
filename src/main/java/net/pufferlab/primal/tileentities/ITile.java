@@ -1,5 +1,6 @@
 package net.pufferlab.primal.tileentities;
 
+import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -24,4 +25,8 @@ public interface ITile {
     public void updateTEState();
 
     public void updateTELight();
+
+    default Block getBlock() {
+        return getTile().getBlockType();
+    }
 }

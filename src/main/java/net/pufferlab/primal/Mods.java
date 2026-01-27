@@ -24,7 +24,7 @@ public enum Mods {
     dapi("DragonAPI"),
     chrc("ChromatiCraft");
 
-    public String MODID;
+    public final String MODID;
 
     Mods(String modid) {
         this.MODID = modid;

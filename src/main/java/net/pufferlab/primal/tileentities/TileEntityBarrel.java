@@ -270,6 +270,13 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
     }
 
     @Override
+    public void onCoordChange(int oldX, int oldY, int oldZ) {
+        super.onCoordChange(oldX, oldY, oldZ);
+
+        moveAllSchedule(getWorldObj(), oldX, oldY, oldZ);
+    }
+
+    @Override
     public void onSchedule(World world, int x, int y, int z, int type, int id) {
         if (type == updateRain) {
             needsUpdateRain = true;

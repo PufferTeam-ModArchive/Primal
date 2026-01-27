@@ -1,18 +1,21 @@
 package net.pufferlab.primal.world;
 
-import java.util.PriorityQueue;
+import java.util.*;
 
+import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.utils.CoordUtils;
 
 public class SchedulerData extends WorldSavedData {
 
     private static String name = Primal.MODID + "SchedulerData";
 
     public PriorityQueue<ScheduledTask> queue = new PriorityQueue<>();
+    public Map<Long, List<ScheduledTask>> taskMap = new HashMap<>();
 
     public SchedulerData(String p_i2141_1_) {
         super(name);
@@ -45,46 +48,78 @@ public class SchedulerData extends WorldSavedData {
 
         for (int i = 0; i < list.tagCount(); i++) {
             NBTTagCompound tag = list.getCompoundTagAt(i);
-            queue.add(new ScheduledTask(tag));
+            ScheduledTask task = new ScheduledTask(tag);
+            queue.add(task);
+            taskMap.computeIfAbsent(task.packedCoords, p -> new ArrayList<>())
+                .add(task);
         }
     }
 
     public static void addScheduledTask(int inTime, World world) {
-        long in = GlobalTickingData.getTickTime(world) + inTime;
+        long currentTime = GlobalTickingData.getTickTime(world);
         SchedulerData scheduler = get(world);
 
-        scheduler.queue.add(new ScheduledTask(ScheduledTask.simpleTask, in));
+        scheduler.queue.add(new ScheduledTask(ScheduledTask.simpleTask, currentTime, inTime));
         scheduler.markDirty();
     }
 
-    public static void addScheduledTask(byte task, int inTime, World world, int x, int y, int z, int type, int id) {
-        long in = GlobalTickingData.getTickTime(world) + inTime;
+    public static void addScheduledTask(byte task, int inTime, Block block, World world, int x, int y, int z, int type,
+        int id) {
+        long currentTime = GlobalTickingData.getTickTime(world);
         SchedulerData scheduler = get(world);
 
-        scheduler.queue.add(new ScheduledTask(task, in, x, y, z, type, id));
+        scheduler.queue.add(new ScheduledTask(task, block, currentTime, inTime, x, y, z, type, id));
         scheduler.markDirty();
     }
 
-    public static void addScheduledBlockTask(int inTime, World world, int x, int y, int z, int type, int id) {
-        addScheduledTask(ScheduledTask.blockTask, inTime, world, x, y, z, type, id);
+    public static void addScheduledBlockTask(int inTime, Block block, World world, int x, int y, int z, int type,
+        int id) {
+        addScheduledTask(ScheduledTask.blockTask, inTime, block, world, x, y, z, type, id);
     }
 
-    public static void addScheduledTileTask(int inTime, World world, int x, int y, int z, int type, int id) {
-        addScheduledTask(ScheduledTask.tileTask, inTime, world, x, y, z, type, id);
+    public static void addScheduledTileTask(int inTime, Block block, World world, int x, int y, int z, int type,
+        int id) {
+        addScheduledTask(ScheduledTask.tileTask, inTime, block, world, x, y, z, type, id);
     }
 
-    public static void removeScheduledTask(World world, int x, int y, int z, int type) {
+    public static void removeScheduledTask(Block block, World world, int x, int y, int z, int type) {
         SchedulerData scheduler = get(world);
 
-        scheduler.queue.removeIf(task -> task.equals(x, y, z, type));
+        scheduler.queue.removeIf(task -> task.equals(block, x, y, z, type));
         scheduler.markDirty();
     }
 
-    public static void removeScheduledTask(World world, int x, int y, int z) {
+    public static void removeScheduledTask(Block block, World world, int x, int y, int z) {
         SchedulerData scheduler = get(world);
 
-        scheduler.queue.removeIf(task -> task.equals(x, y, z));
+        scheduler.queue.removeIf(task -> task.equals(block, x, y, z));
         scheduler.markDirty();
+    }
+
+    public static void moveScheduledTask(Block block, World world, int x, int y, int z, int newX, int newY, int newZ) {
+        SchedulerData scheduler = get(world);
+
+        long packedCoords = CoordUtils.pack(x, y, z);
+        List<ScheduledTask> tasks = scheduler.taskMap.get(packedCoords);
+
+        if (tasks != null) {
+            Iterator<ScheduledTask> it = tasks.iterator();
+            while (it.hasNext()) {
+                ScheduledTask task = it.next();
+                if (task.equals(block, x, y, z)) {
+                    it.remove();
+
+                    task.updatePos(newX, newY, newZ);
+
+                    scheduler.taskMap.computeIfAbsent(task.packedCoords, p -> new ArrayList<>())
+                        .add(task);
+                }
+            }
+
+            if (tasks.isEmpty()) {
+                scheduler.taskMap.remove(packedCoords);
+            }
+        }
     }
 
     public static void tickTasks(long currentTick, World world) {

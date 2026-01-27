@@ -191,6 +191,15 @@ public class Registry {
         limonite = new BlockStoneOre(Constants.stoneTypes, Constants.limonite);
         magnetite = new BlockStoneOre(Constants.stoneTypes, Constants.magnetite);
 
+        if (Mods.tc.isLoaded()) {
+            tc_air_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.aer);
+            tc_fire_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.ignis);
+            tc_water_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.aqua);
+            tc_earth_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.terra);
+            tc_order_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.ordo);
+            tc_entropy_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.perditio);
+        }
+
         ground_shell = new BlockGroundcover(Material.rock, Constants.shellTypes, "ground_shell").setItemTexture();
         pit_kiln = new BlockPitKiln();
         log_pile = new BlockLogPile();
@@ -318,6 +327,15 @@ public class Registry {
         register(limonite, "limonite");
         register(magnetite, "magnetite");
 
+        if (Mods.tc.isLoaded()) {
+            register(tc_air_ore, "tc_infused_air");
+            register(tc_fire_ore, "tc_infused_fire");
+            register(tc_water_ore, "tc_infused_water");
+            register(tc_earth_ore, "tc_infused_earth");
+            register(tc_order_ore, "tc_infused_order");
+            register(tc_entropy_ore, "tc_infused_entropy");
+        }
+
         register(ground_rock, "ground_rock");
         register(ground_ore, "ground_ore");
 
@@ -411,24 +429,6 @@ public class Registry {
         register(bucket, "bucket");
         register(ceramic_bucket, "ceramic_bucket");
         register(ceramic_bucket_modded, "ceramic_bucket_modded");
-    }
-
-    public void setupThaumcraft() {
-        if (Mods.tc.isLoaded()) {
-            tc_air_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.aer);
-            tc_fire_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.ignis);
-            tc_water_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.aqua);
-            tc_earth_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.terra);
-            tc_order_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.ordo);
-            tc_entropy_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.perditio);
-
-            register(tc_air_ore, "tc_infused_air");
-            register(tc_fire_ore, "tc_infused_fire");
-            register(tc_water_ore, "tc_infused_water");
-            register(tc_earth_ore, "tc_infused_earth");
-            register(tc_order_ore, "tc_infused_order");
-            register(tc_entropy_ore, "tc_infused_entropy");
-        }
     }
 
     public void setupTiles() {
