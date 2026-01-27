@@ -5,6 +5,7 @@ import java.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.utils.StoneType;
@@ -15,7 +16,7 @@ public class WorldGenVein {
 
     public static final WorldGenGroundOre genIndicator = new WorldGenGroundOre(Registry.ground_ore);
     public World lastWorld;
-    public VeinType[] vein = new VeinType[3];
+    public VeinType[] vein = new VeinType[4];
 
     public void initNoiseSeed(World world) {
         Primal.registry.setupServer();

@@ -1,0 +1,54 @@
+package net.pufferlab.primal.mixins.early.minecraft;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockFalling;
+import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.pufferlab.primal.Utils;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Random;
+
+@Mixin(BlockFalling.class)
+public abstract class MixinBlockFalling_SideFall extends Block {
+    protected MixinBlockFalling_SideFall(Material materialIn) {
+        super(materialIn);
+    }
+
+    @Inject(method = "updateTick", at = @At("HEAD"))
+    public void updateTick$primal(World worldIn, int x, int y, int z, Random random, CallbackInfo cir)
+    {
+        if(!worldIn.isRemote) {
+            if(!(this instanceof ITileEntityProvider)) {
+                Block blockBelow = worldIn.getBlock(x, y - 1, z);
+                Block block = worldIn.getBlock(x, y, z);
+                int meta = worldIn.getBlockMetadata(x, y, z);
+
+                if(!blockBelow.getMaterial().isReplaceable()) {
+                    if(Utils.getBlockDirection(worldIn, x, y, z, ForgeDirection.SOUTH, ForgeDirection.DOWN).getMaterial().isReplaceable() && random.nextInt(4) == 0) {
+                        worldIn.setBlockToAir(x, y, z);
+                        Utils.setBlockDirection(worldIn, x, y, z, block, meta, ForgeDirection.SOUTH);
+                    } else if(Utils.getBlockDirection(worldIn, x, y, z, ForgeDirection.NORTH, ForgeDirection.DOWN).getMaterial().isReplaceable() && random.nextInt(4) == 0) {
+                        worldIn.setBlockToAir(x, y, z);
+                        Utils.setBlockDirection(worldIn, x, y, z, block, meta, ForgeDirection.NORTH);
+                    } else if(Utils.getBlockDirection(worldIn, x, y, z, ForgeDirection.EAST, ForgeDirection.DOWN).getMaterial().isReplaceable() && random.nextInt(4) == 0) {
+                        worldIn.setBlockToAir(x, y, z);
+                        Utils.setBlockDirection(worldIn, x, y, z, block, meta, ForgeDirection.EAST);
+                    } else if(Utils.getBlockDirection(worldIn, x, y, z, ForgeDirection.WEST, ForgeDirection.DOWN).getMaterial().isReplaceable() && random.nextInt(4) == 0) {
+                        worldIn.setBlockToAir(x, y, z);
+                        Utils.setBlockDirection(worldIn, x, y, z, block, meta, ForgeDirection.WEST);
+                    }
+                }
+
+            }
+        }
+    }
+}

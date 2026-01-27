@@ -100,8 +100,8 @@ public class Constants {
     public static final OreType malachite = new OreType(copper, "malachite");
     public static final OreType cassiterite = new OreType(tin, "cassiterite");
     public static final OreType native_gold = new OreType(gold, "native_gold");
-    public static final OreType limonite = new OreType(iron, "limonite");
-    public static final OreType magnetite = new OreType(iron, "magnetite");
+    public static final OreType limonite = new OreType(castIron, "limonite");
+    public static final OreType magnetite = new OreType(castIron, "magnetite");
 
     public static final OreType[] oreTypes = new OreType[] { native_copper, malachite, cassiterite, native_gold,
         limonite, magnetite };

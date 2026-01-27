@@ -6,18 +6,23 @@ import net.minecraftforge.common.config.Configuration;
 
 public enum Config {
 
-    noTreeFistPunching(Module.early_game, true,
+    //Vanilla Tweaks
+    noTreeFistPunching(Module.early_game$tweaks, true,
         "Whether to enable no tree punching mechanics. Meaning that you cannot break logs with your fist."),
-    harderSoil(Module.early_game, true,
+    harderSoil(Module.early_game$tweaks, true,
         "Whether to make soil (dirt/sand) slightly harder to break, giving shovels more use"),
-    vanillaToolsRemovalMode(Module.early_game, 1, 0, 2,
+    destructiveFallingBlocks(Module.early_game$tweaks, true, "Whether to make it so instead of the falling block getting destroyed on replaceable blocks, the replaceable block get destroyed instead."),
+    sidewayFallingBlocks(Module.early_game$tweaks, true, "Whether you want to enable sideway gravity for falling blocks, put to false if you dont want the gravity changes"),
+    vanillaToolsRemovalMode(Module.early_game$tweaks, 1, 0, 2,
         "0: Don't remove vanilla tools. 1: Remove the recipes. 2: Keep the recipes but make tools unusable."),
-    stickDropChance(Module.early_game, 0.166F,
+    leatherDropReplacement(Module.early_game$tweaks, true,
+        "Whether to replace leather drops with raw hides to balance the leather recipes."),
+    stickDropChance(Module.early_game$tweaks, 0.166F,
         "The chance from 0 (0%) to 1 (100%) for a stick to drop from leaves. Putting this to 0 will stop dropping."),
+
+    //Mod Content
     fireStarterSuccessChance(Module.early_game, 0.2F,
         "The chance from 0 (0%) to 1 (100%) for the fire starter to succeed making a fire. Putting this to 0 will stop the fire starter from working."),
-    leatherDropReplacement(Module.early_game, true,
-        "Whether to replace leather drops with raw hides to balance the leather recipes."),
     ceramicBucketLiquids(Module.early_game, new String[] { "fluiddeath", "fluidpure" },
         "The extra liquids that the ceramic bucket will be able to hold"),
     ceramicBucketLiquidsHotCap(Module.early_game, 1000,
@@ -43,8 +48,8 @@ public enum Config {
         "The time in ticks that it will take the LogPile to smelt into charcoal."),
 
     // Torch
-    torchBurnTime(Module.lighting, 20 * 60 * 20, "The time in ticks that lit torches will burn before going out."),
-    torchRebalance(Module.lighting, true,
+    torchBurnTime(Module.early_game$lighting, 20 * 60 * 20, "The time in ticks that lit torches will burn before going out."),
+    torchRebalance(Module.early_game$lighting, true,
         "Whether to make vanilla torches require glowstone to balance the lit torches"),
 
     // Metal
@@ -82,29 +87,29 @@ public enum Config {
         "The range around the ideal height in which the windmill will operate."),
 
     // WorldGen
-    rockWorldGen(Module.worldgen, true, "Whether to enable loose rocks generating in the world."),
-    shellWorldGen(Module.worldgen, true, "Whether to enable loose sheel generating bear beaches."),
+    rockWorldGen(Module.world$generation, true, "Whether to enable loose rocks generating in the world."),
+    shellWorldGen(Module.world$generation, true, "Whether to enable loose sheel generating bear beaches."),
 
     // Strata
-    strataStoneTypes(Module.worldgen, true, "Put to false if you want to disable all of the stone types of the mod."),
-    strataBiomeSpecific(Module.worldgen, true,
+    strataStoneTypes(Module.world, true, "Put to false if you want to disable all of the stone types of the mod."),
+    strataBiomeSpecific(Module.world$generation, true,
         "Put to false if you don't want biome-specific stones (ex. Desert will have sandstone, BOP Volcanos have basalt) etc.."),
-    strataWorldGen(Module.worldgen, true, "Whether to enable the generation of the strata stone types"),
-    soilTypes(Module.worldgen, true, "Put to false if you want to disable all of the soil types of the mod."),
-    soilWorldGen(Module.worldgen, true, "Whether to enable the generation of the soil types"),
-    enableVanillaOres(Module.worldgen, false, "Put to true if you want the vanilla ores back"),
-    oreVeins(Module.worldgen, true, "Whether to enable large ore veins"),
-    oreVeinsWorldGen(Module.worldgen, true, "Whether to enable the generation of the ore types"),
-    thaumcraftOreVeins(Module.worldgen, true, "Whether to enable large ore veins for Thaumcraft"),
-    thaumcraftOreVeinsWorldGen(Module.worldgen, true,
+    strataWorldGen(Module.world$generation, true, "Whether to enable the generation of the strata stone types"),
+    soilTypes(Module.world, true, "Put to false if you want to disable all of the soil types of the mod."),
+    soilWorldGen(Module.world$generation, true, "Whether to enable the generation of the soil types"),
+    enableVanillaOres(Module.world$generation, false, "Put to true if you want the vanilla ores back"),
+    oreVeins(Module.world, true, "Whether to enable large ore veins"),
+    oreVeinsWorldGen(Module.world$generation, true, "Whether to enable the generation of the ore types"),
+    thaumcraftOreVeins(Module.world, true, "Whether to enable large ore veins for Thaumcraft"),
+    thaumcraftOreVeinsWorldGen(Module.world$generation, true,
         "Whether to enable the generation of the ore types for Thaumcraft"),
 
     // Mixins
-    dragonAPIPlantFix(Module.compat, true,
+    dragonAPIPlantFix(Module.world$mod_compat, true,
         "This enables the mixins to DragonAPI to make it recognize the mod dirt, and avoid plants popping off."),
-    bopPlantFix(Module.compat, true,
+    bopPlantFix(Module.world$mod_compat, true,
         "This enables the mixins to Biomes O' Plenty to make it recognize the mod dirt, and avoid plants popping off."),
-    exblPlantFix(Module.compat, true,
+    exblPlantFix(Module.world$mod_compat, true,
         "This enables the mixins to Extra Biomes XL to make it recognize the mod dirt, and avoid plants popping off.");
 
     public boolean isBoolean;
@@ -280,20 +285,24 @@ public enum Config {
 
         early_game(true,
             "Includes all the early game stuff such as campfire, pitkiln and everything you will use early on."),
+        early_game$tweaks(true, "Multiple vanilla tweaks to spice up the early game."),
+        early_game$lighting(true, "Includes all of the changes related to lighting."),
         metalworking(true, "Includes all of the metalworking aspect of the mod, such as the forge, crucible and such."),
         mechanical_power(true,
             "Includes all of the mechanical power machinery, such as windmill, waterwheel and anything that moves."),
-        worldgen(true, "Includes all of the worldgen stuff from the mod."),
-        lighting(true, "Includes all of the changes related to lighting."),
-        compat(true, "Includes all of the changes made to other mods to make the mod work correctly.");
+        world(true, "Includes all of the world stuff from the mod."),
+        world$generation(true, "All options related to world generation"),
+        world$mod_compat(true, "Includes all of the changes made to other mods to make the mod work correctly.");
 
         public String name;
         public String comment;
+        public boolean isMainModule;
         boolean enabled;
         boolean enabledDefault;
 
         Module(boolean enabled, String comment) {
-            this.name = this.name();
+            this.name = this.name().replace("$", ".");
+            this.isMainModule = this.name.indexOf('.') == -1;
             this.enabledDefault = enabled;
             this.comment = comment;
         }

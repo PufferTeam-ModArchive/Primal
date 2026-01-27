@@ -1,4 +1,4 @@
-package net.pufferlab.primal.mixins.early.minecraft;
+package net.pufferlab.primal.mixins.early.minecraft.client;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.particle.EntityDiggingFX;

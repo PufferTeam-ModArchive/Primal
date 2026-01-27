@@ -1,5 +1,6 @@
 package net.pufferlab.primal;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
@@ -84,6 +85,10 @@ public class CommonProxy implements IGuiHandler {
     }
 
     public void playClientSound(TileEntity te) {}
+
+    public void renderFX(World world, int x, int y, int z, Block block, int meta) {
+        world.playAuxSFX(2001, x, y, z, Block.getIdFromBlock(block) + (meta << 12));
+    }
 
     public void renderFX(TileEntity te, double x, double y, double z, ItemStack stack) {}
 

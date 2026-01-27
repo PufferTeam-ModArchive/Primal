@@ -519,6 +519,30 @@ public class Utils {
         return true;
     }
 
+    public static Block getBlockDirection(World world, int x, int y, int z, ForgeDirection... directions) {
+        int offsetX = x;
+        int offsetY = y;
+        int offsetZ = z;
+        for(ForgeDirection direction : directions) {
+            offsetX += direction.offsetX;
+            offsetY += direction.offsetY;
+            offsetZ += direction.offsetZ;
+        }
+        return world.getBlock(offsetX, offsetY, offsetZ);
+    }
+
+    public static boolean setBlockDirection(World world, int x, int y, int z, Block block, int meta, ForgeDirection... directions) {
+        int offsetX = x;
+        int offsetY = y;
+        int offsetZ = z;
+        for(ForgeDirection direction : directions) {
+            offsetX += direction.offsetX;
+            offsetY += direction.offsetY;
+            offsetZ += direction.offsetZ;
+        }
+        return world.setBlock(offsetX, offsetY, offsetZ, block, meta, 2);
+    }
+
     public static ForgeDirection getDirectionFromFacing(int facingMeta) {
         return switch (facingMeta) {
             case 1 -> ForgeDirection.SOUTH;

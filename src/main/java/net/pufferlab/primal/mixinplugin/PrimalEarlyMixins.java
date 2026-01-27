@@ -9,6 +9,7 @@ import com.gtnewhorizon.gtnhmixins.IEarlyMixinLoader;
 
 import cpw.mods.fml.relauncher.FMLLaunchHandler;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
+import net.pufferlab.primal.Config;
 
 @IFMLLoadingPlugin.Name("PrimalEarlyMixins")
 @IFMLLoadingPlugin.MCVersion("1.7.10")
@@ -26,9 +27,17 @@ public class PrimalEarlyMixins implements IFMLLoadingPlugin, IEarlyMixinLoader {
         boolean isClient = FMLLaunchHandler.side()
             .isClient();
         if (isClient) {
-            mixins.add("minecraft.MixinEntityDiggingFX");
+            mixins.add("minecraft.client.MixinEntityDiggingFX");
         }
         mixins.add("minecraft.MixinEntityAIEatGrass");
+
+        if(Config.destructiveFallingBlocks.getBoolean()) {
+            mixins.add("minecraft.MixinBlockFalling");
+            mixins.add("minecraft.MixinEntityFallingBlock");
+        }
+        if(Config.sidewayGravity.getBoolean()) {
+            mixins.add("minecraft.MixinBlockFalling_SideFall");
+        }
         return mixins;
     }
 
