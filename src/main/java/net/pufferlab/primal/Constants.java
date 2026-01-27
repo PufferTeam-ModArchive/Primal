@@ -44,7 +44,6 @@ public class Constants {
     // Stones
 
     // Igneous Extrusive
-// Igneous Extrusive
     public static final StoneCategory igneousExtrusive = new StoneCategory("igneous_extrusive");
     public static final StoneType andesite  = new StoneType(igneousExtrusive, "andesite", 40, 110, 15);
     public static final StoneType basalt    = new StoneType(igneousExtrusive, "basalt", 20, 70, 15);
