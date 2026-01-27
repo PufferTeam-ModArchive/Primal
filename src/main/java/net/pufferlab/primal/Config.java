@@ -6,13 +6,15 @@ import net.minecraftforge.common.config.Configuration;
 
 public enum Config {
 
-    //Vanilla Tweaks
+    // Vanilla Tweaks
     noTreeFistPunching(Module.early_game$tweaks, true,
         "Whether to enable no tree punching mechanics. Meaning that you cannot break logs with your fist."),
     harderSoil(Module.early_game$tweaks, true,
         "Whether to make soil (dirt/sand) slightly harder to break, giving shovels more use"),
-    destructiveFallingBlocks(Module.early_game$tweaks, true, "Whether to make it so instead of the falling block getting destroyed on replaceable blocks, the replaceable block get destroyed instead."),
-    sidewayFallingBlocks(Module.early_game$tweaks, true, "Whether you want to enable sideway gravity for falling blocks, put to false if you dont want the gravity changes"),
+    destructiveFallingBlocks(Module.early_game$tweaks, true,
+        "Whether to make it so instead of the falling block getting destroyed on replaceable blocks, the replaceable block get destroyed instead."),
+    sidewayFallingBlocks(Module.early_game$tweaks, true,
+        "Whether you want to enable sideway gravity for falling blocks, put to false if you dont want the gravity changes"),
     vanillaToolsRemovalMode(Module.early_game$tweaks, 1, 0, 2,
         "0: Don't remove vanilla tools. 1: Remove the recipes. 2: Keep the recipes but make tools unusable."),
     leatherDropReplacement(Module.early_game$tweaks, true,
@@ -20,7 +22,7 @@ public enum Config {
     stickDropChance(Module.early_game$tweaks, 0.166F,
         "The chance from 0 (0%) to 1 (100%) for a stick to drop from leaves. Putting this to 0 will stop dropping."),
 
-    //Mod Content
+    // Mod Content
     fireStarterSuccessChance(Module.early_game, 0.2F,
         "The chance from 0 (0%) to 1 (100%) for the fire starter to succeed making a fire. Putting this to 0 will stop the fire starter from working."),
     ceramicBucketLiquids(Module.early_game, new String[] { "fluiddeath", "fluidpure" },
@@ -48,7 +50,8 @@ public enum Config {
         "The time in ticks that it will take the LogPile to smelt into charcoal."),
 
     // Torch
-    torchBurnTime(Module.early_game$lighting, 20 * 60 * 20, "The time in ticks that lit torches will burn before going out."),
+    torchBurnTime(Module.early_game$lighting, 20 * 60 * 20,
+        "The time in ticks that lit torches will burn before going out."),
     torchRebalance(Module.early_game$lighting, true,
         "Whether to make vanilla torches require glowstone to balance the lit torches"),
 
@@ -301,7 +304,8 @@ public enum Config {
         boolean enabledDefault;
 
         Module(boolean enabled, String comment) {
-            this.name = this.name().replace("$", ".");
+            this.name = this.name()
+                .replace("$", ".");
             this.isMainModule = this.name.indexOf('.') == -1;
             this.enabledDefault = enabled;
             this.comment = comment;

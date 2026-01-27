@@ -523,7 +523,7 @@ public class Utils {
         int offsetX = x;
         int offsetY = y;
         int offsetZ = z;
-        for(ForgeDirection direction : directions) {
+        for (ForgeDirection direction : directions) {
             offsetX += direction.offsetX;
             offsetY += direction.offsetY;
             offsetZ += direction.offsetZ;
@@ -531,11 +531,12 @@ public class Utils {
         return world.getBlock(offsetX, offsetY, offsetZ);
     }
 
-    public static boolean setBlockDirection(World world, int x, int y, int z, Block block, int meta, ForgeDirection... directions) {
+    public static boolean setBlockDirection(World world, int x, int y, int z, Block block, int meta,
+        ForgeDirection... directions) {
         int offsetX = x;
         int offsetY = y;
         int offsetZ = z;
-        for(ForgeDirection direction : directions) {
+        for (ForgeDirection direction : directions) {
             offsetX += direction.offsetX;
             offsetY += direction.offsetY;
             offsetZ += direction.offsetZ;

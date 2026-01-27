@@ -24,7 +24,7 @@ public class GuiConfigPrimal extends GuiConfig {
         List<IConfigElement> config = new ArrayList<>();
 
         for (Config.Module module : Config.Module.values()) {
-            if(module.isMainModule) {
+            if (module.isMainModule) {
                 String name = module.name;
                 ConfigCategory category = cfg.getCategory(name);
                 category.setComment(module.comment);

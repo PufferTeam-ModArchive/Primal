@@ -5,11 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.pufferlab.primal.Config;
+
 import com.gtnewhorizon.gtnhmixins.IEarlyMixinLoader;
 
 import cpw.mods.fml.relauncher.FMLLaunchHandler;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
-import net.pufferlab.primal.Config;
 
 @IFMLLoadingPlugin.Name("PrimalEarlyMixins")
 @IFMLLoadingPlugin.MCVersion("1.7.10")
@@ -31,11 +32,11 @@ public class PrimalEarlyMixins implements IFMLLoadingPlugin, IEarlyMixinLoader {
         }
         mixins.add("minecraft.MixinEntityAIEatGrass");
 
-        if(Config.destructiveFallingBlocks.getBoolean()) {
+        if (Config.destructiveFallingBlocks.getBoolean()) {
             mixins.add("minecraft.MixinBlockFalling");
             mixins.add("minecraft.MixinEntityFallingBlock");
         }
-        if(Config.sidewayGravity.getBoolean()) {
+        if (Config.sidewayFallingBlocks.getBoolean()) {
             mixins.add("minecraft.MixinBlockFalling_SideFall");
         }
         return mixins;
