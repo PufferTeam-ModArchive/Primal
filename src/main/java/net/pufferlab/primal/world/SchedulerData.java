@@ -82,17 +82,17 @@ public class SchedulerData extends WorldSavedData {
         addScheduledTask(ScheduledTask.tileTask, inTime, block, world, x, y, z, type, id);
     }
 
-    public static void removeScheduledTask(Block block, World world, int x, int y, int z, int type) {
+    public static void removeScheduledTask(World world, int x, int y, int z, int type) {
         SchedulerData scheduler = get(world);
 
-        scheduler.queue.removeIf(task -> task.equals(block, x, y, z, type));
+        scheduler.queue.removeIf(task -> task.equals(x, y, z, type));
         scheduler.markDirty();
     }
 
-    public static void removeScheduledTask(Block block, World world, int x, int y, int z) {
+    public static void removeScheduledTask(World world, int x, int y, int z) {
         SchedulerData scheduler = get(world);
 
-        scheduler.queue.removeIf(task -> task.equals(block, x, y, z));
+        scheduler.queue.removeIf(task -> task.equals(x, y, z));
         scheduler.markDirty();
     }
 

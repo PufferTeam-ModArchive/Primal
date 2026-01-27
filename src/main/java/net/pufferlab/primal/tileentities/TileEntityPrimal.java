@@ -1,5 +1,6 @@
 package net.pufferlab.primal.tileentities;
 
+import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -107,6 +108,11 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
     @Override
     public void mark() {
         this.markDirty();
+    }
+
+    @Override
+    public Block getBlock() {
+        return this.getBlockType();
     }
 
     @Override

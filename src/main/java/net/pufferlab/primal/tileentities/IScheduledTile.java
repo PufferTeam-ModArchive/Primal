@@ -17,11 +17,11 @@ public interface IScheduledTile extends ITile {
     }
 
     default void removeSchedule(World world, int x, int y, int z) {
-        SchedulerData.removeScheduledTask(getBlock(), world, x, y, z);
+        SchedulerData.removeScheduledTask(world, x, y, z);
     }
 
     default void removeSchedule(World world, int x, int y, int z, int type) {
-        SchedulerData.removeScheduledTask(getBlock(), world, x, y, z, type);
+        SchedulerData.removeScheduledTask(world, x, y, z, type);
     }
 
     default void removeSchedule() {
