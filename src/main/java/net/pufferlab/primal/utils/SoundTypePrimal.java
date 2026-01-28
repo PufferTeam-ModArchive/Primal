@@ -15,6 +15,7 @@ public class SoundTypePrimal extends Block.SoundType {
     public static final SoundTypePrimal soundFaucetOpen = new SoundTypePrimal("open.faucet", 1.0F, 1.0F);
     public static final SoundTypePrimal soundFaucetClose = new SoundTypePrimal("close.faucet", 1.0F, 1.0F);
     public static final SoundTypePrimal soundQuernGrinding = new SoundTypePrimal("grinding.quern", 1.0F, 1.2F);
+    public static final SoundTypePrimal slidingSoil = new SoundTypePrimal("sliding.soil", 0.8F, 1.0F);
 
     public static final Random rand = new Random();
 

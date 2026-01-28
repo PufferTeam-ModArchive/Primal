@@ -8,7 +8,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.utils.CoordUtils;
+import net.pufferlab.primal.Utils;
 
 public class SchedulerData extends WorldSavedData {
 
@@ -99,7 +99,7 @@ public class SchedulerData extends WorldSavedData {
     public static void moveScheduledTask(Block block, World world, int x, int y, int z, int newX, int newY, int newZ) {
         SchedulerData scheduler = get(world);
 
-        long packedCoords = CoordUtils.pack(x, y, z);
+        long packedCoords = Utils.pack(x, y, z);
         List<ScheduledTask> tasks = scheduler.taskMap.get(packedCoords);
 
         if (tasks != null) {

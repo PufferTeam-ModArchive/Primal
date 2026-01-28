@@ -5,9 +5,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.blocks.IScheduledBlock;
 import net.pufferlab.primal.tileentities.IScheduledTile;
-import net.pufferlab.primal.utils.CoordUtils;
 
 public class ScheduledTask implements Comparable<ScheduledTask> {
 
@@ -35,7 +35,7 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
         this.blockID = Block.getIdFromBlock(block);
         this.timeCurrent = currentTime;
         this.timeScheduled = currentTime + inTime;
-        this.packedCoords = CoordUtils.pack(x, y, z);
+        this.packedCoords = Utils.pack(x, y, z);
         this.x = x;
         this.y = y;
         this.z = z;
@@ -52,7 +52,7 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
         this.x = newX;
         this.y = newY;
         this.z = newZ;
-        this.packedCoords = CoordUtils.pack(newX, newY, newZ);
+        this.packedCoords = Utils.pack(newX, newY, newZ);
     }
 
     public void writeToNBT(NBTTagCompound tag) {

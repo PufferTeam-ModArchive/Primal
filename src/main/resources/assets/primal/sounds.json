@@ -1,4 +1,17 @@
 {
+    "sliding.soil": {
+        "category": "master",
+        "sounds": [
+            {
+                "name": "sliding/soil_slide_short_1",
+                "stream": false
+            },
+            {
+                "name": "sliding/soil_slide_short_2",
+                "stream": false
+            }
+        ]
+    },
     "knapping.clay": {
         "category": "master",
         "sounds": [

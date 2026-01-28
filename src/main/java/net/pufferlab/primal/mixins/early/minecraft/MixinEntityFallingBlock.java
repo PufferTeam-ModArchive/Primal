@@ -47,10 +47,14 @@ public abstract class MixinEntityFallingBlock extends Entity {
     public void placeBlock(int i, int j, int k) {
         Block block = this.worldObj.getBlock(i, j, k);
         int meta = this.worldObj.getBlockMetadata(i, j, k);
-        if (block.getMaterial() != Material.air) {
-            block.dropBlockAsItem(this.worldObj, i, j, k, meta, 0);
-            Primal.proxy.renderFX(this.worldObj, i, j, k, block, meta);
-            this.worldObj.setBlockToAir(i, j, k);
+        if (block == field_145811_e) {
+            j++;
+        } else {
+            if (block.getMaterial() != Material.air) {
+                block.dropBlockAsItem(this.worldObj, i, j, k, meta, 0);
+                Primal.proxy.renderFX(this.worldObj, i, j, k, block, meta);
+                this.worldObj.setBlockToAir(i, j, k);
+            }
         }
         this.worldObj.setBlock(i, j, k, this.field_145811_e, this.field_145814_a, 3);
 
