@@ -35,7 +35,7 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
         this.blockID = Block.getIdFromBlock(block);
         this.timeCurrent = currentTime;
         this.timeScheduled = currentTime + inTime;
-        this.packedCoords = Utils.pack(x, y, z);
+        this.packedCoords = Utils.packCoord(x, y, z);
         this.x = x;
         this.y = y;
         this.z = z;
@@ -48,11 +48,11 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
         return Long.compare(this.timeScheduled, o.timeScheduled);
     }
 
-    public void updatePos(int newX, int newY, int newZ) {
+    public void updateCoords(int newX, int newY, int newZ) {
         this.x = newX;
         this.y = newY;
         this.z = newZ;
-        this.packedCoords = Utils.pack(newX, newY, newZ);
+        this.packedCoords = Utils.packCoord(newX, newY, newZ);
     }
 
     public void writeToNBT(NBTTagCompound tag) {

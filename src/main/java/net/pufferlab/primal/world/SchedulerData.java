@@ -99,25 +99,14 @@ public class SchedulerData extends WorldSavedData {
     public static void moveScheduledTask(Block block, World world, int x, int y, int z, int newX, int newY, int newZ) {
         SchedulerData scheduler = get(world);
 
-        long packedCoords = Utils.pack(x, y, z);
-        List<ScheduledTask> tasks = scheduler.taskMap.get(packedCoords);
+        long packedCoords = Utils.packCoord(x, y, z);
+        List<ScheduledTask> tasks = scheduler.taskMap.remove(packedCoords);
 
         if (tasks != null) {
-            Iterator<ScheduledTask> it = tasks.iterator();
-            while (it.hasNext()) {
-                ScheduledTask task = it.next();
-                if (task.equals(block, x, y, z)) {
-                    it.remove();
-
-                    task.updatePos(newX, newY, newZ);
-
-                    scheduler.taskMap.computeIfAbsent(task.packedCoords, p -> new ArrayList<>())
-                        .add(task);
-                }
-            }
-
-            if (tasks.isEmpty()) {
-                scheduler.taskMap.remove(packedCoords);
+            for (ScheduledTask task : tasks) {
+                task.updateCoords(newX, newY, newZ);
+                scheduler.taskMap.computeIfAbsent(task.packedCoords, p -> new ArrayList<>())
+                    .add(task);
             }
         }
     }

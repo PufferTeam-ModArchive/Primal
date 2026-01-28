@@ -906,6 +906,7 @@ public class Utils {
 
     public static boolean containsStack(List<ItemStack> list, ItemStack b) {
         for (ItemStack item : list) {
+            if (item == null) continue;
             if (Utils.equalsStack(item, b)) {
                 return true;
             }
@@ -1197,7 +1198,7 @@ public class Utils {
         return (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
     }
 
-    public static long pack(int x, int y, int z) {
+    public static long packCoord(int x, int y, int z) {
         long lx = x & 0x3FFFFFFL; // 26 bits
         long ly = y & 0xFFFL; // 12 bits
         long lz = z & 0x3FFFFFFL; // 26 bits

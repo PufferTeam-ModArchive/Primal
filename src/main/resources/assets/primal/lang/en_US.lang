@@ -39,6 +39,7 @@ nei.recipe.primal.quern.name=Quern
 nei.recipe.primal.tanning.name=Tanning
 
 metal.primal.iron.name=Iron
+metal.primal.cast_iron.name=Cast Iron
 metal.primal.gold.name=Gold
 metal.primal.copper.name=Copper
 metal.primal.tin.name=Tin
