@@ -23,7 +23,7 @@ public abstract class MixinBlockFalling_SideFall extends Block {
         super(materialIn);
     }
 
-    @Inject(method = "updateTick", at = @At("HEAD"))
+    @Inject(method = "updateTick", at = @At("HEAD"), cancellable = true)
     public void updateTick$primal(World worldIn, int x, int y, int z, Random random, CallbackInfo cir) {
         if (!worldIn.isRemote) {
             if (!(this instanceof ITileEntityProvider)) {
@@ -62,6 +62,7 @@ public abstract class MixinBlockFalling_SideFall extends Block {
                                 }
                     if (moved) {
                         Utils.playSound(worldIn, x, y, z, SoundTypePrimal.slidingSoil);
+                        cir.cancel();
                     }
                 }
 

@@ -34,6 +34,18 @@ public class VeinType {
         this.stoneTypes = stoneTypes;
     }
 
+    public VeinType setHeight(int min, int max) {
+        this.minY = min;
+        this.maxY = max;
+        return this;
+    }
+
+    public VeinType setSize(int min, int max) {
+        this.sizeMin = min;
+        this.sizeMax = max;
+        return this;
+    }
+
     public boolean canGenerate(int height) {
         if (height < maxY && height > minY) {
             return true;
@@ -46,7 +58,8 @@ public class VeinType {
     }
 
     public int getSize(Random rand) {
-        return rand.nextInt(sizeMax - sizeMin + 1) + sizeMin;
+        int value = rand.nextInt(sizeMax - sizeMin + 1) + sizeMin;
+        return value;
     }
 
     public boolean getChance(Random random) {

@@ -34,10 +34,7 @@ import net.minecraftforge.fluids.*;
 import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.blocks.*;
 import net.pufferlab.primal.items.*;
-import net.pufferlab.primal.utils.FluidUtils;
-import net.pufferlab.primal.utils.ItemDummy;
-import net.pufferlab.primal.utils.SoundTypePrimal;
-import net.pufferlab.primal.utils.StoneType;
+import net.pufferlab.primal.utils.*;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 import org.apache.commons.io.FileUtils;
@@ -758,52 +755,6 @@ public class Utils {
             arrayO[i] = String.join("", suffixArray);
         }
         return String.join("", arrayO);
-    }
-
-    private static Map<String, Integer> meltingMetalMap;
-
-    public static int getMetalMelting(String metal) {
-        if (meltingMetalMap == null) {
-            meltingMetalMap = new HashMap<>();
-            String[] priorityOverride = Config.metalMelting.getStringList();
-            for (String s : priorityOverride) {
-                String[] spl = s.split("=");
-                if (spl.length == 2) {
-                    String ore = spl[0];
-                    if (Integer.parseInt(spl[1]) != 0) {
-                        int temp = Integer.parseInt(spl[1]);
-                        meltingMetalMap.put(ore, temp);
-                    }
-                }
-            }
-        }
-        if (meltingMetalMap.containsKey(metal)) {
-            return meltingMetalMap.get(metal);
-        }
-        return 0;
-    }
-
-    private static Map<String, Fluid> liquidMetalMap;
-
-    public static Fluid getMetalFluid(String metal) {
-        if (liquidMetalMap == null) {
-            liquidMetalMap = new HashMap<>();
-            String[] priorityOverride = Config.metalLiquids.getStringList();
-            for (String s : priorityOverride) {
-                String[] spl = s.split("=");
-                if (spl.length == 2) {
-                    String ore = spl[0];
-                    if (getFluid(spl[1], 1) != null) {
-                        Fluid item = getFluid(spl[1], 1).getFluid();
-                        liquidMetalMap.put(ore, item);
-                    }
-                }
-            }
-        }
-        if (liquidMetalMap.containsKey(metal)) {
-            return liquidMetalMap.get(metal);
-        }
-        return null;
     }
 
     private static Map<String, Integer> priorityMap;

@@ -19,8 +19,6 @@ import cpw.mods.fml.common.IWorldGenerator;
 
 public class PrimalDecorator implements IWorldGenerator {
 
-    public static final PrimalDecorator instance = new PrimalDecorator();
-
     public static WorldGenGroundcover worldGenRock = new WorldGenGroundRock();
     public static int rockPerChunk = 2;
     public static WorldGenGroundcover worldGenShell = new WorldGenGroundShell();

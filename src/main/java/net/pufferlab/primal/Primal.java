@@ -63,7 +63,7 @@ public class Primal {
         registry.setupMT();
         registry.setupWAILA();
         registry.setupHeatables();
-        registry.setupMetals();
+        registry.setupConfig();
         registry.setupModCompat();
 
         if (debugMode && Utils.isDev()) {

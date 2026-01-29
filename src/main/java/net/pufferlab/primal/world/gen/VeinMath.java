@@ -39,13 +39,17 @@ public class VeinMath {
     }
 
     public static void ovalImperfect(World world, Random rand, int cx, int cy, int cz, VeinType vein) {
-        int ox = vein.getSize(rand);
-        int oy = vein.getSize(rand);
-        int oz = vein.getSize(rand);
+        int ox = Math.min(vein.getSize(rand), 8);
+        int oy = Math.min(vein.getSize(rand), 8);
+        int oz = Math.min(vein.getSize(rand), 8);
+
         Block block = vein.oreType.oreBlock;
+
         for (int x = cx - ox; x <= cx + ox; x++) {
             for (int y = cy - oy; y <= cy + oy; y++) {
                 for (int z = cz - oz; z <= cz + oz; z++) {
+
+                    if (Math.abs(x - cx) > 8 || Math.abs(y - cy) > 8 || Math.abs(z - cz) > 8) continue;
 
                     double dx = (x - cx) / (double) ox;
                     double dy = (y - cy) / (double) oy;

@@ -7,6 +7,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.command.CommandHandler;
 import net.minecraft.command.ICommand;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -26,10 +27,7 @@ import net.pufferlab.primal.events.packets.*;
 import net.pufferlab.primal.inventory.CreativeTabsPrimal;
 import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.tileentities.*;
-import net.pufferlab.primal.utils.FluidType;
-import net.pufferlab.primal.utils.MetalType;
-import net.pufferlab.primal.utils.StoneType;
-import net.pufferlab.primal.utils.TemperatureUtils;
+import net.pufferlab.primal.utils.*;
 import net.pufferlab.primal.world.PrimalDecorator;
 import net.pufferlab.primal.world.PrimalEarlyGenerator;
 import net.pufferlab.primal.world.PrimalLateGenerator;
@@ -457,9 +455,15 @@ public class Registry {
     public static final Fluid[] fluidsObjects = new Fluid[Constants.fluidsTypes.length];
 
     public void setupFluids() {
+        Constants.empty.setBlock(Blocks.air)
+            .setFluid(null);
+        Constants.water.setBlock(Blocks.flowing_water)
+            .setFluid(FluidRegistry.WATER);
+        Constants.lava.setBlock(Blocks.flowing_lava)
+            .setFluid(FluidRegistry.LAVA);
         for (int i = 0; i < Constants.fluidsTypes.length; i++) {
             FluidType fluidType = Constants.fluidsTypes[i];
-            if (fluidType.block == null && fluidType.fluid == null) {
+            if (!fluidType.existingFluid) {
                 Fluid fluid = new FluidPrimal(fluidType.name).setDensity(fluidType.density)
                     .setViscosity(fluidType.viscosity)
                     .setTemperature(fluidType.temperature);
@@ -517,7 +521,6 @@ public class Registry {
 
     public void setupServer() {
         StoneType.registerStone(Constants.stoneTypes, Registry.stone);
-        StoneType.registerStone(Constants.stoneTypes, Registry.gravel);
     }
 
     public void setupCommands() {
@@ -533,18 +536,31 @@ public class Registry {
         registerCommand(new CommandVein());
     }
 
-    public void setupMetals() {
+    public void setupConfig() {
         for (MetalType type : Constants.metalTypes) {
-            Fluid fluid = Utils.getMetalFluid(type.name);
+            Fluid fluid = ConfigUtils.getMetalFluid(type);
             if (fluid != null) {
                 type.setFluid(fluid);
             }
-            int temp = Utils.getMetalMelting(type.name);
+            int temp = ConfigUtils.getMetalMelting(type);
             if (temp > 0) {
                 type.setMeltingTemperature(temp);
             }
         }
         MetalType.setFluids(Constants.metalTypes);
+
+        for (VeinType type : Constants.veinTypesAll) {
+            int min = ConfigUtils.getVeinHeightMin(type);
+            int max = ConfigUtils.getVeinHeightMax(type);
+            type.setHeight(min, max);
+            int minSize = ConfigUtils.getVeinSizeMin(type);
+            int maxSize = ConfigUtils.getVeinSizeMax(type);
+            type.setSize(minSize, maxSize);
+        }
+
+        Constants.stoneTypesLayer = StoneType.generateLayerCache(Constants.stoneTypes);
+        Constants.veinTypesLayer = VeinType.generateVeinCache(Constants.veinTypes);
+        Constants.tcVeinTypesLayer = VeinType.generateVeinCache(Constants.tcVeinTypes);
     }
 
     public void setupModCompat() {
@@ -585,9 +601,9 @@ public class Registry {
     }
 
     public void setupWorldGen() {
-        registerWorld(PrimalEarlyGenerator.instance, 10000);
-        registerWorld(PrimalLateGenerator.instance, 20000);
-        registerWorld(PrimalDecorator.instance, 30000);
+        registerWorld(new PrimalEarlyGenerator(), 10000);
+        registerWorld(new PrimalLateGenerator(), 20000);
+        registerWorld(new PrimalDecorator(), 30000);
     }
 
     public void register(Item item, String name) {

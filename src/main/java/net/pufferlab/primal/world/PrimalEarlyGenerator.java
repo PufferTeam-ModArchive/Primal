@@ -13,8 +13,6 @@ import cpw.mods.fml.common.IWorldGenerator;
 
 public class PrimalEarlyGenerator implements IWorldGenerator {
 
-    public static final PrimalEarlyGenerator instance = new PrimalEarlyGenerator();
-
     public static final WorldGenStrata strataGen = new WorldGenStrata();
     public static final WorldGenSoil soilGen = new WorldGenSoil();
 

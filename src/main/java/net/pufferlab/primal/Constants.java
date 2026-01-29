@@ -1,25 +1,21 @@
 package net.pufferlab.primal;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.utils.*;
 
 public class Constants {
 
     // spotless:off
-    public static final int wildcard = OreDictionary.WILDCARD_VALUE;
+    public static final int wildcard = Short.MAX_VALUE;
     public static final double epsilon = 2e-5;
     public static final String[] none = new String[] { "none" };
     public static final float modelConst = 0.0625F;
     public static final int tagCompound = 10;
     public static final int tagIntArray = 11;
     public static final int maxHeight = 256;
-    public static final String white = EnumChatFormatting.WHITE.toString();
-    public static final String gray = EnumChatFormatting.GRAY.toString();
-    public static final String reset = EnumChatFormatting.RESET.toString();
+    public static final String white = "§f";
+    public static final String gray  = "§7";
+    public static final String reset = "§r";
 
     public static final short lightNone = 0x000;
     public static final short lightFire = 0xEC0;
@@ -73,7 +69,7 @@ public class Constants {
     public static final StoneType[] stoneTypes = new StoneType[] { andesite, basalt, dacite, rhyolite, diorite, gabbro,
         granite, claystone, limestone, sandstone, shale, chalk, slate, schist };
 
-    public static final StoneType[][] stoneTypesLayer = StoneType.generateLayerCache(Constants.stoneTypes);
+    public static StoneType[][] stoneTypesLayer;
 
     // Metals
     public static final FluidType moltenIron = new FluidType("molten_iron", Material.lava);
@@ -128,7 +124,7 @@ public class Constants {
     public static final VeinType deep_malachite = new VeinType(malachite, "malachite", 10, 40, 5, 6, 0.0F, 0.3F, 0.15F, slate, diorite, schist);
     public static final VeinType medium_cassiterite = new VeinType(cassiterite, "medium_cassiterite", 20, 50, 3, 5, 0.0F,0.5F, 0.2F, diorite, granite, dacite, claystone, andesite);
     public static final VeinType[] veinTypes = new VeinType[] { surface_copper, deep_copper, deep_malachite, medium_cassiterite };
-    public static final VeinType[][] veinTypesLayer = VeinType.generateVeinCache(Constants.veinTypes);
+    public static VeinType[][] veinTypesLayer;
 
     public static final VeinType common_aer = new VeinType(aer, "common_aer", 0, 100, 2, 4, 0.0F, 0.3F, 0.4F, stoneTypes);
     public static final VeinType common_ignis = new VeinType(ignis, "common_ignis", 0, 100, 2, 4, 0.0F, 0.3F, 0.4F, stoneTypes);
@@ -137,7 +133,9 @@ public class Constants {
     public static final VeinType common_ordo  = new VeinType(ordo, "common_ordo", 0, 100, 2, 4, 0.0F, 0.3F, 0.4F, stoneTypes);
     public static final VeinType common_perditio  = new VeinType(perditio, "common_perditio", 0, 100, 2, 4, 0.0F, 0.3F, 0.4F, stoneTypes);
     public static final VeinType[] tcVeinTypes = new VeinType[] { common_aer, common_ignis, common_aqua, common_terra, common_ordo, common_perditio };
-    public static final VeinType[][] tcVeinTypesLayer = VeinType.generateVeinCache(Constants.tcVeinTypes);
+    public static VeinType[][] tcVeinTypesLayer;
+
+    public static final VeinType[] veinTypesAll = new VeinType[] { surface_copper, deep_copper, deep_malachite, medium_cassiterite, common_aer, common_ignis, common_aqua, common_terra, common_ordo, common_perditio};
 
     // Soil Types
     public static final SoilType loamy = new SoilType("loamy");
@@ -175,14 +173,13 @@ public class Constants {
     public static final FoodType[] doughItems = new FoodType[] {
         new FoodType("wheat_dough", 1, 0.5F, false, null, 17, 20, 1.0F) };
 
+    public static final FluidType empty = new FluidType("empty", Material.air, true);
+    public static final FluidType water = new FluidType("water", Material.water, true);
+    public static final FluidType lava = new FluidType("lava", Material.lava, true);
     // Fluids
     public static final FluidType[] fluidsTypes = new FluidType[] {
-        new FluidType("empty", Material.air).setBlock(Blocks.air)
-            .setFluid(null),
-        new FluidType("water", Material.water).setBlock(Blocks.flowing_water)
-            .setFluid(FluidRegistry.WATER),
-        new FluidType("lava", Material.lava).setBlock(Blocks.flowing_lava)
-            .setFluid(FluidRegistry.LAVA),
+        empty, water,
+        lava,
         new FluidType("limewater"), new FluidType("tannin"), new FluidType("white"), new FluidType("orange"),
         new FluidType("magenta"), new FluidType("light_blue"), new FluidType("yellow"), new FluidType("lime"),
         new FluidType("pink"), new FluidType("gray"), new FluidType("light_gray"), new FluidType("cyan"),

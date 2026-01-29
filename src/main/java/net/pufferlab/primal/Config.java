@@ -3,6 +3,7 @@ package net.pufferlab.primal;
 import java.io.File;
 
 import net.minecraftforge.common.config.Configuration;
+import net.pufferlab.primal.utils.ConfigUtils;
 
 public enum Config {
 
@@ -67,11 +68,9 @@ public enum Config {
     metalPriorityOverride(Module.metalworking,
         new String[] { "ingotIron=minecraft:iron_ingot", "ingotGold=minecraft:gold_ingot" },
         "Override so certain ore dictionary give specific materials"),
-    metalMelting(Module.metalworking, new String[] { "iron=1538", "gold=1064", "copper=1085", "tin=232", "bronze=950" },
+    metalMelting(Module.metalworking, ConfigUtils.getDefaultMetalMelting(Constants.metalTypes),
         "The melting temperature for the correspond metals."),
-    metalLiquids(Module.metalworking,
-        new String[] { "iron=molten_iron", "gold=molten_gold", "copper=molten_copper", "tin=molten_tin",
-            "bronze=molten_bronze" },
+    metalLiquids(Module.metalworking, ConfigUtils.getDefaultMetalFluid(Constants.metalTypes),
         "The liquids that will be used for the corresponding metals"),
     metalOreValue(Module.metalworking, 36, "The value that one ore should give."),
     metalSmallOreValue(Module.metalworking, 16, "The value that one small ore should give."),
@@ -103,6 +102,10 @@ public enum Config {
     enableVanillaOres(Module.world$generation, false, "Put to true if you want the vanilla ores back"),
     oreVeins(Module.world, true, "Whether to enable large ore veins"),
     oreVeinsWorldGen(Module.world$generation, true, "Whether to enable the generation of the ore types"),
+    oreVeinsHeight(Module.world$generation, ConfigUtils.getDefaultHeight(Constants.veinTypesAll),
+        "The corresponding max/min height values for ore veins"),
+    oreVeinsSize(Module.world$generation, ConfigUtils.getDefaultSize(Constants.veinTypesAll),
+        "The corresponding max/min size values for ore veins"),
     thaumcraftOreVeins(Module.world, true, "Whether to enable large ore veins for Thaumcraft"),
     thaumcraftOreVeinsWorldGen(Module.world$generation, true,
         "Whether to enable the generation of the ore types for Thaumcraft"),

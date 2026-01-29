@@ -14,6 +14,7 @@ public class MetalType {
 
     public String name;
     private String langKey;
+    public String fluidName;
     public Fluid fluid;
     public boolean isAlloy;
     public int weldingTemperature;
@@ -29,6 +30,7 @@ public class MetalType {
 
     public MetalType(String name, boolean isAlloy, int welding, int melting, FluidType fluid, int level) {
         this.name = name;
+        this.fluidName = "molten_" + name;
         this.langKey = "metal." + Primal.MODID + "." + name + ".name";
         this.isAlloy = isAlloy;
         this.weldingTemperature = welding;
