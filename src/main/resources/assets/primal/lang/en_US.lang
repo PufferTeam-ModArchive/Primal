@@ -38,6 +38,10 @@ nei.recipe.primal.pit_kiln.name=Pit Kiln
 nei.recipe.primal.quern.name=Quern
 nei.recipe.primal.tanning.name=Tanning
 
+temp.primal.desc=§7Temperature: §f%d§7 C
+metal.primal.melting.solid.name=Content is solid
+metal.primal.melting.liquid.name=Content is liquid
+metal.primal.melting.desc=Melts into §f%s§7 at §f%d§7 C
 metal.primal.iron.name=Iron
 metal.primal.cast_iron.name=Cast Iron
 metal.primal.gold.name=Gold

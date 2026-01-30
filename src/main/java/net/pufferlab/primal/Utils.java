@@ -292,7 +292,7 @@ public class Utils {
     }
 
     public static String getTemperatureTooltip(int temperature) {
-        return Constants.gray + "Temperature: " + Constants.white + temperature + Constants.gray + " C";
+        return Utils.translate("temp." + Primal.MODID + ".desc", temperature);
     }
 
     public static NBTTagCompound getOrCreateTagCompound(ItemStack item) {
@@ -1137,6 +1137,10 @@ public class Utils {
 
     public static String translate(String key) {
         return StatCollector.translateToLocal(key);
+    }
+
+    public static String translate(String key, Object... params) {
+        return StatCollector.translateToLocalFormatted(key, params);
     }
 
     public static boolean isClient() {

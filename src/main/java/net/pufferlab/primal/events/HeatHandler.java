@@ -13,10 +13,7 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fluids.FluidStack;
-import net.pufferlab.primal.Config;
-import net.pufferlab.primal.Constants;
-import net.pufferlab.primal.Registry;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.*;
 import net.pufferlab.primal.entities.player.PlayerData;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.tileentities.IHeatable;
@@ -33,8 +30,6 @@ public class HeatHandler implements IEventHandler {
 
     public static final Item crucible = Item.getItemFromBlock(Registry.crucible);
 
-    public static final boolean debugTemperatureTooltip = false;
-
     @SubscribeEvent
     public void tooltipEvent(ItemTooltipEvent event) {
         if (TemperatureUtils.hasImpl(event.itemStack)) {
@@ -43,15 +38,10 @@ public class HeatHandler implements IEventHandler {
             int meltingTemperature0 = impl.getMeltingTemperature(event.itemStack);
             if (meltingTemperature0 > 0 && metal0 != null) {
                 event.toolTip.add(
-                    Constants.gray + "Melts into "
-                        + Constants.white
-                        + metal0.getTranslatedName()
-                        + Constants.gray
-                        + " at "
-                        + Constants.white
-                        + meltingTemperature0
-                        + Constants.gray
-                        + " C");
+                    Utils.translate(
+                        "metal." + Primal.MODID + ".melting.desc",
+                        metal0.getTranslatedName(),
+                        meltingTemperature0));
             }
         }
         if (event.itemStack.hasTagCompound()) {
@@ -70,9 +60,10 @@ public class HeatHandler implements IEventHandler {
                             if (metal != null) {
                                 int meltingTemperature = metal.meltingTemperature;
                                 if (temperature > meltingTemperature) {
-                                    event.toolTip.add("Content is molten");
+                                    event.toolTip
+                                        .add(Utils.translate("metal." + Primal.MODID + ".melting.liquid.name"));
                                 } else {
-                                    event.toolTip.add("Content is solid");
+                                    event.toolTip.add(Utils.translate("metal." + Primal.MODID + ".melting.solid.name"));
                                 }
                             }
                         }

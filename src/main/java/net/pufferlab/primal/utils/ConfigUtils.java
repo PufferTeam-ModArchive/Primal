@@ -79,20 +79,27 @@ public class ConfigUtils {
         return list;
     }
 
+    public static void genVeinHeightMap() {
+        veinHeightMinMap = new HashMap<>();
+        veinHeightMaxMap = new HashMap<>();
+        String[] priorityOverride = Config.oreVeinsHeight.getStringList();
+        for (String s : priorityOverride) {
+            String[] spl = s.split("=");
+            if (spl.length == 2) {
+                String ore = spl[0];
+                String[] hs = spl[1].split("-");
+                int min = Integer.parseInt(hs[0]);
+                int max = Integer.parseInt(hs[1]);
+                veinHeightMinMap.put(ore, min);
+                veinHeightMaxMap.put(ore, max);
+            }
+        }
+    }
+
     public static int getVeinHeightMin(VeinType veinType) {
         String vein = veinType.name;
         if (veinHeightMinMap == null) {
-            veinHeightMinMap = new HashMap<>();
-            String[] priorityOverride = Config.oreVeinsHeight.getStringList();
-            for (String s : priorityOverride) {
-                String[] spl = s.split("=");
-                if (spl.length == 2) {
-                    String ore = spl[0];
-                    String[] hs = spl[1].split("-");
-                    int min = Integer.parseInt(hs[0]);
-                    veinHeightMinMap.put(ore, min);
-                }
-            }
+            genVeinHeightMap();
         }
         return veinHeightMinMap.get(vein);
     }
@@ -100,17 +107,7 @@ public class ConfigUtils {
     public static int getVeinHeightMax(VeinType veinType) {
         String vein = veinType.name;
         if (veinHeightMaxMap == null) {
-            veinHeightMaxMap = new HashMap<>();
-            String[] priorityOverride = Config.oreVeinsHeight.getStringList();
-            for (String s : priorityOverride) {
-                String[] spl = s.split("=");
-                if (spl.length == 2) {
-                    String ore = spl[0];
-                    String[] hs = spl[1].split("-");
-                    int max = Integer.parseInt(hs[1]);
-                    veinHeightMaxMap.put(ore, max);
-                }
-            }
+            genVeinHeightMap();
         }
         return veinHeightMaxMap.get(vein);
     }
@@ -126,20 +123,27 @@ public class ConfigUtils {
         return list;
     }
 
+    public static void genVeinSizeMap() {
+        veinSizeMinMap = new HashMap<>();
+        veinSizeMaxMap = new HashMap<>();
+        String[] priorityOverride = Config.oreVeinsSize.getStringList();
+        for (String s : priorityOverride) {
+            String[] spl = s.split("=");
+            if (spl.length == 2) {
+                String ore = spl[0];
+                String[] hs = spl[1].split("-");
+                int min = Integer.parseInt(hs[0]);
+                int max = Integer.parseInt(hs[1]);
+                veinSizeMinMap.put(ore, min);
+                veinSizeMaxMap.put(ore, max);
+            }
+        }
+    }
+
     public static int getVeinSizeMin(VeinType veinType) {
         String vein = veinType.name;
         if (veinSizeMinMap == null) {
-            veinSizeMinMap = new HashMap<>();
-            String[] priorityOverride = Config.oreVeinsSize.getStringList();
-            for (String s : priorityOverride) {
-                String[] spl = s.split("=");
-                if (spl.length == 2) {
-                    String ore = spl[0];
-                    String[] hs = spl[1].split("-");
-                    int min = Integer.parseInt(hs[0]);
-                    veinSizeMinMap.put(ore, min);
-                }
-            }
+            genVeinSizeMap();
         }
         return veinSizeMinMap.get(vein);
     }
@@ -147,17 +151,7 @@ public class ConfigUtils {
     public static int getVeinSizeMax(VeinType veinType) {
         String vein = veinType.name;
         if (veinSizeMaxMap == null) {
-            veinSizeMaxMap = new HashMap<>();
-            String[] priorityOverride = Config.oreVeinsSize.getStringList();
-            for (String s : priorityOverride) {
-                String[] spl = s.split("=");
-                if (spl.length == 2) {
-                    String ore = spl[0];
-                    String[] hs = spl[1].split("-");
-                    int max = Integer.parseInt(hs[1]);
-                    veinSizeMaxMap.put(ore, max);
-                }
-            }
+            genVeinSizeMap();
         }
         return veinSizeMaxMap.get(vein);
     }
