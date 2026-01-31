@@ -4,6 +4,7 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.blocks.BlockStoneRaw;
 import net.pufferlab.primal.utils.VeinType;
@@ -38,10 +39,18 @@ public class VeinMath {
         }
     }
 
+    public static int getMaxSize() {
+        if (Config.oreVeinsSizeClamp.getBoolean()) {
+            return 8;
+        }
+        return Integer.MAX_VALUE;
+    }
+
     public static void ovalImperfect(World world, Random rand, int cx, int cy, int cz, VeinType vein) {
-        int ox = Math.min(vein.getSize(rand), 8);
-        int oy = Math.min(vein.getSize(rand), 8);
-        int oz = Math.min(vein.getSize(rand), 8);
+        int maxSize = getMaxSize();
+        int ox = Math.min(vein.getSize(rand), maxSize);
+        int oy = Math.min(vein.getSize(rand), maxSize);
+        int oz = Math.min(vein.getSize(rand), maxSize);
 
         Block block = vein.oreType.oreBlock;
 
@@ -49,7 +58,8 @@ public class VeinMath {
             for (int y = cy - oy; y <= cy + oy; y++) {
                 for (int z = cz - oz; z <= cz + oz; z++) {
 
-                    if (Math.abs(x - cx) > 8 || Math.abs(y - cy) > 8 || Math.abs(z - cz) > 8) continue;
+                    if (Math.abs(x - cx) > maxSize || Math.abs(y - cy) > maxSize || Math.abs(z - cz) > maxSize)
+                        continue;
 
                     double dx = (x - cx) / (double) ox;
                     double dy = (y - cy) / (double) oy;

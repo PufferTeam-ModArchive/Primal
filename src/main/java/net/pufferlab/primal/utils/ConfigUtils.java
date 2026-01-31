@@ -82,7 +82,7 @@ public class ConfigUtils {
     public static void genVeinHeightMap() {
         veinHeightMinMap = new HashMap<>();
         veinHeightMaxMap = new HashMap<>();
-        String[] priorityOverride = Config.oreVeinsHeight.getStringList();
+        String[] priorityOverride = Config.oreVeinsHeightRange.getStringList();
         for (String s : priorityOverride) {
             String[] spl = s.split("=");
             if (spl.length == 2) {
@@ -126,7 +126,7 @@ public class ConfigUtils {
     public static void genVeinSizeMap() {
         veinSizeMinMap = new HashMap<>();
         veinSizeMaxMap = new HashMap<>();
-        String[] priorityOverride = Config.oreVeinsSize.getStringList();
+        String[] priorityOverride = Config.oreVeinsSizeRange.getStringList();
         for (String s : priorityOverride) {
             String[] spl = s.split("=");
             if (spl.length == 2) {
