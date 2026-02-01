@@ -13,7 +13,7 @@ import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.entities.player.PlayerData;
-import net.pufferlab.primal.events.packets.PacketPlayerData;
+import net.pufferlab.primal.network.packets.PacketPlayerData;
 import net.pufferlab.primal.utils.TemperatureUtils;
 import net.pufferlab.primal.world.GlobalTickingData;
 

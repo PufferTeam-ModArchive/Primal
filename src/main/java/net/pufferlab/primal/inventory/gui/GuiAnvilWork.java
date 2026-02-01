@@ -6,7 +6,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.events.packets.PacketAnvilButton;
+import net.pufferlab.primal.network.packets.PacketAnvilButton;
 import net.pufferlab.primal.recipes.AnvilAction;
 import net.pufferlab.primal.tileentities.TileEntityAnvil;
 

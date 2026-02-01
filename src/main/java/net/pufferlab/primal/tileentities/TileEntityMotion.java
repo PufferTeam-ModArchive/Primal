@@ -3,8 +3,8 @@ package net.pufferlab.primal.tileentities;
 import net.minecraft.nbt.NBTTagCompound;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.events.packets.PacketSpeedUpdate;
 import net.pufferlab.primal.network.NetworkMotion;
+import net.pufferlab.primal.network.packets.PacketSpeedUpdate;
 
 public abstract class TileEntityMotion extends TileEntityMetaFacing implements IMotion {
 

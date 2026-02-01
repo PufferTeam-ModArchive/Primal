@@ -1,4 +1,4 @@
-package net.pufferlab.primal.events.packets;
+package net.pufferlab.primal.network.packets;
 
 import net.pufferlab.primal.world.GlobalTickingData;
 

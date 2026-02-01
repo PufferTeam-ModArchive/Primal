@@ -6,7 +6,7 @@ import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.helper.ClientTickHolder;
-import net.pufferlab.primal.events.packets.PacketWorldTime;
+import net.pufferlab.primal.network.packets.PacketWorldTime;
 import net.pufferlab.primal.world.GlobalTickingData;
 import net.pufferlab.primal.world.SchedulerData;
 

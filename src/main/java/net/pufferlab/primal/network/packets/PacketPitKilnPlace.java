@@ -1,4 +1,4 @@
-package net.pufferlab.primal.events.packets;
+package net.pufferlab.primal.network.packets;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.pufferlab.primal.Primal;
