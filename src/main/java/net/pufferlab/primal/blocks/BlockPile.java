@@ -29,7 +29,7 @@ import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public abstract class BlockPile extends BlockPrimal {
+public abstract class BlockPile extends BlockContainerPrimal {
 
     protected BlockPile(Material material) {
         super(material);

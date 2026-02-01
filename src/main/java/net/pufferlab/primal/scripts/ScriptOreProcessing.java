@@ -26,18 +26,21 @@ public class ScriptOreProcessing implements IScript {
         addOreDict("swordCopper", getModItem("copper_sword", 1));
         addOreDict("knifeCopper", getModItem("copper_knife", 1));
         addOreDict("hoeCopper", getModItem("copper_hoe", 1));
+        addOreDict("hammerCopper", getModItem("copper_hammer", 1));
         addOreDict("axeBronze", getModItem("bronze_axe", 1));
         addOreDict("pickaxeBronze", getModItem("bronze_pickaxe", 1));
         addOreDict("shovelBronze", getModItem("bronze_shovel", 1));
         addOreDict("swordBronze", getModItem("bronze_sword", 1));
         addOreDict("knifeBronze", getModItem("bronze_knife", 1));
         addOreDict("hoeBronze", getModItem("bronze_hoe", 1));
+        addOreDict("hammerBronze", getModItem("bronze_hammer", 1));
         addOreDict("axeIron", getItem("minecraft", "iron_axe", wildcard, 1));
         addOreDict("pickaxeIron", getItem("minecraft", "iron_pickaxe", wildcard, 1));
         addOreDict("shovelIron", getItem("minecraft", "iron_shovel", wildcard, 1));
         addOreDict("swordIron", getItem("minecraft", "iron_sword", wildcard, 1));
         addOreDict("hoeIron", getItem("minecraft", "iron_hoe", wildcard, 1));
         addOreDict("knifeIron", getModItem("iron_knife", 1));
+        addOreDict("hammerIron", getModItem("iron_hammer", 1));
     }
 
     public void addCraftingRecipes() {
@@ -123,6 +126,14 @@ public class ScriptOreProcessing implements IScript {
                 getOreDictItem(getOreDictionaryName("hoe_head", name)),
                 'S',
                 "stickWood");
+            addShapedRecipe(
+                getOreDictItem(getOreDictionaryName("hammer", name)),
+                "I",
+                "S",
+                'I',
+                getOreDictItem(getOreDictionaryName("hammer_head", name)),
+                'S',
+                "stickWood");
         }
     }
 
@@ -147,6 +158,7 @@ public class ScriptOreProcessing implements IScript {
             addMeltingRecipe(type.doubleIngotFluid, getOreDictionaryName("sword_blade", name));
             addMeltingRecipe(type.ingotFluid, getOreDictionaryName("knife_blade", name));
             addMeltingRecipe(type.doubleIngotFluid, getOreDictionaryName("hoe_head", name));
+            addMeltingRecipe(type.ingotFluid, getOreDictionaryName("hammer_head", name));
         }
     }
 
@@ -164,6 +176,7 @@ public class ScriptOreProcessing implements IScript {
         ItemStack swordMold = getModItem("sword_mold", 1);
         ItemStack knifeMold = getModItem("knife_mold", 1);
         ItemStack hoeMold = getModItem("hoe_mold", 1);
+        ItemStack hammerMold = getModItem("hammer_mold", 1);
         for (MetalType type : Constants.toolMetalTypes) {
             String name = type.name;
             addCastingRecipe(
@@ -178,6 +191,7 @@ public class ScriptOreProcessing implements IScript {
                 type.doubleIngotFluid);
             addCastingRecipe(knifeMold, getOreDictItem(getOreDictionaryName("knife_blade", name)), type.ingotFluid);
             addCastingRecipe(hoeMold, getOreDictItem(getOreDictionaryName("hoe_head", name)), type.doubleIngotFluid);
+            addCastingRecipe(hammerMold, getOreDictItem(getOreDictionaryName("hammer_head", name)), type.ingotFluid);
         }
     }
 

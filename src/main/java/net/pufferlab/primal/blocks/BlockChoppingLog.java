@@ -18,7 +18,7 @@ import net.pufferlab.primal.recipes.ChoppingLogRecipe;
 import net.pufferlab.primal.tileentities.TileEntityChoppingLog;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 
-public class BlockChoppingLog extends BlockPrimal {
+public class BlockChoppingLog extends BlockContainerPrimal {
 
     private IIcon[] icons = new IIcon[2];
 

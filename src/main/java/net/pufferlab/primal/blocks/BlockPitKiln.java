@@ -27,7 +27,7 @@ import net.pufferlab.primal.recipes.PitKilnRecipe;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityPitKiln;
 
-public class BlockPitKiln extends BlockPrimal {
+public class BlockPitKiln extends BlockContainerPrimal {
 
     public IIcon[] icons = new IIcon[7];
 

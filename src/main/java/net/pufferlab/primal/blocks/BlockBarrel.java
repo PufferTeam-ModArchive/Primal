@@ -23,7 +23,7 @@ import net.pufferlab.primal.recipes.BarrelRecipe;
 import net.pufferlab.primal.tileentities.TileEntityBarrel;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 
-public class BlockBarrel extends BlockPrimal {
+public class BlockBarrel extends BlockContainerPrimal {
 
     public IIcon[] icons = new IIcon[2];
 

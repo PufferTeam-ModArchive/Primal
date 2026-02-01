@@ -16,7 +16,7 @@ import net.pufferlab.primal.items.itemblocks.ItemBlockMotion;
 import net.pufferlab.primal.tileentities.IMotion;
 import net.pufferlab.primal.tileentities.TileEntityMotion;
 
-public abstract class BlockMotion extends BlockPrimal {
+public abstract class BlockMotion extends BlockContainerPrimal {
 
     protected BlockMotion(Material material) {
         super(material);

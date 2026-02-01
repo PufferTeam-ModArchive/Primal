@@ -9,14 +9,14 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 
-public class PacketSpeedChange implements IMessage, IMessageHandler<PacketSpeedChange, IMessage> {
+public class PacketSpeedButton implements IMessage, IMessageHandler<PacketSpeedButton, IMessage> {
 
     private int x, y, z;
     private boolean addSpeed, isShift;
 
-    public PacketSpeedChange() {}
+    public PacketSpeedButton() {}
 
-    public PacketSpeedChange(TileEntityGenerator tile, boolean addSpeed, boolean isShift) {
+    public PacketSpeedButton(TileEntityGenerator tile, boolean addSpeed, boolean isShift) {
         this.x = tile.xCoord;
         this.y = tile.yCoord;
         this.z = tile.zCoord;
@@ -43,7 +43,7 @@ public class PacketSpeedChange implements IMessage, IMessageHandler<PacketSpeedC
     }
 
     @Override
-    public IMessage onMessage(PacketSpeedChange msg, MessageContext ctx) {
+    public IMessage onMessage(PacketSpeedButton msg, MessageContext ctx) {
         final EntityPlayer player = ctx.getServerHandler().playerEntity;
         TileEntity te = player.worldObj.getTileEntity(msg.x, msg.y, msg.z);
         float modifier = 1.0F;

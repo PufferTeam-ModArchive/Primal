@@ -63,7 +63,8 @@ public class BlockCastRenderer extends BlockPrimalRenderer {
                 modelMold.render(renderer, tess, block, x, y, z, iconCast);
 
                 modelItem.bb_main.rotateAngleX = (float) Math.PI / 2;
-                modelItem.renderItem(renderer, tess, block, x, y, z, -0.425D, 0.0822D, -0.425D, tef.castIndex, 0.85F);
+                modelItem
+                    .renderItem(renderer, tess, block, x, y, z, -0.425D, 0.0822D, -0.425D, tef.castIndex + 100, 0.85F);
             }
         }
         return true;

@@ -61,7 +61,7 @@ public abstract class MixinBlockFalling_SideFall extends Block {
                                     moved = true;
                                 }
                     if (moved) {
-                        Utils.playSound(worldIn, x, y, z, SoundTypePrimal.slidingSoil);
+                        Utils.playSound(worldIn, x, y, z, SoundTypePrimal.soundSoilSlide);
                         cir.cancel();
                     }
                 }

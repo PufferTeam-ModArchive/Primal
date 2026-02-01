@@ -68,6 +68,7 @@ public class Registry {
     public static final Block limonite;
     public static final Block magnetite;
     public static final Block block;
+    public static final Block anvil;
     public static final Block lit_torch;
     public static final Block unlit_torch;
     public static final Block chimney;
@@ -117,6 +118,7 @@ public class Registry {
     public static final Item sword_blade;
     public static final Item knife_blade;
     public static final Item hoe_head;
+    public static final Item hammer_head;
     public static final Item flint_axe;
     public static final Item flint_pickaxe;
     public static final Item flint_shovel;
@@ -128,6 +130,7 @@ public class Registry {
     public static final Item bronze_sword;
     public static final Item bronze_knife;
     public static final Item bronze_hoe;
+    public static final Item bronze_hammer;
     public static final Item bronze_helmet;
     public static final Item bronze_chestplate;
     public static final Item bronze_leggings;
@@ -138,11 +141,13 @@ public class Registry {
     public static final Item copper_sword;
     public static final Item copper_knife;
     public static final Item copper_hoe;
+    public static final Item copper_hammer;
     public static final Item copper_helmet;
     public static final Item copper_chestplate;
     public static final Item copper_leggings;
     public static final Item copper_boots;
     public static final Item iron_knife;
+    public static final Item iron_hammer;
     public static final Item firestarter;
     public static final Item bucket;
     public static final Item.ToolMaterial toolFlint;
@@ -168,8 +173,6 @@ public class Registry {
         armorCopper = EnumHelper.addArmorMaterial("copper", 10, new int[] { 1, 4, 3, 1 }, 15);
         armorBronze = EnumHelper.addArmorMaterial("bronze", 15, new int[] { 2, 5, 4, 1 }, 15);
 
-        ground_rock = new BlockStoneGround(Constants.stoneTypes, "ground_rock");
-        ground_ore = new BlockStoneGroundOre(Constants.oreTypes, "ground_ore");
         stone = new BlockStoneRaw(Constants.stoneTypes, "raw");
         cobble = new BlockStoneRaw(Constants.stoneTypes, "cobble");
         small_bricks = new BlockStoneRaw(Constants.stoneTypes, "small_bricks");
@@ -198,7 +201,11 @@ public class Registry {
             tc_entropy_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.perditio);
         }
 
+        ground_rock = new BlockStoneGround(Constants.stoneTypes, "ground_rock");
+        ground_ore = new BlockStoneGroundOre(Constants.oreTypes, "ground_ore");
         ground_shell = new BlockGroundcover(Material.rock, Constants.shellTypes, "ground_shell").setItemTexture();
+
+        anvil = new BlockMetalAnvil(Constants.anvilMetalTypes);
         pit_kiln = new BlockPitKiln();
         log_pile = new BlockLogPile();
         charcoal_pile = new BlockCharcoalPile();
@@ -272,6 +279,7 @@ public class Registry {
         sword_blade = new ItemMetal(Constants.toolMetalTypes, "sword_blade");
         knife_blade = new ItemMetal(Constants.toolMetalTypes, "knife_blade");
         hoe_head = new ItemMetal(Constants.toolMetalTypes, "hoe_head");
+        hammer_head = new ItemMetal(Constants.toolMetalTypes, "hammer_head");
 
         copper_axe = new ItemAxePrimitive(toolCopper, "copper_axe");
         copper_pickaxe = new ItemPickaxePrimitive(toolCopper, "copper_pickaxe");
@@ -279,6 +287,7 @@ public class Registry {
         copper_sword = new ItemSwordPrimitive(toolCopper, "copper_sword");
         copper_knife = new ItemKnifePrimitive(toolCopper, "copper_knife");
         copper_hoe = new ItemHoePrimitive(toolCopper, "copper_hoe");
+        copper_hammer = new ItemHammerPrimitive(toolCopper, "copper_hammer");
 
         bronze_axe = new ItemAxePrimitive(toolBronze, "bronze_axe");
         bronze_pickaxe = new ItemPickaxePrimitive(toolBronze, "bronze_pickaxe");
@@ -286,8 +295,10 @@ public class Registry {
         bronze_sword = new ItemSwordPrimitive(toolBronze, "bronze_sword");
         bronze_knife = new ItemKnifePrimitive(toolBronze, "bronze_knife");
         bronze_hoe = new ItemHoePrimitive(toolBronze, "bronze_hoe");
+        bronze_hammer = new ItemHammerPrimitive(toolBronze, "bronze_hammer");
 
         iron_knife = new ItemKnifePrimitive(toolIron, "iron_knife");
+        iron_hammer = new ItemHammerPrimitive(toolIron, "iron_hammer");
 
         copper_helmet = new ItemArmorCopper(armorCopper, "copper_helmet", Constants.helmet);
         copper_chestplate = new ItemArmorCopper(armorCopper, "copper_chestplate", Constants.chestplate);
@@ -336,11 +347,12 @@ public class Registry {
 
         register(ground_rock, "ground_rock");
         register(ground_ore, "ground_ore");
+        register(ground_shell, "ground_shell");
 
         register(block, "block");
         register(lit_torch, "lit_torch");
         register(unlit_torch, "unlit_torch");
-        register(ground_shell, "ground_shell");
+        register(anvil, "anvil");
         register(pit_kiln, "pit_kiln");
         register(log_pile, "log_pile");
         register(charcoal_pile, "charcoal_pile");
@@ -395,6 +407,7 @@ public class Registry {
         register(sword_blade, "sword_blade");
         register(knife_blade, "knife_blade");
         register(hoe_head, "hoe_head");
+        register(hammer_head, "hammer_head");
 
         register(copper_axe, "copper_axe");
         register(copper_pickaxe, "copper_pickaxe");
@@ -402,6 +415,7 @@ public class Registry {
         register(copper_sword, "copper_sword");
         register(copper_knife, "copper_knife");
         register(copper_hoe, "copper_hoe");
+        register(copper_hammer, "copper_hammer");
 
         register(bronze_axe, "bronze_axe");
         register(bronze_pickaxe, "bronze_pickaxe");
@@ -409,8 +423,10 @@ public class Registry {
         register(bronze_sword, "bronze_sword");
         register(bronze_knife, "bronze_knife");
         register(bronze_hoe, "bronze_hoe");
+        register(bronze_hammer, "bronze_hammer");
 
         register(iron_knife, "iron_knife");
+        register(iron_hammer, "iron_hammer");
 
         register(copper_helmet, "copper_helmet");
         register(copper_chestplate, "copper_chestplate");
@@ -449,6 +465,7 @@ public class Registry {
         register(TileEntityGenerator.class, "generator");
         register(TileEntityWaterwheel.class, "waterwheel");
         register(TileEntityWindmill.class, "windmill");
+        register(TileEntityAnvil.class, "anvil");
     }
 
     public static final Block[] fluidsBlocks = new Block[Constants.fluidsTypes.length];
@@ -484,7 +501,8 @@ public class Registry {
         Primal.network = NetworkRegistry.INSTANCE.newSimpleChannel(Primal.MODID);
         registerPacket(PacketKnappingClick.class, Side.SERVER);
         registerPacket(PacketPitKilnPlace.class, Side.SERVER);
-        registerPacket(PacketSpeedChange.class, Side.SERVER);
+        registerPacket(PacketSpeedButton.class, Side.SERVER);
+        registerPacket(PacketAnvilButton.class, Side.SERVER);
 
         registerPacket(PacketSwingArm.class, Side.CLIENT);
         registerPacket(PacketFireStarter.class, Side.CLIENT);

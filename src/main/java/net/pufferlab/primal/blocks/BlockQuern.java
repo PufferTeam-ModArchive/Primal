@@ -23,7 +23,7 @@ import net.pufferlab.primal.recipes.QuernRecipe;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityQuern;
 
-public class BlockQuern extends BlockPrimal {
+public class BlockQuern extends BlockContainerPrimal {
 
     public IIcon[] icons = new IIcon[2];
 

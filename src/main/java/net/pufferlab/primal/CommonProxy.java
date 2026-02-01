@@ -6,7 +6,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.pufferlab.primal.events.*;
 import net.pufferlab.primal.inventory.container.ContainerCrucible;
 import net.pufferlab.primal.inventory.container.ContainerKnapping;
 import net.pufferlab.primal.inventory.container.ContainerLargeVessel;
@@ -29,6 +28,7 @@ public class CommonProxy implements IGuiHandler {
     public final int largeVesselContainerID = 0;
     public final int crucibleContainerID = 1;
     public final int generatorGuiID = 2;
+    public final int anvilWorkGuiID = 3;
 
     public void preInit(FMLPreInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(Primal.instance, Primal.proxy);
@@ -107,6 +107,8 @@ public class CommonProxy implements IGuiHandler {
     }
 
     public void openGeneratorGui(EntityPlayer player, World worldIn, int x, int y, int z) {}
+
+    public void openAnvilWorkGui(EntityPlayer player, World worldIn, int x, int y, int z) {}
 
     public int getGrassRenderID() {
         return 0;
@@ -189,6 +191,10 @@ public class CommonProxy implements IGuiHandler {
     }
 
     public int getGeneratorRenderID() {
+        return 0;
+    }
+
+    public int getAnvilRenderID() {
         return 0;
     }
 }

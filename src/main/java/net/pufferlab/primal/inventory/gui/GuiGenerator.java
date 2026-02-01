@@ -1,17 +1,18 @@
 package net.pufferlab.primal.inventory.gui;
 
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.events.packets.PacketSpeedChange;
+import net.pufferlab.primal.events.packets.PacketSpeedButton;
 import net.pufferlab.primal.tileentities.TileEntityGenerator;
 
 import org.lwjgl.opengl.GL11;
 
-public class GuiGenerator extends GuiScreen {
+public class GuiGenerator extends GuiScreenPrimal {
 
     private GuiButton addButton;
     private GuiButton removeButton;
+    public static final int addButtonID = 0;
+    public static final int removeButtonID = 1;
     TileEntityGenerator te;
 
     public GuiGenerator(TileEntityGenerator te) {
@@ -25,9 +26,9 @@ public class GuiGenerator extends GuiScreen {
         int centerX = this.width / 2;
         int centerY = this.height / 2;
 
-        addButton = new GuiButton(0, centerX - 25, centerY - 24 - 4, 50, 20, "+");
+        addButton = new GuiButton(addButtonID, centerX - 25, centerY - 24 - 4, 50, 20, "+");
 
-        removeButton = new GuiButton(1, centerX - 25, centerY + 24 - 4, 50, 20, "-");
+        removeButton = new GuiButton(removeButtonID, centerX - 25, centerY + 24 - 4, 50, 20, "-");
 
         buttonList.add(addButton);
         buttonList.add(removeButton);
@@ -36,10 +37,10 @@ public class GuiGenerator extends GuiScreen {
     @Override
     protected void actionPerformed(GuiButton button) {
         switch (button.id) {
-            case 0:
+            case addButtonID:
                 sendSpeedPacket(true);
                 break;
-            case 1:
+            case removeButtonID:
                 sendSpeedPacket(false);
                 break;
         }
@@ -52,7 +53,7 @@ public class GuiGenerator extends GuiScreen {
 
     public void sendSpeedPacket(boolean addSpeed) {
         if (Primal.proxy.getClientWorld().isRemote) {
-            Primal.proxy.sendPacketToServer(new PacketSpeedChange(te, addSpeed, isShiftKeyDown()));
+            Primal.proxy.sendPacketToServer(new PacketSpeedButton(te, addSpeed, isShiftKeyDown()));
         }
     }
 

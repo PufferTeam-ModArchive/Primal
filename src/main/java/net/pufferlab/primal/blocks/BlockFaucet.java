@@ -19,7 +19,7 @@ import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.TileEntityFaucet;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 
-public class BlockFaucet extends BlockPrimal {
+public class BlockFaucet extends BlockContainerPrimal {
 
     public IIcon[] icons = new IIcon[3];
 

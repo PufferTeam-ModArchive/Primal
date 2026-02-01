@@ -19,15 +19,10 @@ import net.pufferlab.primal.client.renderer.blocks.*;
 import net.pufferlab.primal.client.renderer.items.*;
 import net.pufferlab.primal.client.renderer.tileentities.*;
 import net.pufferlab.primal.inventory.container.ContainerKnapping;
-import net.pufferlab.primal.inventory.gui.GuiCrucible;
-import net.pufferlab.primal.inventory.gui.GuiGenerator;
-import net.pufferlab.primal.inventory.gui.GuiKnapping;
-import net.pufferlab.primal.inventory.gui.GuiLargeVessel;
+import net.pufferlab.primal.inventory.gui.*;
 import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.tileentities.*;
 import net.pufferlab.primal.utils.TemperatureUtils;
-
-import org.apache.commons.io.FileUtils;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -57,6 +52,7 @@ public class ClientProxy extends CommonProxy {
     private int quernRenderID;
     private int axleRenderID;
     private int generatorRenderID;
+    private int anvilRenderID;
 
     @Override
     public void setupRenders() {
@@ -81,6 +77,7 @@ public class ClientProxy extends CommonProxy {
         quernRenderID = getNextId();
         axleRenderID = getNextId();
         generatorRenderID = getNextId();
+        anvilRenderID = getNextId();
 
         register(new BlockGrassRenderer());
         register(new BlockPathRenderer());
@@ -103,6 +100,7 @@ public class ClientProxy extends CommonProxy {
         register(new BlockQuernRenderer());
         register(new BlockAxleRenderer());
         register(new BlockGeneratorRenderer());
+        register(new BlockAnvilRenderer());
 
         register(TileEntityPitKiln.class, new TileEntityPitKilnRenderer());
         register(TileEntityChoppingLog.class, new TileEntityChoppingLogRenderer());
@@ -135,6 +133,7 @@ public class ClientProxy extends CommonProxy {
         register(Registry.generator, new ItemGeneratorRenderer());
         register(Registry.waterwheel, new ItemWaterwheelRenderer());
         register(Registry.windmill, new ItemWindmillRenderer());
+        register(Registry.anvil, new ItemAnvilRenderer());
 
         if (Config.metalHeatRendering.getBoolean()) {
             register(Registry.ingot, new ItemHeatableRenderer());
@@ -195,13 +194,13 @@ public class ClientProxy extends CommonProxy {
                 return;
             }
 
-            FileUtils.copyFile(infoTemp, infoFile);
+            Utils.copyFile(infoTemp, infoFile);
             try {
                 Utils.downloadFile(Primal.downloadPath + Primal.textureFile + ".zip", outTemp);
             } catch (IOException e) {
                 return;
             }
-            FileUtils.copyFile(outTemp, out);
+            Utils.copyFile(outTemp, out);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -222,6 +221,9 @@ public class ClientProxy extends CommonProxy {
         }
         if (ID == generatorGuiID && te instanceof TileEntityGenerator tef) {
             return new GuiGenerator(tef);
+        }
+        if (ID == anvilWorkGuiID && te instanceof TileEntityAnvil tef) {
+            return new GuiAnvilWork(tef);
         }
         return null;
     }
@@ -271,6 +273,11 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void openGeneratorGui(EntityPlayer player, World worldIn, int x, int y, int z) {
         player.openGui(Primal.instance, generatorGuiID, worldIn, x, y, z);
+    }
+
+    @Override
+    public void openAnvilWorkGui(EntityPlayer player, World worldIn, int x, int y, int z) {
+        player.openGui(Primal.instance, anvilWorkGuiID, worldIn, x, y, z);
     }
 
     @Override
@@ -376,5 +383,10 @@ public class ClientProxy extends CommonProxy {
     @Override
     public int getGeneratorRenderID() {
         return generatorRenderID;
+    }
+
+    @Override
+    public int getAnvilRenderID() {
+        return anvilRenderID;
     }
 }

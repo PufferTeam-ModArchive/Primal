@@ -399,6 +399,13 @@ public class Utils {
         return containsOreDict(itemStack, "toolKnife");
     }
 
+    public static boolean isHammerTool(ItemStack itemStack) {
+        if (itemStack == null) return false;
+        if (itemStack.getItem() == null) return false;
+        if (itemStack.getItem() instanceof ItemHammerPrimitive) return true;
+        return containsOreDict(itemStack, "toolHammer");
+    }
+
     public static boolean isHandstoneTool(ItemStack itemStack) {
         if (itemStack == null) return false;
         if (itemStack.getItem() == null) return false;
@@ -1045,6 +1052,13 @@ public class Utils {
         return newArr;
     }
 
+    public static <T> T[] pushFront(T[] a, T b) {
+        T[] result = Arrays.copyOf(a, a.length);
+        System.arraycopy(result, 0, result, 1, a.length - 1);
+        result[0] = b;
+        return result;
+    }
+
     public static Integer[] toIntegerArray(int[] src) {
         Integer[] dst = new Integer[src.length];
 
@@ -1099,6 +1113,10 @@ public class Utils {
 
     public static void writeFile(File file, String content) throws IOException {
         FileUtils.writeStringToFile(file, content.trim(), "UTF-8");
+    }
+
+    public static void copyFile(File from, File to) throws IOException {
+        FileUtils.copyFile(from, to);
     }
 
     public static void downloadFile(String urlTxt, File out) throws IOException {

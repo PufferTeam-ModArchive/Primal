@@ -87,6 +87,7 @@ public class Constants {
     public static final MetalType[] metalTypes = new MetalType[] { iron, gold, copper, tin, bronze, };
     public static final MetalType[] blockMetalTypes = new MetalType[] { copper, tin, bronze };
     public static final MetalType[] toolMetalTypes = new MetalType[] { iron, copper, bronze };
+    public static final MetalType[] anvilMetalTypes = new MetalType[] { iron, copper, bronze };
     public static final String[] ingotBlacklist = new String[] { "iron", "gold" };
     public static final String[] nuggetBlacklist = new String[] { "gold" };
 
@@ -159,9 +160,9 @@ public class Constants {
         "flint_shovel_head", "flint_knife_blade", "flint_hoe_head" };
     public static final String[] clayItems = new String[] { "clay_brick", "clay_flower_pot", "clay_large_vessel",
         "clay_crucible", "clay_ingot_mold", "clay_pickaxe_mold", "clay_axe_mold", "clay_shovel_mold", "clay_sword_mold",
-        "clay_knife_mold", "clay_hoe_mold", "clay_bucket" };
+        "clay_knife_mold", "clay_hoe_mold", "clay_hammer_mold", "clay_bucket" };
     public static final String[] moldItems = new String[] { "ingot_mold", "pickaxe_mold", "axe_mold", "shovel_mold",
-        "sword_mold", "knife_mold", "hoe_mold" };
+        "sword_mold", "knife_mold", "hoe_mold", "hammer_mold" };
     public static final String[] colorItems = new String[] { "wool", "glass", "glass_pane", "carpet", "hardened_clay" };
     public static final String[] colorItemsEFR = new String[] { "banner", "concrete", "concrete_powder",
         "glazed_terracotta", "bed" };

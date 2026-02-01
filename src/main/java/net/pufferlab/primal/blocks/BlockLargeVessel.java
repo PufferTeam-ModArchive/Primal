@@ -20,7 +20,7 @@ import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityLargeVessel;
 import net.pufferlab.primal.utils.FluidUtils;
 
-public class BlockLargeVessel extends BlockPrimal {
+public class BlockLargeVessel extends BlockContainerPrimal {
 
     public IIcon[] icons = new IIcon[2];
 

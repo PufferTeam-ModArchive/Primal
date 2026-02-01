@@ -60,7 +60,6 @@ public class PitKilnHandler implements IEventHandler {
     public void sendPitKilnPacket(EntityPlayer player) {
         if (player.worldObj.isRemote) {
             Primal.proxy.sendPacketToServer(new PacketPitKilnPlace());
-            player.swingItem();
         }
     }
 }

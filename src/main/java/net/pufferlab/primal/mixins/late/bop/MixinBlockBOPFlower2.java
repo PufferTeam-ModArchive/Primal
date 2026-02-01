@@ -21,6 +21,10 @@ public abstract class MixinBlockBOPFlower2 extends Block {
         super(materialIn);
     }
 
+    /**
+     * @author JBT
+     * @reason This fixes Primal grass/dirt not being detected as valid soil
+     **/
     @Overwrite(remap = false)
     public boolean isValidPosition(World world, int x, int y, int z, int metadata) {
         Block block = world.getBlock(x, y - 1, z);

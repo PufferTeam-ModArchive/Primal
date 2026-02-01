@@ -1,4 +1,26 @@
 {
+    "hit.anvil": {
+        "category": "master",
+        "sounds": [
+            {
+                "name": "anvil/hit1",
+                "stream": false
+            },
+            {
+                "name": "anvil/hit2",
+                "stream": false
+            },
+            {
+                "name": "anvil/hit3",
+                "stream": false
+            },
+            {
+                "name": "anvil/hit4",
+                "stream": false
+            }
+        ]
+    },
+
     "sliding.soil": {
         "category": "master",
         "sounds": [

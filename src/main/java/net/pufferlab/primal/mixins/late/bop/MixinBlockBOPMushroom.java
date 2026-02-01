@@ -14,6 +14,10 @@ import biomesoplenty.common.blocks.BlockBOPMushroom;
 @Mixin(BlockBOPMushroom.class)
 public class MixinBlockBOPMushroom {
 
+    /**
+     * @author JBT
+     * @reason This fixes Primal grass/dirt not being detected as valid soil
+     **/
     @Overwrite(remap = false)
     public boolean isValidPosition(World world, int x, int y, int z, int metadata) {
         Block block = world.getBlock(x, y - 1, z);

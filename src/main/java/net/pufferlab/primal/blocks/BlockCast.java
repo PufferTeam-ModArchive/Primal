@@ -32,7 +32,7 @@ import net.pufferlab.primal.utils.MetalType;
 import net.pufferlab.primal.utils.TemperatureUtils;
 import net.pufferlab.primal.world.GlobalTickingData;
 
-public class BlockCast extends BlockPrimal {
+public class BlockCast extends BlockContainerPrimal {
 
     public IIcon[] icons = new IIcon[2];
     public IIcon[] moldIcons;
@@ -143,7 +143,10 @@ public class BlockCast extends BlockPrimal {
         if (side == iconCast) {
             return icons[1];
         }
-        return moldIcons[meta];
+        if (side > 99) {
+            return moldIcons[side - 100];
+        }
+        return moldIcons[0];
     }
 
     @Override

@@ -28,7 +28,7 @@ import com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness;
 import cpw.mods.fml.common.Optional;
 
 @Optional.Interface(iface = "com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness", modid = "rple")
-public class BlockCrucible extends BlockPrimal implements RPLECustomBlockBrightness {
+public class BlockCrucible extends BlockContainerPrimal implements RPLECustomBlockBrightness {
 
     public IIcon[] icons = new IIcon[2];
 

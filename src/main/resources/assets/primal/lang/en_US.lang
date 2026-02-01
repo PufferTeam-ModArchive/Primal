@@ -17,6 +17,10 @@ tile.primal.forge.name=Forge
 tile.primal.quern.name=Quern
 item.primal.knapping_icon.name=Knapping
 
+tile.primal.iron_anvil.name=Iron Anvil
+tile.primal.copper_anvil.name=Copper Anvil
+tile.primal.bronze_anvil.name=Bronze Anvil
+
 tile.primal.axle.name=Axle
 tile.primal.generator.name=Generator
 tile.primal.gear.name=Gear
@@ -37,6 +41,15 @@ nei.recipe.primal.melting.name=Melting
 nei.recipe.primal.pit_kiln.name=Pit Kiln
 nei.recipe.primal.quern.name=Quern
 nei.recipe.primal.tanning.name=Tanning
+
+gui.primal.anvil.light_hit.name=Light Hit
+gui.primal.anvil.medium_hit.name=Medium Hit
+gui.primal.anvil.heavy_hit.name=Heavy Hit
+gui.primal.anvil.draw.name=Draw
+gui.primal.anvil.punch.name=Punch
+gui.primal.anvil.bend.name=Bend
+gui.primal.anvil.upset.name=Upset
+gui.primal.anvil.shrink.name=Shrink
 
 temp.primal.desc=§7Temperature: §f%d§7 C
 metal.primal.melting.solid.name=Content is solid
@@ -74,6 +87,8 @@ item.primal.copper_knife.name=Copper Knife
 item.primal.copper_knife_blade.name=Copper Knife Blade
 item.primal.copper_hoe.name=Copper Hoe
 item.primal.copper_hoe_head.name=Copper Hoe Head
+item.primal.copper_hammer.name=Copper Hammer
+item.primal.copper_hammer_head.name=Copper Hammer Head
 item.primal.copper_helmet.name=Copper Helmet
 item.primal.copper_chestplate.name=Copper Chestplate
 item.primal.copper_leggings.name=Copper Leggings
@@ -91,6 +106,8 @@ item.primal.bronze_knife.name=Bronze Knife
 item.primal.bronze_knife_blade.name=Bronze Knife Blade
 item.primal.bronze_hoe.name=Bronze Hoe
 item.primal.bronze_hoe_head.name=Bronze Hoe Head
+item.primal.bronze_hammer.name=Bronze Hammer
+item.primal.bronze_hammer_head.name=Bronze Hammer Head
 item.primal.bronze_helmet.name=Bronze Helmet
 item.primal.bronze_chestplate.name=Bronze Chestplate
 item.primal.bronze_leggings.name=Bronze Leggings
@@ -102,7 +119,9 @@ item.primal.iron_shovel_head.name=Iron Shovel Head
 item.primal.iron_sword_blade.name=Iron Sword Blade
 item.primal.iron_knife_blade.name=Iron Knife Blade
 item.primal.iron_hoe_head.name=Iron Hoe Head
+item.primal.iron_hammer_head.name=Iron Hammer Head
 item.primal.iron_knife.name=Iron Knife
+item.primal.iron_hammer.name=Iron Hammer
 
 item.primal.ingot_mold.name=Ingot Mold
 item.primal.clay_ingot_mold.name=Clay Ingot Mold
@@ -118,6 +137,8 @@ item.primal.knife_mold.name=Knife Blade Mold
 item.primal.clay_knife_mold.name=Clay Knife Blade Mold
 item.primal.hoe_mold.name=Hoe Head Mold
 item.primal.clay_hoe_mold.name=Clay Hoe Head Mold
+item.primal.hammer_mold.name=Hammer Head Mold
+item.primal.clay_hammer_mold.name=Clay Hammer Head Mold
 
 fluid.primal.molten_copper.name=Molten Copper
 item.primal.molten_copper_bucket.name=Molten Copper Bucket

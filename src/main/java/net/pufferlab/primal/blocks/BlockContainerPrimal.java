@@ -7,9 +7,9 @@ import net.minecraft.item.ItemBlock;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.items.itemblocks.ItemBlockPrimal;
 
-public abstract class BlockPrimal extends BlockContainer implements IPrimalBlock {
+public abstract class BlockContainerPrimal extends BlockContainer implements IPrimalBlock {
 
-    protected BlockPrimal(Material material) {
+    protected BlockContainerPrimal(Material material) {
         super(material);
     }
 

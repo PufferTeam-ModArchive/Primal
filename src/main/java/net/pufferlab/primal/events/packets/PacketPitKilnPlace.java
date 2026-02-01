@@ -1,6 +1,7 @@
 package net.pufferlab.primal.events.packets;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.events.PitKilnHandler;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -21,6 +22,7 @@ public class PacketPitKilnPlace implements IMessage, IMessageHandler<PacketPitKi
     @Override
     public IMessage onMessage(PacketPitKilnPlace msg, MessageContext ctx) {
         final EntityPlayer player = ctx.getServerHandler().playerEntity;
+        Primal.proxy.sendPacketToClient(new PacketSwingArm(player));
         PitKilnHandler.placePitKiln(player);
         player.inventoryContainer.detectAndSendChanges();
         return null;

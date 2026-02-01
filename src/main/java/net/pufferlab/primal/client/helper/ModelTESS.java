@@ -292,12 +292,14 @@ public class ModelTESS {
     }
 
     public void renderItem(RenderBlocks renderblocks, Tessellator tess, Block block, int x, int y, int z,
-        double offsetX, double offsetY, double offsetZ, int meta, ModelRenderer model, float scale) {
+        double offsetX, double offsetY, double offsetZ, int index, ModelRenderer model, float scale) {
         if (renderblocks.hasOverrideBlockTexture()) {
             return;
         }
-        IIcon icon = block.getIcon(0, meta);
-
+        IIcon icon = block.getIcon(renderblocks.blockAccess, x, y, z, index);
+        if (index < 16) {
+            icon = block.getIcon(0, index);
+        }
         Matrix4f matrix2 = model.getLocalMatrix(scale);
 
         tess.setBrightness(block.getMixedBrightnessForBlock(renderblocks.blockAccess, x, y, z));

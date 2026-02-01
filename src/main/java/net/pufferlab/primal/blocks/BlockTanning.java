@@ -18,7 +18,7 @@ import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 import net.pufferlab.primal.tileentities.TileEntityTanning;
 
-public class BlockTanning extends BlockPrimal {
+public class BlockTanning extends BlockContainerPrimal {
 
     public IIcon[] icons = new IIcon[2];
 
