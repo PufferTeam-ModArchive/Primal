@@ -29,22 +29,28 @@ public class AnvilRecipe {
         return null;
     }
 
+    public static List<AnvilRecipe> getRecipeList() {
+        return recipeList;
+    }
+
     public ItemStack output;
     public List<ItemStack> input;
-    public AnvilAction[] actions;
-    public AnvilOrder[] orders;
+    public AnvilAction[] recipeActions;
+    public AnvilOrder[] recipeOrders;
+    public int recipeLine;
 
     public AnvilRecipe(ItemStack output, List<ItemStack> input, Object... objects) {
         int j = 0;
+        this.recipeLine = 50;
         int size = objects.length / 2;
-        this.actions = new AnvilAction[size];
-        this.orders = new AnvilOrder[size];
+        this.recipeActions = new AnvilAction[size];
+        this.recipeOrders = new AnvilOrder[size];
         for (int i = 0; i < objects.length; i = i + 2) {
             if (objects[i] instanceof AnvilAction action) {
-                this.actions[j] = action;
+                this.recipeActions[j] = action;
             }
             if (objects[i + 1] instanceof AnvilOrder order) {
-                this.orders[j] = order;
+                this.recipeOrders[j] = order;
             }
             j++;
         }
@@ -55,9 +61,9 @@ public class AnvilRecipe {
     public boolean equals(ItemStack input, AnvilAction... actions) {
         if (!Utils.containsStack(input, this.input)) return false;
 
-        for (int i = 0; i < this.actions.length; i++) {
-            AnvilAction recipeAction = this.actions[i];
-            AnvilOrder recipeOrder = this.orders[i];
+        for (int i = 0; i < this.recipeActions.length; i++) {
+            AnvilAction recipeAction = this.recipeActions[i];
+            AnvilOrder recipeOrder = this.recipeOrders[i];
 
             boolean found = false;
 
@@ -76,4 +82,20 @@ public class AnvilRecipe {
 
         return true;
     }
+
+    public boolean equals(AnvilAction action, int order) {
+        if (action == null) return false;
+        for (int i = 0; i < this.recipeActions.length; i++) {
+            AnvilAction recipeAction = this.recipeActions[i];
+            AnvilOrder recipeOrder = this.recipeOrders[i];
+            if (recipeAction.equals(action)) {
+
+                if (recipeOrder.isValidOrder(order)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }

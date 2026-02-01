@@ -17,7 +17,7 @@ import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 @ThreadSafeISBRH(perThread = true)
 public class BlockForgeRenderer extends BlockPrimalRenderer {
 
-    private final ThreadLocal<ModelForge> modelForgeThread = ThreadLocal.withInitial(ModelForge::new);
+    private final ModelForge modelForge = new ModelForge();
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
@@ -27,7 +27,6 @@ public class BlockForgeRenderer extends BlockPrimalRenderer {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
-        ModelForge modelForge = modelForgeThread.get();
         Tessellator tess = Tessellator.instance;
         TileEntity te = world.getTileEntity(x, y, z);
         int renderPass = ForgeHooksClient.getWorldRenderPass();

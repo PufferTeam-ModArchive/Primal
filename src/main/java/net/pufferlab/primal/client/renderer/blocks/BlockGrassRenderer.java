@@ -14,14 +14,13 @@ import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 @ThreadSafeISBRH(perThread = true)
 public class BlockGrassRenderer extends BlockPrimalRenderer {
 
-    private final ThreadLocal<BlockMetaGrass> grassThread = ThreadLocal.withInitial(BlockMetaGrass::new);
-    private final ThreadLocal<BlockMetaGrass> grassThread2 = ThreadLocal.withInitial(BlockMetaGrass::new);
+    private final BlockMetaGrass block1 = new BlockMetaGrass();
+    private final BlockMetaGrass block2 = new BlockMetaGrass();
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
         GL11.glPushMatrix();
 
-        BlockMetaGrass block2 = grassThread2.get();
         block2.blockTexture = (BlockMetaGrass) block;
 
         block2.isInventory = true;
@@ -41,20 +40,19 @@ public class BlockGrassRenderer extends BlockPrimalRenderer {
         Material material = world.getBlock(x, y + 1, z)
             .getMaterial();
 
-        BlockMetaGrass block2 = grassThread.get();
-        block2.blockTexture = (BlockMetaGrass) block;
+        block1.blockTexture = (BlockMetaGrass) block;
 
-        block2.isInventory = false;
-        block2.renderPass = 0;
-        renderStandardBlockNoColor(renderer, block2, x, y, z);
+        block1.isInventory = false;
+        block1.renderPass = 0;
+        renderStandardBlockNoColor(renderer, block1, x, y, z);
 
-        block2.renderPass = 1;
+        block1.renderPass = 1;
         if (material != Material.craftedSnow && material != Material.snow) {
-            renderer.renderStandardBlock(block2, x, y, z);
+            renderer.renderStandardBlock(block1, x, y, z);
         } else {
-            renderStandardBlockNoColor(renderer, block2, x, y, z);
+            renderStandardBlockNoColor(renderer, block1, x, y, z);
         }
-        block2.renderPass = 0;
+        block1.renderPass = 0;
         return true;
     }
 

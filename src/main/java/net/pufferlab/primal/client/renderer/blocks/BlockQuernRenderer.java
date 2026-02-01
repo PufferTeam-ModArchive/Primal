@@ -14,7 +14,7 @@ import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 @ThreadSafeISBRH(perThread = true)
 public class BlockQuernRenderer extends BlockPrimalRenderer {
 
-    private final ThreadLocal<ModelQuern> modelQuernThread = ThreadLocal.withInitial(ModelQuern::new);
+    private final ModelQuern modelQuern = new ModelQuern();
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {}
@@ -22,8 +22,6 @@ public class BlockQuernRenderer extends BlockPrimalRenderer {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
-        ModelQuern modelQuern = modelQuernThread.get();
-
         Tessellator tess = Tessellator.instance;
         modelQuern.render(renderer, tess, block, x, y, z, iconQuern);
 

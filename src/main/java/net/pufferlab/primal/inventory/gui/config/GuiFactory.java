@@ -1,4 +1,4 @@
-package net.pufferlab.primal.client.config;
+package net.pufferlab.primal.inventory.gui.config;
 
 import java.util.Set;
 

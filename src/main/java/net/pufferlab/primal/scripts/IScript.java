@@ -115,6 +115,12 @@ public interface IScript {
         MeltingRecipe.addRecipe(output, input);
     }
 
+    default void addAnvilRecipe(ItemStack output, String input, Object... steps) {
+        if (output != null && input != null && steps != null) {
+            AnvilRecipe.addRecipe(output, input, steps);
+        }
+    }
+
     default void addCastingRecipe(ItemStack cast, ItemStack output, FluidStack input) {
         CastingRecipe.addRecipe(cast, output, input);
     }

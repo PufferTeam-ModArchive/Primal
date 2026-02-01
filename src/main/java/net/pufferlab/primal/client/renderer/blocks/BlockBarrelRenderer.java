@@ -22,8 +22,8 @@ import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 @ThreadSafeISBRH(perThread = true)
 public class BlockBarrelRenderer extends BlockPrimalRenderer {
 
-    private final ThreadLocal<ModelBarrel> modelBarrelThread = ThreadLocal.withInitial(ModelBarrel::new);
-    private final ThreadLocal<ModelFluid> modelFluidThread = ThreadLocal.withInitial(ModelFluid::new);
+    private final ModelBarrel modelBarrel = new ModelBarrel();
+    private final ModelFluid modelFluid = new ModelFluid();
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {}
@@ -31,9 +31,6 @@ public class BlockBarrelRenderer extends BlockPrimalRenderer {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
-        ModelBarrel modelBarrel = modelBarrelThread.get();
-        ModelFluid modelFluid = modelFluidThread.get();
-
         Tessellator tess = Tessellator.instance;
         TileEntity te = world.getTileEntity(x, y, z);
         modelFluid.dumpVertices(tess, x, y, z);

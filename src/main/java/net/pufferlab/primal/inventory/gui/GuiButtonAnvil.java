@@ -3,26 +3,26 @@ package net.pufferlab.primal.inventory.gui;
 import java.util.Collections;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.audio.SoundHandler;
 import net.pufferlab.primal.recipes.AnvilAction;
 
 import org.lwjgl.opengl.GL11;
 
-public class GuiButtonAnvilAction extends GuiButton {
+public class GuiButtonAnvil extends GuiButtonPrimal {
 
-    private GuiAnvilWork gui;
+    private final GuiAnvilWork gui;
+    AnvilAction action;
 
-    public GuiButtonAnvilAction(GuiAnvilWork gui, int stateName, int id, int p_i1021_3_, int p_i1021_4_, int p_i1021_5_,
+    public GuiButtonAnvil(GuiAnvilWork gui, int stateName, int id, int p_i1021_3_, int p_i1021_4_, int p_i1021_5_,
         String p_i1021_6_) {
         super(stateName, id, p_i1021_3_, p_i1021_4_, p_i1021_5_, p_i1021_6_);
+        this.action = AnvilAction.get(this.id);
         this.gui = gui;
     }
 
     @Override
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
         if (this.visible) {
-            mc.getTextureManager()
-                .bindTexture(GuiAnvilWork.textureAnvil);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             this.field_146123_n = mouseX >= this.xPosition && mouseY >= this.yPosition
                 && mouseX < this.xPosition + this.width
@@ -50,7 +50,10 @@ public class GuiButtonAnvilAction extends GuiButton {
     }
 
     @Override
-    public void func_146111_b(int mouseX, int mouseY) {
-        this.gui.drawToolTip(Collections.singletonList(AnvilAction.getTranslatedName(this.id)), mouseX, mouseY);
+    public void renderTooltip(int mouseX, int mouseY) {
+        this.gui.drawTooltip(Collections.singletonList(this.action.getTranslatedName()), mouseX, mouseY);
     }
+
+    @Override
+    public void func_146113_a(SoundHandler soundHandlerIn) {}
 }

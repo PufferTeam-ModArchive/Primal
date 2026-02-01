@@ -1,4 +1,4 @@
-package net.pufferlab.primal.events.compat;
+package net.pufferlab.primal.events;
 
 import java.util.ArrayList;
 import java.util.Iterator;

@@ -44,13 +44,13 @@ public enum AnvilAction {
                     actionsID[i] = actions[i].id;
                 }
             }
-            tag.setIntArray("actions", actionsID);
+            tag.setIntArray("workActions", actionsID);
         }
     }
 
     public static AnvilAction[] readFromNBT(NBTTagCompound tag) {
-        if (tag.hasKey("actions")) {
-            int[] actionsID = tag.getIntArray("actions");
+        if (tag.hasKey("workActions")) {
+            int[] actionsID = tag.getIntArray("workActions");
             AnvilAction[] actions = new AnvilAction[actionsID.length];
             for (int i = 0; i < actionsID.length; i++) {
                 actions[i] = AnvilAction.get(actionsID[i]);
@@ -72,10 +72,6 @@ public enum AnvilAction {
 
     public String getTranslatedName() {
         return Utils.translate("gui." + Primal.MODID + ".anvil." + this.name + ".name");
-    }
-
-    public static String getTranslatedName(int id) {
-        return values()[id].getTranslatedName();
     }
 
     @Override

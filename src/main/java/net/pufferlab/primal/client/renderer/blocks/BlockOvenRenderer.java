@@ -20,9 +20,9 @@ import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 @ThreadSafeISBRH(perThread = true)
 public class BlockOvenRenderer extends BlockPrimalRenderer {
 
-    private final ThreadLocal<ModelCampfire> modelCampfireThread = ThreadLocal.withInitial(ModelCampfire::new);
-    private final ThreadLocal<ModelCrossed> modelFireThread = ThreadLocal.withInitial(ModelCrossed::new);
-    private final ThreadLocal<ModelOven> modelOvenThread = ThreadLocal.withInitial(ModelOven::new);
+    private final ModelCampfire modelCampfire = new ModelCampfire();
+    private final ModelCrossed modelFire = new ModelCrossed();
+    private final ModelOven modelOven = new ModelOven();
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {}
@@ -30,10 +30,6 @@ public class BlockOvenRenderer extends BlockPrimalRenderer {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
-        ModelCampfire modelCampfire = modelCampfireThread.get();
-        ModelCrossed modelFire = modelFireThread.get();
-        ModelOven modelOven = modelOvenThread.get();
-
         Tessellator tess = Tessellator.instance;
         int meta = world.getBlockMetadata(x, y, z);
         modelCampfire.kindling.isHidden = true;

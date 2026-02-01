@@ -20,9 +20,9 @@ import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 @ThreadSafeISBRH(perThread = true)
 public class BlockCastRenderer extends BlockPrimalRenderer {
 
-    private final ThreadLocal<ModelFluid> modelFluidThread = ThreadLocal.withInitial(ModelFluid::new);
-    private final ThreadLocal<ModelMold> modelMoldThread = ThreadLocal.withInitial(ModelMold::new);
-    private final ThreadLocal<ModelItem> modelItemThread = ThreadLocal.withInitial(ModelItem::new);
+    private final ModelFluid modelFluid = new ModelFluid();
+    private final ModelMold modelMold = new ModelMold();
+    private final ModelItem modelItem = new ModelItem();
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
@@ -32,10 +32,6 @@ public class BlockCastRenderer extends BlockPrimalRenderer {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
-        ModelFluid modelFluid = modelFluidThread.get();
-        ModelMold modelMold = modelMoldThread.get();
-        ModelItem modelItem = modelItemThread.get();
-
         Tessellator tess = Tessellator.instance;
         TileEntity te = world.getTileEntity(x, y, z);
         int renderPass = ForgeHooksClient.getWorldRenderPass();

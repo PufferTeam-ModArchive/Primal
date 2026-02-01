@@ -18,30 +18,25 @@ import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 @ThreadSafeISBRH(perThread = true)
 public class BlockTanningRenderer extends BlockPrimalRenderer {
 
-    private final ThreadLocal<ModelTanningFrame> modelTanningFrameThread = ThreadLocal
-        .withInitial(ModelTanningFrame::new);
-    private final ThreadLocal<ModelTanning> modelTanningThread = ThreadLocal.withInitial(ModelTanning::new);
-
-    ModelTanningFrame modelTanningFrameGlobal = new ModelTanningFrame();
-    ModelTanning modelTanningGlobal = new ModelTanning();
+    private final ModelTanningFrame modelTanningFrame = new ModelTanningFrame();
+    private final ModelTanning modelTanning = new ModelTanning();
+    private final ModelTanningFrame modelTanningFrame2 = new ModelTanningFrame();
+    private final ModelTanning modelTanning2 = new ModelTanning();
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
         GL11.glPushMatrix();
         GL11.glTranslatef(0.0F, -0.5F, 0.0F);
-        modelTanningFrameGlobal.strings.isHidden = true;
-        modelTanningFrameGlobal.render();
+        modelTanningFrame2.strings.isHidden = true;
+        modelTanningFrame2.render();
         GL11.glTranslatef(0.0625F, 0.0F, 0.0F);
-        modelTanningGlobal.render();
+        modelTanning2.render();
         GL11.glPopMatrix();
     }
 
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
-        ModelTanningFrame modelTanningFrame = modelTanningFrameThread.get();
-        ModelTanning modelTanning = modelTanningThread.get();
-
         Tessellator tess = Tessellator.instance;
         TileEntityTanning tef = (TileEntityTanning) world.getTileEntity(x, y, z);
         modelTanningFrame.strings.isHidden = true;

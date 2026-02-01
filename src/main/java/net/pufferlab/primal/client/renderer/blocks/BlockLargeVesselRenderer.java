@@ -20,9 +20,8 @@ import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 @ThreadSafeISBRH(perThread = true)
 public class BlockLargeVesselRenderer extends BlockPrimalRenderer {
 
-    private static final ThreadLocal<ModelLargeVessel> modelLargeVesselThread = ThreadLocal
-        .withInitial(ModelLargeVessel::new);
-    private final ThreadLocal<ModelFluid> modelFluidThread = ThreadLocal.withInitial(ModelFluid::new);
+    private final ModelLargeVessel modelLargeVessel = new ModelLargeVessel();
+    private final ModelFluid modelFluid = new ModelFluid();
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {}
@@ -30,9 +29,6 @@ public class BlockLargeVesselRenderer extends BlockPrimalRenderer {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
-        ModelLargeVessel modelLargeVessel = modelLargeVesselThread.get();
-        ModelFluid modelFluid = modelFluidThread.get();
-
         Tessellator tess = Tessellator.instance;
         TileEntity te = world.getTileEntity(x, y, z);
         int renderPass = ForgeHooksClient.getWorldRenderPass();

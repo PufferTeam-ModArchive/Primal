@@ -22,7 +22,7 @@ import net.pufferlab.primal.compat.minetweaker.MTCompat;
 import net.pufferlab.primal.compat.nei.NEICompat;
 import net.pufferlab.primal.compat.waila.WLCompat;
 import net.pufferlab.primal.events.*;
-import net.pufferlab.primal.events.compat.ForbiddenMagicHandler;
+import net.pufferlab.primal.events.ForbiddenMagicHandler;
 import net.pufferlab.primal.inventory.CreativeTabsPrimal;
 import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.network.packets.*;

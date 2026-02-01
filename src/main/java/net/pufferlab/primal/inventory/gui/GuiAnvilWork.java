@@ -1,13 +1,12 @@
 package net.pufferlab.primal.inventory.gui;
 
-import java.util.List;
-
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.network.packets.PacketAnvilButton;
 import net.pufferlab.primal.recipes.AnvilAction;
+import net.pufferlab.primal.recipes.AnvilOrder;
+import net.pufferlab.primal.recipes.AnvilRecipe;
 import net.pufferlab.primal.tileentities.TileEntityAnvil;
 
 import org.lwjgl.opengl.GL11;
@@ -22,7 +21,9 @@ public class GuiAnvilWork extends GuiScreenPrimal {
         "textures/gui/container/anvil.png");
 
     private GuiButton[] anvilButtons = new GuiButton[AnvilAction.values().length];
+    private GuiButtonAnvilRecipe[] anvilWidgets = new GuiButtonAnvilRecipe[6];
     TileEntityAnvil te;
+    boolean[] validSteps = new boolean[3];
 
     public GuiAnvilWork(TileEntityAnvil te) {
         this.te = te;
@@ -50,7 +51,7 @@ public class GuiAnvilWork extends GuiScreenPrimal {
             if (((i / 2) % 2 == 0)) {
                 offsetY = -18;
             }
-            anvilButtons[i] = new GuiButtonAnvilAction(
+            anvilButtons[i] = new GuiButtonAnvil(
                 this,
                 id,
                 centerX + offsetG + offsetX,
@@ -60,11 +61,25 @@ public class GuiAnvilWork extends GuiScreenPrimal {
                 "");
             buttonList.add(anvilButtons[i]);
         }
+        for (int i = 0; i < 3; i++) {
+            int u = ((width) / 2) - 29;
+            int v = ((height) / 2) - 54;
+            GuiButtonAnvilRecipe widget = new GuiButtonAnvilRecipe(this, null, null, i, u + (i * 19), v, 20, 16, "");
+            anvilWidgets[i] = widget;
+            invButtonList.add(anvilWidgets[i]);
+        }
+        for (int i = 0; i < 3; i++) {
+            int u = ((width) / 2) - 29;
+            int v = ((height) / 2) - 76;
+            GuiButtonAnvilRecipe widget = new GuiButtonAnvilRecipe(this, null, null, i, u + (i * 19), v, 20, 22, "");
+            anvilWidgets[i + 3] = widget;
+            invButtonList.add(anvilWidgets[i + 3]);
+        }
     }
 
     @Override
     protected void actionPerformed(GuiButton button) {
-        if (button.id < 8) {
+        if (button instanceof GuiButtonAnvil) {
             sendWorkPacket(button.id);
         }
     }
@@ -82,79 +97,82 @@ public class GuiAnvilWork extends GuiScreenPrimal {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        this.mc.getTextureManager()
+            .bindTexture(textureAnvil);
         drawBackground(0);
         super.drawScreen(mouseX, mouseY, partialTicks);
-        drawIcons();
-        for (GuiButton button : this.buttonList) {
-            if (button.func_146115_a()) { // hovered
-                button.func_146111_b(mouseX, mouseY);
-            }
+        drawActions(false, this.te.workActions);
+        drawLineArrows(false, this.te.workLine);
+        AnvilRecipe recipe = this.te.getRecipe();
+        if (recipe != null) {
+            drawActions(true, recipe.recipeActions);
+            drawLineArrows(true, recipe.recipeLine);
+
+            drawOrders(recipe, recipe.recipeOrders, this.te.workActions);
         }
-
-    }
-
-    public void drawToolTip(List stringList, int x, int y) {
-        this.func_146283_a(stringList, x, y);
+        renderButtonTooltip(mouseX, mouseY);
     }
 
     @Override
     public void drawBackground(int tint) {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F); // Reset color
-        this.mc.getTextureManager()
-            .bindTexture(textureAnvil);
         int u = (width - xSize) / 2;
         int v = (height - ySize) / 2;
         this.drawTexturedModalRect(u, v, 0, 0, xSize, ySize);
     }
 
-    public void drawIcons() {
-        this.mc.getTextureManager()
-            .bindTexture(textureAnvil);
+    public void drawActions(boolean isRecipe, AnvilAction[] actions) {
+        int offsetY = 0;
+        int offsetList = 0;
+        if (isRecipe) {
+            offsetY = -21;
+            offsetList = 3;
+        }
         int u = ((width) / 2) - 24;
         int v = ((height) / 2) - 52;
         GL11.glPushMatrix();
         GL11.glTranslatef(0, 0, 0);
         float scale = 0.65F;
         GL11.glScalef(scale, scale, 1f);
-        AnvilAction[] actions = this.te.actions;
         for (int i = 0; i < actions.length; i++) {
             AnvilAction action = actions[i];
             if (action == null) continue;
-            this.drawTexturedModalRect((u + (i * 19)) / scale, v / scale, action.id * 16, 240, 16, 16);
+            this.drawTexturedModalRect((u + (i * 19)) / scale, (v + offsetY) / scale, action.id * 16, 240, 16, 16);
+            this.anvilWidgets[i + offsetList].action = action;
         }
         GL11.glPopMatrix();
     }
 
-    public void drawTexturedModalRect(float x, float y, int textureX, int textureY, int width, int height) {
-        float f = 0.00390625F;
-        float f1 = 0.00390625F;
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV(
-            (double) (x + 0),
-            (double) (y + height),
-            (double) this.zLevel,
-            (double) ((float) (textureX + 0) * f),
-            (double) ((float) (textureY + height) * f1));
-        tessellator.addVertexWithUV(
-            (double) (x + width),
-            (double) (y + height),
-            (double) this.zLevel,
-            (double) ((float) (textureX + width) * f),
-            (double) ((float) (textureY + height) * f1));
-        tessellator.addVertexWithUV(
-            (double) (x + width),
-            (double) (y + 0),
-            (double) this.zLevel,
-            (double) ((float) (textureX + width) * f),
-            (double) ((float) (textureY + 0) * f1));
-        tessellator.addVertexWithUV(
-            (double) (x + 0),
-            (double) (y + 0),
-            (double) this.zLevel,
-            (double) ((float) (textureX + 0) * f),
-            (double) ((float) (textureY + 0) * f1));
-        tessellator.draw();
+    public void drawOrders(AnvilRecipe recipe, AnvilOrder[] orders, AnvilAction[] actions) {
+        for (int i = 0; i < actions.length; i++) {
+            validSteps[i] = recipe.equals(actions[i], i);
+        }
+        int u = ((width) / 2) - 29;
+        int v = ((height) / 2) - 76;
+        for (int i = 0; i < orders.length; i++) {
+            AnvilOrder order = orders[i];
+            if (order == null) continue;
+            int offsetP = 0;
+            if (validSteps[i]) {
+                offsetP = 20;
+            }
+            this.drawTexturedModalRect(u + (i * 19), v, 178 + offsetP, order.id * 22, 20, 22);
+            this.anvilWidgets[i + 3].order = order;
+        }
+
+    }
+
+    public void drawLineArrows(boolean isRecipe, int progress) {
+        int offsetTex = 0;
+        int offsetY = 0;
+        if (isRecipe) {
+            offsetTex = 5;
+            offsetY = -8;
+        }
+        int u = ((width) / 2) - 74;
+        int v = ((height) / 2) + 18;
+        this.drawTexturedModalRect(u + progress, v + offsetY, 220 + offsetTex, 34, 5, 5);
+
     }
 
 }

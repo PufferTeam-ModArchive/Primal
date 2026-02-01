@@ -1,6 +1,5 @@
 package net.pufferlab.primal.inventory.gui;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -10,7 +9,7 @@ import net.pufferlab.primal.tileentities.TileEntityLargeVessel;
 
 import org.lwjgl.opengl.GL11;
 
-public class GuiLargeVessel extends GuiContainer {
+public class GuiLargeVessel extends GuiContainerPrimal {
 
     private static final ResourceLocation texture = new ResourceLocation(
         Primal.MODID,

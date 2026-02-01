@@ -14,14 +14,13 @@ import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 @ThreadSafeISBRH(perThread = true)
 public class BlockOreRenderer extends BlockPrimalRenderer {
 
-    private final ThreadLocal<BlockMetaOre> oreThread = ThreadLocal.withInitial(BlockMetaOre::new);
-    private final ThreadLocal<BlockMetaOre> oreThread2 = ThreadLocal.withInitial(BlockMetaOre::new);
+    private final BlockMetaOre block1 = new BlockMetaOre();
+    private final BlockMetaOre block2 = new BlockMetaOre();
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
         GL11.glPushMatrix();
 
-        BlockMetaOre block2 = oreThread2.get();
         block2.blockTexture = (BlockMetaOre) block;
         boolean isEmissive = true;
         if (block instanceof IPrimalBlock block0) {
@@ -46,24 +45,23 @@ public class BlockOreRenderer extends BlockPrimalRenderer {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
-        BlockMetaOre block2 = oreThread.get();
-        block2.blockTexture = (BlockMetaOre) block;
+        block1.blockTexture = (BlockMetaOre) block;
         boolean isEmissive = true;
         if (block instanceof IPrimalBlock block0) {
             isEmissive = block0.isEmissive();
         }
 
-        block2.isInventory = false;
-        block2.renderPass = 0;
-        renderStandardBlockNoColor(renderer, block2, x, y, z);
+        block1.isInventory = false;
+        block1.renderPass = 0;
+        renderStandardBlockNoColor(renderer, block1, x, y, z);
 
-        block2.renderPass = 1;
+        block1.renderPass = 1;
         if (isEmissive) {
-            renderStandardBlockMaxBrightness(renderer, block2, x, y, z);
+            renderStandardBlockMaxBrightness(renderer, block1, x, y, z);
         } else {
-            renderStandardBlockNoColor(renderer, block2, x, y, z);
+            renderStandardBlockNoColor(renderer, block1, x, y, z);
         }
-        block2.renderPass = 0;
+        block1.renderPass = 0;
         return true;
     }
 

@@ -51,6 +51,12 @@ gui.primal.anvil.bend.name=Bend
 gui.primal.anvil.upset.name=Upset
 gui.primal.anvil.shrink.name=Shrink
 
+gui.primal.anvil.any.name=Any
+gui.primal.anvil.last.name=Last
+gui.primal.anvil.not_last.name=Not Last
+gui.primal.anvil.second_last.name=Second Last
+gui.primal.anvil.third_last.name=Third Last
+
 temp.primal.desc=§7Temperature: §f%d§7 C
 metal.primal.melting.solid.name=Content is solid
 metal.primal.melting.liquid.name=Content is liquid

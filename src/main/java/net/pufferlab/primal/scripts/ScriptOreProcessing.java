@@ -2,6 +2,8 @@ package net.pufferlab.primal.scripts;
 
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Constants;
+import net.pufferlab.primal.recipes.AnvilAction;
+import net.pufferlab.primal.recipes.AnvilOrder;
 import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.utils.MetalType;
 import net.pufferlab.primal.utils.OreType;
@@ -12,6 +14,7 @@ public class ScriptOreProcessing implements IScript {
         addOreDicts();
         addCraftingRecipes();
         addToolRecipes();
+        addAnvilRecipes();
         addMeltingRecipes();
         addCastingRecipes();
         addAlloyingRecipes();
@@ -134,6 +137,21 @@ public class ScriptOreProcessing implements IScript {
                 getOreDictItem(getOreDictionaryName("hammer_head", name)),
                 'S',
                 "stickWood");
+        }
+    }
+
+    public void addAnvilRecipes() {
+        for (MetalType type : Constants.toolMetalTypes) {
+            String name = type.name;
+            addAnvilRecipe(
+                getOreDictItem(getOreDictionaryName("pickaxe_head", name)),
+                getOreDictionaryName("ingot", name),
+                AnvilAction.punch,
+                AnvilOrder.last,
+                AnvilAction.bend,
+                AnvilOrder.notLast,
+                AnvilAction.draw,
+                AnvilOrder.notLast);
         }
     }
 

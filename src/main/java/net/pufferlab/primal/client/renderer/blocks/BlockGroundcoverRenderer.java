@@ -18,10 +18,10 @@ import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 @ThreadSafeISBRH(perThread = true)
 public class BlockGroundcoverRenderer extends BlockPrimalRenderer {
 
-    private final ThreadLocal<ModelRock> modelRockThread = ThreadLocal.withInitial(ModelRock::new);
-    private final ThreadLocal<ModelRockSmall> modelRock2Thread = ThreadLocal.withInitial(ModelRockSmall::new);
-    private final ThreadLocal<Random> randomThread = ThreadLocal.withInitial(Random::new);
-    private final ThreadLocal<ModelItem> modelItemThread = ThreadLocal.withInitial(ModelItem::new);
+    private final ModelRock modelRock = new ModelRock();
+    private final ModelRockSmall modelRock2 = new ModelRockSmall();
+    private final Random random = new Random(23414677L);
+    private final ModelItem modelItem = new ModelItem();
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {}
@@ -29,11 +29,6 @@ public class BlockGroundcoverRenderer extends BlockPrimalRenderer {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
-        ModelRock modelRock = modelRockThread.get();
-        ModelRockSmall modelRock2 = modelRock2Thread.get();
-        ModelItem modelItem = modelItemThread.get();
-        Random random = randomThread.get();
-
         Tessellator tess = Tessellator.instance;
         Random rand = Utils.getSeededRandom(random, x, y, z);
 

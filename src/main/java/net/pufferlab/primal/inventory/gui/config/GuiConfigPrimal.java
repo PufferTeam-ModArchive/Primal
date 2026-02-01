@@ -1,4 +1,4 @@
-package net.pufferlab.primal.client.config;
+package net.pufferlab.primal.inventory.gui.config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +19,7 @@ public class GuiConfigPrimal extends GuiConfig {
         super(parent, getConfigElements(), Primal.MODID, false, true, Primal.MODID + ".cfg");
     }
 
+    @SuppressWarnings("rawtypes")
     private static List<IConfigElement> getConfigElements() {
         Configuration cfg = Config.configuration;
         List<IConfigElement> config = new ArrayList<>();

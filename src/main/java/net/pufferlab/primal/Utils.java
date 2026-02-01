@@ -1075,6 +1075,10 @@ public class Utils {
         return null;
     }
 
+    public static int clamp(int min, int max, int value) {
+        return Math.max(min, Math.min(value, max));
+    }
+
     public static Map<String, String> metalTypes = new HashMap<>();
 
     public static String getMetalType(ItemStack item) {

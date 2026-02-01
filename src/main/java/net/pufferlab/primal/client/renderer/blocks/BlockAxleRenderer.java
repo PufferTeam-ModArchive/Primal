@@ -13,10 +13,10 @@ import net.pufferlab.primal.tileentities.TileEntityAxle;
 
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 
-@ThreadSafeISBRH(perThread = false)
+@ThreadSafeISBRH(perThread = true)
 public class BlockAxleRenderer extends BlockPrimalRenderer {
 
-    private final ThreadLocal<ModelBracket> modelBracketThread = ThreadLocal.withInitial(ModelBracket::new);
+    private final ModelBracket modelBracket = new ModelBracket();
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {}
@@ -26,7 +26,6 @@ public class BlockAxleRenderer extends BlockPrimalRenderer {
         RenderBlocks renderer) {
         TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileEntityAxle tef) {
-            ModelBracket modelBracket = modelBracketThread.get();
             Tessellator tess = Tessellator.instance;
             if (tef.hasBracket) {
                 modelBracket.setFacingFromAxis(tef.facingMeta, tef.axisMeta);

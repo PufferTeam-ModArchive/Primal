@@ -13,14 +13,13 @@ import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 @ThreadSafeISBRH(perThread = true)
 public class BlockPathRenderer extends BlockPrimalRenderer {
 
-    private final ThreadLocal<BlockMetaPath> pathThread = ThreadLocal.withInitial(BlockMetaPath::new);
-    private final ThreadLocal<BlockMetaPath> pathThread2 = ThreadLocal.withInitial(BlockMetaPath::new);
+    private final BlockMetaPath block1 = new BlockMetaPath();
+    private final BlockMetaPath block2 = new BlockMetaPath();
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
         GL11.glPushMatrix();
 
-        BlockMetaPath block2 = pathThread2.get();
         block2.blockTexture = (BlockMetaPath) block;
         renderer.setRenderBounds(0.0D, 0.0D, 0.0D, 1.0D, 0.9375D, 1.0D);
 
@@ -38,17 +37,16 @@ public class BlockPathRenderer extends BlockPrimalRenderer {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
-        BlockMetaPath block2 = pathThread.get();
-        block2.blockTexture = (BlockMetaPath) block;
+        block1.blockTexture = (BlockMetaPath) block;
         renderer.setRenderBounds(0.0D, 0.0D, 0.0D, 1.0D, 0.9375D, 1.0D);
 
-        block2.isInventory = false;
-        block2.renderPass = 0;
-        renderStandardBlockNoColor(renderer, block2, x, y, z);
+        block1.isInventory = false;
+        block1.renderPass = 0;
+        renderStandardBlockNoColor(renderer, block1, x, y, z);
 
-        block2.renderPass = 1;
-        renderStandardBlockNoColor(renderer, block2, x, y, z);
-        block2.renderPass = 0;
+        block1.renderPass = 1;
+        renderStandardBlockNoColor(renderer, block1, x, y, z);
+        block1.renderPass = 0;
         return true;
     }
 

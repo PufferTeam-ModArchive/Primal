@@ -14,7 +14,7 @@ import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 @ThreadSafeISBRH(perThread = true)
 public class BlockAnvilRenderer extends BlockPrimalRenderer {
 
-    private final ThreadLocal<ModelAnvil> modelAnvilThread = ThreadLocal.withInitial(ModelAnvil::new);
+    private final ModelAnvil modelAnvil = new ModelAnvil();
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {}
@@ -22,7 +22,6 @@ public class BlockAnvilRenderer extends BlockPrimalRenderer {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
-        ModelAnvil modelAnvil = modelAnvilThread.get();
         Tessellator tess = Tessellator.instance;
         TileEntity te = world.getTileEntity(x, y, z);
         int meta = world.getBlockMetadata(x, y, z);
