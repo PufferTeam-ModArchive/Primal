@@ -1,10 +1,10 @@
-package net.pufferlab.primal.inventory.gui;
+package net.pufferlab.primal.client.gui;
 
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.inventory.container.ContainerKnapping;
+import net.pufferlab.primal.inventory.ContainerKnapping;
 import net.pufferlab.primal.network.packets.PacketKnappingClick;
 
 import org.lwjgl.opengl.GL11;

@@ -23,7 +23,7 @@ public class Primal {
     public static final String MODID = "primal";
     public static final String version = "[1.7.10]";
     public static final String dependencies = "required-after:gtnhmixins@[2.0.0,);";
-    public static final String guiFactory = "net.pufferlab.primal.client.config.GuiFactory";
+    public static final String guiFactory = "net.pufferlab.primal.client.gui.config.GuiFactory";
     public static final String clientProxy = "net.pufferlab.primal.ClientProxy";
     public static final String commonProxy = "net.pufferlab.primal.CommonProxy";
     public static final String downloadPath = "https://github.com/PufferTeam-ModArchive/Primal/raw/refs/heads/main/builtin/";

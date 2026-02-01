@@ -1,4 +1,4 @@
-package net.pufferlab.primal.inventory.gui;
+package net.pufferlab.primal.client.gui;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;

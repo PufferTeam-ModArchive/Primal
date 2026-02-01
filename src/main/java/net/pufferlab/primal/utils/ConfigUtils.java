@@ -6,10 +6,22 @@ import java.util.Map;
 import net.minecraftforge.fluids.Fluid;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.recipes.AnvilAction;
+
+import gnu.trove.map.TObjectIntMap;
+import gnu.trove.map.hash.TObjectIntHashMap;
 
 public class ConfigUtils {
 
-    private static Map<String, Integer> meltingMetalMap;
+    public static void initConfigMap() {
+        genMetalMelting();
+        genMetalFluid();
+        genVeinHeightMap();
+        genVeinSizeMap();
+        genAnvilStep();
+    }
+
+    private static final TObjectIntMap<String> meltingMetalMap = new TObjectIntHashMap<>();
 
     public static String[] getDefaultMetalMelting(MetalType[] metals) {
         String[] metalMelting = new String[metals.length];
@@ -19,26 +31,26 @@ public class ConfigUtils {
         return metalMelting;
     }
 
-    public static int getMetalMelting(MetalType metalType) {
-        String metal = metalType.name;
-        if (meltingMetalMap == null) {
-            meltingMetalMap = new HashMap<>();
-            String[] priorityOverride = Config.metalMelting.getStringList();
-            for (String s : priorityOverride) {
-                String[] spl = s.split("=");
-                if (spl.length == 2) {
-                    String ore = spl[0];
-                    if (Integer.parseInt(spl[1]) != 0) {
-                        int temp = Integer.parseInt(spl[1]);
-                        meltingMetalMap.put(ore, temp);
-                    }
+    public static void genMetalMelting() {
+        String[] priorityOverride = Config.metalMelting.getStringList();
+        for (String s : priorityOverride) {
+            String[] spl = s.split("=");
+            if (spl.length == 2) {
+                String ore = spl[0];
+                if (Integer.parseInt(spl[1]) != 0) {
+                    int temp = Integer.parseInt(spl[1]);
+                    meltingMetalMap.put(ore, temp);
                 }
             }
         }
+    }
+
+    public static int getMetalMelting(MetalType metalType) {
+        String metal = metalType.name;
         return meltingMetalMap.get(metal);
     }
 
-    private static Map<String, Fluid> liquidMetalMap;
+    private static final Map<String, Fluid> liquidMetalMap = new HashMap<>();
 
     public static String[] getDefaultMetalFluid(MetalType[] metals) {
         String[] metalFluid = new String[metals.length];
@@ -48,28 +60,28 @@ public class ConfigUtils {
         return metalFluid;
     }
 
-    public static Fluid getMetalFluid(MetalType metalType) {
-        String metal = metalType.name;
-        if (liquidMetalMap == null) {
-            liquidMetalMap = new HashMap<>();
-            String[] priorityOverride = Config.metalLiquids.getStringList();
-            for (String s : priorityOverride) {
-                String[] spl = s.split("=");
-                if (spl.length == 2) {
-                    String ore = spl[0];
-                    if (Utils.getFluid(spl[1], 1) != null) {
-                        Fluid item = Utils.getFluid(spl[1], 1)
-                            .getFluid();
-                        liquidMetalMap.put(ore, item);
-                    }
+    public static void genMetalFluid() {
+        String[] priorityOverride = Config.metalLiquids.getStringList();
+        for (String s : priorityOverride) {
+            String[] spl = s.split("=");
+            if (spl.length == 2) {
+                String ore = spl[0];
+                if (Utils.getFluid(spl[1], 1) != null) {
+                    Fluid item = Utils.getFluid(spl[1], 1)
+                        .getFluid();
+                    liquidMetalMap.put(ore, item);
                 }
             }
         }
+    }
+
+    public static Fluid getMetalFluid(MetalType metalType) {
+        String metal = metalType.name;
         return liquidMetalMap.get(metal);
     }
 
-    public static Map<String, Integer> veinHeightMinMap;
-    public static Map<String, Integer> veinHeightMaxMap;
+    public static final TObjectIntMap<String> veinHeightMinMap = new TObjectIntHashMap<>();
+    public static final TObjectIntMap<String> veinHeightMaxMap = new TObjectIntHashMap<>();
 
     public static String[] getDefaultHeight(VeinType[] veinTypes) {
         String[] list = new String[veinTypes.length];
@@ -80,8 +92,6 @@ public class ConfigUtils {
     }
 
     public static void genVeinHeightMap() {
-        veinHeightMinMap = new HashMap<>();
-        veinHeightMaxMap = new HashMap<>();
         String[] priorityOverride = Config.oreVeinsHeightRange.getStringList();
         for (String s : priorityOverride) {
             String[] spl = s.split("=");
@@ -98,22 +108,16 @@ public class ConfigUtils {
 
     public static int getVeinHeightMin(VeinType veinType) {
         String vein = veinType.name;
-        if (veinHeightMinMap == null) {
-            genVeinHeightMap();
-        }
         return veinHeightMinMap.get(vein);
     }
 
     public static int getVeinHeightMax(VeinType veinType) {
         String vein = veinType.name;
-        if (veinHeightMaxMap == null) {
-            genVeinHeightMap();
-        }
         return veinHeightMaxMap.get(vein);
     }
 
-    public static Map<String, Integer> veinSizeMinMap;
-    public static Map<String, Integer> veinSizeMaxMap;
+    public static final TObjectIntMap<String> veinSizeMinMap = new TObjectIntHashMap<>();
+    public static final TObjectIntMap<String> veinSizeMaxMap = new TObjectIntHashMap<>();
 
     public static String[] getDefaultSize(VeinType[] veinTypes) {
         String[] list = new String[veinTypes.length];
@@ -124,8 +128,6 @@ public class ConfigUtils {
     }
 
     public static void genVeinSizeMap() {
-        veinSizeMinMap = new HashMap<>();
-        veinSizeMaxMap = new HashMap<>();
         String[] priorityOverride = Config.oreVeinsSizeRange.getStringList();
         for (String s : priorityOverride) {
             String[] spl = s.split("=");
@@ -142,17 +144,41 @@ public class ConfigUtils {
 
     public static int getVeinSizeMin(VeinType veinType) {
         String vein = veinType.name;
-        if (veinSizeMinMap == null) {
-            genVeinSizeMap();
-        }
         return veinSizeMinMap.get(vein);
     }
 
     public static int getVeinSizeMax(VeinType veinType) {
         String vein = veinType.name;
-        if (veinSizeMaxMap == null) {
-            genVeinSizeMap();
-        }
         return veinSizeMaxMap.get(vein);
+    }
+
+    private static final TObjectIntMap<String> anvilStepMap = new TObjectIntHashMap<>();
+
+    public static String[] getDefaultAnvilStep() {
+        AnvilAction[] metals = AnvilAction.values();
+        String[] metalMelting = new String[metals.length];
+        for (int i = 0; i < metalMelting.length; i++) {
+            metalMelting[i] = metals[i].name + "=" + metals[i].step;
+        }
+        return metalMelting;
+    }
+
+    public static void genAnvilStep() {
+        String[] priorityOverride = Config.anvilActionStep.getStringList();
+        for (String s : priorityOverride) {
+            String[] spl = s.split("=");
+            if (spl.length == 2) {
+                String ore = spl[0];
+                if (Integer.parseInt(spl[1]) != 0) {
+                    int temp = Integer.parseInt(spl[1]);
+                    anvilStepMap.put(ore, temp);
+                }
+            }
+        }
+    }
+
+    public static int getAnvilStep(AnvilAction metalType) {
+        String metal = metalType.name;
+        return anvilStepMap.get(metal);
     }
 }

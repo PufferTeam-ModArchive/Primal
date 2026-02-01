@@ -70,6 +70,11 @@ public enum AnvilAction {
         return this == action;
     }
 
+    public AnvilAction setStep(int newStep) {
+        this.step = newStep;
+        return this;
+    }
+
     public String getTranslatedName() {
         return Utils.translate("gui." + Primal.MODID + ".anvil." + this.name + ".name");
     }

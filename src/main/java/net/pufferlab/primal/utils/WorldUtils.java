@@ -5,6 +5,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
+import net.pufferlab.primal.Utils;
 
 public class WorldUtils {
 
@@ -35,7 +36,7 @@ public class WorldUtils {
 
         double scaled = n01 * (double) number;
 
-        int choice = (int) Math.floor(scaled);
+        int choice = Utils.floor(scaled);
         return Math.min(number - 1, Math.max(0, choice));
     }
 

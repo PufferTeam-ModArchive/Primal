@@ -26,6 +26,7 @@ import net.pufferlab.primal.events.ForbiddenMagicHandler;
 import net.pufferlab.primal.inventory.CreativeTabsPrimal;
 import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.network.packets.*;
+import net.pufferlab.primal.recipes.AnvilAction;
 import net.pufferlab.primal.tileentities.*;
 import net.pufferlab.primal.utils.*;
 import net.pufferlab.primal.world.PrimalDecorator;
@@ -555,6 +556,8 @@ public class Registry {
     }
 
     public void setupConfig() {
+        ConfigUtils.initConfigMap();
+
         for (MetalType type : Constants.metalTypes) {
             Fluid fluid = ConfigUtils.getMetalFluid(type);
             if (fluid != null) {
@@ -579,6 +582,11 @@ public class Registry {
         Constants.stoneTypesLayer = StoneType.generateLayerCache(Constants.stoneTypes);
         Constants.veinTypesLayer = VeinType.generateVeinCache(Constants.veinTypes);
         Constants.tcVeinTypesLayer = VeinType.generateVeinCache(Constants.tcVeinTypes);
+
+        for (AnvilAction action : AnvilAction.values()) {
+            int step = ConfigUtils.getAnvilStep(action);
+            action.setStep(step);
+        }
     }
 
     public void setupModCompat() {

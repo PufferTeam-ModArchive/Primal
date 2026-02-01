@@ -1,7 +1,7 @@
 package net.pufferlab.primal.network.packets;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.pufferlab.primal.inventory.container.ContainerKnapping;
+import net.pufferlab.primal.inventory.ContainerKnapping;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;

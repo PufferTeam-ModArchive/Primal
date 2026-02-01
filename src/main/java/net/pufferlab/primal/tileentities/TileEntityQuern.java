@@ -5,6 +5,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.QuernRecipe;
 
 public class TileEntityQuern extends TileEntityMotionInventory {
@@ -136,7 +137,7 @@ public class TileEntityQuern extends TileEntityMotionInventory {
         if (this.timePassed > 1) {
             this.timePassed = 0;
             if (getInventoryStack(slotInput) != null) {
-                this.timeGround = this.timeGround + (int) Math.floor(4 * getPercentageSpeed());
+                this.timeGround = this.timeGround + Utils.floor(4 * getPercentageSpeed());
             } else {
                 this.timeGround = 0;
             }

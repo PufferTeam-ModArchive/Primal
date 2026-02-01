@@ -1,4 +1,4 @@
-package net.pufferlab.primal.inventory.container;
+package net.pufferlab.primal.inventory;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -6,33 +6,35 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.tileentities.TileEntityCrucible;
+import net.pufferlab.primal.tileentities.TileEntityLargeVessel;
 
-public class ContainerCrucible extends Container {
+public class ContainerLargeVessel extends Container {
 
-    public TileEntityCrucible tileCrucible;
+    public TileEntityLargeVessel tileLargeVessel;
 
-    public ContainerCrucible(IInventory inv, TileEntityCrucible te) {
-        for (int j = 0; j < 5; ++j) {
-            this.addSlotToContainer(new SlotCrucible(te, j, 44 + j * 18, 19));
+    public ContainerLargeVessel(IInventory inv, TileEntityLargeVessel te) {
+        for (int i = 0; i < 3; ++i) {
+            for (int j = 0; j < 3; ++j) {
+                this.addSlotToContainer(new SlotLargeVessel(te, j + i * 3, 62 + j * 18, 17 + i * 18));
+            }
         }
 
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
-                this.addSlotToContainer(new SlotInventory(inv, te, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+                this.addSlotToContainer(new Slot(inv, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
             }
         }
 
         for (int i = 0; i < 9; ++i) {
-            this.addSlotToContainer(new SlotInventory(inv, te, i, 8 + i * 18, 142));
+            this.addSlotToContainer(new Slot(inv, i, 8 + i * 18, 142));
         }
 
-        this.tileCrucible = te;
+        this.tileLargeVessel = te;
     }
 
     @Override
     public boolean canInteractWith(EntityPlayer player) {
-        return tileCrucible.isUseableByPlayer(player);
+        return tileLargeVessel.isUseableByPlayer(player);
     }
 
     @Override
@@ -47,7 +49,7 @@ public class ContainerCrucible extends Container {
             if (Utils.containsOreDict(itemstack, "itemContainer")) return null;
 
             if (index < 9) {
-                if (!this.mergeItemStack(itemstack1, 9, 41, true)) {
+                if (!this.mergeItemStack(itemstack1, 9, 45, true)) {
                     return null;
                 }
             } else if (!this.mergeItemStack(itemstack1, 0, 9, false)) {
@@ -69,4 +71,5 @@ public class ContainerCrucible extends Container {
 
         return itemstack;
     }
+
 }

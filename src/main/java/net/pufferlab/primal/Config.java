@@ -77,6 +77,10 @@ public enum Config {
     metalIngotValue(Module.metalworking, 144, "The value that one ingot of metal should give."),
     metalNuggetValue(Module.metalworking, 16, "The value that one nugget of metal should give."),
 
+    // Forging
+    anvilActionStep(Module.metalworking$forging, ConfigUtils.getDefaultAnvilStep(),
+        "The step value that the anvil action will take when clicked."),
+
     // Waterwheel
     waterwheelDefaultSpeed(Module.mechanical_power, 5F, "The default speed that the waterwheel will have."),
     waterwheelRestrictBiome(Module.mechanical_power, false,
@@ -296,6 +300,7 @@ public enum Config {
         early_game$tweaks(true, "Multiple vanilla tweaks to spice up the early game."),
         early_game$lighting(true, "Includes all of the changes related to lighting."),
         metalworking(true, "Includes all of the metalworking aspect of the mod, such as the forge, crucible and such."),
+        metalworking$forging(true, "Includes all options for the Anvil Forging minigame"),
         mechanical_power(true,
             "Includes all of the mechanical power machinery, such as windmill, waterwheel and anything that moves."),
         world(true, "Includes all of the world stuff from the mod."),

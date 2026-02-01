@@ -1,10 +1,10 @@
-package net.pufferlab.primal.inventory.gui;
+package net.pufferlab.primal.client.gui;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.inventory.container.ContainerLargeVessel;
+import net.pufferlab.primal.inventory.ContainerLargeVessel;
 import net.pufferlab.primal.tileentities.TileEntityLargeVessel;
 
 import org.lwjgl.opengl.GL11;

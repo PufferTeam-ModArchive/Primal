@@ -249,7 +249,7 @@ public class Utils {
 
     public static String getRecipeTooltip(String name, int timePassed, int timeToProcess, String suffix) {
         float percentagePassed = (float) timePassed / (float) timeToProcess;
-        int percentage = (int) Math.floor((percentagePassed) * 100);
+        int percentage = Utils.floor((percentagePassed) * 100);
         return Constants.gray + name + ": " + percentage + "% " + suffix;
     }
 
@@ -1075,6 +1075,10 @@ public class Utils {
         return null;
     }
 
+    public static int floor(double value) {
+        return (int) Math.floor(value);
+    }
+
     public static int clamp(int min, int max, int value) {
         return Math.max(min, Math.min(value, max));
     }
@@ -1176,9 +1180,9 @@ public class Utils {
     }
 
     public static long packCoord(int x, int y, int z) {
-        long lx = x & 0x3FFFFFFL; // 26 bits
-        long ly = y & 0xFFFL; // 12 bits
-        long lz = z & 0x3FFFFFFL; // 26 bits
+        long lx = x & 0x3FFFFFFL; // 26 bits [-33,554,432 to 33,554,432]
+        long ly = y & 0xFFFL; // 12 bits [-2048 to 2048]
+        long lz = z & 0x3FFFFFFL; // 26 bits [-33,554,432 to 33,554,432]
         return (lx << 38) | (ly << 26) | lz;
     }
 

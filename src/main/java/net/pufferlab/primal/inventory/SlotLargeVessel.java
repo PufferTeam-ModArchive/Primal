@@ -1,4 +1,4 @@
-package net.pufferlab.primal.inventory.container;
+package net.pufferlab.primal.inventory;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
