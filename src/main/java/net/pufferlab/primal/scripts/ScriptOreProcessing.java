@@ -57,7 +57,7 @@ public class ScriptOreProcessing implements IScript {
                 'P',
                 getOreDictItem(getOreDictionaryName("ingot", name)));
             addShapedRecipe(
-                getOreDictItem(getOreDictionaryName("ingot", name)),
+                getOreDictItem(getOreDictionaryName("ingot", name), 9),
                 "P",
                 'P',
                 getOreDictItem(getOreDictionaryName("block", name)));
@@ -70,7 +70,7 @@ public class ScriptOreProcessing implements IScript {
                 'P',
                 getOreDictItem(getOreDictionaryName("nugget", name)));
             addShapedRecipe(
-                getOreDictItem(getOreDictionaryName("nugget", name)),
+                getOreDictItem(getOreDictionaryName("nugget", name), 9),
                 "P",
                 'P',
                 getOreDictItem(getOreDictionaryName("ingot", name)));
@@ -152,6 +152,24 @@ public class ScriptOreProcessing implements IScript {
                 AnvilOrder.notLast,
                 AnvilAction.draw,
                 AnvilOrder.notLast);
+            addAnvilRecipe(
+                getOreDictItem(getOreDictionaryName("axe_head", name)),
+                getOreDictionaryName("ingot", name),
+                AnvilAction.upset,
+                AnvilOrder.thirdLast,
+                AnvilAction.hitMedium,
+                AnvilOrder.secondLast,
+                AnvilAction.punch,
+                AnvilOrder.last);
+            addAnvilRecipe(
+                getOreDictItem(getOreDictionaryName("sword_blade", name)),
+                getOreDictionaryName("ingot", name),
+                AnvilAction.bend,
+                AnvilOrder.thirdLast,
+                AnvilAction.bend,
+                AnvilOrder.secondLast,
+                AnvilAction.hitMedium,
+                AnvilOrder.last);
         }
     }
 

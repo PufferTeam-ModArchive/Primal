@@ -29,6 +29,30 @@ public class AnvilRecipe {
         return null;
     }
 
+    public static List<AnvilRecipe> getRecipes(ItemStack inputItem) {
+        List<AnvilRecipe> recipes = new ArrayList<>();
+        for (AnvilRecipe currentRecipe : recipeList) {
+            if (currentRecipe.equals(inputItem)) {
+                recipes.add(currentRecipe);
+            }
+        }
+        return recipes;
+    }
+
+    public static AnvilRecipe getRecipe(ItemStack inputItem) {
+        for (AnvilRecipe currentRecipe : recipeList) {
+            if (currentRecipe.equals(inputItem)) {
+                return currentRecipe;
+            }
+        }
+        return null;
+    }
+
+    public static boolean hasRecipe(ItemStack input) {
+        AnvilRecipe recipe = getRecipe(input);
+        return recipe != null;
+    }
+
     public static List<AnvilRecipe> getRecipeList() {
         return recipeList;
     }
@@ -38,9 +62,11 @@ public class AnvilRecipe {
     public AnvilAction[] recipeActions;
     public AnvilOrder[] recipeOrders;
     public int recipeLine;
+    public int recipeID;
 
     public AnvilRecipe(ItemStack output, List<ItemStack> input, Object... objects) {
         int j = 0;
+        this.recipeID = recipeList.size();
         this.recipeLine = 50;
         int size = objects.length / 2;
         this.recipeActions = new AnvilAction[size];
@@ -81,6 +107,13 @@ public class AnvilRecipe {
         }
 
         return true;
+    }
+
+    public boolean equals(ItemStack input) {
+        if (Utils.containsStack(this.input, input)) {
+            return true;
+        }
+        return false;
     }
 
     public boolean equals(AnvilAction action, int order) {

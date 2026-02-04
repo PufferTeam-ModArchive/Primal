@@ -45,6 +45,10 @@ public interface IScript {
         return Utils.getOreDictItem(oreDict);
     }
 
+    default ItemStack getOreDictItem(String oreDict, int amount) {
+        return Utils.getOreDictItem(oreDict, amount);
+    }
+
     default void addOreDict(String name, ItemStack item) {
         if (item != null) {
             OreDictionary.registerOre(name, item);

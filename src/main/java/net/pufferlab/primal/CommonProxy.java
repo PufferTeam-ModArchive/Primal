@@ -6,10 +6,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.pufferlab.primal.inventory.ContainerCrucible;
-import net.pufferlab.primal.inventory.ContainerKnapping;
-import net.pufferlab.primal.inventory.ContainerLargeVessel;
+import net.pufferlab.primal.inventory.*;
 import net.pufferlab.primal.recipes.KnappingType;
+import net.pufferlab.primal.tileentities.TileEntityAnvil;
 import net.pufferlab.primal.tileentities.TileEntityCrucible;
 import net.pufferlab.primal.tileentities.TileEntityLargeVessel;
 
@@ -23,12 +22,13 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
 public class CommonProxy implements IGuiHandler {
 
-    public static MinecraftServer server;
+    public MinecraftServer server;
 
-    public final int largeVesselContainerID = 0;
-    public final int crucibleContainerID = 1;
+    public final int largeVesselGuiID = 0;
+    public final int crucibleGuiID = 1;
     public final int generatorGuiID = 2;
     public final int anvilWorkGuiID = 3;
+    public final int anvilPlanGuiID = 4;
 
     public void preInit(FMLPreInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(Primal.instance, Primal.proxy);
@@ -54,11 +54,17 @@ public class CommonProxy implements IGuiHandler {
             return new ContainerKnapping(knappingType, player.inventory);
         }
         TileEntity te = world.getTileEntity(x, y, z);
-        if (ID == largeVesselContainerID && te instanceof TileEntityLargeVessel tef) {
+        if (ID == largeVesselGuiID && te instanceof TileEntityLargeVessel tef) {
             return new ContainerLargeVessel(player.inventory, tef);
         }
-        if (ID == crucibleContainerID && te instanceof TileEntityCrucible tef) {
+        if (ID == crucibleGuiID && te instanceof TileEntityCrucible tef) {
             return new ContainerCrucible(player.inventory, tef);
+        }
+        if (ID == anvilWorkGuiID && te instanceof TileEntityAnvil tef) {
+            return new ContainerAnvilWork(tef);
+        }
+        if (ID == anvilPlanGuiID && te instanceof TileEntityAnvil tef) {
+            return new ContainerAnvilPlan(player.inventory, tef);
         }
         return null;
     }
@@ -99,16 +105,28 @@ public class CommonProxy implements IGuiHandler {
     public <T extends IMessage> void sendPacketToServer(T object) {};
 
     public void openLargeVesselGui(EntityPlayer player, World worldIn, int x, int y, int z) {
-        player.openGui(Primal.instance, largeVesselContainerID, worldIn, x, y, z);
+        openPrimalGui(largeVesselGuiID, player, worldIn, x, y, z);
     }
 
     public void openCrucibleGui(EntityPlayer player, World worldIn, int x, int y, int z) {
-        player.openGui(Primal.instance, crucibleContainerID, worldIn, x, y, z);
+        openPrimalGui(crucibleGuiID, player, worldIn, x, y, z);
     }
 
-    public void openGeneratorGui(EntityPlayer player, World worldIn, int x, int y, int z) {}
+    public void openGeneratorGui(EntityPlayer player, World worldIn, int x, int y, int z) {
+        openPrimalGui(generatorGuiID, player, worldIn, x, y, z);
+    }
 
-    public void openAnvilWorkGui(EntityPlayer player, World worldIn, int x, int y, int z) {}
+    public void openAnvilWorkGui(EntityPlayer player, World worldIn, int x, int y, int z) {
+        openPrimalGui(anvilWorkGuiID, player, worldIn, x, y, z);
+    }
+
+    public void openAnvilPlanGui(EntityPlayer player, World worldIn, int x, int y, int z) {
+        openPrimalGui(anvilPlanGuiID, player, worldIn, x, y, z);
+    }
+
+    public void openPrimalGui(int containerID, EntityPlayer player, World worldIn, int x, int y, int z) {
+        player.openGui(Primal.instance, containerID, worldIn, x, y, z);
+    }
 
     public int getGrassRenderID() {
         return 0;

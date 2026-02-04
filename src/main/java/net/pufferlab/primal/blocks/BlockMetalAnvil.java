@@ -1,11 +1,15 @@
 package net.pufferlab.primal.blocks;
 
+import static net.pufferlab.primal.tileentities.TileEntityAnvil.slotInput;
+
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -17,7 +21,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.recipes.AnvilRecipe;
 import net.pufferlab.primal.tileentities.TileEntityAnvil;
+import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 import net.pufferlab.primal.utils.MetalType;
 
@@ -56,10 +62,26 @@ public class BlockMetalAnvil extends BlockMetaContainer {
     public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
         float subY, float subZ) {
         ItemStack heldItem = player.getHeldItem();
-        if (Utils.isHammerTool(heldItem)) {
-            Primal.proxy.openAnvilWorkGui(player, worldIn, x, y, z);
-            return true;
+        TileEntity te = worldIn.getTileEntity(x, y, z);
+        if (te instanceof TileEntityAnvil tef) {
+            if (tef.getInventoryStack(slotInput) == null) {
+                if (AnvilRecipe.hasRecipe(heldItem)) {
+                    Primal.proxy.openAnvilPlanGui(player, worldIn, x, y, z);
+                    return true;
+                }
+            } else {
+                if (Utils.isHammerTool(heldItem)) {
+                    Primal.proxy.openAnvilWorkGui(player, worldIn, x, y, z);
+                    return true;
+                } else {
+                    dropItems(worldIn, x, y, z);
+                    tef.setInventorySlotContentsUpdate(0);
+                    return true;
+                }
+            }
+
         }
+
         return false;
     }
 
@@ -108,6 +130,41 @@ public class BlockMetalAnvil extends BlockMetaContainer {
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityMetaFacing tef) {
             tef.setFacingMeta(metayaw);
+        }
+    }
+
+    @Override
+    public void onBlockPreDestroy(World worldIn, int x, int y, int z, int meta) {
+        super.onBlockPreDestroy(worldIn, x, y, z, meta);
+        dropItems(worldIn, x, y, z);
+    }
+
+    private void dropItems(World world, int i, int j, int k) {
+        Random rando = world.rand;
+        TileEntity tileEntity = world.getTileEntity(i, j, k);
+        if (!(tileEntity instanceof TileEntityInventory)) return;
+        TileEntityInventory inventory = (TileEntityInventory) tileEntity;
+        for (int x = 0; x < inventory.getSizeInventory(); x++) {
+            ItemStack item = inventory.getStackInSlot(x);
+            inventory.setInventorySlotContentsUpdate(x, null);
+            if (item != null && item.stackSize > 0) {
+                float ri = rando.nextFloat() * 0.8F + 0.1F;
+                float rj = rando.nextFloat() * 0.8F + 0.1F;
+                float rk = rando.nextFloat() * 0.8F + 0.1F;
+                EntityItem entityItem = new EntityItem(world, (i + ri), (j + rj + 0.7F), (k + rk), item.copy());
+                float factor = 0.05F;
+                entityItem.motionX = rando.nextGaussian() * factor;
+                entityItem.motionY = rando.nextGaussian() * factor + 0.20000000298023224D;
+                entityItem.motionZ = rando.nextGaussian() * factor;
+                spawnEntity(world, entityItem);
+                item.stackSize = 0;
+            }
+        }
+    }
+
+    public void spawnEntity(World world, Entity entityItem) {
+        if (!world.isRemote) {
+            world.spawnEntityInWorld((Entity) entityItem);
         }
     }
 

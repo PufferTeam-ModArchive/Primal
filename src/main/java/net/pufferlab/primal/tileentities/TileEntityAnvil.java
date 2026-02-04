@@ -12,8 +12,11 @@ public class TileEntityAnvil extends TileEntityInventory {
     public int workLine = 0;
     public int recipeIndex = 0;
 
+    public static int slotInput = 0;
+    public static int slotOutput = 1;
+
     public TileEntityAnvil() {
-        super(1);
+        super(2);
     }
 
     @Override
@@ -58,6 +61,14 @@ public class TileEntityAnvil extends TileEntityInventory {
         }
     }
 
+    public void onRecipeChange(int recipeIndex) {
+        if (recipeIndex < AnvilRecipe.getRecipeList()
+            .size()) {
+            this.recipeIndex = recipeIndex;
+            this.updateTEState();
+        }
+    }
+
     public void moveLine(AnvilAction action) {
         int move = action.step;
         this.workLine = Utils.clamp(0, 140, this.workLine + move);
@@ -66,5 +77,10 @@ public class TileEntityAnvil extends TileEntityInventory {
     public AnvilRecipe getRecipe() {
         return AnvilRecipe.getRecipeList()
             .get(this.recipeIndex);
+    }
+
+    @Override
+    public int getInventoryStackLimit() {
+        return 1;
     }
 }

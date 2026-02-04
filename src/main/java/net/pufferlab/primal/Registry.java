@@ -242,7 +242,7 @@ public class Registry {
         ore = new ItemOre(Constants.oreTypes, "medium_ore", true);
         small_ore = new ItemOre(Constants.oreTypes, "small_ore");
         ((BlockGroundcover) ground_ore).setItem(small_ore);
-        coal = new ItemGem(Constants.coalOreTypes, "coal", true).setBlacklist(Constants.coalOreBlacklist);;
+        coal = new ItemGem(Constants.coalOreTypes, "coal", true).setBlacklist(Constants.coalOreBlacklist);
 
         icons = new ItemMeta(Constants.icons, "icon").setHiddenAll()
             .setHasSuffix();

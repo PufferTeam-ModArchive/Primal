@@ -3,6 +3,7 @@ package net.pufferlab.primal.client.gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.inventory.ContainerAnvilWork;
 import net.pufferlab.primal.network.packets.PacketAnvilButton;
 import net.pufferlab.primal.recipes.AnvilAction;
 import net.pufferlab.primal.recipes.AnvilOrder;
@@ -11,7 +12,7 @@ import net.pufferlab.primal.tileentities.TileEntityAnvil;
 
 import org.lwjgl.opengl.GL11;
 
-public class GuiAnvilWork extends GuiScreenPrimal {
+public class GuiAnvilWork extends GuiContainerPrimal {
 
     protected int xSize = 176;
     protected int ySize = 166;
@@ -21,16 +22,22 @@ public class GuiAnvilWork extends GuiScreenPrimal {
         "textures/gui/container/anvil.png");
 
     private GuiButton[] anvilButtons = new GuiButton[AnvilAction.values().length];
-    private GuiButtonAnvilRecipe[] anvilWidgets = new GuiButtonAnvilRecipe[6];
+    private GuiButtonAnvilStep[] anvilWidgets = new GuiButtonAnvilStep[6];
     TileEntityAnvil te;
     boolean[] validSteps = new boolean[3];
 
     public GuiAnvilWork(TileEntityAnvil te) {
+        super(new ContainerAnvilWork(te));
         this.te = te;
     }
 
     @Override
     public void initGui() {
+        super.initGui();
+
+        this.guiLeft = 0;
+        this.guiTop = 0;
+
         buttonList.clear();
 
         int centerX = ((this.width) / 2) - 15;
@@ -64,14 +71,14 @@ public class GuiAnvilWork extends GuiScreenPrimal {
         for (int i = 0; i < 3; i++) {
             int u = ((width) / 2) - 29;
             int v = ((height) / 2) - 54;
-            GuiButtonAnvilRecipe widget = new GuiButtonAnvilRecipe(this, null, null, i, u + (i * 19), v, 20, 16, "");
+            GuiButtonAnvilStep widget = new GuiButtonAnvilStep(this, null, null, i, u + (i * 19), v, 19, 16, "");
             anvilWidgets[i] = widget;
             invButtonList.add(anvilWidgets[i]);
         }
         for (int i = 0; i < 3; i++) {
             int u = ((width) / 2) - 29;
             int v = ((height) / 2) - 76;
-            GuiButtonAnvilRecipe widget = new GuiButtonAnvilRecipe(this, null, null, i, u + (i * 19), v, 20, 22, "");
+            GuiButtonAnvilStep widget = new GuiButtonAnvilStep(this, null, null, i, u + (i * 19), v, 19, 22, "");
             anvilWidgets[i + 3] = widget;
             invButtonList.add(anvilWidgets[i + 3]);
         }
@@ -86,21 +93,21 @@ public class GuiAnvilWork extends GuiScreenPrimal {
 
     public void sendWorkPacket(int buttonID) {
         if (Primal.proxy.getClientWorld().isRemote) {
-            Primal.proxy.sendPacketToServer(new PacketAnvilButton(te, buttonID));
+            Primal.proxy.sendPacketToServer(new PacketAnvilButton(te, buttonID, true));
         }
     }
-
-    @Override
-    public boolean doesGuiPauseGame() {
-        return false;
-    };
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.mc.getTextureManager()
             .bindTexture(textureAnvil);
-        drawBackground(0);
         super.drawScreen(mouseX, mouseY, partialTicks);
+    }
+
+    @Override
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+        super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+
         drawActions(false, this.te.workActions);
         drawLineArrows(false, this.te.workLine);
         AnvilRecipe recipe = this.te.getRecipe();
@@ -114,7 +121,7 @@ public class GuiAnvilWork extends GuiScreenPrimal {
     }
 
     @Override
-    public void drawBackground(int tint) {
+    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F); // Reset color
         int u = (width - xSize) / 2;
         int v = (height - ySize) / 2;

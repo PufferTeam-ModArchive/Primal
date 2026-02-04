@@ -767,6 +767,20 @@ public class Utils {
     private static Map<String, Integer> priorityMap;
     private static Map<String, ItemStack> priorityMapOverride;
 
+    public static ItemStack getOreDictItem(String name, int number) {
+        ItemStack stack = getOreDictItem(name);
+        if (stack != null) {
+            if (stack.stackSize == number) {
+                return stack;
+            }
+            ItemStack tempStack = stack.copy();
+            tempStack.stackSize = number;
+            return tempStack;
+        }
+        Primal.LOG.error("Tried to get invalid OreDict ItemStack from {}:{}.", name, number);
+        return null;
+    }
+
     public static ItemStack getOreDictItem(String oreDict) {
         if (priorityMap == null) {
             priorityMap = new HashMap<>();

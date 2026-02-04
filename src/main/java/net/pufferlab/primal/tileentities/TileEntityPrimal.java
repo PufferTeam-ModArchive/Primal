@@ -13,9 +13,9 @@ import net.pufferlab.primal.utils.SoundTypePrimal;
 
 public abstract class TileEntityPrimal extends TileEntity implements ITile {
 
-    public int xCached;
-    public int yCached;
-    public int zCached;
+    public int cachedX;
+    public int cachedY;
+    public int cachedZ;
 
     @Override
     public Packet getDescriptionPacket() {
@@ -42,18 +42,18 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
     public void writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
 
-        compound.setInteger("xCached", this.xCached);
-        compound.setInteger("yCached", this.yCached);
-        compound.setInteger("zCached", this.zCached);
+        compound.setInteger("xCached", this.cachedX);
+        compound.setInteger("yCached", this.cachedY);
+        compound.setInteger("zCached", this.cachedZ);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
 
-        this.xCached = compound.getInteger("xCached");
-        this.yCached = compound.getInteger("yCached");
-        this.zCached = compound.getInteger("zCached");
+        this.cachedX = compound.getInteger("xCached");
+        this.cachedY = compound.getInteger("yCached");
+        this.cachedZ = compound.getInteger("zCached");
     }
 
     public void updateTEState() {
@@ -119,11 +119,11 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
     public void markDirty() {
         super.markDirty();
 
-        if (this.xCoord != this.xCached || this.yCoord != this.yCached || this.zCoord != this.zCached) {
-            onCoordChange(this.xCached, this.yCached, this.zCached);
-            this.xCached = this.xCoord;
-            this.yCached = this.yCoord;
-            this.zCached = this.zCoord;
+        if (this.xCoord != this.cachedX || this.yCoord != this.cachedY || this.zCoord != this.cachedZ) {
+            onCoordChange(this.cachedX, this.cachedY, this.cachedZ);
+            this.cachedX = this.xCoord;
+            this.cachedY = this.yCoord;
+            this.cachedZ = this.zCoord;
         }
     }
 

@@ -33,11 +33,8 @@ public enum AnvilOrder {
     }
 
     public static AnvilOrder get(int id) {
-        for (AnvilOrder orders : values()) {
-            if (id == orders.id) {
-                return orders;
-            }
-        }
+        if (id < 0) return null;
+        if (id < values().length) return values()[id];
         return null;
     }
 

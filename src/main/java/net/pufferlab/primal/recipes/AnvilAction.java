@@ -26,11 +26,8 @@ public enum AnvilAction {
     }
 
     public static AnvilAction get(int id) {
-        for (AnvilAction actions : values()) {
-            if (id == actions.id) {
-                return actions;
-            }
-        }
+        if (id < 0) return null;
+        if (id < values().length) return values()[id];
         return null;
     }
 

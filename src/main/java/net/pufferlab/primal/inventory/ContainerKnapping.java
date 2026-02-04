@@ -27,7 +27,7 @@ public class ContainerKnapping extends Container {
         }
 
         for (int i = 0; i < 9; ++i) {
-            this.addSlotToContainer(new SlotLocked(invPlayer, i, 8 + i * 18, 142 + 20));
+            this.addSlotToContainer(new SlotHandLocked(invPlayer, i, 8 + i * 18, 142 + 20));
         }
         this.addSlotToContainer(new SlotKnapping(this, this.craftResult, 0, 143, 46));
         for (int x = 0; x < 5; x++) {

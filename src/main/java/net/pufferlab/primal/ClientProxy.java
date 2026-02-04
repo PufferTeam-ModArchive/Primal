@@ -115,6 +115,7 @@ public class ClientProxy extends CommonProxy {
         register(TileEntityGenerator.class, new TileEntityGeneratorRenderer());
         register(TileEntityWaterwheel.class, new TileEntityWaterwheelRenderer());
         register(TileEntityWindmill.class, new TileEntityWindmillRenderer());
+        register(TileEntityAnvil.class, new TileEntityAnvilRenderer());
 
         register(Registry.wood, new ItemWoodRenderer());
         register(Registry.clay, new ItemClayRenderer());
@@ -213,10 +214,10 @@ public class ClientProxy extends CommonProxy {
             return new GuiKnapping(new ContainerKnapping(knappingType, player.inventory));
         }
         TileEntity te = world.getTileEntity(x, y, z);
-        if (ID == largeVesselContainerID && te instanceof TileEntityLargeVessel tef) {
+        if (ID == largeVesselGuiID && te instanceof TileEntityLargeVessel tef) {
             return new GuiLargeVessel(player.inventory, tef);
         }
-        if (ID == crucibleContainerID && te instanceof TileEntityCrucible tef) {
+        if (ID == crucibleGuiID && te instanceof TileEntityCrucible tef) {
             return new GuiCrucible(player.inventory, tef);
         }
         if (ID == generatorGuiID && te instanceof TileEntityGenerator tef) {
@@ -224,6 +225,9 @@ public class ClientProxy extends CommonProxy {
         }
         if (ID == anvilWorkGuiID && te instanceof TileEntityAnvil tef) {
             return new GuiAnvilWork(tef);
+        }
+        if (ID == anvilPlanGuiID && te instanceof TileEntityAnvil tef) {
+            return new GuiAnvilPlan(player.inventory, tef);
         }
         return null;
     }
@@ -268,16 +272,6 @@ public class ClientProxy extends CommonProxy {
                 Minecraft.getMinecraft().effectRenderer.addEffect(fx);
             }
         }
-    }
-
-    @Override
-    public void openGeneratorGui(EntityPlayer player, World worldIn, int x, int y, int z) {
-        player.openGui(Primal.instance, generatorGuiID, worldIn, x, y, z);
-    }
-
-    @Override
-    public void openAnvilWorkGui(EntityPlayer player, World worldIn, int x, int y, int z) {
-        player.openGui(Primal.instance, anvilWorkGuiID, worldIn, x, y, z);
     }
 
     @Override

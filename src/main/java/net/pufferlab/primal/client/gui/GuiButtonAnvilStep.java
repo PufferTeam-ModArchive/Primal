@@ -7,13 +7,13 @@ import net.minecraft.client.audio.SoundHandler;
 import net.pufferlab.primal.recipes.AnvilAction;
 import net.pufferlab.primal.recipes.AnvilOrder;
 
-public class GuiButtonAnvilRecipe extends GuiButtonPrimal {
+public class GuiButtonAnvilStep extends GuiButtonPrimal {
 
     private final GuiAnvilWork gui;
     AnvilAction action;
     AnvilOrder order;
 
-    public GuiButtonAnvilRecipe(GuiAnvilWork gui, AnvilAction action, AnvilOrder order, int stateName, int id,
+    public GuiButtonAnvilStep(GuiAnvilWork gui, AnvilAction action, AnvilOrder order, int stateName, int id,
         int p_i1021_3_, int p_i1021_4_, int p_i1021_5_, String p_i1021_6_) {
         super(stateName, id, p_i1021_3_, p_i1021_4_, p_i1021_5_, p_i1021_6_);
         this.gui = gui;
@@ -30,6 +30,7 @@ public class GuiButtonAnvilRecipe extends GuiButtonPrimal {
 
     @Override
     public void renderTooltip(int mouseX, int mouseY) {
+        if (this.action == null) return;
         if (this.order == null) {
             this.gui.drawTooltip(Collections.singletonList(this.action.getTranslatedName()), mouseX, mouseY);
         } else {

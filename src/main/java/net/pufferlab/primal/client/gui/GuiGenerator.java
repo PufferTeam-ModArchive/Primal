@@ -2,12 +2,13 @@ package net.pufferlab.primal.client.gui;
 
 import net.minecraft.client.gui.GuiButton;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.inventory.ContainerGenerator;
 import net.pufferlab.primal.network.packets.PacketSpeedButton;
 import net.pufferlab.primal.tileentities.TileEntityGenerator;
 
 import org.lwjgl.opengl.GL11;
 
-public class GuiGenerator extends GuiScreenPrimal {
+public class GuiGenerator extends GuiContainerPrimal {
 
     private GuiButton addButton;
     private GuiButton removeButton;
@@ -16,6 +17,7 @@ public class GuiGenerator extends GuiScreenPrimal {
     TileEntityGenerator te;
 
     public GuiGenerator(TileEntityGenerator te) {
+        super(new ContainerGenerator(te));
         this.te = te;
     }
 
@@ -46,11 +48,6 @@ public class GuiGenerator extends GuiScreenPrimal {
         }
     }
 
-    @Override
-    public boolean doesGuiPauseGame() {
-        return false;
-    }
-
     public void sendSpeedPacket(boolean addSpeed) {
         if (Primal.proxy.getClientWorld().isRemote) {
             Primal.proxy.sendPacketToServer(new PacketSpeedButton(te, addSpeed, isShiftKeyDown()));
@@ -58,9 +55,7 @@ public class GuiGenerator extends GuiScreenPrimal {
     }
 
     @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        super.drawScreen(mouseX, mouseY, partialTicks);
-
+    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         int centerX = this.width / 2;
         int centerY = this.height / 2;
         String s = Float.toString(te.getGeneratedSpeed());
@@ -75,10 +70,5 @@ public class GuiGenerator extends GuiScreenPrimal {
             .drawString(s, (int) ((centerX - (w * scale) / 2) / scale), (int) (centerY / scale), 0xFFFFFF);
 
         GL11.glPopMatrix();
-    }
-
-    @Override
-    public void drawBackground(int tint) {
-
     }
 }
