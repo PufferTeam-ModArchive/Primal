@@ -86,7 +86,6 @@ public abstract class GuiContainerPrimal extends GuiContainer {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        ;
         super.drawScreen(mouseX, mouseY, partialTicks);
         for (int k = 0; k < this.invButtonList.size(); ++k) {
             ((GuiButton) this.invButtonList.get(k)).drawButton(this.mc, mouseX, mouseY);

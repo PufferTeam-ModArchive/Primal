@@ -42,6 +42,8 @@ nei.recipe.primal.pit_kiln.name=Pit Kiln
 nei.recipe.primal.quern.name=Quern
 nei.recipe.primal.tanning.name=Tanning
 
+gui.primal.anvil.plans.name=Anvil Plans
+gui.primal.anvil.hit.name=Hit
 gui.primal.anvil.light_hit.name=Light Hit
 gui.primal.anvil.medium_hit.name=Medium Hit
 gui.primal.anvil.heavy_hit.name=Heavy Hit

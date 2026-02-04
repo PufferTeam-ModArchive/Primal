@@ -22,8 +22,8 @@ public class MetalType {
     public int level;
     public FluidStack fluidStack;
     public FluidStack ingotFluid;
-    public FluidStack doubleIngotFluid;
-    public FluidStack tripleIngotFluid;
+    public FluidStack doubleToolFluid;
+    public FluidStack tripleToolFluid;
     public FluidStack nuggetFluid;
     public FluidStack oreFluid;
     public FluidStack smallOreFluid;
@@ -65,8 +65,13 @@ public class MetalType {
         for (int i = 0; i < metals.length; i++) {
             metals[i].fluidStack = new FluidStack(metals[i].fluid, 1);
             metals[i].ingotFluid = new FluidStack(metals[i].fluid, Config.metalIngotValue.getInt());
-            metals[i].doubleIngotFluid = new FluidStack(metals[i].fluid, Config.metalIngotValue.getInt() * 2);
-            metals[i].tripleIngotFluid = new FluidStack(metals[i].fluid, Config.metalIngotValue.getInt() * 3);
+            if (Config.metalVanillaToolValue.getBoolean()) {
+                metals[i].doubleToolFluid = new FluidStack(metals[i].fluid, Config.metalIngotValue.getInt() * 2);
+                metals[i].tripleToolFluid = new FluidStack(metals[i].fluid, Config.metalIngotValue.getInt() * 3);
+            } else {
+                metals[i].doubleToolFluid = metals[i].ingotFluid;
+                metals[i].tripleToolFluid = metals[i].ingotFluid;
+            }
             metals[i].nuggetFluid = new FluidStack(metals[i].fluid, Config.metalNuggetValue.getInt());
             metals[i].oreFluid = new FluidStack(metals[i].fluid, Config.metalOreValue.getInt());
             metals[i].smallOreFluid = new FluidStack(metals[i].fluid, Config.metalSmallOreValue.getInt());

@@ -35,7 +35,8 @@ public class GuiButtonAnvilStep extends GuiButtonPrimal {
             this.gui.drawTooltip(Collections.singletonList(this.action.getTranslatedName()), mouseX, mouseY);
         } else {
             this.gui.drawTooltip(
-                Collections.singletonList(this.action.getTranslatedName() + ", " + this.order.getTranslatedName()),
+                Collections
+                    .singletonList(this.action.getRecipeTranslatedName() + ", " + this.order.getTranslatedName()),
                 mouseX,
                 mouseY);
         }

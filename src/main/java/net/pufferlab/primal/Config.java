@@ -75,6 +75,8 @@ public enum Config {
     metalOreValue(Module.metalworking, 36, "The value that one ore should give."),
     metalSmallOreValue(Module.metalworking, 16, "The value that one small ore should give."),
     metalIngotValue(Module.metalworking, 144, "The value that one ingot of metal should give."),
+    metalVanillaToolValue(Module.metalworking, false,
+        "Put to true if you want the casting to be the actual values of ingots in vanilla tools instead of 1 ingot"),
     metalNuggetValue(Module.metalworking, 16, "The value that one nugget of metal should give."),
 
     // Forging

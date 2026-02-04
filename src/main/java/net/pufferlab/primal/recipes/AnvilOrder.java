@@ -32,6 +32,23 @@ public enum AnvilOrder {
         return false;
     }
 
+    public int getTargetIndex() {
+        return switch (this) {
+            case last -> 0;
+            case secondLast -> 1;
+            case thirdLast -> 2;
+            case notLast, any -> -1;
+        };
+    }
+
+    public int getStartIndex() {
+        return switch (this) {
+            case last, secondLast, thirdLast -> -1;
+            case notLast -> 1;
+            case any -> 0;
+        };
+    }
+
     public static AnvilOrder get(int id) {
         if (id < 0) return null;
         if (id < values().length) return values()[id];

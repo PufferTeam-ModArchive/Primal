@@ -5,7 +5,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.items.ItemKnifePrimitive;
 import net.pufferlab.primal.recipes.KnappingRecipe;
 import net.pufferlab.primal.recipes.KnappingType;
 
@@ -62,7 +61,7 @@ public class ContainerKnapping extends Container {
         for (int i = 0; i < 9; i++) {
             ItemStack stack = invPlayer.getStackInSlot(i);
             if (stack != null) {
-                if (Utils.containsOreDict(stack, "toolKnife") || stack.getItem() instanceof ItemKnifePrimitive) {
+                if (Utils.isKnifeTool(stack)) {
                     index = i;
                 }
             }

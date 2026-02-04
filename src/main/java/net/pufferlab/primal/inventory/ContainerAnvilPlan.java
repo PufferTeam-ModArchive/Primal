@@ -26,8 +26,11 @@ public class ContainerAnvilPlan extends Container {
                 id[i] = recipe.get(i).recipeID;
             }
             inv = new InventoryHolder(items);
+            int totalWidth = items.length * 18;
+            int startX = (176 - totalWidth) / 2;
+
             for (int j = 0; j < items.length; ++j) {
-                this.addSlotToContainer(new SlotPlan(inv, j, 44 + j * 18, 19, id[j]));
+                this.addSlotToContainer(new SlotPlan(inv, j, startX + j * 18, 19, id[j]));
             }
         }
 

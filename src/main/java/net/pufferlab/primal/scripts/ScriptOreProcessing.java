@@ -155,21 +155,30 @@ public class ScriptOreProcessing implements IScript {
             addAnvilRecipe(
                 getOreDictItem(getOreDictionaryName("axe_head", name)),
                 getOreDictionaryName("ingot", name),
-                AnvilAction.upset,
-                AnvilOrder.thirdLast,
+                AnvilAction.punch,
+                AnvilOrder.last,
                 AnvilAction.hitMedium,
                 AnvilOrder.secondLast,
-                AnvilAction.punch,
-                AnvilOrder.last);
+                AnvilAction.upset,
+                AnvilOrder.thirdLast);
             addAnvilRecipe(
                 getOreDictItem(getOreDictionaryName("sword_blade", name)),
                 getOreDictionaryName("ingot", name),
-                AnvilAction.bend,
-                AnvilOrder.thirdLast,
+                AnvilAction.hitMedium,
+                AnvilOrder.last,
                 AnvilAction.bend,
                 AnvilOrder.secondLast,
+                AnvilAction.bend,
+                AnvilOrder.thirdLast);
+            addAnvilRecipe(
+                getOreDictItem(getOreDictionaryName("hammer_head", name)),
+                getOreDictionaryName("ingot", name),
+                AnvilAction.punch,
+                AnvilOrder.last,
+                AnvilAction.shrink,
+                AnvilOrder.notLast,
                 AnvilAction.hitMedium,
-                AnvilOrder.last);
+                AnvilOrder.notLast);
         }
     }
 
@@ -188,12 +197,12 @@ public class ScriptOreProcessing implements IScript {
         for (MetalType type : Constants.toolMetalTypes) {
             String name = type.name;
 
-            addMeltingRecipe(type.tripleIngotFluid, getOreDictionaryName("pickaxe_head", name));
-            addMeltingRecipe(type.tripleIngotFluid, getOreDictionaryName("axe_head", name));
+            addMeltingRecipe(type.tripleToolFluid, getOreDictionaryName("pickaxe_head", name));
+            addMeltingRecipe(type.tripleToolFluid, getOreDictionaryName("axe_head", name));
             addMeltingRecipe(type.ingotFluid, getOreDictionaryName("shovel_head", name));
-            addMeltingRecipe(type.doubleIngotFluid, getOreDictionaryName("sword_blade", name));
+            addMeltingRecipe(type.doubleToolFluid, getOreDictionaryName("sword_blade", name));
             addMeltingRecipe(type.ingotFluid, getOreDictionaryName("knife_blade", name));
-            addMeltingRecipe(type.doubleIngotFluid, getOreDictionaryName("hoe_head", name));
+            addMeltingRecipe(type.doubleToolFluid, getOreDictionaryName("hoe_head", name));
             addMeltingRecipe(type.ingotFluid, getOreDictionaryName("hammer_head", name));
         }
     }
@@ -218,15 +227,15 @@ public class ScriptOreProcessing implements IScript {
             addCastingRecipe(
                 pickaxeMold,
                 getOreDictItem(getOreDictionaryName("pickaxe_head", name)),
-                type.tripleIngotFluid);
-            addCastingRecipe(axeMold, getOreDictItem(getOreDictionaryName("axe_head", name)), type.tripleIngotFluid);
+                type.tripleToolFluid);
+            addCastingRecipe(axeMold, getOreDictItem(getOreDictionaryName("axe_head", name)), type.tripleToolFluid);
             addCastingRecipe(shovelMold, getOreDictItem(getOreDictionaryName("shovel_head", name)), type.ingotFluid);
             addCastingRecipe(
                 swordMold,
                 getOreDictItem(getOreDictionaryName("sword_blade", name)),
-                type.doubleIngotFluid);
+                type.doubleToolFluid);
             addCastingRecipe(knifeMold, getOreDictItem(getOreDictionaryName("knife_blade", name)), type.ingotFluid);
-            addCastingRecipe(hoeMold, getOreDictItem(getOreDictionaryName("hoe_head", name)), type.doubleIngotFluid);
+            addCastingRecipe(hoeMold, getOreDictItem(getOreDictionaryName("hoe_head", name)), type.doubleToolFluid);
             addCastingRecipe(hammerMold, getOreDictItem(getOreDictionaryName("hammer_head", name)), type.ingotFluid);
         }
     }

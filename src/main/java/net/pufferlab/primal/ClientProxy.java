@@ -22,6 +22,7 @@ import net.pufferlab.primal.client.renderer.tileentities.*;
 import net.pufferlab.primal.inventory.ContainerKnapping;
 import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.tileentities.*;
+import net.pufferlab.primal.utils.IOUtils;
 import net.pufferlab.primal.utils.TemperatureUtils;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -188,20 +189,20 @@ public class ClientProxy extends CommonProxy {
             File outTemp = File.createTempFile("texture", ".tmp");
             File infoFile = new File(rpDir, Primal.textureFile + ".txt");
             File infoTemp = File.createTempFile("download", ".tmp");
-            Utils.downloadFile(Primal.downloadPath + Primal.textureFile + ".txt", infoTemp);
-            String newHash = Utils.readFile(infoTemp);
-            String oldHash = Utils.readFile(infoFile);
+            IOUtils.downloadFile(Primal.downloadPath + Primal.textureFile + ".txt", infoTemp);
+            String newHash = IOUtils.readFile(infoTemp);
+            String oldHash = IOUtils.readFile(infoFile);
             if (newHash == null || newHash.equals(oldHash)) {
                 return;
             }
 
-            Utils.copyFile(infoTemp, infoFile);
+            IOUtils.copyFile(infoTemp, infoFile);
             try {
-                Utils.downloadFile(Primal.downloadPath + Primal.textureFile + ".zip", outTemp);
+                IOUtils.downloadFile(Primal.downloadPath + Primal.textureFile + ".zip", outTemp);
             } catch (IOException e) {
                 return;
             }
-            Utils.copyFile(outTemp, out);
+            IOUtils.copyFile(outTemp, out);
         } catch (Exception e) {
             e.printStackTrace();
         }

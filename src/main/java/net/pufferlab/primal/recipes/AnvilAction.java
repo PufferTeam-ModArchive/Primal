@@ -76,6 +76,13 @@ public enum AnvilAction {
         return Utils.translate("gui." + Primal.MODID + ".anvil." + this.name + ".name");
     }
 
+    public String getRecipeTranslatedName() {
+        if (this.isHitAction()) {
+            return Utils.translate("gui." + Primal.MODID + ".anvil.hit.name");
+        }
+        return Utils.translate("gui." + Primal.MODID + ".anvil." + this.name + ".name");
+    }
+
     @Override
     public String toString() {
         return "AnvilAction{" + "id=" + id + ", step=" + step + ", name='" + name + '\'' + '}';

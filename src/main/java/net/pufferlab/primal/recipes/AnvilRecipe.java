@@ -67,13 +67,17 @@ public class AnvilRecipe {
     public AnvilRecipe(ItemStack output, List<ItemStack> input, Object... objects) {
         int j = 0;
         this.recipeID = recipeList.size();
-        this.recipeLine = 50;
+        this.recipeLine = 70;
         int size = objects.length / 2;
         this.recipeActions = new AnvilAction[size];
         this.recipeOrders = new AnvilOrder[size];
         for (int i = 0; i < objects.length; i = i + 2) {
             if (objects[i] instanceof AnvilAction action) {
-                this.recipeActions[j] = action;
+                if (action.isHitAction()) {
+                    this.recipeActions[j] = AnvilAction.hitMedium;
+                } else {
+                    this.recipeActions[j] = action;
+                }
             }
             if (objects[i + 1] instanceof AnvilOrder order) {
                 this.recipeOrders[j] = order;
@@ -82,6 +86,48 @@ public class AnvilRecipe {
         }
         this.output = output;
         this.input = input;
+
+        this.normalizeByOrder();
+    }
+
+    private void normalizeByOrder() {
+        int max = recipeActions.length;
+
+        AnvilAction[] sortedActions = new AnvilAction[max];
+        AnvilOrder[] sortedOrders = new AnvilOrder[max];
+
+        for (int i = 0; i < max; i++) {
+            AnvilOrder order = recipeOrders[i];
+            int target = order.getTargetIndex();
+            if (target >= 0) {
+                if (sortedActions[target] != null) {
+                    throw new IllegalStateException("Duplicate order: " + order);
+                }
+                sortedOrders[target] = order;
+                sortedActions[target] = recipeActions[i];
+            }
+        }
+        for (int i = 0; i < max; i++) {
+            AnvilOrder order = recipeOrders[i];
+            int target = order.getTargetIndex();
+            if (target < 0) {
+                int start = order.getStartIndex();
+                boolean placed = false;
+                for (int j = start; j < max; j++) {
+                    if (sortedActions[j] == null) {
+                        sortedOrders[j] = order;
+                        sortedActions[j] = recipeActions[i];
+                        placed = true;
+                        break;
+                    }
+                }
+                if (!placed) {
+                    throw new IllegalStateException("No valid slot for order: " + order);
+                }
+            }
+        }
+        this.recipeActions = sortedActions;
+        this.recipeOrders = sortedOrders;
     }
 
     public boolean equals(ItemStack input, AnvilAction... actions) {
