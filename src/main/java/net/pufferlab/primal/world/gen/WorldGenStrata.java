@@ -23,6 +23,7 @@ public class WorldGenStrata {
 
     private List<Block> blockList;
     private List<Block> stoneList;
+    private List<Block> cobbleList;
     private List<Block> gravelList;
     private List<Block> sandList;
     private final Map<Block, Block> blockReplacement = new HashMap<>();
@@ -53,13 +54,15 @@ public class WorldGenStrata {
     }
 
     public void initBlockList() {
-        if (blockList == null && stoneList == null && gravelList == null && sandList == null) {
+        if (blockList == null && stoneList == null && gravelList == null && sandList == null && cobbleList == null) {
             blockList = new ArrayList<>();
             stoneList = new ArrayList<>();
+            cobbleList = new ArrayList<>();
             gravelList = new ArrayList<>();
             sandList = new ArrayList<>();
 
             stoneList.add(Blocks.stone);
+            cobbleList.add(Blocks.cobblestone);
             if (!Config.enableVanillaOres.getBoolean()) {
                 stoneList.add(Blocks.coal_ore);
                 stoneList.add(Blocks.iron_ore);
@@ -119,6 +122,9 @@ public class WorldGenStrata {
 
             for (Block block : stoneList) {
                 blockReplacement.put(block, Registry.stone);
+            }
+            for (Block block : cobbleList) {
+                blockReplacement.put(block, Registry.cobble);
             }
             for (Block block : sandList) {
                 blockReplacement.put(block, Registry.sand);

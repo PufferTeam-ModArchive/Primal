@@ -2,6 +2,7 @@ package net.pufferlab.primal.blocks;
 
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -58,6 +59,15 @@ public class BlockGroundcover extends BlockMeta {
     public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
         float subY, float subZ) {
         return worldIn.setBlockToAir(x, y, z);
+    }
+
+    @Override
+    public void onNeighborBlockChange(World worldIn, int x, int y, int z, Block neighbor) {
+        super.onNeighborBlockChange(worldIn, x, y, z, neighbor);
+
+        if (!this.canBlockStay(worldIn, x, y, z)) {
+            worldIn.setBlockToAir(x, y, z);
+        }
     }
 
     @Override
