@@ -2,7 +2,6 @@ package net.pufferlab.primal.scripts;
 
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Constants;
-import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.StoneType;
 
 public class ScriptWorld implements IScript {
@@ -19,10 +18,10 @@ public class ScriptWorld implements IScript {
             addOreDict("coalAny", getModItem("lignite_coal", 1));
             for (StoneType type : Constants.stoneTypes) {
                 String name = type.name;
-                addOreDict("rock", ItemUtils.getModItem(name + "_rock", 1));
-                addOreDict("stone", ItemUtils.getModItem(name + "_raw", 1));
-                addOreDict("cobblestone", ItemUtils.getModItem(name + "_cobble", 1));
-                addOreDict("dirt", ItemUtils.getModItem(name + "_dirt", 1));
+                addOreDict("rock", getModItem(name + "_rock", 1));
+                addOreDict("stone", getModItem(name + "_raw", 1));
+                addOreDict("cobblestone", getModItem(name + "_cobble", 1));
+                addOreDict("dirt", getModItem(name + "_dirt", 1));
             }
         }
     }

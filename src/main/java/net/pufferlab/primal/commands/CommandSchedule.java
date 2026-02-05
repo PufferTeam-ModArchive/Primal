@@ -10,7 +10,7 @@ import net.pufferlab.primal.world.SchedulerData;
 
 public class CommandSchedule extends CommandSub {
 
-    public static String[] arguments = new String[] { "", "list" };
+    public static String[] arguments = new String[] { "", "list", "waitlist" };
 
     @Override
     public void handleCommand(ICommandSender sender, String[] args) {
@@ -24,6 +24,17 @@ public class CommandSchedule extends CommandSub {
                         "List of ScheduledTasks in dimension " + sender.getEntityWorld().provider.dimensionId));
                 sender.addChatMessage(new ChatComponentText("Size of List :" + size));
                 for (ScheduledTask task : SchedulerData.getTasks(sender.getEntityWorld())) {
+                    sender.addChatMessage(new ChatComponentText(task.toString()));
+                }
+            } else if (args[0].equals("waitlist")) {
+                String size = Integer.toString(
+                    SchedulerData.getWaitingTasks(sender.getEntityWorld())
+                        .size());
+                sender.addChatMessage(
+                    new ChatComponentText(
+                        "List of ScheduledTasks in dimension " + sender.getEntityWorld().provider.dimensionId));
+                sender.addChatMessage(new ChatComponentText("Size of List :" + size));
+                for (ScheduledTask task : SchedulerData.getWaitingTasks(sender.getEntityWorld())) {
                     sender.addChatMessage(new ChatComponentText(task.toString()));
                 }
             } else {

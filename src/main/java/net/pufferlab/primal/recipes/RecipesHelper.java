@@ -46,7 +46,7 @@ public class RecipesHelper {
             if (Utils.equalsStack(rCopy, toRemove)) {
                 recipes.remove(scan);
             }
-        } ;
+        }
     }
 
     public static void addShapedRecipe(ItemStack output, Object... recipe) {

@@ -27,6 +27,11 @@ public class SchedulerData extends WorldSavedData {
         return scheduler.queue;
     }
 
+    public static PriorityQueue<ScheduledTask> getWaitingTasks(World world) {
+        SchedulerData scheduler = get(world);
+        return scheduler.queueWait;
+    }
+
     @Override
     public void writeToNBT(NBTTagCompound nbt) {
 
@@ -120,7 +125,7 @@ public class SchedulerData extends WorldSavedData {
     public static void addWaitingTask(ScheduledTask task, World world) {
         SchedulerData scheduler = get(world);
 
-        scheduler.queue.add(task);
+        scheduler.queueWait.add(task);
         scheduler.markDirty();
     }
 

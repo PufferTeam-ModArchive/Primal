@@ -1,8 +1,5 @@
 package net.pufferlab.primal.scripts;
 
-import java.util.Map;
-
-import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.*;
 import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.utils.ItemUtils;
@@ -68,9 +65,6 @@ public class ScriptPrimitive implements IScript {
         addOreDict("blockColoredHardenedClay", getItem("minecraft:stained_hardened_clay:*:1"));
         addOreDict("blockColoredHardenedClay", getItem("minecraft:hardened_clay:*:1"));
         addOreDict("blockColoredCarpet", getItem("minecraft:carpet:*:1"));
-        for (Map.Entry<String, ItemStack> entry : ItemUtils.getOreDictCache()) {
-            addOreDict(entry.getKey(), entry.getValue());
-        }
     }
 
     public void addEFROredicts() {
