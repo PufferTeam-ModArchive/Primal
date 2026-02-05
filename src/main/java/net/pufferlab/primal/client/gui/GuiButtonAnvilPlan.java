@@ -16,12 +16,15 @@ public class GuiButtonAnvilPlan extends GuiButtonPrimal {
 
     @Override
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
-        if (this.visible) {
-            this.drawTexturedModalRect(this.xPosition - 1, this.yPosition - 1, 176, 0, this.width, this.height);
-        }
-
         this.field_146123_n = mouseX >= this.xPosition && mouseY >= this.yPosition
             && mouseX < this.xPosition + this.width
             && mouseY < this.yPosition + this.height;
+        if (this.visible) {
+            int k = 0;
+            if (this.field_146123_n) {
+                k += this.height;
+            }
+            this.drawTexturedModalRect(this.xPosition, this.yPosition, 176, k, this.width, this.height);
+        }
     }
 }

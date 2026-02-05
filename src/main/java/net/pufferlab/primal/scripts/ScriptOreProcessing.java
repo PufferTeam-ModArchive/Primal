@@ -162,6 +162,15 @@ public class ScriptOreProcessing implements IScript {
                 AnvilAction.upset,
                 AnvilOrder.thirdLast);
             addAnvilRecipe(
+                getOreDictItem(getOreDictionaryName("shovel_head", name)),
+                getOreDictionaryName("ingot", name),
+                AnvilAction.punch,
+                AnvilOrder.last,
+                AnvilAction.hitMedium,
+                AnvilOrder.notLast,
+                AnvilAction.shrink,
+                AnvilOrder.notLast);
+            addAnvilRecipe(
                 getOreDictItem(getOreDictionaryName("sword_blade", name)),
                 getOreDictionaryName("ingot", name),
                 AnvilAction.hitMedium,
@@ -170,6 +179,24 @@ public class ScriptOreProcessing implements IScript {
                 AnvilOrder.secondLast,
                 AnvilAction.bend,
                 AnvilOrder.thirdLast);
+            addAnvilRecipe(
+                getOreDictItem(getOreDictionaryName("knife_blade", name)),
+                getOreDictionaryName("ingot", name),
+                AnvilAction.hitMedium,
+                AnvilOrder.last,
+                AnvilAction.shrink,
+                AnvilOrder.secondLast,
+                AnvilAction.bend,
+                AnvilOrder.thirdLast);
+            addAnvilRecipe(
+                getOreDictItem(getOreDictionaryName("hoe_head", name)),
+                getOreDictionaryName("ingot", name),
+                AnvilAction.punch,
+                AnvilOrder.last,
+                AnvilAction.hitMedium,
+                AnvilOrder.notLast,
+                AnvilAction.bend,
+                AnvilOrder.notLast);
             addAnvilRecipe(
                 getOreDictItem(getOreDictionaryName("hammer_head", name)),
                 getOreDictionaryName("ingot", name),

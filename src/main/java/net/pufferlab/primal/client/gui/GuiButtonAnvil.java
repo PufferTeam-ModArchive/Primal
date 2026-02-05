@@ -22,11 +22,11 @@ public class GuiButtonAnvil extends GuiButtonPrimal {
 
     @Override
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+        this.field_146123_n = mouseX >= this.xPosition && mouseY >= this.yPosition
+            && mouseX < this.xPosition + this.width
+            && mouseY < this.yPosition + this.height;
         if (this.visible) {
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            this.field_146123_n = mouseX >= this.xPosition && mouseY >= this.yPosition
-                && mouseX < this.xPosition + this.width
-                && mouseY < this.yPosition + this.height;
             int k = 0;
 
             // Button Under

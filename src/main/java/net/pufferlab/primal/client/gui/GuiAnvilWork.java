@@ -115,7 +115,7 @@ public class GuiAnvilWork extends GuiContainerPrimal {
             drawActions(true, recipe.recipeActions);
             drawLineArrows(true, recipe.recipeLine);
 
-            drawOrders(recipe, recipe.recipeOrders, this.te.workActions);
+            drawOrders(recipe.recipeOrders, recipe.recipeActions, this.te.workActions);
         }
         renderButtonTooltip(mouseX, mouseY);
     }
@@ -150,9 +150,22 @@ public class GuiAnvilWork extends GuiContainerPrimal {
         GL11.glPopMatrix();
     }
 
-    public void drawOrders(AnvilRecipe recipe, AnvilOrder[] orders, AnvilAction[] actions) {
+    public void drawOrders(AnvilOrder[] orders, AnvilAction[] actions, AnvilAction[] workActions) {
         for (int i = 0; i < actions.length; i++) {
-            validSteps[i] = recipe.equals(actions[i], i);
+            validSteps[i] = false;
+            AnvilAction recipeAction = actions[i];
+            AnvilOrder recipeOrder = orders[i];
+
+            for (int j = 0; j < workActions.length; j++) {
+                if (workActions[j] == null) continue;
+                if (recipeAction.equals(workActions[j])) {
+                    if (recipeOrder.isValidOrder(j)) {
+                        if (validSteps[i]) continue;
+                        validSteps[i] = true;
+                        break;
+                    }
+                }
+            }
         }
         int u = ((width) / 2) - 29;
         int v = ((height) / 2) - 76;

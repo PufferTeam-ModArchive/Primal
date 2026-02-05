@@ -161,20 +161,4 @@ public class AnvilRecipe {
         }
         return false;
     }
-
-    public boolean equals(AnvilAction action, int order) {
-        if (action == null) return false;
-        for (int i = 0; i < this.recipeActions.length; i++) {
-            AnvilAction recipeAction = this.recipeActions[i];
-            AnvilOrder recipeOrder = this.recipeOrders[i];
-            if (recipeAction.equals(action)) {
-
-                if (recipeOrder.isValidOrder(order)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
 }

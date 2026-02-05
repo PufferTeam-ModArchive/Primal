@@ -8,6 +8,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.inventory.ContainerAnvilPlan;
 import net.pufferlab.primal.inventory.SlotPlan;
 import net.pufferlab.primal.network.packets.PacketAnvilButton;
@@ -41,8 +42,8 @@ public class GuiAnvilPlan extends GuiContainerPrimal {
                     new GuiButtonAnvilPlan(
                         this,
                         i,
-                        slot2.xDisplayPosition + this.guiLeft,
-                        slot2.yDisplayPosition + this.guiTop,
+                        slot2.xDisplayPosition + this.guiLeft - 1,
+                        slot2.yDisplayPosition + this.guiTop - 1,
                         18,
                         18,
                         slot2.recipeID));
@@ -74,7 +75,8 @@ public class GuiAnvilPlan extends GuiContainerPrimal {
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         String s = I18n.format("gui." + Primal.MODID + ".anvil.plans.name");
-        this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
+        this.fontRendererObj
+            .drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 4, Utils.getRGB(255, 255, 255));
     }
 
     @Override
