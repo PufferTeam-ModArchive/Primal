@@ -10,15 +10,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.ItemUtils;
 
 public class KnappingType {
 
     // spotless:off
-    public static final KnappingType clay = new KnappingType("clay", Utils.getItem("minecraft", "clay_ball", 0, 5), false, "knapping.clay", -0.3F);
-    public static final KnappingType straw = new KnappingType("straw", Utils.getModItem("straw", 2), false, "dig.thatch", 0.5F);
-    public static final KnappingType flint = new KnappingType("flint", Utils.getItem("minecraft", "flint", 0, 2), false, "knapping.flint", 0F);
-    public static final KnappingType stone = new KnappingType("stone", Utils.getItem("minecraft", "flint", 0, 2), false, "knapping.flint", 0F);
-    public static final KnappingType leather = new KnappingType("leather", Utils.getItem("minecraft", "leather", 0, 5), true, "knapping.leather", 0F);
+    public static final KnappingType clay = new KnappingType("clay", ItemUtils.getItem("minecraft", "clay_ball", 0, 5), false, "knapping.clay", -0.3F);
+    public static final KnappingType straw = new KnappingType("straw", ItemUtils.getModItem("straw", 2), false, "dig.thatch", 0.5F);
+    public static final KnappingType flint = new KnappingType("flint", ItemUtils.getItem("minecraft", "flint", 0, 2), false, "knapping.flint", 0F);
+    public static final KnappingType stone = new KnappingType("stone", ItemUtils.getItem("minecraft", "flint", 0, 2), false, "knapping.flint", 0F);
+    public static final KnappingType leather = new KnappingType("leather", ItemUtils.getItem("minecraft", "leather", 0, 5), true, "knapping.leather", 0F);
     // spotless:on
 
     private static final List<KnappingType> values = new ArrayList<>(Arrays.asList(clay, straw, flint, stone, leather));

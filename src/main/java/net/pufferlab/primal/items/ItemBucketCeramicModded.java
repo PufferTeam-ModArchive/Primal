@@ -9,7 +9,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.ItemUtils;
 
 public class ItemBucketCeramicModded extends ItemBucketCeramic {
 
@@ -33,7 +33,7 @@ public class ItemBucketCeramicModded extends ItemBucketCeramic {
                 fluidsString = new String[fluidsList.length];
                 for (int i = 0; i < fluidsList.length; i++) {
                     String fluid = fluidsList[i];
-                    FluidStack fluidStack = Utils.getFluid(fluid, 1);
+                    FluidStack fluidStack = ItemUtils.getFluid(fluid, 1);
                     if (fluidStack != null) {
                         Fluid fluidObj = fluidStack.getFluid();
                         Block fluidBlock = fluidStack.getFluid()

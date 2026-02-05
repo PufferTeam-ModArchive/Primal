@@ -16,6 +16,7 @@ import net.pufferlab.primal.*;
 
 import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.pufferlab.primal.utils.ItemUtils;
 
 public class ToolHandler implements IEventHandler {
 
@@ -190,7 +191,7 @@ public class ToolHandler implements IEventHandler {
                         heldItem.damageItem(1, event.harvester);
                         if (event.world.rand.nextInt(3) == 0) {
                             event.drops.add(
-                                Utils.getModItem("straw", 1)
+                                ItemUtils.getModItem("straw", 1)
                                     .copy());
                         }
                     }

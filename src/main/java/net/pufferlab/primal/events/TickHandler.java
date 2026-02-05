@@ -32,6 +32,7 @@ public class TickHandler implements IEventHandler {
                     timer++;
                 }
                 SchedulerData.tickTasks(GlobalTickingData.getTickTime(event.world), event.world);
+                SchedulerData.tickWaitingTasks(event.world);
             }
             if (timer++ > 3) {
                 syncTime(event.world);

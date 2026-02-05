@@ -5,6 +5,7 @@ import java.util.Map;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.*;
 import net.pufferlab.primal.recipes.KnappingType;
+import net.pufferlab.primal.utils.ItemUtils;
 
 public class ScriptPrimitive implements IScript {
 
@@ -67,7 +68,7 @@ public class ScriptPrimitive implements IScript {
         addOreDict("blockColoredHardenedClay", getItem("minecraft:stained_hardened_clay:*:1"));
         addOreDict("blockColoredHardenedClay", getItem("minecraft:hardened_clay:*:1"));
         addOreDict("blockColoredCarpet", getItem("minecraft:carpet:*:1"));
-        for (Map.Entry<String, ItemStack> entry : Utils.getOreDictCache()) {
+        for (Map.Entry<String, ItemStack> entry : ItemUtils.getOreDictCache()) {
             addOreDict(entry.getKey(), entry.getValue());
         }
     }
@@ -420,7 +421,7 @@ public class ScriptPrimitive implements IScript {
             addBarrelRecipe(
                 null,
                 getFluid(color, 1000),
-                Utils.getOreDictionaryName("dye", color),
+                ItemUtils.getOreDictionaryName("dye", color),
                 getFluid("water", 1000),
                 100);
         }
@@ -430,7 +431,7 @@ public class ScriptPrimitive implements IScript {
                 addBarrelRecipe(
                     getModItem(item, color, 1),
                     null,
-                    Utils.getOreDictionaryName("blockColored", item),
+                    ItemUtils.getOreDictionaryName("blockColored", item),
                     getFluid(color, 125),
                     100);
             }
@@ -443,7 +444,7 @@ public class ScriptPrimitive implements IScript {
                 addBarrelRecipe(
                     getModItem(item, color, 1),
                     null,
-                    Utils.getOreDictionaryName("blockColored", item),
+                    ItemUtils.getOreDictionaryName("blockColored", item),
                     getFluid(color, 125),
                     100);
             }

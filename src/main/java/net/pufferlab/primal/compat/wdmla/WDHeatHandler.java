@@ -13,6 +13,7 @@ import com.gtnewhorizons.wdmla.api.provider.IBlockComponentProvider;
 import com.gtnewhorizons.wdmla.api.provider.IServerDataProvider;
 import com.gtnewhorizons.wdmla.api.ui.ITooltip;
 import com.gtnewhorizons.wdmla.impl.ui.component.TextComponent;
+import net.pufferlab.primal.utils.TemperatureUtils;
 
 public class WDHeatHandler implements IBlockComponentProvider, IServerDataProvider<BlockAccessor> {
 
@@ -31,7 +32,7 @@ public class WDHeatHandler implements IBlockComponentProvider, IServerDataProvid
             tooltip.child(new TextComponent(Utils.getStateTooltip(isFired, "Fired", "Unfired")));
         }
         if (temperature > Config.temperatureCap.getInt()) {
-            tooltip.child(new TextComponent(Utils.getTemperatureTooltip(temperature)));
+            tooltip.child(new TextComponent(TemperatureUtils.getTemperatureTooltip(temperature)));
         }
     }
 

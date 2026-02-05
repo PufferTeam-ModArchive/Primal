@@ -8,6 +8,12 @@ public class CommandTickTime extends CommandSub {
 
     @Override
     public void handleCommand(ICommandSender sender, String[] args) {
+        if(args.length > 0) {
+            if(args[0].equals("add")) {
+                int time = Integer.parseInt(args[1]);
+                GlobalTickingData.add(time);
+            }
+        }
         sender.addChatMessage(
             new ChatComponentText("TickTime: " + GlobalTickingData.getTickTime(sender.getEntityWorld())));
     }

@@ -3,7 +3,7 @@ package net.pufferlab.primal.inventory;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.ItemUtils;
 
 public class CreativeTabsPrimal extends CreativeTabs {
 
@@ -18,7 +18,7 @@ public class CreativeTabsPrimal extends CreativeTabs {
 
     @Override
     public Item getTabIconItem() {
-        return Utils.getItem(item)
+        return ItemUtils.getItem(item)
             .getItem();
     }
 

@@ -51,7 +51,7 @@ public class HeatHandler implements IEventHandler {
                     int temperature = TemperatureUtils
                         .getInterpolatedTemperature(GlobalTickingData.getTickTime(event.entity.worldObj), tag);
                     if (temperature > Config.temperatureCap.getInt()) {
-                        event.toolTip.add(Utils.getTemperatureTooltip(temperature));
+                        event.toolTip.add(TemperatureUtils.getTemperatureTooltip(temperature));
                     }
                     if (event.itemStack.getItem() == crucible) {
                         FluidStack stack = FluidUtils.getFluidTankFromNBT(tag);

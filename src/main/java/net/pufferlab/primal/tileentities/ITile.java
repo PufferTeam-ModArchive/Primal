@@ -22,6 +22,8 @@ public interface ITile {
         return getWorld().getTileEntity(getX(), getY(), getZ());
     }
 
+    default int getMeta() { return getWorld().getBlockMetadata(getX(), getY(), getZ()); }
+
     public void updateTEState();
 
     public void updateTELight();

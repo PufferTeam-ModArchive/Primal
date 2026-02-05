@@ -130,6 +130,10 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
                 return true;
             }
             case blockTask: {
+                if(!isLoaded(world)) {
+                    SchedulerData.addWaitingTask(this, world);
+                    return false;
+                }
                 Block block = world.getBlock(this.x, this.y, this.z);
                 if (getBlock() == block) {
                     if (block instanceof IScheduledBlock block2) {
@@ -139,6 +143,10 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
                 }
             }
             case tileTask: {
+                if(!isLoaded(world)) {
+                    SchedulerData.addWaitingTask(this, world);
+                    return false;
+                }
                 Block block = world.getBlock(this.x, this.y, this.z);
                 if (getBlock() == block) {
                     TileEntity te = world.getTileEntity(this.x, this.y, this.z);
@@ -150,6 +158,13 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
             }
         }
         return false;
+    }
+
+    public boolean isLoaded(World world) {
+        if(!world.blockExists(this.x, this.y, this.z)) {
+            return false;
+        }
+        return true;
     }
 
     @Override

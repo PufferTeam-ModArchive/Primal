@@ -4,49 +4,49 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.Constants;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.*;
 
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import net.pufferlab.primal.utils.ItemUtils;
 
 public interface IScript {
 
     int wildcard = Constants.wildcard;
 
     default ItemStack getItem(String s) {
-        return Utils.getItem(s);
+        return ItemUtils.getItem(s);
     }
 
     default ItemStack getItem(String mod, String item) {
-        return Utils.getItem(mod, item);
+        return ItemUtils.getItem(mod, item);
     }
 
     default ItemStack getItem(String mod, String item, int meta, int number) {
-        return Utils.getItem(mod, item, meta, number);
+        return ItemUtils.getItem(mod, item, meta, number);
     }
 
     default ItemStack getModItem(String wood, int number) {
-        return Utils.getModItem(wood, number);
+        return ItemUtils.getModItem(wood, number);
     }
 
     default ItemStack getModItem(String type, String wood, int number) {
-        return Utils.getModItem(type, wood, number);
+        return ItemUtils.getModItem(type, wood, number);
     }
 
     default FluidStack getFluid(String fluid, int number) {
-        return Utils.getFluid(fluid, number);
+        return ItemUtils.getFluid(fluid, number);
     }
 
     default String getOreDictionaryName(String prefix, String suffix) {
-        return Utils.getOreDictionaryName(prefix, suffix);
+        return ItemUtils.getOreDictionaryName(prefix, suffix);
     }
 
     default ItemStack getOreDictItem(String oreDict) {
-        return Utils.getOreDictItem(oreDict);
+        return ItemUtils.getOreDictItem(oreDict);
     }
 
     default ItemStack getOreDictItem(String oreDict, int amount) {
-        return Utils.getOreDictItem(oreDict, amount);
+        return ItemUtils.getOreDictItem(oreDict, amount);
     }
 
     default void addOreDict(String name, ItemStack item) {
@@ -106,7 +106,7 @@ public interface IScript {
     }
 
     default void addMeltingRecipe(FluidStack output, String input) {
-        if (Utils.isValidOreDict(input) && output != null) {
+        if (ItemUtils.isValidOreDict(input) && output != null) {
             MeltingRecipe.addRecipe(output, input);
         }
     }
@@ -138,7 +138,7 @@ public interface IScript {
 
     default void addBarrelRecipe(ItemStack output, FluidStack outputLiquid, String input, FluidStack inputLiquid,
         int processing) {
-        if ((output != null || outputLiquid != null) && (Utils.isValidOreDict(input) || inputLiquid != null)) {
+        if ((output != null || outputLiquid != null) && (ItemUtils.isValidOreDict(input) || inputLiquid != null)) {
             BarrelRecipe.addRecipe(output, outputLiquid, input, inputLiquid, processing);
         }
     }

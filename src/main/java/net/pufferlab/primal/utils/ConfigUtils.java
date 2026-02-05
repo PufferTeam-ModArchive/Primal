@@ -5,7 +5,6 @@ import java.util.Map;
 
 import net.minecraftforge.fluids.Fluid;
 import net.pufferlab.primal.Config;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.AnvilAction;
 
 import gnu.trove.map.TObjectIntMap;
@@ -66,8 +65,8 @@ public class ConfigUtils {
             String[] spl = s.split("=");
             if (spl.length == 2) {
                 String ore = spl[0];
-                if (Utils.getFluid(spl[1], 1) != null) {
-                    Fluid item = Utils.getFluid(spl[1], 1)
+                if (ItemUtils.getFluid(spl[1], 1) != null) {
+                    Fluid item = ItemUtils.getFluid(spl[1], 1)
                         .getFluid();
                     liquidMetalMap.put(ore, item);
                 }

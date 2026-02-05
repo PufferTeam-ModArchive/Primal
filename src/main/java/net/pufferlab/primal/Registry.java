@@ -682,14 +682,14 @@ public class Registry {
             for (int i = 0; i < elements.length; i++) {
                 if (!Utils.contains(elementsBlacklist, elements[i])) {
                     ItemStack stack = new ItemStack(item2.getItemObject(), 1, i);
-                    Utils.registerModItem(elements[i] + suffix, stack);
+                    ItemUtils.registerModItem(elements[i] + suffix, stack);
                     if (item2.registerOre()) {
-                        Utils.registerModOreDict(Utils.getOreDictionaryName(elementName, elements[i]), stack);
+                        ItemUtils.registerModOreDict(ItemUtils.getOreDictionaryName(elementName, elements[i]), stack);
                     }
                 }
             }
         } else {
-            Utils.registerModItem(name, new ItemStack(item, 1, 0));
+            ItemUtils.registerModItem(name, new ItemStack(item, 1, 0));
         }
     }
 

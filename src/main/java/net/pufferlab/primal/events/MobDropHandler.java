@@ -14,6 +14,7 @@ import net.pufferlab.primal.Mods;
 import net.pufferlab.primal.Utils;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.pufferlab.primal.utils.ItemUtils;
 
 public class MobDropHandler implements IEventHandler {
 
@@ -28,7 +29,7 @@ public class MobDropHandler implements IEventHandler {
                         .getItem() == Items.leather) {
                         event.drops.set(
                             i,
-                            addNewEntityItem(event, Utils.getModItem("hide", 1), entityItem.getEntityItem().stackSize));
+                            addNewEntityItem(event, ItemUtils.getModItem("hide", 1), entityItem.getEntityItem().stackSize));
                         hasLeatherDrop = true;
                     }
                     if (Mods.efr.isLoaded()) {
@@ -37,17 +38,17 @@ public class MobDropHandler implements IEventHandler {
                                 i,
                                 addNewEntityItem(
                                     event,
-                                    Utils.getModItem("hide", 1),
+                                    ItemUtils.getModItem("hide", 1),
                                     entityItem.getEntityItem().stackSize));
                         }
                     }
                 }
             }
             if (!hasLeatherDrop && event.entityLiving instanceof EntityCow) {
-                event.drops.add(addNewEntityItem(event, Utils.getModItem("hide", 1), 1));
+                event.drops.add(addNewEntityItem(event, ItemUtils.getModItem("hide", 1), 1));
             }
             if (event.entityLiving instanceof EntityPig || event.entityLiving instanceof EntitySheep) {
-                event.drops.add(addNewEntityItem(event, Utils.getModItem("hide", 1), 1));
+                event.drops.add(addNewEntityItem(event, ItemUtils.getModItem("hide", 1), 1));
             }
         }
     }

@@ -208,12 +208,7 @@ public class BlockCampfire extends BlockContainerPrimal implements RPLECustomBlo
     @Override
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World worldIn, int x, int y, int z) {
         if (!this.isOven()) {
-            TileEntity te = worldIn.getTileEntity(x, y, z);
-            if (te instanceof TileEntityCampfire tef) {
-                if (!tef.hasSpit) {
-                    return AxisAlignedBB.getBoundingBox(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-                }
-            }
+            return AxisAlignedBB.getBoundingBox(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
         }
         return super.getCollisionBoundingBoxFromPool(worldIn, x, y, z);
     }

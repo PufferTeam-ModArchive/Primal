@@ -18,6 +18,7 @@ import net.pufferlab.primal.utils.FoodType;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.pufferlab.primal.utils.ItemUtils;
 
 public class ItemMetaFood extends ItemFood implements IMetaItem {
 
@@ -115,7 +116,7 @@ public class ItemMetaFood extends ItemFood implements IMetaItem {
         FoodType food = elements[itemstack.getItemDamage()];
         if (food.hasExtraItem()) {
             String item = food.extraItem;
-            player.inventory.addItemStackToInventory(Utils.getItem(item));
+            player.inventory.addItemStackToInventory(ItemUtils.getItem(item));
         }
 
         if (food.hasEffect()) {

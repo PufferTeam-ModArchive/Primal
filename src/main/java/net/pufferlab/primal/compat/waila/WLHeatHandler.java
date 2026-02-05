@@ -14,6 +14,7 @@ import net.pufferlab.primal.tileentities.IHeatable;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
+import net.pufferlab.primal.utils.TemperatureUtils;
 
 @SuppressWarnings("deprecation")
 public class WLHeatHandler implements IWailaDataProvider {
@@ -32,7 +33,7 @@ public class WLHeatHandler implements IWailaDataProvider {
                 }
                 int temperature = tag.getInteger("temperature");
                 if (temperature > Config.temperatureCap.getInt()) {
-                    currenttip.add(Utils.getTemperatureTooltip(temperature));
+                    currenttip.add(TemperatureUtils.getTemperatureTooltip(temperature));
                 }
             }
         }

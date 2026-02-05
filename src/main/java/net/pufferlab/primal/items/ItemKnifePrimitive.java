@@ -10,6 +10,7 @@ import net.pufferlab.primal.Utils;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.pufferlab.primal.utils.ItemUtils;
 
 public class ItemKnifePrimitive extends ItemSword {
 
@@ -54,6 +55,6 @@ public class ItemKnifePrimitive extends ItemSword {
     @Override
     public boolean getIsRepairable(ItemStack damagedItem, ItemStack repairMaterial) {
         String material = toolMaterial.name();
-        return Utils.containsOreDict(repairMaterial, Utils.getOreDictionaryName("ingot", material));
+        return Utils.containsOreDict(repairMaterial, ItemUtils.getOreDictionaryName("ingot", material));
     }
 }

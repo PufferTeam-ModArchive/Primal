@@ -114,15 +114,15 @@ public class FluidUtils {
         if (filled == null) return null;
 
         if (Mods.bop.isLoaded()) {
-            ItemStack bopEmptyBucket = Utils.getItem(Mods.bop.MODID + ":bopBucket:*:1");
-            ItemStack emptyBucket = Utils.getItem("minecraft:bucket:0:1");
+            ItemStack bopEmptyBucket = ItemUtils.getItem(Mods.bop.MODID + ":bopBucket:*:1");
+            ItemStack emptyBucket = ItemUtils.getItem("minecraft:bucket:0:1");
             if (Utils.equalsStack(filled, bopEmptyBucket)) {
                 return emptyBucket.copy();
             }
         }
 
         if (Mods.wg.isLoaded()) {
-            ItemStack capsule = Utils.getItem(Mods.wg.MODID + ":item.WG_CrystalFlask:*:1");
+            ItemStack capsule = ItemUtils.getItem(Mods.wg.MODID + ":item.WG_CrystalFlask:*:1");
             if (Utils.equalsStack(filled, capsule)) {
                 capsule.stackTagCompound = null;
                 capsule.setItemDamage(0);

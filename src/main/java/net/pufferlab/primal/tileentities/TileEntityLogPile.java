@@ -8,6 +8,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.ItemUtils;
 
 public class TileEntityLogPile extends TileEntityInventory implements IHeatable {
 
@@ -139,7 +140,7 @@ public class TileEntityLogPile extends TileEntityInventory implements IHeatable 
                         for (int i = 0; i < this.coalAmount; i++) {
                             tef.setInventorySlotContentsUpdate(
                                 i,
-                                Utils.getModItem("ash", 1)
+                                ItemUtils.getModItem("ash", 1)
                                     .copy());
                         }
                         tef.syncMetaWithAmount();
@@ -152,7 +153,7 @@ public class TileEntityLogPile extends TileEntityInventory implements IHeatable 
                         for (int i = 0; i < this.coalAmount; i++) {
                             tef.setInventorySlotContentsUpdate(
                                 i,
-                                Utils.getItem("minecraft:coal:1:1")
+                                ItemUtils.getItem("minecraft:coal:1:1")
                                     .copy());
                         }
                         tef.syncMetaWithAmount();

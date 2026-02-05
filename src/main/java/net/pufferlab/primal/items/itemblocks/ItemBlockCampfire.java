@@ -6,9 +6,9 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.blocks.BlockCampfire;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
+import net.pufferlab.primal.utils.ItemUtils;
 
 public class ItemBlockCampfire extends ItemBlock {
 
@@ -35,9 +35,9 @@ public class ItemBlockCampfire extends ItemBlock {
             TileEntity te = world.getTileEntity(x, y, z);
             if (te instanceof TileEntityCampfire tef) {
                 tef.isBuilt = true;
-                tef.setInventorySlotContentsUpdate(1, Utils.getModItem("straw_kindling", 1));
+                tef.setInventorySlotContentsUpdate(1, ItemUtils.getModItem("straw_kindling", 1));
                 for (int i = 2; i < 6; i++) {
-                    tef.setInventorySlotContentsUpdate(i, Utils.getModItem("firewood", 1));
+                    tef.setInventorySlotContentsUpdate(i, ItemUtils.getModItem("firewood", 1));
                 }
             }
         }

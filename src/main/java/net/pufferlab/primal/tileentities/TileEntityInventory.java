@@ -235,6 +235,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
 
     public void setInventorySlotContentsUpdate(int index) {
         this.inventory[index] = null;
+        this.onSlotUpdated(index);
         this.updateTEState();
     }
 

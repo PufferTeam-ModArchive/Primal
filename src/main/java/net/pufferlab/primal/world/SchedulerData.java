@@ -15,6 +15,7 @@ public class SchedulerData extends WorldSavedData {
     private static String name = Primal.MODID + "SchedulerData";
 
     public PriorityQueue<ScheduledTask> queue = new PriorityQueue<>();
+    public PriorityQueue<ScheduledTask> queueWait = new PriorityQueue<>();
     public Map<Long, List<ScheduledTask>> taskMap = new HashMap<>();
 
     public SchedulerData(String p_i2141_1_) {
@@ -38,6 +39,16 @@ public class SchedulerData extends WorldSavedData {
         }
 
         nbt.setTag("ScheduledTasks", list);
+
+        NBTTagList listWait = new NBTTagList();
+
+        for (ScheduledTask task : queueWait) {
+            NBTTagCompound tag = new NBTTagCompound();
+            task.writeToNBT(tag);
+            list.appendTag(tag);
+        }
+
+        nbt.setTag("WaitingTasks", listWait);
     }
 
     @Override
@@ -50,6 +61,16 @@ public class SchedulerData extends WorldSavedData {
             NBTTagCompound tag = list.getCompoundTagAt(i);
             ScheduledTask task = new ScheduledTask(tag);
             queue.add(task);
+            taskMap.computeIfAbsent(task.packedCoords, p -> new ArrayList<>())
+                .add(task);
+        }
+
+        NBTTagList listWait = nbt.getTagList("WaitingTasks", 10);
+
+        for (int i = 0; i < listWait.tagCount(); i++) {
+            NBTTagCompound tag = listWait.getCompoundTagAt(i);
+            ScheduledTask task = new ScheduledTask(tag);
+            queueWait.add(task);
             taskMap.computeIfAbsent(task.packedCoords, p -> new ArrayList<>())
                 .add(task);
         }
@@ -96,6 +117,13 @@ public class SchedulerData extends WorldSavedData {
         scheduler.markDirty();
     }
 
+    public static void addWaitingTask(ScheduledTask task, World world) {
+        SchedulerData scheduler = get(world);
+
+        scheduler.queue.add(task);
+        scheduler.markDirty();
+    }
+
     public static void moveScheduledTask(Block block, World world, int x, int y, int z, int newX, int newY, int newZ) {
         SchedulerData scheduler = get(world);
 
@@ -117,9 +145,23 @@ public class SchedulerData extends WorldSavedData {
         while (!scheduler.queue.isEmpty() && scheduler.queue.peek().timeScheduled <= currentTick) {
             ScheduledTask task = scheduler.queue.poll();
 
-            boolean success = task.run(world);
-            if (success) {
-                scheduler.markDirty();
+            task.run(world);
+            scheduler.markDirty();
+        }
+    }
+
+    public static void tickWaitingTasks(World world) {
+        SchedulerData scheduler = get(world);
+
+        if(!scheduler.queueWait.isEmpty()) {
+            Iterator<ScheduledTask> it = scheduler.queueWait.iterator();
+            while (it.hasNext()) {
+                ScheduledTask task = it.next();
+                if (task.isLoaded(world)) {
+                    it.remove();
+                    task.run(world);
+                    scheduler.markDirty();
+                }
             }
         }
     }

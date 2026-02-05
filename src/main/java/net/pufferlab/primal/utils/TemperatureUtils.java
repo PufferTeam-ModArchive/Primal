@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Constants;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.world.GlobalTickingData;
@@ -244,5 +245,9 @@ public class TemperatureUtils {
             }
         }
         return Constants.lightNone;
+    }
+
+    public static String getTemperatureTooltip(int temperature) {
+        return Utils.translate("temp." + Primal.MODID + ".desc", temperature);
     }
 }
