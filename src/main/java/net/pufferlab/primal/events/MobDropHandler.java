@@ -12,9 +12,9 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Mods;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.ItemUtils;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import net.pufferlab.primal.utils.ItemUtils;
 
 public class MobDropHandler implements IEventHandler {
 
@@ -29,7 +29,10 @@ public class MobDropHandler implements IEventHandler {
                         .getItem() == Items.leather) {
                         event.drops.set(
                             i,
-                            addNewEntityItem(event, ItemUtils.getModItem("hide", 1), entityItem.getEntityItem().stackSize));
+                            addNewEntityItem(
+                                event,
+                                ItemUtils.getModItem("hide", 1),
+                                entityItem.getEntityItem().stackSize));
                         hasLeatherDrop = true;
                     }
                     if (Mods.efr.isLoaded()) {

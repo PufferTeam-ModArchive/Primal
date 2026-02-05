@@ -13,10 +13,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.*;
 import net.minecraftforge.event.world.BlockEvent;
 import net.pufferlab.primal.*;
+import net.pufferlab.primal.utils.ItemUtils;
 
 import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import net.pufferlab.primal.utils.ItemUtils;
 
 public class ToolHandler implements IEventHandler {
 

@@ -82,8 +82,7 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
     }
 
     @Override
-    public void updateEntity() {
-    }
+    public void updateEntity() {}
 
     @Override
     public void onSlotUpdated(int index) {
@@ -92,7 +91,7 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
         }
         if (index == slotItem1) {
             if (canProcess(slotItem1)) {
-                if(!taskItem1.sentUpdate()) {
+                if (!taskItem1.sentUpdate()) {
                     addSchedule(getSmeltTime(), updateItem1);
                 }
             } else {
@@ -101,7 +100,7 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
         }
         if (index == slotItem2) {
             if (canProcess(slotItem2)) {
-                if(!taskItem2.sentUpdate()) {
+                if (!taskItem2.sentUpdate()) {
                     addSchedule(getSmeltTime(), updateItem2);
                 }
             } else {
@@ -110,7 +109,7 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
         }
         if (index == slotItem3) {
             if (canProcess(slotItem3)) {
-                if(!taskItem3.sentUpdate()) {
+                if (!taskItem3.sentUpdate()) {
                     addSchedule(getSmeltTime(), updateItem3);
                 }
             } else {
@@ -119,7 +118,7 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
         }
         if (index == slotItem4) {
             if (canProcess(slotItem4)) {
-                if(!taskItem4.sentUpdate()) {
+                if (!taskItem4.sentUpdate()) {
                     addSchedule(getSmeltTime(), updateItem4);
                 }
             } else {
@@ -257,7 +256,7 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
     }
 
     public boolean canProcess(int slot) {
-        if(!this.isFired()) return false;
+        if (!this.isFired()) return false;
         ItemStack item = this.getInventoryStack(slot);
         return item != null && CampfireRecipe.hasRecipe(item);
     }
@@ -297,7 +296,7 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
 
     @Override
     public boolean canBeFired() {
-        if(this.blockMetadata != 0) {
+        if (this.blockMetadata != 0) {
             return true;
         }
         return false;
@@ -305,11 +304,11 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
 
     @Override
     public void setFired(boolean state) {
-            if (this.isFired != state) {
-                this.isFired = state;
-                this.sendFuelUpdate();
-                this.updateTEState();
-            }
+        if (this.isFired != state) {
+            this.isFired = state;
+            this.sendFuelUpdate();
+            this.updateTEState();
+        }
     }
 
     @Override

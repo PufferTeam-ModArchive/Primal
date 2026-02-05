@@ -7,13 +7,13 @@ import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.IHeatable;
+import net.pufferlab.primal.utils.TemperatureUtils;
 
 import com.gtnewhorizons.wdmla.api.accessor.BlockAccessor;
 import com.gtnewhorizons.wdmla.api.provider.IBlockComponentProvider;
 import com.gtnewhorizons.wdmla.api.provider.IServerDataProvider;
 import com.gtnewhorizons.wdmla.api.ui.ITooltip;
 import com.gtnewhorizons.wdmla.impl.ui.component.TextComponent;
-import net.pufferlab.primal.utils.TemperatureUtils;
 
 public class WDHeatHandler implements IBlockComponentProvider, IServerDataProvider<BlockAccessor> {
 

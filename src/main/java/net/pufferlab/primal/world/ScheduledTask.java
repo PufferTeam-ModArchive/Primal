@@ -130,7 +130,7 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
                 return true;
             }
             case blockTask: {
-                if(!isLoaded(world)) {
+                if (!isLoaded(world)) {
                     SchedulerData.addWaitingTask(this, world);
                     return false;
                 }
@@ -143,7 +143,7 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
                 }
             }
             case tileTask: {
-                if(!isLoaded(world)) {
+                if (!isLoaded(world)) {
                     SchedulerData.addWaitingTask(this, world);
                     return false;
                 }
@@ -161,7 +161,7 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
     }
 
     public boolean isLoaded(World world) {
-        if(!world.blockExists(this.x, this.y, this.z)) {
+        if (!world.blockExists(this.x, this.y, this.z)) {
             return false;
         }
         return true;

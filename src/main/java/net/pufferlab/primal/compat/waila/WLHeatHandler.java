@@ -10,11 +10,11 @@ import net.minecraft.world.World;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.IHeatable;
+import net.pufferlab.primal.utils.TemperatureUtils;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
-import net.pufferlab.primal.utils.TemperatureUtils;
 
 @SuppressWarnings("deprecation")
 public class WLHeatHandler implements IWailaDataProvider {

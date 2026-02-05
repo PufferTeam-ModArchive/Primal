@@ -153,7 +153,7 @@ public class SchedulerData extends WorldSavedData {
     public static void tickWaitingTasks(World world) {
         SchedulerData scheduler = get(world);
 
-        if(!scheduler.queueWait.isEmpty()) {
+        if (!scheduler.queueWait.isEmpty()) {
             Iterator<ScheduledTask> it = scheduler.queueWait.iterator();
             while (it.hasNext()) {
                 ScheduledTask task = it.next();

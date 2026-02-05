@@ -5,9 +5,9 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.recipes.*;
+import net.pufferlab.primal.utils.ItemUtils;
 
 import cpw.mods.fml.common.registry.LanguageRegistry;
-import net.pufferlab.primal.utils.ItemUtils;
 
 public interface IScript {
 

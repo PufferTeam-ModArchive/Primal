@@ -1,7 +1,7 @@
 package net.pufferlab.primal.utils;
 
-import cpw.mods.fml.common.registry.GameData;
-import cpw.mods.fml.common.registry.GameRegistry;
+import java.util.*;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -10,9 +10,11 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.*;
 
-import java.util.*;
+import cpw.mods.fml.common.registry.GameData;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ItemUtils {
+
     public static final Map<Integer, ItemStack> cacheIS = new HashMap<>();
     public static final ForgeDirection[] sideDirections = new ForgeDirection[] { ForgeDirection.WEST,
         ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.NORTH, ForgeDirection.DOWN };
