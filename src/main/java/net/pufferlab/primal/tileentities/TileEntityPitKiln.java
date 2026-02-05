@@ -9,43 +9,35 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.recipes.PitKilnRecipe;
+import net.pufferlab.primal.world.UpdateTask;
 
 public class TileEntityPitKiln extends TileEntityInventory implements IHeatable, IScheduledTile {
 
     public static int updateProcess = 1;
-    public long nextUpdateProcess;
-    public boolean hasUpdateProcess;
-    public boolean needsUpdateProcess;
+    public UpdateTask taskProcess = new UpdateTask(updateProcess);
     public static int slotItem1 = 0;
     public static int slotItem2 = 1;
     public static int slotItem3 = 2;
     public static int slotItem4 = 3;
     public static int slotItemLarge = 4;
 
-    public static int smeltTime = Config.pitKilnSmeltTime.getDefaultInt();
-
     public TileEntityPitKiln() {
         super(13);
 
-        smeltTime = Config.pitKilnSmeltTime.getInt();
     }
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        this.nextUpdateProcess = tag.getLong("nextUpdateProcess");
-        this.hasUpdateProcess = tag.getBoolean("hasUpdateProcess");
-        this.needsUpdateProcess = tag.getBoolean("needsUpdateProcess");
+        UpdateTask.readFromNBT(tag, taskProcess);
     }
 
     @Override
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setLong("nextUpdateProcess", this.nextUpdateProcess);
-        tag.setBoolean("hasUpdateProcess", this.hasUpdateProcess);
-        tag.setBoolean("needsUpdateProcess", this.needsUpdateProcess);
+        UpdateTask.writeToNBT(tag, taskProcess);
     }
 
     @Override
@@ -70,70 +62,63 @@ public class TileEntityPitKiln extends TileEntityInventory implements IHeatable,
             setFired(false);
         }
         if (isFired) {
-            if (!hasUpdateProcess) {
-                addSchedule(getSmeltTime(), updateProcess);
-            }
             if (blockAbove.getMaterial() == Material.air || blockAbove.getMaterial() == Material.fire) {
                 this.worldObj.setBlock(this.xCoord, this.yCoord + 1, this.zCoord, Blocks.fire);
             } else {
                 setFired(false);
-                if (hasUpdateProcess) {
-                    removeSchedule(updateProcess);
-                }
-            }
-            TileEntity te = this.worldObj.getTileEntity(this.xCoord + 1, this.yCoord, this.zCoord + 1);
-            if (te instanceof TileEntityPitKiln tef) {
-                tef.setFired(true);
-            }
-            TileEntity te2 = this.worldObj.getTileEntity(this.xCoord - 1, this.yCoord, this.zCoord + 1);
-            if (te2 instanceof TileEntityPitKiln tef) {
-                tef.setFired(true);
-            }
-            TileEntity te3 = this.worldObj.getTileEntity(this.xCoord - 1, this.yCoord, this.zCoord - 1);
-            if (te3 instanceof TileEntityPitKiln tef) {
-                tef.setFired(true);
-            }
-            TileEntity te4 = this.worldObj.getTileEntity(this.xCoord + 1, this.yCoord, this.zCoord - 1);
-            if (te4 instanceof TileEntityPitKiln tef) {
-                tef.setFired(true);
             }
         }
-        boolean reset = false;
-        if (needsUpdateProcess) {
-            needsUpdateProcess = false;
-            reset = true;
-            for (int i = 0; i < getSizeInventory(); i++) {
-                ItemStack input = this.getStackInSlot(i);
-                ItemStack output = PitKilnRecipe.getOutput(input);
-                if (output == null) continue;
-                this.setInventorySlotContentsUpdate(i, output.copy());
-            }
+    }
+
+    public void smeltContent() {
+        for (int i = 0; i < getSizeInventory(); i++) {
+            ItemStack input = this.getStackInSlot(i);
+            ItemStack output = PitKilnRecipe.getOutput(input);
+            if (output == null) continue;
+            this.setInventorySlotContentsUpdate(i, output.copy());
         }
-        if (reset) {
-            this.worldObj.setBlockToAir(this.xCoord, this.yCoord + 1, this.zCoord);
-            this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 0, 2);
-            for (int x = 5; x < this.getSizeInventory(); x++) {
-                setInventorySlotContentsUpdate(x);
-            }
-            this.markDirty();
+        this.worldObj.setBlockToAir(this.xCoord, this.yCoord + 1, this.zCoord);
+        this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 0, 2);
+        for (int x = 5; x < this.getSizeInventory(); x++) {
+            setInventorySlotContentsUpdate(x);
+        }
+        this.markDirty();
+    }
+
+    public void sendContentUpdate() {
+        if (!taskProcess.hasSentUpdate()) {
+            addSchedule(getSmeltTime(), updateProcess);
+        }
+    }
+
+    public void spreadFire() {
+        TileEntity te = this.worldObj.getTileEntity(this.xCoord + 1, this.yCoord, this.zCoord + 1);
+        if (te instanceof TileEntityPitKiln tef) {
+            tef.setFired(true);
+        }
+        TileEntity te2 = this.worldObj.getTileEntity(this.xCoord - 1, this.yCoord, this.zCoord + 1);
+        if (te2 instanceof TileEntityPitKiln tef) {
+            tef.setFired(true);
+        }
+        TileEntity te3 = this.worldObj.getTileEntity(this.xCoord - 1, this.yCoord, this.zCoord - 1);
+        if (te3 instanceof TileEntityPitKiln tef) {
+            tef.setFired(true);
+        }
+        TileEntity te4 = this.worldObj.getTileEntity(this.xCoord + 1, this.yCoord, this.zCoord - 1);
+        if (te4 instanceof TileEntityPitKiln tef) {
+            tef.setFired(true);
         }
     }
 
     @Override
-    public void onSlotUpdated(int index) {
-        if (hasUpdateProcess) {
-            removeSchedule(updateProcess);
-        }
-    }
+    public void onSlotUpdated(int index) {}
 
     @Override
     public void addSchedule(int inTime, int type) {
         IScheduledTile.super.addSchedule(inTime, type);
 
-        long time = getWorldTime(inTime);
         if (type == updateProcess) {
-            nextUpdateProcess = time;
-            hasUpdateProcess = true;
+            taskProcess.addUpdate(this.worldObj, inTime);
         }
     }
 
@@ -142,7 +127,15 @@ public class TileEntityPitKiln extends TileEntityInventory implements IHeatable,
         IScheduledTile.super.removeSchedule(type);
 
         if (type == updateProcess) {
-            hasUpdateProcess = false;
+            taskProcess.removeUpdate(this.worldObj);
+        }
+    }
+
+    @Override
+    public void onSchedule(World world, int x, int y, int z, int type, int id) {
+        if (type == updateProcess) {
+            taskProcess.onUpdate(this.worldObj);
+            smeltContent();
         }
     }
 
@@ -161,14 +154,6 @@ public class TileEntityPitKiln extends TileEntityInventory implements IHeatable,
     }
 
     @Override
-    public void onSchedule(World world, int x, int y, int z, int type, int id) {
-        if (type == updateProcess) {
-            needsUpdateProcess = true;
-            hasUpdateProcess = false;
-        }
-    }
-
-    @Override
     public int getInventoryStackLimit() {
         return 1;
     }
@@ -182,12 +167,14 @@ public class TileEntityPitKiln extends TileEntityInventory implements IHeatable,
     public void setFired(boolean state) {
         if (this.isFired != state) {
             this.isFired = state;
+            sendContentUpdate();
+            spreadFire();
             this.updateTEState();
         }
     }
 
     public int getSmeltTime() {
-        return smeltTime;
+        return Config.pitKilnSmeltTime.getInt();
     }
 
     @Override

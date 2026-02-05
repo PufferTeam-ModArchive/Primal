@@ -15,7 +15,7 @@ public class UpdateTask {
         this.name = "UpdateTask" + id;
     }
 
-    public boolean sentUpdate() {
+    public boolean hasSentUpdate() {
         return sentUpdate;
     }
 

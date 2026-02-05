@@ -91,7 +91,7 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
         }
         if (index == slotItem1) {
             if (canProcess(slotItem1)) {
-                if (!taskItem1.sentUpdate()) {
+                if (!taskItem1.hasSentUpdate()) {
                     addSchedule(getSmeltTime(), updateItem1);
                 }
             } else {
@@ -100,7 +100,7 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
         }
         if (index == slotItem2) {
             if (canProcess(slotItem2)) {
-                if (!taskItem2.sentUpdate()) {
+                if (!taskItem2.hasSentUpdate()) {
                     addSchedule(getSmeltTime(), updateItem2);
                 }
             } else {
@@ -109,7 +109,7 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
         }
         if (index == slotItem3) {
             if (canProcess(slotItem3)) {
-                if (!taskItem3.sentUpdate()) {
+                if (!taskItem3.hasSentUpdate()) {
                     addSchedule(getSmeltTime(), updateItem3);
                 }
             } else {
@@ -118,7 +118,7 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
         }
         if (index == slotItem4) {
             if (canProcess(slotItem4)) {
-                if (!taskItem4.sentUpdate()) {
+                if (!taskItem4.hasSentUpdate()) {
                     addSchedule(getSmeltTime(), updateItem4);
                 }
             } else {
@@ -229,7 +229,7 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
             removeSchedule(updateItem3);
             removeSchedule(updateItem4);
         } else {
-            if (!taskFuel.sentUpdate()) {
+            if (!taskFuel.hasSentUpdate()) {
                 addSchedule(Config.campfireBurnTime.getInt(), updateFuel);
             }
         }
