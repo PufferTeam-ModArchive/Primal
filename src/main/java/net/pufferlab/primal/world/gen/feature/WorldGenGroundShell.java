@@ -4,7 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Registry;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.ItemUtils;
 
 public class WorldGenGroundShell extends WorldGenGroundcover {
 
@@ -20,7 +20,7 @@ public class WorldGenGroundShell extends WorldGenGroundcover {
     @Override
     public boolean canPlaceBlock(World world, int x, int y, int z) {
         Block block = world.getBlock(x, y - 1, z);
-        if (Utils.isSandBlock(block) && block != Blocks.grass) {
+        if (ItemUtils.isSandBlock(block) && block != Blocks.grass) {
             return true;
         }
         return false;

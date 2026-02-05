@@ -3,7 +3,7 @@ package net.pufferlab.primal.mixins.late.dragonapi;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.ItemUtils;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -29,8 +29,8 @@ public class MixinBlockHelper {
     public static boolean isDirtType(Block id, int meta) {
         if (id == Blocks.dirt) return true;
         if (id == Blocks.grass) return true;
-        if (Utils.isDirtBlock(id)) return true;
-        if (Utils.isGrassBlock(id)) return true;
+        if (ItemUtils.isDirtBlock(id)) return true;
+        if (ItemUtils.isGrassBlock(id)) return true;
         if (id == Blocks.gravel) return false;
         return false;
     }
@@ -42,7 +42,7 @@ public class MixinBlockHelper {
     @Overwrite(remap = false)
     public static boolean isNaturalStone(World world, int x, int y, int z) {
         Block b = world.getBlock(x, y, z);
-        if (Utils.isNaturalStone(b)) {
+        if (ItemUtils.isNaturalStone(b)) {
             return true;
         }
         if (b != Blocks.stone && b != Blocks.sandstone && b != Blocks.bedrock) {

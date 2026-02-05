@@ -3,11 +3,9 @@ package net.pufferlab.primal;
 import java.util.*;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockLog;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.*;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.nbt.NBTTagCompound;
@@ -26,7 +24,6 @@ import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.blocks.*;
-import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.utils.*;
 import net.pufferlab.primal.world.GlobalTickingData;
 
@@ -154,130 +151,6 @@ public class Utils {
             return Integer.MAX_VALUE;
         }
         return (int) value;
-    }
-
-    public static boolean isLogBlock(Block block) {
-        if (block == null) return false;
-        if (block instanceof BlockLog) return true;
-        return containsOreDict(block, "logWood");
-    }
-
-    public static boolean isTerrainBlock(Block block) {
-        return isNaturalStone(block) || isDirtBlock(block)
-            || isGrassBlock(block)
-            || isGravelBlock(block)
-            || isSandBlock(block);
-    }
-
-    public static boolean isNaturalStone(Block block) {
-        if (block == null) return false;
-        if (block == Registry.stone) return true;
-        if (block == Blocks.stone) return true;
-        return false;
-    }
-
-    public static boolean isDirtBlock(Block block) {
-        if (block == null) return false;
-        if (block instanceof BlockMetaDirt) return true;
-        if (block == Blocks.dirt) return true;
-        return false;
-    }
-
-    public static boolean isFarmlandBlock(Block block) {
-        if (block == null) return false;
-        if (block instanceof BlockMetaFarmland) return true;
-        if (block == Blocks.farmland) return true;
-        return false;
-    }
-
-    public static boolean isGrassBlock(Block block) {
-        if (block == null) return false;
-        if (block instanceof BlockMetaGrass) return true;
-        if (block == Blocks.grass) return true;
-        return false;
-    }
-
-    public static boolean isSandBlock(Block block) {
-        if (block == null) return false;
-        if (block instanceof BlockMetaSand) return true;
-        if (block == Blocks.sand) return true;
-        return false;
-    }
-
-    public static boolean isGravelBlock(Block block) {
-        if (block == null) return false;
-        if (block instanceof BlockMetaGravel) return true;
-        if (block == Blocks.gravel) return true;
-        return false;
-    }
-
-    public static boolean isSoilBlock(Block block, int meta) {
-        if (block == null) return false;
-        return block.getHarvestTool(meta) == "shovel";
-    }
-
-    public static boolean isHoeTool(ItemStack itemStack) {
-        if (itemStack == null) return false;
-        if (itemStack.getItem() == null) return false;
-        if (itemStack.getItem() instanceof ItemHoe) return true;
-        return containsOreDict(itemStack, "toolHoe");
-    }
-
-    public static boolean isShovelTool(ItemStack itemStack) {
-        if (itemStack == null) return false;
-        if (itemStack.getItem() == null) return false;
-        if (itemStack.getItem() instanceof ItemSpade) return true;
-        return containsOreDict(itemStack, "toolShovel");
-    }
-
-    public static boolean isAxeTool(ItemStack itemStack) {
-        if (itemStack == null) return false;
-        if (itemStack.getItem() == null) return false;
-        if (itemStack.getItem() instanceof ItemAxe) return true;
-        return containsOreDict(itemStack, "toolAxe");
-    }
-
-    public static boolean isKnifeTool(ItemStack itemStack) {
-        if (itemStack == null) return false;
-        if (itemStack.getItem() == null) return false;
-        if (itemStack.getItem() instanceof ItemKnifePrimitive) return true;
-        return containsOreDict(itemStack, "toolKnife");
-    }
-
-    public static boolean isHammerTool(ItemStack itemStack) {
-        if (itemStack == null) return false;
-        if (itemStack.getItem() == null) return false;
-        if (itemStack.getItem() instanceof ItemHammerPrimitive) return true;
-        return containsOreDict(itemStack, "toolHammer");
-    }
-
-    public static boolean isHandstoneTool(ItemStack itemStack) {
-        if (itemStack == null) return false;
-        if (itemStack.getItem() == null) return false;
-        if (itemStack.getItem() instanceof ItemHandstone) return true;
-        return containsOreDict(itemStack, "toolHandstone");
-    }
-
-    public static boolean isBrokenTool(ItemStack itemStack) {
-        if (itemStack == null) return false;
-        if (itemStack.getItem() == null) return false;
-        return containsOreDict(itemStack, "toolBroken");
-    }
-
-    public static boolean isLighter(ItemStack itemStack) {
-        if (itemStack == null) return false;
-        if (itemStack.getItem() == null) return false;
-        if (itemStack.getItem() instanceof ItemFlintAndSteel || itemStack.getItem() instanceof ItemFireStarter)
-            return true;
-        return containsOreDict(itemStack, "itemLighter");
-    }
-
-    public static boolean canBeLit(ItemStack itemStack) {
-        if (itemStack == null) return false;
-        if (itemStack.getItem() == null) return false;
-        if (itemStack.getItem() == Item.getItemFromBlock(Registry.unlit_torch)
-            || itemStack.getItem() == Item.getItemFromBlock(Registry.lit_torch)) return true;
-        return false;
     }
 
     public static boolean isRiverBiome(BiomeGenBase biome) {

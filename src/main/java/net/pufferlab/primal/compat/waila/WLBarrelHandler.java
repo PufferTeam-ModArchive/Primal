@@ -30,14 +30,14 @@ public class WLBarrelHandler implements IWailaDataProvider {
                 boolean isOpen = tag.getBoolean("isOpen");
                 currenttip.add(Utils.getStateTooltip(isOpen, "Open", "Sealed"));
                 boolean canProcess = tag.getBoolean("canProcess");
-                long nextUpdate = tag.getLong("nextUpdateProcess");
+                long nextUpdate = tef.taskProcess.getNextUpdate();
                 if (canProcess) {
                     BarrelRecipe recipe = BarrelRecipe.getRecipe(tef.getInventoryStack(slotInput), tef.getFluidStack());
                     if (recipe != null) {
                         String outputName = Utils.getDisplayName(recipe.output, recipe.outputLiquid);
                         String inputName = Utils.getDisplayName(tef.getInventoryStack(slotInput), tef.getFluidStack());
                         currenttip.add("Making " + outputName);
-                        int timeToProcess = tag.getInteger("timeToProcess");
+                        int timeToProcess = tef.taskRain.getTime();
                         if (timeToProcess > 0) {
                             currenttip.add(
                                 Utils.getRecipeTooltip(
@@ -77,8 +77,6 @@ public class WLBarrelHandler implements IWailaDataProvider {
         int y, int z) {
         if (te instanceof TileEntityBarrel tef) {
             tag.setBoolean("canProcess", tef.canProcess);
-            tag.setLong("nextUpdateProcess", tef.nextUpdateProcess);
-            tag.setInteger("timeToProcess", tef.timeToProcess);
             tag.setBoolean("isOpen", tef.isOpen);
         }
         return tag;

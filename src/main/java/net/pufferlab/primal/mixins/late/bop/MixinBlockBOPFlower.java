@@ -6,7 +6,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.ItemUtils;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -31,8 +31,8 @@ public abstract class MixinBlockBOPFlower extends Block {
 
         switch (metadata) {
             case 6: // Tulip
-                return Utils.isGrassBlock(block) || Utils.isDirtBlock(block)
-                    || Utils.isFarmlandBlock(block)
+                return ItemUtils.isGrassBlock(block) || ItemUtils.isDirtBlock(block)
+                    || ItemUtils.isFarmlandBlock(block)
                     || block == BOPCBlocks.longGrass
                     || block == BOPCBlocks.overgrownNetherrack
                     || block.canSustainPlant(world, x, y - 1, z, ForgeDirection.UP, (IPlantable) this);
@@ -41,12 +41,12 @@ public abstract class MixinBlockBOPFlower extends Block {
                 return block == Blocks.waterlily;
 
             case 11: // Enderlotus
-                return block == BOPCBlocks.bopGrass || Utils.isGrassBlock(block);
+                return block == BOPCBlocks.bopGrass || ItemUtils.isGrassBlock(block);
 
             case 12: // Bromeliad
-                return block == BOPCBlocks.hardDirt || Utils.isDirtBlock(block)
+                return block == BOPCBlocks.hardDirt || ItemUtils.isDirtBlock(block)
                     || block == Blocks.hardened_clay
-                    || Utils.isSandBlock(block);
+                    || ItemUtils.isSandBlock(block);
 
             case 13: // Eyebulb Bottom
                 return block == Blocks.netherrack || block == BOPCBlocks.overgrownNetherrack
@@ -56,8 +56,8 @@ public abstract class MixinBlockBOPFlower extends Block {
                 return block == this;
 
             default:
-                return Utils.isGrassBlock(block) || Utils.isDirtBlock(block)
-                    || Utils.isFarmlandBlock(block)
+                return ItemUtils.isGrassBlock(block) || ItemUtils.isDirtBlock(block)
+                    || ItemUtils.isFarmlandBlock(block)
                     || block == BOPCBlocks.longGrass
                     || block == BOPCBlocks.overgrownNetherrack
                     || block.canSustainPlant(world, x, y - 1, z, ForgeDirection.UP, (IPlantable) this);

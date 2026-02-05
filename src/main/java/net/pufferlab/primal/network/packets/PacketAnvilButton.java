@@ -6,8 +6,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.TileEntityAnvil;
+import net.pufferlab.primal.utils.ItemUtils;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -53,7 +53,7 @@ public class PacketAnvilButton implements IMessage, IMessageHandler<PacketAnvilB
         TileEntity te = player.worldObj.getTileEntity(msg.x, msg.y, msg.z);
         if (msg.isWork) {
             ItemStack heldItem = player.getHeldItem();
-            if (Utils.isHammerTool(heldItem)) {
+            if (ItemUtils.isHammerTool(heldItem)) {
                 if (player.worldObj.rand.nextInt(3) == 0) {
                     heldItem.damageItem(1, player);
                 }

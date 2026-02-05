@@ -16,6 +16,7 @@ import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
 import net.pufferlab.primal.tileentities.TileEntityOven;
+import net.pufferlab.primal.utils.ItemUtils;
 
 public class BlockOven extends BlockCampfire {
 
@@ -55,7 +56,7 @@ public class BlockOven extends BlockCampfire {
     public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
         float subY, float subZ) {
         ItemStack heldItem = player.getHeldItem();
-        if (Utils.canBeLit(heldItem)) return true;
+        if (ItemUtils.canBeLit(heldItem)) return true;
         int meta = worldIn.getBlockMetadata(x, y, z);
         if ((Utils.containsOreDict(heldItem, "firewood") && meta > 0 && meta < 5)
             || (Utils.containsOreDict(heldItem, "kindling") && meta == 0)) {

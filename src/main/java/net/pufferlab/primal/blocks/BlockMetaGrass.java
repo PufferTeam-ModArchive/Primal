@@ -22,6 +22,7 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.items.itemblocks.ItemBlockMeta;
+import net.pufferlab.primal.utils.ItemUtils;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -197,7 +198,7 @@ public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlo
                     j1 += (random.nextInt(3) - 1) * random.nextInt(3) / 2;
                     k1 += random.nextInt(3) - 1;
 
-                    if (Utils.isGrassBlock(worldIn.getBlock(i1, j1 - 1, k1)) && !worldIn.getBlock(i1, j1, k1)
+                    if (ItemUtils.isGrassBlock(worldIn.getBlock(i1, j1 - 1, k1)) && !worldIn.getBlock(i1, j1, k1)
                         .isNormalCube()) {
                         ++l1;
                         continue;

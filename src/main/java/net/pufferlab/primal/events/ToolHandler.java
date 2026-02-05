@@ -25,9 +25,9 @@ public class ToolHandler implements IEventHandler {
         ItemStack heldItem = event.entityPlayer.inventory.getCurrentItem();
 
         if (Config.noTreeFistPunching.getBoolean()) {
-            if (Utils.isLogBlock(event.block)) {
+            if (ItemUtils.isLogBlock(event.block)) {
                 if (heldItem != null) {
-                    if (!Utils.isAxeTool(heldItem)) {
+                    if (!ItemUtils.isAxeTool(heldItem)) {
                         event.setCanceled(true);
                     }
                 } else {
@@ -37,9 +37,9 @@ public class ToolHandler implements IEventHandler {
         }
 
         if (Config.harderSoil.getBoolean()) {
-            if (Utils.isSoilBlock(event.block, event.metadata)) {
+            if (ItemUtils.isSoilBlock(event.block, event.metadata)) {
                 if (heldItem != null) {
-                    if (!Utils.isShovelTool(heldItem)) {
+                    if (!ItemUtils.isShovelTool(heldItem)) {
                         event.newSpeed = event.originalSpeed / 2;
                     }
                 } else {
@@ -53,12 +53,12 @@ public class ToolHandler implements IEventHandler {
     @SubscribeEvent
     public void tooltipEvent(ItemTooltipEvent event) {
         if (Config.vanillaToolsRemovalMode.getInt() == 2) {
-            if (Utils.isBrokenTool(event.itemStack)) {
+            if (ItemUtils.isBrokenTool(event.itemStack)) {
                 event.toolTip.add("§cThis tool is too weak to be used!");
             }
         }
         if (Config.vanillaToolsRemovalMode.getInt() == 1) {
-            if (Utils.isBrokenTool(event.itemStack)) {
+            if (ItemUtils.isBrokenTool(event.itemStack)) {
                 event.toolTip.add("§cThis tool cannot be crafted!");
             }
         }
@@ -68,7 +68,7 @@ public class ToolHandler implements IEventHandler {
     public void attackEntityEvent(AttackEntityEvent event) {
         if (Config.vanillaToolsRemovalMode.getInt() == 2) {
             ItemStack heldItem = event.entityPlayer.getHeldItem();
-            if (Utils.isBrokenTool(heldItem)) {
+            if (ItemUtils.isBrokenTool(heldItem)) {
                 event.entityPlayer.destroyCurrentEquippedItem();
             }
         }
@@ -81,7 +81,7 @@ public class ToolHandler implements IEventHandler {
         Block blockAbove = event.world.getBlock(event.x, event.y + 1, event.z);
         int meta = event.world.getBlockMetadata(event.x, event.y, event.z);
         if (blockAbove.getMaterial() == Material.air) {
-            if (Utils.isGrassBlock(block) || Utils.isDirtBlock(block)) {
+            if (ItemUtils.isGrassBlock(block) || ItemUtils.isDirtBlock(block)) {
                 Utils.playSound(event.world, event.x, event.y, event.z, Blocks.farmland);
                 event.world.setBlock(event.x, event.y, event.z, Registry.farmland, meta, 2);
 
@@ -95,7 +95,7 @@ public class ToolHandler implements IEventHandler {
         if (Config.vanillaToolsRemovalMode.getInt() == 2) {
             if (event.action != PlayerInteractEvent.Action.RIGHT_CLICK_AIR) {
                 ItemStack heldItem = event.entityPlayer.getHeldItem();
-                if (Utils.isBrokenTool(heldItem)) {
+                if (ItemUtils.isBrokenTool(heldItem)) {
                     event.entityPlayer.destroyCurrentEquippedItem();
                 }
             }
@@ -103,13 +103,13 @@ public class ToolHandler implements IEventHandler {
 
         if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
             ItemStack heldItem = event.entityPlayer.getHeldItem();
-            if (Utils.isShovelTool(heldItem)) {
+            if (ItemUtils.isShovelTool(heldItem)) {
                 World world = event.world;
                 Block block = world.getBlock(event.x, event.y, event.z);
                 Block blockAbove = event.world.getBlock(event.x, event.y + 1, event.z);
                 int meta = world.getBlockMetadata(event.x, event.y, event.z);
                 if (blockAbove.getMaterial() == Material.air) {
-                    if (Utils.isGrassBlock(block)) {
+                    if (ItemUtils.isGrassBlock(block)) {
                         Utils.playSound(world, event.x, event.y, event.z, Blocks.dirt);
                         world.setBlock(event.x, event.y, event.z, Registry.path, meta, 2);
                         heldItem.damageItem(1, event.entityPlayer);
@@ -117,7 +117,7 @@ public class ToolHandler implements IEventHandler {
                     }
                 }
             }
-            if (Utils.isKnifeTool(heldItem) && Mods.efr.isLoaded()) {
+            if (ItemUtils.isKnifeTool(heldItem) && Mods.efr.isLoaded()) {
                 World world = event.world;
                 Block block = world.getBlock(event.x, event.y, event.z);
                 int meta = world.getBlockMetadata(event.x, event.y, event.z);
@@ -179,7 +179,7 @@ public class ToolHandler implements IEventHandler {
         if (event.harvester != null) {
             ItemStack heldItem = event.harvester.getHeldItem();
             if (Config.vanillaToolsRemovalMode.getInt() == 2) {
-                if (Utils.isBrokenTool(heldItem)) {
+                if (ItemUtils.isBrokenTool(heldItem)) {
                     event.drops.clear();
                     event.harvester.destroyCurrentEquippedItem();
                 }
@@ -187,7 +187,7 @@ public class ToolHandler implements IEventHandler {
 
             if (event.block instanceof BlockTallGrass) {
                 if (heldItem != null) {
-                    if (Utils.isKnifeTool(heldItem)) {
+                    if (ItemUtils.isKnifeTool(heldItem)) {
                         heldItem.damageItem(1, event.harvester);
                         if (event.world.rand.nextInt(3) == 0) {
                             event.drops.add(

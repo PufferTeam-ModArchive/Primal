@@ -9,7 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Registry;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.SoilType;
 
 public class BlockSoilGrass extends BlockMetaGrass {
@@ -47,7 +47,7 @@ public class BlockSoilGrass extends BlockMetaGrass {
                     Block block = worldIn.getBlock(i1, j1 + 1, k1);
                     Block blockCurrent = worldIn.getBlock(i1, j1, k1);
                     int metaCurrent = worldIn.getBlockMetadata(i1, j1, k1);
-                    if (Utils.isDirtBlock(blockCurrent) && worldIn.getBlockLightValue(i1, j1 + 1, k1) >= 4
+                    if (ItemUtils.isDirtBlock(blockCurrent) && worldIn.getBlockLightValue(i1, j1 + 1, k1) >= 4
                         && worldIn.getBlockLightOpacity(i1, j1 + 1, k1) <= 2) {
                         worldIn.setBlock(i1, j1, k1, Registry.grass, metaCurrent, 2);
                     }

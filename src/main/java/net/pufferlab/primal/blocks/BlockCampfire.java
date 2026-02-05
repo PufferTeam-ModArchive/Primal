@@ -25,6 +25,7 @@ import net.pufferlab.primal.recipes.CampfireRecipe;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
+import net.pufferlab.primal.utils.ItemUtils;
 
 import com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness;
 
@@ -81,8 +82,8 @@ public class BlockCampfire extends BlockContainerPrimal implements RPLECustomBlo
     public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
         float subY, float subZ) {
         ItemStack heldItem = player.getHeldItem();
-        if (Utils.canBeLit(heldItem)) return true;
-        if (Utils.isLighter(heldItem)) return false;
+        if (ItemUtils.canBeLit(heldItem)) return true;
+        if (ItemUtils.isLighter(heldItem)) return false;
         int meta = worldIn.getBlockMetadata(x, y, z);
         if ((Utils.containsOreDict(heldItem, "firewood") && meta > 0 && meta < 5)
             || (Utils.containsOreDict(heldItem, "kindling") && meta == 0)) {

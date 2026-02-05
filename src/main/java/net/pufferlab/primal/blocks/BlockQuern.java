@@ -18,10 +18,10 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.QuernRecipe;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityQuern;
+import net.pufferlab.primal.utils.ItemUtils;
 
 public class BlockQuern extends BlockContainerPrimal {
 
@@ -60,8 +60,8 @@ public class BlockQuern extends BlockContainerPrimal {
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityQuern quern) {
             if (!player.isSneaking()) {
-                if (Utils.isHandstoneTool(heldItem) || QuernRecipe.hasRecipe(heldItem)) {
-                    if (Utils.isHandstoneTool(heldItem)) {
+                if (ItemUtils.isHandstoneTool(heldItem) || QuernRecipe.hasRecipe(heldItem)) {
+                    if (ItemUtils.isHandstoneTool(heldItem)) {
                         worldIn.setBlockMetadataWithNotify(x, y, z, 1, 2);
                         return quern.addInventorySlotContentsUpdate(slotHandstone, player);
                     }

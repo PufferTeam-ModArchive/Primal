@@ -25,6 +25,7 @@ import net.pufferlab.primal.recipes.AnvilRecipe;
 import net.pufferlab.primal.tileentities.TileEntityAnvil;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
+import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.MetalType;
 
 public class BlockMetalAnvil extends BlockMetaContainer {
@@ -70,7 +71,7 @@ public class BlockMetalAnvil extends BlockMetaContainer {
                     return true;
                 }
             } else {
-                if (Utils.isHammerTool(heldItem)) {
+                if (ItemUtils.isHammerTool(heldItem)) {
                     Primal.proxy.openAnvilWorkGui(player, worldIn, x, y, z);
                     return true;
                 } else {

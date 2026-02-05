@@ -19,6 +19,7 @@ import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.TileEntityForge;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
+import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.TemperatureUtils;
 
 import com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness;
@@ -63,7 +64,7 @@ public class BlockForge extends BlockContainerPrimal implements RPLECustomBlockB
     public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
         float subY, float subZ) {
         ItemStack heldItem = player.getHeldItem();
-        if (Utils.canBeLit(heldItem)) return true;
+        if (ItemUtils.canBeLit(heldItem)) return true;
         TileEntity te = worldIn.getTileEntity(x, y, z);
         int meta = worldIn.getBlockMetadata(x, y, z);
         if (te instanceof TileEntityForge tef) {

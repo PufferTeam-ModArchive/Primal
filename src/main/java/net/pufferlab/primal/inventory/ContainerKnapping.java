@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.KnappingRecipe;
 import net.pufferlab.primal.recipes.KnappingType;
+import net.pufferlab.primal.utils.ItemUtils;
 
 public class ContainerKnapping extends Container {
 
@@ -61,7 +62,7 @@ public class ContainerKnapping extends Container {
         for (int i = 0; i < 9; i++) {
             ItemStack stack = invPlayer.getStackInSlot(i);
             if (stack != null) {
-                if (Utils.isKnifeTool(stack)) {
+                if (ItemUtils.isKnifeTool(stack)) {
                     index = i;
                 }
             }

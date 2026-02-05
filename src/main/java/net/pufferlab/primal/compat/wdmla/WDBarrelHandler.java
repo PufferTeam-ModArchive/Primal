@@ -34,14 +34,14 @@ public class WDBarrelHandler implements IBlockComponentProvider, IServerDataProv
             boolean isOpen = tag.getBoolean("isOpen");
             tooltip.child(new TextComponent(Utils.getStateTooltip(isOpen, "Open", "Sealed")));
             boolean canProcess = tag.getBoolean("canProcess");
-            long nextUpdate = tag.getLong("nextUpdateProcess");
+            long nextUpdate = tef.taskProcess.getNextUpdate();
             if (canProcess) {
                 BarrelRecipe recipe = BarrelRecipe.getRecipe(tef.getInventoryStack(slotInput), tef.getFluidStack());
                 if (recipe != null) {
                     List<ItemStack> inputs = Arrays.asList(tef.getInventoryStack(slotInput), recipe.inputLiquidBlock);
                     List<ItemStack> outputs = Arrays.asList(recipe.output, recipe.outputLiquidBlock);
 
-                    int timeToProcess = tag.getInteger("timeToProcess");
+                    int timeToProcess = tef.taskProcess.getTime();
                     int timeRemaining = Utils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);
                     IComponent progress = ThemeHelper.INSTANCE
                         .furnaceLikeProgress(inputs, outputs, timeRemaining, timeToProcess, false);

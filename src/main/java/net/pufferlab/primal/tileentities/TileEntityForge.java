@@ -111,7 +111,7 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
     }
 
     @Override
-    public void onSlotUpdated(int index) {
+    public void onSlotUpdate(int index) {
         removeSchedule(updateFuel);
     }
 

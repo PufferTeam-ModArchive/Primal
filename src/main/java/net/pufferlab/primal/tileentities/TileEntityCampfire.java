@@ -85,7 +85,7 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
     public void updateEntity() {}
 
     @Override
-    public void onSlotUpdated(int index) {
+    public void onSlotUpdate(int index) {
         if (index < 6) {
             removeSchedule(updateFuel);
         }

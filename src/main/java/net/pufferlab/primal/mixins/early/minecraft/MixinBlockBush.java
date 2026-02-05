@@ -2,7 +2,7 @@ package net.pufferlab.primal.mixins.early.minecraft;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.ItemUtils;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -14,7 +14,7 @@ public class MixinBlockBush {
 
     @Inject(method = "canPlaceBlockOn", at = @At("HEAD"), cancellable = true)
     public void canPlaceBlockOn$primal(Block ground, CallbackInfoReturnable<Boolean> cir) {
-        if (Utils.isGrassBlock(ground) || Utils.isDirtBlock(ground) || Utils.isFarmlandBlock(ground)) {
+        if (ItemUtils.isGrassBlock(ground) || ItemUtils.isDirtBlock(ground) || ItemUtils.isFarmlandBlock(ground)) {
             cir.setReturnValue(true);
         }
     }

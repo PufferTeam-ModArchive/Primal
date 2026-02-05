@@ -13,10 +13,10 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.ChoppingLogRecipe;
 import net.pufferlab.primal.tileentities.TileEntityChoppingLog;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
+import net.pufferlab.primal.utils.ItemUtils;
 
 public class BlockChoppingLog extends BlockContainerPrimal {
 
@@ -42,8 +42,8 @@ public class BlockChoppingLog extends BlockContainerPrimal {
         ItemStack heldItem = player.getHeldItem();
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityChoppingLog log) {
-            if (Utils.isAxeTool(heldItem) || ChoppingLogRecipe.hasRecipe(heldItem)) {
-                if (Utils.isAxeTool(heldItem)) {
+            if (ItemUtils.isAxeTool(heldItem) || ChoppingLogRecipe.hasRecipe(heldItem)) {
+                if (ItemUtils.isAxeTool(heldItem)) {
                     boolean result = log.process();
                     if (result) {
                         heldItem.damageItem(1, player);

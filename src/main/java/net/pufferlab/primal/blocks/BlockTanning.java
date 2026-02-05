@@ -17,6 +17,7 @@ import net.pufferlab.primal.recipes.TanningRecipe;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 import net.pufferlab.primal.tileentities.TileEntityTanning;
+import net.pufferlab.primal.utils.ItemUtils;
 
 public class BlockTanning extends BlockContainerPrimal {
 
@@ -61,8 +62,8 @@ public class BlockTanning extends BlockContainerPrimal {
         ItemStack heldItem = player.getHeldItem();
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityTanning scraping) {
-            if (Utils.isKnifeTool(heldItem) || TanningRecipe.hasRecipe(heldItem)) {
-                if (Utils.isKnifeTool(heldItem)) {
+            if (ItemUtils.isKnifeTool(heldItem) || TanningRecipe.hasRecipe(heldItem)) {
+                if (ItemUtils.isKnifeTool(heldItem)) {
                     boolean result = scraping.process();
                     if (result) {
                         heldItem.damageItem(10, player);

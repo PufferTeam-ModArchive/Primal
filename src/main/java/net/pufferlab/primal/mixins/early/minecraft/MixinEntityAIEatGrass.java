@@ -7,7 +7,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Registry;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.ItemUtils;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -37,7 +37,7 @@ public class MixinEntityAIEatGrass {
             int k = MathHelper.floor_double(this.field_151500_b.posZ);
             boolean isPossible = this.field_151501_c.getBlock(i, j, k) == Blocks.tallgrass
                 && this.field_151501_c.getBlockMetadata(i, j, k) == 1 ? true
-                    : Utils.isGrassBlock(this.field_151501_c.getBlock(i, j - 1, k));
+                    : ItemUtils.isGrassBlock(this.field_151501_c.getBlock(i, j - 1, k));
             cir.setReturnValue(isPossible);
         }
     }
@@ -58,7 +58,7 @@ public class MixinEntityAIEatGrass {
                 }
 
                 this.field_151500_b.eatGrassBonus();
-            } else if (Utils.isGrassBlock(this.field_151501_c.getBlock(i, j - 1, k))
+            } else if (ItemUtils.isGrassBlock(this.field_151501_c.getBlock(i, j - 1, k))
                 && this.field_151501_c.getBlock(i, j - 1, k) != Blocks.grass) {
                     if (this.field_151501_c.getGameRules()
                         .getGameRuleBooleanValue("mobGriefing")) {

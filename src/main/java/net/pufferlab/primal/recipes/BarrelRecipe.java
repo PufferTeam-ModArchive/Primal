@@ -71,9 +71,11 @@ public class BarrelRecipe {
     public FluidStack inputLiquid;
     public ItemStack inputLiquidBlock;
     public int processingTime;
+    public int recipeID;
 
     public BarrelRecipe(ItemStack output, FluidStack outputLiquid, List<ItemStack> input, FluidStack inputLiquid,
         int processingTime) {
+        this.recipeID = recipeList.size();
         this.output = output;
         this.outputLiquid = outputLiquid;
         if (outputLiquid != null) {

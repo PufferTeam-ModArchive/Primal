@@ -13,10 +13,10 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityLogPile;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
+import net.pufferlab.primal.utils.ItemUtils;
 
 public class BlockLogPile extends BlockPile {
 
@@ -83,7 +83,7 @@ public class BlockLogPile extends BlockPile {
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX,
         float hitY, float hitZ) {
         ItemStack heldItem = player.getHeldItem();
-        if (Utils.isLighter(heldItem)) return false;
+        if (ItemUtils.isLighter(heldItem)) return false;
         boolean result = super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
         for (int i = 0; i < 10; i++) {
             TileEntity te = world.getTileEntity(x, y + i, z);

@@ -111,7 +111,7 @@ public class TileEntityPitKiln extends TileEntityInventory implements IHeatable,
     }
 
     @Override
-    public void onSlotUpdated(int index) {}
+    public void onSlotUpdate(int index) {}
 
     @Override
     public void addSchedule(int inTime, int type) {
