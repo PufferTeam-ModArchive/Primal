@@ -157,6 +157,7 @@ public class Registry {
     public static final Item.ToolMaterial toolIron;
     public static final ItemArmor.ArmorMaterial armorBronze;
     public static final ItemArmor.ArmorMaterial armorCopper;
+    public static final ItemArmor.ArmorMaterial armorIron;
 
     public static Block tc_air_ore;
     public static Block tc_fire_ore;
@@ -173,6 +174,14 @@ public class Registry {
 
         armorCopper = EnumHelper.addArmorMaterial("copper", 10, new int[] { 1, 4, 3, 1 }, 15);
         armorBronze = EnumHelper.addArmorMaterial("bronze", 15, new int[] { 2, 5, 4, 1 }, 15);
+        armorIron = ItemArmor.ArmorMaterial.IRON;
+
+        Constants.copper.setToolMaterial(toolCopper)
+            .setArmorMaterial(armorCopper);
+        Constants.bronze.setToolMaterial(toolBronze)
+            .setArmorMaterial(armorBronze);
+        Constants.iron.setToolMaterial(toolIron)
+            .setArmorMaterial(armorIron);
 
         stone = new BlockStoneRaw(Constants.stoneTypes, "raw");
         cobble = new BlockStoneRaw(Constants.stoneTypes, "cobble");
@@ -282,34 +291,34 @@ public class Registry {
         hoe_head = new ItemMetal(Constants.toolMetalTypes, "hoe_head");
         hammer_head = new ItemMetal(Constants.toolMetalTypes, "hammer_head");
 
-        copper_axe = new ItemAxePrimitive(toolCopper, "copper_axe");
-        copper_pickaxe = new ItemPickaxePrimitive(toolCopper, "copper_pickaxe");
-        copper_shovel = new ItemShovelPrimitive(toolCopper, "copper_shovel");
-        copper_sword = new ItemSwordPrimitive(toolCopper, "copper_sword");
-        copper_knife = new ItemKnifePrimitive(toolCopper, "copper_knife");
-        copper_hoe = new ItemHoePrimitive(toolCopper, "copper_hoe");
-        copper_hammer = new ItemHammerPrimitive(toolCopper, "copper_hammer");
+        copper_axe = new ItemAxeMetal(Constants.copper);
+        copper_pickaxe = new ItemPickaxeMetal(Constants.copper);
+        copper_shovel = new ItemShovelMetal(Constants.copper);
+        copper_sword = new ItemSwordMetal(Constants.copper);
+        copper_knife = new ItemKnifeMetal(Constants.copper);
+        copper_hoe = new ItemHoeMetal(Constants.copper);
+        copper_hammer = new ItemHammerMetal(Constants.copper);
 
-        bronze_axe = new ItemAxePrimitive(toolBronze, "bronze_axe");
-        bronze_pickaxe = new ItemPickaxePrimitive(toolBronze, "bronze_pickaxe");
-        bronze_shovel = new ItemShovelPrimitive(toolBronze, "bronze_shovel");
-        bronze_sword = new ItemSwordPrimitive(toolBronze, "bronze_sword");
-        bronze_knife = new ItemKnifePrimitive(toolBronze, "bronze_knife");
-        bronze_hoe = new ItemHoePrimitive(toolBronze, "bronze_hoe");
-        bronze_hammer = new ItemHammerPrimitive(toolBronze, "bronze_hammer");
+        bronze_axe = new ItemAxeMetal(Constants.bronze);
+        bronze_pickaxe = new ItemPickaxeMetal(Constants.bronze);
+        bronze_shovel = new ItemShovelMetal(Constants.bronze);
+        bronze_sword = new ItemSwordMetal(Constants.bronze);
+        bronze_knife = new ItemKnifeMetal(Constants.bronze);
+        bronze_hoe = new ItemHoeMetal(Constants.bronze);
+        bronze_hammer = new ItemHammerMetal(Constants.bronze);
 
-        iron_knife = new ItemKnifePrimitive(toolIron, "iron_knife");
-        iron_hammer = new ItemHammerPrimitive(toolIron, "iron_hammer");
+        iron_knife = new ItemKnifeMetal(Constants.iron);
+        iron_hammer = new ItemHammerMetal(Constants.iron);
 
-        copper_helmet = new ItemArmorCopper(armorCopper, "copper_helmet", Constants.helmet);
-        copper_chestplate = new ItemArmorCopper(armorCopper, "copper_chestplate", Constants.chestplate);
-        copper_leggings = new ItemArmorCopper(armorCopper, "copper_leggings", Constants.leggings);
-        copper_boots = new ItemArmorCopper(armorCopper, "copper_boots", Constants.boots);
+        copper_helmet = new ItemArmorCopper(Constants.copper, Constants.helmet);
+        copper_chestplate = new ItemArmorCopper(Constants.copper, Constants.chestplate);
+        copper_leggings = new ItemArmorCopper(Constants.copper, Constants.leggings);
+        copper_boots = new ItemArmorCopper(Constants.copper, Constants.boots);
 
-        bronze_helmet = new ItemArmorBronze(armorBronze, "bronze_helmet", Constants.helmet);
-        bronze_chestplate = new ItemArmorBronze(armorBronze, "bronze_chestplate", Constants.chestplate);
-        bronze_leggings = new ItemArmorBronze(armorBronze, "bronze_leggings", Constants.leggings);
-        bronze_boots = new ItemArmorBronze(armorBronze, "bronze_boots", Constants.boots);
+        bronze_helmet = new ItemArmorBronze(Constants.bronze, Constants.helmet);
+        bronze_chestplate = new ItemArmorBronze(Constants.bronze, Constants.chestplate);
+        bronze_leggings = new ItemArmorBronze(Constants.bronze, Constants.leggings);
+        bronze_boots = new ItemArmorBronze(Constants.bronze, Constants.boots);
 
         firestarter = new ItemFireStarter();
         handstone = new ItemHandstone();

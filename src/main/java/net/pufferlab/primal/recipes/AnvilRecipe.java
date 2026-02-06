@@ -4,6 +4,7 @@ import java.util.*;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.utils.RecipeUtils;
 
@@ -13,14 +14,23 @@ public class AnvilRecipe {
     private static final Map<String, AnvilRecipe> recipeIDMap = new HashMap<>();
 
     public static void addRecipe(ItemStack output, ItemStack input, Object... objects) {
-        recipeList.add(new AnvilRecipe(output, Collections.singletonList(input), objects));
+        recipeList.add(new AnvilRecipe(output, Collections.singletonList(input), objects).setRecipeID(output, input));
     }
 
     public static void addRecipe(ItemStack output, String input, Object... objects) {
-        recipeList.add(new AnvilRecipe(output, OreDictionary.getOres(input), objects));
+        recipeList.add(new AnvilRecipe(output, OreDictionary.getOres(input), objects).setRecipeID(output, input));
     }
 
     public static AnvilRecipe getRecipe(ItemStack inputItem, AnvilAction... actions) {
+        for (AnvilRecipe currentRecipe : recipeList) {
+            if (currentRecipe.equals(inputItem, actions)) {
+                return currentRecipe;
+            }
+        }
+        return null;
+    }
+
+    public static AnvilRecipe getRecipe(ItemStack inputItem, int workLine, AnvilAction... actions) {
         for (AnvilRecipe currentRecipe : recipeList) {
             if (currentRecipe.equals(inputItem, actions)) {
                 return currentRecipe;
@@ -70,7 +80,6 @@ public class AnvilRecipe {
 
     public AnvilRecipe(ItemStack output, List<ItemStack> input, Object... objects) {
         int j = 0;
-        this.putRecipe(output, input, objects);
         this.recipeLine = 70;
         int size = objects.length / 2;
         this.recipeActions = new AnvilAction[size];
@@ -94,10 +103,15 @@ public class AnvilRecipe {
         this.normalizeByOrder();
     }
 
-    public void putRecipe(Object... objects) {
+    public AnvilRecipe setRecipeID(Object... objects) {
         String string = RecipeUtils.getRecipeHash(objects);
-        this.recipeID = string;
-        recipeIDMap.put(string, this);
+        if (!recipeIDMap.containsKey(string)) {
+            this.recipeID = string;
+            recipeIDMap.put(string, this);
+        } else {
+            RecipeUtils.throwInvalidRecipe(string);
+        }
+        return this;
     }
 
     private void normalizeByOrder() {
@@ -138,6 +152,10 @@ public class AnvilRecipe {
         }
         this.recipeActions = sortedActions;
         this.recipeOrders = sortedOrders;
+    }
+
+    public boolean equals(ItemStack input, int workLine, AnvilAction... actions) {
+        return Utils.isInRange(this.recipeLine, Config.anvilLineRange.getInt(), workLine) && equals(input, actions);
     }
 
     public boolean equals(ItemStack input, AnvilAction... actions) {

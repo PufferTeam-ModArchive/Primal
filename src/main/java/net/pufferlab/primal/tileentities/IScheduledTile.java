@@ -5,10 +5,13 @@ import net.pufferlab.primal.world.SchedulerData;
 
 public interface IScheduledTile extends ITile {
 
-    default void onSchedule(World world, int x, int y, int z, int type, int id) {};
+    default void onSchedule(World world, int x, int y, int z, int type, int id) {
+        mark();
+    }
 
     default void addSchedule(World world, int x, int y, int z, int inTime, int type) {
         SchedulerData.addScheduledTileTask(inTime, getBlock(), world, x, y, z, type, 0);
+        mark();
     }
 
     default void addSchedule(int inTime, int type) {
@@ -17,10 +20,12 @@ public interface IScheduledTile extends ITile {
 
     default void removeSchedule(World world, int x, int y, int z) {
         SchedulerData.removeScheduledTask(world, x, y, z);
+        mark();
     }
 
     default void removeSchedule(World world, int x, int y, int z, int type) {
         SchedulerData.removeScheduledTask(world, x, y, z, type);
+        mark();
     }
 
     default void removeSchedule() {

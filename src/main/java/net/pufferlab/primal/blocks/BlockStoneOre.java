@@ -69,4 +69,9 @@ public class BlockStoneOre extends BlockMetaOre {
     public CreativeTabs getCreativeTab() {
         return Registry.creativeTabWorld;
     }
+
+    @Override
+    public boolean registerOre() {
+        return true;
+    }
 }

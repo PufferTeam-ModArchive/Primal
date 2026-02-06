@@ -48,10 +48,17 @@ public class HeatHandler implements IEventHandler {
             NBTTagCompound tag = event.itemStack.getTagCompound();
             if (tag != null) {
                 if (HeatUtils.hasImpl(event.itemStack)) {
+                    IHeatableItem impl = HeatUtils.getImpl(event.itemStack);
                     int temperature = HeatUtils
                         .getInterpolatedTemperature(GlobalTickingData.getTickTime(event.entity.worldObj), tag);
                     if (temperature > Config.temperatureCap.getInt()) {
                         event.toolTip.add(HeatUtils.getTemperatureTooltip(temperature));
+                    }
+                    int forgingTemp = impl.getForgingTemperature(event.itemStack);
+                    if (forgingTemp > 0) {
+                        if (temperature > forgingTemp) {
+                            event.toolTip.add(Utils.translate("metal." + Primal.MODID + ".forging.can_forge.name"));
+                        }
                     }
                     if (event.itemStack.getItem() == crucible) {
                         FluidStack stack = FluidUtils.getFluidTankFromNBT(tag);

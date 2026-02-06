@@ -279,6 +279,8 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
 
     @Override
     public void onSchedule(World world, int x, int y, int z, int type, int id) {
+        IScheduledTile.super.onSchedule(world, x, y, z, type, id);
+
         if (type == updateRain) {
             taskRain.onUpdate(this.worldObj);
             fillRainWater();

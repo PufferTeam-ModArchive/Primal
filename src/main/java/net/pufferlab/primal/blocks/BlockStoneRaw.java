@@ -40,4 +40,9 @@ public class BlockStoneRaw extends BlockMeta {
     public CreativeTabs getCreativeTab() {
         return Registry.creativeTabWorld;
     }
+
+    @Override
+    public boolean registerOre() {
+        return true;
+    }
 }

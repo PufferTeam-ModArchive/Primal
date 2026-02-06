@@ -102,6 +102,7 @@ public class BlockCampfire extends BlockContainerPrimal implements RPLECustomBlo
                     worldIn.markBlockRangeForRenderUpdate(x, y, z, x, y, z);
                     worldIn.markBlockForUpdate(x, y, z);
                 }
+                tef.sendFuelUpdate();
                 return true;
             }
         } else {

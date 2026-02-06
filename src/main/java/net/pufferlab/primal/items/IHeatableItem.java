@@ -54,6 +54,10 @@ public interface IHeatableItem {
         return -1;
     }
 
+    default int getForgingTemperature(ItemStack stack) {
+        return -1;
+    }
+
     default int getWeldingTemperature(ItemStack stack) {
         return -1;
     }

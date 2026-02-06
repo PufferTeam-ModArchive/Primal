@@ -82,6 +82,8 @@ public enum Config {
     // Forging
     anvilActionStep(Module.metalworking$forging, ConfigUtils.getDefaultAnvilStep(),
         "The step value that the anvil action will take when clicked."),
+    anvilLineRange(Module.metalworking$forging, 1,
+        "The range that you need to be to the recipe line to complete an anvil recipe."),
 
     // Waterwheel
     waterwheelDefaultSpeed(Module.mechanical_power, 5F, "The default speed that the waterwheel will have."),

@@ -3,6 +3,8 @@ package net.pufferlab.primal.utils;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Config;
@@ -12,11 +14,15 @@ import net.pufferlab.primal.Utils;
 
 public class MetalType {
 
+    public Item.ToolMaterial toolMaterial;
+    public ItemArmor.ArmorMaterial armorMaterial;
+
     public String name;
     private String langKey;
     public String fluidName;
     public Fluid fluid;
     public boolean isAlloy;
+    public int forgingTemperature;
     public int weldingTemperature;
     public int meltingTemperature;
     public int level;
@@ -28,11 +34,12 @@ public class MetalType {
     public FluidStack oreFluid;
     public FluidStack smallOreFluid;
 
-    public MetalType(String name, boolean isAlloy, int welding, int melting, FluidType fluid, int level) {
+    public MetalType(String name, boolean isAlloy, int forging, int welding, int melting, FluidType fluid, int level) {
         this.name = name;
         this.fluidName = "molten_" + name;
         this.langKey = "metal." + Primal.MODID + "." + name + ".name";
         this.isAlloy = isAlloy;
+        this.forgingTemperature = forging;
         this.weldingTemperature = welding;
         this.meltingTemperature = melting;
         this.fluid = fluid.fluid;
@@ -58,6 +65,16 @@ public class MetalType {
 
     public MetalType setMeltingTemperature(int temp) {
         this.meltingTemperature = temp;
+        return this;
+    }
+
+    public MetalType setToolMaterial(Item.ToolMaterial toolMaterial) {
+        this.toolMaterial = toolMaterial;
+        return this;
+    }
+
+    public MetalType setArmorMaterial(ItemArmor.ArmorMaterial armorMaterial) {
+        this.armorMaterial = armorMaterial;
         return this;
     }
 

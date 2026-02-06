@@ -73,17 +73,17 @@ public class Constants {
 
     // Metals
     public static final FluidType moltenIron = new FluidType("molten_iron", Material.lava);
-    public static final MetalType iron = new MetalType("iron", false, 1148, 1538, moltenIron, 2);
+    public static final MetalType iron = new MetalType("iron", false, 921, 1148, 1538, moltenIron, 2);
     public static final FluidType moltenCastIron = new FluidType("molten_cast_iron", Material.lava);
-    public static final MetalType castIron = new MetalType("cast_iron", false, 1148, 1538, moltenCastIron, 2);
+    public static final MetalType castIron = new MetalType("cast_iron", false, 921, 1148, 1538, moltenCastIron, 2);
     public static final FluidType moltenGold = new FluidType("molten_gold", Material.lava);
-    public static final MetalType gold = new MetalType("gold", false, 750, 1064, moltenGold, 0);
+    public static final MetalType gold = new MetalType("gold", false, 636, 848, 1064, moltenGold, 0);
     public static final FluidType moltenCopper = new FluidType("molten_copper", Material.lava);
-    public static final MetalType copper = new MetalType("copper", false, 850, 1085, moltenCopper, 0);
+    public static final MetalType copper = new MetalType("copper", false, 648, 850, 1085, moltenCopper, 0);
     public static final FluidType moltenTin = new FluidType("molten_tin", Material.lava);
-    public static final MetalType tin = new MetalType("tin", false, 220, 232, moltenTin, 0);
+    public static final MetalType tin = new MetalType("tin", false, 138, 184, 232, moltenTin, 0);
     public static final FluidType moltenBronze = new FluidType("molten_bronze", Material.lava);
-    public static final MetalType bronze = new MetalType("bronze", true, 700, 950, moltenBronze, 1);
+    public static final MetalType bronze = new MetalType("bronze", true, 570, 760, 950, moltenBronze, 1);
     public static final MetalType[] metalTypes = new MetalType[] { iron, gold, copper, tin, bronze, };
     public static final MetalType[] blockMetalTypes = new MetalType[] { copper, tin, bronze };
     public static final MetalType[] toolMetalTypes = new MetalType[] { iron, copper, bronze };

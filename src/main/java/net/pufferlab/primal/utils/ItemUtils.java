@@ -275,6 +275,10 @@ public class ItemUtils {
         return fluid.getName();
     }
 
+    public static int getHarvestLevel(Block block, int meta) {
+        return block.getHarvestLevel(meta);
+    }
+
     public static boolean isLogBlock(Block block) {
         if (block == null) return false;
         if (block instanceof BlockLog) return true;

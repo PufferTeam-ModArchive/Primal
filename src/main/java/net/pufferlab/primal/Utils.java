@@ -34,6 +34,15 @@ public class Utils {
         return GlobalTickingData.getTickTime() + inTime;
     }
 
+    public static boolean isInRange(int number, int range, int number2) {
+        int max = Math.abs(number) + range;
+        int min = Math.abs(number) - range;
+        if (number2 <= max && number2 >= min) {
+            return true;
+        }
+        return false;
+    }
+
     public static ItemStack[] getItemStackListFromNBT(NBTTagCompound compound) {
         NBTTagList tagList = compound.getTagList("Items", 10);
         ItemStack[] inventory = new ItemStack[tagList.tagCount()];

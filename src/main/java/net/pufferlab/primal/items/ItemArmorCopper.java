@@ -1,8 +1,10 @@
 package net.pufferlab.primal.items;
 
-public class ItemArmorCopper extends ItemArmorPrimitive {
+import net.pufferlab.primal.utils.MetalType;
 
-    public ItemArmorCopper(ArmorMaterial armor, String name, int armorType) {
-        super(armor, name, armorType);
+public class ItemArmorCopper extends ItemArmorMetal {
+
+    public ItemArmorCopper(MetalType metalType, int armorType) {
+        super(metalType, armorType);
     }
 }

@@ -17,6 +17,7 @@ public class WDCompat implements IWDMlaPlugin {
     public static final WDCampfireHandler campfireHandler = new WDCampfireHandler();
     public static final WDQuernHandler quernHandler = new WDQuernHandler();
     public static final WDBarrelHandler barrelHandler = new WDBarrelHandler();
+    public static final WDAnvilHandler anvilHandler = new WDAnvilHandler();
     public static final WDPitKilnHandler pitKilnHandler = new WDPitKilnHandler();
     public static final WDLargeVesselHandler largeVesselHandler = new WDLargeVesselHandler();
     public static final WDHarvestHandler harvestHandler = new WDHarvestHandler();
@@ -29,6 +30,7 @@ public class WDCompat implements IWDMlaPlugin {
         registration.registerBlockDataProvider(campfireHandler, BlockCampfire.class);
         registration.registerBlockDataProvider(quernHandler, BlockQuern.class);
         registration.registerBlockDataProvider(barrelHandler, BlockBarrel.class);
+        registration.registerBlockDataProvider(anvilHandler, BlockMetalAnvil.class);
         registration.registerBlockDataProvider(pitKilnHandler, BlockPitKiln.class);
         registration.registerBlockDataProvider(largeVesselHandler, BlockLargeVessel.class);
         registration.registerFluidStorage(fluidHandler, BlockBarrel.class);
@@ -46,6 +48,7 @@ public class WDCompat implements IWDMlaPlugin {
         registration.registerBlockComponent(campfireHandler, BlockCampfire.class);
         registration.registerBlockComponent(quernHandler, BlockQuern.class);
         registration.registerBlockComponent(barrelHandler, BlockBarrel.class);
+        registration.registerBlockComponent(anvilHandler, BlockMetalAnvil.class);
         registration.registerBlockComponent(pitKilnHandler, BlockPitKiln.class);
         registration.registerBlockComponent(largeVesselHandler, BlockLargeVessel.class);
         registration.registerFluidStorageClient(fluidHandler);

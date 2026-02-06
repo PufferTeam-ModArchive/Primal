@@ -1,7 +1,5 @@
 package net.pufferlab.primal.network.packets;
 
-import static net.pufferlab.primal.tileentities.TileEntityAnvil.slotInput;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.pufferlab.primal.tileentities.TileEntityAnvil;
@@ -47,7 +45,7 @@ public class PacketAnvilPlan implements IMessage, IMessageHandler<PacketAnvilPla
         final EntityPlayer player = ctx.getServerHandler().playerEntity;
         TileEntity te = player.worldObj.getTileEntity(msg.x, msg.y, msg.z);
         if (te instanceof TileEntityAnvil tef) {
-            tef.addInventorySlotContentsUpdate(slotInput, player);
+            tef.setInput(player);
             tef.onRecipeChange(msg.recipeID);
         }
 

@@ -36,7 +36,7 @@ public class WDBarrelHandler implements IBlockComponentProvider, IServerDataProv
             boolean canProcess = tag.getBoolean("canProcess");
             long nextUpdate = tef.taskProcess.getNextUpdate();
             if (canProcess) {
-                BarrelRecipe recipe = BarrelRecipe.getRecipe(tef.getInventoryStack(slotInput), tef.getFluidStack());
+                BarrelRecipe recipe = tef.getRecipe();
                 if (recipe != null) {
                     List<ItemStack> inputs = Arrays.asList(tef.getInventoryStack(slotInput), recipe.inputLiquidBlock);
                     List<ItemStack> outputs = Arrays.asList(recipe.output, recipe.outputLiquidBlock);

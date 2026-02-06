@@ -16,6 +16,7 @@ public class ItemBlockMeta extends ItemBlock implements IMetaItem {
     public String name;
     public IMetaBlock blockC;
     public boolean hasSuffix;
+    public boolean registerOre;
 
     public ItemBlockMeta(Block block) {
         super(block);
@@ -26,6 +27,7 @@ public class ItemBlockMeta extends ItemBlock implements IMetaItem {
         elementsBlacklist = blockC.getElementsBlacklist();
         name = blockC.getElementName();
         hasSuffix = blockC.hasSuffix();
+        registerOre = blockC.registerOre();
         this.setHasSubtypes(true);
     }
 
@@ -65,6 +67,11 @@ public class ItemBlockMeta extends ItemBlock implements IMetaItem {
     @Override
     public boolean hasSuffix() {
         return hasSuffix;
+    }
+
+    @Override
+    public boolean registerOre() {
+        return registerOre;
     }
 
     @Override

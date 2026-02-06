@@ -1,6 +1,7 @@
 package net.pufferlab.primal.blocks;
 
 import static net.pufferlab.primal.tileentities.TileEntityAnvil.slotInput;
+import static net.pufferlab.primal.tileentities.TileEntityAnvil.slotOutput;
 
 import java.util.List;
 import java.util.Random;
@@ -74,9 +75,15 @@ public class BlockMetalAnvil extends BlockMetaContainer {
                 if (ItemUtils.isHammerTool(heldItem)) {
                     Primal.proxy.openAnvilWorkGui(player, worldIn, x, y, z);
                     return true;
+                } else if (tef.getInventoryStack(slotOutput) == null) {
+                    dropItems(worldIn, x, y, z);
+                    tef.setInventorySlotContentsUpdate(slotInput);
+                    tef.recipeID = "None";
+                    return true;
                 } else {
                     dropItems(worldIn, x, y, z);
-                    tef.setInventorySlotContentsUpdate(0);
+                    tef.setInventorySlotContentsUpdate(slotOutput);
+                    tef.recipeID = "None";
                     return true;
                 }
             }

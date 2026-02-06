@@ -27,4 +27,9 @@ public class BlockStoneGravel extends BlockMetaGravel {
     public CreativeTabs getCreativeTab() {
         return Registry.creativeTabWorld;
     }
+
+    @Override
+    public boolean registerOre() {
+        return true;
+    }
 }

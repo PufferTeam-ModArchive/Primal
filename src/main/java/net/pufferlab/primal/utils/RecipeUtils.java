@@ -30,40 +30,54 @@ public class RecipeUtils {
         return "";
     }
 
+    public static int appendCount;
+
     public static String getRecipeHash(Object... objects) {
         StringBuilder builder = new StringBuilder();
+        appendCount = 0;
 
-        for (Object obj : objects) {
-            appendObject(builder, obj);
+        for (int i = 0; i < objects.length; i++) {
+            Object obj = objects[i];
+
+            appendRecipeElement(builder, obj);
         }
 
         return builder.toString()
             .trim();
     }
 
-    private static void appendObject(StringBuilder builder, Object obj) {
+    private static void appendRecipeElement(StringBuilder builder, Object obj) {
         if (obj == null) return;
 
+        if (appendCount > 0) {
+            builder.append("|");
+        }
         if (obj instanceof Iterable<?>iterable) {
             for (Object o : iterable) {
-                appendObject(builder, o);
+                appendRecipeElement(builder, o);
             }
         } else if (obj instanceof ItemStack is) {
             builder.append(ItemUtils.getName(is))
                 .append('#')
                 .append(is.stackSize)
-                .append('|');
+                .append("@")
+                .append(is.getItemDamage());
+            appendCount++;
         } else if (obj instanceof FluidStack fs) {
             builder.append(ItemUtils.getName(fs))
                 .append('#')
-                .append(fs.amount)
-                .append('|');
-        } else {
-            builder.append("x")
-                .append('#')
-                .append("x")
-                .append('|');
+                .append(fs.amount);
+            appendCount++;
+        } else if (obj instanceof String str) {
+            builder.append(str);
+            appendCount++;
         }
+    }
+
+    public static void throwInvalidRecipe(String id) {
+        throw new IllegalStateException(
+            "Duplicate recipe ID detected.\nRecipe ID: " + id
+                + "\nThis usually means two recipes were registered with the same ID.");
     }
 
     public static String getRecipeTooltip(String name, int timePassed, int timeToProcess, String suffix) {

@@ -14,24 +14,30 @@ public class BarrelRecipe {
     private static final Map<String, BarrelRecipe> recipeIDMap = new HashMap<>();
 
     public static void addRecipe(ItemStack output, FluidStack outputLiquid, ItemStack input, FluidStack inputLiquid) {
-        recipeList.add(new BarrelRecipe(output, outputLiquid, Collections.singletonList(input), inputLiquid, 60));
+        recipeList.add(
+            new BarrelRecipe(output, outputLiquid, Collections.singletonList(input), inputLiquid, 60)
+                .setRecipeID(output, outputLiquid, input, inputLiquid));
     }
 
     public static void addRecipe(ItemStack output, FluidStack outputLiquid, List<ItemStack> input,
         FluidStack inputLiquid, int processingTime) {
-        recipeList.add(new BarrelRecipe(output, outputLiquid, input, inputLiquid, processingTime));
+        recipeList.add(
+            new BarrelRecipe(output, outputLiquid, input, inputLiquid, processingTime)
+                .setRecipeID(output, outputLiquid, input, inputLiquid));
     }
 
     public static void addRecipe(ItemStack output, FluidStack outputLiquid, ItemStack input, FluidStack inputLiquid,
         int processingTime) {
-        recipeList
-            .add(new BarrelRecipe(output, outputLiquid, Collections.singletonList(input), inputLiquid, processingTime));
+        recipeList.add(
+            new BarrelRecipe(output, outputLiquid, Collections.singletonList(input), inputLiquid, processingTime)
+                .setRecipeID(output, outputLiquid, input, inputLiquid));
     }
 
     public static void addRecipe(ItemStack output, FluidStack outputLiquid, String input, FluidStack inputLiquid,
         int processingTime) {
-        recipeList
-            .add(new BarrelRecipe(output, outputLiquid, OreDictionary.getOres(input), inputLiquid, processingTime));
+        recipeList.add(
+            new BarrelRecipe(output, outputLiquid, OreDictionary.getOres(input), inputLiquid, processingTime)
+                .setRecipeID(output, outputLiquid, input, inputLiquid));
     }
 
     public static void removeRecipe(ItemStack output, FluidStack outputLiquid, List<ItemStack> input,
@@ -79,7 +85,6 @@ public class BarrelRecipe {
 
     public BarrelRecipe(ItemStack output, FluidStack outputLiquid, List<ItemStack> input, FluidStack inputLiquid,
         int processingTime) {
-        this.putRecipe(output, outputLiquid, input, inputLiquid);
         this.output = output;
         this.outputLiquid = outputLiquid;
         if (outputLiquid != null) {
@@ -99,10 +104,15 @@ public class BarrelRecipe {
         this.processingTime = processingTime;
     }
 
-    public void putRecipe(Object... objects) {
+    public BarrelRecipe setRecipeID(Object... objects) {
         String string = RecipeUtils.getRecipeHash(objects);
-        this.recipeID = string;
-        recipeIDMap.put(string, this);
+        if (!recipeIDMap.containsKey(string)) {
+            this.recipeID = string;
+            recipeIDMap.put(string, this);
+        } else {
+            RecipeUtils.throwInvalidRecipe(string);
+        }
+        return this;
     }
 
     public boolean equals(ItemStack input, FluidStack inputLiquid) {

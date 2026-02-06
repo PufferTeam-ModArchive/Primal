@@ -126,6 +126,8 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
 
     @Override
     public void onSchedule(World world, int x, int y, int z, int type, int id) {
+        IScheduledTile.super.onSchedule(world, x, y, z, type, id);
+
         if (type == updateFuel) {
             taskFuel.onUpdate(this.worldObj);
             updateFuel();

@@ -27,4 +27,9 @@ public class BlockStoneSand extends BlockMetaSand {
     public CreativeTabs getCreativeTab() {
         return Registry.creativeTabWorld;
     }
+
+    @Override
+    public boolean registerOre() {
+        return true;
+    }
 }

@@ -56,4 +56,9 @@ public class BlockSoilFarmland extends BlockMetaFarmland {
     public CreativeTabs getCreativeTab() {
         return Registry.creativeTabWorld;
     }
+
+    @Override
+    public boolean registerOre() {
+        return true;
+    }
 }

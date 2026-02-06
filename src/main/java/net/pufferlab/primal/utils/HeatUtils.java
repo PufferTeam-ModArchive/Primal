@@ -62,6 +62,11 @@ public class HeatUtils {
             public int getWeldingTemperature(ItemStack stack) {
                 return metals.get(stack.getItemDamage()).weldingTemperature;
             }
+
+            @Override
+            public int getForgingTemperature(ItemStack stack) {
+                return metals.get(stack.getItemDamage()).forgingTemperature;
+            }
         });
     }
 
@@ -168,11 +173,11 @@ public class HeatUtils {
         setMultiplierToNBT(tag, multiplier);
     }
 
-    public static void getInterpolatedTemperatureFromNBT(NBTTagCompound tag) {
-        getMaxTemperatureFromNBT(tag);
-        getTemperatureFromNBT(tag);
-        getWorldTimeFromNBT(tag);
-        getMultiplierFromNBT(tag);
+    public static void transferInterpolatedTemperatureToNBT(NBTTagCompound to, NBTTagCompound from) {
+        setMaxTemperatureToNBT(to, getMaxTemperatureFromNBT(from));
+        setTemperatureToNBT(to, getTemperatureFromNBT(from));
+        setWorldTimeToNBT(to, getWorldTimeFromNBT(from));
+        setMultiplierToNBT(to, getMultiplierFromNBT(from));
     }
 
     public static void resetTemperatureToNBT(NBTTagCompound tag) {

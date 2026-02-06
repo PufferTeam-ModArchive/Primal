@@ -72,6 +72,7 @@ public class BlockForge extends BlockContainerPrimal implements RPLECustomBlockB
                 Utils.playSound(worldIn, x, y, z, Registry.charcoal_pile);
                 tef.addInventorySlotContentsUpdate(meta, player);
                 worldIn.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
+                tef.sendFuelUpdate();
                 return true;
             }
         }

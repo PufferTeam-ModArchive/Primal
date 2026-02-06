@@ -53,7 +53,7 @@ public class PacketAnvilWork implements IMessage, IMessageHandler<PacketAnvilWor
         }
         Primal.proxy.sendPacketToClient(new PacketSwingArm(player));
         if (te instanceof TileEntityAnvil tef) {
-            tef.onWorkButtonClick(msg.button);
+            tef.onWorkButtonClick(player.getHeldItem(), msg.button);
         }
 
         return null;
