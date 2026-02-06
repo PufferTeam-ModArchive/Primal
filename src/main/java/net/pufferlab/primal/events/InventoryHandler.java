@@ -5,8 +5,8 @@ import java.util.List;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.pufferlab.primal.Registry;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.utils.FluidUtils;
+import net.pufferlab.primal.utils.ItemUtils;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -33,7 +33,7 @@ public class InventoryHandler implements IEventHandler {
 
         if (event.itemStack.getItem() == itemLargeVessel) {
             if (event.itemStack.hasTagCompound()) {
-                List<String> tooltips = Utils.getItemStackNameListFromNBT(event.itemStack.getTagCompound());
+                List<String> tooltips = ItemUtils.getItemStackNameListFromNBT(event.itemStack.getTagCompound());
                 event.toolTip.addAll(tooltips);
                 String tooltip = FluidUtils.getFluidInfoFromNBT(event.itemStack.getTagCompound());
                 if (tooltip != null) {

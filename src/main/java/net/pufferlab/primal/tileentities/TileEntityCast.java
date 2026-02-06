@@ -5,10 +5,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.recipes.CastingRecipe;
 import net.pufferlab.primal.utils.HeatUtils;
+import net.pufferlab.primal.utils.ItemUtils;
 
 public class TileEntityCast extends TileEntityFluidInventory implements IHeatable {
 
@@ -86,7 +86,7 @@ public class TileEntityCast extends TileEntityFluidInventory implements IHeatabl
                     if (getInventoryStack(slotOutput) == null && getInventoryStack(slotOutputSmall) == null
                         && drain(ForgeDirection.UP, input, false) != null) {
                         drain(ForgeDirection.UP, input, true);
-                        if (Utils.isValidMetal(output)) {
+                        if (ItemUtils.isValidMetal(output)) {
                             setInventorySlotContentsUpdate(slotOutputSmall, output);
                         } else {
                             setInventorySlotContentsUpdate(slotOutput, output);

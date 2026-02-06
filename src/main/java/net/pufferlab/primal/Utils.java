@@ -9,7 +9,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.*;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
@@ -41,29 +40,6 @@ public class Utils {
             return true;
         }
         return false;
-    }
-
-    public static ItemStack[] getItemStackListFromNBT(NBTTagCompound compound) {
-        NBTTagList tagList = compound.getTagList("Items", 10);
-        ItemStack[] inventory = new ItemStack[tagList.tagCount()];
-        for (int i = 0; i < tagList.tagCount(); i++) {
-            NBTTagCompound tag = tagList.getCompoundTagAt(i);
-            byte slot = tag.getByte("Slot");
-            if (slot >= 0 && slot < inventory.length) inventory[slot] = ItemStack.loadItemStackFromNBT(tag);
-        }
-        return inventory;
-    }
-
-    public static List<String> getItemStackNameListFromNBT(NBTTagCompound compound) {
-        ItemStack[] inventory = getItemStackListFromNBT(compound);
-        List<String> tooltip = new ArrayList<>();
-        for (ItemStack item : inventory) {
-            if (item != null) {
-                String name = item.getDisplayName();
-                tooltip.add(name + " x" + item.stackSize);
-            }
-        }
-        return tooltip;
     }
 
     public static void damageItemIndex(int index, int amount, InventoryPlayer invPlayer) {
@@ -666,37 +642,6 @@ public class Utils {
 
     public static int clamp(int min, int max, int value) {
         return Math.max(min, Math.min(value, max));
-    }
-
-    public static Map<String, String> metalTypes = new HashMap<>();
-
-    public static String getMetalType(ItemStack item) {
-        if (item == null) return null;
-        Item itemObj = item.getItem();
-        int itemMeta = item.getItemDamage();
-        String key = getItemKey(itemObj, itemMeta);
-        if (metalTypes.containsKey(key)) {
-            return metalTypes.get(key);
-        }
-        int[] oreIDS = OreDictionary.getOreIDs(item);
-        for (int oreID : oreIDS) {
-            String name = OreDictionary.getOreName(oreID);
-            if (name.contains("ingot")) {
-                String[] names = name.split("ingot");
-                if (names.length > 1) {
-                    String metalName = names[1].toLowerCase();
-                    metalTypes.put(key, metalName);
-                    return metalName;
-                }
-            }
-        }
-        return null;
-    }
-
-    public static boolean isValidMetal(ItemStack item) {
-        String metal = getMetalType(item);
-        if (metal == null) return false;
-        return true;
     }
 
     public static String translate(String key) {

@@ -6,6 +6,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.*;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -30,6 +32,7 @@ public class ItemUtils {
     private static final Map<String, FluidStack> fluidCache = new HashMap<>();
     private static final Map<String, ItemStack> modItemCache = new HashMap<>();
     private static final Map<String, ItemStack> oreDictCache = new HashMap<>();
+    public static Map<String, String> metalTypes = new HashMap<>();
     private static List<String> modItemNames;
     private static Map<String, Integer> priorityMap;
     private static Map<String, ItemStack> priorityMapOverride;
@@ -401,5 +404,57 @@ public class ItemUtils {
         if (itemStack.getItem() == Item.getItemFromBlock(Registry.unlit_torch)
             || itemStack.getItem() == Item.getItemFromBlock(Registry.lit_torch)) return true;
         return false;
+    }
+
+    public static String getMetalType(ItemStack item) {
+        if (item == null) return null;
+        Item itemObj = item.getItem();
+        int itemMeta = item.getItemDamage();
+        String key = Utils.getItemKey(itemObj, itemMeta);
+        if (metalTypes.containsKey(key)) {
+            return metalTypes.get(key);
+        }
+        int[] oreIDS = OreDictionary.getOreIDs(item);
+        for (int oreID : oreIDS) {
+            String name = OreDictionary.getOreName(oreID);
+            if (name.contains("ingot")) {
+                String[] names = name.split("ingot");
+                if (names.length > 1) {
+                    String metalName = names[1].toLowerCase();
+                    metalTypes.put(key, metalName);
+                    return metalName;
+                }
+            }
+        }
+        return null;
+    }
+
+    public static boolean isValidMetal(ItemStack item) {
+        String metal = getMetalType(item);
+        if (metal == null) return false;
+        return true;
+    }
+
+    public static ItemStack[] getItemStackListFromNBT(NBTTagCompound compound) {
+        NBTTagList tagList = compound.getTagList("Items", 10);
+        ItemStack[] inventory = new ItemStack[tagList.tagCount()];
+        for (int i = 0; i < tagList.tagCount(); i++) {
+            NBTTagCompound tag = tagList.getCompoundTagAt(i);
+            byte slot = tag.getByte("Slot");
+            if (slot >= 0 && slot < inventory.length) inventory[slot] = ItemStack.loadItemStackFromNBT(tag);
+        }
+        return inventory;
+    }
+
+    public static List<String> getItemStackNameListFromNBT(NBTTagCompound compound) {
+        ItemStack[] inventory = getItemStackListFromNBT(compound);
+        List<String> tooltip = new ArrayList<>();
+        for (ItemStack item : inventory) {
+            if (item != null) {
+                String name = item.getDisplayName();
+                tooltip.add(name + " x" + item.stackSize);
+            }
+        }
+        return tooltip;
     }
 }
