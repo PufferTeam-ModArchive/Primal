@@ -48,9 +48,4 @@ public class BlockSoilPath extends BlockMetaPath {
     public CreativeTabs getCreativeTab() {
         return Registry.creativeTabWorld;
     }
-
-    @Override
-    public boolean registerOre() {
-        return true;
-    }
 }

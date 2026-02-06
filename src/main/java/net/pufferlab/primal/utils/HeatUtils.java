@@ -253,6 +253,6 @@ public class HeatUtils {
     }
 
     public static String getTemperatureTooltip(int temperature) {
-        return Utils.translate("temp." + Primal.MODID + ".desc", temperature);
+        return Utils.translate("heat." + Primal.MODID + ".temperature.desc", temperature);
     }
 }

@@ -27,9 +27,4 @@ public class BlockSoilDirt extends BlockMetaDirt {
     public CreativeTabs getCreativeTab() {
         return Registry.creativeTabWorld;
     }
-
-    @Override
-    public boolean registerOre() {
-        return true;
-    }
 }

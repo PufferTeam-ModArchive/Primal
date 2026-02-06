@@ -65,9 +65,4 @@ public class BlockSoilGrass extends BlockMetaGrass {
     public CreativeTabs getCreativeTab() {
         return Registry.creativeTabWorld;
     }
-
-    @Override
-    public boolean registerOre() {
-        return true;
-    }
 }
