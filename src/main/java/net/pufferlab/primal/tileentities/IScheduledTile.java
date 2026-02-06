@@ -1,7 +1,6 @@
 package net.pufferlab.primal.tileentities;
 
 import net.minecraft.world.World;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.world.SchedulerData;
 
 public interface IScheduledTile extends ITile {
@@ -42,9 +41,5 @@ public interface IScheduledTile extends ITile {
 
     default void moveAllSchedule(World world, int oldX, int oldY, int oldZ) {
         moveAllSchedule(world, oldX, oldY, oldZ, getX(), getY(), getZ());
-    }
-
-    default long getWorldTime(int inTime) {
-        return Utils.getWorldTime(inTime);
     }
 }

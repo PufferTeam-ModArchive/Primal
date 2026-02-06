@@ -12,7 +12,7 @@ import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.world.GlobalTickingData;
 
-public class TemperatureUtils {
+public class HeatUtils {
 
     private static final Map<Item, IHeatableItem> heatableItems = new HashMap<>();
     private static final Map<Item, List<Integer>> heatableMetaItems = new HashMap<>();
@@ -156,7 +156,7 @@ public class TemperatureUtils {
             tag,
             world,
             multiplier,
-            TemperatureUtils.getInterpolatedTemperature(GlobalTickingData.getTickTime(world), tag),
+            HeatUtils.getInterpolatedTemperature(GlobalTickingData.getTickTime(world), tag),
             maxTemperature);
     }
 
@@ -232,7 +232,7 @@ public class TemperatureUtils {
     }
 
     public static short getHeatingColor(int temperature) {
-        int heatingLevel = TemperatureUtils.getHeatingLevel(temperature);
+        int heatingLevel = HeatUtils.getHeatingLevel(temperature);
         if (heatingLevel > 0) {
             if (heatingLevel < 3) {
                 return Constants.lightHeat1;

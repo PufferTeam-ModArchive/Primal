@@ -3,12 +3,9 @@ package net.pufferlab.primal.commands;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.utils.StoneType;
-import net.pufferlab.primal.world.gen.WorldGenSoil;
-import net.pufferlab.primal.world.gen.WorldGenStrata;
 
 public class CommandStrata extends CommandSub {
 
@@ -41,18 +38,6 @@ public class CommandStrata extends CommandSub {
                     }
 
                 }
-            } else if (args[0].equals("chunk")) {
-                WorldGenStrata gen = new WorldGenStrata();
-                WorldGenSoil genSoil = new WorldGenSoil();
-                int chunkX = c.posX >> 4;
-                int chunkZ = c.posZ >> 4;
-                Chunk chunk = world.getChunkFromChunkCoords(chunkX, chunkZ);
-                gen.initNoiseSeed(world);
-                gen.initBlockList();
-                genSoil.initNoiseSeed(world);
-                genSoil.initBlockList();
-                gen.genStrata(chunk);
-                genSoil.genSoil(chunk);
             }
         }
     }

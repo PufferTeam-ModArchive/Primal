@@ -20,7 +20,7 @@ public class ContainerAnvilPlan extends Container {
         if (AnvilRecipe.hasRecipe(stack)) {
             List<AnvilRecipe> recipe = AnvilRecipe.getRecipes(stack);
             ItemStack[] items = new ItemStack[recipe.size()];
-            int[] id = new int[recipe.size()];
+            String[] id = new String[recipe.size()];
             for (int i = 0; i < items.length; i++) {
                 items[i] = recipe.get(i).output;
                 id[i] = recipe.get(i).recipeID;

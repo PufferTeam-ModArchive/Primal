@@ -12,7 +12,7 @@ import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.recipes.AlloyingRecipe;
 import net.pufferlab.primal.recipes.MeltingRecipe;
-import net.pufferlab.primal.utils.TemperatureUtils;
+import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 public class TileEntityCrucible extends TileEntityFluidInventory implements IHeatable {
@@ -235,10 +235,10 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
             for (int i = 0; i < getSizeInventory(); i++) {
                 ItemStack stack = getInventoryStack(i);
                 if (MeltingRecipe.hasRecipe(stack)) {
-                    if (TemperatureUtils.hasImpl(stack)) {
-                        IHeatableItem impl = TemperatureUtils.getImpl(stack);
+                    if (HeatUtils.hasImpl(stack)) {
+                        IHeatableItem impl = HeatUtils.getImpl(stack);
                         FluidStack output = MeltingRecipe.getOutput(stack);
-                        int currentTemperature = TemperatureUtils.getInterpolatedTemperature(
+                        int currentTemperature = HeatUtils.getInterpolatedTemperature(
                             GlobalTickingData.getTickTime(this.worldObj),
                             stack.getTagCompound());
                         if (currentTemperature > impl.getMeltingTemperature(stack)) {
@@ -277,8 +277,8 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     @Override
     public void onItemRemoved(ItemStack stack) {
         if (stack != null) {
-            if (TemperatureUtils.hasImpl(stack)) {
-                IHeatableItem item = TemperatureUtils.getImpl(stack);
+            if (HeatUtils.hasImpl(stack)) {
+                IHeatableItem item = HeatUtils.getImpl(stack);
                 item.updateHeat(stack, this.getWorld(), -1.0F, this.maxTemperature);
             }
         }
@@ -289,8 +289,8 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
             ItemStack stack = getInventoryStack(i);
             int lastTemp = this.temperatureInventory[i];
             if (stack != null) {
-                if (TemperatureUtils.hasImpl(stack)) {
-                    IHeatableItem item = TemperatureUtils.getImpl(stack);
+                if (HeatUtils.hasImpl(stack)) {
+                    IHeatableItem item = HeatUtils.getImpl(stack);
                     if (lastTemp > item.getMeltingTemperature(stack)) {
                         return true;
                     }
@@ -312,9 +312,9 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
                 modifier = -1.0F;
             }
             if (stack != null) {
-                if (TemperatureUtils.hasImpl(stack)) {
-                    IHeatableItem item = TemperatureUtils.getImpl(stack);
-                    int temperature = TemperatureUtils
+                if (HeatUtils.hasImpl(stack)) {
+                    IHeatableItem item = HeatUtils.getImpl(stack);
+                    int temperature = HeatUtils
                         .getInterpolatedTemperature(GlobalTickingData.getTickTime(getWorld()), stack.getTagCompound());
                     this.temperatureInventory[i] = temperature;
                     item.updateHeat(stack, this.getWorld(), modifier, temperature, maxTemperature);

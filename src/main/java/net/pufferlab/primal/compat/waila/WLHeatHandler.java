@@ -8,9 +8,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Config;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.IHeatable;
-import net.pufferlab.primal.utils.TemperatureUtils;
+import net.pufferlab.primal.utils.HeatUtils;
+import net.pufferlab.primal.utils.RecipeUtils;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -29,11 +29,11 @@ public class WLHeatHandler implements IWailaDataProvider {
                 boolean isHeatProvider = tef.isHeatProvider();
                 if (isHeatProvider) {
                     boolean isFired = tag.getBoolean("isFired");
-                    currenttip.add(Utils.getStateTooltip(isFired, "Fired", "Unfired"));
+                    currenttip.add(RecipeUtils.getStateTooltip(isFired, "Fired", "Unfired"));
                 }
                 int temperature = tag.getInteger("temperature");
                 if (temperature > Config.temperatureCap.getInt()) {
-                    currenttip.add(TemperatureUtils.getTemperatureTooltip(temperature));
+                    currenttip.add(HeatUtils.getTemperatureTooltip(temperature));
                 }
             }
         }

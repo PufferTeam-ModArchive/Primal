@@ -9,7 +9,7 @@ import net.pufferlab.primal.blocks.BlockCast;
 import net.pufferlab.primal.blocks.BlockCrucible;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.utils.FluidUtils;
-import net.pufferlab.primal.utils.TemperatureUtils;
+import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 import com.falsepattern.rple.api.common.item.RPLECustomItemBrightness;
@@ -60,10 +60,10 @@ public class ItemBlockCrucible extends ItemBlockPrimal implements IHeatableItem,
 
     @Override
     public short rple$getCustomBrightnessColor(ItemStack stack) {
-        if (TemperatureUtils.hasImpl(stack)) {
-            int temperature = TemperatureUtils
+        if (HeatUtils.hasImpl(stack)) {
+            int temperature = HeatUtils
                 .getInterpolatedTemperature(GlobalTickingData.getClientTickTime(), stack.getTagCompound());
-            return TemperatureUtils.getHeatingColor(temperature);
+            return HeatUtils.getHeatingColor(temperature);
         }
         return Constants.lightNone;
     }

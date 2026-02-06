@@ -7,6 +7,7 @@ import net.minecraft.block.BlockLog;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.*;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -256,6 +257,22 @@ public class ItemUtils {
             .getNameForObject(item)
             .split(":")[0];
         return mod;
+    }
+
+    public static String getName(ItemStack stack) {
+        if (stack == null || stack.getItem() == null) return "unknown";
+        Item item = stack.getItem();
+
+        String mod = GameData.getItemRegistry()
+            .getNameForObject(item);
+        return mod;
+    }
+
+    public static String getName(FluidStack stack) {
+        if (stack == null || stack.getFluid() == null) return "unknown";
+        Fluid fluid = stack.getFluid();
+
+        return fluid.getName();
     }
 
     public static boolean isLogBlock(Block block) {

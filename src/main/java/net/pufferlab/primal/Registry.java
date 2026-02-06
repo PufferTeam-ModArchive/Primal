@@ -503,7 +503,8 @@ public class Registry {
         registerPacket(PacketKnappingClick.class, Side.SERVER);
         registerPacket(PacketPitKilnPlace.class, Side.SERVER);
         registerPacket(PacketSpeedButton.class, Side.SERVER);
-        registerPacket(PacketAnvilButton.class, Side.SERVER);
+        registerPacket(PacketAnvilPlan.class, Side.SERVER);
+        registerPacket(PacketAnvilWork.class, Side.SERVER);
 
         registerPacket(PacketSwingArm.class, Side.CLIENT);
         registerPacket(PacketFireStarter.class, Side.CLIENT);
@@ -730,10 +731,10 @@ public class Registry {
     }
 
     public void registerHeat(Item item, Item maskItem) {
-        TemperatureUtils.registerImpl(item, Collections.singletonList(0), maskItem);
+        HeatUtils.registerImpl(item, Collections.singletonList(0), maskItem);
     }
 
     public void registerHeat(Item item, Item maskItem, MetalType metal) {
-        TemperatureUtils.registerImpl(item, Collections.singletonList(0), maskItem, Collections.singletonList(metal));
+        HeatUtils.registerImpl(item, Collections.singletonList(0), maskItem, Collections.singletonList(metal));
     }
 }

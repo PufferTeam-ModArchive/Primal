@@ -4,20 +4,20 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.MetalType;
-import net.pufferlab.primal.utils.TemperatureUtils;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 public interface IHeatableItem {
 
     default void updateHeat(ItemStack stack, World world, float multiplier, int maxTemperature) {
         NBTTagCompound tag = Utils.getOrCreateTagCompound(stack);
-        TemperatureUtils.setInterpolatedTemperatureToNBT(tag, world, multiplier, maxTemperature);
+        HeatUtils.setInterpolatedTemperatureToNBT(tag, world, multiplier, maxTemperature);
     };
 
     default void updateHeat(ItemStack stack, World world, float multiplier, int temperature, int maxTemperature) {
         NBTTagCompound tag = Utils.getOrCreateTagCompound(stack);
-        TemperatureUtils.setInterpolatedTemperatureToNBT(tag, world, multiplier, temperature, maxTemperature);
+        HeatUtils.setInterpolatedTemperatureToNBT(tag, world, multiplier, temperature, maxTemperature);
     };
 
     default void onUpdateHeat(ItemStack stack, World worldIn) {
@@ -27,11 +27,10 @@ public interface IHeatableItem {
     default void onUpdateHeat(ItemStack stack, World worldIn, float newModifier) {
         if (stack != null) {
             NBTTagCompound tag = stack.getTagCompound();
-            if (TemperatureUtils.hasImpl(stack)) {
-                int temperature = TemperatureUtils
-                    .getInterpolatedTemperature(GlobalTickingData.getTickTime(worldIn), tag);
+            if (HeatUtils.hasImpl(stack)) {
+                int temperature = HeatUtils.getInterpolatedTemperature(GlobalTickingData.getTickTime(worldIn), tag);
                 if (temperature <= 0) {
-                    TemperatureUtils.resetTemperatureToNBT(tag);
+                    HeatUtils.resetTemperatureToNBT(tag);
                     if (tag != null) {
                         if (tag.hasNoTags()) {
                             stack.setTagCompound(null);
@@ -39,7 +38,7 @@ public interface IHeatableItem {
                     }
                 }
 
-                float multiplier = TemperatureUtils.getMultiplierFromNBT(tag);
+                float multiplier = HeatUtils.getMultiplierFromNBT(tag);
                 if (multiplier > 0) {
                     updateHeat(stack, worldIn, newModifier, 1300);
                 }

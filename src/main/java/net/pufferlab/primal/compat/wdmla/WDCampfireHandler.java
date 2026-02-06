@@ -12,9 +12,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.CampfireRecipe;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
+import net.pufferlab.primal.utils.RecipeUtils;
 
 import com.gtnewhorizons.wdmla.api.accessor.BlockAccessor;
 import com.gtnewhorizons.wdmla.api.provider.IBlockComponentProvider;
@@ -41,7 +41,7 @@ public class WDCampfireHandler implements IBlockComponentProvider, IServerDataPr
                     outputItem.stackSize = 0;
                     long nextUpdate = tef.taskItem1.getNextUpdate();
                     int timeToProcess = tef.taskItem1.getTime();
-                    int timeRemaining = Utils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);
+                    int timeRemaining = RecipeUtils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);
                     IComponent progress = ThemeHelper.INSTANCE.furnaceLikeProgress(
                         Collections.singletonList(inputItem),
                         Collections.singletonList(outputItem),
@@ -57,7 +57,7 @@ public class WDCampfireHandler implements IBlockComponentProvider, IServerDataPr
                     outputItem.stackSize = 0;
                     long nextUpdate = tef.taskItem2.getNextUpdate();
                     int timeToProcess = tef.taskItem2.getTime();
-                    int timeRemaining = Utils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);
+                    int timeRemaining = RecipeUtils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);
                     IComponent progress = ThemeHelper.INSTANCE.furnaceLikeProgress(
                         Collections.singletonList(inputItem),
                         Collections.singletonList(outputItem),
@@ -73,7 +73,7 @@ public class WDCampfireHandler implements IBlockComponentProvider, IServerDataPr
                     outputItem.stackSize = 0;
                     long nextUpdate = tef.taskItem3.getNextUpdate();
                     int timeToProcess = tef.taskItem3.getTime();
-                    int timeRemaining = Utils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);
+                    int timeRemaining = RecipeUtils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);
                     IComponent progress = ThemeHelper.INSTANCE.furnaceLikeProgress(
                         Collections.singletonList(inputItem),
                         Collections.singletonList(outputItem),
@@ -89,7 +89,7 @@ public class WDCampfireHandler implements IBlockComponentProvider, IServerDataPr
                     outputItem.stackSize = 0;
                     long nextUpdate = tef.taskItem4.getNextUpdate();
                     int timeToProcess = tef.taskItem4.getTime();
-                    int timeRemaining = Utils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);
+                    int timeRemaining = RecipeUtils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);
                     IComponent progress = ThemeHelper.INSTANCE.furnaceLikeProgress(
                         Collections.singletonList(inputItem),
                         Collections.singletonList(outputItem),

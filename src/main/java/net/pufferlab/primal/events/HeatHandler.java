@@ -18,8 +18,8 @@ import net.pufferlab.primal.entities.player.PlayerData;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.tileentities.IHeatable;
 import net.pufferlab.primal.utils.FluidUtils;
+import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.MetalType;
-import net.pufferlab.primal.utils.TemperatureUtils;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 import cpw.mods.fml.common.eventhandler.Event;
@@ -32,8 +32,8 @@ public class HeatHandler implements IEventHandler {
 
     @SubscribeEvent
     public void tooltipEvent(ItemTooltipEvent event) {
-        if (TemperatureUtils.hasImpl(event.itemStack)) {
-            IHeatableItem impl = TemperatureUtils.getImpl(event.itemStack);
+        if (HeatUtils.hasImpl(event.itemStack)) {
+            IHeatableItem impl = HeatUtils.getImpl(event.itemStack);
             MetalType metal0 = impl.getMetal(event.itemStack);
             int meltingTemperature0 = impl.getMeltingTemperature(event.itemStack);
             if (meltingTemperature0 > 0 && metal0 != null) {
@@ -47,11 +47,11 @@ public class HeatHandler implements IEventHandler {
         if (event.itemStack.hasTagCompound()) {
             NBTTagCompound tag = event.itemStack.getTagCompound();
             if (tag != null) {
-                if (TemperatureUtils.hasImpl(event.itemStack)) {
-                    int temperature = TemperatureUtils
+                if (HeatUtils.hasImpl(event.itemStack)) {
+                    int temperature = HeatUtils
                         .getInterpolatedTemperature(GlobalTickingData.getTickTime(event.entity.worldObj), tag);
                     if (temperature > Config.temperatureCap.getInt()) {
-                        event.toolTip.add(TemperatureUtils.getTemperatureTooltip(temperature));
+                        event.toolTip.add(HeatUtils.getTemperatureTooltip(temperature));
                     }
                     if (event.itemStack.getItem() == crucible) {
                         FluidStack stack = FluidUtils.getFluidTankFromNBT(tag);
@@ -72,10 +72,10 @@ public class HeatHandler implements IEventHandler {
                     if (data.temperatureDebug) {
                         event.toolTip.add("  ");
                         event.toolTip.add("Advanced Info :");
-                        event.toolTip.add("Last-Temperature: " + TemperatureUtils.getTemperatureFromNBT(tag));
-                        event.toolTip.add("Last-WorldTime: " + TemperatureUtils.getWorldTimeFromNBT(tag));
-                        event.toolTip.add("Modifier: " + TemperatureUtils.getMultiplierFromNBT(tag));
-                        event.toolTip.add("Max-Temperature: " + TemperatureUtils.getMaxTemperatureFromNBT(tag));
+                        event.toolTip.add("Last-Temperature: " + HeatUtils.getTemperatureFromNBT(tag));
+                        event.toolTip.add("Last-WorldTime: " + HeatUtils.getWorldTimeFromNBT(tag));
+                        event.toolTip.add("Modifier: " + HeatUtils.getMultiplierFromNBT(tag));
+                        event.toolTip.add("Max-Temperature: " + HeatUtils.getMaxTemperatureFromNBT(tag));
                     }
                 }
             }
@@ -125,7 +125,7 @@ public class HeatHandler implements IEventHandler {
             ItemStack stack = player.inventory.mainInventory[i];
             if (stack == null) continue;
 
-            IHeatableItem impl = TemperatureUtils.getImpl(stack);
+            IHeatableItem impl = HeatUtils.getImpl(stack);
             if (impl != null) {
                 impl.onUpdateHeat(stack, player.worldObj);
             }
@@ -141,7 +141,7 @@ public class HeatHandler implements IEventHandler {
             EntityItem ei = (EntityItem) obj;
             ItemStack stack = ei.getEntityItem();
 
-            IHeatableItem impl = TemperatureUtils.getImpl(stack);
+            IHeatableItem impl = HeatUtils.getImpl(stack);
             if (impl != null) {
                 Block block = event.world.getBlock(Utils.floor(ei.posX), Utils.floor(ei.posY), Utils.floor(ei.posZ));
                 if (block.getMaterial() == Material.water) {

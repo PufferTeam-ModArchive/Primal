@@ -5,9 +5,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.IHeatable;
-import net.pufferlab.primal.utils.TemperatureUtils;
+import net.pufferlab.primal.utils.HeatUtils;
+import net.pufferlab.primal.utils.RecipeUtils;
 
 import com.gtnewhorizons.wdmla.api.accessor.BlockAccessor;
 import com.gtnewhorizons.wdmla.api.provider.IBlockComponentProvider;
@@ -29,10 +29,10 @@ public class WDHeatHandler implements IBlockComponentProvider, IServerDataProvid
             .getBoolean("isHeatProvider");
 
         if (isHeatProvider) {
-            tooltip.child(new TextComponent(Utils.getStateTooltip(isFired, "Fired", "Unfired")));
+            tooltip.child(new TextComponent(RecipeUtils.getStateTooltip(isFired, "Fired", "Unfired")));
         }
         if (temperature > Config.temperatureCap.getInt()) {
-            tooltip.child(new TextComponent(TemperatureUtils.getTemperatureTooltip(temperature)));
+            tooltip.child(new TextComponent(HeatUtils.getTemperatureTooltip(temperature)));
         }
     }
 

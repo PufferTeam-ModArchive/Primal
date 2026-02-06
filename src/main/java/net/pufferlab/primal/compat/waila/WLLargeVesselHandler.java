@@ -7,8 +7,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.TileEntityLargeVessel;
+import net.pufferlab.primal.utils.RecipeUtils;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -25,7 +25,7 @@ public class WLLargeVesselHandler implements IWailaDataProvider {
             NBTTagCompound tag = accessor.getNBTData();
             if (tag != null) {
                 boolean isOpen = tag.getBoolean("isOpen");
-                currenttip.add(Utils.getStateTooltip(isOpen, "Open", "Sealed"));
+                currenttip.add(RecipeUtils.getStateTooltip(isOpen, "Open", "Sealed"));
             }
         }
 

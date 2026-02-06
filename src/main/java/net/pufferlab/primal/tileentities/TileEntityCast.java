@@ -8,7 +8,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.recipes.CastingRecipe;
-import net.pufferlab.primal.utils.TemperatureUtils;
+import net.pufferlab.primal.utils.HeatUtils;
 
 public class TileEntityCast extends TileEntityFluidInventory implements IHeatable {
 
@@ -78,8 +78,8 @@ public class TileEntityCast extends TileEntityFluidInventory implements IHeatabl
             CastingRecipe recipe = CastingRecipe.getRecipe(getInventoryStack(slotCast), getFluidStack());
             ItemStack output = recipe.output;
             FluidStack input = recipe.input;
-            if (TemperatureUtils.hasImpl(output)) {
-                IHeatableItem impl = TemperatureUtils.getImpl(output);
+            if (HeatUtils.hasImpl(output)) {
+                IHeatableItem impl = HeatUtils.getImpl(output);
                 int melting = impl.getMeltingTemperature(output);
                 impl.updateHeat(output, this.worldObj, -1.0F, this.temperature, 1300);
                 if (this.temperature < melting) {

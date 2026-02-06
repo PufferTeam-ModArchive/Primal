@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.utils.TemperatureUtils;
+import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 import com.falsepattern.rple.api.common.item.RPLECustomItemBrightness;
@@ -39,10 +39,10 @@ public class ItemMetaHeatable extends ItemMeta implements IHeatableItem, RPLECus
 
     @Override
     public short rple$getCustomBrightnessColor(ItemStack stack) {
-        if (TemperatureUtils.hasImpl(stack)) {
-            int temperature = TemperatureUtils
+        if (HeatUtils.hasImpl(stack)) {
+            int temperature = HeatUtils
                 .getInterpolatedTemperature(GlobalTickingData.getClientTickTime(), stack.getTagCompound());
-            return TemperatureUtils.getHeatingColor(temperature);
+            return HeatUtils.getHeatingColor(temperature);
         }
         return Constants.lightNone;
     }

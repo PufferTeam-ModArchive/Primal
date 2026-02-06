@@ -1,7 +1,5 @@
 package net.pufferlab.primal.network.packets;
 
-import static net.pufferlab.primal.tileentities.TileEntityAnvil.slotInput;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -14,19 +12,17 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 
-public class PacketAnvilButton implements IMessage, IMessageHandler<PacketAnvilButton, IMessage> {
+public class PacketAnvilWork implements IMessage, IMessageHandler<PacketAnvilWork, IMessage> {
 
     private int x, y, z, button;
-    private boolean isWork;
 
-    public PacketAnvilButton() {}
+    public PacketAnvilWork() {}
 
-    public PacketAnvilButton(TileEntityAnvil tile, int button, boolean isWork) {
+    public PacketAnvilWork(TileEntityAnvil tile, int button) {
         this.x = tile.getX();
         this.y = tile.getY();
         this.z = tile.getZ();
         this.button = button;
-        this.isWork = isWork;
     }
 
     @Override
@@ -35,7 +31,6 @@ public class PacketAnvilButton implements IMessage, IMessageHandler<PacketAnvilB
         y = buf.readInt();
         z = buf.readInt();
         button = buf.readInt();
-        isWork = buf.readBoolean();
     }
 
     @Override
@@ -44,30 +39,21 @@ public class PacketAnvilButton implements IMessage, IMessageHandler<PacketAnvilB
         buf.writeInt(y);
         buf.writeInt(z);
         buf.writeInt(button);
-        buf.writeBoolean(isWork);
     }
 
     @Override
-    public IMessage onMessage(PacketAnvilButton msg, MessageContext ctx) {
+    public IMessage onMessage(PacketAnvilWork msg, MessageContext ctx) {
         final EntityPlayer player = ctx.getServerHandler().playerEntity;
         TileEntity te = player.worldObj.getTileEntity(msg.x, msg.y, msg.z);
-        if (msg.isWork) {
-            ItemStack heldItem = player.getHeldItem();
-            if (ItemUtils.isHammerTool(heldItem)) {
-                if (player.worldObj.rand.nextInt(3) == 0) {
-                    heldItem.damageItem(1, player);
-                }
+        ItemStack heldItem = player.getHeldItem();
+        if (ItemUtils.isHammerTool(heldItem)) {
+            if (player.worldObj.rand.nextInt(3) == 0) {
+                heldItem.damageItem(1, player);
             }
-            Primal.proxy.sendPacketToClient(new PacketSwingArm(player));
-            if (te instanceof TileEntityAnvil tef) {
-                tef.onWorkButtonClick(msg.button);
-            }
-        } else {
-            if (te instanceof TileEntityAnvil tef) {
-                tef.recipeIndex = msg.button;
-                tef.addInventorySlotContentsUpdate(slotInput, player);
-                tef.onRecipeChange(msg.button);
-            }
+        }
+        Primal.proxy.sendPacketToClient(new PacketSwingArm(player));
+        if (te instanceof TileEntityAnvil tef) {
+            tef.onWorkButtonClick(msg.button);
         }
 
         return null;

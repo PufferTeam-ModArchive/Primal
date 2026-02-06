@@ -10,6 +10,9 @@ import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
 
+import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
+
 public class StoneType {
 
     public StoneCategory category;
@@ -116,7 +119,7 @@ public class StoneType {
         return 0;
     }
 
-    public static final Map<Integer, StoneType> typeMap = new HashMap<>();
+    public static final TIntObjectMap<StoneType> typeMap = new TIntObjectHashMap<>();
 
     public static void registerStone(StoneType[] stoneTypes, Block block) {
         for (int i = 0; i < stoneTypes.length; i++) {

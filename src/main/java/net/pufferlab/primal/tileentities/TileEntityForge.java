@@ -5,16 +5,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.utils.TemperatureUtils;
+import net.pufferlab.primal.utils.HeatUtils;
+import net.pufferlab.primal.world.UpdateTask;
 
 public class TileEntityForge extends TileEntityInventory implements IHeatable, IScheduledTile {
 
     public static int burnTime = Config.forgeBurnTime.getDefaultInt();
 
     public static int updateFuel = 0;
-    public long nextUpdateFuel;
-    public boolean hasUpdateFuel;
-    public boolean needsUpdateFuel;
+    public UpdateTask taskFuel = new UpdateTask(updateFuel);
 
     public int temperature;
     public int timeHeat;
@@ -30,9 +29,8 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
     @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
-        this.nextUpdateFuel = tag.getLong("nextUpdateFuel");
-        this.hasUpdateFuel = tag.getBoolean("hasUpdateFuel");
-        this.needsUpdateFuel = tag.getBoolean("needsUpdateFuel");
+
+        UpdateTask.readFromNBT(tag, taskFuel);
 
         this.timeHeat = tag.getInteger("timeHeat");
         this.timeUpdate = tag.getInteger("timeUpdate");
@@ -43,9 +41,8 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
     @Override
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
-        tag.setLong("nextUpdateFuel", this.nextUpdateFuel);
-        tag.setBoolean("hasUpdateFuel", this.hasUpdateFuel);
-        tag.setBoolean("needsUpdateFuel", this.needsUpdateFuel);
+
+        UpdateTask.writeToNBT(tag, taskFuel);
 
         tag.setInteger("timeHeat", this.timeHeat);
         tag.setInteger("timeUpdate", this.timeUpdate);
@@ -89,25 +86,12 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
         timeUpdate++;
         if (timeUpdate > 20) {
             timeUpdate = 0;
-            if (TemperatureUtils.getHeatingLevel(this.temperature) != this.lastLevel) {
-                this.lastLevel = TemperatureUtils.getHeatingLevel(this.temperature);
+            if (HeatUtils.getHeatingLevel(this.temperature) != this.lastLevel) {
+                this.lastLevel = HeatUtils.getHeatingLevel(this.temperature);
                 updateTEState();
             }
         }
 
-        if (isFired) {
-            if (!hasUpdateFuel) {
-                addSchedule(burnTime, updateFuel);
-            }
-            if (this.blockMetadata == 0) {
-                setFired(false);
-            }
-        }
-
-        if (this.needsUpdateFuel) {
-            this.needsUpdateFuel = false;
-            updateFuel();
-        }
     }
 
     @Override
@@ -119,10 +103,8 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
     public void addSchedule(int inTime, int type) {
         IScheduledTile.super.addSchedule(inTime, type);
 
-        long time = getWorldTime(inTime);
         if (type == updateFuel) {
-            nextUpdateFuel = time;
-            hasUpdateFuel = true;
+            taskFuel.addUpdate(this.worldObj, inTime);
         }
     }
 
@@ -131,7 +113,7 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
         IScheduledTile.super.removeSchedule(type);
 
         if (type == updateFuel) {
-            hasUpdateFuel = false;
+            taskFuel.removeUpdate(this.worldObj);
         }
     }
 
@@ -145,8 +127,8 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
     @Override
     public void onSchedule(World world, int x, int y, int z, int type, int id) {
         if (type == updateFuel) {
-            needsUpdateFuel = true;
-            hasUpdateFuel = false;
+            taskFuel.onUpdate(this.worldObj);
+            updateFuel();
         }
     }
 
@@ -160,7 +142,17 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
                 this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, meta - 1, 2);
                 markDirty();
             }
+        }
+        sendFuelUpdate();
+    }
 
+    public void sendFuelUpdate() {
+        if (getMeta() == 0) {
+            setFired(false);
+        } else {
+            if (!taskFuel.hasSentUpdate()) {
+                addSchedule(Config.campfireBurnTime.getInt(), updateFuel);
+            }
         }
     }
 
@@ -179,13 +171,19 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
 
     @Override
     public boolean canBeFired() {
-        return true;
+        if (this.blockMetadata != 0) {
+            return true;
+        }
+        return false;
     }
 
     @Override
     public void setFired(boolean state) {
-        this.isFired = state;
-        this.updateTEState();
+        if (this.isFired != state) {
+            this.isFired = state;
+            this.sendFuelUpdate();
+            this.updateTEState();
+        }
     }
 
     @Override

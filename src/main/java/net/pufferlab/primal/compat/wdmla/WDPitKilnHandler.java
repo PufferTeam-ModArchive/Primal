@@ -8,9 +8,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.PitKilnRecipe;
 import net.pufferlab.primal.tileentities.TileEntityPitKiln;
+import net.pufferlab.primal.utils.RecipeUtils;
 
 import com.gtnewhorizons.wdmla.api.accessor.BlockAccessor;
 import com.gtnewhorizons.wdmla.api.provider.IBlockComponentProvider;
@@ -49,7 +49,7 @@ public class WDPitKilnHandler implements IBlockComponentProvider, IServerDataPro
                 }
                 int timeToProcess = tef.taskProcess.getTime();
                 long nextUpdate = tef.taskProcess.getNextUpdate();
-                int timeRemaining = Utils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);
+                int timeRemaining = RecipeUtils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);
                 IComponent progress = ThemeHelper.INSTANCE
                     .furnaceLikeProgress(inputs, outputs, timeRemaining, timeToProcess, false);
                 tooltip.child(progress.tag(resourceLocation));

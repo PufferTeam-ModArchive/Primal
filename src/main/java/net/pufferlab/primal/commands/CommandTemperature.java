@@ -11,10 +11,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.entities.player.PlayerData;
 import net.pufferlab.primal.network.packets.PacketPlayerData;
-import net.pufferlab.primal.utils.TemperatureUtils;
+import net.pufferlab.primal.utils.HeatUtils;
+import net.pufferlab.primal.utils.RecipeUtils;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 public class CommandTemperature extends CommandSub {
@@ -29,37 +29,33 @@ public class CommandTemperature extends CommandSub {
                 PlayerData data = PlayerData.get(player);
                 boolean state = !data.temperatureDebug;
                 data.setTemperatureDebug(state);
-                sender.addChatMessage(new ChatComponentText(Utils.getStateTooltip(state, "Enabled", "Disabled")));
+                sender.addChatMessage(new ChatComponentText(RecipeUtils.getStateTooltip(state, "Enabled", "Disabled")));
                 updatePacket(player, data);
             }
         }
         ItemStack stack = player.getHeldItem();
         if (stack == null) return;
         if (stack.getItem() == null) return;
-        if (!TemperatureUtils.hasImpl(stack)) return;
+        if (!HeatUtils.hasImpl(stack)) return;
         long currentTick = GlobalTickingData.getTickTime(player.getEntityWorld());
         NBTTagCompound tag = stack.getTagCompound();
 
         sender.addChatMessage(
             new ChatComponentText(
                 "Temperature: " + Constants.gray
-                    + TemperatureUtils.getInterpolatedTemperature(currentTick, tag)
+                    + HeatUtils.getInterpolatedTemperature(currentTick, tag)
                     + Constants.white
                     + "C"));
         sender.addChatMessage(new ChatComponentText("Advanced Info :"));
         sender.addChatMessage(
             new ChatComponentText(
-                "Last-Temperature: " + Constants.gray
-                    + TemperatureUtils.getTemperatureFromNBT(tag)
-                    + Constants.white
-                    + "C"));
+                "Last-Temperature: " + Constants.gray + HeatUtils.getTemperatureFromNBT(tag) + Constants.white + "C"));
         sender.addChatMessage(
-            new ChatComponentText("Last-WorldTime: " + Constants.gray + TemperatureUtils.getWorldTimeFromNBT(tag)));
+            new ChatComponentText("Last-WorldTime: " + Constants.gray + HeatUtils.getWorldTimeFromNBT(tag)));
         sender.addChatMessage(
-            new ChatComponentText("Multiplier: " + Constants.gray + TemperatureUtils.getMultiplierFromNBT(tag)));
+            new ChatComponentText("Multiplier: " + Constants.gray + HeatUtils.getMultiplierFromNBT(tag)));
         sender.addChatMessage(
-            new ChatComponentText(
-                "Max-Temperature: " + Constants.gray + TemperatureUtils.getMaxTemperatureFromNBT(tag)));
+            new ChatComponentText("Max-Temperature: " + Constants.gray + HeatUtils.getMaxTemperatureFromNBT(tag)));
     }
 
     @Override

@@ -10,9 +10,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.BarrelRecipe;
 import net.pufferlab.primal.tileentities.TileEntityBarrel;
+import net.pufferlab.primal.utils.RecipeUtils;
 
 import com.gtnewhorizons.wdmla.api.accessor.BlockAccessor;
 import com.gtnewhorizons.wdmla.api.provider.IBlockComponentProvider;
@@ -32,7 +32,7 @@ public class WDBarrelHandler implements IBlockComponentProvider, IServerDataProv
         NBTTagCompound tag = accessor.getServerData();
         if (te instanceof TileEntityBarrel tef) {
             boolean isOpen = tag.getBoolean("isOpen");
-            tooltip.child(new TextComponent(Utils.getStateTooltip(isOpen, "Open", "Sealed")));
+            tooltip.child(new TextComponent(RecipeUtils.getStateTooltip(isOpen, "Open", "Sealed")));
             boolean canProcess = tag.getBoolean("canProcess");
             long nextUpdate = tef.taskProcess.getNextUpdate();
             if (canProcess) {
@@ -42,7 +42,7 @@ public class WDBarrelHandler implements IBlockComponentProvider, IServerDataProv
                     List<ItemStack> outputs = Arrays.asList(recipe.output, recipe.outputLiquidBlock);
 
                     int timeToProcess = tef.taskProcess.getTime();
-                    int timeRemaining = Utils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);
+                    int timeRemaining = RecipeUtils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);
                     IComponent progress = ThemeHelper.INSTANCE
                         .furnaceLikeProgress(inputs, outputs, timeRemaining, timeToProcess, false);
                     tooltip.child(progress.tag(resourceLocation));

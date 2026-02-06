@@ -11,7 +11,7 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.inventory.ContainerAnvilPlan;
 import net.pufferlab.primal.inventory.SlotPlan;
-import net.pufferlab.primal.network.packets.PacketAnvilButton;
+import net.pufferlab.primal.network.packets.PacketAnvilPlan;
 import net.pufferlab.primal.tileentities.TileEntityAnvil;
 
 public class GuiAnvilPlan extends GuiContainerPrimal {
@@ -59,9 +59,9 @@ public class GuiAnvilPlan extends GuiContainerPrimal {
         }
     }
 
-    public void sendRecipePacket(int recipeID) {
+    public void sendRecipePacket(String recipeID) {
         if (Primal.proxy.getClientWorld().isRemote) {
-            Primal.proxy.sendPacketToServer(new PacketAnvilButton(this.tileAnvil, recipeID, false));
+            Primal.proxy.sendPacketToServer(new PacketAnvilPlan(this.tileAnvil, recipeID));
         }
     }
 

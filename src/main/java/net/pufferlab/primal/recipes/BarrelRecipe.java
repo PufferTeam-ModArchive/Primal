@@ -1,17 +1,17 @@
 package net.pufferlab.primal.recipes;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.RecipeUtils;
 
 public class BarrelRecipe {
 
     private static final List<BarrelRecipe> recipeList = new ArrayList<>();
+    private static final Map<String, BarrelRecipe> recipeIDMap = new HashMap<>();
 
     public static void addRecipe(ItemStack output, FluidStack outputLiquid, ItemStack input, FluidStack inputLiquid) {
         recipeList.add(new BarrelRecipe(output, outputLiquid, Collections.singletonList(input), inputLiquid, 60));
@@ -64,6 +64,10 @@ public class BarrelRecipe {
         return recipeList;
     }
 
+    public static BarrelRecipe getRecipe(String id) {
+        return recipeIDMap.get(id);
+    }
+
     public ItemStack output;
     public FluidStack outputLiquid;
     public ItemStack outputLiquidBlock;
@@ -71,11 +75,11 @@ public class BarrelRecipe {
     public FluidStack inputLiquid;
     public ItemStack inputLiquidBlock;
     public int processingTime;
-    public int recipeID;
+    public String recipeID;
 
     public BarrelRecipe(ItemStack output, FluidStack outputLiquid, List<ItemStack> input, FluidStack inputLiquid,
         int processingTime) {
-        this.recipeID = recipeList.size();
+        this.putRecipe(output, outputLiquid, input, inputLiquid);
         this.output = output;
         this.outputLiquid = outputLiquid;
         if (outputLiquid != null) {
@@ -93,6 +97,12 @@ public class BarrelRecipe {
             inputLiquid.amount,
             0);
         this.processingTime = processingTime;
+    }
+
+    public void putRecipe(Object... objects) {
+        String string = RecipeUtils.getRecipeHash(objects);
+        this.recipeID = string;
+        recipeIDMap.put(string, this);
     }
 
     public boolean equals(ItemStack input, FluidStack inputLiquid) {

@@ -1,16 +1,16 @@
 package net.pufferlab.primal.recipes;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.RecipeUtils;
 
 public class AnvilRecipe {
 
     private static final List<AnvilRecipe> recipeList = new ArrayList<>();
+    private static final Map<String, AnvilRecipe> recipeIDMap = new HashMap<>();
 
     public static void addRecipe(ItemStack output, ItemStack input, Object... objects) {
         recipeList.add(new AnvilRecipe(output, Collections.singletonList(input), objects));
@@ -57,16 +57,20 @@ public class AnvilRecipe {
         return recipeList;
     }
 
+    public static AnvilRecipe getRecipe(String id) {
+        return recipeIDMap.get(id);
+    }
+
     public ItemStack output;
     public List<ItemStack> input;
     public AnvilAction[] recipeActions;
     public AnvilOrder[] recipeOrders;
     public int recipeLine;
-    public int recipeID;
+    public String recipeID;
 
     public AnvilRecipe(ItemStack output, List<ItemStack> input, Object... objects) {
         int j = 0;
-        this.recipeID = recipeList.size();
+        this.putRecipe(output, input, objects);
         this.recipeLine = 70;
         int size = objects.length / 2;
         this.recipeActions = new AnvilAction[size];
@@ -88,6 +92,12 @@ public class AnvilRecipe {
         this.input = input;
 
         this.normalizeByOrder();
+    }
+
+    public void putRecipe(Object... objects) {
+        String string = RecipeUtils.getRecipeHash(objects);
+        this.recipeID = string;
+        recipeIDMap.put(string, this);
     }
 
     private void normalizeByOrder() {

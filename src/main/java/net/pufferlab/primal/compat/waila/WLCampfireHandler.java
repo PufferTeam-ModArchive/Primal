@@ -9,9 +9,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.CampfireRecipe;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
+import net.pufferlab.primal.utils.RecipeUtils;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -31,35 +31,39 @@ public class WLCampfireHandler implements IWailaDataProvider {
                 if (isFired) {
                     ItemStack outputItem1 = CampfireRecipe.getOutput(tef.getInventoryStack(slotItem1));
                     if (outputItem1 != null) {
-                        String inputName = Utils.getDisplayName(tef.getInventoryStack(slotItem1));
+                        String inputName = RecipeUtils.getDisplayName(tef.getInventoryStack(slotItem1));
                         long nextUpdate = tef.taskItem1.getNextUpdate();
                         int timeToProcess = tef.taskItem1.getTime();
                         currenttip.add(
-                            Utils.getRecipeTooltip(inputName, tef.getWorld(), nextUpdate, timeToProcess, "cooked"));
+                            RecipeUtils
+                                .getRecipeTooltip(inputName, tef.getWorld(), nextUpdate, timeToProcess, "cooked"));
                     }
                     ItemStack outputItem2 = CampfireRecipe.getOutput(tef.getInventoryStack(slotItem2));
                     if (outputItem2 != null) {
-                        String inputName = Utils.getDisplayName(tef.getInventoryStack(slotItem2));
+                        String inputName = RecipeUtils.getDisplayName(tef.getInventoryStack(slotItem2));
                         long nextUpdate = tef.taskItem2.getNextUpdate();
                         int timeToProcess = tef.taskItem2.getTime();
                         currenttip.add(
-                            Utils.getRecipeTooltip(inputName, tef.getWorld(), nextUpdate, timeToProcess, "cooked"));
+                            RecipeUtils
+                                .getRecipeTooltip(inputName, tef.getWorld(), nextUpdate, timeToProcess, "cooked"));
                     }
                     ItemStack outputItem3 = CampfireRecipe.getOutput(tef.getInventoryStack(slotItem3));
                     if (outputItem3 != null) {
-                        String inputName = Utils.getDisplayName(tef.getInventoryStack(slotItem3));
+                        String inputName = RecipeUtils.getDisplayName(tef.getInventoryStack(slotItem3));
                         long nextUpdate = tef.taskItem3.getNextUpdate();
                         int timeToProcess = tef.taskItem3.getTime();
                         currenttip.add(
-                            Utils.getRecipeTooltip(inputName, tef.getWorld(), nextUpdate, timeToProcess, "cooked"));
+                            RecipeUtils
+                                .getRecipeTooltip(inputName, tef.getWorld(), nextUpdate, timeToProcess, "cooked"));
                     }
                     ItemStack outputItem4 = CampfireRecipe.getOutput(tef.getInventoryStack(slotItem4));
                     if (outputItem4 != null) {
-                        String inputName = Utils.getDisplayName(tef.getInventoryStack(slotItem4));
+                        String inputName = RecipeUtils.getDisplayName(tef.getInventoryStack(slotItem4));
                         long nextUpdate = tef.taskItem4.getNextUpdate();
                         int timeToProcess = tef.taskItem4.getTime();
                         currenttip.add(
-                            Utils.getRecipeTooltip(inputName, tef.getWorld(), nextUpdate, timeToProcess, "cooked"));
+                            RecipeUtils
+                                .getRecipeTooltip(inputName, tef.getWorld(), nextUpdate, timeToProcess, "cooked"));
                     }
                 }
             }

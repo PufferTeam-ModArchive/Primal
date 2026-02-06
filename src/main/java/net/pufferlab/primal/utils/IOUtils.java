@@ -6,9 +6,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
 import org.apache.commons.io.FileUtils;
+
+import io.netty.buffer.ByteBuf;
 
 public class IOUtils {
 
@@ -57,5 +60,18 @@ public class IOUtils {
             sb.append(String.format("%02x", b));
         }
         return sb.toString();
+    }
+
+    public static void writeString(ByteBuf buf, String s) {
+        byte[] bytes = s.getBytes(StandardCharsets.UTF_8);
+        buf.writeInt(bytes.length); // write length first
+        buf.writeBytes(bytes); // then write bytes
+    }
+
+    public static String readString(ByteBuf buf) {
+        int length = buf.readInt(); // first read length
+        byte[] bytes = new byte[length];
+        buf.readBytes(bytes); // then read bytes
+        return new String(bytes, StandardCharsets.UTF_8);
     }
 }

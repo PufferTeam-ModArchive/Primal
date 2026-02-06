@@ -9,9 +9,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.BarrelRecipe;
 import net.pufferlab.primal.tileentities.TileEntityBarrel;
+import net.pufferlab.primal.utils.RecipeUtils;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -28,19 +28,20 @@ public class WLBarrelHandler implements IWailaDataProvider {
             NBTTagCompound tag = accessor.getNBTData();
             if (tag != null) {
                 boolean isOpen = tag.getBoolean("isOpen");
-                currenttip.add(Utils.getStateTooltip(isOpen, "Open", "Sealed"));
+                currenttip.add(RecipeUtils.getStateTooltip(isOpen, "Open", "Sealed"));
                 boolean canProcess = tag.getBoolean("canProcess");
                 long nextUpdate = tef.taskProcess.getNextUpdate();
                 if (canProcess) {
                     BarrelRecipe recipe = BarrelRecipe.getRecipe(tef.getInventoryStack(slotInput), tef.getFluidStack());
                     if (recipe != null) {
-                        String outputName = Utils.getDisplayName(recipe.output, recipe.outputLiquid);
-                        String inputName = Utils.getDisplayName(tef.getInventoryStack(slotInput), tef.getFluidStack());
+                        String outputName = RecipeUtils.getDisplayName(recipe.output, recipe.outputLiquid);
+                        String inputName = RecipeUtils
+                            .getDisplayName(tef.getInventoryStack(slotInput), tef.getFluidStack());
                         currenttip.add("Making " + outputName);
                         int timeToProcess = tef.taskRain.getTime();
                         if (timeToProcess > 0) {
                             currenttip.add(
-                                Utils.getRecipeTooltip(
+                                RecipeUtils.getRecipeTooltip(
                                     inputName,
                                     tef.getWorld(),
                                     nextUpdate,

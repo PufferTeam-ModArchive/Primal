@@ -4,7 +4,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.inventory.ContainerAnvilWork;
-import net.pufferlab.primal.network.packets.PacketAnvilButton;
+import net.pufferlab.primal.network.packets.PacketAnvilWork;
 import net.pufferlab.primal.recipes.AnvilAction;
 import net.pufferlab.primal.recipes.AnvilOrder;
 import net.pufferlab.primal.recipes.AnvilRecipe;
@@ -93,7 +93,7 @@ public class GuiAnvilWork extends GuiContainerPrimal {
 
     public void sendWorkPacket(int buttonID) {
         if (Primal.proxy.getClientWorld().isRemote) {
-            Primal.proxy.sendPacketToServer(new PacketAnvilButton(te, buttonID, true));
+            Primal.proxy.sendPacketToServer(new PacketAnvilWork(te, buttonID));
         }
     }
 

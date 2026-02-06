@@ -7,9 +7,9 @@ import net.minecraft.item.ItemStack;
 
 public class SlotPlan extends Slot {
 
-    public int recipeID;
+    public String recipeID;
 
-    public SlotPlan(IInventory p_i1824_1_, int p_i1824_2_, int p_i1824_3_, int p_i1824_4_, int recipeID) {
+    public SlotPlan(IInventory p_i1824_1_, int p_i1824_2_, int p_i1824_3_, int p_i1824_4_, String recipeID) {
         super(p_i1824_1_, p_i1824_2_, p_i1824_3_, p_i1824_4_);
         this.recipeID = recipeID;
     }

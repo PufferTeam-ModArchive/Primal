@@ -22,8 +22,8 @@ import net.pufferlab.primal.client.renderer.tileentities.*;
 import net.pufferlab.primal.inventory.ContainerKnapping;
 import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.tileentities.*;
+import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.IOUtils;
-import net.pufferlab.primal.utils.TemperatureUtils;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -147,12 +147,10 @@ public class ClientProxy extends CommonProxy {
             register(Registry.hoe_head, new ItemHeatableRenderer());
 
             if (Config.modMetalHeatRendering.getBoolean()) {
-                for (Item item : TemperatureUtils.getHeatableItems()) {
+                for (Item item : HeatUtils.getHeatableItems()) {
                     register(
                         item,
-                        new ItemHeatableRenderer(
-                            TemperatureUtils.getHeatableMask(item),
-                            TemperatureUtils.getHeatableMeta(item)));
+                        new ItemHeatableRenderer(HeatUtils.getHeatableMask(item), HeatUtils.getHeatableMeta(item)));
                 }
             }
         }

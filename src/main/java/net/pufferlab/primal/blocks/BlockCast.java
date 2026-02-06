@@ -28,8 +28,8 @@ import net.pufferlab.primal.recipes.CastingRecipe;
 import net.pufferlab.primal.tileentities.TileEntityCast;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.utils.FluidUtils;
+import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.MetalType;
-import net.pufferlab.primal.utils.TemperatureUtils;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 public class BlockCast extends BlockContainerPrimal {
@@ -58,11 +58,11 @@ public class BlockCast extends BlockContainerPrimal {
         if (te instanceof TileEntityCast tef) {
             if (heldItem != null) {
                 if (heldItem.getItem() == Item.getItemFromBlock(Registry.crucible)) {
-                    if (TemperatureUtils.hasImpl(heldItem)) {
+                    if (HeatUtils.hasImpl(heldItem)) {
                         FluidStack stack = FluidUtils.getFluidTankFromNBT(heldItem.getTagCompound());
                         MetalType metal = MetalType.getMetalFromFluid(stack);
                         if (metal != null) {
-                            int temp = TemperatureUtils.getInterpolatedTemperature(
+                            int temp = HeatUtils.getInterpolatedTemperature(
                                 GlobalTickingData.getTickTime(worldIn),
                                 heldItem.getTagCompound());
                             if (temp > metal.meltingTemperature) {

@@ -8,7 +8,7 @@ import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.client.models.ModelPrimal;
 import net.pufferlab.primal.client.renderer.RenderContainer;
 import net.pufferlab.primal.client.renderer.RenderHeat;
-import net.pufferlab.primal.utils.TemperatureUtils;
+import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 import org.lwjgl.opengl.GL11;
@@ -145,7 +145,7 @@ public class ItemPrimalRenderer implements IItemRenderer {
                     index = Utils.getIndex(meta, item.getItemDamage());
                 }
                 if (handleTemperatureRendering()) {
-                    int temperature = TemperatureUtils
+                    int temperature = HeatUtils
                         .getInterpolatedTemperature(GlobalTickingData.getClientTickTime(), item.getTagCompound());
                     if (this.model != null) {
                         ModelPrimal model = this.model[index];

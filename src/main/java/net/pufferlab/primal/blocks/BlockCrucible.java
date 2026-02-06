@@ -20,7 +20,7 @@ import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.items.itemblocks.ItemBlockCrucible;
 import net.pufferlab.primal.tileentities.TileEntityCrucible;
 import net.pufferlab.primal.utils.FluidUtils;
-import net.pufferlab.primal.utils.TemperatureUtils;
+import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 import com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness;
@@ -55,7 +55,7 @@ public class BlockCrucible extends BlockContainerPrimal implements RPLECustomBlo
     public short rple$getCustomBrightnessColor(IBlockAccess world, int blockMeta, int posX, int posY, int posZ) {
         TileEntity te = world.getTileEntity(posX, posY, posZ);
         if (te instanceof TileEntityCrucible tef) {
-            return TemperatureUtils.getHeatingColor(tef.getTemperature());
+            return HeatUtils.getHeatingColor(tef.getTemperature());
         }
         return Constants.lightNone;
     }
@@ -96,7 +96,7 @@ public class BlockCrucible extends BlockContainerPrimal implements RPLECustomBlo
             TileEntity te = worldIn.getTileEntity(x, y, z);
             if (te instanceof TileEntityCrucible tef) {
                 tef.readFromNBTInventory(tagCompound);
-                tef.temperature = TemperatureUtils
+                tef.temperature = HeatUtils
                     .getInterpolatedTemperature(GlobalTickingData.getTickTime(worldIn), tagCompound);
                 tef.scheduleInventoryUpdate();
             }
@@ -112,8 +112,8 @@ public class BlockCrucible extends BlockContainerPrimal implements RPLECustomBlo
         if (te instanceof TileEntityCrucible tef) {
             tef.updateHeatInventory(-1.0F, tef.maxTemperature);
             tef.writeToNBTInventory(tagCompound);
-            if (TemperatureUtils.hasImpl(item)) {
-                IHeatableItem item2 = TemperatureUtils.getImpl(item);
+            if (HeatUtils.hasImpl(item)) {
+                IHeatableItem item2 = HeatUtils.getImpl(item);
                 item2.updateHeat(item, worldIn, -1.0F, tef.temperature, tef.maxTemperature);
             }
         }

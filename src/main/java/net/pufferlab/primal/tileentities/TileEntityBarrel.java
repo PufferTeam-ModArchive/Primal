@@ -16,7 +16,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
     public boolean isOpen = false;
     private final FluidTank tankOutput;
     public int lastStackSize;
-    public int recipeIndex;
+    public String recipeID = "None";
     public boolean canProcess;
     public static int slotInput = 0;
     public static int slotOutput = 1;
@@ -44,7 +44,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
         this.isOpen = tag.getBoolean("isOpen");
         this.isFloorBarrel = tag.getBoolean("isFloorBarrel");
 
-        this.recipeIndex = tag.getInteger("recipeIndex");
+        this.recipeID = tag.getString("recipeID");
         this.lastStackSize = tag.getInteger("lastStackSize");
         this.canProcess = tag.getBoolean("canProcess");
     }
@@ -59,7 +59,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
         tag.setBoolean("isOpen", this.isOpen);
         tag.setBoolean("isFloorBarrel", this.isFloorBarrel);
 
-        tag.setInteger("recipeIndex", this.recipeIndex);
+        tag.setString("recipeID", this.recipeID);
         tag.setInteger("lastStackSize", this.lastStackSize);
         tag.setBoolean("canProcess", this.canProcess);
     }
@@ -171,7 +171,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
     public void updateRecipe() {
         BarrelRecipe recipe = BarrelRecipe.getRecipe(getInventoryStack(slotInput), getFluidStack());
         if (recipe != null) {
-            this.recipeIndex = recipe.recipeID;
+            this.recipeID = recipe.recipeID;
         }
     }
 
@@ -224,8 +224,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
     }
 
     public BarrelRecipe getRecipe() {
-        return BarrelRecipe.getRecipeList()
-            .get(this.recipeIndex);
+        return BarrelRecipe.getRecipe(this.recipeID);
     }
 
     @Override

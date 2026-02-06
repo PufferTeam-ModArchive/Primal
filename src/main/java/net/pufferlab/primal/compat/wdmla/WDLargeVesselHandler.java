@@ -4,8 +4,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.TileEntityLargeVessel;
+import net.pufferlab.primal.utils.RecipeUtils;
 
 import com.gtnewhorizons.wdmla.api.accessor.BlockAccessor;
 import com.gtnewhorizons.wdmla.api.provider.IBlockComponentProvider;
@@ -24,7 +24,7 @@ public class WDLargeVesselHandler implements IBlockComponentProvider, IServerDat
         NBTTagCompound tag = accessor.getServerData();
         if (te instanceof TileEntityLargeVessel tef) {
             boolean isOpen = tag.getBoolean("isOpen");
-            tooltip.child(new TextComponent(Utils.getStateTooltip(isOpen, "Open", "Sealed")));
+            tooltip.child(new TextComponent(RecipeUtils.getStateTooltip(isOpen, "Open", "Sealed")));
         }
     }
 
