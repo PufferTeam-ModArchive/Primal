@@ -35,13 +35,20 @@ public class WDAnvilHandler implements IBlockComponentProvider, IServerDataProvi
                 List<ItemStack> inputs = Collections.singletonList(tef.getInventoryStack(slotInput));
                 List<ItemStack> outputs = Collections.singletonList(recipe.output);
 
-                IComponent progress = ThemeHelper.INSTANCE.furnaceLikeProgress(inputs, outputs, 0, 10, false);
+                boolean hasMetalLevel = tef.hasMetalLevel();
+                boolean isHotEnough = tef.isInputHotEnough();
+                IComponent progress;
+                if (!hasMetalLevel || !isHotEnough) {
+                    progress = CustomThemeHelper.INSTANCE.furnaceLikeProgressFail(inputs, outputs, 0, 10, false);
+                } else {
+                    progress = ThemeHelper.INSTANCE.furnaceLikeProgress(inputs, outputs, 0, 10, false);
+                }
                 tooltip.child(progress.tag(resourceLocation));
 
-                if (!tef.hasMetalLevel()) {
+                if (!hasMetalLevel) {
                     tooltip.child(
                         new TextComponent(Utils.translate("metal." + Primal.MODID + ".forging.wrong_tier.name")));
-                } else if (!tef.isInputHotEnough()) {
+                } else if (!isHotEnough) {
                     tooltip
                         .child(new TextComponent(Utils.translate("metal." + Primal.MODID + ".forging.too_cold.name")));
                 }

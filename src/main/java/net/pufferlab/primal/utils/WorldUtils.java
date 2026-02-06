@@ -1,9 +1,12 @@
 package net.pufferlab.primal.utils;
 
 import net.minecraft.block.Block;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
+import net.minecraft.world.gen.ChunkProviderFlat;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
 import net.pufferlab.primal.Utils;
 
@@ -48,5 +51,17 @@ public class WorldUtils {
             return false;
         }
         return false;
+    }
+
+    public static boolean canDecorate(IChunkProvider chunkProvider, World world) {
+        return !isFlatWorld(chunkProvider) || world.getWorldInfo()
+            .getGeneratorOptions()
+            .contains("decoration");
+    }
+
+    protected static final boolean isFlatWorld(IChunkProvider chunkProvider) {
+        return chunkProvider instanceof ChunkProviderFlat && !chunkProvider.getClass()
+            .getName()
+            .equals("com.rwtema.extrautils.worldgen.Underdark.ChunkProviderUnderdark");
     }
 }

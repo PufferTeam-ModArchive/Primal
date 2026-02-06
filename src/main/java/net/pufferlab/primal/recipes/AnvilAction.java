@@ -18,11 +18,13 @@ public enum AnvilAction {
     public int id;
     public int step;
     public String name;
+    public String langKey;
 
     AnvilAction(int id, String name, int step) {
         this.id = id;
         this.name = name;
         this.step = step;
+        this.langKey = "gui." + Primal.MODID + ".anvil." + this.name + ".name";
     }
 
     public static AnvilAction get(int id) {
@@ -73,14 +75,14 @@ public enum AnvilAction {
     }
 
     public String getTranslatedName() {
-        return Utils.translate("gui." + Primal.MODID + ".anvil." + this.name + ".name");
+        return Utils.translate(this.langKey);
     }
 
     public String getRecipeTranslatedName() {
         if (this.isHitAction()) {
             return Utils.translate("gui." + Primal.MODID + ".anvil.hit.name");
         }
-        return Utils.translate("gui." + Primal.MODID + ".anvil." + this.name + ".name");
+        return getTranslatedName();
     }
 
     @Override

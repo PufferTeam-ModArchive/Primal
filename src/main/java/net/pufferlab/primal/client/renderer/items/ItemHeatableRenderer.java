@@ -4,6 +4,9 @@ import java.util.List;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.pufferlab.primal.Config;
+import net.pufferlab.primal.utils.HeatUtils;
+import net.pufferlab.primal.world.GlobalTickingData;
 
 public class ItemHeatableRenderer extends ItemPrimalRenderer {
 
@@ -36,6 +39,17 @@ public class ItemHeatableRenderer extends ItemPrimalRenderer {
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
         if (this.hasWhitelist) {
             if (!whitelistMeta.contains(item.getItemDamage())) return false;
+        }
+        if (handleTemperatureRendering()) {
+            if (item.hasTagCompound()) {
+                int temperature = HeatUtils
+                    .getInterpolatedTemperature(GlobalTickingData.getClientTickTime(), item.getTagCompound());
+                if (temperature <= Config.temperatureCap.getInt()) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
         }
         return super.handleRenderType(item, type);
     }

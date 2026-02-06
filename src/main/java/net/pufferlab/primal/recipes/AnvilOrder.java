@@ -14,6 +14,7 @@ public enum AnvilOrder {
 
     public int id;
     public String name;
+    public String langKey;
     private static final int lastIndex = 0;
     private static final int secondLastIndex = 1;
     private static final int thirdLastIndex = 2;
@@ -21,6 +22,7 @@ public enum AnvilOrder {
     AnvilOrder(int id, String name) {
         this.id = id;
         this.name = name;
+        this.langKey = "gui." + Primal.MODID + ".anvil." + this.name + ".name";
     }
 
     public boolean isValidOrder(int order) {
@@ -83,7 +85,7 @@ public enum AnvilOrder {
     }
 
     public String getTranslatedName() {
-        return Utils.translate("gui." + Primal.MODID + ".anvil." + this.name + ".name");
+        return Utils.translate(this.langKey);
     }
 
     @Override

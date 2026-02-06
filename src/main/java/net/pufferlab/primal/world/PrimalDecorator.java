@@ -6,11 +6,11 @@ import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.ChunkProviderFlat;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.blocks.BlockStoneRaw;
 import net.pufferlab.primal.blocks.BlockStoneSand;
+import net.pufferlab.primal.utils.WorldUtils;
 import net.pufferlab.primal.world.gen.feature.WorldGenGroundRock;
 import net.pufferlab.primal.world.gen.feature.WorldGenGroundShell;
 import net.pufferlab.primal.world.gen.feature.WorldGenGroundcover;
@@ -27,9 +27,7 @@ public class PrimalDecorator implements IWorldGenerator {
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator,
         IChunkProvider chunkProvider) {
-        if (!isFlatWorld(chunkGenerator) || world.getWorldInfo()
-            .getGeneratorOptions()
-            .contains("decoration")) {
+        if (WorldUtils.canDecorate(chunkGenerator, world)) {
             decorate(random, chunkX, chunkZ, world, chunkGenerator, chunkProvider);
         }
     }
@@ -63,11 +61,5 @@ public class PrimalDecorator implements IWorldGenerator {
                 }
             }
         }
-    }
-
-    protected final boolean isFlatWorld(IChunkProvider chunkProvider) {
-        return chunkProvider instanceof ChunkProviderFlat && !chunkProvider.getClass()
-            .getName()
-            .equals("com.rwtema.extrautils.worldgen.Underdark.ChunkProviderUnderdark");
     }
 }
