@@ -682,19 +682,22 @@ public class Registry {
 
     public void registerModItem(Item item, String name) {
         if (item instanceof IMetaItem item2) {
-            String[] elements = item2.getElements();
-            String[] elementsBlacklist = item2.getElementsBlacklist();
-            String elementName = item2.getElementName();
-            String suffix = "";
-            if (item2.hasSuffix()) {
-                suffix = "_" + elementName;
-            }
-            for (int i = 0; i < elements.length; i++) {
-                if (!Utils.contains(elementsBlacklist, elements[i])) {
-                    ItemStack stack = new ItemStack(item2.getItemObject(), 1, i);
-                    ItemUtils.registerModItem(elements[i] + suffix, stack);
-                    if (item2.registerOre()) {
-                        ItemUtils.registerModOreDict(ItemUtils.getOreDictionaryName(elementName, elements[i]), stack);
+            if (item2.registerModItem()) {
+                String[] elements = item2.getElements();
+                String[] elementsBlacklist = item2.getElementsBlacklist();
+                String elementName = item2.getElementName();
+                String suffix = "";
+                if (item2.hasSuffix()) {
+                    suffix = "_" + elementName;
+                }
+                for (int i = 0; i < elements.length; i++) {
+                    if (!Utils.contains(elementsBlacklist, elements[i])) {
+                        ItemStack stack = new ItemStack(item2.getItemObject(), 1, i);
+                        ItemUtils.registerModItem(elements[i] + suffix, stack);
+                        if (item2.registerOre()) {
+                            ItemUtils
+                                .registerModOreDict(ItemUtils.getOreDictionaryName(elementName, elements[i]), stack);
+                        }
                     }
                 }
             }

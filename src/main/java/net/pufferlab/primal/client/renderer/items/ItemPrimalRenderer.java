@@ -8,6 +8,7 @@ import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.client.models.ModelPrimal;
 import net.pufferlab.primal.client.renderer.RenderContainer;
 import net.pufferlab.primal.client.renderer.RenderHeat;
+import net.pufferlab.primal.items.IMetaItem;
 import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.world.GlobalTickingData;
 
@@ -93,11 +94,22 @@ public class ItemPrimalRenderer implements IItemRenderer {
         return null;
     }
 
+    public boolean isValidMeta(ItemStack item) {
+        if (item.getItem() instanceof IMetaItem meta) {
+            if (item.getItemDamage() >= meta.getElements().length) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
-        if (Utils.contains(getMetaBlacklist(), item.getItemDamage())) return false;
-        if (Utils.contains(getMeta(), item.getItemDamage()) || getMeta() == null) {
-            return true;
+        if (isValidMeta(item)) {
+            if (Utils.contains(getMetaBlacklist(), item.getItemDamage())) return false;
+            if (Utils.contains(getMeta(), item.getItemDamage()) || getMeta() == null) {
+                return true;
+            }
         }
         return false;
     }

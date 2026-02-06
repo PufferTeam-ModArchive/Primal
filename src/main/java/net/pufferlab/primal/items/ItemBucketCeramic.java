@@ -24,6 +24,7 @@ public class ItemBucketCeramic extends ItemBucketMeta implements IFluidContainer
     @Override
     public FluidStack getFluid(ItemStack container) {
         int meta = container.getItemDamage();
+        if (meta >= getFluidObjects().length) return null;
         Fluid fluid = getFluidObjects()[meta];
         if (fluid == null) {
             return null;
@@ -103,6 +104,7 @@ public class ItemBucketCeramic extends ItemBucketMeta implements IFluidContainer
 
     @Override
     public boolean isBreakable(ItemStack itemStack) {
+        if (itemStack.getItemDamage() >= Constants.fluidsBreak.length) return false;
         return Constants.fluidsBreak[itemStack.getItemDamage()];
     }
 }

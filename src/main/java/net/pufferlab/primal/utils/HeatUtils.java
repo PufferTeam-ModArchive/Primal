@@ -55,16 +55,19 @@ public class HeatUtils {
 
             @Override
             public int getMeltingTemperature(ItemStack stack) {
+                if (stack.getItemDamage() >= metals.size()) return -1;
                 return metals.get(stack.getItemDamage()).meltingTemperature;
             }
 
             @Override
             public int getWeldingTemperature(ItemStack stack) {
+                if (stack.getItemDamage() >= metals.size()) return -1;
                 return metals.get(stack.getItemDamage()).weldingTemperature;
             }
 
             @Override
             public int getForgingTemperature(ItemStack stack) {
+                if (stack.getItemDamage() >= metals.size()) return -1;
                 return metals.get(stack.getItemDamage()).forgingTemperature;
             }
         });

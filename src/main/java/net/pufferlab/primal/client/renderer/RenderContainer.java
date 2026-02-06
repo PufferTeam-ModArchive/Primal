@@ -37,6 +37,7 @@ public class RenderContainer {
 
         if (item instanceof ItemBucketMeta item2) {
             IIcon mask = item2.getIconFromDamageForRenderPass(meta, 1);
+            if (meta >= item2.getFluidBlocks().length) return;
             Fluid fluid = item2.getFluidObjects()[meta];
             if (type == IItemRenderer.ItemRenderType.INVENTORY) {
                 GL11.glScalef(16.0F, 16.0F, 16.0F);

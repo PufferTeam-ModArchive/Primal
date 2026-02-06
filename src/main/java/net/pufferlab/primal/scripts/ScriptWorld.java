@@ -2,6 +2,7 @@ package net.pufferlab.primal.scripts;
 
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Constants;
+import net.pufferlab.primal.utils.SoilType;
 import net.pufferlab.primal.utils.StoneType;
 
 public class ScriptWorld implements IScript {
@@ -21,6 +22,9 @@ public class ScriptWorld implements IScript {
                 addOreDict("rock", getModItem(name + "_rock", 1));
                 addOreDict("stone", getModItem(name + "_raw", 1));
                 addOreDict("cobblestone", getModItem(name + "_cobble", 1));
+            }
+            for (SoilType soil : Constants.soilTypes) {
+                String name = soil.name;
                 addOreDict("dirt", getModItem(name + "_dirt", 1));
             }
         }

@@ -16,7 +16,11 @@ public interface IMetaItem {
 
     default boolean registerOre() {
         return false;
-    };
+    }
+
+    default boolean registerModItem() {
+        return true;
+    }
 
     public Item getItemObject();
 }
