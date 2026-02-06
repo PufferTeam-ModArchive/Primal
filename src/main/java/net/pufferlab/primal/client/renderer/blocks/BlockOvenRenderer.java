@@ -12,8 +12,7 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.models.ModelCampfire;
 import net.pufferlab.primal.client.models.ModelCrossed;
 import net.pufferlab.primal.client.models.ModelOven;
-import net.pufferlab.primal.tileentities.TileEntityCampfire;
-import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
+import net.pufferlab.primal.tileentities.TileEntityOven;
 
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 
@@ -58,14 +57,12 @@ public class BlockOvenRenderer extends BlockPrimalRenderer {
         int renderPass = ForgeHooksClient.getWorldRenderPass();
         if (renderPass == 0) {
             modelCampfire.render(renderer, tess, block, x, y, z, -0.02F, 0.05F + 0.5F, -0.02F, iconCampfire);
-            if (te instanceof TileEntityMetaFacing tef) {
-                modelOven.setFacing(tef.facingMeta);
-                modelOven.render(renderer, tess, block, x, y, z, iconOven);
-            }
-            if (te instanceof TileEntityCampfire tef) {
-                if (tef.isFired) {
+            if (te instanceof TileEntityOven tef) {
+                if (tef.isFired()) {
                     modelFire.render(renderer, block, x, y, z, iconFire);
                 }
+                modelOven.setFacing(tef.facingMeta);
+                modelOven.render(renderer, tess, block, x, y, z, iconOven);
             }
         }
         return true;

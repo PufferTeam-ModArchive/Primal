@@ -125,6 +125,7 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
                 removeSchedule(updateItem4);
             }
         }
+        updateTEState();
     }
 
     @Override
@@ -309,6 +310,10 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
         if (this.isFired != state) {
             this.isFired = state;
             this.sendFuelUpdate();
+            this.onSlotUpdate(slotItem1);
+            this.onSlotUpdate(slotItem2);
+            this.onSlotUpdate(slotItem3);
+            this.onSlotUpdate(slotItem4);
             this.updateTEState();
         }
     }

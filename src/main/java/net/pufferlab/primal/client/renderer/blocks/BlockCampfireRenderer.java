@@ -71,17 +71,15 @@ public class BlockCampfireRenderer extends BlockPrimalRenderer {
         if (renderPass == 0) {
             modelCampfire.render(renderer, tess, block, x, y, z, 0.0F, 0.5F, 0.0F, iconCampfire);
             if (te instanceof TileEntityCampfire tef) {
+                if (tef.isFired()) {
+                    modelFire.render(renderer, block, x, y, z, iconFire);
+                }
                 if (tef.hasSpit) {
                     modelCampfireSpit.bb_main.rotateAngleY = 0;
                     if (!rotated) {
                         modelCampfireSpit.bb_main.rotateAngleY = (float) Math.PI / 2;
                     }
                     modelCampfireSpit.render(renderer, tess, block, x, y, z, iconCampfireSpit);
-                }
-            }
-            if (te instanceof TileEntityCampfire tef) {
-                if (tef.isFired) {
-                    modelFire.render(renderer, block, x, y, z, iconFire);
                 }
             }
         }

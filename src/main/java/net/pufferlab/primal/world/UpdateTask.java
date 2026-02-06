@@ -13,6 +13,7 @@ public class UpdateTask {
 
     public UpdateTask(int id) {
         this.name = "UpdateTask" + id;
+        this.sentUpdate = false;
     }
 
     public boolean hasSentUpdate() {
