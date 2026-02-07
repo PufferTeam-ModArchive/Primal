@@ -58,7 +58,7 @@ public class TileEntityAnvil extends TileEntityInventory {
         this.recipeID = tag.getString("recipeID");
     }
 
-    public void onWorkButtonClick(ItemStack heldItem, int buttonID) {
+    public boolean onWorkButtonClick(ItemStack heldItem, int buttonID) {
         AnvilAction newAction = AnvilAction.get(buttonID);
         if (newAction != null && isInputHotEnough() && hasMetalLevel() && hasMetalLevel(heldItem)) {
             moveLine(newAction);
@@ -66,7 +66,9 @@ public class TileEntityAnvil extends TileEntityInventory {
             playSound(SoundTypePrimal.soundAnvilHit);
             tryCompleteRecipe();
             this.updateTEState();
+            return true;
         }
+        return false;
     }
 
     public void tryCompleteRecipe() {

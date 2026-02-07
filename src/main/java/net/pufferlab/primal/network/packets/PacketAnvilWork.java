@@ -46,14 +46,17 @@ public class PacketAnvilWork implements IMessage, IMessageHandler<PacketAnvilWor
         final EntityPlayer player = ctx.getServerHandler().playerEntity;
         TileEntity te = player.worldObj.getTileEntity(msg.x, msg.y, msg.z);
         ItemStack heldItem = player.getHeldItem();
-        if (ItemUtils.isHammerTool(heldItem)) {
-            if (player.worldObj.rand.nextInt(3) == 0) {
-                heldItem.damageItem(1, player);
-            }
-        }
         Primal.proxy.sendPacketToClient(new PacketSwingArm(player));
         if (te instanceof TileEntityAnvil tef) {
-            tef.onWorkButtonClick(player.getHeldItem(), msg.button);
+            boolean success = tef.onWorkButtonClick(player.getHeldItem(), msg.button);
+            if (success) {
+                if (ItemUtils.isHammerTool(heldItem)) {
+                    if (player.worldObj.rand.nextInt(3) == 0) {
+                        heldItem.damageItem(1, player);
+                        player.inventoryContainer.detectAndSendChanges();
+                    }
+                }
+            }
         }
 
         return null;
