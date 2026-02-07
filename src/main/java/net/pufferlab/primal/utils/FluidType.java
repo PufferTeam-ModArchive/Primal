@@ -1,14 +1,12 @@
 package net.pufferlab.primal.utils;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraftforge.fluids.Fluid;
 
 public class FluidType {
 
     public boolean existingFluid;
     public String name;
-    public Material material;
     public boolean hotLiquid;
     public Block block;
     public Fluid fluid;
@@ -17,31 +15,25 @@ public class FluidType {
     public int temperature;
 
     public FluidType(String name) {
-        this(name, Material.water);
+        this(name, false);
     }
 
-    public FluidType(String name, Material material) {
+    public FluidType(String name, boolean isHotLiquid) {
         this.name = name;
-        this.material = material;
-        if (material == Material.lava) {
-            hotLiquid = true;
+        this.hotLiquid = isHotLiquid;
+        if (isHotLiquid) {
             this.temperature = 1300;
-        } else {
-            hotLiquid = false;
         }
         this.density = 1000;
         this.viscosity = 1000;
         this.existingFluid = false;
     }
 
-    public FluidType(String name, Material material, boolean existingFluid) {
+    public FluidType(String name, boolean isHotLiquid, boolean existingFluid) {
         this.name = name;
-        this.material = material;
-        if (material == Material.lava) {
-            hotLiquid = true;
+        this.hotLiquid = isHotLiquid;
+        if (isHotLiquid) {
             this.temperature = 1300;
-        } else {
-            hotLiquid = false;
         }
         this.density = 1000;
         this.viscosity = 1000;

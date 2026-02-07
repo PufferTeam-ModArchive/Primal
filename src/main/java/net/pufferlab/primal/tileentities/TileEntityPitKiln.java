@@ -23,7 +23,6 @@ public class TileEntityPitKiln extends TileEntityInventory implements IHeatable,
 
     public TileEntityPitKiln() {
         super(13);
-
     }
 
     @Override
@@ -83,6 +82,7 @@ public class TileEntityPitKiln extends TileEntityInventory implements IHeatable,
             setInventorySlotContentsUpdate(x);
         }
         this.markDirty();
+        updateTEState();
     }
 
     public void sendContentUpdate() {
@@ -133,6 +133,8 @@ public class TileEntityPitKiln extends TileEntityInventory implements IHeatable,
 
     @Override
     public void onSchedule(World world, int x, int y, int z, int type, int id) {
+        IScheduledTile.super.onSchedule(world, x, y, z, type, id);
+
         if (type == updateProcess) {
             taskProcess.onUpdate(this.worldObj);
             smeltContent();

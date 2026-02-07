@@ -1,6 +1,7 @@
 package net.pufferlab.primal.scripts;
 
 import net.minecraft.item.ItemStack;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.recipes.AnvilAction;
 import net.pufferlab.primal.recipes.AnvilOrder;
@@ -238,7 +239,6 @@ public class ScriptOreProcessing implements IScript {
         ItemStack ingotMold = getModItem("ingot_mold", 1);
         for (MetalType type : Constants.metalTypes) {
             String name = type.name;
-
             addCastingRecipe(ingotMold, getOreDictItem(getOreDictionaryName("ingot", name)), type.ingotFluid);
 
         }
@@ -251,6 +251,9 @@ public class ScriptOreProcessing implements IScript {
         ItemStack hammerMold = getModItem("hammer_mold", 1);
         for (MetalType type : Constants.toolMetalTypes) {
             String name = type.name;
+            if (!Config.metalHighTierCasting.getBoolean()) {
+                if (type.level > 1) continue;
+            }
             addCastingRecipe(
                 pickaxeMold,
                 getOreDictItem(getOreDictionaryName("pickaxe_head", name)),

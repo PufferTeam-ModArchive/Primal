@@ -21,20 +21,15 @@ public class TickHandler implements IEventHandler {
         ClientTickHolder.tick();
     }
 
-    public int timer;
-
     @SubscribeEvent
     public void onTick(TickEvent.WorldTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             if (!event.world.isRemote) {
                 if (event.world.provider.dimensionId == 0) {
                     GlobalTickingData.tick();
-                    timer++;
                 }
                 SchedulerData.tickTasks(GlobalTickingData.getTickTime(event.world), event.world);
                 SchedulerData.tickWaitingTasks(event.world);
-            }
-            if (timer++ > 3) {
                 syncTime(event.world);
             }
         }

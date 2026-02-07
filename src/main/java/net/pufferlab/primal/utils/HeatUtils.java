@@ -50,6 +50,7 @@ public class HeatUtils {
 
             @Override
             public MetalType getMetal(ItemStack stack) {
+                if (stack.getItemDamage() >= metals.size()) return null;
                 return metals.get(stack.getItemDamage());
             }
 

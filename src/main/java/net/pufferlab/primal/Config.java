@@ -72,6 +72,8 @@ public enum Config {
         "The melting temperature for the correspond metals."),
     metalLiquids(Module.metalworking, ConfigUtils.getDefaultMetalFluid(Constants.metalTypes),
         "The liquids that will be used for the corresponding metals"),
+    metalHighTierCasting(Module.metalworking, false,
+        "Whether to enable high tier metals being able to be casted in a crucible."),
     metalOreValue(Module.metalworking, 36, "The value that one ore should give."),
     metalSmallOreValue(Module.metalworking, 16, "The value that one small ore should give."),
     metalIngotValue(Module.metalworking, 144, "The value that one ingot of metal should give."),

@@ -495,7 +495,11 @@ public class Registry {
                     .setViscosity(fluidType.viscosity)
                     .setTemperature(fluidType.temperature);
                 register(fluid);
-                Block block = new BlockFluidPrimal(fluid, fluidType.material, fluidType.name);
+                Material mat = Material.water;
+                if (fluidType.hotLiquid) {
+                    mat = Material.lava;
+                }
+                Block block = new BlockFluidPrimal(fluid, mat, fluidType.name);
                 fluid.setBlock(block);
                 register(block, fluidType.name);
                 register(fluid, fluidType.name);

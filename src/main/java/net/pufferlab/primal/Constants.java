@@ -1,6 +1,5 @@
 package net.pufferlab.primal;
 
-import net.minecraft.block.material.Material;
 import net.pufferlab.primal.utils.*;
 
 public class Constants {
@@ -72,17 +71,17 @@ public class Constants {
     public static StoneType[][] stoneTypesLayer;
 
     // Metals
-    public static final FluidType moltenIron = new FluidType("molten_iron", Material.lava);
+    public static final FluidType moltenIron = new FluidType("molten_iron", true);
     public static final MetalType iron = new MetalType("iron", false, 921, 1148, 1538, moltenIron, 2);
-    public static final FluidType moltenCastIron = new FluidType("molten_cast_iron", Material.lava);
+    public static final FluidType moltenCastIron = new FluidType("molten_cast_iron", true);
     public static final MetalType castIron = new MetalType("cast_iron", false, 921, 1148, 1538, moltenCastIron, 2);
-    public static final FluidType moltenGold = new FluidType("molten_gold", Material.lava);
+    public static final FluidType moltenGold = new FluidType("molten_gold", true);
     public static final MetalType gold = new MetalType("gold", false, 636, 848, 1064, moltenGold, 0);
-    public static final FluidType moltenCopper = new FluidType("molten_copper", Material.lava);
+    public static final FluidType moltenCopper = new FluidType("molten_copper", true);
     public static final MetalType copper = new MetalType("copper", false, 648, 850, 1085, moltenCopper, 0);
-    public static final FluidType moltenTin = new FluidType("molten_tin", Material.lava);
+    public static final FluidType moltenTin = new FluidType("molten_tin", true);
     public static final MetalType tin = new MetalType("tin", false, 138, 184, 232, moltenTin, 0);
-    public static final FluidType moltenBronze = new FluidType("molten_bronze", Material.lava);
+    public static final FluidType moltenBronze = new FluidType("molten_bronze", true);
     public static final MetalType bronze = new MetalType("bronze", true, 570, 760, 950, moltenBronze, 1);
     public static final MetalType[] metalTypes = new MetalType[] { iron, gold, copper, tin, bronze, };
     public static final MetalType[] blockMetalTypes = new MetalType[] { copper, tin, bronze };
@@ -174,9 +173,9 @@ public class Constants {
     public static final FoodType[] doughItems = new FoodType[] {
         new FoodType("wheat_dough", 1, 0.5F, false, null, 17, 20, 1.0F) };
 
-    public static final FluidType empty = new FluidType("empty", Material.air, true);
-    public static final FluidType water = new FluidType("water", Material.water, true);
-    public static final FluidType lava = new FluidType("lava", Material.lava, true);
+    public static final FluidType empty = new FluidType("empty", false, true);
+    public static final FluidType water = new FluidType("water", false, true);
+    public static final FluidType lava = new FluidType("lava", true, true);
     // Fluids
     public static final FluidType[] fluidsTypes = new FluidType[] {
         empty, water,
@@ -186,9 +185,9 @@ public class Constants {
         new FluidType("pink"), new FluidType("gray"), new FluidType("light_gray"), new FluidType("cyan"),
         new FluidType("purple"), new FluidType("blue"), new FluidType("brown"), new FluidType("green"),
         new FluidType("red"), new FluidType("black"), moltenIron, moltenCastIron, moltenGold, moltenCopper, moltenTin, moltenBronze };
-    public static final String[] fluids = FluidType.getNames(Constants.fluidsTypes);
-    public static final boolean[] fluidsBreak = FluidType.getBreaks(Constants.fluidsTypes);
-    public static final String[] existingFluids = FluidType.getExistingNames(Constants.fluidsTypes);
+    public static String[] fluids = FluidType.getNames(Constants.fluidsTypes);
+    public static boolean[] fluidsBreak = FluidType.getBreaks(Constants.fluidsTypes);
+    public static String[] existingFluids = FluidType.getExistingNames(Constants.fluidsTypes);
 
     // OreDict
     public static final String[] ashPileOreDicts = new String[] { "ash" };
