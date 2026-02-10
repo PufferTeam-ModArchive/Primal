@@ -1,6 +1,7 @@
 package net.pufferlab.primal.blocks;
 
 import net.minecraft.item.Item;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Mods;
 import net.pufferlab.primal.utils.OreType;
@@ -32,5 +33,10 @@ public class BlockStoneOreThaumcraft extends BlockStoneOre {
     @Override
     public boolean isEmissive() {
         return true;
+    }
+
+    @Override
+    public boolean canRegister() {
+        return Config.oreVeins.getBoolean() && Mods.tc.isLoaded();
     }
 }

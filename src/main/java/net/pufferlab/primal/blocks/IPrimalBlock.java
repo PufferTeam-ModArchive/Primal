@@ -5,7 +5,9 @@ import net.minecraft.item.ItemBlock;
 
 public interface IPrimalBlock {
 
-    public Class<? extends ItemBlock> getItemBlockClass();
+    default Class<? extends ItemBlock> getItemBlockClass() {
+        return ItemBlock.class;
+    };
 
     public CreativeTabs getCreativeTab();
 

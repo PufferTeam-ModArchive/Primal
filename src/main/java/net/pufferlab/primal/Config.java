@@ -51,6 +51,7 @@ public enum Config {
         "The time in ticks that it will take the LogPile to smelt into charcoal."),
 
     // Torch
+    litTorches(Module.early_game$lighting, true, "Put to false if you don't want to enable the torches with burn time"),
     torchBurnTime(Module.early_game$lighting, 20 * 60 * 20,
         "The time in ticks that lit torches will burn before going out."),
     torchRebalance(Module.early_game$lighting, true,

@@ -62,12 +62,18 @@ public class Registry {
     public static final Block farmland;
     public static final Block path;
     public static final Block grass;
-    public static final Block native_copper;
-    public static final Block native_gold;
-    public static final Block malachite;
-    public static final Block cassiterite;
-    public static final Block limonite;
-    public static final Block magnetite;
+    public static final Block native_copper_ore;
+    public static final Block native_gold_ore;
+    public static final Block malachite_ore;
+    public static final Block cassiterite_ore;
+    public static final Block limonite_ore;
+    public static final Block magnetite_ore;
+    public static final Block tc_air_ore;
+    public static final Block tc_fire_ore;
+    public static final Block tc_water_ore;
+    public static final Block tc_earth_ore;
+    public static final Block tc_order_ore;
+    public static final Block tc_entropy_ore;
     public static final Block block;
     public static final Block anvil;
     public static final Block lit_torch;
@@ -159,13 +165,6 @@ public class Registry {
     public static final ItemArmor.ArmorMaterial armorCopper;
     public static final ItemArmor.ArmorMaterial armorIron;
 
-    public static Block tc_air_ore;
-    public static Block tc_fire_ore;
-    public static Block tc_water_ore;
-    public static Block tc_earth_ore;
-    public static Block tc_order_ore;
-    public static Block tc_entropy_ore;
-
     static {
         toolFlint = EnumHelper.addToolMaterial("flint", 0, 100, 2.0F, 0.0F, 15);
         toolCopper = EnumHelper.addToolMaterial("copper", 0, 150, 4.0F, 0.5F, 15);
@@ -195,12 +194,12 @@ public class Registry {
         farmland = new BlockSoilFarmland(Constants.soilTypes, "farmland");
         path = new BlockSoilPath(Constants.soilTypes, "path");
 
-        native_copper = new BlockStoneOre(Constants.stoneTypes, Constants.native_copper);
-        native_gold = new BlockStoneOre(Constants.stoneTypes, Constants.native_gold);
-        malachite = new BlockStoneOre(Constants.stoneTypes, Constants.malachite);
-        cassiterite = new BlockStoneOre(Constants.stoneTypes, Constants.cassiterite);
-        limonite = new BlockStoneOre(Constants.stoneTypes, Constants.limonite);
-        magnetite = new BlockStoneOre(Constants.stoneTypes, Constants.magnetite);
+        native_copper_ore = new BlockStoneOre(Constants.stoneTypes, Constants.native_copper);
+        native_gold_ore = new BlockStoneOre(Constants.stoneTypes, Constants.native_gold);
+        malachite_ore = new BlockStoneOre(Constants.stoneTypes, Constants.malachite);
+        cassiterite_ore = new BlockStoneOre(Constants.stoneTypes, Constants.cassiterite);
+        limonite_ore = new BlockStoneOre(Constants.stoneTypes, Constants.limonite);
+        magnetite_ore = new BlockStoneOre(Constants.stoneTypes, Constants.magnetite);
 
         if (Mods.tc.isLoaded()) {
             tc_air_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.aer);
@@ -209,6 +208,13 @@ public class Registry {
             tc_earth_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.terra);
             tc_order_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.ordo);
             tc_entropy_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.perditio);
+        } else {
+            tc_air_ore = null;
+            tc_fire_ore = null;
+            tc_water_ore = null;
+            tc_earth_ore = null;
+            tc_order_ore = null;
+            tc_entropy_ore = null;
         }
 
         ground_rock = new BlockStoneGround(Constants.stoneTypes, "ground_rock");
@@ -339,12 +345,12 @@ public class Registry {
         register(farmland, "farmland");
         register(path, "path");
 
-        register(native_copper, "native_copper");
-        register(malachite, "malachite");
-        register(cassiterite, "cassiterite");
-        register(native_gold, "native_gold");
-        register(limonite, "limonite");
-        register(magnetite, "magnetite");
+        register(native_copper_ore, "native_copper");
+        register(malachite_ore, "malachite");
+        register(cassiterite_ore, "cassiterite");
+        register(native_gold_ore, "native_gold");
+        register(limonite_ore, "limonite");
+        register(magnetite_ore, "magnetite");
 
         if (Mods.tc.isLoaded()) {
             register(tc_air_ore, "tc_infused_air");

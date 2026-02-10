@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockTorch;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -20,7 +21,8 @@ import com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness;
 import cpw.mods.fml.common.Optional;
 
 @Optional.Interface(iface = "com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness", modid = "rple")
-public class BlockTorchPrimitive extends BlockTorch implements IScheduledBlock, RPLECustomBlockBrightness {
+public class BlockTorchPrimitive extends BlockTorch
+    implements IPrimalBlock, IScheduledBlock, RPLECustomBlockBrightness {
 
     public static final int updateFired = 0;
     public static int burnTime = Config.torchBurnTime.getDefaultInt();
@@ -111,5 +113,15 @@ public class BlockTorchPrimitive extends BlockTorch implements IScheduledBlock, 
     @Override
     public String getUnlocalizedName() {
         return "tile." + Primal.MODID + "." + name;
+    }
+
+    @Override
+    public boolean canRegister() {
+        return Config.litTorches.getBoolean();
+    }
+
+    @Override
+    public CreativeTabs getCreativeTab() {
+        return Registry.creativeTab;
     }
 }

@@ -3,7 +3,6 @@ package net.pufferlab.primal.blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
@@ -40,11 +39,6 @@ public class BlockFluidPrimal extends BlockFluidClassic implements IPrimalBlock 
     @Override
     public String getUnlocalizedName() {
         return "fluid." + Primal.MODID + "." + this.name;
-    }
-
-    @Override
-    public Class<? extends ItemBlock> getItemBlockClass() {
-        return ItemBlock.class;
     }
 
     @Override
