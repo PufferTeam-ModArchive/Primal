@@ -33,8 +33,8 @@ public class BlockFaucetRenderer extends BlockPrimalRenderer {
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
         Tessellator tess = Tessellator.instance;
-        int renderPass = ForgeHooksClient.getWorldRenderPass();
         dumpVertices(tess, x, y, z);
+        int renderPass = ForgeHooksClient.getWorldRenderPass();
         TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileEntityFaucet tef) {
             int meta = tef.facingMeta;

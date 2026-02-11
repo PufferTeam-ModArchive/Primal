@@ -33,12 +33,12 @@ public class BlockCastRenderer extends BlockPrimalRenderer {
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
         Tessellator tess = Tessellator.instance;
+        dumpVertices(tess, x, y, z);
         TileEntity te = world.getTileEntity(x, y, z);
         int renderPass = ForgeHooksClient.getWorldRenderPass();
         if (te instanceof TileEntityCast tef) {
             FluidStack stack = tef.getFluidStack();
             float height = tef.getFillLevel(0.0625F, 0.125F);
-            modelFluid.dumpVertices(tess, x, y, z);
             if (renderPass == 1) {
                 modelFluid.render(
                     renderer,

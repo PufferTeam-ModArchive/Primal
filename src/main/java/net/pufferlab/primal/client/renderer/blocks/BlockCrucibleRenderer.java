@@ -27,9 +27,9 @@ public class BlockCrucibleRenderer extends BlockPrimalRenderer {
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
         Tessellator tess = Tessellator.instance;
+        dumpVertices(tess, x, y, z);
         TileEntity te = world.getTileEntity(x, y, z);
         int renderPass = ForgeHooksClient.getWorldRenderPass();
-        modelFluid.dumpVertices(tess, x, y, z);
         if (te instanceof TileEntityCrucible tef) {
             Block blockBelow = tef.getWorldObj()
                 .getBlock(tef.xCoord, tef.yCoord - 1, tef.zCoord);
