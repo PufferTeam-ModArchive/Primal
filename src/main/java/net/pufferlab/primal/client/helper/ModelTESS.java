@@ -432,18 +432,6 @@ public class ModelTESS {
         }
     // spotless:on
 
-    /*
-     * --- CRASH FIX ----
-     * Fix Vertex Crash (When using two different render pass);
-     * This code is only used for that.
-     * https://forums.minecraftforge.net/topic/22139-isbrh-alpha-blending-inconsistencies/
-     */
-    public void dumpVertices(Tessellator tess, int x, int y, int z) {
-        for (int i = 0; i < 4; i++) {
-            tess.addVertex(x, y, z);
-        }
-    }
-
     public double[] addEpsilonOffset(double[] coords) {
         double min = coords[0];
         double max = coords[0];

@@ -1,5 +1,7 @@
 package net.pufferlab.primal.blocks;
 
+import java.util.Random;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
@@ -7,8 +9,6 @@ import net.minecraft.item.Item;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.utils.StoneType;
-
-import java.util.Random;
 
 public class BlockStoneGravel extends BlockMetaGravel {
 
@@ -23,10 +23,8 @@ public class BlockStoneGravel extends BlockMetaGravel {
     }
 
     @Override
-    public Item getItemDropped(int meta, Random random, int fortune)
-    {
-        if (fortune > 3)
-        {
+    public Item getItemDropped(int meta, Random random, int fortune) {
+        if (fortune > 3) {
             fortune = 3;
         }
 

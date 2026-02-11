@@ -33,7 +33,7 @@ public class BlockBarrelRenderer extends BlockPrimalRenderer {
         RenderBlocks renderer) {
         Tessellator tess = Tessellator.instance;
         TileEntity te = world.getTileEntity(x, y, z);
-        modelFluid.dumpVertices(tess, x, y, z);
+        dumpVertices(tess, x, y, z);
         if (te instanceof TileEntityBarrel tef) {
             int renderPass = ForgeHooksClient.getWorldRenderPass();
             FluidStack stack = tef.getFluidStack();

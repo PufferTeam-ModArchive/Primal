@@ -30,6 +30,7 @@ public class BlockLargeVesselRenderer extends BlockPrimalRenderer {
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
         Tessellator tess = Tessellator.instance;
+        dumpVertices(tess, x, y, z);
         TileEntity te = world.getTileEntity(x, y, z);
         int renderPass = ForgeHooksClient.getWorldRenderPass();
         if (te instanceof TileEntityLargeVessel tef) {
@@ -40,7 +41,6 @@ public class BlockLargeVesselRenderer extends BlockPrimalRenderer {
             } else {
                 modelLargeVessel.lid.isHidden = false;
             }
-            modelFluid.dumpVertices(tess, x, y, z);
             double o = Constants.modelConst;
             if (renderPass == 1) {
                 modelFluid.render(

@@ -272,4 +272,16 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
         return flag;
     }
 
+    /*
+     * --- CRASH FIX ----
+     * Fix Vertex Crash (When using two different render pass);
+     * This code is only used for that.
+     * https://forums.minecraftforge.net/topic/22139-isbrh-alpha-blending-inconsistencies/
+     */
+    public void dumpVertices(Tessellator tess, int x, int y, int z) {
+        for (int i = 0; i < 4; i++) {
+            tess.addVertex(x, y, z);
+        }
+    }
+
 }
