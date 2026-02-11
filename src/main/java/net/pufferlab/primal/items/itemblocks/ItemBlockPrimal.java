@@ -7,6 +7,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.pufferlab.primal.blocks.BlockBarrel;
+import net.pufferlab.primal.blocks.BlockContainerPrimal;
 import net.pufferlab.primal.blocks.BlockLargeVessel;
 
 public class ItemBlockPrimal extends ItemBlock {
@@ -108,6 +109,32 @@ public class ItemBlockPrimal extends ItemBlock {
                 } else {
                     return false;
                 }
+    }
+
+    @Override
+    public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
+        float hitX, float hitY, float hitZ, int metadata) {
+
+        if (cancelPlacement(stack)) return false;
+
+        if (!world.setBlock(x, y, z, field_150939_a, metadata, 3)) {
+            return false;
+        }
+
+        if (world.getBlock(x, y, z) == field_150939_a) {
+            placeBlock(world, x, y, z, player, stack, metadata, side);
+        }
+
+        return true;
+    }
+
+    public void placeBlock(World world, int x, int y, int z, EntityPlayer player, ItemStack stack, int metadata,
+        int side) {
+        field_150939_a.onBlockPlacedBy(world, x, y, z, player, stack);
+        field_150939_a.onPostBlockPlaced(world, x, y, z, metadata);
+        if (field_150939_a instanceof BlockContainerPrimal block) {
+            block.onBlockSidePlacedBy(world, x, y, z, player, stack, side);
+        }
     }
 
     public boolean cancelPlacement(ItemStack stack) {

@@ -3,15 +3,12 @@ package net.pufferlab.primal;
 import java.util.*;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.*;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatList;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -21,7 +18,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.oredict.OreDictionary;
-import net.pufferlab.primal.blocks.*;
+import net.pufferlab.primal.blocks.BlockContainerPrimal;
 import net.pufferlab.primal.utils.*;
 import net.pufferlab.primal.world.GlobalTickingData;
 
@@ -113,157 +110,6 @@ public class Utils {
         return random;
     }
 
-    public static int getBlockX(int side, int x) {
-        if (side == 4) {
-            x--;
-        }
-        if (side == 5) {
-            x++;
-        }
-        return x;
-    }
-
-    public static int getBlockY(int side, int y) {
-        if (side == 0) {
-            y--;
-        }
-        if (side == 1) {
-            y++;
-        }
-        return y;
-    }
-
-    public static int getBlockZ(int side, int z) {
-        if (side == 2) {
-            z--;
-        }
-        if (side == 3) {
-            z++;
-        }
-        return z;
-    }
-
-    public static boolean hasSolidWallsTop(World world, int x, int y, int z) {
-        for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-            Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
-            boolean isSolid = block
-                .isSideSolid(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir.getOpposite())
-                || (block instanceof BlockPile)
-                || (block.getMaterial() == Material.fire);
-            if (!isSolid) {
-                return false;
-            }
-
-        }
-        return true;
-    }
-
-    public static boolean hasSolidWalls(World world, int x, int y, int z) {
-        for (ForgeDirection dir : ItemUtils.sideDirections) {
-            Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
-            if (!block.isSideSolid(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir.getOpposite())) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static Block getBlockDirection(World world, int x, int y, int z, ForgeDirection... directions) {
-        int offsetX = x;
-        int offsetY = y;
-        int offsetZ = z;
-        for (ForgeDirection direction : directions) {
-            offsetX += direction.offsetX;
-            offsetY += direction.offsetY;
-            offsetZ += direction.offsetZ;
-        }
-        return world.getBlock(offsetX, offsetY, offsetZ);
-    }
-
-    public static boolean setBlockDirection(World world, int x, int y, int z, Block block, int meta,
-        ForgeDirection... directions) {
-        int offsetX = x;
-        int offsetY = y;
-        int offsetZ = z;
-        for (ForgeDirection direction : directions) {
-            offsetX += direction.offsetX;
-            offsetY += direction.offsetY;
-            offsetZ += direction.offsetZ;
-        }
-        return world.setBlock(offsetX, offsetY, offsetZ, block, meta, 2);
-    }
-
-    public static ForgeDirection getDirectionFromFacing(int facingMeta) {
-        return switch (facingMeta) {
-            case 1 -> ForgeDirection.SOUTH;
-            case 2 -> ForgeDirection.EAST;
-            case 3 -> ForgeDirection.NORTH;
-            case 4 -> ForgeDirection.WEST;
-            default -> ForgeDirection.UNKNOWN;
-        };
-    }
-
-    public static int getFacingMeta(int side, int axis) {
-        if (axis == 0) {
-            return switch (side) {
-                case 3 -> 1;
-                case 4 -> 4;
-                case 2 -> 3;
-                case 5 -> 2;
-                default -> 0;
-            };
-        }
-        if (axis == 1) {
-            return switch (side) {
-                case 0 -> 1;
-                case 4 -> 4;
-                case 1 -> 3;
-                case 5 -> 2;
-                default -> 0;
-            };
-        }
-        if (axis == 2) {
-            return switch (side) {
-                case 3 -> 1;
-                case 1 -> 4;
-                case 2 -> 3;
-                case 0 -> 2;
-                default -> 0;
-            };
-        }
-        return 0;
-    }
-
-    public static int getSimpleAxisFromFacing(int facingMeta) {
-        return switch (facingMeta) {
-            case 1, 3 -> 1;
-            case 2, 4 -> 2;
-            default -> 0;
-        };
-    }
-
-    public static int getAxis(int side) {
-        if (side == 0 || side == 1) {
-            return 0;
-        } else if (side == 2 || side == 3) {
-            return 1;
-        } else if (side == 4 || side == 5) {
-            return 2;
-        }
-        return 0;
-    }
-
-    public static boolean isSidePositive(int side) {
-        if (side == 1 || side == 3 || side == 5) {
-            return true;
-        }
-        return false;
-    }
-
-    public static boolean isSimpleAxisConnected(int facingMeta, int facingMeta2) {
-        return getSimpleAxisFromFacing(facingMeta) == getSimpleAxisFromFacing(facingMeta2);
-    }
-
     public static boolean equalsStack(ItemStack wild, ItemStack check) {
         if (wild == null || check == null) {
             return check == wild;
@@ -294,30 +140,6 @@ public class Utils {
         return wild.getFluid() == stack.getFluid();
     }
 
-    public static MovingObjectPosition getMovingObjectPositionFromPlayer(World worldIn, EntityPlayer playerIn,
-        boolean useLiquids) {
-        return ItemDummy.instance.getMovingObjectPositionFromPlayerPublic(worldIn, playerIn, useLiquids);
-    }
-
-    public static int getDirectionXZYaw(int yaw) {
-        if (yaw == 0) {
-            return 1;
-        } else if (yaw == 1) {
-            return 4;
-        } else if (yaw == 2) {
-            return 3;
-        } else if (yaw == 3) {
-            return 2;
-        }
-
-        return 0;
-    }
-
-    public static int getMetaYaw(float rotationYaw) {
-        int yaw = MathHelper.floor_double((double) (rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-        return getDirectionXZYaw(yaw);
-    }
-
     public static void place(ItemStack stack, World world, int x, int y, int z, Block toPlace, int metadata,
         EntityPlayer player) {
         if (world.isAirBlock(x, y, z) && world.isSideSolid(x, y - 1, z, ForgeDirection.UP)) {
@@ -325,6 +147,9 @@ public class Utils {
                 && world.setBlock(x, y, z, toPlace, metadata, 3)) {
                 world.setBlock(x, y, z, toPlace, metadata, 2);
                 toPlace.onBlockPlacedBy(world, x, y, z, player, stack);
+                if (toPlace instanceof BlockContainerPrimal block2) {
+                    block2.onBlockSidePlacedBy(world, x, y, z, player, stack, 0);
+                }
                 stack.stackSize -= 1;
                 playSound(world, x, y, z, toPlace);
                 player.swingItem();
@@ -339,6 +164,9 @@ public class Utils {
                 && world.setBlock(x, y, z, toPlace, metadata, 3)) {
                 world.setBlock(x, y, z, toPlace, metadata, 2);
                 toPlace.onBlockPlacedBy(world, x, y, z, player, stack);
+                if (toPlace instanceof BlockContainerPrimal block2) {
+                    block2.onBlockSidePlacedBy(world, x, y, z, player, stack, 0);
+                }
                 playSound(world, x, y, z, toPlace);
                 player.swingItem();
             }
@@ -352,6 +180,9 @@ public class Utils {
                 && world.setBlock(x, y, z, toPlace, metadata, 3)) {
                 world.setBlock(x, y, z, toPlace, metadata, 2);
                 toPlace.onBlockPlacedBy(world, x, y, z, player, stack);
+                if (toPlace instanceof BlockContainerPrimal block2) {
+                    block2.onBlockSidePlacedBy(world, x, y, z, player, stack, 0);
+                }
                 player.swingItem();
             }
         }

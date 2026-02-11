@@ -5,10 +5,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.blocks.BlockMotion;
+import net.pufferlab.primal.utils.FacingUtils;
 
-public class ItemBlockWindmill extends ItemBlockMotion {
+public class ItemBlockWindmill extends ItemBlockPrimal {
 
     public ItemBlockWindmill(Block p_i45328_1_) {
         super(p_i45328_1_);
@@ -18,7 +17,7 @@ public class ItemBlockWindmill extends ItemBlockMotion {
     public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
         float hitX, float hitY, float hitZ, int metadata) {
 
-        int axis = Utils.getAxis(side);
+        int axis = FacingUtils.getAxis(side);
         boolean isValid = placeExtensionAt(world, x, y, z, axis, true);
         if (isValid) {
             if (!world.setBlock(x, y, z, field_150939_a, metadata, 3)) {
@@ -26,11 +25,7 @@ public class ItemBlockWindmill extends ItemBlockMotion {
             }
 
             if (world.getBlock(x, y, z) == field_150939_a) {
-                field_150939_a.onBlockPlacedBy(world, x, y, z, player, stack);
-                field_150939_a.onPostBlockPlaced(world, x, y, z, metadata);
-                if (field_150939_a instanceof BlockMotion block) {
-                    block.onBlockSidePlacedBy(world, x, y, z, player, stack, side);
-                }
+                placeBlock(world, x, y, z, player, stack, metadata, side);
             }
             return true;
         }

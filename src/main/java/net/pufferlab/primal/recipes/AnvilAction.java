@@ -35,28 +35,24 @@ public enum AnvilAction {
 
     public static void writeToNBT(NBTTagCompound tag, AnvilAction[] actions) {
         if (actions != null) {
-            int[] actionsID = new int[actions.length];
+            byte[] actionsID = new byte[actions.length];
             for (int i = 0; i < actions.length; i++) {
                 if (actions[i] == null) {
                     actionsID[i] = -1;
                 } else {
-                    actionsID[i] = actions[i].id;
+                    actionsID[i] = (byte) actions[i].id;
                 }
             }
-            tag.setIntArray("workActions", actionsID);
+            tag.setByteArray("workActions", actionsID);
         }
     }
 
-    public static AnvilAction[] readFromNBT(NBTTagCompound tag) {
+    public static void readFromNBT(NBTTagCompound tag, AnvilAction[] actions) {
         if (tag.hasKey("workActions")) {
-            int[] actionsID = tag.getIntArray("workActions");
-            AnvilAction[] actions = new AnvilAction[actionsID.length];
+            byte[] actionsID = tag.getByteArray("workActions");
             for (int i = 0; i < actionsID.length; i++) {
                 actions[i] = AnvilAction.get(actionsID[i]);
             }
-            return actions;
-        } else {
-            return new AnvilAction[3];
         }
     }
 

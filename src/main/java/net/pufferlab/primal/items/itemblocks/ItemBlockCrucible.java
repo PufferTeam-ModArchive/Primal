@@ -42,8 +42,7 @@ public class ItemBlockCrucible extends ItemBlockPrimal implements IHeatableItem,
         }
 
         if (world.getBlock(x, y, z) == field_150939_a) {
-            field_150939_a.onBlockPlacedBy(world, x, y, z, player, stack);
-            field_150939_a.onPostBlockPlaced(world, x, y, z, metadata);
+            placeBlock(world, x, y, z, player, stack, metadata, side);
         }
 
         return true;

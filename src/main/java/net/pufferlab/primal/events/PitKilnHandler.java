@@ -9,10 +9,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.blocks.BlockPitKiln;
 import net.pufferlab.primal.network.packets.PacketPitKilnPlace;
 import net.pufferlab.primal.recipes.PitKilnRecipe;
+import net.pufferlab.primal.utils.FacingUtils;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -24,12 +24,12 @@ public class PitKilnHandler implements IEventHandler {
         ItemStack heldItem = event.entityPlayer.getHeldItem();
         if (heldItem != null) {
             if (PitKilnRecipe.hasRecipe(heldItem) && event.face == ForgeDirection.UP.ordinal()) {
-                int x = Utils.getBlockX(event.face, event.x);
-                int y = Utils.getBlockY(event.face, event.y);
-                int z = Utils.getBlockZ(event.face, event.z);
+                int x = FacingUtils.getBlockX(event.face, event.x);
+                int y = FacingUtils.getBlockY(event.face, event.y);
+                int z = FacingUtils.getBlockZ(event.face, event.z);
                 Block actualBlock = event.world.getBlock(x, y, z);
                 if (actualBlock.getMaterial() == Material.air) {
-                    boolean hasWalls = Utils.hasSolidWalls(event.world, x, y, z);
+                    boolean hasWalls = FacingUtils.hasSolidWalls(event.world, x, y, z);
                     if (hasWalls) {
                         if (event.isCancelable()) event.setCanceled(true);
                         placePitKiln(event.entityPlayer);
@@ -41,11 +41,11 @@ public class PitKilnHandler implements IEventHandler {
     }
 
     public static void placePitKiln(EntityPlayer player) {
-        MovingObjectPosition mop = Utils.getMovingObjectPositionFromPlayer(player.worldObj, player, false);
+        MovingObjectPosition mop = FacingUtils.getMovingObjectPositionFromPlayer(player.worldObj, player, false);
         if (mop != null) {
-            int x = Utils.getBlockX(mop.sideHit, mop.blockX);
-            int y = Utils.getBlockY(mop.sideHit, mop.blockY);
-            int z = Utils.getBlockZ(mop.sideHit, mop.blockZ);
+            int x = FacingUtils.getBlockX(mop.sideHit, mop.blockX);
+            int y = FacingUtils.getBlockY(mop.sideHit, mop.blockY);
+            int z = FacingUtils.getBlockZ(mop.sideHit, mop.blockZ);
             player.worldObj.setBlock(x, y, z, Registry.pit_kiln, 0, 3);
             float hitX = (float) (mop.hitVec.xCoord - x);
             float hitY = (float) (mop.hitVec.yCoord - y);

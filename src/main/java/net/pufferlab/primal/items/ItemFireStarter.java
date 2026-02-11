@@ -12,9 +12,9 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.network.packets.PacketFireStarter;
 import net.pufferlab.primal.tileentities.IHeatable;
+import net.pufferlab.primal.utils.FacingUtils;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -56,9 +56,9 @@ public class ItemFireStarter extends Item {
         if (charge > max) {
             MovingObjectPosition mop = this.getMovingObjectPositionFromPlayer(world, player, false);
             if (mop != null) {
-                int x = Utils.getBlockX(mop.sideHit, mop.blockX);
-                int y = Utils.getBlockY(mop.sideHit, mop.blockY);
-                int z = Utils.getBlockZ(mop.sideHit, mop.blockZ);
+                int x = FacingUtils.getBlockX(mop.sideHit, mop.blockX);
+                int y = FacingUtils.getBlockY(mop.sideHit, mop.blockY);
+                int z = FacingUtils.getBlockZ(mop.sideHit, mop.blockZ);
                 float hitX = (float) (mop.hitVec.xCoord - mop.blockX);
                 float hitY = (float) (mop.hitVec.yCoord - mop.blockY);
                 float hitZ = (float) (mop.hitVec.zCoord - mop.blockZ);

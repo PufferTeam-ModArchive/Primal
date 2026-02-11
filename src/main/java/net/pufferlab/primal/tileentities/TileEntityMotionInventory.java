@@ -2,9 +2,9 @@ package net.pufferlab.primal.tileentities;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.network.NetworkMotion;
 import net.pufferlab.primal.network.packets.PacketSpeedUpdate;
+import net.pufferlab.primal.utils.FacingUtils;
 
 public abstract class TileEntityMotionInventory extends TileEntityInventory implements IMotion {
 
@@ -127,7 +127,7 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
 
     @Override
     public boolean hasConnection(int side) {
-        int axis = Utils.getAxis(side);
+        int axis = FacingUtils.getAxis(side);
         if (axis == this.axisMeta) {
             return true;
         }

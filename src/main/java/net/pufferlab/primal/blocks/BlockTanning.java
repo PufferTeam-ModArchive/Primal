@@ -2,9 +2,6 @@ package net.pufferlab.primal.blocks;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -12,10 +9,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.TanningRecipe;
-import net.pufferlab.primal.tileentities.TileEntityInventory;
-import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 import net.pufferlab.primal.tileentities.TileEntityTanning;
 import net.pufferlab.primal.utils.ItemUtils;
 
@@ -43,17 +37,6 @@ public class BlockTanning extends BlockContainerPrimal {
             return icons[1];
         }
         return icons[1];
-    }
-
-    @Override
-    public void onBlockPlacedBy(World worldIn, int x, int y, int z, EntityLivingBase placer, ItemStack itemIn) {
-        super.onBlockPlacedBy(worldIn, x, y, z, placer, itemIn);
-
-        int metayaw = Utils.getMetaYaw(placer.rotationYaw);
-        TileEntity te = worldIn.getTileEntity(x, y, z);
-        if (te instanceof TileEntityMetaFacing tef) {
-            tef.setFacingMeta(metayaw);
-        }
     }
 
     @Override
@@ -90,27 +73,6 @@ public class BlockTanning extends BlockContainerPrimal {
     public void onBlockPreDestroy(World worldIn, int x, int y, int z, int meta) {
         super.onBlockPreDestroy(worldIn, x, y, z, meta);
         dropItems(worldIn, x, y, z);
-    }
-
-    private void dropItems(World world, int i, int j, int k) {
-        TileEntity tileEntity = world.getTileEntity(i, j, k);
-        if (!(tileEntity instanceof TileEntityInventory)) return;
-        TileEntityInventory inventory = (TileEntityInventory) tileEntity;
-        for (int x = 0; x < inventory.getSizeInventory(); x++) {
-            ItemStack item = inventory.getStackInSlot(x);
-            inventory.setInventorySlotContentsUpdate(x, null);
-            if (item != null && item.stackSize > 0) {
-                EntityItem entityItem = new EntityItem(world, (i), (j + 0.5F), (k), item.copy());
-                spawnEntity(world, entityItem);
-                item.stackSize = 0;
-            }
-        }
-    }
-
-    public void spawnEntity(World world, Entity entityItem) {
-        if (!world.isRemote) {
-            world.spawnEntityInWorld((Entity) entityItem);
-        }
     }
 
     @Override

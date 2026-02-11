@@ -5,9 +5,7 @@ import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
@@ -15,7 +13,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.TileEntityFaucet;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 
@@ -87,17 +84,13 @@ public class BlockFaucet extends BlockContainerPrimal {
     }
 
     @Override
-    public String getUnlocalizedName() {
-        return "tile." + Primal.MODID + ".faucet";
+    public boolean isSideDependant() {
+        return true;
     }
 
     @Override
-    public void onBlockPlacedBy(World worldIn, int x, int y, int z, EntityLivingBase placer, ItemStack itemIn) {
-        int metayaw = Utils.getMetaYaw(placer.rotationYaw);
-        TileEntity te = worldIn.getTileEntity(x, y, z);
-        if (te instanceof TileEntityFaucet tef) {
-            tef.setFacingMeta(metayaw);
-        }
+    public String getUnlocalizedName() {
+        return "tile." + Primal.MODID + ".faucet";
     }
 
     @Override

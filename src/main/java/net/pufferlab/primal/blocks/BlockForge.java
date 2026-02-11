@@ -1,11 +1,7 @@
 package net.pufferlab.primal.blocks;
 
-import java.util.Random;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -18,7 +14,6 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.TileEntityForge;
-import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.ItemUtils;
 
@@ -123,35 +118,6 @@ public class BlockForge extends BlockContainerPrimal implements RPLECustomBlockB
     public void onBlockPreDestroy(World worldIn, int x, int y, int z, int meta) {
         super.onBlockPreDestroy(worldIn, x, y, z, meta);
         dropItems(worldIn, x, y, z, 0);
-    }
-
-    private void dropItems(World world, int i, int j, int k, int start) {
-        Random rando = world.rand;
-        TileEntity tileEntity = world.getTileEntity(i, j, k);
-        if (!(tileEntity instanceof TileEntityInventory)) return;
-        TileEntityInventory inventory = (TileEntityInventory) tileEntity;
-        for (int x = start; x < inventory.getSizeInventory(); x++) {
-            ItemStack item = inventory.getStackInSlot(x);
-            inventory.setInventorySlotContentsUpdate(x, null);
-            if (item != null && item.stackSize > 0) {
-                float ri = rando.nextFloat() * 0.8F + 0.1F;
-                float rj = rando.nextFloat() * 0.8F + 0.1F;
-                float rk = rando.nextFloat() * 0.8F + 0.1F;
-                EntityItem entityItem = new EntityItem(world, (i + ri), (j + rj), (k + rk), item.copy());
-                float factor = 0.05F;
-                entityItem.motionX = rando.nextGaussian() * factor;
-                entityItem.motionY = rando.nextGaussian() * factor + 0.20000000298023224D;
-                entityItem.motionZ = rando.nextGaussian() * factor;
-                spawnEntity(world, entityItem);
-                item.stackSize = 0;
-            }
-        }
-    }
-
-    public void spawnEntity(World world, Entity entityItem) {
-        if (!world.isRemote) {
-            world.spawnEntityInWorld((Entity) entityItem);
-        }
     }
 
     @Override

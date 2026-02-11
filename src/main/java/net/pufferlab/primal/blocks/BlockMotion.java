@@ -3,18 +3,14 @@ package net.pufferlab.primal.blocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.items.itemblocks.ItemBlockMotion;
 import net.pufferlab.primal.tileentities.IMotion;
 import net.pufferlab.primal.tileentities.TileEntityMotion;
+import net.pufferlab.primal.utils.FacingUtils;
 
 public abstract class BlockMotion extends BlockContainerPrimal {
 
@@ -32,22 +28,9 @@ public abstract class BlockMotion extends BlockContainerPrimal {
         }
     }
 
-    @Override
-    public void onBlockPlacedBy(World worldIn, int x, int y, int z, EntityLivingBase placer, ItemStack itemIn) {
-        super.onBlockPlacedBy(worldIn, x, y, z, placer, itemIn);
-
-        if (placer instanceof EntityPlayer player) {
-            MovingObjectPosition mop = Utils.getMovingObjectPositionFromPlayer(worldIn, player, false);
-            if (mop != null) {
-                int side = mop.sideHit;
-                onBlockSidePlacedBy(worldIn, x, y, z, placer, itemIn, side);
-            }
-        }
-    }
-
     public void onBlockSidePlacedBy(World worldIn, int x, int y, int z, EntityLivingBase placer, ItemStack itemIn,
         int side) {
-        int meta = Utils.getAxis(side);
+        int meta = FacingUtils.getAxis(side);
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityMotion tef) {
             tef.setAxisMeta(meta);
@@ -90,10 +73,5 @@ public abstract class BlockMotion extends BlockContainerPrimal {
     @Override
     public boolean shouldSideBeRendered(IBlockAccess worldIn, int x, int y, int z, int side) {
         return true;
-    }
-
-    @Override
-    public Class<? extends ItemBlock> getItemBlockClass() {
-        return ItemBlockMotion.class;
     }
 }

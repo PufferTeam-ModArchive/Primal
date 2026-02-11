@@ -4,13 +4,10 @@ import static net.pufferlab.primal.tileentities.TileEntityAnvil.slotInput;
 import static net.pufferlab.primal.tileentities.TileEntityAnvil.slotOutput;
 
 import java.util.List;
-import java.util.Random;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -21,11 +18,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.AnvilRecipe;
 import net.pufferlab.primal.tileentities.TileEntityAnvil;
-import net.pufferlab.primal.tileentities.TileEntityInventory;
-import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.MetalType;
 
@@ -131,49 +125,9 @@ public class BlockMetalAnvil extends BlockMetaContainer {
     }
 
     @Override
-    public void onBlockPlacedBy(World worldIn, int x, int y, int z, EntityLivingBase placer, ItemStack itemIn) {
-        super.onBlockPlacedBy(worldIn, x, y, z, placer, itemIn);
-
-        int metayaw = Utils.getMetaYaw(placer.rotationYaw);
-        TileEntity te = worldIn.getTileEntity(x, y, z);
-        if (te instanceof TileEntityMetaFacing tef) {
-            tef.setFacingMeta(metayaw);
-        }
-    }
-
-    @Override
     public void onBlockPreDestroy(World worldIn, int x, int y, int z, int meta) {
         super.onBlockPreDestroy(worldIn, x, y, z, meta);
         dropItems(worldIn, x, y, z);
-    }
-
-    private void dropItems(World world, int i, int j, int k) {
-        Random rando = world.rand;
-        TileEntity tileEntity = world.getTileEntity(i, j, k);
-        if (!(tileEntity instanceof TileEntityInventory)) return;
-        TileEntityInventory inventory = (TileEntityInventory) tileEntity;
-        for (int x = 0; x < inventory.getSizeInventory(); x++) {
-            ItemStack item = inventory.getStackInSlot(x);
-            inventory.setInventorySlotContentsUpdate(x, null);
-            if (item != null && item.stackSize > 0) {
-                float ri = rando.nextFloat() * 0.8F + 0.1F;
-                float rj = rando.nextFloat() * 0.8F + 0.1F;
-                float rk = rando.nextFloat() * 0.8F + 0.1F;
-                EntityItem entityItem = new EntityItem(world, (i + ri), (j + rj + 0.7F), (k + rk), item.copy());
-                float factor = 0.05F;
-                entityItem.motionX = rando.nextGaussian() * factor;
-                entityItem.motionY = rando.nextGaussian() * factor + 0.20000000298023224D;
-                entityItem.motionZ = rando.nextGaussian() * factor;
-                spawnEntity(world, entityItem);
-                item.stackSize = 0;
-            }
-        }
-    }
-
-    public void spawnEntity(World world, Entity entityItem) {
-        if (!world.isRemote) {
-            world.spawnEntityInWorld((Entity) entityItem);
-        }
     }
 
     @Override

@@ -14,8 +14,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.items.itemblocks.ItemBlockPrimal;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
 import net.pufferlab.primal.tileentities.TileEntityOven;
+import net.pufferlab.primal.utils.FacingUtils;
 import net.pufferlab.primal.utils.ItemUtils;
 
 public class BlockOven extends BlockCampfire {
@@ -120,7 +122,7 @@ public class BlockOven extends BlockCampfire {
                         random.nextFloat() * 0.7F + 0.3F,
                         false);
                 }
-                ForgeDirection dir = Utils.getDirectionFromFacing(tef.facingMeta);
+                ForgeDirection dir = FacingUtils.getDirectionFromFacing(tef.facingMeta);
                 int offsetX = dir.offsetX;
                 int offsetZ = dir.offsetZ;
                 int newX = x;
@@ -179,6 +181,6 @@ public class BlockOven extends BlockCampfire {
 
     @Override
     public Class<? extends ItemBlock> getItemBlockClass() {
-        return ItemBlock.class;
+        return ItemBlockPrimal.class;
     }
 }

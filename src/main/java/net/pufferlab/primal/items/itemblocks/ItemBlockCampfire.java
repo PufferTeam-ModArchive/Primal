@@ -2,7 +2,6 @@ package net.pufferlab.primal.items.itemblocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -10,7 +9,7 @@ import net.pufferlab.primal.blocks.BlockCampfire;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
 import net.pufferlab.primal.utils.ItemUtils;
 
-public class ItemBlockCampfire extends ItemBlock {
+public class ItemBlockCampfire extends ItemBlockPrimal {
 
     public ItemBlockCampfire(Block block) {
         super(block);
@@ -27,8 +26,7 @@ public class ItemBlockCampfire extends ItemBlock {
         }
 
         if (world.getBlock(x, y, z) == field_150939_a) {
-            field_150939_a.onBlockPlacedBy(world, x, y, z, player, stack);
-            field_150939_a.onPostBlockPlaced(world, x, y, z, metadata);
+            placeBlock(world, x, y, z, player, stack, metadata, side);
         }
 
         if (field_150939_a instanceof BlockCampfire) {

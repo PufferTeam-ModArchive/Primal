@@ -16,7 +16,6 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
@@ -25,6 +24,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
+import net.pufferlab.primal.utils.FacingUtils;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -64,12 +64,18 @@ public abstract class BlockPile extends BlockContainerPrimal {
 
         TileEntityInventory pile = (TileEntityInventory) worldIn.getTileEntity(x, y, z);
         pile.setInventorySlotContentsUpdate(0, placer.getHeldItem());
+    }
+
+    @Override
+    public void onBlockSidePlacedBy(World worldIn, int x, int y, int z, EntityLivingBase placer, ItemStack itemIn,
+        int side) {
+        TileEntityInventory pile = (TileEntityInventory) worldIn.getTileEntity(x, y, z);
 
         TileEntity below = worldIn.getTileEntity(x, y - 1, z);
         if (below instanceof TileEntityMetaFacing pile2) {
             pile.setFacingMeta(pile2.facingMeta);
         } else {
-            int metayaw = Utils.getMetaYaw(placer.rotationYaw);
+            int metayaw = FacingUtils.getMetaYaw(placer.rotationYaw);
             TileEntity te = worldIn.getTileEntity(x, y, z);
             if (te instanceof TileEntityMetaFacing tef) {
                 tef.setFacingMeta(metayaw);
@@ -258,6 +264,9 @@ public abstract class BlockPile extends BlockContainerPrimal {
                 success = true;
                 player.getHeldItem().stackSize--;
                 toPlace.onBlockPlacedBy(world, x, y, z, player, stack);
+                if (toPlace instanceof BlockContainerPrimal block2) {
+                    block2.onBlockSidePlacedBy(world, x, y, z, player, stack, 0);
+                }
                 world.playSoundEffect(
                     x + 0.5f,
                     y + 0.5f,
@@ -282,36 +291,8 @@ public abstract class BlockPile extends BlockContainerPrimal {
         dropItems(worldIn, x, y, z);
     }
 
-    private boolean dropItem(World world, int x, int y, int z, int index) {
-        TileEntity tileEntity = world.getTileEntity(x, y, z);
-        if (!(tileEntity instanceof IInventory)) return false;
-        TileEntityInventory pile = (TileEntityInventory) tileEntity;
-        ItemStack item = null;
-        if ((index < pile.getSizeInventory()) && (index >= 0)) {
-            item = pile.getInventoryStack(index);
-        }
-        if (item != null && item.stackSize > 0) {
-            EntityItem entityItem = new EntityItem(
-                world,
-                x + 0.5,
-                y + 0.3F + (0.333F * pile.getLayer()),
-                z + 0.5,
-                new ItemStack(item.getItem(), item.stackSize, item.getItemDamage()));
-            if (item.hasTagCompound()) entityItem.getEntityItem()
-                .setTagCompound(
-                    (NBTTagCompound) item.getTagCompound()
-                        .copy());
-            entityItem.motionX = 0.0D;
-            entityItem.motionY = 0.0D;
-            entityItem.motionZ = 0.0D;
-            spawnEntity(world, entityItem);
-            item.stackSize = 0;
-            return true;
-        }
-        return false;
-    }
-
-    private void dropItems(World world, int i, int j, int k) {
+    @Override
+    public void dropItems(World world, int i, int j, int k) {
         TileEntity tileEntity = world.getTileEntity(i, j, k);
         if (!(tileEntity instanceof IInventory)) return;
         IInventory inventory = (IInventory) tileEntity;

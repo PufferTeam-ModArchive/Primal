@@ -30,6 +30,7 @@ public class TileEntityAnvil extends TileEntityInventory {
     public void writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
         AnvilAction.writeToNBT(compound, this.workActions);
+
         compound.setInteger("workLine", this.workLine);
         compound.setString("recipeID", this.recipeID);
     }
@@ -37,7 +38,8 @@ public class TileEntityAnvil extends TileEntityInventory {
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        this.workActions = AnvilAction.readFromNBT(compound);
+        AnvilAction.readFromNBT(compound, this.workActions);
+
         this.workLine = compound.getInteger("workLine");
         this.recipeID = compound.getString("recipeID");
     }
@@ -46,6 +48,7 @@ public class TileEntityAnvil extends TileEntityInventory {
     public void writeToNBTPacket(NBTTagCompound tag) {
         super.writeToNBTPacket(tag);
         AnvilAction.writeToNBT(tag, this.workActions);
+
         tag.setInteger("workLine", this.workLine);
         tag.setString("recipeID", this.recipeID);
     }
@@ -53,7 +56,8 @@ public class TileEntityAnvil extends TileEntityInventory {
     @Override
     public void readFromNBTPacket(NBTTagCompound tag) {
         super.readFromNBTPacket(tag);
-        this.workActions = AnvilAction.readFromNBT(tag);
+        AnvilAction.readFromNBT(tag, this.workActions);
+
         this.workLine = tag.getInteger("workLine");
         this.recipeID = tag.getString("recipeID");
     }

@@ -2,14 +2,13 @@ package net.pufferlab.primal.items.itemblocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.blocks.IMetaBlock;
 import net.pufferlab.primal.items.IMetaItem;
 
-public class ItemBlockMeta extends ItemBlock implements IMetaItem {
+public class ItemBlockMeta extends ItemBlockPrimal implements IMetaItem {
 
     public String[] elements;
     public String[] elementsBlacklist;

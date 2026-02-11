@@ -1,12 +1,8 @@
 package net.pufferlab.primal.blocks;
 
-import java.util.Random;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -16,7 +12,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityLargeVessel;
 import net.pufferlab.primal.utils.FluidUtils;
 
@@ -68,29 +63,6 @@ public class BlockLargeVessel extends BlockContainerPrimal {
         return "tile." + Primal.MODID + ".large_vessel";
     }
 
-    private void dropItems(World world, int i, int j, int k) {
-        Random rando = world.rand;
-        TileEntity tileEntity = world.getTileEntity(i, j, k);
-        if (!(tileEntity instanceof TileEntityInventory)) return;
-        TileEntityInventory inventory = (TileEntityInventory) tileEntity;
-        for (int x = 0; x < inventory.getSizeInventory(); x++) {
-            ItemStack item = inventory.getStackInSlot(x);
-            inventory.setInventorySlotContentsUpdate(x, null);
-            if (item != null && item.stackSize > 0) {
-                float ri = rando.nextFloat() * 0.8F + 0.1F;
-                float rj = rando.nextFloat() * 0.8F + 0.1F;
-                float rk = rando.nextFloat() * 0.8F + 0.1F;
-                EntityItem entityItem = new EntityItem(world, (i + ri), (j + rj + 0.7F), (k + rk), item.copy());
-                float factor = 0.05F;
-                entityItem.motionX = rando.nextGaussian() * factor;
-                entityItem.motionY = rando.nextGaussian() * factor + 0.20000000298023224D;
-                entityItem.motionZ = rando.nextGaussian() * factor;
-                spawnEntity(world, entityItem);
-                item.stackSize = 0;
-            }
-        }
-    }
-
     @Override
     public void onBlockPlacedBy(World worldIn, int x, int y, int z, EntityLivingBase placer, ItemStack itemIn) {
         ItemStack heldItem = placer.getHeldItem();
@@ -121,23 +93,6 @@ public class BlockLargeVessel extends BlockContainerPrimal {
 
     @Override
     protected void dropBlockAsItem(World worldIn, int x, int y, int z, ItemStack itemIn) {}
-
-    public void dropItemStack(World world, int x, int y, int z, ItemStack item) {
-        if (item != null && item.stackSize > 0) {
-            EntityItem entityItem = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, item.copy());
-            entityItem.motionX = 0.0D;
-            entityItem.motionY = 0.0D;
-            entityItem.motionZ = 0.0D;
-            spawnEntity(world, entityItem);
-            item.stackSize = 0;
-        }
-    }
-
-    public void spawnEntity(World world, Entity entityItem) {
-        if (!world.isRemote) {
-            world.spawnEntityInWorld((Entity) entityItem);
-        }
-    }
 
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {

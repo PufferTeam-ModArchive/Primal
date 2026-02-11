@@ -3,7 +3,6 @@ package net.pufferlab.primal.blocks;
 import static net.pufferlab.primal.tileentities.TileEntityQuern.*;
 
 import java.util.List;
-import java.util.Random;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -19,7 +18,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.recipes.QuernRecipe;
-import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityQuern;
 import net.pufferlab.primal.utils.ItemUtils;
 
@@ -128,29 +126,6 @@ public class BlockQuern extends BlockContainerPrimal {
         super.onBlockPreDestroy(worldIn, x, y, z, meta);
 
         dropItems(worldIn, x, y, z);
-    }
-
-    private void dropItems(World world, int i, int j, int k) {
-        Random rando = world.rand;
-        TileEntity tileEntity = world.getTileEntity(i, j, k);
-        if (!(tileEntity instanceof TileEntityInventory)) return;
-        TileEntityInventory inventory = (TileEntityInventory) tileEntity;
-        for (int x = 0; x < inventory.getSizeInventory(); x++) {
-            ItemStack item = inventory.getStackInSlot(x);
-            inventory.setInventorySlotContentsUpdate(x, null);
-            if (item != null && item.stackSize > 0) {
-                float ri = rando.nextFloat() * 0.8F + 0.1F;
-                float rj = rando.nextFloat() * 0.8F + 0.1F;
-                float rk = rando.nextFloat() * 0.8F + 0.1F;
-                EntityItem entityItem = new EntityItem(world, (i + ri), (j + rj + 0.7F), (k + rk), item.copy());
-                float factor = 0.05F;
-                entityItem.motionX = rando.nextGaussian() * factor;
-                entityItem.motionY = rando.nextGaussian() * factor + 0.20000000298023224D;
-                entityItem.motionZ = rando.nextGaussian() * factor;
-                spawnEntity(world, entityItem);
-                item.stackSize = 0;
-            }
-        }
     }
 
     @Override

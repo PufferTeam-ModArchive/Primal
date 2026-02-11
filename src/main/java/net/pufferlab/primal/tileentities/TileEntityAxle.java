@@ -5,6 +5,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.FacingUtils;
 
 public class TileEntityAxle extends TileEntityMotion {
 
@@ -49,7 +50,7 @@ public class TileEntityAxle extends TileEntityMotion {
     }
 
     public void setGear(int side, EntityPlayer player) {
-        if (Utils.isSidePositive(side)) {
+        if (FacingUtils.isSidePositive(side)) {
             this.hasGearPos = !this.hasGearPos;
             if (this.hasGearPos) {
                 Utils.playSound(this.worldObj, this.xCoord, this.yCoord, this.zCoord, Blocks.log);
@@ -70,7 +71,7 @@ public class TileEntityAxle extends TileEntityMotion {
     }
 
     public boolean setBracket(int side, EntityPlayer player) {
-        int facing = Utils.getFacingMeta(side, this.axisMeta);
+        int facing = FacingUtils.getFacingMeta(side, this.axisMeta);
         if (facing != 0) {
             this.hasBracket = !this.hasBracket;
             this.facingMeta = facing;
@@ -89,7 +90,7 @@ public class TileEntityAxle extends TileEntityMotion {
 
     @Override
     public boolean hasGear(int side) {
-        if (Utils.isSidePositive(side)) {
+        if (FacingUtils.isSidePositive(side)) {
             if (hasGearPos) {
                 return true;
             }

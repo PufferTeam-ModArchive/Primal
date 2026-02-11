@@ -9,6 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.pufferlab.primal.blocks.BlockMetalAnvil;
 import net.pufferlab.primal.tileentities.TileEntityAnvil;
+import net.pufferlab.primal.utils.FacingUtils;
 
 import org.lwjgl.opengl.GL11;
 
@@ -52,16 +53,11 @@ public class TileEntityAnvilRenderer extends TileEntityPrimalRenderer {
             updateItem(stack);
 
             GL11.glTranslated(xAdjust, yAdjust, zAdjust);
-            setFacing(facing);
+            GL11.glRotatef(FacingUtils.getFacingAngleDegree(facing), 0.0F, 1.0F, 0.0F);
             GL11.glRotatef(90, 1.0F, 0.0F, 0.0F);
 
             renderFrameItem();
         }
         GL11.glPopMatrix();
-    }
-
-    public void setFacing(int meta) {
-        int meta2 = meta + 1;
-        GL11.glRotatef(90 * meta2, 0, 1.0F, 0.0F);
     }
 }

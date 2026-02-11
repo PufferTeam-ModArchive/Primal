@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.items.IMetaItem;
 
-public class ItemBlockAxle extends ItemBlockMotion implements IMetaItem {
+public class ItemBlockAxle extends ItemBlockPrimal implements IMetaItem {
 
     public static final String[] types = new String[] { "axle", "gear", "bracket" };
 

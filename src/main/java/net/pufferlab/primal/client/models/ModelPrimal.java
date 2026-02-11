@@ -10,6 +10,7 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.helper.ModelTESS;
 import net.pufferlab.primal.client.utils.ModelBase;
 import net.pufferlab.primal.client.utils.ModelRenderer;
+import net.pufferlab.primal.utils.FacingUtils;
 
 public abstract class ModelPrimal extends ModelBase {
 
@@ -93,7 +94,7 @@ public abstract class ModelPrimal extends ModelBase {
     }
 
     public void setFacing(int meta) {
-        float angle = getFacingAngle(meta);
+        float angle = FacingUtils.getFacingAngle(meta);
         float add = 0.0F;
         if (invertRot()) {
             add = (float) Math.toRadians(180);
@@ -105,7 +106,7 @@ public abstract class ModelPrimal extends ModelBase {
     }
 
     public void setFacingFromAxis(int facingMeta, int axisMeta) {
-        float angle = getFacingAngle(facingMeta);
+        float angle = FacingUtils.getFacingAngle(facingMeta);
 
         if (axisMeta == 1) {
             bb_main.rotateAngleX = (float) (Math.PI / 2);
@@ -161,50 +162,6 @@ public abstract class ModelPrimal extends ModelBase {
             bb_main.rotateAngleY = 0;
             bb_main.rotateAngleZ = (float) Math.PI;
         }
-    }
-
-    public static float getFacingAngle(int meta) {
-        float angle = 0.0F;
-        switch (meta) {
-            case 1:
-                angle = (float) Math.toRadians(-180);
-                break;
-            case 2:
-                angle = (float) Math.toRadians(-90);
-                break;
-            case 3:
-                angle = (float) Math.toRadians(0);
-                break;
-            case 4:
-                angle = (float) Math.toRadians(-270);
-                break;
-            default:
-                angle = (float) Math.toRadians(90 * meta);
-                break;
-        }
-        return angle;
-    }
-
-    public static int getFacingAngleDegree(int meta) {
-        int angle = 0;
-        switch (meta) {
-            case 1:
-                angle = -180;
-                break;
-            case 2:
-                angle = -90;
-                break;
-            case 3:
-                angle = 0;
-                break;
-            case 4:
-                angle = -270;
-                break;
-            default:
-                angle = 90 * meta;
-                break;
-        }
-        return angle;
     }
 
     public void setFacingOffset(float x, float y, float z) {

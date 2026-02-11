@@ -3,15 +3,12 @@ package net.pufferlab.primal.blocks;
 import static net.pufferlab.primal.tileentities.TileEntityPitKiln.*;
 
 import java.util.List;
-import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -26,6 +23,7 @@ import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.PitKilnRecipe;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityPitKiln;
+import net.pufferlab.primal.utils.FacingUtils;
 
 public class BlockPitKiln extends BlockContainerPrimal {
 
@@ -66,7 +64,7 @@ public class BlockPitKiln extends BlockContainerPrimal {
         int meta = worldIn.getBlockMetadata(x, y, z);
         if (te instanceof TileEntityPitKiln tef) {
             ItemStack heldItem = player.getHeldItem();
-            if (Utils.hasSolidWalls(worldIn, x, y, z)) {
+            if (FacingUtils.hasSolidWalls(worldIn, x, y, z)) {
                 if ((Utils.containsOreDict(heldItem, "straw") && meta >= 0 && meta <= 4)
                     || (Utils.containsOreDict(heldItem, Constants.logPileOreDicts) && meta >= 5 && meta <= 7)) {
                     if (meta <= 4) {
@@ -138,7 +136,7 @@ public class BlockPitKiln extends BlockContainerPrimal {
     @Override
     public void onNeighborBlockChange(World worldIn, int x, int y, int z, Block neighbor) {
         super.onNeighborBlockChange(worldIn, x, y, z, neighbor);
-        boolean hasWalls = Utils.hasSolidWalls(worldIn, x, y, z);
+        boolean hasWalls = FacingUtils.hasSolidWalls(worldIn, x, y, z);
         if (!hasWalls) {
             clearLayers(worldIn, x, y, z);
         }
@@ -204,55 +202,6 @@ public class BlockPitKiln extends BlockContainerPrimal {
             return true;
         }
         return false;
-    }
-
-    private boolean dropItem(World world, int x, int y, int z, int index) {
-        TileEntity tileEntity = world.getTileEntity(x, y, z);
-        if (!(tileEntity instanceof IInventory)) return false;
-        TileEntityInventory pile = (TileEntityInventory) tileEntity;
-        ItemStack item = null;
-        if ((index < pile.getSizeInventory()) && (index >= 0)) {
-            item = pile.getInventoryStack(index);
-        }
-        if (item != null && item.stackSize > 0) {
-            EntityItem entityItem = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, item.copy());
-            entityItem.motionX = 0.0D;
-            entityItem.motionY = 0.0D;
-            entityItem.motionZ = 0.0D;
-            spawnEntity(world, entityItem);
-            item.stackSize = 0;
-            return true;
-        }
-        return false;
-    }
-
-    private void dropItems(World world, int i, int j, int k, int start) {
-        Random rando = world.rand;
-        TileEntity tileEntity = world.getTileEntity(i, j, k);
-        if (!(tileEntity instanceof TileEntityInventory)) return;
-        TileEntityInventory inventory = (TileEntityInventory) tileEntity;
-        for (int x = start; x < inventory.getSizeInventory(); x++) {
-            ItemStack item = inventory.getStackInSlot(x);
-            inventory.setInventorySlotContentsUpdate(x, null);
-            if (item != null && item.stackSize > 0) {
-                float ri = rando.nextFloat() * 0.8F + 0.1F;
-                float rj = rando.nextFloat() * 0.8F + 0.1F;
-                float rk = rando.nextFloat() * 0.8F + 0.1F;
-                EntityItem entityItem = new EntityItem(world, (i + ri), (j + rj), (k + rk), item.copy());
-                float factor = 0.05F;
-                entityItem.motionX = rando.nextGaussian() * factor;
-                entityItem.motionY = rando.nextGaussian() * factor + 0.20000000298023224D;
-                entityItem.motionZ = rando.nextGaussian() * factor;
-                spawnEntity(world, entityItem);
-                item.stackSize = 0;
-            }
-        }
-    }
-
-    public void spawnEntity(World world, Entity entityItem) {
-        if (!world.isRemote) {
-            world.spawnEntityInWorld((Entity) entityItem);
-        }
     }
 
     @Override

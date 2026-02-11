@@ -1,6 +1,5 @@
 package net.pufferlab.primal.recipes;
 
-import net.minecraft.nbt.NBTTagCompound;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
 
@@ -55,33 +54,6 @@ public enum AnvilOrder {
         if (id < 0) return null;
         if (id < values().length) return values()[id];
         return null;
-    }
-
-    public static void writeToNBT(NBTTagCompound tag, AnvilOrder[] orders) {
-        if (orders != null) {
-            int[] ordersID = new int[orders.length];
-            for (int i = 0; i < orders.length; i++) {
-                if (orders[i] == null) {
-                    ordersID[i] = -1;
-                } else {
-                    ordersID[i] = orders[i].id;
-                }
-            }
-            tag.setIntArray("workOrders", ordersID);
-        }
-    }
-
-    public static AnvilOrder[] readFromNBT(NBTTagCompound tag) {
-        if (tag.hasKey("workOrders")) {
-            int[] ordersID = tag.getIntArray("workOrders");
-            AnvilOrder[] orders = new AnvilOrder[ordersID.length];
-            for (int i = 0; i < ordersID.length; i++) {
-                orders[i] = AnvilOrder.get(ordersID[i]);
-            }
-            return orders;
-        } else {
-            return new AnvilOrder[3];
-        }
     }
 
     public String getTranslatedName() {
