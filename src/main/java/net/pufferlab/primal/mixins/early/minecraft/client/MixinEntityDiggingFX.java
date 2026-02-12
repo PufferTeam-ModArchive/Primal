@@ -21,15 +21,24 @@ public abstract class MixinEntityDiggingFX {
     @Shadow(remap = false)
     private int side;
 
-    @Inject(
-        method = "<init>(Lnet/minecraft/world/World;DDDDDDLnet/minecraft/block/Block;IILorg/spongepowered/asm/mixin/injection/callback/CallbackInfo;)V",
-        at = @At("RETURN"))
+    @Inject(method = "<init>(Lnet/minecraft/world/World;DDDDDDLnet/minecraft/block/Block;II)V", at = @At("RETURN"))
     private void onInit(World world, double x, double y, double z, double mx, double my, double mz, Block block,
-        int side, CallbackInfo ci) {
-        int x2 = Utils.floor(x);
-        int y2 = Utils.floor(y);
-        int z2 = Utils.floor(z);
-        ((EntityDiggingFX) (Object) this).setParticleIcon(block.getIcon(world, x2, y2, z2, side));
+        int meta, int side, CallbackInfo ci) {
+        if (block instanceof IPrimalBlock block2) {
+            if (block2.useWorldIcon()) {
+                int x2 = Utils.floor(x);
+                int y2 = Utils.floor(y);
+                int z2 = Utils.floor(z);
+                Block block3 = world.getBlock(x2, y2, z2);
+                if (block3 instanceof IPrimalBlock block4) {
+                    if (block4.useWorldIcon()) {
+                        ((EntityDiggingFX) (Object) this).setParticleIcon(block.getIcon(world, x2, y2, z2, side));
+                    }
+                } else {
+                    ((EntityDiggingFX) (Object) this).setParticleIcon(block.getIcon(world, x2, y2 - 1, z2, side));
+                }
+            }
+        }
     }
 
     @Inject(method = "applyColourMultiplier", at = @At("HEAD"), cancellable = true)

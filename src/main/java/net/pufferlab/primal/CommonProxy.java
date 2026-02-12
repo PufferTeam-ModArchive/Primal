@@ -128,6 +128,10 @@ public class CommonProxy implements IGuiHandler {
         player.openGui(Primal.instance, containerID, worldIn, x, y, z);
     }
 
+    public int getStairsRenderID() {
+        return 0;
+    }
+
     public int getGrassRenderID() {
         return 0;
     }

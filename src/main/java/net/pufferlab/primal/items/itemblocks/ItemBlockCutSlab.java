@@ -125,7 +125,7 @@ public class ItemBlockCutSlab extends ItemBlock {
         int i2 = l1 & 7;
         boolean flag = (l1 & 8) != 0;
 
-        if ((side == 1 && !flag || side == 0 && flag) && block == this.slabBlock && i2 == stack.getItemDamage()) {
+        if ((side == 1 && !flag || side == 0 && flag) && i2 == stack.getItemDamage()) {
             return true;
         } else {
             if (side == 0) {
@@ -152,10 +152,11 @@ public class ItemBlockCutSlab extends ItemBlock {
                 ++x;
             }
 
+            Block block2 = world.getBlock(x, y, z);
             int materialID = -1;
-            if (block == this.slabBlock) {
-                if (block instanceof BlockCutSlab block2) {
-                    materialID = block2.getMaterialMeta(world, x, y, z);
+            if (block2 == this.slabBlock) {
+                if (block2 instanceof BlockCutSlab block3) {
+                    materialID = block3.getMaterialMeta(world, x, y, z);
                 }
             }
             return materialID == stack.getItemDamage() || super.func_150936_a(world, i1, j1, k1, side, player, stack);

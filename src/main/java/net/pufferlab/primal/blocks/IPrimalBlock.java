@@ -22,4 +22,8 @@ public interface IPrimalBlock {
     default boolean canRegister() {
         return true;
     }
+
+    default boolean useWorldIcon() {
+        return false;
+    }
 }

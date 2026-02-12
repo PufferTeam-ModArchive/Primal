@@ -191,8 +191,8 @@ public class Registry {
         bricks = new BlockStoneRaw(Constants.stoneTypes, "bricks");
         smooth = new BlockStoneRaw(Constants.stoneTypes, "smooth");
 
-        stone_slab = new BlockCutSlab(Material.rock, false);
-        double_stone_slab = new BlockCutSlab(Material.rock, true);
+        stone_slab = new BlockCutSlab(stone, false);
+        double_stone_slab = new BlockCutSlab(stone, true);
         stone_stairs = new BlockCutStairs(stone);
 
         gravel = new BlockStoneGravel(Constants.stoneTypes, "gravel");
@@ -592,7 +592,10 @@ public class Registry {
 
     public void setupCut() {
         registerCut(stone);
+        registerCut(cobble);
+        registerCut(small_bricks);
         registerCut(bricks);
+        registerCut(smooth);
     }
 
     public void setupConfig() {

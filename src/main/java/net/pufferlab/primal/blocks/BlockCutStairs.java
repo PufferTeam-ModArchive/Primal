@@ -1,11 +1,13 @@
 package net.pufferlab.primal.blocks;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -13,6 +15,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.items.itemblocks.ItemBlockCutStairs;
 import net.pufferlab.primal.tileentities.TileEntityCut;
@@ -78,6 +81,27 @@ public class BlockCutStairs extends BlockStairs implements ITileEntityProvider, 
     @Override
     public CreativeTabs getCreativeTab() {
         return Registry.creativeTabWorld;
+    }
+
+    @Override
+    public boolean useWorldIcon() {
+        return true;
+    }
+
+    @Override
+    public int getRenderType() {
+        return Primal.proxy.getStairsRenderID();
+    }
+
+    @Override
+    public void onBlockHarvested(World worldIn, int x, int y, int z, int meta, EntityPlayer player) {
+        if (player.capabilities.isCreativeMode) return;
+        dropBlockAsItem(worldIn, x, y, z, new ItemStack(this, 1, getDamageValue(worldIn, x, y, z)));
+    }
+
+    @Override
+    public Item getItemDropped(int meta, Random random, int fortune) {
+        return null;
     }
 
     @Override

@@ -72,8 +72,4 @@ public class ItemBlockCutStairs extends ItemBlock {
         }
     }
 
-    @Override
-    public int getMetadata(int p_77647_1_) {
-        return p_77647_1_;
-    }
 }

@@ -1,12 +1,13 @@
 package net.pufferlab.primal.blocks;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -21,8 +22,14 @@ import net.pufferlab.primal.utils.CutUtils;
 
 public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPrimalBlock {
 
-    public BlockCutSlab(Material material, boolean p_i45431_1_) {
-        super(p_i45431_1_, material);
+    private final Block field_150149_b;
+
+    public BlockCutSlab(Block block, boolean p_i45431_1_) {
+        super(p_i45431_1_, block.getMaterial());
+        this.field_150149_b = block;
+        this.setHardness(block.blockHardness);
+        this.setResistance(block.blockResistance / 3.0F);
+        this.setStepSound(block.stepSound);
         this.isBlockContainer = true;
         this.useNeighborBrightness = true;
     }
@@ -51,6 +58,11 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
     }
 
     @Override
+    protected void dropBlockAsItem(World worldIn, int x, int y, int z, ItemStack itemIn) {
+        super.dropBlockAsItem(worldIn, x, y, z, itemIn);
+    }
+
+    @Override
     protected boolean canSilkHarvest() {
         return false;
     }
@@ -69,6 +81,7 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
 
     @Override
     public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+        if (field_150004_a) return;
         for (int i = 0; i < CutUtils.getSize(); i++) {
             list.add(new ItemStack(this, 0, i));
         }
@@ -86,12 +99,35 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
 
     @Override
     public CreativeTabs getCreativeTab() {
+        if (field_150004_a) {
+            return null;
+        }
         return Registry.creativeTabWorld;
     }
 
     @Override
     public Item getItem(World worldIn, int x, int y, int z) {
         return Item.getItemFromBlock(this);
+    }
+
+    @Override
+    public boolean useWorldIcon() {
+        return true;
+    }
+
+    @Override
+    public Item getItemDropped(int meta, Random random, int fortune) {
+        return null;
+    }
+
+    @Override
+    public void onBlockHarvested(World worldIn, int x, int y, int z, int meta, EntityPlayer player) {
+        if (player.capabilities.isCreativeMode) return;
+        if (field_150004_a) {
+            dropBlockAsItem(worldIn, x, y, z, new ItemStack(Registry.stone_slab, 2, getDamageValue(worldIn, x, y, z)));
+        } else {
+            dropBlockAsItem(worldIn, x, y, z, new ItemStack(this, 1, getDamageValue(worldIn, x, y, z)));
+        }
     }
 
     // Tile Entity Provider Function
