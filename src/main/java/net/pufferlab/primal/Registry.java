@@ -56,6 +56,9 @@ public class Registry {
     public static final Block small_bricks;
     public static final Block bricks;
     public static final Block smooth;
+    public static final Block stone_slab;
+    public static final Block double_stone_slab;
+    public static final Block stone_stairs;
     public static final Block gravel;
     public static final Block sand;
     public static final Block dirt;
@@ -187,6 +190,11 @@ public class Registry {
         small_bricks = new BlockStoneRaw(Constants.stoneTypes, "small_bricks");
         bricks = new BlockStoneRaw(Constants.stoneTypes, "bricks");
         smooth = new BlockStoneRaw(Constants.stoneTypes, "smooth");
+
+        stone_slab = new BlockCutSlab(Material.rock, false);
+        double_stone_slab = new BlockCutSlab(Material.rock, true);
+        stone_stairs = new BlockCutStairs(stone);
+
         gravel = new BlockStoneGravel(Constants.stoneTypes, "gravel");
         sand = new BlockStoneSand(Constants.stoneTypes, "sand");
         dirt = new BlockSoilDirt(Constants.soilTypes, "dirt");
@@ -338,6 +346,11 @@ public class Registry {
         register(small_bricks, "small_bricks");
         register(bricks, "bricks");
         register(smooth, "smooth");
+
+        register(stone_slab, "stone_slab", stone_slab, double_stone_slab, false);
+        register(double_stone_slab, "double_stone_slab", stone_slab, double_stone_slab, true);
+        register(stone_stairs, "stone_stairs");
+
         register(gravel, "gravel");
         register(sand, "sand");
         register(dirt, "dirt");
@@ -482,6 +495,7 @@ public class Registry {
         register(TileEntityWaterwheel.class, "waterwheel");
         register(TileEntityWindmill.class, "windmill");
         register(TileEntityAnvil.class, "anvil");
+        register(TileEntityCut.class, "cut_block");
     }
 
     public static final Block[] fluidsBlocks = new Block[Constants.fluidsTypes.length];
@@ -524,6 +538,7 @@ public class Registry {
         registerPacket(PacketSpeedButton.class, Side.SERVER);
         registerPacket(PacketAnvilPlan.class, Side.SERVER);
         registerPacket(PacketAnvilWork.class, Side.SERVER);
+        registerPacket(PacketCutMaterial.class, Side.SERVER);
 
         registerPacket(PacketSwingArm.class, Side.CLIENT);
         registerPacket(PacketFireStarter.class, Side.CLIENT);
@@ -573,6 +588,11 @@ public class Registry {
         registerCommand(new CommandClearBlocks());
         registerCommand(new CommandStrata());
         registerCommand(new CommandVein());
+    }
+
+    public void setupCut() {
+        registerCut(stone);
+        registerCut(bricks);
     }
 
     public void setupConfig() {
@@ -658,12 +678,19 @@ public class Registry {
     }
 
     public void register(Block block, String name) {
+        register(block, name, new Object[] {});
+    }
+
+    public void register(Block block, String name, Object... objects) {
         boolean hasItemBlock = true;
         if (block instanceof IPrimalBlock block2) {
             if (block2.canRegister()) {
                 if (block2.getItemBlockClass() == null) hasItemBlock = false;
-                GameRegistry
-                    .registerBlock(block.setCreativeTab(block2.getCreativeTab()), block2.getItemBlockClass(), name);
+                GameRegistry.registerBlock(
+                    block.setCreativeTab(block2.getCreativeTab()),
+                    block2.getItemBlockClass(),
+                    name,
+                    objects);
             } else {
                 hasItemBlock = false;
             }
@@ -758,5 +785,9 @@ public class Registry {
 
     public void registerHeat(Item item, Item maskItem, MetalType metal) {
         HeatUtils.registerImpl(item, Collections.singletonList(0), maskItem, Collections.singletonList(metal));
+    }
+
+    public void registerCut(Block block) {
+        CutUtils.registerBlock(block);
     }
 }
