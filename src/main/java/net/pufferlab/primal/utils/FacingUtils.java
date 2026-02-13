@@ -41,6 +41,36 @@ public class FacingUtils {
         return z;
     }
 
+    public static int getBlockXR(int side, int x) {
+        if (side == 5) {
+            x--;
+        }
+        if (side == 4) {
+            x++;
+        }
+        return x;
+    }
+
+    public static int getBlockYR(int side, int y) {
+        if (side == 1) {
+            y--;
+        }
+        if (side == 0) {
+            y++;
+        }
+        return y;
+    }
+
+    public static int getBlockZR(int side, int z) {
+        if (side == 3) {
+            z--;
+        }
+        if (side == 2) {
+            z++;
+        }
+        return z;
+    }
+
     public static boolean hasSolidWallsTop(World world, int x, int y, int z) {
         for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
             Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);

@@ -32,6 +32,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
 public class ClientProxy extends CommonProxy {
 
+    private int slabRenderID;
     private int stairsRenderID;
     private int grassRenderID;
     private int pathRenderID;
@@ -58,6 +59,7 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void setupRenders() {
+        slabRenderID = getNextId();
         stairsRenderID = getNextId();
         grassRenderID = getNextId();
         pathRenderID = getNextId();
@@ -82,6 +84,7 @@ public class ClientProxy extends CommonProxy {
         generatorRenderID = getNextId();
         anvilRenderID = getNextId();
 
+        register(new BlockSlabRenderer());
         register(new BlockStairsRenderer());
         register(new BlockGrassRenderer());
         register(new BlockPathRenderer());
@@ -274,6 +277,11 @@ public class ClientProxy extends CommonProxy {
                 Minecraft.getMinecraft().effectRenderer.addEffect(fx);
             }
         }
+    }
+
+    @Override
+    public int getSlabRenderID() {
+        return slabRenderID;
     }
 
     @Override

@@ -4,7 +4,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class TileEntityCut extends TileEntityPrimal {
 
-    public short materialMeta;
+    public short materialMeta = -1;
 
     @Override
     public void writeToNBT(NBTTagCompound compound) {
@@ -36,7 +36,6 @@ public class TileEntityCut extends TileEntityPrimal {
 
     public void setMaterialMeta(int meta) {
         this.materialMeta = (short) meta;
-        this.updateTEState();
     }
 
     public int getMaterialMeta() {

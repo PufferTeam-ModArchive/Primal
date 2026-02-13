@@ -19,6 +19,8 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import cpw.mods.fml.relauncher.Side;
 
 public class CommonProxy implements IGuiHandler {
 
@@ -86,6 +88,16 @@ public class CommonProxy implements IGuiHandler {
         return null;
     }
 
+    public World getWorld(MessageContext ctx) {
+        if (ctx.side == Side.SERVER) {
+            return ctx.getServerHandler().playerEntity.getEntityWorld();
+        }
+        if (ctx.side == Side.CLIENT) {
+            return getClientWorld();
+        }
+        return null;
+    }
+
     public EntityPlayer getClientPlayer() {
         return null;
     }
@@ -126,6 +138,10 @@ public class CommonProxy implements IGuiHandler {
 
     public void openPrimalGui(int containerID, EntityPlayer player, World worldIn, int x, int y, int z) {
         player.openGui(Primal.instance, containerID, worldIn, x, y, z);
+    }
+
+    public int getSlabRenderID() {
+        return 0;
     }
 
     public int getStairsRenderID() {

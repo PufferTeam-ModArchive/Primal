@@ -7,7 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-import net.pufferlab.primal.Registry;
+import net.pufferlab.primal.items.IMetaItem;
 
 import gnu.trove.list.TIntList;
 import gnu.trove.list.array.TIntArrayList;
@@ -20,22 +20,20 @@ public class CutUtils {
     public static void registerBlock(Block block) {
         Item item = Item.getItemFromBlock(block);
 
-        List<ItemStack> list = new ArrayList<>();
-        item.getSubItems(item, Registry.creativeTab, list);
-        for (ItemStack el : list) {
-            if (el != null) {
-                int meta = el.getItemDamage();
-                registerBlock(block, meta);
+        if (item instanceof IMetaItem item2) {
+            for (int i = 0; i < item2.getElements().length; i++) {
+                registerBlock(block, i);
             }
         }
-
     }
 
     public static Block getBlock(int id) {
+        if (id < 0) id = 0;
         return blockList.get(id);
     }
 
     public static int getBlockMeta(int id) {
+        if (id < 0) id = 0;
         return metaList.get(id);
     }
 

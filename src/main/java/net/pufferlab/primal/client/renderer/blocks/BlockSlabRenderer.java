@@ -1,7 +1,6 @@
 package net.pufferlab.primal.client.renderer.blocks;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockStairs;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
@@ -11,13 +10,11 @@ import net.pufferlab.primal.tileentities.TileEntityCut;
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 
 @ThreadSafeISBRH(perThread = true)
-public class BlockStairsRenderer extends BlockPrimalRenderer {
+public class BlockSlabRenderer extends BlockPrimalRenderer {
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
-        renderer.setRenderBounds(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.5D);
-        renderStandardInvBlock(renderer, block, metadata);
-        renderer.setRenderBounds(0.0D, 0.0D, 0.5D, 1.0D, 0.5D, 1.0D);
+        renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
         renderStandardInvBlock(renderer, block, metadata);
     }
 
@@ -27,7 +24,7 @@ public class BlockStairsRenderer extends BlockPrimalRenderer {
         TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileEntityCut tef) {
             if (tef.getMaterialMeta() != -1) {
-                renderer.renderBlockStairs((BlockStairs) block, x, y, z);
+                renderer.renderStandardBlock(block, x, y, z);
                 return true;
             }
         }
@@ -41,6 +38,6 @@ public class BlockStairsRenderer extends BlockPrimalRenderer {
 
     @Override
     public int getRenderId() {
-        return Primal.proxy.getStairsRenderID();
+        return Primal.proxy.getSlabRenderID();
     }
 }

@@ -39,6 +39,16 @@ public class Utils {
         return false;
     }
 
+    public static boolean isClose(double number, double number2) {
+        double range = 0.0001D;
+        double max = Math.abs(number) + range;
+        double min = Math.abs(number) - range;
+        if (number2 <= max && number2 >= min) {
+            return true;
+        }
+        return false;
+    }
+
     public static void damageItemIndex(int index, int amount, InventoryPlayer invPlayer) {
         if (!(invPlayer.player.capabilities.isCreativeMode)) {
             ItemStack stack = invPlayer.getStackInSlot(index);

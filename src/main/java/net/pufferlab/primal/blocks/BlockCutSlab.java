@@ -12,9 +12,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Facing;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.items.itemblocks.ItemBlockCutSlab;
 import net.pufferlab.primal.tileentities.TileEntityCut;
@@ -108,6 +111,40 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
     @Override
     public Item getItem(World worldIn, int x, int y, int z) {
         return Item.getItemFromBlock(this);
+    }
+
+    @Override
+    public int getRenderType() {
+        return Primal.proxy.getSlabRenderID();
+    }
+
+    @Override
+    public boolean shouldSideBeRendered(IBlockAccess worldIn, int x, int y, int z, int side) {
+        int i1 = x + Facing.offsetsXForSide[Facing.oppositeSide[side]];
+        int j1 = y + Facing.offsetsYForSide[Facing.oppositeSide[side]];
+        int k1 = z + Facing.offsetsZForSide[Facing.oppositeSide[side]];
+        TileEntity te = worldIn.getTileEntity(i1, j1, k1);
+        if (te instanceof TileEntityCut tef) {
+            if (tef.getMaterialMeta() == -1) {
+                return true;
+            }
+        } else {
+            return true;
+        }
+        return super.shouldSideBeRendered(worldIn, x, y, z, side);
+    }
+
+    @Override
+    public boolean isSideSolid(IBlockAccess world, int x, int y, int z, ForgeDirection side) {
+        TileEntity te = world.getTileEntity(x, y, z);
+        if (te instanceof TileEntityCut tef) {
+            if (tef.getMaterialMeta() == -1) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+        return super.isSideSolid(world, x, y, z, side);
     }
 
     @Override

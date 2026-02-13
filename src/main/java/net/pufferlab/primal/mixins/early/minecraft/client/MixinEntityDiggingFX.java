@@ -29,13 +29,50 @@ public abstract class MixinEntityDiggingFX {
                 int x2 = Utils.floor(x);
                 int y2 = Utils.floor(y);
                 int z2 = Utils.floor(z);
+                double x3 = (x - x2);
+                double y3 = (y - y2);
+                double z3 = (z - z2);
+                System.out.println(x3 + ":" + y3 + ":" + z3);
+                int x4 = x2;
+                int y4 = y2;
+                int z4 = z2;
+                if (Utils.isClose(x3, 0.1F)) {
+                    x4--;
+                }
+                if (Utils.isClose(x3, 0.9F)) {
+                    x4++;
+                }
+                if (Utils.isClose(y3, 0.1F)) {
+                    y4--;
+                }
+                if (Utils.isClose(y3, 0.9F)) {
+                    y4++;
+                }
+                if (Utils.isClose(z3, 0.1F)) {
+                    z4--;
+                }
+                if (Utils.isClose(z3, 0.9F)) {
+                    z4++;
+                }
+                boolean b1 = true;
+                boolean b2 = true;
                 Block block3 = world.getBlock(x2, y2, z2);
                 if (block3 instanceof IPrimalBlock block4) {
                     if (block4.useWorldIcon()) {
                         ((EntityDiggingFX) (Object) this).setParticleIcon(block.getIcon(world, x2, y2, z2, side));
+                    } else {
+                        b1 = false;
                     }
                 } else {
-                    ((EntityDiggingFX) (Object) this).setParticleIcon(block.getIcon(world, x2, y2 - 1, z2, side));
+                    b1 = false;
+                }
+                if (!b1) {
+                    Block block4 = world.getBlock(x4, y4, z4);
+                    if (block4 instanceof IPrimalBlock block5) {
+                        if (block5.useWorldIcon()) {
+                            ((EntityDiggingFX) (Object) this).setParticleIcon(block.getIcon(world, x4, y4, z4, side));
+                        }
+                    }
                 }
             }
         }
