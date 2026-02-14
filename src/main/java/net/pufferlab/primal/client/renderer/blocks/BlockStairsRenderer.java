@@ -26,10 +26,8 @@ public class BlockStairsRenderer extends BlockPrimalRenderer {
         RenderBlocks renderer) {
         TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileEntityCut tef) {
-            if (tef.getMaterialMeta() != -1) {
-                renderer.renderBlockStairs((BlockStairs) block, x, y, z);
-                return true;
-            }
+            renderer.renderBlockStairs((BlockStairs) block, x, y, z);
+            return true;
         }
         return false;
     }

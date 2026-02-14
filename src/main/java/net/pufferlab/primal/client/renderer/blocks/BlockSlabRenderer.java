@@ -45,10 +45,8 @@ public class BlockSlabRenderer extends BlockPrimalRenderer {
             return true;
         }
         if (te instanceof TileEntityCut tef) {
-            if (tef.getMaterialMeta() != -1) {
-                renderer.renderStandardBlock(block, x, y, z);
-                return true;
-            }
+            renderer.renderStandardBlock(block, x, y, z);
+            return true;
         }
         return false;
     }

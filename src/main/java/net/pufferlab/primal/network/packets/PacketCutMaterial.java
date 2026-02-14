@@ -2,12 +2,14 @@ package net.pufferlab.primal.network.packets;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.tileentities.TileEntityCut;
 import net.pufferlab.primal.tileentities.TileEntityCutDouble;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
 
 public class PacketCutMaterial implements IMessage, IMessageHandler<PacketCutMaterial, IMessage> {
@@ -55,6 +57,9 @@ public class PacketCutMaterial implements IMessage, IMessageHandler<PacketCutMat
         }
         if (te instanceof TileEntityCutDouble tef) {
             tef.setMaterialMeta2(msg.material2);
+        }
+        if (ctx.side == Side.SERVER) {
+            Primal.proxy.sendPacketToClient(new PacketCutMaterial(msg.x, msg.y, msg.z, msg.material, msg.material2));
         }
         return null;
     }

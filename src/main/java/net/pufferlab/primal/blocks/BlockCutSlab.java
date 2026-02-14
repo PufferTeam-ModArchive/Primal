@@ -45,7 +45,7 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
     public IIcon getIcon(IBlockAccess worldIn, int x, int y, int z, int side) {
         int meta = worldIn.getBlockMetadata(x, y, z);
         if (meta == 1) {
-            if (side == 0) {
+            if (side == 0 || side == 2 || side == 4) {
                 int materialMeta = getMaterialMeta(worldIn, x, y, z);
                 return CutUtils.getIcon(side, materialMeta);
             } else {

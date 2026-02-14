@@ -36,7 +36,7 @@ public class TileEntityCutDouble extends TileEntityCut {
 
     public void setMaterialMeta2(int meta) {
         this.materialMeta2 = (short) meta;
-        this.markDirty();
+        this.updateTEState();
     }
 
     public int getMaterialMeta2() {

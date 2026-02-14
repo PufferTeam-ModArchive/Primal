@@ -36,7 +36,7 @@ public class TileEntityCut extends TileEntityPrimal {
 
     public void setMaterialMeta(int meta) {
         this.materialMeta = (short) meta;
-        this.markDirty();
+        this.updateTEState();
     }
 
     public int getMaterialMeta() {
