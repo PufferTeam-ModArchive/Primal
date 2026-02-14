@@ -19,6 +19,7 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.items.itemblocks.ItemBlockCutSlab;
 import net.pufferlab.primal.tileentities.TileEntityCut;
+import net.pufferlab.primal.tileentities.TileEntityCutDouble;
 import net.pufferlab.primal.utils.CutUtils;
 
 public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPrimalBlock {
@@ -42,18 +43,37 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
 
     @Override
     public IIcon getIcon(IBlockAccess worldIn, int x, int y, int z, int side) {
-        if (this.field_150004_a && (worldIn.getBlockMetadata(x, y, z) & 8) != 0) {
-            side = 1;
-        }
+        int meta = worldIn.getBlockMetadata(x, y, z);
+        if (meta == 1) {
+            if (side == 0) {
+                int materialMeta = getMaterialMeta(worldIn, x, y, z);
+                return CutUtils.getIcon(side, materialMeta);
+            } else {
+                int materialMeta2 = getMaterialMeta2(worldIn, x, y, z);
+                return CutUtils.getIcon(side, materialMeta2);
+            }
+        } else {
+            if (this.field_150004_a && (meta & 8) != 0) {
+                side = 1;
+            }
 
-        int materialMeta = getMaterialMeta(worldIn, x, y, z);
-        return CutUtils.getIcon(side, materialMeta);
+            int materialMeta = getMaterialMeta(worldIn, x, y, z);
+            return CutUtils.getIcon(side, materialMeta);
+        }
     }
 
     public int getMaterialMeta(IBlockAccess world, int x, int y, int z) {
         TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileEntityCut tef) {
             return tef.getMaterialMeta();
+        }
+        return 0;
+    }
+
+    public int getMaterialMeta2(IBlockAccess world, int x, int y, int z) {
+        TileEntity te = world.getTileEntity(x, y, z);
+        if (te instanceof TileEntityCutDouble tef) {
+            return tef.getMaterialMeta2();
         }
         return 0;
     }
@@ -130,7 +150,27 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
     public void onBlockHarvested(World worldIn, int x, int y, int z, int meta, EntityPlayer player) {
         if (player.capabilities.isCreativeMode) return;
         if (field_150004_a) {
-            dropBlockAsItem(worldIn, x, y, z, new ItemStack(Registry.stone_slab, 2, getDamageValue(worldIn, x, y, z)));
+            if (meta == 1) {
+                dropBlockAsItem(
+                    worldIn,
+                    x,
+                    y,
+                    z,
+                    new ItemStack(Registry.stone_slab, 1, getDamageValue(worldIn, x, y, z)));
+                dropBlockAsItem(
+                    worldIn,
+                    x,
+                    y,
+                    z,
+                    new ItemStack(Registry.stone_slab, 1, getMaterialMeta2(worldIn, x, y, z)));
+            } else {
+                dropBlockAsItem(
+                    worldIn,
+                    x,
+                    y,
+                    z,
+                    new ItemStack(Registry.stone_slab, 2, getDamageValue(worldIn, x, y, z)));
+            }
         } else {
             dropBlockAsItem(worldIn, x, y, z, new ItemStack(this, 1, getDamageValue(worldIn, x, y, z)));
         }
@@ -140,7 +180,8 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
     @Override
     public void onBlockAdded(World worldIn, int x, int y, int z) {
         super.onBlockAdded(worldIn, x, y, z);
-        worldIn.setTileEntity(x, y, z, this.createNewTileEntity(worldIn, 0));
+        int meta = worldIn.getBlockMetadata(x, y, z);
+        worldIn.setTileEntity(x, y, z, this.createNewTileEntity(worldIn, meta));
     }
 
     @Override
@@ -158,6 +199,9 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
 
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
+        if (meta == 1) {
+            return new TileEntityCutDouble();
+        }
         return new TileEntityCut();
     }
 

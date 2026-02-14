@@ -2,49 +2,44 @@ package net.pufferlab.primal.tileentities;
 
 import net.minecraft.nbt.NBTTagCompound;
 
-public class TileEntityCut extends TileEntityPrimal {
+public class TileEntityCutDouble extends TileEntityCut {
 
-    public short materialMeta = -1;
+    public short materialMeta2 = -1;
 
     @Override
     public void writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
 
-        compound.setShort("materialMeta", this.materialMeta);
+        compound.setShort("materialMeta2", this.materialMeta2);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
 
-        this.materialMeta = compound.getShort("materialMeta");
+        this.materialMeta2 = compound.getShort("materialMeta2");
     }
 
     @Override
     public void writeToNBTPacket(NBTTagCompound tag) {
         super.writeToNBTPacket(tag);
 
-        tag.setShort("materialMeta", this.materialMeta);
+        tag.setShort("materialMeta2", this.materialMeta2);
     }
 
     @Override
     public void readFromNBTPacket(NBTTagCompound tag) {
         super.readFromNBTPacket(tag);
 
-        this.materialMeta = tag.getShort("materialMeta");
+        this.materialMeta2 = tag.getShort("materialMeta2");
     }
 
-    public void setMaterialMeta(int meta) {
-        this.materialMeta = (short) meta;
+    public void setMaterialMeta2(int meta) {
+        this.materialMeta2 = (short) meta;
         this.markDirty();
     }
 
-    public int getMaterialMeta() {
-        return this.materialMeta;
-    }
-
-    @Override
-    public boolean canUpdate() {
-        return false;
+    public int getMaterialMeta2() {
+        return this.materialMeta2;
     }
 }

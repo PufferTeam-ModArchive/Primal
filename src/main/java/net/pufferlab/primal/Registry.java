@@ -496,6 +496,7 @@ public class Registry {
         register(TileEntityWindmill.class, "windmill");
         register(TileEntityAnvil.class, "anvil");
         register(TileEntityCut.class, "cut_block");
+        register(TileEntityCutDouble.class, "double_cut_block");
     }
 
     public static final Block[] fluidsBlocks = new Block[Constants.fluidsTypes.length];

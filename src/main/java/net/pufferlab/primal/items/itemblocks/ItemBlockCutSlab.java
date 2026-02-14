@@ -11,6 +11,7 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.BlockCutSlab;
 import net.pufferlab.primal.network.packets.PacketCutMaterial;
 import net.pufferlab.primal.tileentities.TileEntityCut;
+import net.pufferlab.primal.tileentities.TileEntityCutDouble;
 import net.pufferlab.primal.utils.CutUtils;
 
 public class ItemBlockCutSlab extends ItemBlock {
@@ -75,6 +76,26 @@ public class ItemBlockCutSlab extends ItemBlock {
                 if (world.checkNoEntityCollision(this.fullBlock.getCollisionBoundingBoxFromPool(world, x, y, z))
                     && world.setBlock(x, y, z, this.fullBlock, 0, 3)) {
                     sendMaterialPacket(x, y, z, stack.getItemDamage());
+                    world.playSoundEffect(
+                        (double) ((float) x + 0.5F),
+                        (double) ((float) y + 0.5F),
+                        (double) ((float) z + 0.5F),
+                        this.fullBlock.stepSound.func_150496_b(),
+                        (this.fullBlock.stepSound.getVolume() + 1.0F) / 2.0F,
+                        this.fullBlock.stepSound.getPitch() * 0.8F);
+                    --stack.stackSize;
+                    return true;
+                }
+                return false;
+            } else if ((side == 1 && !flag || side == 0 && flag) && block == slabBlock) {
+                if (world.checkNoEntityCollision(this.fullBlock.getCollisionBoundingBoxFromPool(world, x, y, z))
+                    && world.setBlock(x, y, z, this.fullBlock, 1, 3)) {
+                    if (i1 == 0) {
+                        sendMaterialPacket(x, y, z, materialID, stack.getItemDamage());
+                    }
+                    if (i1 == 8) {
+                        sendMaterialPacket(x, y, z, stack.getItemDamage(), materialID);
+                    }
                     world.playSoundEffect(
                         (double) ((float) x + 0.5F),
                         (double) ((float) y + 0.5F),
@@ -189,6 +210,7 @@ public class ItemBlockCutSlab extends ItemBlock {
         }
 
         Block block = world.getBlock(x, y, z);
+        int i1 = world.getBlockLightOpacity(x, y, z);
         int materialID = -1;
         if (block == this.slabBlock) {
             if (block instanceof BlockCutSlab block2) {
@@ -200,6 +222,25 @@ public class ItemBlockCutSlab extends ItemBlock {
             if (world.checkNoEntityCollision(this.fullBlock.getCollisionBoundingBoxFromPool(world, x, y, z))
                 && world.setBlock(x, y, z, this.fullBlock, 0, 3)) {
                 sendMaterialPacket(x, y, z, stack.getItemDamage());
+                world.playSoundEffect(
+                    (double) ((float) x + 0.5F),
+                    (double) ((float) y + 0.5F),
+                    (double) ((float) z + 0.5F),
+                    this.fullBlock.stepSound.func_150496_b(),
+                    (this.fullBlock.stepSound.getVolume() + 1.0F) / 2.0F,
+                    this.fullBlock.stepSound.getPitch() * 0.8F);
+                --stack.stackSize;
+            }
+            return true;
+        } else if (block == slabBlock) {
+            if (world.checkNoEntityCollision(this.fullBlock.getCollisionBoundingBoxFromPool(world, x, y, z))
+                && world.setBlock(x, y, z, this.fullBlock, 1, 3)) {
+                if (i1 == 0) {
+                    sendMaterialPacket(x, y, z, materialID, stack.getItemDamage());
+                }
+                if (i1 == 8) {
+                    sendMaterialPacket(x, y, z, stack.getItemDamage(), materialID);
+                }
                 world.playSoundEffect(
                     (double) ((float) x + 0.5F),
                     (double) ((float) y + 0.5F),
@@ -223,6 +264,20 @@ public class ItemBlockCutSlab extends ItemBlock {
                 tef.setMaterialMeta(material);
             }
             Primal.proxy.sendPacketToServer(new PacketCutMaterial(x, y, z, material));
+        }
+    }
+
+    public void sendMaterialPacket(int x, int y, int z, int material, int material2) {
+        if (Primal.proxy.getClientWorld().isRemote) {
+            TileEntity te = Primal.proxy.getClientWorld()
+                .getTileEntity(x, y, z);
+            if (te instanceof TileEntityCut tef) {
+                tef.setMaterialMeta(material);
+            }
+            if (te instanceof TileEntityCutDouble tef) {
+                tef.setMaterialMeta2(material2);
+            }
+            Primal.proxy.sendPacketToServer(new PacketCutMaterial(x, y, z, material, material2));
         }
     }
 }
