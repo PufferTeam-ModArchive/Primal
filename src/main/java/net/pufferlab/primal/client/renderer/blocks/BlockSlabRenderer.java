@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.tileentities.TileEntityCut;
 
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
@@ -14,7 +15,11 @@ public class BlockSlabRenderer extends BlockPrimalRenderer {
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
-        renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
+        if (block == Registry.double_stone_slab) {
+            renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+        } else {
+            renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
+        }
         renderStandardInvBlock(renderer, block, metadata);
     }
 

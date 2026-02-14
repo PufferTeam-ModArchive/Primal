@@ -32,7 +32,6 @@ public abstract class MixinEntityDiggingFX {
                 double x3 = (x - x2);
                 double y3 = (y - y2);
                 double z3 = (z - z2);
-                System.out.println(x3 + ":" + y3 + ":" + z3);
                 int x4 = x2;
                 int y4 = y2;
                 int z4 = z2;
@@ -54,24 +53,25 @@ public abstract class MixinEntityDiggingFX {
                 if (Utils.isClose(z3, 0.9F)) {
                     z4++;
                 }
-                boolean b1 = true;
-                boolean b2 = true;
+                boolean b1 = false;
+                boolean b2 = false;
                 Block block3 = world.getBlock(x2, y2, z2);
                 if (block3 instanceof IPrimalBlock block4) {
                     if (block4.useWorldIcon()) {
                         ((EntityDiggingFX) (Object) this).setParticleIcon(block.getIcon(world, x2, y2, z2, side));
-                    } else {
-                        b1 = false;
+                        b1 = true;
                     }
-                } else {
-                    b1 = false;
                 }
                 if (!b1) {
                     Block block4 = world.getBlock(x4, y4, z4);
                     if (block4 instanceof IPrimalBlock block5) {
                         if (block5.useWorldIcon()) {
                             ((EntityDiggingFX) (Object) this).setParticleIcon(block.getIcon(world, x4, y4, z4, side));
+                            b2 = true;
                         }
+                    }
+                    if (!b2) {
+                        ((EntityDiggingFX) (Object) this).setParticleIcon(block.getIcon(world, x2, y2 - 1, z2, side));
                     }
                 }
             }
