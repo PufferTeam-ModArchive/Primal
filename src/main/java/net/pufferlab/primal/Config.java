@@ -2,8 +2,11 @@ package net.pufferlab.primal;
 
 import java.io.File;
 
+import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.common.config.Configuration;
 import net.pufferlab.primal.utils.ConfigUtils;
+
+import cpw.mods.fml.common.Loader;
 
 public enum Config {
 
@@ -265,6 +268,18 @@ public enum Config {
     }
 
     public static Configuration configuration;
+
+    public static void setupEarlyConfig(boolean isLate) {
+        if (configuration == null) {
+            String configDir = Launch.minecraftHome + File.separator + "config";
+            if (isLate) {
+                configDir = Loader.instance()
+                    .getConfigDir()
+                    .getAbsolutePath();
+            }
+            Config.synchronizeConfiguration(new File(configDir, Primal.MODID + ".cfg"));
+        }
+    }
 
     public static void synchronizeConfiguration(File configFile) {
         configuration = new Configuration(configFile);

@@ -29,7 +29,6 @@ public class Primal {
     public static final String commonProxy = "net.pufferlab.primal.CommonProxy";
     public static final String downloadPath = "https://github.com/PufferTeam-ModArchive/Primal/raw/refs/heads/main/builtin/";
     public static final String textureFile = "Primal-Modern-Resources";
-
     public static final Logger LOG = LogManager.getLogger(MODID);
 
     @SidedProxy(clientSide = clientProxy, serverSide = commonProxy)
@@ -45,10 +44,15 @@ public class Primal {
 
     public static SimpleNetworkWrapper network;
 
+    public Primal() {
+        Config.setupEarlyConfig(true);
+    }
+
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         proxy.preInit(event);
         proxy.setupResources();
+
         registry.setup();
         registry.setupTiles();
         registry.setupFluids();

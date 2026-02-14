@@ -27,6 +27,8 @@ public class PrimalEarlyMixins implements IFMLLoadingPlugin, IEarlyMixinLoader {
     public List<String> getMixins(Set<String> loadedCoreMods) {
         boolean isClient = FMLLaunchHandler.side()
             .isClient();
+        Config.setupEarlyConfig(false);
+
         if (isClient) {
             mixins.add("minecraft.client.MixinEntityDiggingFX");
         }

@@ -34,7 +34,6 @@ public class CommonProxy implements IGuiHandler {
 
     public void preInit(FMLPreInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(Primal.instance, Primal.proxy);
-        Config.synchronizeConfiguration(event.getSuggestedConfigurationFile());
     }
 
     public void setupRenders() {}
