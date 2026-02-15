@@ -15,6 +15,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.items.itemblocks.ItemBlockCutSlab;
@@ -124,6 +125,11 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
             return null;
         }
         return Registry.creativeTabWorld;
+    }
+
+    @Override
+    public boolean canRegister() {
+        return Config.strataStoneTypes.getBoolean();
     }
 
     @Override

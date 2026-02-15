@@ -127,5 +127,10 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
         }
     }
 
+    @Override
+    public boolean shouldBatchUpdate() {
+        return false;
+    }
+
     public void onCoordChange(int oldX, int oldY, int oldZ) {}
 }

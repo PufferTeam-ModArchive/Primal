@@ -43,6 +43,11 @@ public class PrimalLateMixins implements ILateMixinLoader {
                 mixins.add("exbl.MixinBlockCustomFlower");
             }
         }
+        if (Mods.hp.isLoaded(loadedMods)) {
+            if (Config.hodgepodgeBatcherDisabler.getBoolean()) {
+                mixins.add("hodgepodge.MixinTileEntityDescriptionBatcher");
+            }
+        }
         return mixins;
     }
 }

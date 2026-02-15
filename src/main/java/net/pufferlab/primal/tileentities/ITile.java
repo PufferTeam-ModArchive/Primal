@@ -33,4 +33,8 @@ public interface ITile {
     default Block getBlock() {
         return getTile().getBlockType();
     }
+
+    default boolean shouldBatchUpdate() {
+        return true;
+    }
 }

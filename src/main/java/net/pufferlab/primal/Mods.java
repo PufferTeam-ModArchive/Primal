@@ -21,6 +21,7 @@ public enum Mods {
     mt("MineTweaker3"),
     wl("Waila"),
     wd("wdmla"),
+    hp("hodgepodge"),
     dapi("DragonAPI"),
     chrc("ChromatiCraft");
 

@@ -127,11 +127,15 @@ public enum Config {
         "Whether to enable the generation of the ore types for Thaumcraft"),
 
     // Mixins
-    dragonAPIPlantFix(Module.world$mod_compat, true,
+    hodgepodgeBatcherDisabler(Module.fixes, true, "Prevents hodgepodge to slow down packet for the mod tile entities"),
+    particleFix(Module.fixes, true,
+        "Fixes particles to match the block it's being broken, required for some blocks to have correct looking particles"),
+    plantFix(Module.fixes, true, "Fixes some vanilla logic not applying to the mod grass"),
+    dragonAPIPlantFix(Module.fixes, true,
         "This enables the mixins to DragonAPI to make it recognize the mod dirt, and avoid plants popping off."),
-    bopPlantFix(Module.world$mod_compat, true,
+    bopPlantFix(Module.fixes, true,
         "This enables the mixins to Biomes O' Plenty to make it recognize the mod dirt, and avoid plants popping off."),
-    exblPlantFix(Module.world$mod_compat, true,
+    exblPlantFix(Module.fixes, true,
         "This enables the mixins to Extra Biomes XL to make it recognize the mod dirt, and avoid plants popping off.");
 
     public boolean isBoolean;
@@ -327,7 +331,7 @@ public enum Config {
             "Includes all of the mechanical power machinery, such as windmill, waterwheel and anything that moves."),
         world(true, "Includes all of the world stuff from the mod."),
         world$generation(true, "All options related to world generation"),
-        world$mod_compat(true, "Includes all of the changes made to other mods to make the mod work correctly.");
+        fixes(true, "Includes all vanilla and mod fixes");
 
         public String name;
         public String comment;

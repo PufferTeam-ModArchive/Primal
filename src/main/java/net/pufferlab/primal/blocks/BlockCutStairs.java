@@ -15,6 +15,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.items.itemblocks.ItemBlockCutStairs;
@@ -81,6 +82,11 @@ public class BlockCutStairs extends BlockStairs implements ITileEntityProvider, 
     @Override
     public CreativeTabs getCreativeTab() {
         return Registry.creativeTabWorld;
+    }
+
+    @Override
+    public boolean canRegister() {
+        return Config.strataStoneTypes.getBoolean();
     }
 
     @Override
