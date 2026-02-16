@@ -602,6 +602,9 @@ public class Registry {
     public void setupConfig() {
         ConfigUtils.initConfigMap();
 
+        Constants.minHeight = Config.minimumYHeight.getInt();
+        Constants.maxHeight = Config.maximumYHeight.getInt();
+
         for (MetalType type : Constants.metalTypes) {
             Fluid fluid = ConfigUtils.getMetalFluid(type);
             if (fluid != null) {
@@ -614,6 +617,12 @@ public class Registry {
         }
         MetalType.setFluids(Constants.metalTypes);
 
+        for (StoneType type : Constants.stoneTypes) {
+            int min = ConfigUtils.getStrataHeightMin(type);
+            int max = ConfigUtils.getStrataHeightMax(type);
+            type.setHeight(min, max);
+        }
+
         for (VeinType type : Constants.veinTypesAll) {
             int min = ConfigUtils.getVeinHeightMin(type);
             int max = ConfigUtils.getVeinHeightMax(type);
@@ -623,9 +632,9 @@ public class Registry {
             type.setSize(minSize, maxSize);
         }
 
-        Constants.stoneTypesLayer = StoneType.generateLayerCache(Constants.stoneTypes);
-        Constants.veinTypesLayer = VeinType.generateVeinCache(Constants.veinTypes);
-        Constants.tcVeinTypesLayer = VeinType.generateVeinCache(Constants.tcVeinTypes);
+        StoneType.genLayerCache(Constants.stoneTypes);
+        VeinType.genVeinCache(Constants.veinTypes);
+        VeinType.genTcVeinCache(Constants.tcVeinTypes);
 
         for (AnvilAction action : AnvilAction.values()) {
             int step = ConfigUtils.getAnvilStep(action);

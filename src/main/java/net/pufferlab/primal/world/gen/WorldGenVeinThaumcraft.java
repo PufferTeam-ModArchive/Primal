@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.utils.StoneType;
 import net.pufferlab.primal.utils.VeinType;
@@ -24,7 +25,7 @@ public class WorldGenVeinThaumcraft {
             int x = (chunkX << 4) + rand.nextInt(16) + 8;
             int z = (chunkZ << 4) + rand.nextInt(16) + 8;
             int maxY = world.getTopSolidOrLiquidBlock(x, z);
-            int y = rand.nextInt(Math.abs(maxY));
+            int y = Constants.minHeight + rand.nextInt(Math.abs(maxY - Constants.minHeight));
             VeinType vein = VeinType.pickOneThaumcraftVeinType(rand, y);
             if (vein != null) {
                 if (vein.getChance(rand)) {

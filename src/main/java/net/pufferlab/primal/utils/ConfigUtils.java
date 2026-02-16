@@ -16,6 +16,7 @@ public class ConfigUtils {
         genMetalMelting();
         genMetalFluid();
         genVeinHeightMap();
+        genStrataHeightMap();
         genVeinSizeMap();
         genAnvilStep();
     }
@@ -82,7 +83,7 @@ public class ConfigUtils {
     public static final TObjectIntMap<String> veinHeightMinMap = new TObjectIntHashMap<>();
     public static final TObjectIntMap<String> veinHeightMaxMap = new TObjectIntHashMap<>();
 
-    public static String[] getDefaultHeight(VeinType[] veinTypes) {
+    public static String[] getDefaultVeinHeight(VeinType[] veinTypes) {
         String[] list = new String[veinTypes.length];
         for (int i = 0; i < veinTypes.length; i++) {
             list[i] = veinTypes[i].name + "=" + veinTypes[i].minY + "-" + veinTypes[i].maxY;
@@ -113,6 +114,42 @@ public class ConfigUtils {
     public static int getVeinHeightMax(VeinType veinType) {
         String vein = veinType.name;
         return veinHeightMaxMap.get(vein);
+    }
+
+    public static final TObjectIntMap<String> strataHeightMinMap = new TObjectIntHashMap<>();
+    public static final TObjectIntMap<String> strataHeightMaxMap = new TObjectIntHashMap<>();
+
+    public static String[] getDefaultStrataHeight(StoneType[] veinTypes) {
+        String[] list = new String[veinTypes.length];
+        for (int i = 0; i < veinTypes.length; i++) {
+            list[i] = veinTypes[i].name + "=" + veinTypes[i].minHeight + "-" + veinTypes[i].maxHeight;
+        }
+        return list;
+    }
+
+    public static void genStrataHeightMap() {
+        String[] priorityOverride = Config.strataStoneHeightRange.getStringList();
+        for (String s : priorityOverride) {
+            String[] spl = s.split("=");
+            if (spl.length == 2) {
+                String ore = spl[0];
+                String[] hs = spl[1].split("-");
+                int min = Integer.parseInt(hs[0]);
+                int max = Integer.parseInt(hs[1]);
+                strataHeightMinMap.put(ore, min);
+                strataHeightMaxMap.put(ore, max);
+            }
+        }
+    }
+
+    public static int getStrataHeightMin(StoneType veinType) {
+        String vein = veinType.name;
+        return strataHeightMinMap.get(vein);
+    }
+
+    public static int getStrataHeightMax(StoneType veinType) {
+        String vein = veinType.name;
+        return strataHeightMaxMap.get(vein);
     }
 
     public static final TObjectIntMap<String> veinSizeMinMap = new TObjectIntHashMap<>();

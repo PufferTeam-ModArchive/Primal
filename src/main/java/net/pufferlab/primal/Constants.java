@@ -11,10 +11,12 @@ public class Constants {
     public static final float modelConst = 0.0625F;
     public static final int tagCompound = 10;
     public static final int tagIntArray = 11;
-    public static final int maxHeight = 256;
     public static final String white = "§f";
     public static final String gray  = "§7";
     public static final String reset = "§r";
+
+    public static int minHeight = 0;
+    public static int maxHeight = 256;
 
     public static final short lightNone = 0x000;
     public static final short lightFire = 0xEC0;
@@ -133,8 +135,6 @@ public class Constants {
     public static final VeinType common_ordo  = new VeinType(ordo, "common_ordo", 0, 100, 2, 4, 0.0F, 0.3F, 0.4F, stoneTypes);
     public static final VeinType common_perditio  = new VeinType(perditio, "common_perditio", 0, 100, 2, 4, 0.0F, 0.3F, 0.4F, stoneTypes);
     public static final VeinType[] tcVeinTypes = new VeinType[] { common_aer, common_ignis, common_aqua, common_terra, common_ordo, common_perditio };
-    public static VeinType[][] tcVeinTypesLayer;
-
     public static final VeinType[] veinTypesAll = new VeinType[] { surface_copper, deep_copper, deep_malachite, medium_cassiterite, common_aer, common_ignis, common_aqua, common_terra, common_ordo, common_perditio};
 
     // Soil Types

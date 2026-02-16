@@ -7,6 +7,9 @@ import java.util.Random;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Utils;
 
+import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
+
 public class VeinType {
 
     public String name;
@@ -83,26 +86,28 @@ public class VeinType {
         return false;
     }
 
+    public static final TIntObjectMap<VeinType[]> veinLayerCache = new TIntObjectHashMap<>();
+
     public static VeinType pickOneVeinType(Random rand, int y) {
-        VeinType[] cache = Constants.veinTypesLayer[y];
+        VeinType[] cache = veinLayerCache.get(y);
         if (cache != null) {
             return cache[rand.nextInt(cache.length)];
         }
         return null;
     }
+
+    public static final TIntObjectMap<VeinType[]> tcVeinLayerCache = new TIntObjectHashMap<>();
 
     public static VeinType pickOneThaumcraftVeinType(Random rand, int y) {
-        VeinType[] cache = Constants.tcVeinTypesLayer[y];
+        VeinType[] cache = tcVeinLayerCache.get(y);
         if (cache != null) {
             return cache[rand.nextInt(cache.length)];
         }
         return null;
     }
 
-    public static VeinType[][] generateVeinCache(VeinType[] stoneTypes) {
-        VeinType[][] cache = new VeinType[Constants.maxHeight][];
-
-        for (int i = 0; i < Constants.maxHeight; i++) {
+    public static void genVeinCache(VeinType[] stoneTypes) {
+        for (int i = Constants.minHeight; i < Constants.maxHeight; i++) {
             List<VeinType> cacheStone = new ArrayList<>(stoneTypes.length);
 
             for (VeinType stone : stoneTypes) {
@@ -112,10 +117,24 @@ public class VeinType {
             }
 
             if (!cacheStone.isEmpty()) {
-                cache[i] = cacheStone.toArray(new VeinType[0]);
+                veinLayerCache.put(i, cacheStone.toArray(new VeinType[0]));
             }
         }
+    }
 
-        return cache;
+    public static void genTcVeinCache(VeinType[] stoneTypes) {
+        for (int i = Constants.minHeight; i < Constants.maxHeight; i++) {
+            List<VeinType> cacheStone = new ArrayList<>(stoneTypes.length);
+
+            for (VeinType stone : stoneTypes) {
+                if (stone.canGenerate(i)) {
+                    cacheStone.add(stone);
+                }
+            }
+
+            if (!cacheStone.isEmpty()) {
+                tcVeinLayerCache.put(i, cacheStone.toArray(new VeinType[0]));
+            }
+        }
     }
 }

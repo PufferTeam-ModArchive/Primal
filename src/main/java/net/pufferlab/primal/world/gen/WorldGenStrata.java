@@ -74,6 +74,9 @@ public class WorldGenStrata {
                 if (Mods.tc.isLoaded()) {
                     stoneList.add(Mods.tc.getModBlock("blockCustomOre"));
                 }
+                if (Mods.bop.isLoaded()) {
+                    stoneList.add(Mods.bop.getModBlock("gemOre"));
+                }
                 if (Mods.efr.isLoaded()) {
                     stoneList.add(Mods.efr.getModBlock("copper_ore"));
                     stoneList.add(Mods.efr.getModBlock("deepslate_copper_ore"));
@@ -86,6 +89,9 @@ public class WorldGenStrata {
                     stoneList.add(Mods.efr.getModBlock("deepslate_emerald_ore"));
                     if (Mods.tc.isLoaded()) {
                         stoneList.add(Mods.efr.getModBlock("deepslate_thaumcraft_ore"));
+                    }
+                    if (Mods.bop.isLoaded()) {
+                        stoneList.add(Mods.bop.getModBlock("deepslate_bop_ore"));
                     }
                 }
             }

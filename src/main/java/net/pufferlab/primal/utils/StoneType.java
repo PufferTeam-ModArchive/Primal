@@ -47,6 +47,12 @@ public class StoneType {
         return false;
     }
 
+    public StoneType setHeight(int min, int max) {
+        this.minHeight = min;
+        this.maxHeight = max;
+        return this;
+    }
+
     public static String[] getNames(StoneType[] stones) {
         String[] names = new String[stones.length];
         for (int i = 0; i < stones.length; i++) {
@@ -75,8 +81,10 @@ public class StoneType {
         return current;
     }
 
+    public static final TIntObjectMap<StoneType[]> stoneLayerCache = new TIntObjectHashMap<>();
+
     private static StoneType pickRaw(int height, int index) {
-        StoneType[] cache = Constants.stoneTypesLayer[Math.abs(height)];
+        StoneType[] cache = stoneLayerCache.get(height);
 
         if (cache == null || cache.length == 0) return Constants.dacite;
 
@@ -84,10 +92,8 @@ public class StoneType {
         return cache[indexM];
     }
 
-    public static StoneType[][] generateLayerCache(StoneType[] stoneTypes) {
-        StoneType[][] cache = new StoneType[Constants.maxHeight][];
-
-        for (int i = 0; i < Constants.maxHeight; i++) {
+    public static void genLayerCache(StoneType[] stoneTypes) {
+        for (int i = Constants.minHeight; i < Constants.maxHeight; i++) {
             List<StoneType> cacheStone = new ArrayList<>(stoneTypes.length);
 
             for (StoneType stone : stoneTypes) {
@@ -97,11 +103,9 @@ public class StoneType {
             }
 
             if (!cacheStone.isEmpty()) {
-                cache[i] = cacheStone.toArray(new StoneType[0]);
+                stoneLayerCache.put(i, cacheStone.toArray(new StoneType[0]));
             }
         }
-
-        return cache;
     }
 
     public static Map<StoneType, Integer> metaList;
