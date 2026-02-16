@@ -11,9 +11,12 @@ import net.pufferlab.primal.utils.ItemUtils;
 
 public class ScriptInternal implements IScript {
 
+    public void runEarly() {
+        addAutoOreDicts();
+    }
+
     public void run() {
         addLocalizations();
-        addAutoOreDicts();
     }
 
     public void addLocalizations() {

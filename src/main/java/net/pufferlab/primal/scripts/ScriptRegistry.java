@@ -8,14 +8,21 @@ public class ScriptRegistry {
     public static final ScriptWorld scriptWorld = new ScriptWorld();
     public static final ScriptInternal scriptInternal = new ScriptInternal();
 
-    public void run() {
-        scriptRemove.run();
+    public void runEarly() {
+        scriptRemove.runEarly();
 
-        scriptWorld.run();
+        scriptInternal.runEarly();
+
+        scriptPrimitive.runEarly();
+        scriptWorld.runEarly();
+        scriptOreProcessing.runEarly();
+    }
+
+    public void run() {
         scriptInternal.run();
 
         scriptPrimitive.run();
-
+        scriptWorld.run();
         scriptOreProcessing.run();
     }
 }

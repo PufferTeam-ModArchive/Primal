@@ -9,8 +9,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.tileentities.IMotion;
-import net.pufferlab.primal.tileentities.TileEntityMotion;
-import net.pufferlab.primal.utils.FacingUtils;
 
 public abstract class BlockMotion extends BlockContainerPrimal {
 
@@ -28,13 +26,12 @@ public abstract class BlockMotion extends BlockContainerPrimal {
         }
     }
 
+    @Override
     public void onBlockSidePlacedBy(World worldIn, int x, int y, int z, EntityLivingBase placer, ItemStack itemIn,
         int side) {
-        int meta = FacingUtils.getAxis(side);
+        super.onBlockSidePlacedBy(worldIn, x, y, z, placer, itemIn, side);
+
         TileEntity te = worldIn.getTileEntity(x, y, z);
-        if (te instanceof TileEntityMotion tef) {
-            tef.setAxisMeta(meta);
-        }
         if (te instanceof IMotion tef) {
             tef.scheduleUpdate();
         }

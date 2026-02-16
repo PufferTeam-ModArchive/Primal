@@ -1,6 +1,7 @@
 package net.pufferlab.primal.network.packets;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.inventory.ContainerKnapping;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -33,7 +34,7 @@ public class PacketKnappingClick implements IMessage, IMessageHandler<PacketKnap
 
     @Override
     public IMessage onMessage(PacketKnappingClick msg, MessageContext ctx) {
-        final EntityPlayer player = ctx.getServerHandler().playerEntity;
+        final EntityPlayer player = Primal.proxy.getPlayer(ctx);
         if (player.openContainer instanceof ContainerKnapping) {
             ((ContainerKnapping) player.openContainer).clickedOnSlot(msg.x, msg.y);
         }

@@ -3,7 +3,6 @@ package net.pufferlab.primal.tileentities;
 import net.minecraft.nbt.NBTTagCompound;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.network.NetworkMotion;
-import net.pufferlab.primal.network.packets.PacketSpeedUpdate;
 import net.pufferlab.primal.utils.FacingUtils;
 
 public abstract class TileEntityMotionInventory extends TileEntityInventory implements IMotion {
@@ -79,10 +78,7 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
 
     @Override
     public void sendClientUpdate() {
-        if (!worldObj.isRemote) {
-            Primal.proxy.sendPacketToClient(new PacketSpeedUpdate(this));
-            this.markDirty();
-        }
+        Primal.proxy.packet.sendMotionSpeedPacket(this);
     }
 
     @Override

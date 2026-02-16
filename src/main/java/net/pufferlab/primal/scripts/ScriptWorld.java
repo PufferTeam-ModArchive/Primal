@@ -7,8 +7,11 @@ import net.pufferlab.primal.utils.StoneType;
 
 public class ScriptWorld implements IScript {
 
-    public void run() {
+    public void runEarly() {
         addOredicts();
+    }
+
+    public void run() {
         addCraftingRecipes();
     }
 

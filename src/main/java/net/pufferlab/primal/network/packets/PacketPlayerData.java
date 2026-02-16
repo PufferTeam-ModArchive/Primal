@@ -36,7 +36,7 @@ public class PacketPlayerData implements IMessage, IMessageHandler<PacketPlayerD
 
     @Override
     public IMessage onMessage(PacketPlayerData msg, MessageContext ctx) {
-        World world = Primal.proxy.getClientWorld();
+        World world = Primal.proxy.getWorld(ctx);
         EntityPlayer player = (EntityPlayer) world.getEntityByID(msg.playerEntityId);
         PlayerData data = PlayerData.get(player);
         data.temperatureDebug = msg.temperatureDebug;

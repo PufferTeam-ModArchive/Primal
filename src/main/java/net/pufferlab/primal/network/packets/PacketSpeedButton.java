@@ -1,7 +1,8 @@
 package net.pufferlab.primal.network.packets;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.tileentities.TileEntityGenerator;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -44,8 +45,8 @@ public class PacketSpeedButton implements IMessage, IMessageHandler<PacketSpeedB
 
     @Override
     public IMessage onMessage(PacketSpeedButton msg, MessageContext ctx) {
-        final EntityPlayer player = ctx.getServerHandler().playerEntity;
-        TileEntity te = player.worldObj.getTileEntity(msg.x, msg.y, msg.z);
+        World world = Primal.proxy.getWorld(ctx);
+        TileEntity te = world.getTileEntity(msg.x, msg.y, msg.z);
         float modifier = 1.0F;
         if (msg.isShift) {
             modifier = 10F;

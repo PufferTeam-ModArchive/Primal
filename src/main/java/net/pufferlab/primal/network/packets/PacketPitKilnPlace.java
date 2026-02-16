@@ -21,10 +21,9 @@ public class PacketPitKilnPlace implements IMessage, IMessageHandler<PacketPitKi
 
     @Override
     public IMessage onMessage(PacketPitKilnPlace msg, MessageContext ctx) {
-        final EntityPlayer player = ctx.getServerHandler().playerEntity;
-        Primal.proxy.sendPacketToClient(new PacketSwingArm(player));
+        final EntityPlayer player = Primal.proxy.getPlayer(ctx);
         PitKilnHandler.placePitKiln(player);
-        player.inventoryContainer.detectAndSendChanges();
+        Primal.proxy.packet.sendInventoryUpdate(player);
         return null;
     }
 }

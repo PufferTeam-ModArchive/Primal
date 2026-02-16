@@ -1,7 +1,6 @@
 package net.pufferlab.primal.events;
 
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -14,7 +13,6 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.items.ItemBucketCeramic;
 import net.pufferlab.primal.items.ItemBucketMeta;
-import net.pufferlab.primal.network.packets.PacketSwingArm;
 import net.pufferlab.primal.utils.FluidUtils;
 
 import cpw.mods.fml.common.eventhandler.Event;
@@ -22,13 +20,6 @@ import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class BucketHandler implements IEventHandler {
-
-    public void updatePacket(EntityPlayer player) {
-        if (!player.worldObj.isRemote) {
-            Primal.proxy.sendPacketToClient(new PacketSwingArm(player));
-            player.inventoryContainer.detectAndSendChanges();
-        }
-    }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public void fillBucketEventHandler(FillBucketEvent event) {
@@ -93,7 +84,7 @@ public class BucketHandler implements IEventHandler {
                             event.entityPlayer.inventory.decrStackSize(event.entityPlayer.inventory.currentItem, 1);
                             event.entityPlayer.inventory
                                 .addItemStackToInventory(FluidUtils.getStackFromFluid(itemStack, stack));
-                            updatePacket(event.entityPlayer);
+                            Primal.proxy.packet.sendInventoryUpdate(event.entityPlayer);
                             if (event.isCancelable()) event.setCanceled(true);
                         }
                     }
@@ -115,7 +106,7 @@ public class BucketHandler implements IEventHandler {
                                     event.entityPlayer.inventory
                                         .addItemStackToInventory(FluidUtils.getEmptyContainer(item));
                                 }
-                                updatePacket(event.entityPlayer);
+                                Primal.proxy.packet.sendInventoryUpdate(event.entityPlayer);
                                 if (event.isCancelable()) event.setCanceled(true);
                             }
                         }

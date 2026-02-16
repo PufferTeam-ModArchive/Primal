@@ -88,6 +88,7 @@ public class Primal {
 
     @Mod.EventHandler
     public void completeInit(FMLLoadCompleteEvent event) {
+        scriptRegistry.runEarly();
         scriptRegistry.run();
     }
 

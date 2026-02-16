@@ -5,6 +5,7 @@ import java.util.Map;
 
 import net.minecraftforge.fluids.Fluid;
 import net.pufferlab.primal.Config;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.recipes.AnvilAction;
 
 import gnu.trove.map.TObjectIntMap;
@@ -37,9 +38,13 @@ public class ConfigUtils {
             String[] spl = s.split("=");
             if (spl.length == 2) {
                 String ore = spl[0];
-                if (Integer.parseInt(spl[1]) != 0) {
-                    int temp = Integer.parseInt(spl[1]);
-                    meltingMetalMap.put(ore, temp);
+                try {
+                    if (Integer.parseInt(spl[1]) != 0) {
+                        int temp = Integer.parseInt(spl[1]);
+                        meltingMetalMap.put(ore, temp);
+                    }
+                } catch (Exception e) {
+                    throwInvalidConfig(Config.metalMelting);
                 }
             }
         }
@@ -64,13 +69,17 @@ public class ConfigUtils {
         String[] priorityOverride = Config.metalLiquids.getStringList();
         for (String s : priorityOverride) {
             String[] spl = s.split("=");
-            if (spl.length == 2) {
-                String ore = spl[0];
-                if (ItemUtils.getFluid(spl[1], 1) != null) {
-                    Fluid item = ItemUtils.getFluid(spl[1], 1)
-                        .getFluid();
-                    liquidMetalMap.put(ore, item);
+            try {
+                if (spl.length == 2) {
+                    String ore = spl[0];
+                    if (ItemUtils.getFluid(spl[1], 1) != null) {
+                        Fluid item = ItemUtils.getFluid(spl[1], 1)
+                            .getFluid();
+                        liquidMetalMap.put(ore, item);
+                    }
                 }
+            } catch (Exception e) {
+                throwInvalidConfig(Config.metalLiquids);
             }
         }
     }
@@ -98,10 +107,14 @@ public class ConfigUtils {
             if (spl.length == 2) {
                 String ore = spl[0];
                 String[] hs = spl[1].split("-");
-                int min = Integer.parseInt(hs[0]);
-                int max = Integer.parseInt(hs[1]);
-                veinHeightMinMap.put(ore, min);
-                veinHeightMaxMap.put(ore, max);
+                try {
+                    int min = Integer.parseInt(hs[0]);
+                    int max = Integer.parseInt(hs[1]);
+                    veinHeightMinMap.put(ore, min);
+                    veinHeightMaxMap.put(ore, max);
+                } catch (Exception e) {
+                    throwInvalidConfig(Config.oreVeinsHeightRange);
+                }
             }
         }
     }
@@ -134,10 +147,14 @@ public class ConfigUtils {
             if (spl.length == 2) {
                 String ore = spl[0];
                 String[] hs = spl[1].split("-");
-                int min = Integer.parseInt(hs[0]);
-                int max = Integer.parseInt(hs[1]);
-                strataHeightMinMap.put(ore, min);
-                strataHeightMaxMap.put(ore, max);
+                try {
+                    int min = Integer.parseInt(hs[0]);
+                    int max = Integer.parseInt(hs[1]);
+                    strataHeightMinMap.put(ore, min);
+                    strataHeightMaxMap.put(ore, max);
+                } catch (Exception e) {
+                    throwInvalidConfig(Config.strataStoneHeightRange);
+                }
             }
         }
     }
@@ -170,10 +187,14 @@ public class ConfigUtils {
             if (spl.length == 2) {
                 String ore = spl[0];
                 String[] hs = spl[1].split("-");
-                int min = Integer.parseInt(hs[0]);
-                int max = Integer.parseInt(hs[1]);
-                veinSizeMinMap.put(ore, min);
-                veinSizeMaxMap.put(ore, max);
+                try {
+                    int min = Integer.parseInt(hs[0]);
+                    int max = Integer.parseInt(hs[1]);
+                    veinSizeMinMap.put(ore, min);
+                    veinSizeMaxMap.put(ore, max);
+                } catch (Exception e) {
+                    throwInvalidConfig(Config.oreVeinsSizeRange);
+                }
             }
         }
     }
@@ -205,9 +226,13 @@ public class ConfigUtils {
             String[] spl = s.split("=");
             if (spl.length == 2) {
                 String ore = spl[0];
-                if (Integer.parseInt(spl[1]) != 0) {
-                    int temp = Integer.parseInt(spl[1]);
-                    anvilStepMap.put(ore, temp);
+                try {
+                    if (Integer.parseInt(spl[1]) != 0) {
+                        int temp = Integer.parseInt(spl[1]);
+                        anvilStepMap.put(ore, temp);
+                    }
+                } catch (Exception e) {
+                    throwInvalidConfig(Config.anvilActionStep);
                 }
             }
         }
@@ -216,5 +241,14 @@ public class ConfigUtils {
     public static int getAnvilStep(AnvilAction metalType) {
         String metal = metalType.name;
         return anvilStepMap.get(metal);
+    }
+
+    public static void throwInvalidConfig(Config config) {
+        throw new IllegalStateException(
+            "Config [" + config.name
+                + "] in "
+                + Primal.MODID
+                + ".cfg is malformed."
+                + "\n Delete the entry or fix it so it correctly apply in-game.");
     }
 }

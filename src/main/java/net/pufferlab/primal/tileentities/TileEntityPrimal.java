@@ -17,6 +17,15 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
     public int cachedY;
     public int cachedZ;
 
+    public TileEntityPrimal() {}
+
+    public TileEntityPrimal(World world, int x, int y, int z) {
+        this.worldObj = world;
+        this.xCoord = x;
+        this.yCoord = y;
+        this.zCoord = z;
+    }
+
     @Override
     public Packet getDescriptionPacket() {
         NBTTagCompound dataTag = new NBTTagCompound();
@@ -58,8 +67,10 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
 
     public void updateTEState() {
         this.markDirty();
-        this.worldObj.func_147453_f(this.xCoord, this.yCoord, this.zCoord, this.blockType);
-        this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+        if (this.worldObj != null) {
+            this.worldObj.func_147453_f(this.xCoord, this.yCoord, this.zCoord, this.blockType);
+            this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+        }
     }
 
     public void updateTELight() {

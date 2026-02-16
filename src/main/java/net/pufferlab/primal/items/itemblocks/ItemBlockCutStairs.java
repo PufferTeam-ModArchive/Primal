@@ -4,13 +4,10 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.BlockCutStairs;
-import net.pufferlab.primal.network.packets.PacketCutMaterial;
-import net.pufferlab.primal.tileentities.TileEntityCut;
 import net.pufferlab.primal.utils.CutUtils;
 
 public class ItemBlockCutStairs extends ItemBlock {
@@ -45,10 +42,12 @@ public class ItemBlockCutStairs extends ItemBlock {
         if (world.getBlock(x, y, z) == field_150939_a) {
             field_150939_a.onBlockPlacedBy(world, x, y, z, player, stack);
             field_150939_a.onPostBlockPlaced(world, x, y, z, metadata);
-            sendMaterialPacket(
+            Primal.proxy.packet.sendMaterialPacket(
+                world,
                 x,
                 y,
                 z,
+                field_150939_a,
                 player.getHeldItem()
                     .getItemDamage());
         }
@@ -59,17 +58,6 @@ public class ItemBlockCutStairs extends ItemBlock {
     @Override
     public IIcon getIconFromDamage(int id) {
         return CutUtils.getIcon(2, id);
-    }
-
-    public void sendMaterialPacket(int x, int y, int z, int material) {
-        if (Primal.proxy.getClientWorld().isRemote) {
-            TileEntity te = Primal.proxy.getClientWorld()
-                .getTileEntity(x, y, z);
-            if (te instanceof TileEntityCut tef) {
-                tef.setMaterialMeta(material);
-            }
-            Primal.proxy.sendPacketToServer(new PacketCutMaterial(x, y, z, material));
-        }
     }
 
 }

@@ -3,7 +3,6 @@ package net.pufferlab.primal.tileentities;
 import net.minecraft.nbt.NBTTagCompound;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.network.NetworkMotion;
-import net.pufferlab.primal.network.packets.PacketSpeedUpdate;
 import net.pufferlab.primal.utils.FacingUtils;
 
 public abstract class TileEntityMotion extends TileEntityMetaFacing implements IMotion {
@@ -15,6 +14,12 @@ public abstract class TileEntityMotion extends TileEntityMetaFacing implements I
     boolean needsSpreadUpdate;
     boolean needsRemovalUpdate;
     boolean hasOffset;
+
+    public TileEntityMotion() {}
+
+    public TileEntityMotion(int facingMeta, int axisMeta) {
+        super(facingMeta, axisMeta);
+    }
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
@@ -75,10 +80,7 @@ public abstract class TileEntityMotion extends TileEntityMetaFacing implements I
 
     @Override
     public void sendClientUpdate() {
-        if (!worldObj.isRemote) {
-            Primal.proxy.sendPacketToClient(new PacketSpeedUpdate(this));
-            this.markDirty();
-        }
+        Primal.proxy.packet.sendMotionSpeedPacket(this);
     }
 
     @Override

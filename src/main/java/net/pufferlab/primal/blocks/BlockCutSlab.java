@@ -182,6 +182,29 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
         }
     }
 
+    public void setCutTileEntity(World worldIn, int x, int y, int z, int material, int material2) {
+        int meta = worldIn.getBlockMetadata(x, y, z);
+        if (meta == 1) {
+            TileEntity te = createCutTileEntity(worldIn, x, y, z, material, material2);
+            if (te != null) {
+                worldIn.setTileEntity(x, y, z, te);
+            }
+        } else {
+            TileEntity te = createCutTileEntity(worldIn, x, y, z, material);
+            if (te != null) {
+                worldIn.setTileEntity(x, y, z, te);
+            }
+        }
+    }
+
+    public TileEntity createCutTileEntity(World world, int x, int y, int z, int material) {
+        return new TileEntityCut(world, x, y, z, material);
+    }
+
+    public TileEntity createCutTileEntity(World world, int x, int y, int z, int material, int material2) {
+        return new TileEntityCutDouble(world, x, y, z, material, material2);
+    }
+
     // Tile Entity Provider Function
     @Override
     public void onBlockAdded(World worldIn, int x, int y, int z) {

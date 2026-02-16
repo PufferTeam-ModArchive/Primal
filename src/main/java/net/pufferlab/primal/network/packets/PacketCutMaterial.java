@@ -1,7 +1,7 @@
 package net.pufferlab.primal.network.packets;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.tileentities.TileEntityCut;
 import net.pufferlab.primal.tileentities.TileEntityCutDouble;
@@ -50,8 +50,8 @@ public class PacketCutMaterial implements IMessage, IMessageHandler<PacketCutMat
 
     @Override
     public IMessage onMessage(PacketCutMaterial msg, MessageContext ctx) {
-        final EntityPlayer player = ctx.getServerHandler().playerEntity;
-        TileEntity te = player.worldObj.getTileEntity(msg.x, msg.y, msg.z);
+        World world = Primal.proxy.getWorld(ctx);
+        TileEntity te = world.getTileEntity(msg.x, msg.y, msg.z);
         if (te instanceof TileEntityCut tef) {
             tef.setMaterialMeta(msg.material);
         }
@@ -59,6 +59,7 @@ public class PacketCutMaterial implements IMessage, IMessageHandler<PacketCutMat
             tef.setMaterialMeta2(msg.material2);
         }
         if (ctx.side == Side.SERVER) {
+            Primal.proxy.packet.sendChunkUpdate(world);
             Primal.proxy.sendPacketToClient(new PacketCutMaterial(msg.x, msg.y, msg.z, msg.material, msg.material2));
         }
         return null;

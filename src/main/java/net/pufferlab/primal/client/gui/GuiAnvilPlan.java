@@ -11,7 +11,6 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.inventory.ContainerAnvilPlan;
 import net.pufferlab.primal.inventory.SlotPlan;
-import net.pufferlab.primal.network.packets.PacketAnvilPlan;
 import net.pufferlab.primal.tileentities.TileEntityAnvil;
 
 public class GuiAnvilPlan extends GuiContainerPrimal {
@@ -54,14 +53,8 @@ public class GuiAnvilPlan extends GuiContainerPrimal {
     @Override
     protected void actionPerformed(GuiButton button) {
         if (button instanceof GuiButtonAnvilPlan button2) {
-            sendRecipePacket(button2.recipeID);
+            Primal.proxy.packet.sendAnvilPlanPacket(this.tileAnvil, button2.recipeID);
             this.player.player.closeScreen();
-        }
-    }
-
-    public void sendRecipePacket(String recipeID) {
-        if (Primal.proxy.getClientWorld().isRemote) {
-            Primal.proxy.sendPacketToServer(new PacketAnvilPlan(this.tileAnvil, recipeID));
         }
     }
 

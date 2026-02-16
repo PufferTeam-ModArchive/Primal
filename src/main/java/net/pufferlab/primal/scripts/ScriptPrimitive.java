@@ -6,8 +6,19 @@ import net.pufferlab.primal.utils.ItemUtils;
 
 public class ScriptPrimitive implements IScript {
 
-    public void run() {
+    public void runEarly() {
         addOredicts();
+
+        runModCompatEarly();
+    }
+
+    public void runModCompatEarly() {
+        if (Mods.efr.isLoaded()) {
+            addEFROredicts();
+        }
+    }
+
+    public void run() {
         addCraftingRecipes();
         addCampfireRecipes();
         addChoppingLogRecipes();
@@ -22,7 +33,6 @@ public class ScriptPrimitive implements IScript {
 
     public void runModCompat() {
         if (Mods.efr.isLoaded()) {
-            addEFROredicts();
             addEFRCraftingRecipes();
             addEFRCampfireRecipes();
             addEFRPitKilnRecipes();

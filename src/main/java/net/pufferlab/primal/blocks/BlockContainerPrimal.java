@@ -42,14 +42,23 @@ public abstract class BlockContainerPrimal extends BlockContainer implements IPr
             side2 = 0;
         }
         int metayaw = FacingUtils.getMetaYawSide(placer.rotationYaw, side2);
+        int metaaxis = FacingUtils.getAxis(side);
+        if (createTileOnPlace()) {
+            setFacingTileEntity(worldIn, x, y, z, metayaw, metaaxis);
+        }
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityMetaFacing tef) {
             tef.setFacingMeta(metayaw);
+            tef.setAxisMeta(metaaxis);
         }
     }
 
     public boolean isSideDependant() {
         return false;
+    }
+
+    public boolean createTileOnPlace() {
+        return true;
     }
 
     public void dropItems(World world, int i, int j, int k, int start) {
@@ -108,6 +117,24 @@ public abstract class BlockContainerPrimal extends BlockContainer implements IPr
             spawnEntity(world, entityItem);
             item.stackSize = 0;
         }
+    }
+
+    public void setFacingTileEntity(World worldIn, int x, int y, int z, int facing) {
+        TileEntity te = createFacingTileEntity(facing, 0);
+        if (te != null) {
+            worldIn.setTileEntity(x, y, z, te);
+        }
+    }
+
+    public void setFacingTileEntity(World worldIn, int x, int y, int z, int facing, int axis) {
+        TileEntity te = createFacingTileEntity(facing, axis);
+        if (te != null) {
+            worldIn.setTileEntity(x, y, z, te);
+        }
+    }
+
+    public TileEntity createFacingTileEntity(int facingMeta, int axisMeta) {
+        return null;
     }
 
     public void spawnEntity(World world, Entity entityItem) {

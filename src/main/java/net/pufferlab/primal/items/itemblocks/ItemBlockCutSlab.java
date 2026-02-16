@@ -4,14 +4,10 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.BlockCutSlab;
-import net.pufferlab.primal.network.packets.PacketCutMaterial;
-import net.pufferlab.primal.tileentities.TileEntityCut;
-import net.pufferlab.primal.tileentities.TileEntityCutDouble;
 import net.pufferlab.primal.utils.CutUtils;
 
 public class ItemBlockCutSlab extends ItemBlock {
@@ -75,7 +71,7 @@ public class ItemBlockCutSlab extends ItemBlock {
             if ((side == 1 && !flag || side == 0 && flag) && materialID == stack.getItemDamage()) {
                 if (world.checkNoEntityCollision(this.fullBlock.getCollisionBoundingBoxFromPool(world, x, y, z))
                     && world.setBlock(x, y, z, this.fullBlock, 0, 3)) {
-                    sendMaterialPacket(x, y, z, stack.getItemDamage());
+                    Primal.proxy.packet.sendMaterialPacket(world, x, y, z, field_150939_a, stack.getItemDamage());
                     world.playSoundEffect(
                         (double) ((float) x + 0.5F),
                         (double) ((float) y + 0.5F),
@@ -91,10 +87,12 @@ public class ItemBlockCutSlab extends ItemBlock {
                 if (world.checkNoEntityCollision(this.fullBlock.getCollisionBoundingBoxFromPool(world, x, y, z))
                     && world.setBlock(x, y, z, this.fullBlock, 1, 3)) {
                     if (i1 == 0) {
-                        sendMaterialPacket(x, y, z, materialID, stack.getItemDamage());
+                        Primal.proxy.packet
+                            .sendMaterialPacket(world, x, y, z, field_150939_a, materialID, stack.getItemDamage());
                     }
                     if (i1 == 8) {
-                        sendMaterialPacket(x, y, z, stack.getItemDamage(), materialID);
+                        Primal.proxy.packet
+                            .sendMaterialPacket(world, x, y, z, field_150939_a, stack.getItemDamage(), materialID);
                     }
                     world.playSoundEffect(
                         (double) ((float) x + 0.5F),
@@ -125,10 +123,12 @@ public class ItemBlockCutSlab extends ItemBlock {
         if (world.getBlock(x, y, z) == field_150939_a) {
             field_150939_a.onBlockPlacedBy(world, x, y, z, player, stack);
             field_150939_a.onPostBlockPlaced(world, x, y, z, metadata);
-            sendMaterialPacket(
+            Primal.proxy.packet.sendMaterialPacket(
+                world,
                 x,
                 y,
                 z,
+                field_150939_a,
                 player.getHeldItem()
                     .getItemDamage());
         }
@@ -221,7 +221,7 @@ public class ItemBlockCutSlab extends ItemBlock {
         if (materialID == stack.getItemDamage()) {
             if (world.checkNoEntityCollision(this.fullBlock.getCollisionBoundingBoxFromPool(world, x, y, z))
                 && world.setBlock(x, y, z, this.fullBlock, 0, 3)) {
-                sendMaterialPacket(x, y, z, stack.getItemDamage());
+                Primal.proxy.packet.sendMaterialPacket(world, x, y, z, field_150939_a, stack.getItemDamage());
                 world.playSoundEffect(
                     (double) ((float) x + 0.5F),
                     (double) ((float) y + 0.5F),
@@ -236,10 +236,12 @@ public class ItemBlockCutSlab extends ItemBlock {
             if (world.checkNoEntityCollision(this.fullBlock.getCollisionBoundingBoxFromPool(world, x, y, z))
                 && world.setBlock(x, y, z, this.fullBlock, 1, 3)) {
                 if (i1 == 0) {
-                    sendMaterialPacket(x, y, z, materialID, stack.getItemDamage());
+                    Primal.proxy.packet
+                        .sendMaterialPacket(world, x, y, z, field_150939_a, materialID, stack.getItemDamage());
                 }
                 if (i1 == 8) {
-                    sendMaterialPacket(x, y, z, stack.getItemDamage(), materialID);
+                    Primal.proxy.packet
+                        .sendMaterialPacket(world, x, y, z, field_150939_a, stack.getItemDamage(), materialID);
                 }
                 world.playSoundEffect(
                     (double) ((float) x + 0.5F),
@@ -253,31 +255,6 @@ public class ItemBlockCutSlab extends ItemBlock {
             return true;
         } else {
             return false;
-        }
-    }
-
-    public void sendMaterialPacket(int x, int y, int z, int material) {
-        if (Primal.proxy.getClientWorld().isRemote) {
-            TileEntity te = Primal.proxy.getClientWorld()
-                .getTileEntity(x, y, z);
-            if (te instanceof TileEntityCut tef) {
-                tef.setMaterialMeta(material);
-            }
-            Primal.proxy.sendPacketToServer(new PacketCutMaterial(x, y, z, material));
-        }
-    }
-
-    public void sendMaterialPacket(int x, int y, int z, int material, int material2) {
-        if (Primal.proxy.getClientWorld().isRemote) {
-            TileEntity te = Primal.proxy.getClientWorld()
-                .getTileEntity(x, y, z);
-            if (te instanceof TileEntityCut tef) {
-                tef.setMaterialMeta(material);
-            }
-            if (te instanceof TileEntityCutDouble tef) {
-                tef.setMaterialMeta2(material2);
-            }
-            Primal.proxy.sendPacketToServer(new PacketCutMaterial(x, y, z, material, material2));
         }
     }
 }

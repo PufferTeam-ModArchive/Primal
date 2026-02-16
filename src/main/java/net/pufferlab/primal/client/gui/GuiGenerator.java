@@ -3,7 +3,6 @@ package net.pufferlab.primal.client.gui;
 import net.minecraft.client.gui.GuiButton;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.inventory.ContainerGenerator;
-import net.pufferlab.primal.network.packets.PacketSpeedButton;
 import net.pufferlab.primal.tileentities.TileEntityGenerator;
 
 import org.lwjgl.opengl.GL11;
@@ -40,17 +39,11 @@ public class GuiGenerator extends GuiContainerPrimal {
     protected void actionPerformed(GuiButton button) {
         switch (button.id) {
             case addButtonID:
-                sendSpeedPacket(true);
+                Primal.proxy.packet.sendSpeedButtonPacket(this.te, true, isShiftKeyDown());
                 break;
             case removeButtonID:
-                sendSpeedPacket(false);
+                Primal.proxy.packet.sendSpeedButtonPacket(this.te, false, isShiftKeyDown());
                 break;
-        }
-    }
-
-    public void sendSpeedPacket(boolean addSpeed) {
-        if (Primal.proxy.getClientWorld().isRemote) {
-            Primal.proxy.sendPacketToServer(new PacketSpeedButton(te, addSpeed, isShiftKeyDown()));
         }
     }
 

@@ -110,6 +110,11 @@ public class BlockAxle extends BlockMotion {
     }
 
     @Override
+    public TileEntity createFacingTileEntity(int facingMeta, int axisMeta) {
+        return new TileEntityAxle(facingMeta, axisMeta);
+    }
+
+    @Override
     public String getUnlocalizedName() {
         return "tile." + Primal.MODID + ".axle";
     }

@@ -1,10 +1,18 @@
 package net.pufferlab.primal.tileentities;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 
 public class TileEntityCut extends TileEntityPrimal {
 
     public short materialMeta = -1;
+
+    public TileEntityCut() {}
+
+    public TileEntityCut(World world, int x, int y, int z, int material) {
+        super(world, x, y, z);
+        setMaterialMeta(material);
+    }
 
     @Override
     public void writeToNBT(NBTTagCompound compound) {

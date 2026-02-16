@@ -110,6 +110,17 @@ public class BlockCutStairs extends BlockStairs implements ITileEntityProvider, 
         return null;
     }
 
+    public void setCutTileEntity(World worldIn, int x, int y, int z, int material) {
+        TileEntity te = createCutTileEntity(worldIn, x, y, z, material);
+        if (te != null) {
+            worldIn.setTileEntity(x, y, z, te);
+        }
+    }
+
+    public TileEntity createCutTileEntity(World world, int x, int y, int z, int material) {
+        return new TileEntityCut(world, x, y, z, material);
+    }
+
     @Override
     public void onBlockAdded(World worldIn, int x, int y, int z) {
         super.onBlockAdded(worldIn, x, y, z);

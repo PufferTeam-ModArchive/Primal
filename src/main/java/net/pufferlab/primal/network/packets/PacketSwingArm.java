@@ -31,7 +31,7 @@ public class PacketSwingArm implements IMessage, IMessageHandler<PacketSwingArm,
 
     @Override
     public IMessage onMessage(PacketSwingArm msg, MessageContext ctx) {
-        World world = Primal.proxy.getClientWorld();
+        World world = Primal.proxy.getWorld(ctx);
         EntityPlayer player = (EntityPlayer) world.getEntityByID(msg.playerEntityId);
         if (player != null) {
             player.swingItem();

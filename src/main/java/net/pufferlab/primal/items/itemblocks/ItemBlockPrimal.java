@@ -6,6 +6,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.BlockBarrel;
 import net.pufferlab.primal.blocks.BlockContainerPrimal;
 import net.pufferlab.primal.blocks.BlockLargeVessel;
@@ -135,6 +136,7 @@ public class ItemBlockPrimal extends ItemBlock {
         if (field_150939_a instanceof BlockContainerPrimal block) {
             block.onBlockSidePlacedBy(world, x, y, z, player, stack, side);
         }
+        Primal.proxy.packet.sendChunkUpdate(world);
     }
 
     public boolean cancelPlacement(ItemStack stack) {

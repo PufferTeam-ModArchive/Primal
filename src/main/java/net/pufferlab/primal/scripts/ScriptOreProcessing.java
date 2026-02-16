@@ -11,8 +11,11 @@ import net.pufferlab.primal.utils.OreType;
 
 public class ScriptOreProcessing implements IScript {
 
-    public void run() {
+    public void runEarly() {
         addOreDicts();
+    }
+
+    public void run() {
         addCraftingRecipes();
         addToolRecipes();
         addAnvilRecipes();

@@ -7,6 +7,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.pufferlab.primal.inventory.*;
+import net.pufferlab.primal.network.NetworkPacket;
 import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.tileentities.TileEntityAnvil;
 import net.pufferlab.primal.tileentities.TileEntityCrucible;
@@ -25,6 +26,7 @@ import cpw.mods.fml.relauncher.Side;
 public class CommonProxy implements IGuiHandler {
 
     public MinecraftServer server;
+    public final NetworkPacket packet = new NetworkPacket();
 
     public final int largeVesselGuiID = 0;
     public final int crucibleGuiID = 1;
@@ -93,6 +95,16 @@ public class CommonProxy implements IGuiHandler {
         }
         if (ctx.side == Side.CLIENT) {
             return getClientWorld();
+        }
+        return null;
+    }
+
+    public EntityPlayer getPlayer(MessageContext ctx) {
+        if (ctx.side == Side.SERVER) {
+            return ctx.getServerHandler().playerEntity;
+        }
+        if (ctx.side == Side.CLIENT) {
+            return getClientPlayer();
         }
         return null;
     }

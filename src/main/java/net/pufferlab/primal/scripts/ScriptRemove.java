@@ -22,7 +22,7 @@ public class ScriptRemove implements IScript {
     public static final String[] itemsToRemoveSmelting = new String[] { "minecraft:brick:0:*", "minecraft:coal:1:*",
         "minecraft:hardened_clay:1:*" };
 
-    public void run() {
+    public void runEarly() {
         updateList();
         removeRecipes();
     }

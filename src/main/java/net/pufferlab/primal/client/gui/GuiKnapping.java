@@ -5,7 +5,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.inventory.ContainerKnapping;
-import net.pufferlab.primal.network.packets.PacketKnappingClick;
 
 import org.lwjgl.opengl.GL11;
 
@@ -76,15 +75,9 @@ public class GuiKnapping extends GuiContainerPrimal {
                 }
                 if (newState) {
                     this.containerKnapping.knappingIcons[clickedX][clickedY] = true;
-                    this.sendKnappingPacket(clickedX, clickedY);
+                    Primal.proxy.packet.sendKnappingPacket(clickedX, clickedY);
                 }
             }
-        }
-    }
-
-    public void sendKnappingPacket(int x, int y) {
-        if (this.containerKnapping.invPlayer.player.worldObj.isRemote) {
-            Primal.proxy.sendPacketToServer(new PacketKnappingClick(x, y));
         }
     }
 

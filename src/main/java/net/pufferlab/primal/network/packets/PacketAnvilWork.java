@@ -46,7 +46,6 @@ public class PacketAnvilWork implements IMessage, IMessageHandler<PacketAnvilWor
         final EntityPlayer player = ctx.getServerHandler().playerEntity;
         TileEntity te = player.worldObj.getTileEntity(msg.x, msg.y, msg.z);
         ItemStack heldItem = player.getHeldItem();
-        Primal.proxy.sendPacketToClient(new PacketSwingArm(player));
         if (te instanceof TileEntityAnvil tef) {
             boolean success = tef.onWorkButtonClick(player.getHeldItem(), msg.button);
             if (success) {
@@ -58,6 +57,7 @@ public class PacketAnvilWork implements IMessage, IMessageHandler<PacketAnvilWor
                 }
             }
         }
+        Primal.proxy.packet.sendSwingPacket(player);
 
         return null;
     }

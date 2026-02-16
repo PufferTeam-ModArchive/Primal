@@ -13,6 +13,12 @@ public class TileEntityAxle extends TileEntityMotion {
     public boolean hasGearNeg;
     public boolean hasBracket;
 
+    public TileEntityAxle() {}
+
+    public TileEntityAxle(int facingMeta, int axisMeta) {
+        super(facingMeta, axisMeta);
+    }
+
     @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);

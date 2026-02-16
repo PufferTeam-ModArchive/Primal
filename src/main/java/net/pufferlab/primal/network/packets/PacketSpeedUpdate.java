@@ -52,7 +52,7 @@ public class PacketSpeedUpdate implements IMessage, IMessageHandler<PacketSpeedU
 
     @Override
     public IMessage onMessage(PacketSpeedUpdate message, MessageContext ctx) {
-        World world = Primal.proxy.getClientWorld();
+        World world = Primal.proxy.getWorld(ctx);
         if (world == null) return null;
 
         TileEntity tile = world.getTileEntity(message.x, message.y, message.z);

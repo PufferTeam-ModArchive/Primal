@@ -148,9 +148,9 @@ public enum Config {
     public boolean isInt;
     public boolean isFloat;
     public boolean isStringList;
-    String name;
-    String category;
-    String comment;
+    public final String name;
+    public final String category;
+    public final String comment;
 
     boolean bValue;
     boolean bDefault;

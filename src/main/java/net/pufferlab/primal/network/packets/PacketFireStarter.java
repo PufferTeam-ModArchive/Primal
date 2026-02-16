@@ -39,7 +39,7 @@ public class PacketFireStarter implements IMessage, IMessageHandler<PacketFireSt
 
     @Override
     public IMessage onMessage(PacketFireStarter msg, MessageContext ctx) {
-        World world = Primal.proxy.getClientWorld();
+        World world = Primal.proxy.getWorld(ctx);
         EntityPlayer player = (EntityPlayer) world.getEntityByID(msg.playerEntityId);
         MovingObjectPosition mop = FacingUtils.getMovingObjectPositionFromPlayer(world, player, false);
         if (mop != null) {

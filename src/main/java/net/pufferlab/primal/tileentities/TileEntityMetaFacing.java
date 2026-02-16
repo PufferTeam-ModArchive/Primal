@@ -7,6 +7,17 @@ public class TileEntityMetaFacing extends TileEntityPrimal {
     public int facingMeta = 2;
     public int axisMeta = 0;
 
+    public TileEntityMetaFacing() {}
+
+    public TileEntityMetaFacing(int facingMeta) {
+        setFacingMeta(facingMeta);
+    }
+
+    public TileEntityMetaFacing(int facingMeta, int axisMeta) {
+        setFacingMeta(facingMeta);
+        setAxisMeta(axisMeta);
+    }
+
     @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
