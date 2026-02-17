@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockSlab;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,16 +17,16 @@ import net.minecraft.world.World;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
-import net.pufferlab.primal.items.itemblocks.ItemBlockCutSlab;
+import net.pufferlab.primal.items.itemblocks.ItemBlockCutSlabVertical;
 import net.pufferlab.primal.tileentities.TileEntityCut;
 import net.pufferlab.primal.tileentities.TileEntityCutDouble;
 import net.pufferlab.primal.utils.CutUtils;
 
-public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPrimalBlock {
+public class BlockCutSlabVertical extends BlockSlabVertical implements ITileEntityProvider, IPrimalBlock {
 
     private final Block field_150149_b;
 
-    public BlockCutSlab(Block block, boolean p_i45431_1_) {
+    public BlockCutSlabVertical(Block block, boolean p_i45431_1_) {
         super(p_i45431_1_, block.getMaterial());
         this.field_150149_b = block;
         this.setHardness(block.blockHardness);
@@ -45,7 +44,7 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
     @Override
     public IIcon getIcon(IBlockAccess worldIn, int x, int y, int z, int side) {
         int meta = worldIn.getBlockMetadata(x, y, z);
-        if (meta == 1) {
+        if (field_150004_a && (meta == 2 || meta == 3)) {
             if (side == 0 || side == 2 || side == 4) {
                 int materialMeta = getMaterialMeta(worldIn, x, y, z);
                 return CutUtils.getIcon(side, materialMeta);
@@ -89,14 +88,6 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
         return false;
     }
 
-    @Override
-    public int onBlockPlaced(World worldIn, int x, int y, int z, int side, float subX, float subY, float subZ,
-        int meta) {
-        meta = 0;
-        return this.field_150004_a ? meta : (side != 0 && (side == 1 || (double) subY <= 0.5D) ? meta : meta | 8);
-    }
-
-    @Override
     public String func_150002_b(int id) {
         return CutUtils.getUnlocalizedName(id) + "_slab";
     }
@@ -116,7 +107,7 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
 
     @Override
     public Class<? extends ItemBlock> getItemBlockClass() {
-        return ItemBlockCutSlab.class;
+        return ItemBlockCutSlabVertical.class;
     }
 
     @Override
@@ -139,7 +130,7 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
 
     @Override
     public int getRenderType() {
-        return Primal.proxy.getSlabRenderID();
+        return Primal.proxy.getVerticalSlabRenderID();
     }
 
     @Override
@@ -156,19 +147,19 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
     public void onBlockHarvested(World worldIn, int x, int y, int z, int meta, EntityPlayer player) {
         if (player.capabilities.isCreativeMode) return;
         if (field_150004_a) {
-            if (meta == 1) {
+            if (meta == 2 || meta == 3) {
                 dropBlockAsItem(
                     worldIn,
                     x,
                     y,
                     z,
-                    new ItemStack(Registry.stone_slab, 1, getDamageValue(worldIn, x, y, z)));
+                    new ItemStack(Registry.vertical_stone_slab, 1, getDamageValue(worldIn, x, y, z)));
                 dropBlockAsItem(
                     worldIn,
                     x,
                     y,
                     z,
-                    new ItemStack(Registry.stone_slab, 1, getMaterialMeta2(worldIn, x, y, z)));
+                    new ItemStack(Registry.vertical_stone_slab, 1, getMaterialMeta2(worldIn, x, y, z)));
             } else {
                 dropBlockAsItem(
                     worldIn,
@@ -227,7 +218,7 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
 
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
-        if (meta == 1) {
+        if (field_150004_a && (meta == 2 || meta == 3)) {
             return new TileEntityCutDouble();
         }
         return new TileEntityCut();

@@ -7,6 +7,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.BlockCutSlab;
+import net.pufferlab.primal.blocks.BlockCutSlabVertical;
 import net.pufferlab.primal.blocks.BlockCutStairs;
 import net.pufferlab.primal.network.packets.*;
 import net.pufferlab.primal.tileentities.*;
@@ -19,6 +20,9 @@ public class NetworkPacket {
         }
         TileEntity te = world.getTileEntity(x, y, z);
         if (block instanceof BlockCutSlab block2) {
+            block2.setCutTileEntity(world, x, y, z, material, material2);
+        }
+        if (block instanceof BlockCutSlabVertical block2) {
             block2.setCutTileEntity(world, x, y, z, material, material2);
         }
         if (te instanceof TileEntityCut tef) {
@@ -38,7 +42,10 @@ public class NetworkPacket {
             block2.setCutTileEntity(world, x, y, z, material);
         }
         if (block instanceof BlockCutSlab block2) {
-            block2.setCutTileEntity(world, x, y, z, material, 0);
+            block2.setCutTileEntity(world, x, y, z, material, -1);
+        }
+        if (block instanceof BlockCutSlabVertical block2) {
+            block2.setCutTileEntity(world, x, y, z, material, -1);
         }
         if (te instanceof TileEntityCut tef) {
             tef.setMaterialMeta(material);

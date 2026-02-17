@@ -33,6 +33,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 public class ClientProxy extends CommonProxy {
 
     private int slabRenderID;
+    private int verticalSlabRenderID;
     private int stairsRenderID;
     private int grassRenderID;
     private int pathRenderID;
@@ -60,6 +61,7 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void setupRenders() {
         slabRenderID = getNextId();
+        verticalSlabRenderID = getNextId();
         stairsRenderID = getNextId();
         grassRenderID = getNextId();
         pathRenderID = getNextId();
@@ -85,6 +87,7 @@ public class ClientProxy extends CommonProxy {
         anvilRenderID = getNextId();
 
         register(new BlockSlabRenderer());
+        register(new BlockSlabVerticalRenderer());
         register(new BlockStairsRenderer());
         register(new BlockGrassRenderer());
         register(new BlockPathRenderer());
@@ -282,6 +285,11 @@ public class ClientProxy extends CommonProxy {
     @Override
     public int getSlabRenderID() {
         return slabRenderID;
+    }
+
+    @Override
+    public int getVerticalSlabRenderID() {
+        return verticalSlabRenderID;
     }
 
     @Override

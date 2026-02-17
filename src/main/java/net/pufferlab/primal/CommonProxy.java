@@ -155,6 +155,10 @@ public class CommonProxy implements IGuiHandler {
         return 0;
     }
 
+    public int getVerticalSlabRenderID() {
+        return 0;
+    }
+
     public int getStairsRenderID() {
         return 0;
     }

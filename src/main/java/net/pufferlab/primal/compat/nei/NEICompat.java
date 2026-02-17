@@ -35,6 +35,7 @@ public class NEICompat implements IConfigureNEI {
     public void loadHandlersGTNH() {
         API.hideItem(Primal.MODID + ":icon");
         API.hideItem(Primal.MODID + ":double_stone_slab");
+        API.hideItem(Primal.MODID + ":double_vertical_stone_slab");
         loadGTNHIMC();
     }
 

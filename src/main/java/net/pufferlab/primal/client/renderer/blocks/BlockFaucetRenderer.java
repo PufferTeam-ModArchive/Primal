@@ -33,6 +33,7 @@ public class BlockFaucetRenderer extends BlockPrimalRenderer {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
+        // spotless:off
         Tessellator tess = Tessellator.instance;
         dumpVertices(tess, x, y, z);
         int renderPass = ForgeHooksClient.getWorldRenderPass();
@@ -68,21 +69,7 @@ public class BlockFaucetRenderer extends BlockPrimalRenderer {
             modelValve.setFacing(meta);
             modelFluid.setFacing(meta);
             if (renderPass == 1 && tef.isOpen == true && tef.getInputTile() != null && tef.getExtractTile() != null) {
-                modelFluid.render(
-                    renderer,
-                    tess,
-                    x,
-                    y,
-                    z,
-                    stack,
-                    0.375,
-                    -0.8F * tef.flowLevel,
-                    0.375,
-                    0.625,
-                    0.125F,
-                    0.625,
-                    true,
-                    true);
+                modelFluid.render(renderer, tess, x, y, z, stack, 0.375, -0.8F * tef.flowLevel, 0.375, 0.625, 0.125F, 0.625, true, true);
             }
             if (renderPass == 0) {
                 modelFaucet.render(renderer, tess, block, x, y, z, iconFaucet);
@@ -90,6 +77,7 @@ public class BlockFaucetRenderer extends BlockPrimalRenderer {
             }
         }
         return true;
+        // spotless:on
     }
 
     @Override

@@ -58,6 +58,8 @@ public class Registry {
     public static final Block smooth;
     public static final Block stone_slab;
     public static final Block double_stone_slab;
+    public static final Block vertical_stone_slab;
+    public static final Block double_vertical_stone_slab;
     public static final Block stone_stairs;
     public static final Block gravel;
     public static final Block sand;
@@ -194,6 +196,8 @@ public class Registry {
         stone_slab = new BlockCutSlab(stone, false);
         double_stone_slab = new BlockCutSlab(stone, true);
         stone_stairs = new BlockCutStairs(stone);
+        vertical_stone_slab = new BlockCutSlabVertical(stone, false);
+        double_vertical_stone_slab = new BlockCutSlabVertical(stone, true);
 
         gravel = new BlockStoneGravel(Constants.stoneTypes, "gravel");
         sand = new BlockStoneSand(Constants.stoneTypes, "sand");
@@ -339,6 +343,7 @@ public class Registry {
     }
 
     public void setup() {
+        // spotless:off
         register(thatch, "thatch");
         register(thatch_roof, "thatch_roof");
         register(stone, "stone");
@@ -349,6 +354,8 @@ public class Registry {
 
         register(stone_slab, "stone_slab", stone_slab, double_stone_slab, false);
         register(double_stone_slab, "double_stone_slab", stone_slab, double_stone_slab, true);
+        register(vertical_stone_slab, "vertical_stone_slab", vertical_stone_slab, double_vertical_stone_slab, false);
+        register(double_vertical_stone_slab, "double_vertical_stone_slab", vertical_stone_slab, double_vertical_stone_slab, true);
         register(stone_stairs, "stone_stairs");
 
         register(gravel, "gravel");
@@ -472,6 +479,7 @@ public class Registry {
         register(bucket, "bucket");
         register(ceramic_bucket, "ceramic_bucket");
         register(ceramic_bucket_modded, "ceramic_bucket_modded");
+        // spotless:on
     }
 
     public void setupTiles() {

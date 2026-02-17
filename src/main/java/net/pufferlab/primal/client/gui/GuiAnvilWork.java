@@ -97,7 +97,6 @@ public class GuiAnvilWork extends GuiContainerPrimal {
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
-    @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 

@@ -32,6 +32,7 @@ public class BlockCastRenderer extends BlockPrimalRenderer {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
+        // spotless:off
         Tessellator tess = Tessellator.instance;
         dumpVertices(tess, x, y, z);
         TileEntity te = world.getTileEntity(x, y, z);
@@ -40,30 +41,16 @@ public class BlockCastRenderer extends BlockPrimalRenderer {
             FluidStack stack = tef.getFluidStack();
             float height = tef.getFillLevel(0.0625F, 0.125F);
             if (renderPass == 1) {
-                modelFluid.render(
-                    renderer,
-                    tess,
-                    x,
-                    y,
-                    z,
-                    stack,
-                    0.1875F,
-                    0.0625F,
-                    0.1875F,
-                    0.8125F,
-                    height,
-                    0.8125F,
-                    false,
-                    false);
+                modelFluid.render(renderer, tess, x, y, z, stack, 0.1875F, 0.0625F, 0.1875F, 0.8125F, height, 0.8125F, false, false);
             } else if (renderPass == 0) {
                 modelMold.render(renderer, tess, block, x, y, z, iconCast);
 
                 modelItem.bb_main.rotateAngleX = (float) Math.PI / 2;
-                modelItem
-                    .renderItem(renderer, tess, block, x, y, z, -0.425D, 0.0822D, -0.425D, tef.castIndex + 100, 0.85F);
+                modelItem.renderItem(renderer, tess, block, x, y, z, -0.425D, 0.0822D, -0.425D, tef.castIndex + 100, 0.85F);
             }
         }
         return true;
+        // spotless:on
     }
 
     @Override

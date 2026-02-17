@@ -58,7 +58,7 @@ public abstract class BlockContainerPrimal extends BlockContainer implements IPr
     }
 
     public boolean createTileOnPlace() {
-        return true;
+        return false;
     }
 
     public void dropItems(World world, int i, int j, int k, int start) {

@@ -8,23 +8,24 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.blocks.BlockCutSlab;
+import net.pufferlab.primal.blocks.BlockCutSlabVertical;
 import net.pufferlab.primal.utils.CutUtils;
 import net.pufferlab.primal.utils.FacingUtils;
 
-public class ItemBlockCutSlab extends ItemBlock {
+public class ItemBlockCutSlabVertical extends ItemBlock {
 
     private final boolean isFull;
-    private final BlockCutSlab slabBlock;
-    private final BlockCutSlab fullBlock;
+    private final BlockCutSlabVertical slabBlock;
+    private final BlockCutSlabVertical fullBlock;
 
-    public ItemBlockCutSlab(Block block, BlockCutSlab blockSlab, BlockCutSlab blockFullSlab, Boolean isFull) {
+    public ItemBlockCutSlabVertical(Block block, BlockCutSlabVertical blockSlab, BlockCutSlabVertical blockFullSlab,
+        Boolean isFull) {
         super(block);
-        this.slabBlock = (BlockCutSlab) blockSlab;
-        this.fullBlock = (BlockCutSlab) blockFullSlab;
+        this.slabBlock = (BlockCutSlabVertical) blockSlab;
+        this.fullBlock = (BlockCutSlabVertical) blockFullSlab;
         this.isFull = isFull;
-        this.setMaxDamage(0);
         this.setHasSubtypes(true);
+        this.setMaxDamage(0);
     }
 
     @Override
@@ -34,20 +35,10 @@ public class ItemBlockCutSlab extends ItemBlock {
 
     @Override
     public String getUnlocalizedName(ItemStack stack) {
-        if (field_150939_a instanceof BlockCutSlab block2) {
+        if (field_150939_a instanceof BlockCutSlabVertical block2) {
             return block2.func_150002_b(stack.getItemDamage());
         }
         return null;
-    }
-
-    @Override
-    public IIcon getIconFromDamage(int id) {
-        return CutUtils.getIcon(2, id);
-    }
-
-    @Override
-    public int getMetadata(int meta) {
-        return meta;
     }
 
     @Override
@@ -60,29 +51,35 @@ public class ItemBlockCutSlab extends ItemBlock {
             int i1 = world.getBlockMetadata(x, y, z);
             int materialID = -1;
             if (block == this.slabBlock) {
-                if (block instanceof BlockCutSlab block2) {
+                if (block instanceof BlockCutSlabVertical block2) {
                     materialID = block2.getMaterialMeta(world, x, y, z);
                 }
             }
-            boolean flag = (i1 & 8) != 0;
 
-            if ((side == 1 && !flag || side == 0 && flag) && materialID == stack.getItemDamage()) {
+            boolean b = (side == 5 && i1 == 1) || (side == 2 && i1 == 2)
+                || (side == 4 && i1 == 0)
+                || (side == 3 && i1 == 3);
+            int num = 0;
+            if (i1 == 2 || i1 == 3) {
+                num = 1;
+            }
+            if (b && materialID == stack.getItemDamage()) {
                 if (world.checkNoEntityCollision(this.fullBlock.getCollisionBoundingBoxFromPool(world, x, y, z))
-                    && world.setBlock(x, y, z, this.fullBlock, 0, 3)) {
+                    && world.setBlock(x, y, z, this.fullBlock, num, 3)) {
                     Primal.proxy.packet.sendMaterialPacket(world, x, y, z, field_150939_a, stack.getItemDamage());
                     Utils.playSound(world, x, y, z, this.fullBlock);
                     --stack.stackSize;
                     return true;
                 }
                 return false;
-            } else if ((side == 1 && !flag || side == 0 && flag) && block == slabBlock) {
+            } else if (b && block == slabBlock) {
                 if (world.checkNoEntityCollision(this.fullBlock.getCollisionBoundingBoxFromPool(world, x, y, z))
-                    && world.setBlock(x, y, z, this.fullBlock, 1, 3)) {
-                    if (i1 == 0) {
+                    && world.setBlock(x, y, z, this.fullBlock, num + 2, 3)) {
+                    if (i1 == 1 || i1 == 3) {
                         Primal.proxy.packet
                             .sendMaterialPacket(world, x, y, z, field_150939_a, materialID, stack.getItemDamage());
                     }
-                    if (i1 == 8) {
+                    if (i1 == 2 || i1 == 0) {
                         Primal.proxy.packet
                             .sendMaterialPacket(world, x, y, z, field_150939_a, stack.getItemDamage(), materialID);
                     }
@@ -145,14 +142,18 @@ public class ItemBlockCutSlab extends ItemBlock {
         int i1 = world.getBlockMetadata(x, y, z);
         int materialID = -1;
         if (block == this.slabBlock) {
-            if (block instanceof BlockCutSlab block2) {
+            if (block instanceof BlockCutSlabVertical block2) {
                 materialID = block2.getMaterialMeta(world, x, y, z);
             }
         }
 
+        int num = 0;
+        if (i1 == 2 || i1 == 3) {
+            num = 1;
+        }
         if (materialID == stack.getItemDamage()) {
             if (world.checkNoEntityCollision(this.fullBlock.getCollisionBoundingBoxFromPool(world, x, y, z))
-                && world.setBlock(x, y, z, this.fullBlock, 0, 3)) {
+                && world.setBlock(x, y, z, this.fullBlock, num, 3)) {
                 Primal.proxy.packet.sendMaterialPacket(world, x, y, z, field_150939_a, stack.getItemDamage());
                 Utils.playSound(world, x, y, z, this.fullBlock);
                 --stack.stackSize;
@@ -160,12 +161,12 @@ public class ItemBlockCutSlab extends ItemBlock {
             return true;
         } else if (block == slabBlock) {
             if (world.checkNoEntityCollision(this.fullBlock.getCollisionBoundingBoxFromPool(world, x, y, z))
-                && world.setBlock(x, y, z, this.fullBlock, 1, 3)) {
-                if (i1 == 0) {
+                && world.setBlock(x, y, z, this.fullBlock, num + 2, 3)) {
+                if (i1 == 1 || i1 == 3) {
                     Primal.proxy.packet
                         .sendMaterialPacket(world, x, y, z, field_150939_a, materialID, stack.getItemDamage());
                 }
-                if (i1 == 8) {
+                if (i1 == 2 || i1 == 0) {
                     Primal.proxy.packet
                         .sendMaterialPacket(world, x, y, z, field_150939_a, stack.getItemDamage(), materialID);
                 }
@@ -177,4 +178,10 @@ public class ItemBlockCutSlab extends ItemBlock {
             return false;
         }
     }
+
+    @Override
+    public IIcon getIconFromDamage(int id) {
+        return CutUtils.getIcon(2, id);
+    }
+
 }

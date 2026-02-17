@@ -26,6 +26,7 @@ public class BlockCrucibleRenderer extends BlockPrimalRenderer {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
+        // spotless:off
         Tessellator tess = Tessellator.instance;
         dumpVertices(tess, x, y, z);
         TileEntity te = world.getTileEntity(x, y, z);
