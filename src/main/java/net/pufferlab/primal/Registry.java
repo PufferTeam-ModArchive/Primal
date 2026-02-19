@@ -789,8 +789,7 @@ public class Registry {
         if (command instanceof ISubCommand command2) {
             CommandPrimal.registerSubCommand(command2);
         } else {
-            CommandHandler ch = (CommandHandler) Primal.proxy.getServer()
-                .getCommandManager();
+            CommandHandler ch = Primal.proxy.getCommandHandler();
             ch.registerCommand(command);
         }
     }

@@ -1,6 +1,7 @@
 package net.pufferlab.primal;
 
 import net.minecraft.block.Block;
+import net.minecraft.command.CommandHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
@@ -79,6 +80,10 @@ public class CommonProxy implements IGuiHandler {
 
     public MinecraftServer getServer() {
         return server;
+    }
+
+    public CommandHandler getCommandHandler() {
+        return (CommandHandler) getServer().getCommandManager();
     }
 
     public World getOverworld() {

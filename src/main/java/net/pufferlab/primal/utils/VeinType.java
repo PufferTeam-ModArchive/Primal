@@ -106,22 +106,14 @@ public class VeinType {
     }
 
     public static void genVeinCache(VeinType[] stoneTypes) {
-        for (int i = Constants.minHeight; i < Constants.maxHeight; i++) {
-            List<VeinType> cacheStone = new ArrayList<>(stoneTypes.length);
-
-            for (VeinType stone : stoneTypes) {
-                if (stone.canGenerate(i)) {
-                    cacheStone.add(stone);
-                }
-            }
-
-            if (!cacheStone.isEmpty()) {
-                veinLayerCache.put(i, cacheStone.toArray(new VeinType[0]));
-            }
-        }
+        gen(stoneTypes, veinLayerCache);
     }
 
     public static void genTcVeinCache(VeinType[] stoneTypes) {
+        gen(stoneTypes, tcVeinLayerCache);
+    }
+
+    private static void gen(VeinType[] stoneTypes, TIntObjectMap<VeinType[]> tcVeinLayerCache) {
         for (int i = Constants.minHeight; i < Constants.maxHeight; i++) {
             List<VeinType> cacheStone = new ArrayList<>(stoneTypes.length);
 
