@@ -11,7 +11,7 @@ import java.util.Map;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.recipes.PitKilnRecipe;
 
 import org.lwjgl.opengl.GL11;

@@ -6,7 +6,6 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import net.pufferlab.primal.Mods;
-import net.pufferlab.primal.Utils;
 
 public class FluidUtils {
 

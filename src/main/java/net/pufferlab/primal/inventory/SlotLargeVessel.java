@@ -3,7 +3,7 @@ package net.pufferlab.primal.inventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.tileentities.TileEntityLargeVessel;
 
 public class SlotLargeVessel extends Slot {

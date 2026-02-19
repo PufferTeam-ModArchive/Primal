@@ -5,7 +5,7 @@ import java.util.*;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.Utils;
 
 public class CommandPrimal extends CommandBase {
 

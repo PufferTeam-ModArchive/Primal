@@ -1,7 +1,6 @@
 package net.pufferlab.primal.utils;
 
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
 
 public class StoneCategory {
 

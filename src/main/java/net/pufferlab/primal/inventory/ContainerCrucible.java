@@ -5,7 +5,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.tileentities.TileEntityCrucible;
 
 public class ContainerCrucible extends Container {

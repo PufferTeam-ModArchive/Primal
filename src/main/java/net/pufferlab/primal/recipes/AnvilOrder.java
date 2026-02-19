@@ -1,7 +1,7 @@
 package net.pufferlab.primal.recipes;
 
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.Utils;
 
 public enum AnvilOrder {
 

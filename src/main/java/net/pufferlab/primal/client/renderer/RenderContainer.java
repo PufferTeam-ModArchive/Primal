@@ -1,7 +1,5 @@
 package net.pufferlab.primal.client.renderer;
 
-import java.awt.*;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -13,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.fluids.Fluid;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.items.ItemBucketMeta;
 
 import org.lwjgl.opengl.GL11;

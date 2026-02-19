@@ -8,7 +8,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Constants;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 public class RecipeUtils {

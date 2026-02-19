@@ -8,7 +8,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.Utils;
 
 public class SchedulerData extends WorldSavedData {
 

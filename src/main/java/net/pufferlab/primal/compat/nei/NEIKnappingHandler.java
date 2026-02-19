@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.client.gui.GuiKnapping;
 import net.pufferlab.primal.recipes.KnappingRecipe;
 import net.pufferlab.primal.recipes.KnappingType;

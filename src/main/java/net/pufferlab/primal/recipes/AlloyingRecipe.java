@@ -5,7 +5,7 @@ import java.util.List;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.Utils;
 
 public class AlloyingRecipe {
 

@@ -8,7 +8,7 @@ import java.awt.*;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.utils.MetalType;
 
 import codechicken.lib.gui.GuiDraw;

@@ -1,4 +1,4 @@
-package net.pufferlab.primal;
+package net.pufferlab.primal.utils;
 
 import java.util.*;
 
@@ -12,7 +12,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.oredict.OreDictionary;
-import net.pufferlab.primal.utils.*;
+import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 import cpw.mods.fml.common.FMLCommonHandler;

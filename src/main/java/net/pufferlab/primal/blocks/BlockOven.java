@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.items.itemblocks.ItemBlockPrimal;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
 import net.pufferlab.primal.tileentities.TileEntityOven;

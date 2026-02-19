@@ -10,7 +10,7 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.pufferlab.primal.Constants;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.Utils;
 
 public class TileEntityInventory extends TileEntityMetaFacing implements IInventory, ISidedInventory {
 

@@ -20,6 +20,7 @@ import net.pufferlab.primal.tileentities.IHeatable;
 import net.pufferlab.primal.utils.FluidUtils;
 import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.MetalType;
+import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 import cpw.mods.fml.common.eventhandler.Event;

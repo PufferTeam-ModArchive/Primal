@@ -8,7 +8,6 @@ import java.util.Map;
 import net.minecraft.block.Block;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
 
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;

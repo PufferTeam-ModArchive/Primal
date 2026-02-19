@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.pufferlab.primal.Config;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.blocks.BlockStoneRaw;
 import net.pufferlab.primal.blocks.BlockStoneSand;
 import net.pufferlab.primal.utils.WorldUtils;

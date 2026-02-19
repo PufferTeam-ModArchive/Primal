@@ -12,7 +12,7 @@ import net.minecraft.util.IIcon;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.items.itemblocks.ItemBlockMeta;
 
 import cpw.mods.fml.relauncher.Side;

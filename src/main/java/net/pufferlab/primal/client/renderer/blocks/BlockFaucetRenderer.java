@@ -10,7 +10,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.client.models.ModelFaucet;
 import net.pufferlab.primal.client.models.ModelFluid;
 import net.pufferlab.primal.client.models.ModelValve;

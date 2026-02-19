@@ -6,7 +6,7 @@ import net.minecraft.util.IIcon;
 import net.minecraftforge.fluids.*;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.Utils;
 
 public class ItemBucketCeramic extends ItemBucketMeta implements IFluidContainerItem {
 

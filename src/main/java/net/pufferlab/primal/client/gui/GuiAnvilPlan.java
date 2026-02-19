@@ -8,7 +8,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.inventory.ContainerAnvilPlan;
 import net.pufferlab.primal.inventory.SlotPlan;
 import net.pufferlab.primal.tileentities.TileEntityAnvil;

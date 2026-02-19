@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Mods;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.utils.ItemUtils;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;

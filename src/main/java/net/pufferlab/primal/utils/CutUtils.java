@@ -7,7 +7,6 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.items.IMetaItem;
 
 import gnu.trove.list.TIntList;

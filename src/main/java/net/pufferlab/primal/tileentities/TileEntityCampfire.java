@@ -5,7 +5,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Config;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.recipes.CampfireRecipe;
 import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.world.UpdateTask;

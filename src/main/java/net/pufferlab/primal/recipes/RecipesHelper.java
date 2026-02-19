@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.*;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.Utils;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 

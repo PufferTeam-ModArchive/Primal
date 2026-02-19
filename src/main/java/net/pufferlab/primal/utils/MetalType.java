@@ -10,7 +10,6 @@ import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
 
 public class MetalType {
 

@@ -3,6 +3,7 @@ package net.pufferlab.primal.scripts;
 import net.pufferlab.primal.*;
 import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.utils.ItemUtils;
+import net.pufferlab.primal.utils.Utils;
 
 public class ScriptPrimitive implements IScript {
 
