@@ -1,10 +1,7 @@
 package net.pufferlab.primal.network.packets;
 
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.tileentities.TileEntityCut;
-import net.pufferlab.primal.tileentities.TileEntityCutDouble;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -51,16 +48,9 @@ public class PacketCutMaterial implements IMessage, IMessageHandler<PacketCutMat
     @Override
     public IMessage onMessage(PacketCutMaterial msg, MessageContext ctx) {
         World world = Primal.proxy.getWorld(ctx);
-        TileEntity te = world.getTileEntity(msg.x, msg.y, msg.z);
-        if (te instanceof TileEntityCut tef) {
-            tef.setMaterialMeta(msg.material);
-        }
-        if (te instanceof TileEntityCutDouble tef) {
-            tef.setMaterialMeta2(msg.material2);
-        }
+        Primal.proxy.packet.setMaterial(world, msg.x, msg.y, msg.z, msg.material, msg.material2);
         if (ctx.side == Side.SERVER) {
             Primal.proxy.packet.sendChunkUpdate(world);
-            Primal.proxy.sendPacketToClient(new PacketCutMaterial(msg.x, msg.y, msg.z, msg.material, msg.material2));
         }
         return null;
     }

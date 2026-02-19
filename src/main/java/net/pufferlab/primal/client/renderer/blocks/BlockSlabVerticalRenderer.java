@@ -5,7 +5,7 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Registry;
+import net.pufferlab.primal.blocks.BlockCutSlabVertical;
 import net.pufferlab.primal.tileentities.TileEntityCut;
 import net.pufferlab.primal.tileentities.TileEntityCutDouble;
 
@@ -16,10 +16,12 @@ public class BlockSlabVerticalRenderer extends BlockPrimalRenderer {
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
-        if (block == Registry.double_vertical_stone_slab) {
-            renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-        } else {
-            renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.5F);
+        if (block instanceof BlockCutSlabVertical slab) {
+            if (slab.isFull) {
+                renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+            } else {
+                renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.5F);
+            }
         }
         renderStandardInvBlock(renderer, block, metadata);
     }
@@ -42,6 +44,7 @@ public class BlockSlabVerticalRenderer extends BlockPrimalRenderer {
                     renderer.setOverrideBlockTexture(block.getIcon(world, x, y, z, 1));
                     renderer.setRenderBounds(0.5F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
                     renderer.renderStandardBlock(block, x, y, z);
+
                     renderer.setOverrideBlockTexture(null);
                 } else if (meta == 3) {
                     renderer.setOverrideBlockTexture(block.getIcon(world, x, y, z, 0));

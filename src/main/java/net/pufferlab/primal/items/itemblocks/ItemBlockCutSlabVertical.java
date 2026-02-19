@@ -25,6 +25,10 @@ public class ItemBlockCutSlabVertical extends ItemBlock implements IMetaItem {
         this.slabBlock = (BlockCutSlabVertical) blockSlab;
         this.fullBlock = (BlockCutSlabVertical) blockFullSlab;
         this.isFull = isFull;
+        blockSlab.slabBlock = slabBlock;
+        blockSlab.fullBlock = fullBlock;
+        blockFullSlab.slabBlock = slabBlock;
+        blockFullSlab.fullBlock = fullBlock;
         this.setHasSubtypes(true);
         this.setMaxDamage(0);
     }
@@ -192,7 +196,7 @@ public class ItemBlockCutSlabVertical extends ItemBlock implements IMetaItem {
 
     @Override
     public String getElementName() {
-        if(isFull) {
+        if (isFull) {
             return "double_vertical_slab";
         }
         return "vertical_slab";

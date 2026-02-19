@@ -27,6 +27,10 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
 
     private final Block field_150149_b;
 
+    public Block slabBlock;
+    public Block fullBlock;
+    public boolean isFull;
+
     public BlockCutSlab(Block block, boolean p_i45431_1_) {
         super(p_i45431_1_, block.getMaterial());
         this.field_150149_b = block;
@@ -35,6 +39,7 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
         this.setStepSound(block.stepSound);
         this.isBlockContainer = true;
         this.useNeighborBrightness = true;
+        this.isFull = p_i45431_1_;
     }
 
     @Override
@@ -157,25 +162,10 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
         if (player.capabilities.isCreativeMode) return;
         if (field_150004_a) {
             if (meta == 1) {
-                dropBlockAsItem(
-                    worldIn,
-                    x,
-                    y,
-                    z,
-                    new ItemStack(Registry.stone_slab, 1, getDamageValue(worldIn, x, y, z)));
-                dropBlockAsItem(
-                    worldIn,
-                    x,
-                    y,
-                    z,
-                    new ItemStack(Registry.stone_slab, 1, getMaterialMeta2(worldIn, x, y, z)));
+                dropBlockAsItem(worldIn, x, y, z, new ItemStack(this.slabBlock, 1, getDamageValue(worldIn, x, y, z)));
+                dropBlockAsItem(worldIn, x, y, z, new ItemStack(this.slabBlock, 1, getMaterialMeta2(worldIn, x, y, z)));
             } else {
-                dropBlockAsItem(
-                    worldIn,
-                    x,
-                    y,
-                    z,
-                    new ItemStack(Registry.stone_slab, 2, getDamageValue(worldIn, x, y, z)));
+                dropBlockAsItem(worldIn, x, y, z, new ItemStack(this.slabBlock, 2, getDamageValue(worldIn, x, y, z)));
             }
         } else {
             dropBlockAsItem(worldIn, x, y, z, new ItemStack(this, 1, getDamageValue(worldIn, x, y, z)));

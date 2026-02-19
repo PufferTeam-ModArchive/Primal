@@ -14,17 +14,21 @@ import net.pufferlab.primal.tileentities.*;
 
 public class NetworkPacket {
 
-    public void sendMaterialPacket(World world, int x, int y, int z, Block block, int material, int material2) {
-        if (world.isRemote) {
-            Primal.proxy.sendPacketToServer(new PacketCutMaterial(x, y, z, material, material2));
-        }
-        TileEntity te = world.getTileEntity(x, y, z);
+    public void setMaterialTE(World world, int x, int y, int z, int material, int material2) {
+        Block block = world.getBlock(x, y, z);
         if (block instanceof BlockCutSlab block2) {
             block2.setCutTileEntity(world, x, y, z, material, material2);
         }
         if (block instanceof BlockCutSlabVertical block2) {
             block2.setCutTileEntity(world, x, y, z, material, material2);
         }
+        if (block instanceof BlockCutStairs block2) {
+            block2.setCutTileEntity(world, x, y, z, material);
+        }
+    }
+
+    public void setMaterial(World world, int x, int y, int z, int material, int material2) {
+        TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileEntityCut tef) {
             tef.setMaterialMeta(material);
         }
@@ -33,23 +37,20 @@ public class NetworkPacket {
         }
     }
 
+    public void sendMaterialPacket(World world, int x, int y, int z, Block block, int material, int material2) {
+        if (world.isRemote) {
+            Primal.proxy.sendPacketToServer(new PacketCutMaterial(x, y, z, material, material2));
+        }
+        setMaterialTE(world, x, y, z, material, material2);
+        setMaterial(world, x, y, z, material, material2);
+    }
+
     public void sendMaterialPacket(World world, int x, int y, int z, Block block, int material) {
         if (world.isRemote) {
             Primal.proxy.sendPacketToServer(new PacketCutMaterial(x, y, z, material));
         }
-        TileEntity te = world.getTileEntity(x, y, z);
-        if (block instanceof BlockCutStairs block2) {
-            block2.setCutTileEntity(world, x, y, z, material);
-        }
-        if (block instanceof BlockCutSlab block2) {
-            block2.setCutTileEntity(world, x, y, z, material, -1);
-        }
-        if (block instanceof BlockCutSlabVertical block2) {
-            block2.setCutTileEntity(world, x, y, z, material, -1);
-        }
-        if (te instanceof TileEntityCut tef) {
-            tef.setMaterialMeta(material);
-        }
+        setMaterialTE(world, x, y, z, material, -1);
+        setMaterial(world, x, y, z, material, -1);
     }
 
     public void sendAnvilPlanPacket(TileEntityAnvil tile, String recipeID) {
