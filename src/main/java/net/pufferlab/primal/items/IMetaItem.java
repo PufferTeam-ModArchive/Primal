@@ -1,7 +1,5 @@
 package net.pufferlab.primal.items;
 
-import net.minecraft.item.Item;
-
 public interface IMetaItem {
 
     public String[] getElements();
@@ -14,6 +12,14 @@ public interface IMetaItem {
 
     public boolean hasSuffix();
 
+    default String getSuffix() {
+        String suffix = "";
+        if (hasSuffix()) {
+            suffix = "_" + getElementName();
+        }
+        return suffix;
+    }
+
     default boolean registerOre() {
         return false;
     }
@@ -21,6 +27,4 @@ public interface IMetaItem {
     default boolean registerModItem() {
         return true;
     }
-
-    public Item getItemObject();
 }

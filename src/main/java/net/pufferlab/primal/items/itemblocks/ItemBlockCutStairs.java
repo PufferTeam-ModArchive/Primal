@@ -8,9 +8,10 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.BlockCutStairs;
+import net.pufferlab.primal.items.IMetaItem;
 import net.pufferlab.primal.utils.CutUtils;
 
-public class ItemBlockCutStairs extends ItemBlock {
+public class ItemBlockCutStairs extends ItemBlock implements IMetaItem {
 
     public ItemBlockCutStairs(Block block) {
         super(block);
@@ -60,4 +61,18 @@ public class ItemBlockCutStairs extends ItemBlock {
         return CutUtils.getIcon(2, id);
     }
 
+    @Override
+    public String[] getElements() {
+        return CutUtils.getModNames();
+    }
+
+    @Override
+    public String getElementName() {
+        return "stairs";
+    }
+
+    @Override
+    public boolean hasSuffix() {
+        return true;
+    }
 }

@@ -1,7 +1,6 @@
 package net.pufferlab.primal.items.itemblocks;
 
 import net.minecraft.block.Block;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
@@ -71,10 +70,5 @@ public class ItemBlockMeta extends ItemBlockPrimal implements IMetaItem {
     @Override
     public boolean registerOre() {
         return registerOre;
-    }
-
-    @Override
-    public Item getItemObject() {
-        return this;
     }
 }

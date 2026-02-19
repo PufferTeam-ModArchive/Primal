@@ -58,9 +58,4 @@ public class ItemBlockAxle extends ItemBlockPrimal implements IMetaItem {
     public boolean hasSuffix() {
         return false;
     }
-
-    @Override
-    public Item getItemObject() {
-        return this;
-    }
 }

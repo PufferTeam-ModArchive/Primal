@@ -143,8 +143,4 @@ public class ItemMetaFood extends ItemFood implements IMetaItem {
     public String getElementName() {
         return name;
     }
-
-    public Item getItemObject() {
-        return this;
-    }
 }

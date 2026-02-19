@@ -9,10 +9,11 @@ import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.blocks.BlockCutSlabVertical;
+import net.pufferlab.primal.items.IMetaItem;
 import net.pufferlab.primal.utils.CutUtils;
 import net.pufferlab.primal.utils.FacingUtils;
 
-public class ItemBlockCutSlabVertical extends ItemBlock {
+public class ItemBlockCutSlabVertical extends ItemBlock implements IMetaItem {
 
     private final boolean isFull;
     private final BlockCutSlabVertical slabBlock;
@@ -184,4 +185,21 @@ public class ItemBlockCutSlabVertical extends ItemBlock {
         return CutUtils.getIcon(2, id);
     }
 
+    @Override
+    public String[] getElements() {
+        return CutUtils.getModNames();
+    }
+
+    @Override
+    public String getElementName() {
+        if(isFull) {
+            return "double_vertical_slab";
+        }
+        return "vertical_slab";
+    }
+
+    @Override
+    public boolean hasSuffix() {
+        return true;
+    }
 }

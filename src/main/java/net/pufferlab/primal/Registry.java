@@ -352,6 +352,12 @@ public class Registry {
         register(bricks, "bricks");
         register(smooth, "smooth");
 
+        registerCut(stone);
+        registerCut(cobble);
+        registerCut(small_bricks);
+        registerCut(bricks);
+        registerCut(smooth);
+
         register(stone_slab, "stone_slab", stone_slab, double_stone_slab, false);
         register(double_stone_slab, "double_stone_slab", stone_slab, double_stone_slab, true);
         register(vertical_stone_slab, "vertical_stone_slab", vertical_stone_slab, double_vertical_stone_slab, false);
@@ -599,14 +605,6 @@ public class Registry {
         registerCommand(new CommandVein());
     }
 
-    public void setupCut() {
-        registerCut(stone);
-        registerCut(cobble);
-        registerCut(small_bricks);
-        registerCut(bricks);
-        registerCut(smooth);
-    }
-
     public void setupConfig() {
         ConfigUtils.initConfigMap();
 
@@ -744,13 +742,10 @@ public class Registry {
                 String[] elements = item2.getElements();
                 String[] elementsBlacklist = item2.getElementsBlacklist();
                 String elementName = item2.getElementName();
-                String suffix = "";
-                if (item2.hasSuffix()) {
-                    suffix = "_" + elementName;
-                }
+                String suffix = item2.getSuffix();
                 for (int i = 0; i < elements.length; i++) {
                     if (!Utils.contains(elementsBlacklist, elements[i])) {
-                        ItemStack stack = new ItemStack(item2.getItemObject(), 1, i);
+                        ItemStack stack = new ItemStack(item, 1, i);
                         ItemUtils.registerModItem(elements[i] + suffix, stack);
                         if (item2.registerOre()) {
                             ItemUtils
