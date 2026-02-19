@@ -10,7 +10,7 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.helper.ModelTESS;
 import net.pufferlab.primal.client.utils.ModelBase;
 import net.pufferlab.primal.client.utils.ModelRenderer;
-import net.pufferlab.primal.utils.FacingUtils;
+import net.pufferlab.primal.utils.BlockUtils;
 
 public abstract class ModelPrimal extends ModelBase {
 
@@ -94,7 +94,7 @@ public abstract class ModelPrimal extends ModelBase {
     }
 
     public void setFacing(int meta) {
-        float angle = FacingUtils.getFacingAngle(meta);
+        float angle = BlockUtils.getFacingAngle(meta);
         float add = 0.0F;
         if (invertRot()) {
             add = (float) Math.toRadians(180);
@@ -106,7 +106,7 @@ public abstract class ModelPrimal extends ModelBase {
     }
 
     public void setFacingFromAxis(int facingMeta, int axisMeta) {
-        float angle = FacingUtils.getFacingAngle(facingMeta);
+        float angle = BlockUtils.getFacingAngle(facingMeta);
 
         if (axisMeta == 1) {
             bb_main.rotateAngleX = (float) (Math.PI / 2);

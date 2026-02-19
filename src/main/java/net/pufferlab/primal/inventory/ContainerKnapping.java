@@ -4,7 +4,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.KnappingRecipe;
 import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.utils.ItemUtils;
@@ -47,7 +46,7 @@ public class ContainerKnapping extends Container {
                 if (this.type.needsKnife) {
                     int knifeIndex = findKnifeIndex();
                     if (knifeIndex != -1) {
-                        Utils.damageItemIndex(knifeIndex, 1, invPlayer);
+                        ItemUtils.damageItemIndex(knifeIndex, 1, invPlayer);
                     }
                 }
             }

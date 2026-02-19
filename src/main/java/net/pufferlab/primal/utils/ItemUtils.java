@@ -4,11 +4,16 @@ import java.util.*;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.stats.StatList;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -456,5 +461,27 @@ public class ItemUtils {
             }
         }
         return tooltip;
+    }
+
+    public static void damageItemIndex(int index, int amount, InventoryPlayer invPlayer) {
+        if (!(invPlayer.player.capabilities.isCreativeMode)) {
+            ItemStack stack = invPlayer.getStackInSlot(index);
+            if (stack.isItemStackDamageable()) {
+                if (stack.attemptDamageItem(amount, invPlayer.player.getRNG())) {
+                    invPlayer.player.renderBrokenItemStack(stack);
+                    --stack.stackSize;
+
+                    if (invPlayer.player != null) {
+                        EntityPlayer entityplayer = (EntityPlayer) invPlayer.player;
+                        entityplayer.addStat(StatList.objectBreakStats[Item.getIdFromItem(stack.getItem())], 1);
+                    }
+                    if (stack.stackSize <= 0) {
+                        invPlayer.setInventorySlotContents(index, (ItemStack) null);
+                        MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(invPlayer.player, stack));
+                    }
+                }
+
+            }
+        }
     }
 }

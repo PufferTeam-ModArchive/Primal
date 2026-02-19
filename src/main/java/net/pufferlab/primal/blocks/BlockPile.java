@@ -24,7 +24,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
-import net.pufferlab.primal.utils.FacingUtils;
+import net.pufferlab.primal.utils.BlockUtils;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -75,7 +75,7 @@ public abstract class BlockPile extends BlockContainerPrimal {
         if (below instanceof TileEntityMetaFacing pile2) {
             pile.setFacingMeta(pile2.facingMeta);
         } else {
-            int metayaw = FacingUtils.getMetaYaw(placer.rotationYaw);
+            int metayaw = BlockUtils.getMetaYaw(placer.rotationYaw);
             TileEntity te = worldIn.getTileEntity(x, y, z);
             if (te instanceof TileEntityMetaFacing tef) {
                 tef.setFacingMeta(metayaw);

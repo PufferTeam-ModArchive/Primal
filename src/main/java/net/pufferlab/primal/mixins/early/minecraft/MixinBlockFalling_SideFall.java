@@ -8,8 +8,7 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.utils.FacingUtils;
+import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.SoundTypePrimal;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -35,37 +34,35 @@ public abstract class MixinBlockFalling_SideFall extends Block {
                 if (!blockBelow.getMaterial()
                     .isReplaceable()) {
                     boolean moved = false;
-                    if (FacingUtils.getBlockDirection(worldIn, x, y, z, ForgeDirection.SOUTH, ForgeDirection.DOWN)
+                    if (BlockUtils.getBlockDirection(worldIn, x, y, z, ForgeDirection.SOUTH, ForgeDirection.DOWN)
                         .getMaterial()
                         .isReplaceable() && random.nextInt(4) == 0) {
                         worldIn.setBlockToAir(x, y, z);
-                        FacingUtils.setBlockDirection(worldIn, x, y, z, block, meta, ForgeDirection.SOUTH);
+                        BlockUtils.setBlockDirection(worldIn, x, y, z, block, meta, ForgeDirection.SOUTH);
                         moved = true;
-                    } else
-                        if (FacingUtils.getBlockDirection(worldIn, x, y, z, ForgeDirection.NORTH, ForgeDirection.DOWN)
+                    } else if (BlockUtils.getBlockDirection(worldIn, x, y, z, ForgeDirection.NORTH, ForgeDirection.DOWN)
+                        .getMaterial()
+                        .isReplaceable() && random.nextInt(4) == 0) {
+                            worldIn.setBlockToAir(x, y, z);
+                            BlockUtils.setBlockDirection(worldIn, x, y, z, block, meta, ForgeDirection.NORTH);
+                            moved = true;
+                        } else
+                        if (BlockUtils.getBlockDirection(worldIn, x, y, z, ForgeDirection.EAST, ForgeDirection.DOWN)
                             .getMaterial()
                             .isReplaceable() && random.nextInt(4) == 0) {
                                 worldIn.setBlockToAir(x, y, z);
-                                FacingUtils.setBlockDirection(worldIn, x, y, z, block, meta, ForgeDirection.NORTH);
+                                BlockUtils.setBlockDirection(worldIn, x, y, z, block, meta, ForgeDirection.EAST);
                                 moved = true;
-                            } else if (FacingUtils
-                                .getBlockDirection(worldIn, x, y, z, ForgeDirection.EAST, ForgeDirection.DOWN)
+                            } else
+                            if (BlockUtils.getBlockDirection(worldIn, x, y, z, ForgeDirection.WEST, ForgeDirection.DOWN)
                                 .getMaterial()
                                 .isReplaceable() && random.nextInt(4) == 0) {
                                     worldIn.setBlockToAir(x, y, z);
-                                    FacingUtils.setBlockDirection(worldIn, x, y, z, block, meta, ForgeDirection.EAST);
+                                    BlockUtils.setBlockDirection(worldIn, x, y, z, block, meta, ForgeDirection.WEST);
                                     moved = true;
-                                } else if (FacingUtils
-                                    .getBlockDirection(worldIn, x, y, z, ForgeDirection.WEST, ForgeDirection.DOWN)
-                                    .getMaterial()
-                                    .isReplaceable() && random.nextInt(4) == 0) {
-                                        worldIn.setBlockToAir(x, y, z);
-                                        FacingUtils
-                                            .setBlockDirection(worldIn, x, y, z, block, meta, ForgeDirection.WEST);
-                                        moved = true;
-                                    }
+                                }
                     if (moved) {
-                        Utils.playSound(worldIn, x, y, z, SoundTypePrimal.soundSoilSlide);
+                        BlockUtils.playSound(worldIn, x, y, z, SoundTypePrimal.soundSoilSlide);
                         cir.cancel();
                     }
                 }

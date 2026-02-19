@@ -14,6 +14,7 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.tileentities.TileEntityForge;
+import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.ItemUtils;
 
@@ -64,7 +65,7 @@ public class BlockForge extends BlockContainerPrimal implements RPLECustomBlockB
         int meta = worldIn.getBlockMetadata(x, y, z);
         if (te instanceof TileEntityForge tef) {
             if (Utils.containsOreDict(heldItem, Constants.charcoalPileOreDicts) && meta < 5) {
-                Utils.playSound(worldIn, x, y, z, Registry.charcoal_pile);
+                BlockUtils.playSound(worldIn, x, y, z, Registry.charcoal_pile);
                 tef.addInventorySlotContentsUpdate(meta, player);
                 worldIn.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
                 tef.sendFuelUpdate();

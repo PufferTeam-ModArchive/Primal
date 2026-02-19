@@ -8,7 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.tileentities.TileEntityWaterwheel;
-import net.pufferlab.primal.utils.FacingUtils;
+import net.pufferlab.primal.utils.BlockUtils;
 
 public class ItemBlockWaterwheel extends ItemBlockPrimal {
 
@@ -20,7 +20,7 @@ public class ItemBlockWaterwheel extends ItemBlockPrimal {
     public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
         float hitX, float hitY, float hitZ, int metadata) {
 
-        int axis = FacingUtils.getAxis(side);
+        int axis = BlockUtils.getAxis(side);
         boolean isValid = placeExtensionAt(world, x, y, z, axis, true);
         if (isValid) {
             if (!world.setBlock(x, y, z, field_150939_a, metadata, 3)) {

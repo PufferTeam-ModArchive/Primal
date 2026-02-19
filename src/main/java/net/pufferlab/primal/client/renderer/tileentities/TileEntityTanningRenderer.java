@@ -6,7 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.pufferlab.primal.blocks.BlockTanning;
 import net.pufferlab.primal.tileentities.TileEntityTanning;
-import net.pufferlab.primal.utils.FacingUtils;
+import net.pufferlab.primal.utils.BlockUtils;
 
 import org.lwjgl.opengl.GL11;
 
@@ -53,7 +53,7 @@ public class TileEntityTanningRenderer extends TileEntityPrimalRenderer {
                 GL11.glRotatef(30, 0.0F, 0.0F, 1.0F);
             }
 
-            GL11.glRotatef(FacingUtils.getFacingAngleDegree(facing), 0.0F, 1.0F, 0.0F);
+            GL11.glRotatef(BlockUtils.getFacingAngleDegree(facing), 0.0F, 1.0F, 0.0F);
 
             renderFrameItem();
         }

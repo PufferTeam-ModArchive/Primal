@@ -16,7 +16,7 @@ import net.pufferlab.primal.client.models.ModelFluid;
 import net.pufferlab.primal.client.models.ModelValve;
 import net.pufferlab.primal.tileentities.TileEntityBarrel;
 import net.pufferlab.primal.tileentities.TileEntityFaucet;
-import net.pufferlab.primal.utils.FacingUtils;
+import net.pufferlab.primal.utils.BlockUtils;
 
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 
@@ -50,7 +50,7 @@ public class BlockFaucetRenderer extends BlockPrimalRenderer {
             TileEntity extractTe = tef.getExtractTile();
             if (extractTe instanceof TileEntityBarrel tef2) {
                 float offset = 0.0F;
-                if (!FacingUtils.isSimpleAxisConnected(tef.facingMeta, tef2.facingMeta) || !tef2.isFloorBarrel) {
+                if (!BlockUtils.isSimpleAxisConnected(tef.facingMeta, tef2.facingMeta) || !tef2.isFloorBarrel) {
                     offset = 0.0625F;
                 }
                 modelFaucet.setFacingOffset(0.0F, -0.25F, -0.0625F - offset);

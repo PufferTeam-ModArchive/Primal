@@ -6,7 +6,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.tileentities.IHeatable;
-import net.pufferlab.primal.utils.FacingUtils;
+import net.pufferlab.primal.utils.BlockUtils;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -41,7 +41,7 @@ public class PacketFireStarter implements IMessage, IMessageHandler<PacketFireSt
     public IMessage onMessage(PacketFireStarter msg, MessageContext ctx) {
         World world = Primal.proxy.getWorld(ctx);
         EntityPlayer player = (EntityPlayer) world.getEntityByID(msg.playerEntityId);
-        MovingObjectPosition mop = FacingUtils.getMovingObjectPositionFromPlayer(world, player, false);
+        MovingObjectPosition mop = BlockUtils.getMovingObjectPositionFromPlayer(world, player, false);
         if (mop != null) {
             world.spawnParticle("smoke", mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 0.0F, 0.0F, 0.0F);
             if (msg.success) {

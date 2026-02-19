@@ -23,7 +23,7 @@ import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.PitKilnRecipe;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityPitKiln;
-import net.pufferlab.primal.utils.FacingUtils;
+import net.pufferlab.primal.utils.BlockUtils;
 
 public class BlockPitKiln extends BlockContainerPrimal {
 
@@ -64,13 +64,13 @@ public class BlockPitKiln extends BlockContainerPrimal {
         int meta = worldIn.getBlockMetadata(x, y, z);
         if (te instanceof TileEntityPitKiln tef) {
             ItemStack heldItem = player.getHeldItem();
-            if (FacingUtils.hasSolidWalls(worldIn, x, y, z)) {
+            if (BlockUtils.hasSolidWalls(worldIn, x, y, z)) {
                 if ((Utils.containsOreDict(heldItem, "straw") && meta >= 0 && meta <= 4)
                     || (Utils.containsOreDict(heldItem, Constants.logPileOreDicts) && meta >= 5 && meta <= 7)) {
                     if (meta <= 4) {
-                        Utils.playSound(worldIn, x, y, z, Registry.thatch);
+                        BlockUtils.playSound(worldIn, x, y, z, Registry.thatch);
                     } else {
-                        Utils.playSound(worldIn, x, y, z, Registry.log_pile);
+                        BlockUtils.playSound(worldIn, x, y, z, Registry.log_pile);
                     }
                     tef.addInventorySlotContentsUpdate(5 + meta, player);
                     worldIn.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
@@ -136,7 +136,7 @@ public class BlockPitKiln extends BlockContainerPrimal {
     @Override
     public void onNeighborBlockChange(World worldIn, int x, int y, int z, Block neighbor) {
         super.onNeighborBlockChange(worldIn, x, y, z, neighbor);
-        boolean hasWalls = FacingUtils.hasSolidWalls(worldIn, x, y, z);
+        boolean hasWalls = BlockUtils.hasSolidWalls(worldIn, x, y, z);
         if (!hasWalls) {
             clearLayers(worldIn, x, y, z);
         }

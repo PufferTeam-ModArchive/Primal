@@ -13,6 +13,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.*;
 import net.minecraftforge.event.world.BlockEvent;
 import net.pufferlab.primal.*;
+import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.ItemUtils;
 
 import cpw.mods.fml.common.eventhandler.Event;
@@ -82,7 +83,7 @@ public class ToolHandler implements IEventHandler {
         int meta = event.world.getBlockMetadata(event.x, event.y, event.z);
         if (blockAbove.getMaterial() == Material.air) {
             if (ItemUtils.isGrassBlock(block) || ItemUtils.isDirtBlock(block)) {
-                Utils.playSound(event.world, event.x, event.y, event.z, Blocks.farmland);
+                BlockUtils.playSound(event.world, event.x, event.y, event.z, Blocks.farmland);
                 event.world.setBlock(event.x, event.y, event.z, Registry.farmland, meta, 2);
 
                 event.setResult(Event.Result.ALLOW);
@@ -110,7 +111,7 @@ public class ToolHandler implements IEventHandler {
                 int meta = world.getBlockMetadata(event.x, event.y, event.z);
                 if (blockAbove.getMaterial() == Material.air) {
                     if (ItemUtils.isGrassBlock(block)) {
-                        Utils.playSound(world, event.x, event.y, event.z, Blocks.dirt);
+                        BlockUtils.playSound(world, event.x, event.y, event.z, Blocks.dirt);
                         world.setBlock(event.x, event.y, event.z, Registry.path, meta, 2);
                         heldItem.damageItem(1, event.entityPlayer);
                         event.entityPlayer.swingItem();
@@ -139,7 +140,7 @@ public class ToolHandler implements IEventHandler {
                     ItemStack droppedStack = null;
                     world.setBlock(event.x, event.y, event.z, target, meta, 2);
                     heldItem.damageItem(1, event.entityPlayer);
-                    Utils.playSound(event.world, event.x, event.y, event.z, Blocks.log);
+                    BlockUtils.playSound(event.world, event.x, event.y, event.z, Blocks.log);
 
                     if (block == Blocks.log) {
                         droppedStack = new ItemStack(Registry.bark, 1, woodType);

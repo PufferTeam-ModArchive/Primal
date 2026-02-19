@@ -7,11 +7,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.blocks.BlockCutSlab;
 import net.pufferlab.primal.items.IMetaItem;
+import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.CutUtils;
-import net.pufferlab.primal.utils.FacingUtils;
 
 public class ItemBlockCutSlab extends ItemBlock implements IMetaItem {
 
@@ -75,7 +74,7 @@ public class ItemBlockCutSlab extends ItemBlock implements IMetaItem {
                 if (world.checkNoEntityCollision(this.fullBlock.getCollisionBoundingBoxFromPool(world, x, y, z))
                     && world.setBlock(x, y, z, this.fullBlock, 0, 3)) {
                     Primal.proxy.packet.sendMaterialPacket(world, x, y, z, field_150939_a, stack.getItemDamage());
-                    Utils.playSound(world, x, y, z, this.fullBlock);
+                    BlockUtils.playSound(world, x, y, z, this.fullBlock);
                     --stack.stackSize;
                     return true;
                 }
@@ -91,7 +90,7 @@ public class ItemBlockCutSlab extends ItemBlock implements IMetaItem {
                         Primal.proxy.packet
                             .sendMaterialPacket(world, x, y, z, field_150939_a, stack.getItemDamage(), materialID);
                     }
-                    Utils.playSound(world, x, y, z, this.fullBlock);
+                    BlockUtils.playSound(world, x, y, z, this.fullBlock);
                     --stack.stackSize;
                     return true;
                 }
@@ -130,9 +129,9 @@ public class ItemBlockCutSlab extends ItemBlock implements IMetaItem {
     @Override
     public boolean func_150936_a(World world, int x, int y, int z, int side, EntityPlayer player, ItemStack stack) {
         boolean success = super.func_150936_a(world, x, y, z, side, player, stack);
-        x = FacingUtils.getBlockX(side, x);
-        y = FacingUtils.getBlockY(side, y);
-        z = FacingUtils.getBlockZ(side, z);
+        x = BlockUtils.getBlockX(side, x);
+        y = BlockUtils.getBlockY(side, y);
+        z = BlockUtils.getBlockZ(side, z);
 
         Block block = world.getBlock(x, y, z);
         if (block == this.slabBlock) {
@@ -142,9 +141,9 @@ public class ItemBlockCutSlab extends ItemBlock implements IMetaItem {
     }
 
     private boolean func_150946_a(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side) {
-        x = FacingUtils.getBlockX(side, x);
-        y = FacingUtils.getBlockY(side, y);
-        z = FacingUtils.getBlockZ(side, z);
+        x = BlockUtils.getBlockX(side, x);
+        y = BlockUtils.getBlockY(side, y);
+        z = BlockUtils.getBlockZ(side, z);
 
         Block block = world.getBlock(x, y, z);
         int i1 = world.getBlockMetadata(x, y, z);
@@ -159,7 +158,7 @@ public class ItemBlockCutSlab extends ItemBlock implements IMetaItem {
             if (world.checkNoEntityCollision(this.fullBlock.getCollisionBoundingBoxFromPool(world, x, y, z))
                 && world.setBlock(x, y, z, this.fullBlock, 0, 3)) {
                 Primal.proxy.packet.sendMaterialPacket(world, x, y, z, field_150939_a, stack.getItemDamage());
-                Utils.playSound(world, x, y, z, this.fullBlock);
+                BlockUtils.playSound(world, x, y, z, this.fullBlock);
                 --stack.stackSize;
             }
             return true;
@@ -174,7 +173,7 @@ public class ItemBlockCutSlab extends ItemBlock implements IMetaItem {
                     Primal.proxy.packet
                         .sendMaterialPacket(world, x, y, z, field_150939_a, stack.getItemDamage(), materialID);
                 }
-                Utils.playSound(world, x, y, z, this.fullBlock);
+                BlockUtils.playSound(world, x, y, z, this.fullBlock);
                 --stack.stackSize;
             }
             return true;

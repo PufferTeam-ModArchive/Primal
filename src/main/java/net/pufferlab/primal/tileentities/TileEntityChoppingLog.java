@@ -6,8 +6,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.recipes.ChoppingLogRecipe;
+import net.pufferlab.primal.utils.BlockUtils;
 
 public class TileEntityChoppingLog extends TileEntityInventory {
 
@@ -40,7 +40,7 @@ public class TileEntityChoppingLog extends TileEntityInventory {
                 ItemStack output = ChoppingLogRecipe.getOutput(item);
                 if (output != null) {
                     decrStackSize(0, 1);
-                    Utils.playSound(this.worldObj, this.xCoord, this.yCoord, this.zCoord, Blocks.log);
+                    BlockUtils.playSound(this.worldObj, this.xCoord, this.yCoord, this.zCoord, Blocks.log);
                     spawnEntity(
                         this.worldObj,
                         new EntityItem(

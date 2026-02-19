@@ -4,8 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.utils.FacingUtils;
+import net.pufferlab.primal.utils.BlockUtils;
 
 public class TileEntityAxle extends TileEntityMotion {
 
@@ -56,10 +55,10 @@ public class TileEntityAxle extends TileEntityMotion {
     }
 
     public void setGear(int side, EntityPlayer player) {
-        if (FacingUtils.isSidePositive(side)) {
+        if (BlockUtils.isSidePositive(side)) {
             this.hasGearPos = !this.hasGearPos;
             if (this.hasGearPos) {
-                Utils.playSound(this.worldObj, this.xCoord, this.yCoord, this.zCoord, Blocks.log);
+                BlockUtils.playSound(this.worldObj, this.xCoord, this.yCoord, this.zCoord, Blocks.log);
                 player.getHeldItem().stackSize--;
             } else {
                 player.inventory.addItemStackToInventory(new ItemStack(this.blockType, 1, 1));
@@ -67,7 +66,7 @@ public class TileEntityAxle extends TileEntityMotion {
         } else {
             this.hasGearNeg = !this.hasGearNeg;
             if (this.hasGearNeg) {
-                Utils.playSound(this.worldObj, this.xCoord, this.yCoord, this.zCoord, Blocks.log);
+                BlockUtils.playSound(this.worldObj, this.xCoord, this.yCoord, this.zCoord, Blocks.log);
                 player.getHeldItem().stackSize--;
             } else {
                 player.inventory.addItemStackToInventory(new ItemStack(this.blockType, 1, 1));
@@ -77,12 +76,12 @@ public class TileEntityAxle extends TileEntityMotion {
     }
 
     public boolean setBracket(int side, EntityPlayer player) {
-        int facing = FacingUtils.getFacingMeta(side, this.axisMeta);
+        int facing = BlockUtils.getFacingMeta(side, this.axisMeta);
         if (facing != 0) {
             this.hasBracket = !this.hasBracket;
             this.facingMeta = facing;
             if (this.hasBracket) {
-                Utils.playSound(this.worldObj, this.xCoord, this.yCoord, this.zCoord, Blocks.log);
+                BlockUtils.playSound(this.worldObj, this.xCoord, this.yCoord, this.zCoord, Blocks.log);
                 player.getHeldItem().stackSize--;
             } else {
                 player.inventory.addItemStackToInventory(new ItemStack(this.blockType, 1, 2));
@@ -96,7 +95,7 @@ public class TileEntityAxle extends TileEntityMotion {
 
     @Override
     public boolean hasGear(int side) {
-        if (FacingUtils.isSidePositive(side)) {
+        if (BlockUtils.isSidePositive(side)) {
             if (hasGearPos) {
                 return true;
             }

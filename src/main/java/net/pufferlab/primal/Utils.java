@@ -3,22 +3,15 @@ package net.pufferlab.primal;
 import java.util.*;
 
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.*;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.stats.StatList;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.oredict.OreDictionary;
-import net.pufferlab.primal.blocks.BlockContainerPrimal;
 import net.pufferlab.primal.utils.*;
 import net.pufferlab.primal.world.GlobalTickingData;
 
@@ -47,28 +40,6 @@ public class Utils {
             return true;
         }
         return false;
-    }
-
-    public static void damageItemIndex(int index, int amount, InventoryPlayer invPlayer) {
-        if (!(invPlayer.player.capabilities.isCreativeMode)) {
-            ItemStack stack = invPlayer.getStackInSlot(index);
-            if (stack.isItemStackDamageable()) {
-                if (stack.attemptDamageItem(amount, invPlayer.player.getRNG())) {
-                    invPlayer.player.renderBrokenItemStack(stack);
-                    --stack.stackSize;
-
-                    if (invPlayer.player != null) {
-                        EntityPlayer entityplayer = (EntityPlayer) invPlayer.player;
-                        entityplayer.addStat(StatList.objectBreakStats[Item.getIdFromItem(stack.getItem())], 1);
-                    }
-                    if (stack.stackSize <= 0) {
-                        invPlayer.setInventorySlotContents(index, (ItemStack) null);
-                        MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(invPlayer.player, stack));
-                    }
-                }
-
-            }
-        }
     }
 
     public static NBTTagCompound getOrCreateTagCompound(ItemStack item) {
@@ -148,74 +119,6 @@ public class Utils {
             return false;
         }
         return wild.getFluid() == stack.getFluid();
-    }
-
-    public static void place(ItemStack stack, World world, int x, int y, int z, Block toPlace, int metadata,
-        EntityPlayer player) {
-        if (world.isAirBlock(x, y, z) && world.isSideSolid(x, y - 1, z, ForgeDirection.UP)) {
-            if (world.checkNoEntityCollision(toPlace.getCollisionBoundingBoxFromPool(world, x, y, z))
-                && world.setBlock(x, y, z, toPlace, metadata, 3)) {
-                world.setBlock(x, y, z, toPlace, metadata, 2);
-                toPlace.onBlockPlacedBy(world, x, y, z, player, stack);
-                if (toPlace instanceof BlockContainerPrimal block2) {
-                    block2.onBlockSidePlacedBy(world, x, y, z, player, stack, 0);
-                }
-                stack.stackSize -= 1;
-                playSound(world, x, y, z, toPlace);
-                player.swingItem();
-            }
-        }
-    }
-
-    public static void placeNoConsume(ItemStack stack, World world, int x, int y, int z, Block toPlace, int metadata,
-        EntityPlayer player) {
-        if (world.isAirBlock(x, y, z) && world.isSideSolid(x, y - 1, z, ForgeDirection.UP)) {
-            if (world.checkNoEntityCollision(toPlace.getCollisionBoundingBoxFromPool(world, x, y, z))
-                && world.setBlock(x, y, z, toPlace, metadata, 3)) {
-                world.setBlock(x, y, z, toPlace, metadata, 2);
-                toPlace.onBlockPlacedBy(world, x, y, z, player, stack);
-                if (toPlace instanceof BlockContainerPrimal block2) {
-                    block2.onBlockSidePlacedBy(world, x, y, z, player, stack, 0);
-                }
-                playSound(world, x, y, z, toPlace);
-                player.swingItem();
-            }
-        }
-    }
-
-    public static void placeSilent(ItemStack stack, World world, int x, int y, int z, Block toPlace, int metadata,
-        EntityPlayer player) {
-        if (world.isAirBlock(x, y, z) && world.isSideSolid(x, y - 1, z, ForgeDirection.UP)) {
-            if (world.checkNoEntityCollision(toPlace.getCollisionBoundingBoxFromPool(world, x, y, z))
-                && world.setBlock(x, y, z, toPlace, metadata, 3)) {
-                world.setBlock(x, y, z, toPlace, metadata, 2);
-                toPlace.onBlockPlacedBy(world, x, y, z, player, stack);
-                if (toPlace instanceof BlockContainerPrimal block2) {
-                    block2.onBlockSidePlacedBy(world, x, y, z, player, stack, 0);
-                }
-                player.swingItem();
-            }
-        }
-    }
-
-    public static void playSound(World world, int x, int y, int z, Block block) {
-        world.playSoundEffect(
-            x + 0.5f,
-            y + 0.5f,
-            z + 0.5f,
-            block.stepSound.func_150496_b(),
-            (block.stepSound.getVolume() + 1.0F) / 2.0F,
-            block.stepSound.getPitch() * 0.8F);
-    }
-
-    public static void playSound(World world, int x, int y, int z, SoundTypePrimal stepSound) {
-        world.playSoundEffect(
-            x + 0.5f,
-            y + 0.5f,
-            z + 0.5f,
-            stepSound.getPath(),
-            (stepSound.getVolume() + 1.0F) / 2.0F,
-            stepSound.getPitch() * 0.8F);
     }
 
     public static boolean contains(int[] array, int targetString) {

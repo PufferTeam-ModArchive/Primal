@@ -18,7 +18,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.recipes.BarrelRecipe;
 import net.pufferlab.primal.tileentities.TileEntityBarrel;
-import net.pufferlab.primal.utils.FacingUtils;
+import net.pufferlab.primal.utils.BlockUtils;
 
 public class BlockBarrel extends BlockContainerPrimal {
 
@@ -120,7 +120,7 @@ public class BlockBarrel extends BlockContainerPrimal {
     @Override
     public void onBlockSidePlacedBy(World worldIn, int x, int y, int z, EntityLivingBase placer, ItemStack itemIn,
         int side) {
-        int metayaw = FacingUtils.getMetaYawSide(placer.rotationYaw, side);
+        int metayaw = BlockUtils.getMetaYawSide(placer.rotationYaw, side);
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityBarrel tef) {
             tef.setFacingMeta(metayaw);

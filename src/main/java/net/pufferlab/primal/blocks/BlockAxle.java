@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.items.itemblocks.ItemBlockAxle;
 import net.pufferlab.primal.tileentities.TileEntityAxle;
-import net.pufferlab.primal.utils.FacingUtils;
+import net.pufferlab.primal.utils.BlockUtils;
 
 public class BlockAxle extends BlockMotion {
 
@@ -37,7 +37,7 @@ public class BlockAxle extends BlockMotion {
             if (heldItem == null) return false;
             if (heldItem.getItem() == Item.getItemFromBlock(this) && heldItem.getItemDamage() == 1) {
                 int axis = tef.axisMeta;
-                int axisClicked = FacingUtils.getAxis(side);
+                int axisClicked = BlockUtils.getAxis(side);
                 if (axis == axisClicked) {
                     tef.setGear(side, player);
                     return true;

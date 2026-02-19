@@ -7,7 +7,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.utils.FacingUtils;
+import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.SoundTypePrimal;
 
 public class TileEntityFaucet extends TileEntityMetaFacing {
@@ -60,7 +60,7 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
     }
 
     public TileEntity getExtractTile() {
-        ForgeDirection dir = FacingUtils.getDirectionFromFacing(this.facingMeta);
+        ForgeDirection dir = BlockUtils.getDirectionFromFacing(this.facingMeta);
         int x = this.xCoord + dir.offsetX;
         int y = this.yCoord + dir.offsetY;
         int z = this.zCoord + dir.offsetZ;
@@ -122,7 +122,7 @@ public class TileEntityFaucet extends TileEntityMetaFacing {
                 if (teBel instanceof TileEntityBarrel tef2) {
                     if ((Utils.equalsStack(tef.getFluidStackRelative(), tef2.getFluidStackRelative()))
                         || tef2.getFluidStack() == null) {
-                        FluidStack fluid = tef.drain(FacingUtils.getDirectionFromFacing(this.facingMeta), 100, true);
+                        FluidStack fluid = tef.drain(BlockUtils.getDirectionFromFacing(this.facingMeta), 100, true);
                         tef2.fill(ForgeDirection.UP, fluid, true);
                         this.updateTEState();
                         this.timePassed = 0;

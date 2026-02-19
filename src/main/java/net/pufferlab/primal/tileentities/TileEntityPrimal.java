@@ -8,7 +8,7 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
-import net.pufferlab.primal.Utils;
+import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.SoundTypePrimal;
 
 public abstract class TileEntityPrimal extends TileEntity implements ITile {
@@ -87,7 +87,7 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
         int x = this.xCoord;
         int y = this.yCoord;
         int z = this.zCoord;
-        Utils.playSound(world, x, y, z, stepSound);
+        BlockUtils.playSound(world, x, y, z, stepSound);
     }
 
     @Override

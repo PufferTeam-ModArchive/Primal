@@ -3,13 +3,15 @@ package net.pufferlab.primal.utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.pufferlab.primal.blocks.BlockContainerPrimal;
 import net.pufferlab.primal.blocks.BlockPile;
 
-public class FacingUtils {
+public class BlockUtils {
 
     public static int getBlockX(int side, int x) {
         if (side == 4) {
@@ -276,5 +278,73 @@ public class FacingUtils {
                 break;
         }
         return angle;
+    }
+
+    public static void place(ItemStack stack, World world, int x, int y, int z, Block toPlace, int metadata,
+        EntityPlayer player) {
+        if (world.isAirBlock(x, y, z) && world.isSideSolid(x, y - 1, z, ForgeDirection.UP)) {
+            if (world.checkNoEntityCollision(toPlace.getCollisionBoundingBoxFromPool(world, x, y, z))
+                && world.setBlock(x, y, z, toPlace, metadata, 3)) {
+                world.setBlock(x, y, z, toPlace, metadata, 2);
+                toPlace.onBlockPlacedBy(world, x, y, z, player, stack);
+                if (toPlace instanceof BlockContainerPrimal block2) {
+                    block2.onBlockSidePlacedBy(world, x, y, z, player, stack, 0);
+                }
+                stack.stackSize -= 1;
+                playSound(world, x, y, z, toPlace);
+                player.swingItem();
+            }
+        }
+    }
+
+    public static void placeNoConsume(ItemStack stack, World world, int x, int y, int z, Block toPlace, int metadata,
+        EntityPlayer player) {
+        if (world.isAirBlock(x, y, z) && world.isSideSolid(x, y - 1, z, ForgeDirection.UP)) {
+            if (world.checkNoEntityCollision(toPlace.getCollisionBoundingBoxFromPool(world, x, y, z))
+                && world.setBlock(x, y, z, toPlace, metadata, 3)) {
+                world.setBlock(x, y, z, toPlace, metadata, 2);
+                toPlace.onBlockPlacedBy(world, x, y, z, player, stack);
+                if (toPlace instanceof BlockContainerPrimal block2) {
+                    block2.onBlockSidePlacedBy(world, x, y, z, player, stack, 0);
+                }
+                playSound(world, x, y, z, toPlace);
+                player.swingItem();
+            }
+        }
+    }
+
+    public static void placeSilent(ItemStack stack, World world, int x, int y, int z, Block toPlace, int metadata,
+        EntityPlayer player) {
+        if (world.isAirBlock(x, y, z) && world.isSideSolid(x, y - 1, z, ForgeDirection.UP)) {
+            if (world.checkNoEntityCollision(toPlace.getCollisionBoundingBoxFromPool(world, x, y, z))
+                && world.setBlock(x, y, z, toPlace, metadata, 3)) {
+                world.setBlock(x, y, z, toPlace, metadata, 2);
+                toPlace.onBlockPlacedBy(world, x, y, z, player, stack);
+                if (toPlace instanceof BlockContainerPrimal block2) {
+                    block2.onBlockSidePlacedBy(world, x, y, z, player, stack, 0);
+                }
+                player.swingItem();
+            }
+        }
+    }
+
+    public static void playSound(World world, int x, int y, int z, Block block) {
+        world.playSoundEffect(
+            x + 0.5f,
+            y + 0.5f,
+            z + 0.5f,
+            block.stepSound.func_150496_b(),
+            (block.stepSound.getVolume() + 1.0F) / 2.0F,
+            block.stepSound.getPitch() * 0.8F);
+    }
+
+    public static void playSound(World world, int x, int y, int z, SoundTypePrimal stepSound) {
+        world.playSoundEffect(
+            x + 0.5f,
+            y + 0.5f,
+            z + 0.5f,
+            stepSound.getPath(),
+            (stepSound.getVolume() + 1.0F) / 2.0F,
+            stepSound.getPitch() * 0.8F);
     }
 }

@@ -7,7 +7,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Registry;
-import net.pufferlab.primal.utils.FacingUtils;
+import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.ItemUtils;
 
 public class TileEntityLogPile extends TileEntityInventory implements IHeatable {
@@ -75,7 +75,7 @@ public class TileEntityLogPile extends TileEntityInventory implements IHeatable 
                 }
                 timeFired = 0;
             }
-            if (!FacingUtils.hasSolidWallsTop(this.worldObj, this.xCoord, this.yCoord, this.zCoord)) {
+            if (!BlockUtils.hasSolidWallsTop(this.worldObj, this.xCoord, this.yCoord, this.zCoord)) {
                 timeExposed++;
             }
             if (timeExposed > 60) {

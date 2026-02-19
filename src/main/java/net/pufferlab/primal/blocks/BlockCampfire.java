@@ -21,6 +21,7 @@ import net.pufferlab.primal.items.itemblocks.ItemBlockCampfire;
 import net.pufferlab.primal.recipes.CampfireRecipe;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
+import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.ItemUtils;
 
 import com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness;
@@ -86,9 +87,9 @@ public class BlockCampfire extends BlockContainerPrimal implements RPLECustomBlo
             worldIn.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
             TileEntity te = worldIn.getTileEntity(x, y, z);
             if (meta == 0) {
-                Utils.playSound(worldIn, x, y, z, Registry.thatch);
+                BlockUtils.playSound(worldIn, x, y, z, Registry.thatch);
             } else {
-                Utils.playSound(worldIn, x, y, z, Registry.log_pile);
+                BlockUtils.playSound(worldIn, x, y, z, Registry.log_pile);
             }
             if (te instanceof TileEntityCampfire tef) {
                 tef.addInventorySlotContentsUpdate(meta + 1, player);

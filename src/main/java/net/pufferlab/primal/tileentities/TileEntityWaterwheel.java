@@ -7,7 +7,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Utils;
-import net.pufferlab.primal.utils.FacingUtils;
+import net.pufferlab.primal.utils.BlockUtils;
 
 public class TileEntityWaterwheel extends TileEntityMotion {
 
@@ -132,8 +132,8 @@ public class TileEntityWaterwheel extends TileEntityMotion {
 
     public boolean hasLiquid(ForgeDirection facing) {
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
-            if (FacingUtils.getAxis(direction.ordinal()) != axisMeta
-                && FacingUtils.getAxis(direction.ordinal()) != FacingUtils.getAxis(facing.ordinal())) {
+            if (BlockUtils.getAxis(direction.ordinal()) != axisMeta
+                && BlockUtils.getAxis(direction.ordinal()) != BlockUtils.getAxis(facing.ordinal())) {
                 Block block = worldObj.getBlock(
                     this.xCoord + (facing.offsetX * 2) + direction.offsetX,
                     this.yCoord + (facing.offsetY * 2) + direction.offsetY,

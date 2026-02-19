@@ -17,7 +17,7 @@ import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.items.itemblocks.ItemBlockPrimal;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
-import net.pufferlab.primal.utils.FacingUtils;
+import net.pufferlab.primal.utils.BlockUtils;
 
 public abstract class BlockContainerPrimal extends BlockContainer implements IPrimalBlock {
 
@@ -41,8 +41,8 @@ public abstract class BlockContainerPrimal extends BlockContainer implements IPr
         if (!isSideDependant()) {
             side2 = 0;
         }
-        int metayaw = FacingUtils.getMetaYawSide(placer.rotationYaw, side2);
-        int metaaxis = FacingUtils.getAxis(side);
+        int metayaw = BlockUtils.getMetaYawSide(placer.rotationYaw, side2);
+        int metaaxis = BlockUtils.getAxis(side);
         if (createTileOnPlace()) {
             setFacingTileEntity(worldIn, x, y, z, metayaw, metaaxis);
         }

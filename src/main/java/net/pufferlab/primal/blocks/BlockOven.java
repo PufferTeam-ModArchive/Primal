@@ -17,7 +17,7 @@ import net.pufferlab.primal.Utils;
 import net.pufferlab.primal.items.itemblocks.ItemBlockPrimal;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
 import net.pufferlab.primal.tileentities.TileEntityOven;
-import net.pufferlab.primal.utils.FacingUtils;
+import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.ItemUtils;
 
 public class BlockOven extends BlockCampfire {
@@ -65,9 +65,9 @@ public class BlockOven extends BlockCampfire {
             worldIn.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
             TileEntity te = worldIn.getTileEntity(x, y, z);
             if (meta == 0) {
-                Utils.playSound(worldIn, x, y, z, Registry.thatch);
+                BlockUtils.playSound(worldIn, x, y, z, Registry.thatch);
             } else {
-                Utils.playSound(worldIn, x, y, z, Registry.log_pile);
+                BlockUtils.playSound(worldIn, x, y, z, Registry.log_pile);
             }
             if (te instanceof TileEntityCampfire tef) {
                 tef.addInventorySlotContentsUpdate(meta + 1, player);
@@ -122,7 +122,7 @@ public class BlockOven extends BlockCampfire {
                         random.nextFloat() * 0.7F + 0.3F,
                         false);
                 }
-                ForgeDirection dir = FacingUtils.getDirectionFromFacing(tef.facingMeta);
+                ForgeDirection dir = BlockUtils.getDirectionFromFacing(tef.facingMeta);
                 int offsetX = dir.offsetX;
                 int offsetZ = dir.offsetZ;
                 int newX = x;
