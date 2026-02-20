@@ -104,7 +104,7 @@ public enum Config {
 
     // WorldGen
     rockWorldGen(Module.world$generation, true, "Whether to enable loose rocks generating in the world."),
-    shellWorldGen(Module.world$generation, true, "Whether to enable loose sheel generating bear beaches."),
+    shellWorldGen(Module.world$generation, true, "Whether to enable loose shell generating bear beaches."),
 
     // Strata
     minimumYHeight(Module.world, 0,
