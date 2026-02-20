@@ -12,11 +12,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
-import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.tileentities.TileEntityForge;
 import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.ItemUtils;
+import net.pufferlab.primal.utils.Utils;
 
 import com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness;
 

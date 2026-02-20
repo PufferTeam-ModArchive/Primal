@@ -4,12 +4,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
-import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.client.models.ModelPrimal;
 import net.pufferlab.primal.client.renderer.RenderContainer;
 import net.pufferlab.primal.client.renderer.RenderHeat;
 import net.pufferlab.primal.items.IMetaItem;
 import net.pufferlab.primal.utils.HeatUtils;
+import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 import org.lwjgl.opengl.GL11;

@@ -11,8 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.fluids.Fluid;
-import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.items.ItemBucketMeta;
+import net.pufferlab.primal.utils.Utils;
 
 import org.lwjgl.opengl.GL11;
 

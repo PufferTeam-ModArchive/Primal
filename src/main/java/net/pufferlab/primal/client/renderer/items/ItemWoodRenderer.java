@@ -2,8 +2,8 @@ package net.pufferlab.primal.client.renderer.items;
 
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Constants;
-import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.client.models.ModelFirewood;
+import net.pufferlab.primal.utils.Utils;
 
 import org.lwjgl.opengl.GL11;
 

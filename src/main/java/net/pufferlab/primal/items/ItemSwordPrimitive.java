@@ -4,8 +4,8 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.utils.ItemUtils;
+import net.pufferlab.primal.utils.Utils;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

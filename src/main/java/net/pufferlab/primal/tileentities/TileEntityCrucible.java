@@ -8,11 +8,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Constants;
-import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.recipes.AlloyingRecipe;
 import net.pufferlab.primal.recipes.MeltingRecipe;
 import net.pufferlab.primal.utils.HeatUtils;
+import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 public class TileEntityCrucible extends TileEntityFluidInventory implements IHeatable {

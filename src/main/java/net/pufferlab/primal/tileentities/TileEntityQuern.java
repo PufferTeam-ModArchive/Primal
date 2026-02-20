@@ -5,8 +5,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.recipes.QuernRecipe;
+import net.pufferlab.primal.utils.Utils;
 
 public class TileEntityQuern extends TileEntityMotionInventory {
 

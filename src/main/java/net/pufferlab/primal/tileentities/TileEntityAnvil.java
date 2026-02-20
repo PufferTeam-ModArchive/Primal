@@ -3,7 +3,6 @@ package net.pufferlab.primal.tileentities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.recipes.AnvilAction;
 import net.pufferlab.primal.recipes.AnvilRecipe;
@@ -11,6 +10,7 @@ import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.MetalType;
 import net.pufferlab.primal.utils.SoundTypePrimal;
+import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 public class TileEntityAnvil extends TileEntityInventory {

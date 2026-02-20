@@ -3,8 +3,8 @@ package net.pufferlab.primal.mixins.early.minecraft.client;
 import net.minecraft.block.Block;
 import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.world.World;
-import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.blocks.IPrimalBlock;
+import net.pufferlab.primal.utils.Utils;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

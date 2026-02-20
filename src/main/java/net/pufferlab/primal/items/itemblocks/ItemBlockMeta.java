@@ -3,9 +3,9 @@ package net.pufferlab.primal.items.itemblocks;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.blocks.IMetaBlock;
 import net.pufferlab.primal.items.IMetaItem;
+import net.pufferlab.primal.utils.Utils;
 
 public class ItemBlockMeta extends ItemBlockPrimal implements IMetaItem {
 

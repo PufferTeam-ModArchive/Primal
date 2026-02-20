@@ -12,8 +12,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.recipes.AlloyingRecipe;
+import net.pufferlab.primal.utils.Utils;
 
 import org.lwjgl.opengl.GL11;
 

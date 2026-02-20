@@ -23,11 +23,11 @@ import net.pufferlab.primal.tileentities.TileEntityCampfire;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.ItemUtils;
+import net.pufferlab.primal.utils.Utils;
 
 import com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness;
 
 import cpw.mods.fml.common.Optional;
-import net.pufferlab.primal.utils.Utils;
 
 @Optional.Interface(iface = "com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness", modid = "rple")
 public class BlockCampfire extends BlockContainerPrimal implements RPLECustomBlockBrightness {

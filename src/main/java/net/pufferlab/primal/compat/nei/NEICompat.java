@@ -8,8 +8,8 @@ import java.awt.*;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.utils.MetalType;
+import net.pufferlab.primal.utils.Utils;
 
 import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.PositionedStack;

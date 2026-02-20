@@ -5,8 +5,8 @@ import java.util.*;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.Config;
-import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.utils.RecipeUtils;
+import net.pufferlab.primal.utils.Utils;
 
 public class AnvilRecipe {
 

@@ -6,8 +6,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Config;
-import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.utils.BlockUtils;
+import net.pufferlab.primal.utils.Utils;
 
 public class TileEntityWaterwheel extends TileEntityMotion {
 

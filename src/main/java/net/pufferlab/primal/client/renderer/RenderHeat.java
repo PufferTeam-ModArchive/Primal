@@ -7,9 +7,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
 import net.pufferlab.primal.Constants;
-import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.client.models.ModelPrimal;
 import net.pufferlab.primal.utils.HeatUtils;
+import net.pufferlab.primal.utils.Utils;
 
 import org.lwjgl.opengl.GL11;
 

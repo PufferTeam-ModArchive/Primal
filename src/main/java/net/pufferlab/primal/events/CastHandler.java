@@ -6,9 +6,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.pufferlab.primal.Registry;
-import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.tileentities.TileEntityCast;
 import net.pufferlab.primal.utils.BlockUtils;
+import net.pufferlab.primal.utils.Utils;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 

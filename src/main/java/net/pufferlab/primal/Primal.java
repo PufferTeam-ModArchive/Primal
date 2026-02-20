@@ -1,8 +1,8 @@
 package net.pufferlab.primal;
 
 import net.pufferlab.primal.scripts.ScriptRegistry;
-
 import net.pufferlab.primal.utils.Utils;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

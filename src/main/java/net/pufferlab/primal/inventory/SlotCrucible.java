@@ -2,8 +2,8 @@ package net.pufferlab.primal.inventory;
 
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.tileentities.TileEntityCrucible;
+import net.pufferlab.primal.utils.Utils;
 
 public class SlotCrucible extends Slot {
 
