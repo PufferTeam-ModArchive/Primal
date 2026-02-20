@@ -18,6 +18,8 @@ public class CutUtils {
     private static final TIntList metaList = new TIntArrayList();
     private static final List<String> blockNames = new ArrayList<>();
     private static final List<ItemStack> itemStackList = new ArrayList<>();
+    private static String[] blockNamesArray;
+    private static ItemStack[] itemStackArray;
 
     public static void registerBlock(Block block) {
         Item item = Item.getItemFromBlock(block);
@@ -47,11 +49,17 @@ public class CutUtils {
     }
 
     public static String[] getBlockNames() {
-        return blockNames.toArray(new String[0]);
+        if (blockNamesArray == null) {
+            blockNamesArray = blockNames.toArray(new String[0]);
+        }
+        return blockNamesArray;
     }
 
     public static ItemStack[] getItemList() {
-        return itemStackList.toArray(new ItemStack[0]);
+        if (itemStackArray == null) {
+            itemStackArray = itemStackList.toArray(new ItemStack[0]);
+        }
+        return itemStackArray;
     }
 
     public static void registerBlock(Block block, int meta, String name) {

@@ -38,6 +38,7 @@ public class ClientProxy extends CommonProxy {
     private int slabRenderID;
     private int verticalSlabRenderID;
     private int stairsRenderID;
+    private int wallRenderID;
     private int grassRenderID;
     private int pathRenderID;
     private int oreRenderID;
@@ -66,6 +67,7 @@ public class ClientProxy extends CommonProxy {
         slabRenderID = getNextId();
         verticalSlabRenderID = getNextId();
         stairsRenderID = getNextId();
+        wallRenderID = getNextId();
         grassRenderID = getNextId();
         pathRenderID = getNextId();
         oreRenderID = getNextId();
@@ -92,6 +94,7 @@ public class ClientProxy extends CommonProxy {
         register(new BlockSlabRenderer());
         register(new BlockSlabVerticalRenderer());
         register(new BlockStairsRenderer());
+        register(new BlockWallRenderer());
         register(new BlockGrassRenderer());
         register(new BlockPathRenderer());
         register(new BlockOreRenderer());
@@ -333,6 +336,11 @@ public class ClientProxy extends CommonProxy {
     @Override
     public int getStairsRenderID() {
         return stairsRenderID;
+    }
+
+    @Override
+    public int getWallRenderID() {
+        return wallRenderID;
     }
 
     @Override

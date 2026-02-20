@@ -6,9 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.blocks.BlockCutSlab;
-import net.pufferlab.primal.blocks.BlockCutSlabVertical;
-import net.pufferlab.primal.blocks.BlockCutStairs;
+import net.pufferlab.primal.blocks.ICutBlock;
 import net.pufferlab.primal.network.packets.*;
 import net.pufferlab.primal.tileentities.*;
 
@@ -16,14 +14,8 @@ public class NetworkPacket {
 
     public void setMaterialTE(World world, int x, int y, int z, int material, int material2) {
         Block block = world.getBlock(x, y, z);
-        if (block instanceof BlockCutSlab block2) {
+        if (block instanceof ICutBlock block2) {
             block2.setCutTileEntity(world, x, y, z, material, material2);
-        }
-        if (block instanceof BlockCutSlabVertical block2) {
-            block2.setCutTileEntity(world, x, y, z, material, material2);
-        }
-        if (block instanceof BlockCutStairs block2) {
-            block2.setCutTileEntity(world, x, y, z, material);
         }
     }
 

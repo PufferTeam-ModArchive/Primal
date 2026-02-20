@@ -48,6 +48,7 @@ public class ScriptWorld implements IScript {
                 addShapedRecipe(getModItem(name + "_slab", 6), "III", 'I', stack);
                 addShapedRecipe(getModItem(name + "_vertical_slab", 6), "I", "I", "I", 'I', stack);
                 addShapedRecipe(getModItem(name + "_stairs", 8), "I  ", "II ", "III", 'I', stack);
+                addShapedRecipe(getModItem(name + "_wall", 6), "III", "III", 'I', stack);
             }
         }
     }

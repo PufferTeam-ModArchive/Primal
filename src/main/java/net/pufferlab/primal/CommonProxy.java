@@ -178,6 +178,10 @@ public class CommonProxy implements IGuiHandler {
         return 0;
     }
 
+    public int getWallRenderID() {
+        return 0;
+    }
+
     public int getGrassRenderID() {
         return 0;
     }
