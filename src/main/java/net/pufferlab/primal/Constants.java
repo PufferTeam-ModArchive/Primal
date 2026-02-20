@@ -126,7 +126,6 @@ public class Constants {
     public static final VeinType deep_malachite = new VeinType(malachite, "malachite", 10, 40, 5, 6, 0.0F, 0.3F, 0.15F, slate, diorite, schist);
     public static final VeinType medium_cassiterite = new VeinType(cassiterite, "medium_cassiterite", 20, 50, 3, 5, 0.0F,0.5F, 0.2F, diorite, granite, dacite, claystone, andesite);
     public static final VeinType[] veinTypes = new VeinType[] { surface_copper, deep_copper, deep_malachite, medium_cassiterite };
-    public static VeinType[][] veinTypesLayer;
 
     public static final VeinType common_aer = new VeinType(aer, "common_aer", 0, 100, 2, 4, 0.0F, 0.3F, 0.4F, stoneTypes);
     public static final VeinType common_ignis = new VeinType(ignis, "common_ignis", 0, 100, 2, 4, 0.0F, 0.3F, 0.4F, stoneTypes);

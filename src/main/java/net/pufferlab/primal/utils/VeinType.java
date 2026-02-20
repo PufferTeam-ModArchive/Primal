@@ -113,7 +113,7 @@ public class VeinType {
         gen(stoneTypes, tcVeinLayerCache);
     }
 
-    private static void gen(VeinType[] stoneTypes, TIntObjectMap<VeinType[]> tcVeinLayerCache) {
+    private static void gen(VeinType[] stoneTypes, TIntObjectMap<VeinType[]> cache) {
         for (int i = Constants.minHeight; i < Constants.maxHeight; i++) {
             List<VeinType> cacheStone = new ArrayList<>(stoneTypes.length);
 
@@ -124,7 +124,7 @@ public class VeinType {
             }
 
             if (!cacheStone.isEmpty()) {
-                tcVeinLayerCache.put(i, cacheStone.toArray(new VeinType[0]));
+                cache.put(i, cacheStone.toArray(new VeinType[0]));
             }
         }
     }

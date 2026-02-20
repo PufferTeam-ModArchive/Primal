@@ -133,7 +133,7 @@ public enum Config {
         "Whether to enable the generation of the ore types for Thaumcraft"),
 
     // Mixins
-    hodgepodgeBatcherDisabler(Module.fixes, true, "Prevents hodgepodge to slow down packet for the mod tile entities"),
+    hpBatcherDisabler(Module.fixes, true, "Prevents hodgepodge to slow down packet for the mod tile entities"),
     particleFix(Module.fixes, true,
         "Fixes particles to match the block it's being broken, required for some blocks to have correct looking particles"),
     plantFix(Module.fixes, true, "Fixes some vanilla logic not applying to the mod grass"),

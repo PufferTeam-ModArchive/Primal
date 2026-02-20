@@ -26,4 +26,8 @@ public interface IPrimalBlock {
     default boolean useWorldIcon() {
         return false;
     }
+
+    default byte getBlockParticleAmount() {
+        return 4;
+    }
 }

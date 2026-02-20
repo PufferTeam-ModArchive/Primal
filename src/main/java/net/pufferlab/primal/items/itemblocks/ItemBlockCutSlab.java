@@ -184,7 +184,7 @@ public class ItemBlockCutSlab extends ItemBlock implements IMetaItem {
 
     @Override
     public String[] getElements() {
-        return CutUtils.getModNames();
+        return CutUtils.getBlockNames();
     }
 
     @Override

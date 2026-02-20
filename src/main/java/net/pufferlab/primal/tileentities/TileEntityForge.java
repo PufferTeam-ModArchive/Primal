@@ -10,8 +10,6 @@ import net.pufferlab.primal.world.UpdateTask;
 
 public class TileEntityForge extends TileEntityInventory implements IHeatable, IScheduledTile {
 
-    public static int burnTime = Config.forgeBurnTime.getDefaultInt();
-
     public static int updateFuel = 0;
     public UpdateTask taskFuel = new UpdateTask(updateFuel);
 
@@ -22,8 +20,6 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
 
     public TileEntityForge() {
         super(8);
-
-        burnTime = Config.forgeBurnTime.getInt();
     }
 
     @Override

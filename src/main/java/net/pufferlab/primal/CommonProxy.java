@@ -1,6 +1,7 @@
 package net.pufferlab.primal;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.particle.EntityFX;
 import net.minecraft.command.CommandHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -8,6 +9,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.pufferlab.primal.inventory.*;
+import net.pufferlab.primal.network.NetworkEffect;
 import net.pufferlab.primal.network.NetworkPacket;
 import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.tileentities.TileEntityAnvil;
@@ -28,6 +30,7 @@ public class CommonProxy implements IGuiHandler {
 
     public MinecraftServer server;
     public final NetworkPacket packet = new NetworkPacket();
+    public final NetworkEffect effect = new NetworkEffect();
 
     public final int largeVesselGuiID = 0;
     public final int crucibleGuiID = 1;
@@ -94,6 +97,8 @@ public class CommonProxy implements IGuiHandler {
         return null;
     }
 
+    public void renderFX(EntityFX entityFX) {}
+
     public World getWorld(MessageContext ctx) {
         if (ctx.side == Side.SERVER) {
             return ctx.getServerHandler().playerEntity.getEntityWorld();
@@ -128,6 +133,11 @@ public class CommonProxy implements IGuiHandler {
 
     public <T extends IMessage> void sendPacketToClient(T object) {
         Primal.network.sendToAll(object);
+    }
+
+    public <T extends IMessage> void playPacketToClientNear(T object, World world, int x, int y, int z) {
+        Primal.network
+            .sendToAllAround(object, new NetworkRegistry.TargetPoint(world.provider.dimensionId, x, y, z, 64.0D));
     }
 
     public <T extends IMessage> void sendPacketToServer(T object) {};

@@ -11,9 +11,6 @@ import net.pufferlab.primal.utils.Utils;
 
 public class TileEntityWaterwheel extends TileEntityMotion {
 
-    public static boolean restrictBiome = Config.waterwheelRestrictBiome.getDefaultBoolean();
-    public static float defaultSpeed = Config.waterwheelDefaultSpeed.getDefaultFloat();
-
     public boolean isExtension;
     public int baseXCoord;
     public int baseYCoord;
@@ -23,9 +20,6 @@ public class TileEntityWaterwheel extends TileEntityMotion {
 
     public TileEntityWaterwheel() {
         this.scheduleFlowUpdate();
-
-        restrictBiome = Config.waterwheelRestrictBiome.getBoolean();
-        defaultSpeed = Config.windmillDefaultSpeed.getFloat();
     }
 
     @Override
@@ -58,6 +52,9 @@ public class TileEntityWaterwheel extends TileEntityMotion {
 
         this.isExtension = tag.getBoolean("isExtension");
         this.generatedSpeed = tag.getFloat("generatedSpeed");
+        this.baseXCoord = tag.getInteger("baseX");
+        this.baseYCoord = tag.getInteger("baseY");
+        this.baseZCoord = tag.getInteger("baseZ");
     }
 
     @Override
@@ -66,6 +63,9 @@ public class TileEntityWaterwheel extends TileEntityMotion {
 
         tag.setBoolean("isExtension", this.isExtension);
         tag.setFloat("generatedSpeed", this.generatedSpeed);
+        tag.setInteger("baseX", this.baseXCoord);
+        tag.setInteger("baseY", this.baseYCoord);
+        tag.setInteger("baseZ", this.baseZCoord);
     }
 
     @Override
@@ -108,9 +108,11 @@ public class TileEntityWaterwheel extends TileEntityMotion {
     }
 
     public float getSpeedFromFlow() {
-        if (restrictBiome && !Utils.isRiverBiome(this.worldObj, this.xCoord, this.yCoord, this.zCoord)) return 0.0F;
+        if (Config.waterwheelRestrictBiome.getBoolean()
+            && !Utils.isRiverBiome(this.worldObj, this.xCoord, this.yCoord, this.zCoord)) return 0.0F;
 
         float totalSpeed = 0.0F;
+        float defaultSpeed = Config.waterwheelDefaultSpeed.getFloat();
         if (axisMeta == 1) {
             if (hasLiquid(ForgeDirection.WEST)) {
                 totalSpeed = totalSpeed + defaultSpeed;

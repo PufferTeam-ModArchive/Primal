@@ -560,6 +560,7 @@ public class Registry {
         registerPacket(PacketSpeedUpdate.class, Side.CLIENT);
         registerPacket(PacketWorldTime.class, Side.CLIENT);
         registerPacket(PacketPlayerData.class, Side.CLIENT);
+        registerPacket(PacketEffect.class, Side.CLIENT);
     }
 
     public void setupEvents() {

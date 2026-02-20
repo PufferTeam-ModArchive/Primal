@@ -25,9 +25,11 @@ public class PrimalLateMixins implements ILateMixinLoader {
         if (Mods.dapi.isLoaded(loadedMods)) {
             if (Config.dragonAPIPlantFix.getBoolean()) {
                 mixins.add("dragonapi.MixinBlockHelper");
-                if (Mods.chrc.isLoaded(loadedMods)) {
-                    mixins.add("chromaticraft.MixinBlockDecoFlower");
-                }
+            }
+        }
+        if (Mods.chrc.isLoaded(loadedMods)) {
+            if (Config.dragonAPIPlantFix.getBoolean()) {
+                mixins.add("chromaticraft.MixinBlockDecoFlower");
             }
         }
         if (Mods.bop.isLoaded(loadedMods)) {
@@ -44,7 +46,7 @@ public class PrimalLateMixins implements ILateMixinLoader {
             }
         }
         if (Mods.hp.isLoaded(loadedMods)) {
-            if (Config.hodgepodgeBatcherDisabler.getBoolean()) {
+            if (Config.hpBatcherDisabler.getBoolean()) {
                 mixins.add("hodgepodge.MixinTileEntityDescriptionBatcher");
             }
         }

@@ -43,7 +43,7 @@ public class CutUtils {
         return metaList.get(id);
     }
 
-    public static String[] getModNames() {
+    public static String[] getBlockNames() {
         return blockNames.toArray(new String[0]);
     }
 

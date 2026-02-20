@@ -12,8 +12,6 @@ import net.pufferlab.primal.utils.ItemUtils;
 
 public class TileEntityLogPile extends TileEntityInventory implements IHeatable {
 
-    public static int smeltTime = Config.logPileSmeltTime.getDefaultInt();
-
     public int timePassed;
     public int timeExposed;
     public int timeFired;
@@ -24,8 +22,6 @@ public class TileEntityLogPile extends TileEntityInventory implements IHeatable 
     public TileEntityLogPile() {
         super(9);
         this.isExposed = false;
-
-        smeltTime = Config.logPileSmeltTime.getInt();
     }
 
     @Override
@@ -113,7 +109,7 @@ public class TileEntityLogPile extends TileEntityInventory implements IHeatable 
         }
         boolean reset = false;
         if (!worldObj.isRemote) {
-            if (this.timePassed > smeltTime) {
+            if (this.timePassed > Config.logPileSmeltTime.getInt()) {
                 this.syncMetaWithAmount();
                 for (int i = 0; i < getSizeInventory(); i++) {
                     this.setInventorySlotContentsUpdate(i);

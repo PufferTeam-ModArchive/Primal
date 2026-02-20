@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -265,6 +266,11 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
+    public void renderFX(EntityFX entityFX) {
+        Minecraft.getMinecraft().effectRenderer.addEffect(entityFX);
+    }
+
+    @Override
     public void renderFX(TileEntity te, double x, double y, double z, ItemStack stack) {
         if (te instanceof TileEntityQuern) {
             if (stack != null) {
@@ -277,7 +283,7 @@ public class ClientProxy extends CommonProxy {
                     te.zCoord + z,
                     item,
                     meta);
-                Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+                renderFX(fx);
             }
         }
     }
