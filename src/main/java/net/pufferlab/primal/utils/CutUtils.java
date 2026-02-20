@@ -30,6 +30,8 @@ public class CutUtils {
                     registerBlock(block, i, elements[i] + suffix);
                 }
             }
+        } else {
+            registerBlock(block, 0);
         }
     }
 
