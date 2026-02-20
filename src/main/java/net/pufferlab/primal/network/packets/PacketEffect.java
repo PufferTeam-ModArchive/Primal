@@ -48,7 +48,7 @@ public class PacketEffect implements IMessage, IMessageHandler<PacketEffect, IMe
         if (world == null) return null;
 
         Block block = Block.getBlockById(msg.blockID);
-        Primal.proxy.effect.addBlockDestroyEffects(world, msg.x, msg.y, msg.z, block, msg.metadata);
+        Primal.proxy.renderFX(world, msg.x, msg.y, msg.z, block, msg.metadata);
         return null;
     }
 

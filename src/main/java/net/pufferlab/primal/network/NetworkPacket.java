@@ -95,6 +95,10 @@ public class NetworkPacket {
         }
     }
 
+    public void playAuxFX(World world, int x, int y, int z, Block block, int meta) {
+        Primal.proxy.playPacketToClientNear(new PacketEffect(x, y, z, block, meta), world, x, y, z);
+    }
+
     public void sendChunkUpdate(World world) {
         if (world instanceof WorldServer worldServer) {
             worldServer.getPlayerManager()

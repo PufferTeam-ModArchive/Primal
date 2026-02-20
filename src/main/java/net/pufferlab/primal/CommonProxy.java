@@ -9,7 +9,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.pufferlab.primal.inventory.*;
-import net.pufferlab.primal.network.NetworkEffect;
 import net.pufferlab.primal.network.NetworkPacket;
 import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.tileentities.TileEntityAnvil;
@@ -30,7 +29,6 @@ public class CommonProxy implements IGuiHandler {
 
     public MinecraftServer server;
     public final NetworkPacket packet = new NetworkPacket();
-    public final NetworkEffect effect = new NetworkEffect();
 
     public final int largeVesselGuiID = 0;
     public final int crucibleGuiID = 1;
@@ -125,11 +123,13 @@ public class CommonProxy implements IGuiHandler {
 
     public void playClientSound(TileEntity te) {}
 
-    public void renderFX(World world, int x, int y, int z, Block block, int meta) {
+    public void renderSFX(World world, int x, int y, int z, Block block, int meta) {
         world.playAuxSFX(2001, x, y, z, Block.getIdFromBlock(block) + (meta << 12));
     }
 
     public void renderFX(TileEntity te, double x, double y, double z, ItemStack stack) {}
+
+    public void renderFX(World world, int x, int y, int z, Block block, int meta) {}
 
     public <T extends IMessage> void sendPacketToClient(T object) {
         Primal.network.sendToAll(object);

@@ -118,7 +118,7 @@ public class BlockWaterwheel extends BlockMotion {
                     if (!(xf == 0 && zf == 0)) {
                         tef.scheduleRemoval();
                     }
-                    Primal.proxy.effect.playAuxFX(world, x2, y2, z2, tef.getBlockType(), tef.getBlockMetadata());
+                    Primal.proxy.packet.playAuxFX(world, x2, y2, z2, tef.getBlockType(), tef.getBlockMetadata());
                 }
             }
         }

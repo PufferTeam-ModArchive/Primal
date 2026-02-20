@@ -52,7 +52,7 @@ public abstract class MixinEntityFallingBlock extends Entity {
         } else {
             if (block.getMaterial() != Material.air) {
                 block.dropBlockAsItem(this.worldObj, i, j, k, meta, 0);
-                Primal.proxy.renderFX(this.worldObj, i, j, k, block, meta);
+                Primal.proxy.renderSFX(this.worldObj, i, j, k, block, meta);
                 this.worldObj.setBlockToAir(i, j, k);
             }
         }
