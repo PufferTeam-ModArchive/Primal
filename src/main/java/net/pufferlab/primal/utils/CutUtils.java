@@ -17,6 +17,7 @@ public class CutUtils {
     private static final List<Block> blockList = new ArrayList<>();
     private static final TIntList metaList = new TIntArrayList();
     private static final List<String> blockNames = new ArrayList<>();
+    private static final List<ItemStack> itemStackList = new ArrayList<>();
 
     public static void registerBlock(Block block) {
         Item item = Item.getItemFromBlock(block);
@@ -49,6 +50,10 @@ public class CutUtils {
         return blockNames.toArray(new String[0]);
     }
 
+    public static ItemStack[] getItemList() {
+        return itemStackList.toArray(new ItemStack[0]);
+    }
+
     public static void registerBlock(Block block, int meta, String name) {
         registerBlock(block, meta);
         blockNames.add(name);
@@ -57,6 +62,14 @@ public class CutUtils {
     public static void registerBlock(Block block, int meta) {
         blockList.add(block);
         metaList.add(meta);
+    }
+
+    public static void registerItems() {
+        for (int i = 0; i < getSize(); i++) {
+            Block block = blockList.get(i);
+            int meta = metaList.get(i);
+            itemStackList.add(new ItemStack(block, 1, meta));
+        }
     }
 
     public static int getSize() {
@@ -70,10 +83,7 @@ public class CutUtils {
     }
 
     public static String getUnlocalizedName(int id) {
-        Block block = CutUtils.getBlock(id);
-        int meta = CutUtils.getBlockMeta(id);
-        Item item = Item.getItemFromBlock(block);
-        ItemStack stack = new ItemStack(block, 1, meta);
-        return item.getUnlocalizedName(stack);
+        ItemStack stack = itemStackList.get(id);
+        return stack.getUnlocalizedName();
     }
 }

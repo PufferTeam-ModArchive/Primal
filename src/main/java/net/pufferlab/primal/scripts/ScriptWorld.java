@@ -1,7 +1,9 @@
 package net.pufferlab.primal.scripts;
 
+import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Constants;
+import net.pufferlab.primal.utils.CutUtils;
 import net.pufferlab.primal.utils.SoilType;
 import net.pufferlab.primal.utils.StoneType;
 
@@ -39,6 +41,13 @@ public class ScriptWorld implements IScript {
                 String name = type.name;
                 addShapedRecipe(getModItem(name + "_cobble", 1), "PP", "PP", 'P', getModItem(name + "_rock", 1));
                 addShapedRecipe(getModItem(name + "_rock", 4), "P", 'P', getModItem(name + "_cobble", 1));
+            }
+            for (int i = 0; i < CutUtils.getItemList().length; i++) {
+                ItemStack stack = CutUtils.getItemList()[i];
+                String name = CutUtils.getBlockNames()[i];
+                addShapedRecipe(getModItem(name + "_slab", 6), "III", 'I', stack);
+                addShapedRecipe(getModItem(name + "_vertical_slab", 6), "I", "I", "I", 'I', stack);
+                addShapedRecipe(getModItem(name + "_stairs", 8), "I  ", "II ", "III", 'I', stack);
             }
         }
     }

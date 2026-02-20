@@ -654,6 +654,7 @@ public class Registry {
         PrimalEarlyGenerator.strataGen.initBlockList();
         PrimalEarlyGenerator.soilGen.initBlockList();
         BlockStoneOreThaumcraft.setupShards();
+        CutUtils.registerItems();
     }
 
     public void setupHeatables() {
