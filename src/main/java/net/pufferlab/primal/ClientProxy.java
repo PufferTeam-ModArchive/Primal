@@ -285,7 +285,7 @@ public class ClientProxy extends CommonProxy {
                     te.zCoord + z,
                     item,
                     meta);
-                renderFX(fx);
+                Primal.proxy.renderFX(fx);
             }
         }
     }
