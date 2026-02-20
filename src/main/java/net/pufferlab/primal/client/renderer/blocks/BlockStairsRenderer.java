@@ -15,10 +15,12 @@ public class BlockStairsRenderer extends BlockPrimalRenderer {
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
+        renderer.field_152631_f = true;
         renderer.setRenderBounds(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.5D);
         renderStandardInvBlock(renderer, block, metadata);
         renderer.setRenderBounds(0.0D, 0.0D, 0.5D, 1.0D, 0.5D, 1.0D);
         renderStandardInvBlock(renderer, block, metadata);
+        renderer.field_152631_f = false;
     }
 
     @Override

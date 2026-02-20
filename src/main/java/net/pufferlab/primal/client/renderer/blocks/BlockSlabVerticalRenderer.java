@@ -16,6 +16,7 @@ public class BlockSlabVerticalRenderer extends BlockPrimalRenderer {
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
+        renderer.field_152631_f = true;
         if (block instanceof BlockCutSlabVertical slab) {
             if (slab.isFull) {
                 renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
@@ -24,6 +25,7 @@ public class BlockSlabVerticalRenderer extends BlockPrimalRenderer {
             }
         }
         renderStandardInvBlock(renderer, block, metadata);
+        renderer.field_152631_f = false;
     }
 
     @Override
@@ -36,6 +38,7 @@ public class BlockSlabVerticalRenderer extends BlockPrimalRenderer {
                 renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
                 renderer.renderStandardBlock(block, x, y, z);
             } else {
+                renderer.field_152631_f = true;
                 if (meta == 2) {
                     renderer.setOverrideBlockTexture(block.getIcon(world, x, y, z, 0));
                     renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 0.5F, 1.0F, 1.0F);
@@ -57,11 +60,14 @@ public class BlockSlabVerticalRenderer extends BlockPrimalRenderer {
 
                     renderer.setOverrideBlockTexture(null);
                 }
+                renderer.field_152631_f = false;
             }
             return true;
         }
         if (te instanceof TileEntityCut tef) {
+            renderer.field_152631_f = true;
             renderer.renderStandardBlock(block, x, y, z);
+            renderer.field_152631_f = false;
             return true;
         }
         return false;
