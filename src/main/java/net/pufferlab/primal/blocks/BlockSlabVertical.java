@@ -27,25 +27,61 @@ public class BlockSlabVertical extends Block {
         if (block instanceof BlockSlabVertical slab) {
             if (!slab.field_150004_a) {
                 int l = MathHelper.floor_double((double) (placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-                int i1 = worldIn.getBlockMetadata(x, y, z) & 4;
+                int i1 = worldIn.getBlockMetadata(x, y, z);
 
-                if (l == 0) {
-                    worldIn.setBlockMetadataWithNotify(x, y, z, 2 | i1, 2);
-                }
+                boolean subX = (i1 & 0x8) != 0;
+                boolean subZ = (i1 & 0x4) != 0;
+                boolean subXHigh = (i1 & 0x2) != 0;
+                boolean subZHigh = (i1 & 0x1) != 0;
 
-                if (l == 1) {
-                    worldIn.setBlockMetadataWithNotify(x, y, z, 1 | i1, 2);
-                }
+                if (((l == 1 || l == 3) && subX) || ((l == 0 || l == 2) && subZ)) {
+                    if (l == 0) {
+                        worldIn.setBlockMetadataWithNotify(x, y, z, 2, 2);
+                    }
+                    if (l == 1) {
+                        worldIn.setBlockMetadataWithNotify(x, y, z, 1, 2);
+                    }
 
-                if (l == 2) {
-                    worldIn.setBlockMetadataWithNotify(x, y, z, 3 | i1, 2);
-                }
+                    if (l == 2) {
+                        worldIn.setBlockMetadataWithNotify(x, y, z, 3, 2);
+                    }
 
-                if (l == 3) {
-                    worldIn.setBlockMetadataWithNotify(x, y, z, 0 | i1, 2);
+                    if (l == 3) {
+                        worldIn.setBlockMetadataWithNotify(x, y, z, 0, 2);
+
+                    }
+                } else {
+                    if (l == 0 || l == 2) {
+                        if (subZHigh) {
+                            worldIn.setBlockMetadataWithNotify(x, y, z, 2, 2);
+                        } else {
+                            worldIn.setBlockMetadataWithNotify(x, y, z, 3, 2);
+                        }
+                    }
+
+                    if (l == 1 || l == 3) {
+                        if (subXHigh) {
+                            worldIn.setBlockMetadataWithNotify(x, y, z, 0, 2);
+                        } else {
+                            worldIn.setBlockMetadataWithNotify(x, y, z, 1, 2);
+                        }
+                    }
                 }
             }
         }
+    }
+
+    @Override
+    public int onBlockPlaced(World worldIn, int x, int y, int z, int side, float subX, float subY, float subZ,
+        int meta) {
+        int packed = 0;
+
+        if (subX == 1.0F || subX == 0.0) packed |= 0x8;
+        if (subZ == 1.0F || subZ == 0.0F) packed |= 0x4;
+        if (subX > 0.5F) packed |= 0x2;
+        if (subZ > 0.5F) packed |= 0x1;
+
+        return packed;
     }
 
     @Override
