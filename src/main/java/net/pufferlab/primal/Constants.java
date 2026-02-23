@@ -89,6 +89,7 @@ public class Constants {
     public static final MetalType[] blockMetalTypes = new MetalType[] { copper, tin, bronze };
     public static final MetalType[] toolMetalTypes = new MetalType[] { iron, copper, bronze };
     public static final MetalType[] anvilMetalTypes = new MetalType[] { iron, copper, bronze };
+    public static final MetalType[] metalTypesAll = new MetalType[] { iron, castIron, gold, copper, tin, bronze, };
     public static final String[] ingotBlacklist = new String[] { "iron", "gold" };
     public static final String[] nuggetBlacklist = new String[] { "gold" };
 

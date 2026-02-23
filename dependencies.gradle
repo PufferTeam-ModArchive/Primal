@@ -36,7 +36,7 @@
 dependencies {
     shadowImplementation("org.joml:joml:1.10.8") { transitive = false } // MIT
 
-    api("com.github.GTNewHorizons:Hodgepodge:2.7.65:dev")
+    api("com.github.GTNewHorizons:Hodgepodge:2.7.78:dev")
     api("thaumcraft:Thaumcraft:1.7.10-4.2.3.5:dev") { transitive = false }
     api("com.github.GTNewHorizons:Baubles-Expanded:2.2.6-GTNH:dev") { transitive = false }
     api("com.github.GTNewHorizons:NotEnoughItems:2.8.60-GTNH:dev")

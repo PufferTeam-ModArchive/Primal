@@ -262,6 +262,16 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
+    public int getClientRenderDistance() {
+        return Minecraft.getMinecraft().gameSettings.renderDistanceChunks;
+    }
+
+    @Override
+    public int getClientMaxRenderDistanceSquared() {
+        return (getClientRenderDistance() * 16) * (getClientRenderDistance() * 16);
+    }
+
+    @Override
     public void playClientSound(TileEntity te) {
         if (te instanceof TileEntityQuern tef) {
             Minecraft.getMinecraft()

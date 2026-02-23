@@ -50,6 +50,10 @@ public class ConfigUtils {
         }
     }
 
+    public static boolean hasMetalMelting(MetalType metalType) {
+        return meltingMetalMap.containsKey(metalType);
+    }
+
     public static int getMetalMelting(MetalType metalType) {
         String metal = metalType.name;
         return meltingMetalMap.get(metal);
@@ -119,6 +123,10 @@ public class ConfigUtils {
         }
     }
 
+    public static boolean hasVeinHeight(VeinType veinType) {
+        return veinHeightMinMap.containsKey(veinType) && veinHeightMaxMap.containsKey(veinType);
+    }
+
     public static int getVeinHeightMin(VeinType veinType) {
         String vein = veinType.name;
         return veinHeightMinMap.get(vein);
@@ -157,6 +165,10 @@ public class ConfigUtils {
                 }
             }
         }
+    }
+
+    public static boolean hasStrataHeight(StoneType veinType) {
+        return strataHeightMinMap.containsKey(veinType) && strataHeightMaxMap.containsKey(veinType);
     }
 
     public static int getStrataHeightMin(StoneType veinType) {
@@ -199,6 +211,10 @@ public class ConfigUtils {
         }
     }
 
+    public static boolean hasVeinSize(VeinType veinType) {
+        return veinSizeMinMap.containsKey(veinType) && veinSizeMaxMap.containsKey(veinType);
+    }
+
     public static int getVeinSizeMin(VeinType veinType) {
         String vein = veinType.name;
         return veinSizeMinMap.get(vein);
@@ -236,6 +252,10 @@ public class ConfigUtils {
                 }
             }
         }
+    }
+
+    public static boolean hasAnvilStep(AnvilAction anvilAction) {
+        return anvilStepMap.containsKey(anvilAction);
     }
 
     public static int getAnvilStep(AnvilAction metalType) {

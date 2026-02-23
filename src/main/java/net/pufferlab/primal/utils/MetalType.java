@@ -99,7 +99,7 @@ public class MetalType {
     public static MetalType getMetalFromFluid(FluidStack stack) {
         if (fluidMap == null) {
             fluidMap = new HashMap<>();
-            for (MetalType type : Constants.metalTypes) {
+            for (MetalType type : Constants.metalTypesAll) {
                 Fluid fluid = type.fluid;
                 fluidMap.put(fluid, type);
             }

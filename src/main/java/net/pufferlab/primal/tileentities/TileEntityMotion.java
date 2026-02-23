@@ -1,6 +1,7 @@
 package net.pufferlab.primal.tileentities;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.network.NetworkMotion;
 import net.pufferlab.primal.utils.BlockUtils;
@@ -130,6 +131,14 @@ public abstract class TileEntityMotion extends TileEntityMetaFacing implements I
             return true;
         }
         return false;
+    }
+
+    @Override
+    public double getMaxRenderDistanceSquared() {
+        if (Config.extendMechanicalPowerRendering.getBoolean()) {
+            return Primal.proxy.getClientMaxRenderDistanceSquared();
+        }
+        return super.getMaxRenderDistanceSquared();
     }
 
     @Override

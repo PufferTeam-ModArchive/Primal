@@ -121,6 +121,14 @@ public class CommonProxy implements IGuiHandler {
         return null;
     }
 
+    public int getClientRenderDistance() {
+        return Integer.MAX_VALUE;
+    }
+
+    public int getClientMaxRenderDistanceSquared() {
+        return Short.MAX_VALUE * 2;
+    }
+
     public void playClientSound(TileEntity te) {}
 
     public void renderSFX(World world, int x, int y, int z, Block block, int meta) {

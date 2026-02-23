@@ -72,9 +72,9 @@ public enum Config {
     metalPriorityOverride(Module.metalworking,
         new String[] { "ingotIron=minecraft:iron_ingot", "ingotGold=minecraft:gold_ingot" },
         "Override so certain ore dictionary give specific materials"),
-    metalMelting(Module.metalworking, ConfigUtils.getDefaultMetalMelting(Constants.metalTypes),
+    metalMelting(Module.metalworking, ConfigUtils.getDefaultMetalMelting(Constants.metalTypesAll),
         "The melting temperature for the correspond metals."),
-    metalLiquids(Module.metalworking, ConfigUtils.getDefaultMetalFluid(Constants.metalTypes),
+    metalLiquids(Module.metalworking, ConfigUtils.getDefaultMetalFluid(Constants.metalTypesAll),
         "The liquids that will be used for the corresponding metals"),
     metalHighTierCasting(Module.metalworking, false,
         "Whether to enable high tier metals being able to be casted in a crucible."),
@@ -90,6 +90,10 @@ public enum Config {
         "The step value that the anvil action will take when clicked."),
     anvilLineRange(Module.metalworking$forging, 1,
         "The range that you need to be to the recipe line to complete an anvil recipe."),
+
+    // Mechanical Power General
+    extendMechanicalPowerRendering(Module.mechanical_power, true,
+        "Prevent mechanical power TESR to stop rendering at the same distance as normal entities, since they are large blocks"),
 
     // Waterwheel
     waterwheelDefaultSpeed(Module.mechanical_power, 5F, "The default speed that the waterwheel will have."),

@@ -615,31 +615,41 @@ public class Registry {
         Constants.minHeight = Config.minimumYHeight.getInt();
         Constants.maxHeight = Config.maximumYHeight.getInt();
 
-        for (MetalType type : Constants.metalTypes) {
+        for (MetalType type : Constants.metalTypesAll) {
             Fluid fluid = ConfigUtils.getMetalFluid(type);
             if (fluid != null) {
                 type.setFluid(fluid);
+            } else {
+                type.setFluid(FluidRegistry.getFluid(type.fluidName));
             }
-            int temp = ConfigUtils.getMetalMelting(type);
-            if (temp > 0) {
-                type.setMeltingTemperature(temp);
+            if (ConfigUtils.hasMetalMelting(type)) {
+                int temp = ConfigUtils.getMetalMelting(type);
+                if (temp > 0) {
+                    type.setMeltingTemperature(temp);
+                }
             }
         }
-        MetalType.setFluids(Constants.metalTypes);
+        MetalType.setFluids(Constants.metalTypesAll);
 
         for (StoneType type : Constants.stoneTypes) {
-            int min = ConfigUtils.getStrataHeightMin(type);
-            int max = ConfigUtils.getStrataHeightMax(type);
-            type.setHeight(min, max);
+            if (ConfigUtils.hasStrataHeight(type)) {
+                int min = ConfigUtils.getStrataHeightMin(type);
+                int max = ConfigUtils.getStrataHeightMax(type);
+                type.setHeight(min, max);
+            }
         }
 
         for (VeinType type : Constants.veinTypesAll) {
-            int min = ConfigUtils.getVeinHeightMin(type);
-            int max = ConfigUtils.getVeinHeightMax(type);
-            type.setHeight(min, max);
-            int minSize = ConfigUtils.getVeinSizeMin(type);
-            int maxSize = ConfigUtils.getVeinSizeMax(type);
-            type.setSize(minSize, maxSize);
+            if (ConfigUtils.hasVeinHeight(type)) {
+                int min = ConfigUtils.getVeinHeightMin(type);
+                int max = ConfigUtils.getVeinHeightMax(type);
+                type.setHeight(min, max);
+            }
+            if (ConfigUtils.hasVeinSize(type)) {
+                int minSize = ConfigUtils.getVeinSizeMin(type);
+                int maxSize = ConfigUtils.getVeinSizeMax(type);
+                type.setSize(minSize, maxSize);
+            }
         }
 
         StoneType.genLayerCache(Constants.stoneTypes);
@@ -647,8 +657,10 @@ public class Registry {
         VeinType.genTcVeinCache(Constants.tcVeinTypes);
 
         for (AnvilAction action : AnvilAction.values()) {
-            int step = ConfigUtils.getAnvilStep(action);
-            action.setStep(step);
+            if (ConfigUtils.hasAnvilStep(action)) {
+                int step = ConfigUtils.getAnvilStep(action);
+                action.setStep(step);
+            }
         }
     }
 

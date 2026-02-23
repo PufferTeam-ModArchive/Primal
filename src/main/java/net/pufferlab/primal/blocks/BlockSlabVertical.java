@@ -74,6 +74,7 @@ public class BlockSlabVertical extends Block {
     @Override
     public int onBlockPlaced(World worldIn, int x, int y, int z, int side, float subX, float subY, float subZ,
         int meta) {
+        if (this.field_150004_a) return 0;
         int packed = 0;
 
         if (subX == 1.0F || subX == 0.0) packed |= 0x8;
