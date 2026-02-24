@@ -268,7 +268,7 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public int getClientMaxRenderDistanceSquared() {
-        return (getClientRenderDistance() * 16) * (getClientRenderDistance() * 16);
+        return (int) Math.pow(getClientRenderDistance() * 16, 2);
     }
 
     @Override
