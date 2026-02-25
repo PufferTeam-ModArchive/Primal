@@ -27,6 +27,7 @@ import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.tileentities.*;
 import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.IOUtils;
+import net.pufferlab.primal.utils.Utils;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -268,7 +269,7 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public int getClientMaxRenderDistanceSquared() {
-        return (int) Math.pow(getClientRenderDistance() * 16, 2);
+        return Utils.pow(getClientRenderDistance() * 16);
     }
 
     @Override

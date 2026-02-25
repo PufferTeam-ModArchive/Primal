@@ -388,6 +388,10 @@ public class Utils {
         return Math.max(min, Math.min(value, max));
     }
 
+    public static int pow(int value) {
+        return (value * value);
+    }
+
     public static String translate(String key) {
         return StatCollector.translateToLocal(key);
     }
