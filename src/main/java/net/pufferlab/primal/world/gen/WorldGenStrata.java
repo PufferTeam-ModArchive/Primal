@@ -21,11 +21,12 @@ import biomesoplenty.api.content.BOPCBiomes;
 
 public class WorldGenStrata {
 
-    private List<Block> blockList;
-    private List<Block> stoneList;
-    private List<Block> cobbleList;
-    private List<Block> gravelList;
-    private List<Block> sandList;
+    private final List<Block> blockList = new ArrayList<>();
+    private final List<Block> stoneList = new ArrayList<>();
+    private final List<Block> cobbleList = new ArrayList<>();
+    private final List<Block> gravelList = new ArrayList<>();
+    private final List<Block> sandList = new ArrayList<>();
+    private boolean init = false;
     private final Map<Block, Block> blockReplacement = new HashMap<>();
 
     private final Map<Block, List<BiomeGenBase>> stoneTypeBiomeMap = new HashMap<>();
@@ -54,13 +55,7 @@ public class WorldGenStrata {
     }
 
     public void initBlockList() {
-        if (blockList == null && stoneList == null && gravelList == null && sandList == null && cobbleList == null) {
-            blockList = new ArrayList<>();
-            stoneList = new ArrayList<>();
-            cobbleList = new ArrayList<>();
-            gravelList = new ArrayList<>();
-            sandList = new ArrayList<>();
-
+        if (!init) {
             stoneList.add(Blocks.stone);
             cobbleList.add(Blocks.cobblestone);
             if (!Config.enableVanillaOres.getBoolean()) {
@@ -142,6 +137,8 @@ public class WorldGenStrata {
             blockList.addAll(stoneList);
             blockList.addAll(gravelList);
             blockList.addAll(sandList);
+
+            init = true;
         }
     }
 

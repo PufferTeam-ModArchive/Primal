@@ -19,9 +19,10 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class WorldGenSoil {
 
-    private List<Block> blockList;
-    private List<Block> dirtList;
-    private List<Block> grassList;
+    private final List<Block> blockList = new ArrayList<>();
+    private final List<Block> dirtList = new ArrayList<>();
+    private final List<Block> grassList = new ArrayList<>();
+    private boolean init = false;
     private final Map<Block, Block> blockReplacement = new HashMap<>();
 
     private final NoiseGeneratorPerlin[] noiseBiomeGen = new NoiseGeneratorPerlin[1];
@@ -38,11 +39,7 @@ public class WorldGenSoil {
     }
 
     public void initBlockList() {
-        if (blockList == null && dirtList == null && grassList == null) {
-            blockList = new ArrayList<>();
-            dirtList = new ArrayList<>();
-            grassList = new ArrayList<>();
-
+        if (!init) {
             if (Mods.bop.isLoaded()) {
                 dirtList.add(GameRegistry.findBlock(Mods.bop.MODID, "newBopDirt"));
                 dirtList.add(GameRegistry.findBlock(Mods.bop.MODID, "hardDirt"));
@@ -58,6 +55,8 @@ public class WorldGenSoil {
             for (Block block : grassList) {
                 blockReplacement.put(block, Registry.grass);
             }
+
+            init = true;
         }
     }
 
