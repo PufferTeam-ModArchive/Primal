@@ -9,6 +9,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
+import net.pufferlab.primal.utils.Utils;
 
 public class PacketSpeedButton implements IMessage, IMessageHandler<PacketSpeedButton, IMessage> {
 
@@ -51,17 +52,13 @@ public class PacketSpeedButton implements IMessage, IMessageHandler<PacketSpeedB
         if (msg.isShift) {
             modifier = 10F;
         }
+        float modifier2 = 1.0F;
+        if(!msg.addSpeed) {
+            modifier2 = -1.0F;
+        }
         if (te instanceof TileEntityGenerator tef) {
-            if (tef.getGeneratedSpeed() + modifier <= 50) {
-                if (msg.addSpeed) {
-                    tef.scheduleGeneratorUpdate(tef.getGeneratedSpeed() + modifier);
-                }
-            }
-            if (tef.getGeneratedSpeed() - modifier >= -50) {
-                if (!msg.addSpeed) {
-                    tef.scheduleGeneratorUpdate(tef.getGeneratedSpeed() - modifier);
-                }
-            }
+            float newSpeed = Utils.clamp(-50, 50, tef.getGeneratedSpeed() + (modifier * modifier2));
+            tef.scheduleGeneratorUpdate(newSpeed);
         }
         return null;
     }
