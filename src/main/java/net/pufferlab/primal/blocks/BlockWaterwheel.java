@@ -88,9 +88,11 @@ public class BlockWaterwheel extends BlockMotion {
                 TileEntity te2 = worldIn.getTileEntity(tef.baseXCoord, tef.baseYCoord, tef.baseZCoord);
                 if (te2 instanceof TileEntityWaterwheel tef2) {
                     tef2.scheduleRemoval();
+                    tef2.scheduleStrongUpdate();
                 }
             } else {
                 clearExtensions(worldIn, tef.xCoord, tef.yCoord, tef.zCoord, tef.axisMeta);
+                tef.scheduleStrongUpdate();
             }
         }
     }
