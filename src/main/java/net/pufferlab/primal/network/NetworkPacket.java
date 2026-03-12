@@ -7,6 +7,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.ICutBlock;
+import net.pufferlab.primal.entities.player.PlayerData;
 import net.pufferlab.primal.network.packets.*;
 import net.pufferlab.primal.tileentities.*;
 
@@ -84,6 +85,12 @@ public class NetworkPacket {
         if (!te.getWorld().isRemote) {
             Primal.proxy.sendPacketToClient(new PacketSpeedUpdate(te));
             te.mark();
+        }
+    }
+
+    public void sendPlayerData(EntityPlayer player, PlayerData data) {
+        if (!player.worldObj.isRemote) {
+            Primal.proxy.sendPacketToClient(new PacketPlayerData(player, data));
         }
     }
 

@@ -25,7 +25,6 @@ public class KnappingType {
     private static final List<KnappingType> values = new ArrayList<>(Arrays.asList(clay, straw, flint, stone, leather));
 
     private static int nextId = 0;
-    private static final int idOffset = 100;
 
     public final int id;
     public final String name;
@@ -81,12 +80,12 @@ public class KnappingType {
     }
 
     public static int getHandler(KnappingType type) {
-        return type.id + idOffset;
+        return type.id + Primal.proxy.getLastGuiID();
     }
 
     public static KnappingType getHandler(int id) {
         for (KnappingType t : values) {
-            if (t.id == (id - idOffset)) return t;
+            if (t.id == (id - Primal.proxy.getLastGuiID())) return t;
         }
         return null;
     }

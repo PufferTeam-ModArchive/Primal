@@ -1,11 +1,13 @@
 package net.pufferlab.primal.client.gui;
 
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.inventory.ContainerKnapping;
 
+import net.pufferlab.primal.recipes.KnappingType;
 import org.lwjgl.opengl.GL11;
 
 public class GuiKnapping extends GuiContainerPrimal {
@@ -18,6 +20,10 @@ public class GuiKnapping extends GuiContainerPrimal {
         "textures/gui/container/knapping_needs_knife.png");
 
     ContainerKnapping containerKnapping;
+
+    public GuiKnapping(KnappingType type, InventoryPlayer playerInventory) {
+        this(new ContainerKnapping(type, playerInventory));
+    }
 
     public GuiKnapping(Container p_i1072_1_) {
         super(p_i1072_1_);

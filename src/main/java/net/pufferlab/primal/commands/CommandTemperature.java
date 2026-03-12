@@ -30,7 +30,7 @@ public class CommandTemperature extends CommandSub {
                 boolean state = !data.temperatureDebug;
                 data.setTemperatureDebug(state);
                 sender.addChatMessage(new ChatComponentText(RecipeUtils.getStateTooltip(state, "Enabled", "Disabled")));
-                updatePacket(player, data);
+                Primal.proxy.packet.sendPlayerData(player, data);
             }
         }
         ItemStack stack = player.getHeldItem();
@@ -61,12 +61,6 @@ public class CommandTemperature extends CommandSub {
     @Override
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args) {
         return args.length == 1 ? Arrays.asList(arguments) : null;
-    }
-
-    public void updatePacket(EntityPlayer player, PlayerData data) {
-        if (!player.worldObj.isRemote) {
-            Primal.proxy.sendPacketToClient(new PacketPlayerData(player, data));
-        }
     }
 
     @Override

@@ -52,6 +52,7 @@ public class Primal {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         proxy.preInit(event);
+        proxy.setupGUIs();
         proxy.setupResources();
 
         registry.setup();

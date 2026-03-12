@@ -226,7 +226,7 @@ public class ClientProxy extends CommonProxy {
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
         KnappingType knappingType = KnappingType.getHandler(ID);
         if (knappingType != null) {
-            return new GuiKnapping(new ContainerKnapping(knappingType, player.inventory));
+            return new GuiKnapping(knappingType, player.inventory);
         }
         TileEntity te = world.getTileEntity(x, y, z);
         if (ID == largeVesselGuiID && te instanceof TileEntityLargeVessel tef) {

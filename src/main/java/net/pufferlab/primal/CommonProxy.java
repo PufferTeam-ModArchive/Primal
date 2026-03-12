@@ -30,14 +30,35 @@ public class CommonProxy implements IGuiHandler {
     public MinecraftServer server;
     public final NetworkPacket packet = new NetworkPacket();
 
-    public final int largeVesselGuiID = 0;
-    public final int crucibleGuiID = 1;
-    public final int generatorGuiID = 2;
-    public final int anvilWorkGuiID = 3;
-    public final int anvilPlanGuiID = 4;
+    public int nextGuiID;
+    public int largeVesselGuiID;
+    public int crucibleGuiID;
+    public int generatorGuiID;
+    public int anvilWorkGuiID;
+    public int anvilPlanGuiID;
 
-    public void preInit(FMLPreInitializationEvent event) {
-        NetworkRegistry.INSTANCE.registerGuiHandler(Primal.instance, Primal.proxy);
+    public void preInit(FMLPreInitializationEvent event) {}
+
+    public void setupGUIs() {
+        registerHandler(Primal.proxy);
+
+        largeVesselGuiID = getNextGuiID();
+        crucibleGuiID = getNextGuiID();
+        generatorGuiID = getNextGuiID();
+        anvilWorkGuiID = getNextGuiID();
+        anvilPlanGuiID = getNextGuiID();
+    }
+
+    public void registerHandler(IGuiHandler handler) {
+        NetworkRegistry.INSTANCE.registerGuiHandler(Primal.instance, handler);
+    }
+
+    public int getNextGuiID() {
+        return nextGuiID++;
+    }
+
+    public int getLastGuiID() {
+        return nextGuiID;
     }
 
     public void setupRenders() {}

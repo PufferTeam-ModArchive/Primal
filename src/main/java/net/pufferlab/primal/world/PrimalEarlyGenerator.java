@@ -6,6 +6,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.pufferlab.primal.Config;
+import net.pufferlab.primal.Constants;
+import net.pufferlab.primal.utils.MetalType;
 import net.pufferlab.primal.world.gen.WorldGenSoil;
 import net.pufferlab.primal.world.gen.WorldGenStrata;
 
@@ -34,5 +36,19 @@ public class PrimalEarlyGenerator implements IWorldGenerator {
             }
             soilGen.genSoil(chunk);
         }
+    }
+
+    static int value = 0;
+
+    static {
+        addValue(value);
+        setValue(Constants.iron);
+    }
+
+    public static void addValue(int value) {
+        value++;
+    }
+    public static void setValue(MetalType type) {
+        type.meltingTemperature++;
     }
 }
