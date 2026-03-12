@@ -156,7 +156,7 @@ public class BlockCampfire extends BlockContainerPrimal implements RPLECustomBlo
             if (!CampfireRecipe.hasRecipe(heldItem)) return false;
             return tef.addInventorySlotContentsUpdate(index, player);
         } else {
-            dropItem(world, x, y, z, index);
+            dropItemCollide(world, x, y, z, index, player);
             tef.setInventorySlotContentsUpdate(index);
             return true;
         }

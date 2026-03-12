@@ -8,6 +8,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -86,6 +87,31 @@ public abstract class BlockContainerPrimal extends BlockContainer implements IPr
 
     public void dropItems(World world, int i, int j, int k) {
         dropItems(world, i, j, k, 0);
+    }
+
+    public boolean dropItemCollide(World world, int x, int y, int z, int index, EntityPlayer player) {
+        if (player == null) return dropItem(world, x, y, z, index);
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
+        if (!(tileEntity instanceof IInventory)) return false;
+        TileEntityInventory pile = (TileEntityInventory) tileEntity;
+        ItemStack item = null;
+        if ((index < pile.getSizeInventory()) && (index >= 0)) {
+            item = pile.getInventoryStack(index);
+        }
+        if (item != null && item.stackSize > 0) {
+            EntityItem entityItem = new EntityItem(world, x + 0.5, y + 1.25, z + 0.5, item.copy());
+            entityItem.motionX = 0.0D;
+            entityItem.motionY = 0.0D;
+            entityItem.motionZ = 0.0D;
+            entityItem.delayBeforeCanPickup = 0;
+            spawnEntity(world, entityItem);
+            if (!world.isRemote) {
+                entityItem.onCollideWithPlayer(player);
+            }
+            item.stackSize = 0;
+            return true;
+        }
+        return false;
     }
 
     public boolean dropItem(World world, int x, int y, int z, int index) {

@@ -22,7 +22,6 @@ import net.pufferlab.primal.client.particle.EntityGrindingFX;
 import net.pufferlab.primal.client.renderer.blocks.*;
 import net.pufferlab.primal.client.renderer.items.*;
 import net.pufferlab.primal.client.renderer.tileentities.*;
-import net.pufferlab.primal.inventory.ContainerKnapping;
 import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.tileentities.*;
 import net.pufferlab.primal.utils.HeatUtils;

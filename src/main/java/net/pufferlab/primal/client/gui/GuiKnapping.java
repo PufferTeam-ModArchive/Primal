@@ -6,8 +6,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.inventory.ContainerKnapping;
-
 import net.pufferlab.primal.recipes.KnappingType;
+
 import org.lwjgl.opengl.GL11;
 
 public class GuiKnapping extends GuiContainerPrimal {

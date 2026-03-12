@@ -12,7 +12,6 @@ import net.minecraft.util.ChatComponentText;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.entities.player.PlayerData;
-import net.pufferlab.primal.network.packets.PacketPlayerData;
 import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.RecipeUtils;
 import net.pufferlab.primal.world.GlobalTickingData;
