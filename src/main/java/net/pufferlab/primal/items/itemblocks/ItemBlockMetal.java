@@ -14,6 +14,7 @@ public class ItemBlockMetal extends ItemBlockMetaHeatable {
     @Override
     public MetalType getMetal(ItemStack stack) {
         BlockMetal block = (BlockMetal) field_150939_a;
+
         return block.getMetalTypes()[stack.getItemDamage()];
     }
 

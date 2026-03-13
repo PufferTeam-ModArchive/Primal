@@ -40,17 +40,13 @@ public class CommonProxy implements IGuiHandler {
     public void preInit(FMLPreInitializationEvent event) {}
 
     public void setupGUIs() {
-        registerHandler(Primal.proxy);
+        NetworkRegistry.INSTANCE.registerGuiHandler(Primal.instance, Primal.proxy);
 
         largeVesselGuiID = getNextGuiID();
         crucibleGuiID = getNextGuiID();
         generatorGuiID = getNextGuiID();
         anvilWorkGuiID = getNextGuiID();
         anvilPlanGuiID = getNextGuiID();
-    }
-
-    public void registerHandler(IGuiHandler handler) {
-        NetworkRegistry.INSTANCE.registerGuiHandler(Primal.instance, handler);
     }
 
     public int getNextGuiID() {

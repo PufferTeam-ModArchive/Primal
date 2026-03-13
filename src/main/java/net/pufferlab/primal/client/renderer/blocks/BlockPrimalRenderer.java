@@ -10,6 +10,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 
+import net.pufferlab.primal.blocks.IMetaBlock;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -282,6 +283,16 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
         for (int i = 0; i < 4; i++) {
             tess.addVertex(x, y, z);
         }
+    }
+
+    public boolean isValidMeta(Block block, int meta) {
+        if(block instanceof IMetaBlock block2) {
+            int length = block2.getElements().length;
+            if(meta >= length) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
