@@ -54,7 +54,7 @@ public class CommonProxy implements IGuiHandler {
     }
 
     public int getLastGuiID() {
-        return nextGuiID;
+        return nextGuiID + 1;
     }
 
     public void setupRenders() {}
