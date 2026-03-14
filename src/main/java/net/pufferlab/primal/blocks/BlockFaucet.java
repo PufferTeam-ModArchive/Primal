@@ -18,7 +18,9 @@ import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 
 public class BlockFaucet extends BlockContainerPrimal {
 
-    public IIcon[] icons = new IIcon[3];
+    public IIcon faucet;
+    public IIcon particle;
+    public IIcon valve;
 
     public static final int iconFaucet = 99;
     public static final int iconValve = 98;
@@ -67,20 +69,20 @@ public class BlockFaucet extends BlockContainerPrimal {
 
     @Override
     public void registerBlockIcons(IIconRegister reg) {
-        icons[0] = reg.registerIcon(Primal.MODID + ":faucet");
-        icons[1] = reg.registerIcon(Primal.MODID + ":barrel_top");
-        icons[2] = reg.registerIcon(Primal.MODID + ":valve");
+        faucet = reg.registerIcon(Primal.MODID + ":faucet");
+        particle = reg.registerIcon(Primal.MODID + ":barrel_top");
+        valve = reg.registerIcon(Primal.MODID + ":valve");
     }
 
     @Override
     public IIcon getIcon(int side, int meta) {
         if (side == iconFaucet) {
-            return icons[0];
+            return faucet;
         }
         if (side == iconValve) {
-            return icons[2];
+            return valve;
         }
-        return icons[1];
+        return particle;
     }
 
     @Override

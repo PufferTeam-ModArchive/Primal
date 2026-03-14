@@ -10,6 +10,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.models.ModelCampfire;
+import net.pufferlab.primal.client.models.ModelCampfireKindling;
 import net.pufferlab.primal.client.models.ModelCrossed;
 import net.pufferlab.primal.client.models.ModelOven;
 import net.pufferlab.primal.tileentities.TileEntityOven;
@@ -20,6 +21,7 @@ import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 public class BlockOvenRenderer extends BlockPrimalRenderer {
 
     private final ModelCampfire modelCampfire = new ModelCampfire();
+    private final ModelCampfireKindling modelKindling = new ModelCampfireKindling();
     private final ModelCrossed modelFire = new ModelCrossed();
     private final ModelOven modelOven = new ModelOven();
 
@@ -31,16 +33,16 @@ public class BlockOvenRenderer extends BlockPrimalRenderer {
         RenderBlocks renderer) {
         Tessellator tess = Tessellator.instance;
         int meta = world.getBlockMetadata(x, y, z);
-        modelCampfire.kindling.isHidden = true;
+        meta = getValidMeta(block, meta);
+        modelKindling.kindling.isHidden = true;
         modelCampfire.log1.isHidden = true;
         modelCampfire.log2.isHidden = true;
         modelCampfire.log3.isHidden = true;
         modelCampfire.log4.isHidden = true;
-        modelCampfire.bottom.isHidden = true;
         modelCampfire.rocks.isHidden = true;
         TileEntity te = world.getTileEntity(x, y, z);
         if (meta >= 1) {
-            modelCampfire.kindling.isHidden = false;
+            modelKindling.kindling.isHidden = false;
         }
         if (meta >= 2) {
             modelCampfire.log1.isHidden = false;
@@ -57,6 +59,7 @@ public class BlockOvenRenderer extends BlockPrimalRenderer {
         int renderPass = ForgeHooksClient.getWorldRenderPass();
         if (renderPass == 0) {
             modelCampfire.render(renderer, tess, block, x, y, z, -0.02F, 0.05F + 0.5F, -0.02F, iconCampfire);
+            modelKindling.render(renderer, tess, block, x, y, z, -0.02F, 0.05F + 0.5F, -0.02F, iconKindling);
             if (te instanceof TileEntityOven tef) {
                 if (tef.isFired()) {
                     modelFire.render(renderer, block, x, y, z, iconFire);

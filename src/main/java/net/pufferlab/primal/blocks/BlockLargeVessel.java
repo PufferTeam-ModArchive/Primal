@@ -17,7 +17,8 @@ import net.pufferlab.primal.utils.FluidUtils;
 
 public class BlockLargeVessel extends BlockContainerPrimal {
 
-    public IIcon[] icons = new IIcon[2];
+    public IIcon largeVessel;
+    public IIcon particle;
 
     public static final int iconLargeVessel = 99;
 
@@ -46,16 +47,16 @@ public class BlockLargeVessel extends BlockContainerPrimal {
 
     @Override
     public void registerBlockIcons(IIconRegister reg) {
-        icons[0] = reg.registerIcon(Primal.MODID + ":large_vessel");
-        icons[1] = reg.registerIcon(Primal.MODID + ":ceramic");
+        largeVessel = reg.registerIcon(Primal.MODID + ":large_vessel");
+        particle = reg.registerIcon(Primal.MODID + ":ceramic");
     }
 
     @Override
     public IIcon getIcon(int side, int meta) {
         if (side == iconLargeVessel) {
-            return icons[0];
+            return largeVessel;
         }
-        return icons[1];
+        return particle;
     }
 
     @Override

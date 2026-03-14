@@ -20,6 +20,8 @@ public class BlockPathRenderer extends BlockPrimalRenderer {
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
         GL11.glPushMatrix();
 
+        metadata = getValidMeta(block, metadata);
+
         block2.blockTexture = (BlockMetaPath) block;
         renderer.setRenderBounds(0.0D, 0.0D, 0.0D, 1.0D, 0.9375D, 1.0D);
 

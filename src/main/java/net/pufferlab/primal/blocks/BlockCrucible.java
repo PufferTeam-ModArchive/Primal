@@ -28,7 +28,8 @@ import cpw.mods.fml.common.Optional;
 @Optional.Interface(iface = "com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness", modid = "rple")
 public class BlockCrucible extends BlockContainerPrimal implements RPLECustomBlockBrightness {
 
-    public IIcon[] icons = new IIcon[2];
+    public IIcon crucible;
+    public IIcon particle;
 
     public static final int iconCrucible = 99;
 
@@ -69,16 +70,16 @@ public class BlockCrucible extends BlockContainerPrimal implements RPLECustomBlo
 
     @Override
     public void registerBlockIcons(IIconRegister reg) {
-        icons[0] = reg.registerIcon(Primal.MODID + ":crucible");
-        icons[1] = reg.registerIcon(Primal.MODID + ":ceramic");
+        crucible = reg.registerIcon(Primal.MODID + ":crucible");
+        particle = reg.registerIcon(Primal.MODID + ":ceramic");
     }
 
     @Override
     public IIcon getIcon(int side, int meta) {
         if (side == iconCrucible) {
-            return icons[0];
+            return crucible;
         }
-        return icons[1];
+        return particle;
     }
 
     @Override

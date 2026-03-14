@@ -29,11 +29,12 @@ import net.pufferlab.primal.world.GlobalTickingData;
 
 public class BlockCast extends BlockContainerPrimal {
 
-    public IIcon[] icons = new IIcon[2];
     public IIcon[] moldIcons;
+    public IIcon mold;
+    public IIcon particle;
     public String[] molds;
 
-    public static final int iconCast = 99;
+    public static final int iconMold = 99;
 
     public BlockCast() {
         super(Material.clay);
@@ -124,8 +125,8 @@ public class BlockCast extends BlockContainerPrimal {
 
     @Override
     public void registerBlockIcons(IIconRegister reg) {
-        icons[0] = reg.registerIcon(Primal.MODID + ":ceramic");
-        icons[1] = reg.registerIcon(Primal.MODID + ":mold");
+        mold = reg.registerIcon(Primal.MODID + ":mold");
+        particle = reg.registerIcon(Primal.MODID + ":ceramic");
 
         moldIcons = new IIcon[molds.length];
         for (int i = 0; i < molds.length; i++) {
@@ -135,8 +136,8 @@ public class BlockCast extends BlockContainerPrimal {
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        if (side == iconCast) {
-            return icons[1];
+        if (side == iconMold) {
+            return mold;
         }
         if (side > 99) {
             return moldIcons[side - 100];

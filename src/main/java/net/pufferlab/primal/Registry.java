@@ -260,8 +260,8 @@ public class Registry {
         thatch = new BlockThatch();
         thatch_roof = new BlockThatchRoof();
         block = new BlockMetal(Constants.blockMetalTypes, "block");
-        lit_torch = new BlockTorchPrimitive("torch_lit").setLightLevel(0.9375F);
-        unlit_torch = new BlockTorchPrimitive("torch_unlit").setLightLevel(0.0F);
+        lit_torch = new BlockTorchPrimitive("torch_lit", true);
+        unlit_torch = new BlockTorchPrimitive("torch_unlit", false);
 
         chimney = new BlockChimney();
 

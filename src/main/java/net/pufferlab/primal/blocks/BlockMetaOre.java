@@ -147,6 +147,9 @@ public class BlockMetaOre extends BlockStone implements IPrimalBlock, IMetaBlock
 
     public IIcon getIcon(IBlockAccess worldIn, int x, int y, int z, int side, int meta) {
         BlockMetaOre inc = this.blockTexture;
+        if (meta >= inc.icons.length) {
+            meta = 0;
+        }
         if (getPass() == 0) {
             return inc.icons[meta];
         } else {
@@ -157,6 +160,9 @@ public class BlockMetaOre extends BlockStone implements IPrimalBlock, IMetaBlock
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
         BlockMetaOre inc = this.blockTexture;
+        if (meta >= inc.icons.length) {
+            meta = 0;
+        }
         if (isInventory) {
             if (getPass() == 0) {
                 return inc.icons[meta];

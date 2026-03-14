@@ -15,7 +15,8 @@ import net.pufferlab.primal.utils.ItemUtils;
 
 public class BlockChoppingLog extends BlockContainerPrimal {
 
-    private IIcon[] icons = new IIcon[2];
+    public IIcon choppingLog;
+    public IIcon choppingLogTop;
 
     public BlockChoppingLog() {
         super(Material.wood);
@@ -27,8 +28,8 @@ public class BlockChoppingLog extends BlockContainerPrimal {
 
     @Override
     public void registerBlockIcons(IIconRegister reg) {
-        icons[0] = reg.registerIcon(Primal.MODID + ":chopping_log_side");
-        icons[1] = reg.registerIcon(Primal.MODID + ":chopping_log_top");
+        choppingLog = reg.registerIcon(Primal.MODID + ":chopping_log_side");
+        choppingLogTop = reg.registerIcon(Primal.MODID + ":chopping_log_top");
     }
 
     @Override
@@ -64,9 +65,9 @@ public class BlockChoppingLog extends BlockContainerPrimal {
     @Override
     public IIcon getIcon(int side, int meta) {
         if (side == 0 || side == 1) {
-            return icons[1];
+            return choppingLogTop;
         }
-        return icons[0];
+        return choppingLog;
     }
 
     @Override

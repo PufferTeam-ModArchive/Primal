@@ -26,13 +26,20 @@ public class BlockTorchPrimitive extends BlockTorch
 
     public static final int updateFired = 0;
     public static int burnTime = Config.torchBurnTime.getDefaultInt();
-    public IIcon[] icons = new IIcon[1];
+    public IIcon torch;
     public String name;
+    public boolean isLit;
 
-    public BlockTorchPrimitive(String name) {
+    public BlockTorchPrimitive(String name, boolean isLit) {
         super();
         this.name = name;
         this.setHardness(0.0F);
+        this.isLit = isLit;
+        if (isLit) {
+            this.setLightLevel(0.9375F);
+        } else {
+            this.setLightLevel(0.0F);
+        }
 
         burnTime = Config.torchBurnTime.getInt();
 
@@ -41,7 +48,7 @@ public class BlockTorchPrimitive extends BlockTorch
 
     @Override
     public short rple$getCustomBrightnessColor() {
-        if (this == Registry.lit_torch) {
+        if (this.isLit) {
             return Constants.lightTorch;
         }
         return Constants.lightNone;
@@ -49,7 +56,7 @@ public class BlockTorchPrimitive extends BlockTorch
 
     @Override
     public short rple$getCustomBrightnessColor(int blockMeta) {
-        if (this == Registry.lit_torch) {
+        if (this.isLit) {
             return Constants.lightTorch;
         }
         return Constants.lightNone;
@@ -57,7 +64,7 @@ public class BlockTorchPrimitive extends BlockTorch
 
     @Override
     public short rple$getCustomBrightnessColor(IBlockAccess world, int blockMeta, int posX, int posY, int posZ) {
-        if (this == Registry.lit_torch) {
+        if (this.isLit) {
             return Constants.lightTorch;
         }
         return Constants.lightNone;
@@ -67,7 +74,7 @@ public class BlockTorchPrimitive extends BlockTorch
     public void onBlockPlacedBy(World worldIn, int x, int y, int z, EntityLivingBase placer, ItemStack itemIn) {
         super.onBlockPlacedBy(worldIn, x, y, z, placer, itemIn);
 
-        if (this == Registry.lit_torch) {
+        if (this.isLit) {
             addSchedule(worldIn, x, y, z, burnTime, updateFired);
         }
     }
@@ -76,21 +83,21 @@ public class BlockTorchPrimitive extends BlockTorch
     public void onBlockPreDestroy(World worldIn, int x, int y, int z, int meta) {
         super.onBlockPreDestroy(worldIn, x, y, z, meta);
 
-        if (this == Registry.lit_torch) {
+        if (this.isLit) {
             removeSchedule(worldIn, x, y, z);
         }
     }
 
     @Override
     public void onSchedule(World world, int x, int y, int z, int type, int id) {
-        if (this == Registry.lit_torch && type == updateFired) {
+        if (this.isLit && type == updateFired) {
             world.setBlock(x, y, z, Registry.unlit_torch);
         }
     }
 
     @Override
     public void randomDisplayTick(World worldIn, int x, int y, int z, Random random) {
-        if (this == Registry.lit_torch) {
+        if (this.isLit) {
             super.randomDisplayTick(worldIn, x, y, z, random);
         }
     }
@@ -102,12 +109,12 @@ public class BlockTorchPrimitive extends BlockTorch
 
     @Override
     public void registerBlockIcons(IIconRegister reg) {
-        icons[0] = reg.registerIcon(Primal.MODID + ":" + name);
+        torch = reg.registerIcon(Primal.MODID + ":" + name);
     }
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        return icons[0];
+        return torch;
     }
 
     @Override

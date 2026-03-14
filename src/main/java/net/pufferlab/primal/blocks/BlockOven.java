@@ -43,10 +43,10 @@ public class BlockOven extends BlockCampfire {
     @Override
     public IIcon getIcon(int side, int meta) {
         if (side == iconCampfire) {
-            return icons[0];
+            return campfireModel;
         }
         if (side == iconCampfireSpit) {
-            return icons[4];
+            return campfireSpit;
         }
         if (side == iconOven) {
             return ovenIcons[0];

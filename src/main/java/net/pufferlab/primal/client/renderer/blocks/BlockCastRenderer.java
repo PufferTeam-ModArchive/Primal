@@ -43,7 +43,7 @@ public class BlockCastRenderer extends BlockPrimalRenderer {
             if (renderPass == 1) {
                 modelFluid.render(renderer, tess, x, y, z, stack, 0.1875F, 0.0625F, 0.1875F, 0.8125F, height, 0.8125F, false, false);
             } else if (renderPass == 0) {
-                modelMold.render(renderer, tess, block, x, y, z, iconCast);
+                modelMold.render(renderer, tess, block, x, y, z, iconMold);
 
                 modelItem.bb_main.rotateAngleX = (float) Math.PI / 2;
                 modelItem.renderItem(renderer, tess, block, x, y, z, -0.425D, 0.0822D, -0.425D, tef.castIndex + 100, 0.85F);

@@ -16,7 +16,7 @@ import net.pufferlab.primal.utils.SoundTypePrimal;
 
 public class BlockCharcoalPile extends BlockPile {
 
-    private IIcon[] icons = new IIcon[1];
+    public IIcon charcoal;
 
     public BlockCharcoalPile() {
         super(Material.sand);
@@ -44,12 +44,12 @@ public class BlockCharcoalPile extends BlockPile {
 
     @Override
     public void registerBlockIcons(IIconRegister reg) {
-        icons[0] = reg.registerIcon(Primal.MODID + ":charcoal_pile");
+        charcoal = reg.registerIcon(Primal.MODID + ":charcoal_pile");
     }
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        return icons[0];
+        return charcoal;
     }
 
     @Override

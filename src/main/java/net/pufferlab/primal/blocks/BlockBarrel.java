@@ -23,6 +23,8 @@ import net.pufferlab.primal.utils.BlockUtils;
 public class BlockBarrel extends BlockContainerPrimal {
 
     public IIcon[] icons = new IIcon[2];
+    public IIcon barrel;
+    public IIcon particle;
 
     public static final int iconBarrel = 99;
 
@@ -87,16 +89,16 @@ public class BlockBarrel extends BlockContainerPrimal {
 
     @Override
     public void registerBlockIcons(IIconRegister reg) {
-        icons[0] = reg.registerIcon(Primal.MODID + ":barrel");
-        icons[1] = reg.registerIcon(Primal.MODID + ":barrel_top");
+        barrel = reg.registerIcon(Primal.MODID + ":barrel");
+        particle = reg.registerIcon(Primal.MODID + ":barrel_top");
     }
 
     @Override
     public IIcon getIcon(int side, int meta) {
         if (side == iconBarrel) {
-            return icons[0];
+            return barrel;
         }
-        return icons[1];
+        return particle;
     }
 
     @Override

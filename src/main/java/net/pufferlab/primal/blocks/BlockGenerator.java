@@ -11,7 +11,8 @@ import net.pufferlab.primal.tileentities.TileEntityGenerator;
 
 public class BlockGenerator extends BlockMotion {
 
-    public IIcon[] icons = new IIcon[2];
+    public IIcon generator;
+    public IIcon particle;
 
     public static final int iconGenerator = 99;
 
@@ -34,16 +35,16 @@ public class BlockGenerator extends BlockMotion {
 
     @Override
     public void registerBlockIcons(IIconRegister reg) {
-        icons[0] = reg.registerIcon("minecraft:planks_spruce");
-        icons[1] = reg.registerIcon(Primal.MODID + ":generator");
+        generator = reg.registerIcon(Primal.MODID + ":generator");
+        particle = reg.registerIcon("minecraft:planks_spruce");
     }
 
     @Override
     public IIcon getIcon(int side, int meta) {
         if (side == iconGenerator) {
-            return icons[1];
+            return generator;
         }
-        return icons[0];
+        return particle;
     }
 
     @Override

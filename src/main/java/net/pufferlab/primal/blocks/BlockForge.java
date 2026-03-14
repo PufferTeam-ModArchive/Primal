@@ -25,8 +25,9 @@ import cpw.mods.fml.common.Optional;
 @Optional.Interface(iface = "com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness", modid = "rple")
 public class BlockForge extends BlockContainerPrimal implements RPLECustomBlockBrightness {
 
-    public IIcon[] icons = new IIcon[2];
     private IIcon[] heatingIcons = new IIcon[8];
+    public IIcon forge;
+    public IIcon particle;
 
     public static final int iconForge = 99;
 
@@ -83,8 +84,8 @@ public class BlockForge extends BlockContainerPrimal implements RPLECustomBlockB
 
     @Override
     public void registerBlockIcons(IIconRegister reg) {
-        icons[0] = reg.registerIcon(Primal.MODID + ":forge");
-        icons[1] = reg.registerIcon(Primal.MODID + ":ceramic");
+        forge = reg.registerIcon(Primal.MODID + ":forge");
+        particle = reg.registerIcon(Primal.MODID + ":ceramic");
         heatingIcons[0] = reg.registerIcon(Primal.MODID + ":charcoal_pile");
         heatingIcons[1] = reg.registerIcon(Primal.MODID + ":charcoal_pile_1");
         heatingIcons[2] = reg.registerIcon(Primal.MODID + ":charcoal_pile_2");
@@ -110,9 +111,9 @@ public class BlockForge extends BlockContainerPrimal implements RPLECustomBlockB
     @Override
     public IIcon getIcon(int side, int meta) {
         if (side == iconForge) {
-            return icons[0];
+            return forge;
         }
-        return icons[1];
+        return particle;
     }
 
     @Override

@@ -21,6 +21,8 @@ public class BlockGrassRenderer extends BlockPrimalRenderer {
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
         GL11.glPushMatrix();
 
+        metadata = getValidMeta(block, metadata);
+
         block2.blockTexture = (BlockMetaGrass) block;
 
         block2.isInventory = true;

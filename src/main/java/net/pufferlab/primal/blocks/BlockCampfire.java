@@ -32,11 +32,20 @@ import cpw.mods.fml.common.Optional;
 @Optional.Interface(iface = "com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness", modid = "rple")
 public class BlockCampfire extends BlockContainerPrimal implements RPLECustomBlockBrightness {
 
-    public IIcon[] icons = new IIcon[6];
+    public IIcon campfireModel;
+    public IIcon campfire;
+    public IIcon campfireLit;
+    public IIcon campfireFire;
+    public IIcon campfireSpit;
+    public IIcon thatch;
+    public IIcon thatchLit;
+    public IIcon empty;
 
     public static final int iconCampfire = 99;
     public static final int iconFire = 98;
     public static final int iconCampfireSpit = 97;
+    public static final int iconCampfireBottom = 96;
+    public static final int iconKindling = 95;
 
     public BlockCampfire() {
         super(Material.wood);
@@ -68,12 +77,14 @@ public class BlockCampfire extends BlockContainerPrimal implements RPLECustomBlo
 
     @Override
     public void registerBlockIcons(IIconRegister reg) {
-        icons[0] = reg.registerIcon(Primal.MODID + ":campfire");
-        icons[1] = reg.registerIcon(Primal.MODID + ":campfire_icon");
-        icons[2] = reg.registerIcon(Primal.MODID + ":campfire_lit");
-        icons[3] = reg.registerIcon(Primal.MODID + ":campfire_fire");
-        icons[4] = reg.registerIcon(Primal.MODID + ":campfire_spit");
-        icons[5] = reg.registerIcon(Primal.MODID + ":empty");
+        campfireModel = reg.registerIcon(Primal.MODID + ":campfire");
+        campfire = reg.registerIcon(Primal.MODID + ":campfire_icon");
+        campfireLit = reg.registerIcon(Primal.MODID + ":campfire_lit_icon");
+        campfireFire = reg.registerIcon(Primal.MODID + ":campfire_fire");
+        campfireSpit = reg.registerIcon(Primal.MODID + ":campfire_spit");
+        thatch = reg.registerIcon(Primal.MODID + ":thatch_grass");
+        thatchLit = reg.registerIcon(Primal.MODID + ":thatch_grass_lit");
+        empty = reg.registerIcon(Primal.MODID + ":empty");
     }
 
     @Override
@@ -246,10 +257,13 @@ public class BlockCampfire extends BlockContainerPrimal implements RPLECustomBlo
         if (te instanceof TileEntityCampfire tef) {
             if (tef.isFired) {
                 if (side == iconFire) {
-                    return icons[3];
+                    return campfireFire;
                 }
-                if (side == iconCampfire) {
-                    return icons[2];
+                if (side == iconKindling) {
+                    return thatchLit;
+                }
+                if (side == iconCampfireBottom) {
+                    return campfireLit;
                 }
             }
         }
@@ -277,12 +291,15 @@ public class BlockCampfire extends BlockContainerPrimal implements RPLECustomBlo
     @Override
     public IIcon getIcon(int side, int meta) {
         if (side == iconCampfire) {
-            return icons[0];
+            return campfireModel;
+        }
+        if (side == iconKindling) {
+            return thatch;
         }
         if (side == iconCampfireSpit) {
-            return icons[4];
+            return campfireSpit;
         }
-        return icons[1];
+        return campfire;
     }
 
     public boolean isOven() {

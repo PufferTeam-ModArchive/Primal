@@ -11,6 +11,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockSlabVertical extends Block {
 
@@ -110,6 +111,54 @@ public class BlockSlabVertical extends Block {
                     break;
             }
         }
+    }
+
+    @Override
+    public boolean shouldSideBeRendered(IBlockAccess worldIn, int x, int y, int z, int side) {
+        if (this.field_150004_a) {
+            return super.shouldSideBeRendered(worldIn, x, y, z, side);
+        }
+        ForgeDirection direction = ForgeDirection.getOrientation(side)
+            .getOpposite();
+        Block block = worldIn.getBlock(x, y, z);
+        int meta = worldIn.getBlockMetadata(x, y, z);
+        int x2 = x + direction.offsetX;
+        int y2 = y + direction.offsetY;
+        int z2 = z + direction.offsetZ;
+        Block blockSide = worldIn.getBlock(x2, y2, z2);
+        int metaSide = worldIn.getBlockMetadata(x2, y2, z2);
+
+        if (block == blockSide) {
+            boolean validMeta = meta == metaSide;
+            if (meta == 2 && direction == ForgeDirection.NORTH || meta == 1 && direction == ForgeDirection.EAST
+                || meta == 3 && direction == ForgeDirection.SOUTH
+                || meta == 0 && direction == ForgeDirection.WEST) {
+                validMeta = false;
+            }
+            if (meta == 2 && direction == ForgeDirection.SOUTH || meta == 1 && direction == ForgeDirection.WEST
+                || meta == 3 && direction == ForgeDirection.NORTH
+                || meta == 0 && direction == ForgeDirection.EAST) {
+                validMeta = false;
+            }
+            if (direction != ForgeDirection.UP && direction != ForgeDirection.DOWN) {
+                if (meta == 2 && metaSide == 3 || meta == 1 && metaSide == 0
+                    || meta == 3 && metaSide == 2
+                    || meta == 0 && metaSide == 1) {
+                    validMeta = true;
+                }
+            }
+            if (validMeta) {
+                return false;
+            }
+        } else {
+            if (meta == 2 && direction != ForgeDirection.NORTH || meta == 1 && direction != ForgeDirection.EAST
+                || meta == 3 && direction != ForgeDirection.SOUTH
+                || meta == 0 && direction != ForgeDirection.WEST) {
+                return super.shouldSideBeRendered(worldIn, x, y, z, side);
+            }
+        }
+
+        return true;
     }
 
     @Override

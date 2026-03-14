@@ -9,9 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.client.models.ModelCampfire;
-import net.pufferlab.primal.client.models.ModelCampfireSpit;
-import net.pufferlab.primal.client.models.ModelCrossed;
+import net.pufferlab.primal.client.models.*;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 
@@ -21,7 +19,9 @@ import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 public class BlockCampfireRenderer extends BlockPrimalRenderer {
 
     private final ModelCampfire modelCampfire = new ModelCampfire();
+    private final ModelCampfireKindling modelKindling = new ModelCampfireKindling();
     private final ModelCrossed modelFire = new ModelCrossed();
+    private final ModelFace modelCampfireBottom = new ModelFace();
     private final ModelCampfireSpit modelCampfireSpit = new ModelCampfireSpit();
 
     @Override
@@ -33,22 +33,22 @@ public class BlockCampfireRenderer extends BlockPrimalRenderer {
         Tessellator tess = Tessellator.instance;
         int meta = world.getBlockMetadata(x, y, z);
         meta = getValidMeta(block, meta);
-        modelCampfire.kindling.isHidden = true;
+        modelKindling.kindling.isHidden = true;
         modelCampfire.log1.isHidden = true;
         modelCampfire.log2.isHidden = true;
         modelCampfire.log3.isHidden = true;
         modelCampfire.log4.isHidden = true;
-        modelCampfire.bottom.isHidden = true;
+        modelCampfireBottom.isHidden = true;
         modelCampfire.rocks.isHidden = true;
         TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileEntityCampfire tef) {
             if (tef.isBuilt) {
-                modelCampfire.bottom.isHidden = false;
+                modelCampfireBottom.isHidden = false;
                 modelCampfire.rocks.isHidden = false;
             }
         }
         if (meta >= 1) {
-            modelCampfire.kindling.isHidden = false;
+            modelKindling.kindling.isHidden = false;
         }
         if (meta >= 2) {
             modelCampfire.log1.isHidden = false;
@@ -71,6 +71,8 @@ public class BlockCampfireRenderer extends BlockPrimalRenderer {
         int renderPass = ForgeHooksClient.getWorldRenderPass();
         if (renderPass == 0) {
             modelCampfire.render(renderer, tess, block, x, y, z, 0.0F, 0.5F, 0.0F, iconCampfire);
+            modelKindling.render(renderer, tess, block, x, y, z, 0.0F, 0.5F, 0.0F, iconKindling);
+            modelCampfireBottom.render(renderer, block, x, y, z, 0.0F, -0.99F, 0F, iconCampfireBottom);
             if (te instanceof TileEntityCampfire tef) {
                 if (tef.isFired()) {
                     modelFire.render(renderer, block, x, y, z, iconFire);

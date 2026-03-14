@@ -148,6 +148,9 @@ public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlo
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
         BlockMetaGrass inc = this.blockTexture;
+        if (meta >= inc.icons.length) {
+            meta = 0;
+        }
         if (isInventory) {
             if (getPass() == 0) {
                 if (side == 1) {

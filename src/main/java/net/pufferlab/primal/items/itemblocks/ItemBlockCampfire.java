@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.BlockCampfire;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
 import net.pufferlab.primal.utils.ItemUtils;
@@ -39,6 +40,7 @@ public class ItemBlockCampfire extends ItemBlockPrimal {
                 }
             }
         }
+        Primal.proxy.packet.sendChunkUpdate(world);
 
         return true;
     }

@@ -119,6 +119,9 @@ public class BlockMetaPath extends BlockDirt implements IPrimalBlock, IMetaBlock
 
     public IIcon getIcon(IBlockAccess worldIn, int x, int y, int z, int side, int meta) {
         BlockMetaPath inc = this.blockTexture;
+        if (meta >= inc.icons.length) {
+            meta = 0;
+        }
         if (getPass() == 0) {
             if (side == 1) {
                 return inc.pathIcons[empty];
@@ -150,6 +153,9 @@ public class BlockMetaPath extends BlockDirt implements IPrimalBlock, IMetaBlock
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
         BlockMetaPath inc = this.blockTexture;
+        if (meta >= inc.icons.length) {
+            meta = 0;
+        }
         if (isInventory) {
             if (getPass() == 0) {
                 if (side == 1) {
