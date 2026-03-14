@@ -32,6 +32,11 @@ public class BlockCharcoalPile extends BlockPile {
     }
 
     @Override
+    public int getMaxMeta() {
+        return 7;
+    }
+
+    @Override
     public AxisAlignedBB getBlockBoundsNextState(IBlockAccess world, int x, int y, int z) {
         int metadata = world.getBlockMetadata(x, y, z);
         return AxisAlignedBB.getBoundingBox(0.0F, 0.0F, 0.0F, 1.0F, 0.125F + (0.125F * (metadata + 1)), 1.0F);

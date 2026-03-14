@@ -9,8 +9,9 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
-
 import net.pufferlab.primal.blocks.IMetaBlock;
+import net.pufferlab.primal.blocks.IPrimalBlock;
+
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -285,14 +286,18 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
         }
     }
 
-    public boolean isValidMeta(Block block, int meta) {
-        if(block instanceof IMetaBlock block2) {
-            int length = block2.getElements().length;
-            if(meta >= length) {
-                return false;
+    public int getValidMeta(Block block, int meta) {
+        if (block instanceof IMetaBlock block2) {
+            if (meta >= block2.getElements().length) {
+                return 0;
             }
         }
-        return true;
+        if (block instanceof IPrimalBlock block2) {
+            if (meta > block2.getMaxMeta()) {
+                return 0;
+            }
+        }
+        return meta;
     }
 
 }

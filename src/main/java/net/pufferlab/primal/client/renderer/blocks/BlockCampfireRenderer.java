@@ -32,6 +32,7 @@ public class BlockCampfireRenderer extends BlockPrimalRenderer {
         RenderBlocks renderer) {
         Tessellator tess = Tessellator.instance;
         int meta = world.getBlockMetadata(x, y, z);
+        meta = getValidMeta(block, meta);
         modelCampfire.kindling.isHidden = true;
         modelCampfire.log1.isHidden = true;
         modelCampfire.log2.isHidden = true;

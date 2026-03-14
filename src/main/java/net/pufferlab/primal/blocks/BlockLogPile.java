@@ -41,6 +41,11 @@ public class BlockLogPile extends BlockPile {
     }
 
     @Override
+    public int getMaxMeta() {
+        return 8;
+    }
+
+    @Override
     public IIcon getIcon(int side, int meta) {
         return icons[1];
     }

@@ -15,6 +15,7 @@ public class BlockChimneyRenderer extends BlockPrimalRenderer {
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
         float t = 0.1875F;
+        metadata = getValidMeta(block, metadata);
         GL11.glPushMatrix();
         renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, t);
         renderStandardInvBlock(renderer, block, metadata);

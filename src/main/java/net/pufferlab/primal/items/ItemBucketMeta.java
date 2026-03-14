@@ -38,6 +38,7 @@ public class ItemBucketMeta extends ItemMeta {
     @Override
     public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer player) {
         int meta = itemStackIn.getItemDamage();
+        if (meta >= getFluidObjects().length) return itemStackIn;
         boolean flag = getFluidObjects()[meta] == null;
         MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(worldIn, player, flag);
 
@@ -264,6 +265,7 @@ public class ItemBucketMeta extends ItemMeta {
     }
 
     public boolean isHotLiquid(int meta) {
+        if (meta >= Constants.fluidsBreak.length) return false;
         return Constants.fluidsBreak[meta];
     }
 

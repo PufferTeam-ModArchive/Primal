@@ -57,6 +57,11 @@ public class BlockForge extends BlockContainerPrimal implements RPLECustomBlockB
     }
 
     @Override
+    public int getMaxMeta() {
+        return 5;
+    }
+
+    @Override
     public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
         float subY, float subZ) {
         ItemStack heldItem = player.getHeldItem();

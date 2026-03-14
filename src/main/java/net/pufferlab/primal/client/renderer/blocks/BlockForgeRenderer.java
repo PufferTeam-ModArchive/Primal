@@ -33,6 +33,7 @@ public class BlockForgeRenderer extends BlockPrimalRenderer {
         if (te instanceof TileEntityForge tef) {
             if (renderPass == 0) {
                 int metadata = world.getBlockMetadata(x, y, z);
+                metadata = getValidMeta(block, metadata);
                 if (metadata > 0) {
                     renderer.setRenderBounds(0.25F, 0.0F, 0.25F, 0.75F, 0.625F + (0.0625F * metadata), 0.75F);
                     renderer.renderStandardBlock(block, x, y, z);

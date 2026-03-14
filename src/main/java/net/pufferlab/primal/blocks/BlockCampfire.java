@@ -175,6 +175,11 @@ public class BlockCampfire extends BlockContainerPrimal implements RPLECustomBlo
     }
 
     @Override
+    public int getMaxMeta() {
+        return 5;
+    }
+
+    @Override
     public int getLightValue(IBlockAccess world, int x, int y, int z) {
         TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileEntityCampfire tef) {

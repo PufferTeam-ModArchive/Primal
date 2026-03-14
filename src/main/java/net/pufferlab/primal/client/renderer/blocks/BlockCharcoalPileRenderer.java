@@ -19,6 +19,7 @@ public class BlockCharcoalPileRenderer extends BlockPrimalRenderer {
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
         int metadata = world.getBlockMetadata(x, y, z);
+        metadata = getValidMeta(block, metadata);
         renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F + (0.125F * metadata), 1.0F);
         renderer.renderStandardBlock(block, x, y, z);
         return true;

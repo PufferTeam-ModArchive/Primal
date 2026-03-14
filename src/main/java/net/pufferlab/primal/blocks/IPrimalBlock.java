@@ -30,4 +30,8 @@ public interface IPrimalBlock {
     default byte getBlockParticleAmount() {
         return 4;
     }
+
+    default int getMaxMeta() {
+        return 0;
+    }
 }

@@ -23,6 +23,7 @@ public class BlockLogPileRenderer extends BlockPrimalRenderer {
         int metadata = world.getBlockMetadata(x, y, z);
         int next = (metadata) % 3;
         int layer = ((metadata + 1) / 3) % 3;
+        metadata = getValidMeta(block, metadata);
         TileEntity te = world.getTileEntity(x, y, z);
         boolean rotated = false;
         if (te instanceof TileEntityMetaFacing tef) {

@@ -25,6 +25,7 @@ public class BlockAnvilRenderer extends BlockPrimalRenderer {
         Tessellator tess = Tessellator.instance;
         TileEntity te = world.getTileEntity(x, y, z);
         int meta = world.getBlockMetadata(x, y, z);
+        meta = getValidMeta(block, meta);
         if (te instanceof TileEntityAnvil tef) {
             modelAnvil.setFacing(tef.facingMeta);
             modelAnvil.render(renderer, tess, block, x, y, z, 100 + meta);
