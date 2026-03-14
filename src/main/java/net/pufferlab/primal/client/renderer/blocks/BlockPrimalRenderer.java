@@ -291,8 +291,7 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
             if (meta >= block2.getElements().length) {
                 return 0;
             }
-        }
-        if (block instanceof IPrimalBlock block2) {
+        } else if (block instanceof IPrimalBlock block2) {
             if (meta > block2.getMaxMeta()) {
                 return 0;
             }
