@@ -128,6 +128,9 @@ public class BlockSlabVertical extends Block {
         Block blockSide = worldIn.getBlock(x2, y2, z2);
         int metaSide = worldIn.getBlockMetadata(x2, y2, z2);
 
+        boolean b = meta == 2 && direction != ForgeDirection.NORTH || meta == 1 && direction != ForgeDirection.EAST
+            || meta == 3 && direction != ForgeDirection.SOUTH
+            || meta == 0 && direction != ForgeDirection.WEST;
         if (block == blockSide) {
             boolean validMeta = meta == metaSide;
             if (meta == 2 && direction == ForgeDirection.NORTH || meta == 1 && direction == ForgeDirection.EAST
@@ -141,19 +144,19 @@ public class BlockSlabVertical extends Block {
                 validMeta = false;
             }
             if (direction != ForgeDirection.UP && direction != ForgeDirection.DOWN) {
-                if (meta == 2 && metaSide == 3 || meta == 1 && metaSide == 0
-                    || meta == 3 && metaSide == 2
-                    || meta == 0 && metaSide == 1) {
-                    validMeta = true;
+                if (b) {
+                    if (meta == 2 && metaSide == 3 || meta == 1 && metaSide == 0
+                        || meta == 3 && metaSide == 2
+                        || meta == 0 && metaSide == 1) {
+                        validMeta = true;
+                    }
                 }
             }
             if (validMeta) {
                 return false;
             }
         } else {
-            if (meta == 2 && direction != ForgeDirection.NORTH || meta == 1 && direction != ForgeDirection.EAST
-                || meta == 3 && direction != ForgeDirection.SOUTH
-                || meta == 0 && direction != ForgeDirection.WEST) {
+            if (b) {
                 return super.shouldSideBeRendered(worldIn, x, y, z, side);
             }
         }
