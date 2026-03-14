@@ -298,35 +298,36 @@ public class ClientProxy extends CommonProxy {
                     te.zCoord + z,
                     item,
                     meta);
-                Primal.proxy.renderFX(fx);
+                renderFX(fx);
             }
         }
     }
 
     @Override
     public void renderFX(World world, int x, int y, int z, Block block, int meta) {
+        byte b0 = 4;
         if (block instanceof IPrimalBlock block2) {
-            if (!block.isAir(world, x, y, z)) {
-                byte b0 = block2.getBlockParticleAmount();
+            b0 = block2.getBlockParticleAmount();
+        }
 
-                for (int i1 = 0; i1 < b0; ++i1) {
-                    for (int j1 = 0; j1 < b0; ++j1) {
-                        for (int k1 = 0; k1 < b0; ++k1) {
-                            double d0 = (double) x + ((double) i1 + 0.5D) / (double) b0;
-                            double d1 = (double) y + ((double) j1 + 0.5D) / (double) b0;
-                            double d2 = (double) z + ((double) k1 + 0.5D) / (double) b0;
-                            Primal.proxy.renderFX(
-                                new EntityDiggingFX(
-                                    world,
-                                    d0,
-                                    d1,
-                                    d2,
-                                    d0 - (double) x - 0.5D,
-                                    d1 - (double) y - 0.5D,
-                                    d2 - (double) z - 0.5D,
-                                    block,
-                                    meta).applyColourMultiplier(x, y, z));
-                        }
+        if (!block.isAir(world, x, y, z)) {
+            for (int i1 = 0; i1 < b0; ++i1) {
+                for (int j1 = 0; j1 < b0; ++j1) {
+                    for (int k1 = 0; k1 < b0; ++k1) {
+                        double d0 = (double) x + ((double) i1 + 0.5D) / (double) b0;
+                        double d1 = (double) y + ((double) j1 + 0.5D) / (double) b0;
+                        double d2 = (double) z + ((double) k1 + 0.5D) / (double) b0;
+                        renderFX(
+                            new EntityDiggingFX(
+                                world,
+                                d0,
+                                d1,
+                                d2,
+                                d0 - (double) x - 0.5D,
+                                d1 - (double) y - 0.5D,
+                                d2 - (double) z - 0.5D,
+                                block,
+                                meta).applyColourMultiplier(x, y, z));
                     }
                 }
             }
