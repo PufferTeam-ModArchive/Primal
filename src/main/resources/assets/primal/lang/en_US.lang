@@ -14,6 +14,7 @@ tile.primal.oven.name=Oven
 tile.primal.brick_chimney.name=Brick Chimney
 tile.primal.crucible.name=Crucible
 tile.primal.forge.name=Forge
+tile.primal.bloomery.name=Bloomery
 tile.primal.quern.name=Quern
 item.primal.knapping_icon.name=Knapping
 
