@@ -133,6 +133,10 @@ public class BlockUtils {
         };
     }
 
+    public static int getFacingFromDirection(ForgeDirection direction) {
+        return getFacingFromDirection(direction.ordinal());
+    }
+
     public static int getFacingFromDirection(int direction) {
         return switch (direction) {
             case 3 -> 3;
@@ -180,6 +184,10 @@ public class BlockUtils {
             case 2, 4 -> 2;
             default -> 0;
         };
+    }
+
+    public static int getAxis(ForgeDirection direction) {
+        return getAxis(direction.ordinal());
     }
 
     public static int getAxis(int side) {

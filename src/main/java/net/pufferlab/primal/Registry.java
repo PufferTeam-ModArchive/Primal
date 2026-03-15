@@ -94,6 +94,7 @@ public class Registry {
     public static final Block oven;
     public static final Block forge;
     public static final Block crucible;
+    public static final Block bloomery;
     public static final Block cast;
     public static final Block large_vessel;
     public static final Block barrel;
@@ -251,6 +252,7 @@ public class Registry {
         large_vessel = new BlockLargeVessel();
         barrel = new BlockBarrel();
         faucet = new BlockFaucet();
+        bloomery = new BlockBloomery();
 
         axle = new BlockAxle();
         generator = new BlockGenerator();
@@ -407,6 +409,7 @@ public class Registry {
         register(oven, "oven");
         register(chimney, "chimney");
         register(forge, "forge");
+        register(bloomery, "bloomery");
         register(cast, "cast");
         register(quern, "quern");
         register(large_vessel, "large_vessel");
@@ -512,6 +515,7 @@ public class Registry {
         register(TileEntityWaterwheel.class, "waterwheel");
         register(TileEntityWindmill.class, "windmill");
         register(TileEntityAnvil.class, "anvil");
+        register(TileEntityBloomery.class, "bloomery");
         register(TileEntityCut.class, "cut_block");
         register(TileEntityCutDouble.class, "double_cut_block");
     }

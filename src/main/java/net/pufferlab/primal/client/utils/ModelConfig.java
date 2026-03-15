@@ -1,14 +1,14 @@
 package net.pufferlab.primal.client.utils;
 
-public class ModelQuad {
+public class ModelConfig {
 
     public boolean[] quadsEnabled;
 
-    public ModelQuad() {
+    public ModelConfig() {
         this.quadsEnabled = new boolean[] { true, true, true, true, true, true };
     }
 
-    public ModelQuad(boolean blacklist) {
+    public ModelConfig(boolean blacklist) {
         if (blacklist) {
             this.quadsEnabled = new boolean[] { false, false, false, false, false, false };
         } else {
@@ -16,32 +16,32 @@ public class ModelQuad {
         }
     }
 
-    public ModelQuad setUp(boolean state) {
+    public ModelConfig setUp(boolean state) {
         this.quadsEnabled[3] = state;
         return this;
     }
 
-    public ModelQuad setDown(boolean state) {
+    public ModelConfig setDown(boolean state) {
         this.quadsEnabled[2] = state;
         return this;
     }
 
-    public ModelQuad setWest(boolean state) {
+    public ModelConfig setWest(boolean state) {
         this.quadsEnabled[1] = state;
         return this;
     }
 
-    public ModelQuad setEast(boolean state) {
+    public ModelConfig setEast(boolean state) {
         this.quadsEnabled[0] = state;
         return this;
     }
 
-    public ModelQuad setNorth(boolean state) {
+    public ModelConfig setNorth(boolean state) {
         this.quadsEnabled[4] = state;
         return this;
     }
 
-    public ModelQuad setSouth(boolean state) {
+    public ModelConfig setSouth(boolean state) {
         this.quadsEnabled[5] = state;
         return this;
     }

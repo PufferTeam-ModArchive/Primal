@@ -353,6 +353,6 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
 
     @Override
     public int getInventoryStackLimit() {
-        return 1;
+        return 64;
     }
 }

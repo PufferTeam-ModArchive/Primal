@@ -14,7 +14,7 @@ import net.pufferlab.primal.utils.SoundTypePrimal;
 
 public class BlockThatch extends Block {
 
-    public IIcon[] icons = new IIcon[1];
+    public IIcon thatch;
 
     public BlockThatch() {
         super(Material.grass);
@@ -30,12 +30,12 @@ public class BlockThatch extends Block {
 
     @Override
     public void registerBlockIcons(IIconRegister reg) {
-        icons[0] = reg.registerIcon(Primal.MODID + ":thatch_grass");
+        thatch = reg.registerIcon(Primal.MODID + ":thatch_grass");
     }
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        return icons[0];
+        return thatch;
     }
 
     @Override

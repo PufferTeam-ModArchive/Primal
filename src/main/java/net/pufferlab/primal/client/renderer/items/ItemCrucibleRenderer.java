@@ -6,7 +6,7 @@ import net.pufferlab.primal.client.models.ModelPrimal;
 
 public class ItemCrucibleRenderer extends ItemPrimalRenderer {
 
-    ModelCrucible[] modelCrucible = new ModelCrucible[] { new ModelCrucible() };
+    ModelPrimal[] modelCrucible = { new ModelCrucible() };
 
     @Override
     public ModelPrimal[] getModel(ItemStack stack) {

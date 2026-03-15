@@ -12,7 +12,7 @@ public class ItemAxleRenderer extends ItemPrimalRenderer {
         super(0.0F, 0.5F, 0.0F);
     }
 
-    ModelPrimal[] modelAxle = new ModelPrimal[] { new ModelAxle(), new ModelGear(), new ModelBracket() };
+    ModelPrimal[] modelAxle = { new ModelAxle(), new ModelGear(), new ModelBracket() };
 
     public static final int[] modelMeta = new int[] { 0, 1, 2 };
 

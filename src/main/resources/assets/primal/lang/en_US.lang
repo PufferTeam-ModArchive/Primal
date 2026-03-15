@@ -61,6 +61,11 @@ gui.primal.anvil.second_last.name=Second Last
 gui.primal.anvil.third_last.name=Third Last
 
 heat.primal.temperature.desc=§7Temperature: §f%d§7 C
+heat.primal.debug.info.desc=§7Advanced Info:
+heat.primal.debug.last-temperature.desc=§7Last-Temperature: §f%d§7 C
+heat.primal.debug.worldtime.desc=§7Last-WorldTime: §f%d§7
+heat.primal.debug.modifier.desc=§7Modifier: §f%f§7
+heat.primal.debug.max-temperature.desc=§7Max-Temperature: §f%d§7 C
 metal.primal.forging.can_forge.name=Can be forged with an hammer
 metal.primal.forging.wrong_tier.name=§cAnvil is not solid enough to forge that metal.
 metal.primal.forging.too_cold.name=§cInput is too cold to be forged.

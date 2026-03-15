@@ -38,7 +38,7 @@ public class ModelBox {
     }
 
     public ModelBox(ModelRenderer body, int U, int V, float x, float y, float z, int xWidth, int yHeight, int zDepth,
-        float scaleFactor, ModelQuad config) {
+        float scaleFactor, ModelConfig config) {
         if (config != null) {
             this.quadsEnabled = config.quadsEnabled;
         } else {

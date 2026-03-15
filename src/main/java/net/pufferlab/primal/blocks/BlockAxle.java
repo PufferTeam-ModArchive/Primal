@@ -18,7 +18,8 @@ import net.pufferlab.primal.utils.BlockUtils;
 
 public class BlockAxle extends BlockMotion {
 
-    public IIcon[] icons = new IIcon[2];
+    public IIcon bracket;
+    public IIcon particle;
 
     public static final int iconAxle = 99;
 
@@ -92,16 +93,16 @@ public class BlockAxle extends BlockMotion {
 
     @Override
     public void registerBlockIcons(IIconRegister reg) {
-        icons[0] = reg.registerIcon("minecraft:planks_spruce");
-        icons[1] = reg.registerIcon(Primal.MODID + ":bracket");
+        particle = reg.registerIcon("minecraft:planks_spruce");
+        bracket = reg.registerIcon(Primal.MODID + ":bracket");
     }
 
     @Override
     public IIcon getIcon(int side, int meta) {
         if (side == iconAxle) {
-            return icons[1];
+            return bracket;
         }
-        return icons[0];
+        return particle;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package net.pufferlab.primal.client.models;
 
-import net.pufferlab.primal.client.utils.ModelQuad;
+import net.pufferlab.primal.client.utils.ModelConfig;
 import net.pufferlab.primal.client.utils.ModelRenderer;
 
 public class ModelHandstone extends ModelPrimal {
@@ -16,11 +16,11 @@ public class ModelHandstone extends ModelPrimal {
 
         // spotless:off
         bb_main.addBox(0, 26, -5.0F, 3.0F, -5.0F, 10, 4, 10, 0.0F);
-        bb_main.addBox(34, 54, -5.0F, 8.0F, -5.0F, 10, 0, 10, 0.0F, new ModelQuad(true).setUp(true));
+        bb_main.addBox(34, 54, -5.0F, 8.0F, -5.0F, 10, 0, 10, 0.0F, new ModelConfig(true).setUp(true));
         bb_main.addBox(0, 51, 1.0F, 7.0F, -5.0F, 4, 1, 10, 0.0F);
         bb_main.addBox(0, 40, -5.0F, 7.0F, -5.0F, 4, 1, 10, 0.0F);
-        bb_main.addBox(29, 46, -1.0F, 7.0F, -5.0F, 2, 1, 4, 0.0F, new ModelQuad().setEast(false).setWest(false));
-        bb_main.addBox(41, 46, -1.0F, 7.0F, 1.0F, 2, 1, 4, 0.0F, new ModelQuad().setEast(false).setWest(false));
+        bb_main.addBox(29, 46, -1.0F, 7.0F, -5.0F, 2, 1, 4, 0.0F, new ModelConfig().setEast(false).setWest(false));
+        bb_main.addBox(41, 46, -1.0F, 7.0F, 1.0F, 2, 1, 4, 0.0F, new ModelConfig().setEast(false).setWest(false));
 
         handle = new ModelRenderer(this);
         handle.setRotationPoint(0.0F, 5.0F, 0.0F);

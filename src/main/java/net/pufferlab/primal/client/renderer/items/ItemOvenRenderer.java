@@ -6,7 +6,7 @@ import net.pufferlab.primal.client.models.ModelPrimal;
 
 public class ItemOvenRenderer extends ItemPrimalRenderer {
 
-    ModelOven[] modelOven = new ModelOven[] { new ModelOven() };
+    ModelPrimal[] modelOven = { new ModelOven() };
 
     @Override
     public ModelPrimal[] getModel(ItemStack stack) {

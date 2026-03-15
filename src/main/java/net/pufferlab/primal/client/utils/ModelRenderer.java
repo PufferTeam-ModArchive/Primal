@@ -85,7 +85,7 @@ public class ModelRenderer {
     }
 
     public ModelRenderer addBox(int U, int V, float x, float y, float z, int xWidth, int yHeight, int zDepth,
-        float scaleFactor, ModelQuad config) {
+        float scaleFactor, ModelConfig config) {
         this.cubeList.add(new ModelBox(this, U, V, x, y, z, xWidth, yHeight, zDepth, scaleFactor, config));
         return this;
     }

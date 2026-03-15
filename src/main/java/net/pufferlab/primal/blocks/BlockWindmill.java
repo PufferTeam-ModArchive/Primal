@@ -12,7 +12,7 @@ import net.pufferlab.primal.tileentities.TileEntityWindmill;
 
 public class BlockWindmill extends BlockMotion {
 
-    public IIcon[] icons = new IIcon[1];
+    public IIcon particle;
 
     public BlockWindmill() {
         super(Material.wood);
@@ -22,12 +22,12 @@ public class BlockWindmill extends BlockMotion {
 
     @Override
     public void registerBlockIcons(IIconRegister reg) {
-        icons[0] = reg.registerIcon("minecraft:planks_spruce");
+        particle = reg.registerIcon("minecraft:planks_spruce");
     }
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        return icons[0];
+        return particle;
     }
 
     @Override

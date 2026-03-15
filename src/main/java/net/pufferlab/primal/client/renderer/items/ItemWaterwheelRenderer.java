@@ -11,8 +11,8 @@ public class ItemWaterwheelRenderer extends ItemPrimalRenderer {
         super(0.0F, 0.5F, 0.0F);
     }
 
-    ModelWaterwheel[] modelWaterwheelWheel = new ModelWaterwheel[] { new ModelWaterwheel() };
-    ModelPrimal[] modelWaterwheelWithAxle = new ModelPrimal[] { new ModelAxle(), new ModelWaterwheel() };
+    ModelPrimal[] modelWaterwheelWheel = { new ModelWaterwheel() };
+    ModelPrimal[] modelWaterwheelWithAxle = { new ModelAxle(), new ModelWaterwheel() };
 
     @Override
     public ModelPrimal[] getModel(ItemStack stack) {

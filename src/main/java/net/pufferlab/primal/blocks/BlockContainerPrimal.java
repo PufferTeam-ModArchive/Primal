@@ -14,6 +14,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.items.itemblocks.ItemBlockPrimal;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
@@ -60,6 +61,25 @@ public abstract class BlockContainerPrimal extends BlockContainer implements IPr
 
     public boolean createTileOnPlace() {
         return false;
+    }
+
+    @Override
+    public boolean rotateBlock(World worldObj, int x, int y, int z, ForgeDirection axis) {
+        TileEntity te = worldObj.getTileEntity(x, y, z);
+        if (te instanceof TileEntityMetaFacing tef) {
+            int meta = BlockUtils.getFacingFromDirection(axis);
+            int axisMeta = BlockUtils.getAxis(axis);
+            tef.setFacingMeta(meta);
+            tef.setAxisMeta(axisMeta);
+            return true;
+        }
+        this.onNeighborBlockChange(worldObj, x, y, z, this);
+        return super.rotateBlock(worldObj, x, y, z, axis);
+    }
+
+    @Override
+    public ForgeDirection[] getValidRotations(World worldObj, int x, int y, int z) {
+        return ForgeDirection.VALID_DIRECTIONS;
     }
 
     public void dropItems(World world, int i, int j, int k, int start) {

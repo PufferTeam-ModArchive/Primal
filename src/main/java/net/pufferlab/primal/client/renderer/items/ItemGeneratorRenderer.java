@@ -11,8 +11,8 @@ public class ItemGeneratorRenderer extends ItemPrimalRenderer {
         super(0.0F, 0.5F, 0.0F);
     }
 
-    ModelGenerator[] modelGenerator = new ModelGenerator[] { new ModelGenerator() };
-    ModelPrimal[] modelGeneratorWithAxle = new ModelPrimal[] { new ModelAxle(), new ModelGenerator() };
+    ModelPrimal[] modelGenerator = { new ModelGenerator() };
+    ModelPrimal[] modelGeneratorWithAxle = { new ModelAxle(), new ModelGenerator() };
 
     @Override
     public ModelPrimal[] getModel(ItemStack stack) {

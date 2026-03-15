@@ -22,7 +22,6 @@ import net.pufferlab.primal.utils.BlockUtils;
 
 public class BlockBarrel extends BlockContainerPrimal {
 
-    public IIcon[] icons = new IIcon[2];
     public IIcon barrel;
     public IIcon particle;
 

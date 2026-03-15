@@ -61,6 +61,7 @@ public class ClientProxy extends CommonProxy {
     private int axleRenderID;
     private int generatorRenderID;
     private int anvilRenderID;
+    private int bloomeryRenderID;
 
     @Override
     public void setupRenders() {
@@ -90,6 +91,7 @@ public class ClientProxy extends CommonProxy {
         axleRenderID = getNextId();
         generatorRenderID = getNextId();
         anvilRenderID = getNextId();
+        bloomeryRenderID = getNextId();
 
         register(new BlockSlabRenderer());
         register(new BlockSlabVerticalRenderer());
@@ -117,6 +119,7 @@ public class ClientProxy extends CommonProxy {
         register(new BlockAxleRenderer());
         register(new BlockGeneratorRenderer());
         register(new BlockAnvilRenderer());
+        register(new BlockBloomeryRenderer());
 
         register(TileEntityPitKiln.class, new TileEntityPitKilnRenderer());
         register(TileEntityChoppingLog.class, new TileEntityChoppingLogRenderer());
@@ -151,6 +154,7 @@ public class ClientProxy extends CommonProxy {
         register(Registry.waterwheel, new ItemWaterwheelRenderer());
         register(Registry.windmill, new ItemWindmillRenderer());
         register(Registry.anvil, new ItemAnvilRenderer());
+        register(Registry.bloomery, new ItemBloomeryRenderer());
 
         if (Config.metalHeatRendering.getBoolean()) {
             register(Registry.ingot, new ItemHeatableRenderer());
@@ -462,5 +466,10 @@ public class ClientProxy extends CommonProxy {
     @Override
     public int getAnvilRenderID() {
         return anvilRenderID;
+    }
+
+    @Override
+    public int getBloomeryRenderID() {
+        return bloomeryRenderID;
     }
 }

@@ -294,4 +294,8 @@ public class CommonProxy implements IGuiHandler {
     public int getAnvilRenderID() {
         return 0;
     }
+
+    public int getBloomeryRenderID() {
+        return 0;
+    }
 }

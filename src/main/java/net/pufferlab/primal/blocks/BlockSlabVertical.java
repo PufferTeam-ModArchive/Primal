@@ -131,6 +131,8 @@ public class BlockSlabVertical extends Block {
         boolean b = meta == 2 && direction != ForgeDirection.NORTH || meta == 1 && direction != ForgeDirection.EAST
             || meta == 3 && direction != ForgeDirection.SOUTH
             || meta == 0 && direction != ForgeDirection.WEST;
+        boolean b2 = (meta == 2 || meta == 3) && (direction == ForgeDirection.EAST || direction == ForgeDirection.WEST)
+            || (meta == 0 || meta == 1) && (direction == ForgeDirection.NORTH || direction == ForgeDirection.SOUTH);
         if (block == blockSide) {
             boolean validMeta = meta == metaSide;
             if (meta == 2 && direction == ForgeDirection.NORTH || meta == 1 && direction == ForgeDirection.EAST
@@ -144,7 +146,7 @@ public class BlockSlabVertical extends Block {
                 validMeta = false;
             }
             if (direction != ForgeDirection.UP && direction != ForgeDirection.DOWN) {
-                if (b) {
+                if (b && !b2) {
                     if (meta == 2 && metaSide == 3 || meta == 1 && metaSide == 0
                         || meta == 3 && metaSide == 2
                         || meta == 0 && metaSide == 1) {

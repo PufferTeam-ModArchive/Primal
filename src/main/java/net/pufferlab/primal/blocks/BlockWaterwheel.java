@@ -19,7 +19,7 @@ import net.pufferlab.primal.tileentities.TileEntityWaterwheel;
 
 public class BlockWaterwheel extends BlockMotion {
 
-    public IIcon[] icons = new IIcon[1];
+    public IIcon particle;
 
     public BlockWaterwheel() {
         super(Material.wood);
@@ -138,12 +138,12 @@ public class BlockWaterwheel extends BlockMotion {
 
     @Override
     public void registerBlockIcons(IIconRegister reg) {
-        icons[0] = reg.registerIcon("minecraft:planks_spruce");
+        particle = reg.registerIcon("minecraft:planks_spruce");
     }
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        return icons[0];
+        return particle;
     }
 
     @Override

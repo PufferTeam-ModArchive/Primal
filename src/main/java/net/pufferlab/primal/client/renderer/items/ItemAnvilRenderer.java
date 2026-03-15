@@ -6,7 +6,7 @@ import net.pufferlab.primal.client.models.ModelPrimal;
 
 public class ItemAnvilRenderer extends ItemPrimalRenderer {
 
-    ModelAnvil[] modelAnvil = new ModelAnvil[] { new ModelAnvil() };
+    ModelPrimal[] modelAnvil = { new ModelAnvil() };
 
     @Override
     public ModelPrimal[] getModel(ItemStack stack) {

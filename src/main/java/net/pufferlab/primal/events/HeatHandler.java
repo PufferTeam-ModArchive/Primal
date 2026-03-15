@@ -79,11 +79,23 @@ public class HeatHandler implements IEventHandler {
                     PlayerData data = PlayerData.get(event.entityPlayer);
                     if (data.temperatureDebug) {
                         event.toolTip.add("  ");
-                        event.toolTip.add("Advanced Info :");
-                        event.toolTip.add("Last-Temperature: " + HeatUtils.getTemperatureFromNBT(tag));
-                        event.toolTip.add("Last-WorldTime: " + HeatUtils.getWorldTimeFromNBT(tag));
-                        event.toolTip.add("Modifier: " + HeatUtils.getMultiplierFromNBT(tag));
-                        event.toolTip.add("Max-Temperature: " + HeatUtils.getMaxTemperatureFromNBT(tag));
+                        event.toolTip.add(Utils.translate("heat." + Primal.MODID + ".debug.info.desc"));
+                        event.toolTip.add(
+                            Utils.translate(
+                                "heat." + Primal.MODID + ".debug.last-temperature.desc",
+                                HeatUtils.getTemperatureFromNBT(tag)));
+                        event.toolTip.add(
+                            Utils.translate(
+                                "heat." + Primal.MODID + ".debug.worldtime.desc",
+                                HeatUtils.getWorldTimeFromNBT(tag)));
+                        event.toolTip.add(
+                            Utils.translate(
+                                "heat." + Primal.MODID + ".debug.modifier.desc",
+                                HeatUtils.getMultiplierFromNBT(tag)));
+                        event.toolTip.add(
+                            Utils.translate(
+                                "heat." + Primal.MODID + ".debug.max-temperature.desc",
+                                HeatUtils.getMaxTemperatureFromNBT(tag)));
                     }
                 }
             }

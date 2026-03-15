@@ -15,7 +15,8 @@ import net.pufferlab.primal.utils.ItemUtils;
 
 public class BlockTanning extends BlockContainerPrimal {
 
-    public IIcon[] icons = new IIcon[2];
+    public IIcon tanningFrame;
+    public IIcon particle;
 
     public static final int iconTanning = 99;
 
@@ -27,16 +28,16 @@ public class BlockTanning extends BlockContainerPrimal {
 
     @Override
     public void registerBlockIcons(IIconRegister reg) {
-        icons[0] = reg.registerIcon(Primal.MODID + ":empty");
-        icons[1] = reg.registerIcon(Primal.MODID + ":tanning_frame");
+        particle = reg.registerIcon(Primal.MODID + ":log_pile");
+        tanningFrame = reg.registerIcon(Primal.MODID + ":tanning_frame");
     }
 
     @Override
     public IIcon getIcon(int side, int meta) {
         if (side == iconTanning) {
-            return icons[1];
+            return tanningFrame;
         }
-        return icons[1];
+        return particle;
     }
 
     @Override

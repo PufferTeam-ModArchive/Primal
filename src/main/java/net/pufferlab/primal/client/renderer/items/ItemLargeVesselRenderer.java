@@ -6,7 +6,7 @@ import net.pufferlab.primal.client.models.ModelPrimal;
 
 public class ItemLargeVesselRenderer extends ItemPrimalRenderer {
 
-    ModelLargeVessel[] modelLargeVessel = new ModelLargeVessel[] { new ModelLargeVessel() };
+    ModelPrimal[] modelLargeVessel = { new ModelLargeVessel() };
 
     @Override
     public ModelPrimal[] getModel(ItemStack stack) {

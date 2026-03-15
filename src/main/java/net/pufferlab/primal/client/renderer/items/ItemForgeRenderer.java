@@ -6,7 +6,7 @@ import net.pufferlab.primal.client.models.ModelPrimal;
 
 public class ItemForgeRenderer extends ItemPrimalRenderer {
 
-    ModelForge[] modelForge = new ModelForge[] { new ModelForge() };
+    ModelPrimal[] modelForge = { new ModelForge() };
 
     @Override
     public ModelPrimal[] getModel(ItemStack stack) {

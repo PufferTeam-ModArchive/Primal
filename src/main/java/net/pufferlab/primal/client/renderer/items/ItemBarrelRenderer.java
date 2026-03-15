@@ -6,7 +6,7 @@ import net.pufferlab.primal.client.models.ModelPrimal;
 
 public class ItemBarrelRenderer extends ItemPrimalRenderer {
 
-    ModelBarrel[] modelBarrel = new ModelBarrel[] { new ModelBarrel() };
+    ModelPrimal[] modelBarrel = { new ModelBarrel() };
 
     int[] barrelMeta = new int[] { 0 };
 

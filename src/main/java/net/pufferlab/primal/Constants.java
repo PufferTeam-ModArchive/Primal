@@ -111,12 +111,19 @@ public class Constants {
     public static final String[] coalOreBlacklist   = { bituminous_coal.name };
 
     //Mod Compat
-    public static final OreType aer         = new OreType("aer", 0, 0xFFFF7E);
-    public static final OreType ignis       = new OreType("ignis", 0, 0xFF3C01);
-    public static final OreType aqua        = new OreType("aqua", 0, 0x0090FF);
-    public static final OreType terra       = new OreType("terra", 0, 0x00A000);
-    public static final OreType ordo        = new OreType("ordo", 0, 0xEECCFF);
-    public static final OreType perditio    = new OreType("perditio", 0,0x555577);
+    public static final int aerColor = 0xFFFF7E;
+    public static final int ignisColor = 0xFF3C01;
+    public static final int aquaColor = 0x0090FF;
+    public static final int terraColor = 0x00A000;
+    public static final int ordoColor = 0xEECCFF;
+    public static final int perditioColor = 0x555577;
+
+    public static final OreType aer         = new OreType("aer", 0, aerColor);
+    public static final OreType ignis       = new OreType("ignis", 0, ignisColor);
+    public static final OreType aqua        = new OreType("aqua", 0, aquaColor);
+    public static final OreType terra       = new OreType("terra", 0, terraColor);
+    public static final OreType ordo        = new OreType("ordo", 0, ordoColor);
+    public static final OreType perditio    = new OreType("perditio", 0,perditioColor);
 
     //Vein Type
 

@@ -66,6 +66,11 @@ public class BlockAshPile extends BlockPile {
     }
 
     @Override
+    public int getMaxMeta() {
+        return 7;
+    }
+
+    @Override
     public int getRenderType() {
         return Primal.proxy.getAshPileRenderID();
     }

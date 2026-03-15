@@ -1,16 +1,16 @@
 package net.pufferlab.primal.client.renderer.items;
 
 import net.minecraft.item.ItemStack;
-import net.pufferlab.primal.client.models.ModelHandstone;
+import net.pufferlab.primal.client.models.ModelBloomery;
 import net.pufferlab.primal.client.models.ModelPrimal;
 
-public class ItemHandstoneRenderer extends ItemPrimalRenderer {
+public class ItemBloomeryRenderer extends ItemPrimalRenderer {
 
-    ModelPrimal[] modelHandstone = { new ModelHandstone() };
+    ModelPrimal[] modelBloomery = { new ModelBloomery() };
 
     @Override
     public ModelPrimal[] getModel(ItemStack stack) {
-        return modelHandstone;
+        return modelBloomery;
     }
 
     @Override
@@ -20,7 +20,7 @@ public class ItemHandstoneRenderer extends ItemPrimalRenderer {
 
     @Override
     public float getScale() {
-        return 1.25F;
+        return 0.85F;
     }
 
     @Override

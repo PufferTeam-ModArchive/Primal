@@ -7,8 +7,8 @@ import net.pufferlab.primal.client.models.ModelWindmill;
 
 public class ItemWindmillRenderer extends ItemPrimalRenderer {
 
-    ModelWindmill[] modelWindmill = new ModelWindmill[] { new ModelWindmill(2) };
-    ModelPrimal[] modelWindmillWithAxle = new ModelPrimal[] { new ModelAxle(), new ModelWindmill(2) };
+    ModelPrimal[] modelWindmill = { new ModelWindmill(2) };
+    ModelPrimal[] modelWindmillWithAxle = { new ModelAxle(), new ModelWindmill(2) };
 
     public ItemWindmillRenderer() {
         super(0.0F, 0.5F, 0.0F);

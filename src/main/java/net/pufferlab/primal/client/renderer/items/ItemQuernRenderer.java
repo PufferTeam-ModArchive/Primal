@@ -6,7 +6,7 @@ import net.pufferlab.primal.client.models.ModelQuern;
 
 public class ItemQuernRenderer extends ItemPrimalRenderer {
 
-    ModelQuern[] modelQuern = new ModelQuern[] { new ModelQuern() };
+    ModelPrimal[] modelQuern = { new ModelQuern() };
 
     @Override
     public ModelPrimal[] getModel(ItemStack stack) {
