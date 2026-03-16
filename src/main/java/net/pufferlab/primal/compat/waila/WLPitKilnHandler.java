@@ -14,6 +14,8 @@ import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 
+import static net.pufferlab.primal.tileentities.TileEntityPitKiln.*;
+
 @SuppressWarnings("deprecation")
 public class WLPitKilnHandler implements IWailaDataProvider {
 
@@ -26,8 +28,8 @@ public class WLPitKilnHandler implements IWailaDataProvider {
             if (tag != null) {
                 boolean isFired = tag.getBoolean("isFired");
                 if (isFired) {
-                    long nextUpdate = tef.taskProcess.getNextUpdate();
-                    int timeToProcess = tef.taskProcess.getTime();
+                    long nextUpdate = tef.manager.getNextUpdate(updateProcess);
+                    int timeToProcess = tef.manager.getTime(updateProcess);
                     currenttip.add(
                         RecipeUtils.getRecipeTooltip("Pottery", tef.getWorld(), nextUpdate, timeToProcess, "fired"));
                 }

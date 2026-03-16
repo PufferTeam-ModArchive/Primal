@@ -7,6 +7,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 import net.pufferlab.primal.recipes.BarrelRecipe;
+import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.ScheduleManager;
 
 public class TileEntityBarrel extends TileEntityFluidInventory implements IScheduledTile {
@@ -236,6 +237,16 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
         processBarrel(false);
     }
 
+    public void moveFluid() {
+        FluidStack input = getFluidStack();
+        FluidStack output = getFluidStackOutput();
+
+        if((input == null || Utils.equalsStack(input, output)) && output != null) {
+            tank.fill(output.copy(), true);
+            tankOutput.drain(tankOutput.getCapacity(), true);
+        }
+    }
+
     @Override
     public void onSchedule(World world, int x, int y, int z, int type, int id) {
         IScheduledTile.super.onSchedule(world, x, y, z, type, id);
@@ -245,6 +256,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
         }
         if (type == updateProcess) {
             processBarrel(true);
+            moveFluid();
         }
     }
 

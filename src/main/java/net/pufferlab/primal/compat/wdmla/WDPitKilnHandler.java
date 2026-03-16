@@ -19,6 +19,8 @@ import com.gtnewhorizons.wdmla.api.ui.IComponent;
 import com.gtnewhorizons.wdmla.api.ui.ITooltip;
 import com.gtnewhorizons.wdmla.impl.ui.ThemeHelper;
 
+import static net.pufferlab.primal.tileentities.TileEntityPitKiln.updateProcess;
+
 public class WDPitKilnHandler implements IBlockComponentProvider, IServerDataProvider<BlockAccessor> {
 
     public static final ResourceLocation resourceLocation = new ResourceLocation(Primal.MODID + ":wdpitkilnhandler");
@@ -47,8 +49,8 @@ public class WDPitKilnHandler implements IBlockComponentProvider, IServerDataPro
                         }
                     }
                 }
-                int timeToProcess = tef.taskProcess.getTime();
-                long nextUpdate = tef.taskProcess.getNextUpdate();
+                long nextUpdate = tef.manager.getNextUpdate(updateProcess);
+                int timeToProcess = tef.manager.getTime(updateProcess);
                 int timeRemaining = RecipeUtils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);
                 IComponent progress = ThemeHelper.INSTANCE
                     .furnaceLikeProgress(inputs, outputs, timeRemaining, timeToProcess, false);
