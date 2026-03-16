@@ -30,7 +30,7 @@ public class ModelAnvil extends ModelPrimal {
 
     @Override
     public String getName() {
-        int index = Math.min(this.type, Constants.anvilMetalTypes.length);
+        int index = Math.min(this.type, Constants.anvilMetalTypes.length - 1);
         return "blocks/" + Constants.anvilMetalTypes[index].name + "_anvil";
     }
 }

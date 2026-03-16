@@ -20,6 +20,7 @@ public class BlockBloomery extends BlockContainerPrimal {
     public BlockBloomery() {
         super(Material.rock);
         this.setStepSound(soundTypeStone);
+        this.setHardness(0.8F);
     }
 
     @Override

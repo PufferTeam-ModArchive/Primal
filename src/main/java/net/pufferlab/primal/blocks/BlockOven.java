@@ -22,9 +22,10 @@ import net.pufferlab.primal.utils.Utils;
 
 public class BlockOven extends BlockCampfire {
 
-    public IIcon[] ovenIcons = new IIcon[2];
+    public IIcon oven;
+    public IIcon particle;
 
-    public static final int iconOven = 96;
+    public static final int iconOven = 94;
 
     public BlockOven() {}
 
@@ -36,8 +37,8 @@ public class BlockOven extends BlockCampfire {
     public void registerBlockIcons(IIconRegister reg) {
         super.registerBlockIcons(reg);
 
-        ovenIcons[0] = reg.registerIcon(Primal.MODID + ":oven");
-        ovenIcons[1] = reg.registerIcon("minecraft:brick");
+        oven = reg.registerIcon(Primal.MODID + ":oven");
+        particle = reg.registerIcon("minecraft:brick");
     }
 
     @Override
@@ -45,13 +46,16 @@ public class BlockOven extends BlockCampfire {
         if (side == iconCampfire) {
             return campfireModel;
         }
+        if (side == iconKindling) {
+            return thatch;
+        }
         if (side == iconCampfireSpit) {
             return campfireSpit;
         }
         if (side == iconOven) {
-            return ovenIcons[0];
+            return oven;
         }
-        return ovenIcons[1];
+        return particle;
     }
 
     @Override
