@@ -5,6 +5,7 @@ import net.minecraft.world.World;
 
 public class UpdateTask {
 
+    public int id;
     public String name;
     public int inTime;
     public long timeSent;
@@ -12,6 +13,7 @@ public class UpdateTask {
     public boolean sentUpdate;
 
     public UpdateTask(int id) {
+        this.id = id;
         this.name = "UpdateTask" + id;
         this.sentUpdate = false;
     }

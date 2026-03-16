@@ -143,5 +143,18 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
         return false;
     }
 
-    public void onCoordChange(int oldX, int oldY, int oldZ) {}
+    @Override
+    public void invalidate() {
+        super.invalidate();
+
+        if (this instanceof IScheduledTile tile) {
+            tile.removeAllSchedule();
+        }
+    }
+
+    public void onCoordChange(int oldX, int oldY, int oldZ) {
+        if (this instanceof IScheduledTile tile) {
+            tile.moveAllSchedule(getWorldObj(), oldX, oldY, oldZ);
+        }
+    }
 }

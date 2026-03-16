@@ -1,6 +1,7 @@
 package net.pufferlab.primal.compat.wdmla;
 
 import static net.pufferlab.primal.tileentities.TileEntityBarrel.slotInput;
+import static net.pufferlab.primal.tileentities.TileEntityBarrel.updateProcess;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,14 +35,14 @@ public class WDBarrelHandler implements IBlockComponentProvider, IServerDataProv
             boolean isOpen = tag.getBoolean("isOpen");
             tooltip.child(new TextComponent(RecipeUtils.getStateTooltip(isOpen, "Open", "Sealed")));
             boolean canProcess = tag.getBoolean("canProcess");
-            long nextUpdate = tef.taskProcess.getNextUpdate();
+            long nextUpdate = tef.manager.getNextUpdate(updateProcess);
             if (canProcess) {
                 BarrelRecipe recipe = tef.getRecipe();
                 if (recipe != null) {
                     List<ItemStack> inputs = Arrays.asList(tef.getInventoryStack(slotInput), recipe.inputLiquidBlock);
                     List<ItemStack> outputs = Arrays.asList(recipe.output, recipe.outputLiquidBlock);
 
-                    int timeToProcess = tef.taskProcess.getTime();
+                    int timeToProcess = tef.manager.getTime(updateProcess);
                     int timeRemaining = RecipeUtils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);
                     IComponent progress = ThemeHelper.INSTANCE
                         .furnaceLikeProgress(inputs, outputs, timeRemaining, timeToProcess, false);

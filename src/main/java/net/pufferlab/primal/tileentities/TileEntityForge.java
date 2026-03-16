@@ -6,12 +6,13 @@ import net.minecraft.world.World;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.Utils;
-import net.pufferlab.primal.world.UpdateTask;
+import net.pufferlab.primal.world.ScheduleManager;
 
 public class TileEntityForge extends TileEntityInventory implements IHeatable, IScheduledTile {
 
     public static int updateFuel = 0;
-    public UpdateTask taskFuel = new UpdateTask(updateFuel);
+
+    public ScheduleManager manager = new ScheduleManager(updateFuel);
 
     public int temperature;
     public int timeHeat;
@@ -23,10 +24,15 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
     }
 
     @Override
+    public ScheduleManager getManager() {
+        return manager;
+    }
+
+    @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        UpdateTask.readFromNBT(tag, taskFuel);
+        manager.readFromNBT(tag);
 
         this.timeHeat = tag.getInteger("timeHeat");
         this.timeUpdate = tag.getInteger("timeUpdate");
@@ -38,7 +44,7 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        UpdateTask.writeToNBT(tag, taskFuel);
+        manager.writeToNBT(tag);
 
         tag.setInteger("timeHeat", this.timeHeat);
         tag.setInteger("timeUpdate", this.timeUpdate);
@@ -96,36 +102,10 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
     }
 
     @Override
-    public void addSchedule(int inTime, int type) {
-        IScheduledTile.super.addSchedule(inTime, type);
-
-        if (type == updateFuel) {
-            taskFuel.addUpdate(this.worldObj, inTime);
-        }
-    }
-
-    @Override
-    public void removeSchedule(int type) {
-        IScheduledTile.super.removeSchedule(type);
-
-        if (type == updateFuel) {
-            taskFuel.removeUpdate(this.worldObj);
-        }
-    }
-
-    @Override
-    public void invalidate() {
-        super.invalidate();
-
-        removeAllSchedule();
-    }
-
-    @Override
     public void onSchedule(World world, int x, int y, int z, int type, int id) {
         IScheduledTile.super.onSchedule(world, x, y, z, type, id);
 
         if (type == updateFuel) {
-            taskFuel.onUpdate(this.worldObj);
             updateFuel();
         }
     }
@@ -148,9 +128,7 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
         if (getMeta() == 0) {
             setFired(false);
         } else {
-            if (!taskFuel.hasSentUpdate()) {
-                addSchedule(Config.campfireBurnTime.getInt(), updateFuel);
-            }
+            addSchedule(Config.campfireBurnTime.getInt(), updateFuel);
         }
     }
 

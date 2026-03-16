@@ -1,15 +1,30 @@
 package net.pufferlab.primal.tileentities;
 
 import net.minecraft.world.World;
+import net.pufferlab.primal.world.ScheduleManager;
 import net.pufferlab.primal.world.SchedulerData;
 
 public interface IScheduledTile extends ITile {
 
+    default ScheduleManager getManager() {
+        return null;
+    }
+
     default void onSchedule(World world, int x, int y, int z, int type, int id) {
+        ScheduleManager manager = getManager();
+        if (manager != null) {
+            manager.onUpdate(type, world);
+        }
         mark();
     }
 
     default void addSchedule(World world, int x, int y, int z, int inTime, int type) {
+        ScheduleManager manager = getManager();
+        if (manager != null) {
+            if (manager.hasSentUpdate(type)) return;
+
+            manager.addUpdate(type, world, inTime);
+        }
         SchedulerData.addScheduledTileTask(inTime, getBlock(), world, x, y, z, type, 0);
         mark();
     }
@@ -24,6 +39,10 @@ public interface IScheduledTile extends ITile {
     }
 
     default void removeSchedule(World world, int x, int y, int z, int type) {
+        ScheduleManager manager = getManager();
+        if (manager != null) {
+            manager.removeUpdate(type, world);
+        }
         SchedulerData.removeScheduledTask(world, x, y, z, type);
         mark();
     }

@@ -9,12 +9,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.recipes.PitKilnRecipe;
-import net.pufferlab.primal.world.UpdateTask;
+import net.pufferlab.primal.world.ScheduleManager;
 
 public class TileEntityPitKiln extends TileEntityInventory implements IHeatable, IScheduledTile {
 
     public static int updateProcess = 1;
-    public UpdateTask taskProcess = new UpdateTask(updateProcess);
+    public ScheduleManager manager = new ScheduleManager(updateProcess);
     public static int slotItem1 = 0;
     public static int slotItem2 = 1;
     public static int slotItem3 = 2;
@@ -26,17 +26,22 @@ public class TileEntityPitKiln extends TileEntityInventory implements IHeatable,
     }
 
     @Override
+    public ScheduleManager getManager() {
+        return manager;
+    }
+
+    @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        UpdateTask.readFromNBT(tag, taskProcess);
+        manager.readFromNBT(tag);
     }
 
     @Override
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        UpdateTask.writeToNBT(tag, taskProcess);
+        manager.writeToNBT(tag);
     }
 
     @Override
@@ -86,9 +91,7 @@ public class TileEntityPitKiln extends TileEntityInventory implements IHeatable,
     }
 
     public void sendContentUpdate() {
-        if (!taskProcess.hasSentUpdate()) {
-            addSchedule(getSmeltTime(), updateProcess);
-        }
+        addSchedule(getSmeltTime(), updateProcess);
     }
 
     public void spreadFire() {
@@ -114,45 +117,12 @@ public class TileEntityPitKiln extends TileEntityInventory implements IHeatable,
     public void onSlotUpdate(int index) {}
 
     @Override
-    public void addSchedule(int inTime, int type) {
-        IScheduledTile.super.addSchedule(inTime, type);
-
-        if (type == updateProcess) {
-            taskProcess.addUpdate(this.worldObj, inTime);
-        }
-    }
-
-    @Override
-    public void removeSchedule(int type) {
-        IScheduledTile.super.removeSchedule(type);
-
-        if (type == updateProcess) {
-            taskProcess.removeUpdate(this.worldObj);
-        }
-    }
-
-    @Override
     public void onSchedule(World world, int x, int y, int z, int type, int id) {
         IScheduledTile.super.onSchedule(world, x, y, z, type, id);
 
         if (type == updateProcess) {
-            taskProcess.onUpdate(this.worldObj);
             smeltContent();
         }
-    }
-
-    @Override
-    public void invalidate() {
-        super.invalidate();
-
-        removeAllSchedule();
-    }
-
-    @Override
-    public void onCoordChange(int oldX, int oldY, int oldZ) {
-        super.onCoordChange(oldX, oldY, oldZ);
-
-        moveAllSchedule(getWorldObj(), oldX, oldY, oldZ);
     }
 
     @Override

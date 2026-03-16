@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 import net.pufferlab.primal.recipes.BarrelRecipe;
-import net.pufferlab.primal.world.UpdateTask;
+import net.pufferlab.primal.world.ScheduleManager;
 
 public class TileEntityBarrel extends TileEntityFluidInventory implements IScheduledTile {
 
@@ -22,10 +22,9 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
     public static int slotOutput = 1;
 
     public static int updateRain = 0;
-    public UpdateTask taskRain = new UpdateTask(updateRain);
-
     public static int updateProcess = 1;
-    public UpdateTask taskProcess = new UpdateTask(updateProcess);
+
+    public ScheduleManager manager = new ScheduleManager(updateRain, updateProcess);
 
     public TileEntityBarrel() {
         super(10000, 2);
@@ -35,11 +34,15 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
     }
 
     @Override
+    public ScheduleManager getManager() {
+        return manager;
+    }
+
+    @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        UpdateTask.readFromNBT(tag, taskRain);
-        UpdateTask.readFromNBT(tag, taskProcess);
+        manager.readFromNBT(tag);
 
         this.isOpen = tag.getBoolean("isOpen");
         this.isFloorBarrel = tag.getBoolean("isFloorBarrel");
@@ -53,8 +56,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        UpdateTask.writeToNBT(tag, taskRain);
-        UpdateTask.writeToNBT(tag, taskProcess);
+        manager.writeToNBT(tag);
 
         tag.setBoolean("isOpen", this.isOpen);
         tag.setBoolean("isFloorBarrel", this.isFloorBarrel);
@@ -160,8 +162,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
     @Override
     public void updateEntity() {
         super.updateEntity();
-        if (!taskRain.hasSentUpdate() && worldObj.isRaining()
-            && worldObj.canBlockSeeTheSky(this.xCoord, this.yCoord, this.zCoord)
+        if (worldObj.isRaining() && worldObj.canBlockSeeTheSky(this.xCoord, this.yCoord, this.zCoord)
             && !this.isFloorBarrel
             && this.isOpen) {
             addSchedule(20, updateRain);
@@ -191,9 +192,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
             int scaledAmount = recipe.inputLiquid.amount * lastStackSize;
             if (getFluidStack().amount >= (scaledAmount)) {
                 this.canProcess = true;
-                if (!taskProcess.hasSentUpdate()) {
-                    addSchedule(recipe.processingTime, updateProcess);
-                }
+                addSchedule(recipe.processingTime, updateProcess);
                 if (process) {
                     setInventorySlotContentsUpdate(slotInput);
                     tank.drain(scaledAmount, true);
@@ -217,9 +216,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
             this.canProcess = false;
         }
         if (!this.canProcess) {
-            if (taskProcess.hasSentUpdate()) {
-                removeSchedule(updateProcess);
-            }
+            removeSchedule(updateProcess);
         }
     }
 
@@ -240,53 +237,13 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
     }
 
     @Override
-    public void addSchedule(int inTime, int type) {
-        IScheduledTile.super.addSchedule(inTime, type);
-
-        if (type == updateRain) {
-            taskRain.addUpdate(this.worldObj, inTime);
-        }
-        if (type == updateProcess) {
-            taskProcess.addUpdate(this.worldObj, inTime);
-        }
-    }
-
-    @Override
-    public void removeSchedule(int type) {
-        IScheduledTile.super.removeSchedule(type);
-
-        if (type == updateRain) {
-            taskRain.removeUpdate(this.worldObj);
-        }
-        if (type == updateProcess) {
-            taskProcess.removeUpdate(this.worldObj);
-        }
-    }
-
-    @Override
-    public void invalidate() {
-        super.invalidate();
-
-        removeAllSchedule();
-    }
-
-    @Override
-    public void onCoordChange(int oldX, int oldY, int oldZ) {
-        super.onCoordChange(oldX, oldY, oldZ);
-
-        moveAllSchedule(getWorldObj(), oldX, oldY, oldZ);
-    }
-
-    @Override
     public void onSchedule(World world, int x, int y, int z, int type, int id) {
         IScheduledTile.super.onSchedule(world, x, y, z, type, id);
 
         if (type == updateRain) {
-            taskRain.onUpdate(this.worldObj);
             fillRainWater();
         }
         if (type == updateProcess) {
-            taskProcess.onUpdate(this.worldObj);
             processBarrel(true);
         }
     }

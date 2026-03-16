@@ -32,8 +32,8 @@ public class WLCampfireHandler implements IWailaDataProvider {
                     ItemStack outputItem1 = CampfireRecipe.getOutput(tef.getInventoryStack(slotItem1));
                     if (outputItem1 != null) {
                         String inputName = RecipeUtils.getDisplayName(tef.getInventoryStack(slotItem1));
-                        long nextUpdate = tef.taskItem1.getNextUpdate();
-                        int timeToProcess = tef.taskItem1.getTime();
+                        long nextUpdate = tef.manager.getNextUpdate(updateItem1);
+                        int timeToProcess = tef.manager.getTime(updateItem1);
                         currenttip.add(
                             RecipeUtils
                                 .getRecipeTooltip(inputName, tef.getWorld(), nextUpdate, timeToProcess, "cooked"));
@@ -41,8 +41,8 @@ public class WLCampfireHandler implements IWailaDataProvider {
                     ItemStack outputItem2 = CampfireRecipe.getOutput(tef.getInventoryStack(slotItem2));
                     if (outputItem2 != null) {
                         String inputName = RecipeUtils.getDisplayName(tef.getInventoryStack(slotItem2));
-                        long nextUpdate = tef.taskItem2.getNextUpdate();
-                        int timeToProcess = tef.taskItem2.getTime();
+                        long nextUpdate = tef.manager.getNextUpdate(updateItem2);
+                        int timeToProcess = tef.manager.getTime(updateItem2);
                         currenttip.add(
                             RecipeUtils
                                 .getRecipeTooltip(inputName, tef.getWorld(), nextUpdate, timeToProcess, "cooked"));
@@ -50,8 +50,8 @@ public class WLCampfireHandler implements IWailaDataProvider {
                     ItemStack outputItem3 = CampfireRecipe.getOutput(tef.getInventoryStack(slotItem3));
                     if (outputItem3 != null) {
                         String inputName = RecipeUtils.getDisplayName(tef.getInventoryStack(slotItem3));
-                        long nextUpdate = tef.taskItem3.getNextUpdate();
-                        int timeToProcess = tef.taskItem3.getTime();
+                        long nextUpdate = tef.manager.getNextUpdate(updateItem3);
+                        int timeToProcess = tef.manager.getTime(updateItem3);
                         currenttip.add(
                             RecipeUtils
                                 .getRecipeTooltip(inputName, tef.getWorld(), nextUpdate, timeToProcess, "cooked"));
@@ -59,8 +59,8 @@ public class WLCampfireHandler implements IWailaDataProvider {
                     ItemStack outputItem4 = CampfireRecipe.getOutput(tef.getInventoryStack(slotItem4));
                     if (outputItem4 != null) {
                         String inputName = RecipeUtils.getDisplayName(tef.getInventoryStack(slotItem4));
-                        long nextUpdate = tef.taskItem4.getNextUpdate();
-                        int timeToProcess = tef.taskItem4.getTime();
+                        long nextUpdate = tef.manager.getNextUpdate(updateItem4);
+                        int timeToProcess = tef.manager.getTime(updateItem4);
                         currenttip.add(
                             RecipeUtils
                                 .getRecipeTooltip(inputName, tef.getWorld(), nextUpdate, timeToProcess, "cooked"));
