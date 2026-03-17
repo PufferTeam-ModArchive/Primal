@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.utils.client.MCModelRenderer;
 
-public class ModelBipedPrimal extends ModelBiped {
+public class ModelBipedPrimal extends ModelBiped implements IWearableModel {
 
     public MCModelRenderer modelHead;
     public MCModelRenderer modelHeadwear;

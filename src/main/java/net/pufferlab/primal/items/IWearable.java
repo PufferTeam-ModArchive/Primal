@@ -2,8 +2,12 @@ package net.pufferlab.primal.items;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import net.pufferlab.primal.client.models.entities.ModelBipedPrimal;
+import net.pufferlab.primal.client.models.entities.IWearableModel;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
+@SideOnly(Side.CLIENT)
 public interface IWearable {
 
     public enum WearableType {
@@ -11,11 +15,11 @@ public interface IWearable {
         BAUBLES
     }
 
-    default ModelBipedPrimal getWearableModel(EntityLivingBase entity, ItemStack stack) {
+    default IWearableModel getWearableModel(EntityLivingBase entity, ItemStack stack) {
         return null;
     }
 
-    default ModelBipedPrimal getWearableModelExtra(EntityLivingBase entity, ItemStack stack) {
+    default IWearableModel getWearableModelExtra(EntityLivingBase entity, ItemStack stack) {
         return null;
     }
 

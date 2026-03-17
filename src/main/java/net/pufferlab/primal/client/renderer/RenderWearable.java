@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Mods;
+import net.pufferlab.primal.client.models.entities.IWearableModel;
 import net.pufferlab.primal.client.models.entities.ModelBipedPrimal;
 import net.pufferlab.primal.items.IWearable;
 
@@ -62,11 +63,11 @@ public class RenderWearable {
         if (stack != null) {
             Item item = stack.getItem();
             if (item instanceof IWearable item2) {
-                thiz.setRenderPassModel(item2.getWearableModel(entity, stack));
+                thiz.setRenderPassModel(getModel(item2, entity, stack));
                 if (thiz.renderPassModel instanceof ModelBipedPrimal model) {
                     renderModel(model, thiz, entity, f7, f6, f4, f3, f2, f13, f5, p_76986_9_);
                 }
-                ModelBipedPrimal model2 = item2.getWearableModelExtra(entity, stack);
+                ModelBipedPrimal model2 = getModelExtra(item2, entity, stack);
                 if (model2 != null) {
                     thiz.setRenderPassModel(model2);
                     if (thiz.renderPassModel instanceof ModelBipedPrimal model) {
@@ -75,6 +76,22 @@ public class RenderWearable {
                 }
             }
         }
+    }
+
+    public ModelBipedPrimal getModel(IWearable wearable, EntityLivingBase entity, ItemStack stack) {
+        IWearableModel modelW = wearable.getWearableModel(entity, stack);
+        if (modelW instanceof ModelBipedPrimal model2) {
+            return model2;
+        }
+        return null;
+    }
+
+    public ModelBipedPrimal getModelExtra(IWearable wearable, EntityLivingBase entity, ItemStack stack) {
+        IWearableModel modelW = wearable.getWearableModelExtra(entity, stack);
+        if (modelW instanceof ModelBipedPrimal model2) {
+            return model2;
+        }
+        return null;
     }
 
     public void renderModel(ModelBipedPrimal model, RendererLivingEntity thiz, EntityLivingBase entity, float f7,

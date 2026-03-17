@@ -11,7 +11,7 @@ public class ItemStrawClothe extends ItemClothe implements IWearable {
     }
 
     @Override
-    public ModelBipedPrimal getWearableModel(EntityLivingBase entity, ItemStack stack) {
+    public IWearableModel getWearableModel(EntityLivingBase entity, ItemStack stack) {
         return switch (this.name) {
             case "straw_hat" -> ModelStrawHat.instance;
             case "straw_shirt" -> ModelStrawShirt.instance;
@@ -22,7 +22,7 @@ public class ItemStrawClothe extends ItemClothe implements IWearable {
     }
 
     @Override
-    public ModelBipedPrimal getWearableModelExtra(EntityLivingBase entity, ItemStack stack) {
+    public IWearableModel getWearableModelExtra(EntityLivingBase entity, ItemStack stack) {
         return switch (this.name) {
             case "straw_coat" -> ModelStrawPants.instance;
             default -> null;
