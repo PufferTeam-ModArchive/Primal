@@ -1,12 +1,10 @@
 package net.pufferlab.primal.items;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.Utils;
@@ -14,26 +12,28 @@ import net.pufferlab.primal.utils.Utils;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import gnu.trove.map.TObjectIntMap;
+import gnu.trove.map.hash.TObjectIntHashMap;
 
 public class ItemArmorPrimitive extends ItemArmor {
 
     String armorName;
     ArmorMaterial armorMaterial;
 
-    public static final Map<ArmorMaterial, Integer> armorMap = new HashMap<>();
+    public static final TObjectIntMap<ItemArmor.ArmorMaterial> armorMap = new TObjectIntHashMap<>();
 
-    public ItemArmorPrimitive(ItemArmor.ArmorMaterial armor, String name, int armorType) {
-        this(armor, name, getPrefix(armor), armorType);
+    public ItemArmorPrimitive(ItemArmor.ArmorMaterial armor, String name, String armorType) {
+        this(armor, name, getPrefix(armor), getArmor(armorType));
     }
 
-    public ItemArmorPrimitive(ItemArmor.ArmorMaterial armor, String name, int renderIndex, int armorType) {
-        super(armor, renderIndex, armorType);
+    public ItemArmorPrimitive(ItemArmor.ArmorMaterial armor, String name, int renderIndex, int armorID) {
+        super(armor, renderIndex, armorID);
 
         armorMaterial = armor;
         armorName = name;
     }
 
-    public static int getPrefix(ArmorMaterial material) {
+    public static int getPrefix(ItemArmor.ArmorMaterial material) {
         if (Utils.isClient()) {
             if (armorMap.containsKey(material)) {
                 return armorMap.get(material);
@@ -44,6 +44,16 @@ public class ItemArmorPrimitive extends ItemArmor {
             }
         }
         return 0;
+    }
+
+    public static int getArmor(String armorType) {
+        return switch (armorType) {
+            case Constants.helmet -> 0;
+            case Constants.chestplate -> 1;
+            case Constants.leggings -> 2;
+            case Constants.boots -> 3;
+            default -> 0;
+        };
     }
 
     @Override

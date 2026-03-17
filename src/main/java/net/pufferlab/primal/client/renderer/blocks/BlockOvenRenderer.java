@@ -9,10 +9,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.client.models.ModelCampfire;
-import net.pufferlab.primal.client.models.ModelCampfireKindling;
-import net.pufferlab.primal.client.models.ModelCrossed;
-import net.pufferlab.primal.client.models.ModelOven;
+import net.pufferlab.primal.client.models.blocks.ModelCampfire;
+import net.pufferlab.primal.client.models.blocks.ModelCampfireKindling;
+import net.pufferlab.primal.client.models.blocks.ModelCrossed;
+import net.pufferlab.primal.client.models.blocks.ModelOven;
 import net.pufferlab.primal.tileentities.TileEntityOven;
 
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;

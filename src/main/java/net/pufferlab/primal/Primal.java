@@ -59,6 +59,7 @@ public class Primal {
         registry.setupTiles();
         registry.setupFluids();
         registry.setupWorldGen();
+        registry.setupBaubles();
     }
 
     @Mod.EventHandler

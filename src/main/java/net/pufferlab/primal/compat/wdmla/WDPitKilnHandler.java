@@ -1,5 +1,7 @@
 package net.pufferlab.primal.compat.wdmla;
 
+import static net.pufferlab.primal.tileentities.TileEntityPitKiln.updateProcess;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +20,6 @@ import com.gtnewhorizons.wdmla.api.provider.IServerDataProvider;
 import com.gtnewhorizons.wdmla.api.ui.IComponent;
 import com.gtnewhorizons.wdmla.api.ui.ITooltip;
 import com.gtnewhorizons.wdmla.impl.ui.ThemeHelper;
-
-import static net.pufferlab.primal.tileentities.TileEntityPitKiln.updateProcess;
 
 public class WDPitKilnHandler implements IBlockComponentProvider, IServerDataProvider<BlockAccessor> {
 

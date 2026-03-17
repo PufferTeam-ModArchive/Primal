@@ -21,6 +21,6 @@ public class WLCompat {
     }
 
     public void loadConfig() {
-        FMLInterModComms.sendMessage(Mods.wl.MODID, "register", WLCompat.class.getName() + ".register");
+        FMLInterModComms.sendMessage(Mods.waila.MODID, "register", WLCompat.class.getName() + ".register");
     }
 }

@@ -47,6 +47,14 @@ public class ModelRenderer {
     public float rotateAngleYGlobal;
     public int facingMetaGlobal;
 
+    public ModelRenderer() {
+        this.textureWidth = 64.0F;
+        this.textureHeight = 32.0F;
+        this.showModel = true;
+        this.cubeList = new ArrayList();
+        this.boxName = null;
+    }
+
     public ModelRenderer(ModelBase baseModel, String boxName) {
         this.textureWidth = 64.0F;
         this.textureHeight = 32.0F;

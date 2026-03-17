@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.client.models.ModelGenerator;
+import net.pufferlab.primal.client.models.blocks.ModelGenerator;
 import net.pufferlab.primal.tileentities.TileEntityMotion;
 
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;

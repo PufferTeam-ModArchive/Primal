@@ -10,9 +10,9 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.client.models.ModelFluid;
-import net.pufferlab.primal.client.models.ModelItem;
-import net.pufferlab.primal.client.models.ModelMold;
+import net.pufferlab.primal.client.models.blocks.ModelFluid;
+import net.pufferlab.primal.client.models.blocks.ModelItem;
+import net.pufferlab.primal.client.models.blocks.ModelMold;
 import net.pufferlab.primal.tileentities.TileEntityCast;
 
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;

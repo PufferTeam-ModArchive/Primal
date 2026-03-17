@@ -1,10 +1,10 @@
 package net.pufferlab.primal.client.renderer.items;
 
 import net.minecraft.item.ItemStack;
-import net.pufferlab.primal.client.models.ModelAxle;
-import net.pufferlab.primal.client.models.ModelBracket;
-import net.pufferlab.primal.client.models.ModelGear;
-import net.pufferlab.primal.client.models.ModelPrimal;
+import net.pufferlab.primal.client.models.blocks.ModelAxle;
+import net.pufferlab.primal.client.models.blocks.ModelBracket;
+import net.pufferlab.primal.client.models.blocks.ModelGear;
+import net.pufferlab.primal.client.models.blocks.ModelPrimal;
 
 public class ItemAxleRenderer extends ItemPrimalRenderer {
 

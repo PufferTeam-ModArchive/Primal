@@ -1,5 +1,7 @@
 package net.pufferlab.primal.compat.waila;
 
+import static net.pufferlab.primal.tileentities.TileEntityPitKiln.*;
+
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -13,8 +15,6 @@ import net.pufferlab.primal.utils.RecipeUtils;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
-
-import static net.pufferlab.primal.tileentities.TileEntityPitKiln.*;
 
 @SuppressWarnings("deprecation")
 public class WLPitKilnHandler implements IWailaDataProvider {

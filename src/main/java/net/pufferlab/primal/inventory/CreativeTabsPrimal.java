@@ -24,7 +24,7 @@ public class CreativeTabsPrimal extends CreativeTabs {
 
     @Override
     public String getTranslatedTabLabel() {
-        return Primal.MODNAME + " " + name;
+        return "group." + Primal.MODID + "." + this.name + ".name";
     }
 
 }

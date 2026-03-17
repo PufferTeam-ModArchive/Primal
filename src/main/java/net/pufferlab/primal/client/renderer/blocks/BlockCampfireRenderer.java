@@ -9,7 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.client.models.*;
+import net.pufferlab.primal.client.models.blocks.*;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 

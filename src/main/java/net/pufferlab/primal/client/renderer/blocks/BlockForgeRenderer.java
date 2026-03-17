@@ -9,7 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.client.models.ModelForge;
+import net.pufferlab.primal.client.models.blocks.ModelForge;
 import net.pufferlab.primal.tileentities.TileEntityForge;
 
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;

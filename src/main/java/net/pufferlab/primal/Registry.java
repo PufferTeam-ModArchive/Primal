@@ -18,11 +18,11 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fluids.*;
 import net.pufferlab.primal.blocks.*;
 import net.pufferlab.primal.commands.*;
+import net.pufferlab.primal.compat.baubles.BACompat;
 import net.pufferlab.primal.compat.minetweaker.MTCompat;
 import net.pufferlab.primal.compat.nei.NEICompat;
 import net.pufferlab.primal.compat.waila.WLCompat;
 import net.pufferlab.primal.events.*;
-import net.pufferlab.primal.events.ForbiddenMagicHandler;
 import net.pufferlab.primal.inventory.CreativeTabsPrimal;
 import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.network.packets.*;
@@ -42,8 +42,8 @@ import minetweaker.MineTweakerAPI;
 
 public class Registry {
 
-    public static final CreativeTabs creativeTab = new CreativeTabsPrimal("", "firestarter");
-    public static final CreativeTabs creativeTabWorld = new CreativeTabsPrimal("World", "stone");
+    public static final CreativeTabs creativeTab = new CreativeTabsPrimal("primal", "firestarter");
+    public static final CreativeTabs creativeTabWorld = new CreativeTabsPrimal("primal_world", "stone");
 
     public static final Block ground_ore;
     public static final Block ground_rock;
@@ -162,6 +162,10 @@ public class Registry {
     public static final Item copper_boots;
     public static final Item iron_knife;
     public static final Item iron_hammer;
+    public static final Item straw_hat;
+    public static final Item straw_shirt;
+    public static final Item straw_coat;
+    public static final Item straw_sandals;
     public static final Item firestarter;
     public static final Item bucket;
     public static final Item.ToolMaterial toolFlint;
@@ -342,6 +346,11 @@ public class Registry {
         bronze_leggings = new ItemArmorBronze(Constants.bronze, Constants.leggings);
         bronze_boots = new ItemArmorBronze(Constants.bronze, Constants.boots);
 
+        straw_hat = new ItemStrawClothe("straw_hat", Constants.hat);
+        straw_shirt = new ItemStrawClothe("straw_shirt", Constants.shirt);
+        straw_coat = new ItemStrawClothe("straw_coat", Constants.shirt);
+        straw_sandals = new ItemStrawClothe("straw_sandals", Constants.shoes);
+
         firestarter = new ItemFireStarter();
         handstone = new ItemHandstone();
     }
@@ -485,6 +494,11 @@ public class Registry {
         register(bronze_chestplate, "bronze_chestplate");
         register(bronze_leggings, "bronze_leggings");
         register(bronze_boots, "bronze_boots");
+
+        register(straw_hat, "straw_hat");
+        register(straw_shirt, "straw_shirt");
+        register(straw_coat, "straw_coat");
+        register(straw_sandals, "straw_sandals");
 
         register(firestarter, "firestarter");
         register(handstone, "handstone");
@@ -701,8 +715,14 @@ public class Registry {
     }
 
     public void setupWAILA() {
-        if (Mods.wl.isLoaded() && !Mods.wd.isLoaded()) {
+        if (Mods.waila.isLoaded() && !Mods.wdmla.isLoaded()) {
             new WLCompat().loadConfig();
+        }
+    }
+
+    public void setupBaubles() {
+        if (Mods.baubles.isLoaded()) {
+            new BACompat().loadConfig();
         }
     }
 

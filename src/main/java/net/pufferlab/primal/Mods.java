@@ -19,8 +19,9 @@ public enum Mods {
     exbl("ExtrabiomesXL"),
     wg("WitchingGadgets"),
     mt("MineTweaker3"),
-    wl("Waila"),
-    wd("wdmla"),
+    waila("Waila"),
+    wdmla("wdmla"),
+    baubles("Baubles|Expanded"),
     hp("hodgepodge"),
     dapi("DragonAPI"),
     chrc("ChromatiCraft");

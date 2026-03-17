@@ -3,7 +3,7 @@ package net.pufferlab.primal.client.renderer.tileentities;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.pufferlab.primal.blocks.BlockForge;
-import net.pufferlab.primal.client.models.ModelCrucible;
+import net.pufferlab.primal.client.models.blocks.ModelCrucible;
 import net.pufferlab.primal.tileentities.TileEntityCrucible;
 
 import org.lwjgl.opengl.GL11;

@@ -25,10 +25,18 @@ public class Constants {
     public static final short lightHeat2 = 0xEBA;
     public static final short lightHeat3 = 0xFDC;
 
-    public static final int helmet = 0;
-    public static final int chestplate = 1;
-    public static final int leggings = 2;
-    public static final int boots = 3;
+    public static final String helmet = "helmet";
+    public static final String chestplate = "chestplate";
+    public static final String leggings = "leggings";
+    public static final String boots = "boots";
+
+    public static final String head = "head";
+    public static final String body = "body";
+
+    public static final String hat = "hat";
+    public static final String shirt = "shirt";
+    public static final String pants = "pants";
+    public static final String shoes = "shoes";
 
     // Types
     public static final String[] woodTypes = { "oak", "spruce", "birch", "jungle", "acacia", "dark_oak" };

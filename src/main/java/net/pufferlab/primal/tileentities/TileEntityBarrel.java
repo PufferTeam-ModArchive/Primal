@@ -241,7 +241,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
         FluidStack input = getFluidStack();
         FluidStack output = getFluidStackOutput();
 
-        if((input == null || Utils.equalsStack(input, output)) && output != null) {
+        if ((input == null || Utils.equalsStack(input, output)) && output != null) {
             tank.fill(output.copy(), true);
             tankOutput.drain(tankOutput.getCapacity(), true);
         }

@@ -8,9 +8,9 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.BlockGroundcover;
-import net.pufferlab.primal.client.models.ModelItem;
-import net.pufferlab.primal.client.models.ModelRock;
-import net.pufferlab.primal.client.models.ModelRockSmall;
+import net.pufferlab.primal.client.models.blocks.ModelItem;
+import net.pufferlab.primal.client.models.blocks.ModelRock;
+import net.pufferlab.primal.client.models.blocks.ModelRockSmall;
 import net.pufferlab.primal.utils.Utils;
 
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;

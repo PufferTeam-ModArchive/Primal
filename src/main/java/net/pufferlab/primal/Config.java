@@ -137,6 +137,8 @@ public enum Config {
         "Whether to enable the generation of the ore types for Thaumcraft"),
 
     // Mixins
+    wearableRenderer(Module.fixes, true,
+        "Enable the mixins for the wearable renderer (used for clothes), disable if you use a mod that causes shit to break"),
     hpBatcherDisabler(Module.fixes, true, "Prevents hodgepodge to slow down packet for the mod tile entities"),
     particleFix(Module.fixes, true,
         "Fixes particles to match the block it's being broken, required for some blocks to have correct looking particles"),
