@@ -2,7 +2,7 @@ package net.pufferlab.primal.mixins.early.minecraft.client;
 
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.EntityLivingBase;
-import net.pufferlab.primal.events.WearableHandler;
+import net.pufferlab.primal.client.renderer.RenderWearable;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -24,7 +24,7 @@ public abstract class MixinRenderEntityLiving_Wearable {
         at = @At(value = "FIELD", target = "Lnet/minecraft/client/model/ModelBase;isChild:Z", shift = At.Shift.AFTER))
     private void primal$preRender(EntityLivingBase entity, double x, double y, double z, float yaw, float partialTicks,
         CallbackInfo ci) {
-        WearableHandler.wearableHandler.handleRenderingPre((RendererLivingEntity) (Object) this);
+        RenderWearable.wearableHandler.handleRenderingPre((RendererLivingEntity) (Object) this);
     }
 
     @Inject(
@@ -44,7 +44,7 @@ public abstract class MixinRenderEntityLiving_Wearable {
         float f6 = entity.prevLimbSwingAmount + (entity.limbSwingAmount - entity.prevLimbSwingAmount) * partialTicks;
         float f7 = entity.limbSwing - entity.limbSwingAmount * (1.0F - partialTicks);
 
-        WearableHandler.wearableHandler
+        RenderWearable.wearableHandler
             .handleRendering((RendererLivingEntity) (Object) this, entity, f7, f6, f4, f3, f2, f13, f5, partialTicks);
     }
 }

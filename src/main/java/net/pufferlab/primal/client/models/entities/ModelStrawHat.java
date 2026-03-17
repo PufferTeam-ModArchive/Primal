@@ -1,7 +1,5 @@
 package net.pufferlab.primal.client.models.entities;
 
-import net.minecraft.entity.Entity;
-
 public class ModelStrawHat extends ModelBipedPrimal {
 
     public static final ModelStrawHat instance = new ModelStrawHat();
@@ -16,20 +14,6 @@ public class ModelStrawHat extends ModelBipedPrimal {
         modelHeadwear.addBox(0, 15, -4.0F, -6.0F - 5, -4.0F, 8, 3, 8, 0.0F);
 
         addModels();
-    }
-
-    @Override
-    public void transformModel(Entity p_78088_1_, float p_78088_2_, float p_78088_3_, float p_78088_4_,
-        float p_78088_5_, float p_78088_6_, float p_78088_7_, float partialTicks) {
-        super.transformModel(
-            p_78088_1_,
-            p_78088_2_,
-            p_78088_3_,
-            p_78088_4_,
-            p_78088_5_,
-            p_78088_6_,
-            p_78088_7_,
-            partialTicks);
     }
 
     @Override

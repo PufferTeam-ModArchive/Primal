@@ -1,4 +1,4 @@
-package net.pufferlab.primal.events;
+package net.pufferlab.primal.client.renderer;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
@@ -15,9 +15,9 @@ import org.lwjgl.opengl.GL11;
 import baubles.common.container.InventoryBaubles;
 import baubles.common.lib.PlayerHandler;
 
-public class WearableHandler {
+public class RenderWearable {
 
-    public static WearableHandler wearableHandler = new WearableHandler();
+    public static RenderWearable wearableHandler = new RenderWearable();
 
     public void handleRenderingPre(RendererLivingEntity thiz) {
         if (thiz.mainModel instanceof ModelBiped modelBiped) {
