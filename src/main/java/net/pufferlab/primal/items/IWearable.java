@@ -4,10 +4,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.client.models.entities.IWearableModel;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-@SideOnly(Side.CLIENT)
 public interface IWearable {
 
     public enum WearableType {
