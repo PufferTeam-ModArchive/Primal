@@ -11,21 +11,13 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(RendererLivingEntity.class)
-public abstract class MixinRenderEntityLiving_Wearable {
+public abstract class MixinRendererLivingEntity {
 
     @Shadow
     protected abstract float interpolateRotation(float angle1, float angle2, float p_77034_3_);
 
     @Shadow
     protected abstract float handleRotationFloat(EntityLivingBase entityLivingBase, float p_77044_2_);
-
-    @Inject(
-        method = "doRender",
-        at = @At(value = "FIELD", target = "Lnet/minecraft/client/model/ModelBase;isChild:Z", shift = At.Shift.AFTER))
-    private void primal$preRender(EntityLivingBase entity, double x, double y, double z, float yaw, float partialTicks,
-        CallbackInfo ci) {
-        RenderWearable.wearableHandler.handleRenderingPre((RendererLivingEntity) (Object) this);
-    }
 
     @Inject(
         method = "doRender",

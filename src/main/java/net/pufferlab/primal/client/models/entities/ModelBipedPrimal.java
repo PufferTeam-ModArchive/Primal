@@ -1,8 +1,5 @@
 package net.pufferlab.primal.client.models.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
@@ -21,11 +18,9 @@ public class ModelBipedPrimal extends ModelBiped implements IWearableModel {
     public MCModelRenderer modelLeftLeg;
     public MCModelRenderer modelEars;
     public MCModelRenderer modelCloak;
-    public static final List<ModelBiped> modelBipeds = new ArrayList<>();
 
     public ModelBipedPrimal(float t) {
         super(t);
-        modelBipeds.add(this);
     }
 
     public ModelBipedPrimal() {
@@ -40,8 +35,6 @@ public class ModelBipedPrimal extends ModelBiped implements IWearableModel {
         modelLeftLeg = new MCModelRenderer(this);
         modelEars = new MCModelRenderer(this);
         modelCloak = new MCModelRenderer(this);
-
-        modelBipeds.add(this);
     }
 
     public void addModels() {

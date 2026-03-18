@@ -20,17 +20,6 @@ public class RenderWearable {
 
     public static RenderWearable wearableHandler = new RenderWearable();
 
-    public void handleRenderingPre(RendererLivingEntity thiz) {
-        if (thiz.mainModel instanceof ModelBiped modelBiped) {
-            for (ModelBiped biped : ModelBipedPrimal.modelBipeds) {
-
-                biped.aimedBow = modelBiped.aimedBow;
-                biped.isSneak = modelBiped.isSneak;
-                biped.heldItemRight = modelBiped.heldItemRight;
-            }
-        }
-    }
-
     public void handleRendering(RendererLivingEntity thiz, EntityLivingBase entity, float f7, float f6, float f4,
         float f3, float f2, float f13, float f5, float p_76986_9_) {
         if (entity instanceof EntityPlayer player) {
@@ -101,6 +90,12 @@ public class RenderWearable {
         model.onGround = thiz.mainModel.onGround;
         model.isRiding = thiz.mainModel.isRiding;
         model.isChild = thiz.mainModel.isChild;
+        if (thiz.mainModel instanceof ModelBiped modelBiped) {
+            model.aimedBow = modelBiped.aimedBow;
+            model.isSneak = modelBiped.isSneak;
+            model.heldItemRight = modelBiped.heldItemRight;
+            model.heldItemLeft = modelBiped.heldItemLeft;
+        }
         GL11.glColor3f(1.0F, 1.0F, 1.0F);
         model.transformModel(entity, f7, f6, f4, f3 - f2, f13, f5, p_76986_9_);
         model.setLivingAnimations(entity, f7, f6, p_76986_9_);
