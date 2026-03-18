@@ -2,9 +2,7 @@ package net.pufferlab.primal.client.models.entities;
 
 import net.pufferlab.primal.Constants;
 
-public class ModelStrawShirt extends ModelArmor {
-
-    public static final ModelStrawShirt instance = new ModelStrawShirt();
+public class ModelStrawShirt extends ModelAccessoryBiped {
 
     public ModelStrawShirt() {
         super(Constants.chestplate);

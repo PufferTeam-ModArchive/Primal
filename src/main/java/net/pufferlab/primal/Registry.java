@@ -604,6 +604,7 @@ public class Registry {
         registerEvent(new HeatHandler());
         registerEvent(new FoodHandler());
         registerEvent(new PlayerHandler());
+        registerEvent(new RenderingHandler());
 
         if (Mods.fm.isLoaded()) {
             registerEvent(new ForbiddenMagicHandler());

@@ -19,7 +19,9 @@ import net.pufferlab.primal.blocks.IPrimalBlock;
 import net.pufferlab.primal.client.audio.SoundQuernGrinding;
 import net.pufferlab.primal.client.gui.*;
 import net.pufferlab.primal.client.particle.EntityGrindingFX;
+import net.pufferlab.primal.client.renderer.RenderAccessory;
 import net.pufferlab.primal.client.renderer.blocks.*;
+import net.pufferlab.primal.client.renderer.entities.*;
 import net.pufferlab.primal.client.renderer.items.*;
 import net.pufferlab.primal.client.renderer.tileentities.*;
 import net.pufferlab.primal.recipes.KnappingType;
@@ -173,6 +175,11 @@ public class ClientProxy extends CommonProxy {
                 }
             }
         }
+
+        register(Registry.straw_hat, new ItemStrawHatRenderer());
+        register(Registry.straw_shirt, new ItemStrawShirtRenderer());
+        register(Registry.straw_coat, new ItemStrawCoatRenderer());
+        register(Registry.straw_sandals, new ItemStrawSandalsRenderer());
     }
 
     public int getNextId() {
@@ -189,6 +196,10 @@ public class ClientProxy extends CommonProxy {
 
     public <T extends IItemRenderer> void register(Item item, T object) {
         MinecraftForgeClient.registerItemRenderer(item, object);
+    }
+
+    public <T extends IAccessoryRenderer> void register(Item item, T object) {
+        RenderAccessory.registerRenderer(item, object);
     }
 
     public <T extends IItemRenderer> void register(Block block, T object) {

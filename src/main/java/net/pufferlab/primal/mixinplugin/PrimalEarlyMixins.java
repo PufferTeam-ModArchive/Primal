@@ -33,9 +33,6 @@ public class PrimalEarlyMixins implements IFMLLoadingPlugin, IEarlyMixinLoader {
             if (Config.particleFix.getBoolean()) {
                 mixins.add("minecraft.client.MixinEntityDiggingFX");
             }
-            if (Config.wearableRenderer.getBoolean()) {
-                mixins.add("minecraft.client.MixinRendererLivingEntity");
-            }
         }
         if (Config.plantFix.getBoolean()) {
             mixins.add("minecraft.MixinEntityAIEatGrass");
