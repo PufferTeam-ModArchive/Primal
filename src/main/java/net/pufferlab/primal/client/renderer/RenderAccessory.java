@@ -76,12 +76,12 @@ public class RenderAccessory {
             player = renderer;
         }
         if (entity instanceof EntityPlayer player) {
+            resetVisibility();
             if (Mods.baubles.isLoaded()) {
                 InventoryBaubles inv = PlayerHandler.getPlayerBaubles(player);
                 for (int i = 0; i < inv.getSizeInventory(); i++) {
                     ItemStack itemstack = inv.getStackInSlot(i);
                     if (itemstack != null) {
-                        resetVisibility();
                         showModels(itemstack);
                     }
                 }
