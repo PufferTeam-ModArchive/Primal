@@ -92,11 +92,15 @@ public interface IScript {
     }
 
     default void addShapelessRecipe(ItemStack output, Object... recipe) {
-        RecipesHelper.addShapelessRecipe(output, recipe);
+        if (output != null) {
+            RecipesHelper.addShapelessRecipe(output, recipe);
+        }
     }
 
     default void addShapedRecipe(ItemStack output, Object... recipe) {
-        RecipesHelper.addShapedRecipe(output, recipe);
+        if (output != null) {
+            RecipesHelper.addShapedRecipe(output, recipe);
+        }
     }
 
     default void addPitKilnRecipe(ItemStack output, ItemStack input) {

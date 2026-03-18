@@ -12,6 +12,8 @@ import net.pufferlab.primal.client.utils.ModelBase;
 import net.pufferlab.primal.client.utils.ModelRenderer;
 import net.pufferlab.primal.utils.BlockUtils;
 
+import org.lwjgl.opengl.GL11;
+
 public abstract class ModelPrimal extends ModelBase {
 
     ModelTESS modelTESS = new ModelTESS();
@@ -34,8 +36,10 @@ public abstract class ModelPrimal extends ModelBase {
     }
 
     public void render() {
+        GL11.glPushAttrib(GL11.GL_TEXTURE_BIT);
         bindTex();
         bb_main.render(Constants.modelConst);
+        GL11.glPopAttrib();
     }
 
     public void setOverlay(boolean state) {

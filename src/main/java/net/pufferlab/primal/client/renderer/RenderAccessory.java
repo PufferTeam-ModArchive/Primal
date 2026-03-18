@@ -59,9 +59,11 @@ public class RenderAccessory {
     public void showModels(ItemStack stack) {
         if (stack != null) {
             IAccessoryRenderer accessoryRenderer = getRenderer(stack.getItem());
-            ModelAccessory[] models0 = accessoryRenderer.getModel();
-            for (ModelAccessory renderer : models0) {
-                renderer.setHidden(false);
+            if (accessoryRenderer != null) {
+                ModelAccessory[] models0 = accessoryRenderer.getModel();
+                for (ModelAccessory renderer : models0) {
+                    renderer.setHidden(false);
+                }
             }
         }
     }
@@ -73,17 +75,13 @@ public class RenderAccessory {
             registerRenderers(renderer);
             player = renderer;
         }
-        resetVisibility();
         if (entity instanceof EntityPlayer player) {
-            ItemStack heldItem = player.getHeldItem();
-            if (heldItem != null) {
-                showModels(heldItem);
-            }
             if (Mods.baubles.isLoaded()) {
                 InventoryBaubles inv = PlayerHandler.getPlayerBaubles(player);
                 for (int i = 0; i < inv.getSizeInventory(); i++) {
                     ItemStack itemstack = inv.getStackInSlot(i);
                     if (itemstack != null) {
+                        resetVisibility();
                         showModels(itemstack);
                     }
                 }
