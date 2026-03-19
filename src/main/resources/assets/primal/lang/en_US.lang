@@ -19,6 +19,7 @@ tile.primal.crucible.name=Crucible
 tile.primal.forge.name=Forge
 tile.primal.bloomery.name=Bloomery
 tile.primal.quern.name=Quern
+tile.primal.rope_ladder.name=Rope Ladder
 item.primal.knapping_icon.name=Knapping
 
 tile.primal.iron_anvil.name=Iron Anvil

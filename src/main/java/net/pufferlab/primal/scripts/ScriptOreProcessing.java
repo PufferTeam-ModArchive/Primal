@@ -3,6 +3,7 @@ package net.pufferlab.primal.scripts;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Constants;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.recipes.AnvilAction;
 import net.pufferlab.primal.recipes.AnvilOrder;
 import net.pufferlab.primal.recipes.KnappingType;
@@ -27,6 +28,9 @@ public class ScriptOreProcessing implements IScript {
     }
 
     public void addOreDicts() {
+        addOreDict("mediumOre", getItem(Primal.MODID, "medium_ore", wildcard, 1));
+        addOreDict("smallOre", getItem(Primal.MODID, "small_ore", wildcard, 1));
+
         addOreDict("axeCopper", getModItem("copper_axe", 1));
         addOreDict("pickaxeCopper", getModItem("copper_pickaxe", 1));
         addOreDict("shovelCopper", getModItem("copper_shovel", 1));
@@ -41,11 +45,11 @@ public class ScriptOreProcessing implements IScript {
         addOreDict("knifeBronze", getModItem("bronze_knife", 1));
         addOreDict("hoeBronze", getModItem("bronze_hoe", 1));
         addOreDict("hammerBronze", getModItem("bronze_hammer", 1));
-        addOreDict("axeIron", getItem("minecraft", "iron_axe", wildcard, 1));
-        addOreDict("pickaxeIron", getItem("minecraft", "iron_pickaxe", wildcard, 1));
-        addOreDict("shovelIron", getItem("minecraft", "iron_shovel", wildcard, 1));
-        addOreDict("swordIron", getItem("minecraft", "iron_sword", wildcard, 1));
-        addOreDict("hoeIron", getItem("minecraft", "iron_hoe", wildcard, 1));
+        addOreDict("axeIron", getItem("minecraft", "iron_axe", 0, 1));
+        addOreDict("pickaxeIron", getItem("minecraft", "iron_pickaxe", 0, 1));
+        addOreDict("shovelIron", getItem("minecraft", "iron_shovel", 0, 1));
+        addOreDict("swordIron", getItem("minecraft", "iron_sword", 0, 1));
+        addOreDict("hoeIron", getItem("minecraft", "iron_hoe", 0, 1));
         addOreDict("knifeIron", getModItem("iron_knife", 1));
         addOreDict("hammerIron", getModItem("iron_hammer", 1));
     }

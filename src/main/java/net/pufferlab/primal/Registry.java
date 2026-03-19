@@ -82,6 +82,7 @@ public class Registry {
     public static final Block tc_entropy_ore;
     public static final Block block;
     public static final Block anvil;
+    public static final Block rope_ladder;
     public static final Block lit_torch;
     public static final Block unlit_torch;
     public static final Block chimney;
@@ -268,6 +269,7 @@ public class Registry {
         block = new BlockMetal(Constants.blockMetalTypes, "block");
         lit_torch = new BlockTorchPrimitive("torch_lit", true);
         unlit_torch = new BlockTorchPrimitive("torch_unlit", false);
+        rope_ladder = new BlockRopeLadder();
 
         chimney = new BlockChimney();
 
@@ -408,6 +410,7 @@ public class Registry {
         register(block, "block");
         register(lit_torch, "lit_torch");
         register(unlit_torch, "unlit_torch");
+        register(rope_ladder, "rope_ladder");
         register(anvil, "anvil");
         register(pit_kiln, "pit_kiln");
         register(log_pile, "log_pile");
@@ -597,6 +600,7 @@ public class Registry {
         registerEvent(new CampfireHandler());
         registerEvent(new InventoryHandler());
         registerEvent(new StoneHandler());
+        registerEvent(new GroundOreHandler());
         registerEvent(new GroundRockHandler());
         registerEvent(new GroundShellHandler());
         registerEvent(new MobDropHandler());

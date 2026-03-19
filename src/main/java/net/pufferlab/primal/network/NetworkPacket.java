@@ -94,6 +94,18 @@ public class NetworkPacket {
         }
     }
 
+    public void sendPitKilnPacket(EntityPlayer player) {
+        if (player.worldObj.isRemote) {
+            Primal.proxy.sendPacketToServer(new PacketPitKilnPlace());
+        }
+    }
+
+    public void sendFireStarterPacket(EntityPlayer player, boolean success) {
+        if (!player.worldObj.isRemote) {
+            Primal.proxy.sendPacketToClient(new PacketFireStarter(player, success));
+        }
+    }
+
     public void playAuxFX(World world, int x, int y, int z, Block block, int meta) {
         Primal.proxy.playPacketToClientNear(new PacketEffect(x, y, z, block, meta), world, x, y, z);
     }

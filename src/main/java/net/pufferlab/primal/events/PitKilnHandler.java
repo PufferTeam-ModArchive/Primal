@@ -33,7 +33,7 @@ public class PitKilnHandler implements IEventHandler {
                     if (hasWalls) {
                         if (event.isCancelable()) event.setCanceled(true);
                         placePitKiln(event.entityPlayer);
-                        sendPitKilnPacket(event.entityPlayer);
+                        Primal.proxy.packet.sendPitKilnPacket(event.entityPlayer);
                     }
                 }
             }
@@ -54,12 +54,6 @@ public class PitKilnHandler implements IEventHandler {
             if (actualBlock2 instanceof BlockPitKiln) {
                 actualBlock2.onBlockActivated(player.worldObj, x, y, z, player, mop.sideHit, hitX, hitY, hitZ);
             }
-        }
-    }
-
-    public void sendPitKilnPacket(EntityPlayer player) {
-        if (player.worldObj.isRemote) {
-            Primal.proxy.sendPacketToServer(new PacketPitKilnPlace());
         }
     }
 }

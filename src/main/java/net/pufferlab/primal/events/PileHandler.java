@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.pufferlab.primal.blocks.ICutBlock;
 import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.Utils;
 
@@ -22,7 +23,7 @@ public abstract class PileHandler implements IEventHandler {
             if (heldItem == null || block == null) return;
             if (heldItem.getItem() == null) return;
             if (!Utils.containsOreDict(heldItem, getPileOreDicts())) return;
-            if (!block.hasTileEntity(meta) && event.face == ForgeDirection.UP.ordinal()) {
+            if ((!block.hasTileEntity(meta) || block instanceof ICutBlock) && event.face == ForgeDirection.UP.ordinal()) {
                 int x2 = BlockUtils.getBlockX(event.face, event.x);
                 int y2 = BlockUtils.getBlockY(event.face, event.y);
                 int z2 = BlockUtils.getBlockZ(event.face, event.z);

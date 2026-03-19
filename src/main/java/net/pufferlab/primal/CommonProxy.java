@@ -298,4 +298,6 @@ public class CommonProxy implements IGuiHandler {
     public int getBloomeryRenderID() {
         return 0;
     }
+
+    public int getRopeLadderRenderID() { return 0; }
 }

@@ -224,6 +224,7 @@ public class Constants {
     // OreDict
     public static final String[] ashPileOreDicts            = { "ash" };
     public static final String[] charcoalPileOreDicts       = { "coalAny" };
+    public static final String[] groundOreOreDicts         = { "smallOre" };
     public static final String[] groundRockOreDicts         = { "rock" };
     public static final String[] groundShellOreDicts        = { "shell" };
     public static final String[] logPileOreDicts            = { "firewood" };
