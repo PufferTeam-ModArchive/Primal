@@ -44,6 +44,7 @@ public class BlockGroundcoverRenderer extends BlockPrimalRenderer {
         int modelType = rand.nextInt(6);
 
         if (block instanceof BlockGroundcover block2) {
+            meta = getValidMeta(block2, meta);
             int type = block2.getGroundcoverRenderType();
             if (type == BlockGroundcover.typeRock) {
                 if (modelType > 3) {

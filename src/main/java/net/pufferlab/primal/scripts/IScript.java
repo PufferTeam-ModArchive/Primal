@@ -116,11 +116,15 @@ public interface IScript {
     }
 
     default void addAlloyingRecipe(FluidStack output, Object... inputs) {
-        AlloyingRecipe.addRecipe(output, inputs);
+        if (output != null && inputs != null) {
+            AlloyingRecipe.addRecipe(output, inputs);
+        }
     }
 
     default void addMeltingRecipe(FluidStack output, ItemStack input) {
-        MeltingRecipe.addRecipe(output, input);
+        if (output != null && input != null) {
+            MeltingRecipe.addRecipe(output, input);
+        }
     }
 
     default void addAnvilRecipe(ItemStack output, String input, Object... steps) {
@@ -130,7 +134,9 @@ public interface IScript {
     }
 
     default void addCastingRecipe(ItemStack cast, ItemStack output, FluidStack input) {
-        CastingRecipe.addRecipe(cast, output, input);
+        if (output != null && input != null) {
+            CastingRecipe.addRecipe(cast, output, input);
+        }
     }
 
     default void addBarrelRecipe(ItemStack output, FluidStack outputLiquid, ItemStack input, FluidStack inputLiquid,

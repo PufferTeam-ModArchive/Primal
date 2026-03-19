@@ -91,18 +91,20 @@ public class ScriptPrimitive implements IScript {
 
     public void addCraftingRecipes() {
         addShapedRecipe(getModItem("glowstone_crystal", 1), " S ", "SIS", " S ", 'I', "coalAny", 'S', "dustGlowstone");
-        if (Config.torchRebalance.getBoolean()) {
-            addShapedRecipe(
-                getItem("minecraft:torch:0:4"),
-                "I",
-                "S",
-                'I',
-                getModItem("glowstone_crystal", 1),
-                'S',
-                "stickWood");
-            addShapedRecipe(getModItem("unlit_torch", 4), "I", "S", 'I', "coalAny", 'S', "stickWood");
+        if (Config.litTorches.getBoolean()) {
+            if (Config.torchRebalance.getBoolean()) {
+                addShapedRecipe(
+                    getItem("minecraft:torch:0:4"),
+                    "I",
+                    "S",
+                    'I',
+                    getModItem("glowstone_crystal", 1),
+                    'S',
+                    "stickWood");
+                addShapedRecipe(getModItem("unlit_torch", 4), "I", "S", 'I', "coalAny", 'S', "stickWood");
+            }
+            addShapedRecipe(getModItem("unlit_torch", 2), "I", "S", 'I', "straw", 'S', "stickWood");
         }
-        addShapedRecipe(getModItem("unlit_torch", 2), "I", "S", 'I', "straw", 'S', "stickWood");
 
         addShapedRecipe(getModItem("chopping_log", 1), "SS", 'S', "logWood");
         addShapedRecipe(getModItem("barrel", 1), "P P", "P P", "PPP", 'P', "plankWood");
