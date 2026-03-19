@@ -30,6 +30,8 @@ public class ModelAccessoryBiped extends ModelAccessory {
         modelbiped.modelLeftArm.showModel = p_77032_2_ == 1;
         modelbiped.modelRightLeg.showModel = p_77032_2_ == 2 || p_77032_2_ == 3;
         modelbiped.modelLeftLeg.showModel = p_77032_2_ == 2 || p_77032_2_ == 3;
+        modelbiped.modelCloak.showModel = false;
+        modelbiped.modelEars.showModel = false;
     }
 
     public static int getArmor(String armorType) {

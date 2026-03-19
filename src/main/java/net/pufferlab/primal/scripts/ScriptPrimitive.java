@@ -389,12 +389,60 @@ public class ScriptPrimitive implements IScript {
             "CC CC",
             "     ");
         addKnappingRecipe(
-            KnappingType.leather,
-            getItem("minecraft:leather_boots:0:1"),
+            KnappingType.straw,
+            getModItem("straw_hat", 1),
+            " CCC ",
+            "CCCCC",
             "     ",
             "     ",
+            "     ");
+        addKnappingRecipe(
+            KnappingType.straw,
+            getModItem("straw_hat", 1),
+            "     ",
+            " CCC ",
+            "CCCCC",
+            "     ",
+            "     ");
+        addKnappingRecipe(
+            KnappingType.straw,
+            getModItem("straw_hat", 1),
+            "     ",
+            "     ",
+            " CCC ",
+            "CCCCC",
+            "     ");
+        addKnappingRecipe(
+            KnappingType.straw,
+            getModItem("straw_hat", 1),
+            "     ",
+            "     ",
+            "     ",
+            " CCC ",
+            "CCCCC");
+        addKnappingRecipe(
+            KnappingType.straw,
+            getModItem("straw_shirt", 1),
             "C   C",
-            "C   C",
+            "CCCCC",
+            "CCCCC",
+            "CCCCC",
+            "CCCCC");
+        addKnappingRecipe(
+            KnappingType.straw,
+            getModItem("straw_sandals", 1),
+            "CC CC",
+            "CC CC",
+            "CC CC",
+            "     ",
+            "     ");
+        addKnappingRecipe(
+            KnappingType.straw,
+            getModItem("straw_sandals", 1),
+            "     ",
+            "     ",
+            "CC CC",
+            "CC CC",
             "CC CC");
     }
 
