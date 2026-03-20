@@ -58,13 +58,11 @@ public class BlockOreRenderer extends BlockPrimalRenderer {
         renderStandardBlockNoColor(renderer, block1, x, y, z);
 
         block1.setPass(1);
-        setAO(false);
         if (isEmissive) {
             renderStandardBlockMaxBrightness(renderer, block1, x, y, z);
         } else {
             renderStandardBlockNoColor(renderer, block1, x, y, z);
         }
-        setAO(true);
         block1.setPass(0);
         return true;
     }

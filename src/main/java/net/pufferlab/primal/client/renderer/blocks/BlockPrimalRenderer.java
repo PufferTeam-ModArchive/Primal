@@ -20,7 +20,7 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
 
     private static float lastBrightnessX = 0;
     private static float lastBrightnessY = 0;
-    private boolean hasAO;
+    private boolean hasAO = true;
 
     public void setAO(boolean state) {
         this.hasAO = state;

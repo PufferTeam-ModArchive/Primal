@@ -47,9 +47,7 @@ public class BlockPathRenderer extends BlockPrimalRenderer {
         renderStandardBlockNoColor(renderer, block1, x, y, z);
 
         block1.setPass(1);
-        setAO(false);
         renderStandardBlockNoColor(renderer, block1, x, y, z);
-        setAO(true);
         block1.setPass(0);
         return true;
     }
