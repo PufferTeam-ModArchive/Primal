@@ -24,6 +24,25 @@ public class WorldUtils {
         array.setExtBlockMetadata(x, y & 15, z, meta & 15);
     }
 
+    public static void setBlock(World world, int x, int y, int z, Block block, int meta) {
+        Chunk chunk = world.getChunkFromChunkCoords(x >> 4, z >> 4);
+
+        int x2 = x & 15;
+        int z2 = z & 15;
+
+        ExtendedBlockStorage[] storageArray = chunk.getBlockStorageArray();
+        int section = y >> 4;
+
+        ExtendedBlockStorage storage = storageArray[section];
+
+        if (storage == null) {
+            storage = new ExtendedBlockStorage(section << 4, !world.provider.hasNoSky);
+            storageArray[section] = storage;
+        }
+
+        WorldUtils.setChunkBlock(storage, x2, y, z2, block, meta);
+    }
+
     public static double getPerlin(NoiseGeneratorPerlin noise, int x, int z, double scale) {
         return noise.func_151601_a(x * scale, z * scale);
     }
@@ -32,24 +51,13 @@ public class WorldUtils {
         return chunk.getBiomeGenForWorldCoords(x, z, chunk.worldObj.getWorldChunkManager());
     }
 
-    public static int getPerlinQuad(double noise) {
-        int number = 10;
+    public static int getPerlinValue(double noise, int number) {
         double n01 = (noise + 1.0) * 0.5;
 
         double scaled = n01 * (double) number;
 
         int choice = Utils.floor(scaled);
         return Math.min(number - 1, Math.max(0, choice));
-    }
-
-    public static boolean getPerlinNeg(double perlin) {
-        if (perlin > 0) {
-            return true;
-        }
-        if (perlin < 0) {
-            return false;
-        }
-        return false;
     }
 
     public static boolean canDecorate(IChunkProvider chunkProvider, World world) {

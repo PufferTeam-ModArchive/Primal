@@ -8,6 +8,7 @@ import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.blocks.BlockStoneRaw;
 import net.pufferlab.primal.utils.VeinType;
+import net.pufferlab.primal.utils.WorldUtils;
 
 public class VeinMath {
 
@@ -70,7 +71,7 @@ public class VeinMath {
                             Block block2 = world.getBlock(x, y, z);
                             if (block2 instanceof BlockStoneRaw) {
                                 int meta2 = world.getBlockMetadata(x, y, z);
-                                world.setBlock(x, y, z, block, meta2, 2);
+                                WorldUtils.setBlock(world, x, y, z, block, meta2);
                             }
                         }
                     }

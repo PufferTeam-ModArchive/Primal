@@ -108,6 +108,10 @@ public class CommonProxy implements IGuiHandler {
         return server.worldServers[0];
     }
 
+    public boolean isOverworld(World world) {
+        return world.provider.dimensionId == 0;
+    }
+
     public World getClientWorld() {
         return null;
     }

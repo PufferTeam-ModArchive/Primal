@@ -161,7 +161,7 @@ public class WorldGenStrata {
                     if (array == null) continue;
                     for (int i = 0; i < noiseBiomeGen.length; i++) {
                         double div = (double) y / 200;
-                        offsetB[i] = WorldUtils.getPerlinQuad(noiseBiome[i] + div);
+                        offsetB[i] = WorldUtils.getPerlinValue(noiseBiome[i] + div, 10);
                     }
                     double adjustedY = y;
 

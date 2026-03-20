@@ -25,7 +25,7 @@ public class TickHandler implements IEventHandler {
     public void onTick(TickEvent.WorldTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             if (!event.world.isRemote) {
-                if (event.world.provider.dimensionId == 0) {
+                if (Primal.proxy.isOverworld(event.world)) {
                     GlobalTickingData.tick();
                 }
                 SchedulerData.tickTasks(GlobalTickingData.getTickTime(event.world), event.world);
