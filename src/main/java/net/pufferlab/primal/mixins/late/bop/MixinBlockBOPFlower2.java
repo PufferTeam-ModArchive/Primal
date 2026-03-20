@@ -6,7 +6,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.pufferlab.primal.utils.ItemUtils;
+import net.pufferlab.primal.utils.BlockUtils;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -34,19 +34,19 @@ public abstract class MixinBlockBOPFlower2 extends Block {
                 return block == Blocks.netherrack || block == BOPCBlocks.overgrownNetherrack;
 
             case 6: // Miner's Delight
-                return ItemUtils.isNaturalStone(block);
+                return BlockUtils.isNaturalStone(block);
 
             case 8: // Rose
-                return ItemUtils.isGrassBlock(block) || ItemUtils.isDirtBlock(block)
-                    || ItemUtils.isFarmlandBlock(block)
+                return BlockUtils.isGrassBlock(block) || BlockUtils.isDirtBlock(block)
+                    || BlockUtils.isFarmlandBlock(block)
                     || block == BOPCBlocks.longGrass
                     || block == BOPCBlocks.overgrownNetherrack
                     || block == BOPCBlocks.originGrass
                     || block.canSustainPlant(world, x, y - 1, z, ForgeDirection.UP, (IPlantable) this);
 
             default:
-                return ItemUtils.isGrassBlock(block) || ItemUtils.isDirtBlock(block)
-                    || ItemUtils.isFarmlandBlock(block)
+                return BlockUtils.isGrassBlock(block) || BlockUtils.isDirtBlock(block)
+                    || BlockUtils.isFarmlandBlock(block)
                     || block == BOPCBlocks.longGrass
                     || block == BOPCBlocks.overgrownNetherrack
                     || block.canSustainPlant(world, x, y - 1, z, ForgeDirection.UP, (IPlantable) this);

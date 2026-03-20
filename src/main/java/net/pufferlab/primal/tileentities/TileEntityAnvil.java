@@ -6,11 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.recipes.AnvilAction;
 import net.pufferlab.primal.recipes.AnvilRecipe;
-import net.pufferlab.primal.utils.HeatUtils;
-import net.pufferlab.primal.utils.ItemUtils;
-import net.pufferlab.primal.utils.MetalType;
-import net.pufferlab.primal.utils.SoundTypePrimal;
-import net.pufferlab.primal.utils.Utils;
+import net.pufferlab.primal.utils.*;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 public class TileEntityAnvil extends TileEntityInventory {
@@ -130,7 +126,7 @@ public class TileEntityAnvil extends TileEntityInventory {
             IHeatableItem impl = HeatUtils.getImpl(stack);
             MetalType metal = impl.getMetal(stack);
             if (metal != null) {
-                if (metal.level <= ItemUtils.getHarvestLevel(getBlockType(), getBlockMetadata())) {
+                if (metal.level <= BlockUtils.getHarvestLevel(getBlockType(), getBlockMetadata())) {
                     return true;
                 }
             }

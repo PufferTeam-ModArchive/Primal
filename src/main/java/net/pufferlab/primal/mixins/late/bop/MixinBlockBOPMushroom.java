@@ -3,7 +3,7 @@ package net.pufferlab.primal.mixins.late.bop;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import net.pufferlab.primal.utils.ItemUtils;
+import net.pufferlab.primal.utils.BlockUtils;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -24,32 +24,32 @@ public class MixinBlockBOPMushroom {
 
         switch (metadata) {
             case 0: // Toadstool
-                return ItemUtils.isGrassBlock(block) || ItemUtils.isDirtBlock(block)
+                return BlockUtils.isGrassBlock(block) || BlockUtils.isDirtBlock(block)
                     || block == Blocks.mycelium
                     || block == Blocks.netherrack
                     || block == BOPCBlocks.overgrownNetherrack;
 
             case 1: // Portobello
-                return ItemUtils.isGrassBlock(block) || ItemUtils.isDirtBlock(block) || block == Blocks.mycelium;
+                return BlockUtils.isGrassBlock(block) || BlockUtils.isDirtBlock(block) || block == Blocks.mycelium;
 
             case 2: // Blue Milk Cap
-                return ItemUtils.isGrassBlock(block) || ItemUtils.isDirtBlock(block) || block == Blocks.mycelium;
+                return BlockUtils.isGrassBlock(block) || BlockUtils.isDirtBlock(block) || block == Blocks.mycelium;
 
             case 3: // Glowshroom
-                return ItemUtils.isGrassBlock(block) || ItemUtils.isDirtBlock(block)
+                return BlockUtils.isGrassBlock(block) || BlockUtils.isDirtBlock(block)
                     || block == Blocks.mycelium
-                    || ItemUtils.isNaturalStone(block)
+                    || BlockUtils.isNaturalStone(block)
                     || block == Blocks.netherrack
                     || block == BOPCBlocks.overgrownNetherrack;
 
             case 5: // Shadow Shroom
-                return ItemUtils.isGrassBlock(block) || ItemUtils.isDirtBlock(block)
+                return BlockUtils.isGrassBlock(block) || BlockUtils.isDirtBlock(block)
                     || block == Blocks.mycelium
                     || block == Blocks.end_stone
                     || block == BOPCBlocks.bopGrass;
 
             default:
-                return ItemUtils.isGrassBlock(block) || ItemUtils.isDirtBlock(block)
+                return BlockUtils.isGrassBlock(block) || BlockUtils.isDirtBlock(block)
                     || block == Blocks.mycelium
                     || block == BOPCBlocks.overgrownNetherrack
                     || block == BOPCBlocks.bopGrass;

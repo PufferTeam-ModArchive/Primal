@@ -1,15 +1,17 @@
 package net.pufferlab.primal.utils;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLog;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.pufferlab.primal.blocks.BlockContainerPrimal;
-import net.pufferlab.primal.blocks.BlockPile;
+import net.pufferlab.primal.Registry;
+import net.pufferlab.primal.blocks.*;
 
 public class BlockUtils {
 
@@ -354,5 +356,69 @@ public class BlockUtils {
             stepSound.getPath(),
             (stepSound.getVolume() + 1.0F) / 2.0F,
             stepSound.getPitch() * 0.8F);
+    }
+
+    public static int getHarvestLevel(Block block, int meta) {
+        return block.getHarvestLevel(meta);
+    }
+
+    public static boolean isLogBlock(Block block) {
+        if (block == null) return false;
+        if (block instanceof BlockLog) return true;
+        return Utils.containsOreDict(block, "logWood");
+    }
+
+    public static boolean isTerrainBlock(Block block) {
+        return isNaturalStone(block) || isDirtBlock(block)
+            || isGrassBlock(block)
+            || isGravelBlock(block)
+            || isSandBlock(block);
+    }
+
+    public static boolean isNaturalStone(Block block) {
+        if (block == null) return false;
+        if (block == Registry.stone) return true;
+        if (block == Blocks.stone) return true;
+        return false;
+    }
+
+    public static boolean isDirtBlock(Block block) {
+        if (block == null) return false;
+        if (block instanceof BlockMetaDirt) return true;
+        if (block == Blocks.dirt) return true;
+        return false;
+    }
+
+    public static boolean isFarmlandBlock(Block block) {
+        if (block == null) return false;
+        if (block instanceof BlockMetaFarmland) return true;
+        if (block == Blocks.farmland) return true;
+        return false;
+    }
+
+    public static boolean isGrassBlock(Block block) {
+        if (block == null) return false;
+        if (block instanceof BlockMetaGrass) return true;
+        if (block == Blocks.grass) return true;
+        return false;
+    }
+
+    public static boolean isSandBlock(Block block) {
+        if (block == null) return false;
+        if (block instanceof BlockMetaSand) return true;
+        if (block == Blocks.sand) return true;
+        return false;
+    }
+
+    public static boolean isGravelBlock(Block block) {
+        if (block == null) return false;
+        if (block instanceof BlockMetaGravel) return true;
+        if (block == Blocks.gravel) return true;
+        return false;
+    }
+
+    public static boolean isSoilBlock(Block block, int meta) {
+        if (block == null) return false;
+        return block.getHarvestTool(meta) == "shovel";
     }
 }

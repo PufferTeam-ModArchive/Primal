@@ -26,7 +26,7 @@ public class ToolHandler implements IEventHandler {
         ItemStack heldItem = event.entityPlayer.inventory.getCurrentItem();
 
         if (Config.noTreeFistPunching.getBoolean()) {
-            if (ItemUtils.isLogBlock(event.block)) {
+            if (BlockUtils.isLogBlock(event.block)) {
                 if (heldItem != null) {
                     if (!ItemUtils.isAxeTool(heldItem)) {
                         event.setCanceled(true);
@@ -38,7 +38,7 @@ public class ToolHandler implements IEventHandler {
         }
 
         if (Config.harderSoil.getBoolean()) {
-            if (ItemUtils.isSoilBlock(event.block, event.metadata)) {
+            if (BlockUtils.isSoilBlock(event.block, event.metadata)) {
                 if (heldItem != null) {
                     if (!ItemUtils.isShovelTool(heldItem)) {
                         event.newSpeed = event.originalSpeed / 2;
@@ -82,7 +82,7 @@ public class ToolHandler implements IEventHandler {
         Block blockAbove = event.world.getBlock(event.x, event.y + 1, event.z);
         int meta = event.world.getBlockMetadata(event.x, event.y, event.z);
         if (blockAbove.getMaterial() == Material.air) {
-            if (ItemUtils.isGrassBlock(block) || ItemUtils.isDirtBlock(block)) {
+            if (BlockUtils.isGrassBlock(block) || BlockUtils.isDirtBlock(block)) {
                 BlockUtils.playSound(event.world, event.x, event.y, event.z, Blocks.farmland);
                 event.world.setBlock(event.x, event.y, event.z, Registry.farmland, meta, 2);
 
@@ -110,7 +110,7 @@ public class ToolHandler implements IEventHandler {
                 Block blockAbove = event.world.getBlock(event.x, event.y + 1, event.z);
                 int meta = world.getBlockMetadata(event.x, event.y, event.z);
                 if (blockAbove.getMaterial() == Material.air) {
-                    if (ItemUtils.isGrassBlock(block)) {
+                    if (BlockUtils.isGrassBlock(block)) {
                         BlockUtils.playSound(world, event.x, event.y, event.z, Blocks.dirt);
                         world.setBlock(event.x, event.y, event.z, Registry.path, meta, 2);
                         heldItem.damageItem(1, event.entityPlayer);

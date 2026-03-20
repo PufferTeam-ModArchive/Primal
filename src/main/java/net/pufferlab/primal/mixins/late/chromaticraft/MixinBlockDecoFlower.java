@@ -3,7 +3,7 @@ package net.pufferlab.primal.mixins.late.chromaticraft;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import net.pufferlab.primal.utils.ItemUtils;
+import net.pufferlab.primal.utils.BlockUtils;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -29,8 +29,8 @@ public abstract class MixinBlockDecoFlower {
             case LUMALILY:
                 Block b = world.getBlock(x, y - 1, z);
                 return b == Blocks.dirt || b == Blocks.grass
-                    || ItemUtils.isGrassBlock(block)
-                    || ItemUtils.isDirtBlock(block);
+                    || BlockUtils.isGrassBlock(block)
+                    || BlockUtils.isDirtBlock(block);
         }
         return BlockDecoFlower.Flowers.list[world.getBlockMetadata(x, y, z)].canPlantAt(world, x, y, z);
     }
@@ -39,7 +39,7 @@ public abstract class MixinBlockDecoFlower {
         Block b = world.getBlock(x, y, z);
         int meta = world.getBlockMetadata(x, y, z);
 
-        boolean isValidSoil = ItemUtils.isGrassBlock(b) || (b == Blocks.grass && meta == 0);
+        boolean isValidSoil = BlockUtils.isGrassBlock(b) || (b == Blocks.grass && meta == 0);
 
         boolean isLeaf = ReikaTreeHelper.JUNGLE.isTreeLeaf(b, meta) && ReikaTreeHelper.isNaturalLeaf(world, x, y, z);
 

@@ -13,6 +13,8 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
+import net.pufferlab.primal.utils.BlockUtils;
+import net.pufferlab.primal.utils.ItemUtils;
 
 import com.gtnewhorizons.wdmla.api.harvestability.EffectiveTool;
 import com.gtnewhorizons.wdmla.api.harvestability.HarvestabilityInfo;
@@ -58,6 +60,13 @@ public class WDHarvestHandler implements HarvestHandler {
     @Override
     public boolean testHarvest(HarvestabilityInfo info, HarvestabilityTestPhase phase, EntityPlayer player, Block block,
         int meta, MovingObjectPosition position) {
+        if (phase == HarvestabilityTestPhase.CURRENTLY_HARVESTABLE) {
+            if (player.getHeldItem() != null) {
+                if (BlockUtils.isLogBlock(block) && !ItemUtils.isAxeTool(player.getHeldItem())) {
+                    info.setCurrentlyHarvestable(false);
+                }
+            }
+        }
         if (phase == HarvestabilityTestPhase.EFFECTIVE_TOOL_NAME) {
             if (!info.getEffectiveTool()
                 .isValid()) {

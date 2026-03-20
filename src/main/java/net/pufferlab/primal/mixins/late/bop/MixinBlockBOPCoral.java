@@ -4,7 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import net.pufferlab.primal.utils.ItemUtils;
+import net.pufferlab.primal.utils.BlockUtils;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -42,14 +42,14 @@ public class MixinBlockBOPCoral extends Block {
                     return block == this;
 
                 case 11:
-                    return block == this || ItemUtils.isTerrainBlock(block)
+                    return block == this || BlockUtils.isTerrainBlock(block)
                         || block == Blocks.sponge
                         || block == Blocks.clay
                         || block == BOPCBlocks.mud;
             }
         }
 
-        return ItemUtils.isTerrainBlock(block) || block == Blocks.sponge
+        return BlockUtils.isTerrainBlock(block) || block == Blocks.sponge
             || block == Blocks.clay
             || block == BOPCBlocks.mud;
     }
