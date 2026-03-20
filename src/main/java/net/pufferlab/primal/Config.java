@@ -33,6 +33,7 @@ public enum Config {
         "The extra liquids that the ceramic bucket will be able to hold"),
     ceramicBucketLiquidsHotCap(Module.early_game, 1000,
         "The temperature for a liquid to be considered hot and break the ceramic bucket."),
+    ropeLadderExtension(Module.early_game, 10, "The amount of blocks the rope ladder can be extended from a supported block"),
 
     // Campfire
     campfireBurnTime(Module.early_game, 20 * 120,
@@ -77,7 +78,7 @@ public enum Config {
     metalLiquids(Module.metalworking, ConfigUtils.getDefaultMetalFluid(Constants.metalTypesAll),
         "The liquids that will be used for the corresponding metals"),
     metalHighTierCasting(Module.metalworking, false,
-        "Whether to enable high tier metals being able to be casted in a crucible."),
+        "Whether to enable high tier metals being able to be casted in a mold."),
     metalOreValue(Module.metalworking, 36, "The value that one ore should give."),
     metalSmallOreValue(Module.metalworking, 16, "The value that one small ore should give."),
     metalIngotValue(Module.metalworking, 144, "The value that one ingot of metal should give."),

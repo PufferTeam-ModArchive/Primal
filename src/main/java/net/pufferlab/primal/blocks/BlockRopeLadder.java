@@ -11,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Primal;
 
 public class BlockRopeLadder extends BlockLadder {
@@ -28,7 +29,7 @@ public class BlockRopeLadder extends BlockLadder {
         ItemStack heldItem = player.getHeldItem();
         if (heldItem != null) {
             if (heldItem.getItem() == Item.getItemFromBlock(this)) {
-                for (int i = 0; i > -10; i--) {
+                for (int i = 0; i > -(Config.ropeLadderExtension.getInt()); i--) {
                     Block blockBelow = worldIn.getBlock(x, y + i - 1, z);
                     if (blockBelow.getMaterial() == Material.air) {
                         int currentMeta = worldIn.getBlockMetadata(x, y + i, z);
@@ -44,13 +45,13 @@ public class BlockRopeLadder extends BlockLadder {
 
     @Override
     public void onNeighborBlockChange(World worldIn, int x, int y, int z, Block neighbor) {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < Config.ropeLadderExtension.getInt(); i++) {
             Block block = worldIn.getBlock(x, y + i, z);
             Block blockAbove = worldIn.getBlock(x, y + 1 + i, z);
             if (block == this && blockAbove != this) {
                 if (!isBlockSupported(worldIn, x, y + i, z)) {
                     breakLadder(worldIn, x, y + i, z);
-                    for (int j = 0; j > -10; j--) {
+                    for (int j = 0; j > -(Config.ropeLadderExtension.getInt()); j--) {
                         if (!isBlockSupported(worldIn, x, y + i + j, z)) {
                             breakLadder(worldIn, x, y + i + j, z);
                         } else {
