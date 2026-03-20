@@ -30,17 +30,17 @@ public class BlockOreRenderer extends BlockPrimalRenderer {
         }
 
         block2.isInventory = true;
-        block2.renderPass2 = 0;
+        block2.setPass(0);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         renderStandardInvBlock(renderer, block2, metadata);
-        block2.renderPass2 = 1;
+        block2.setPass(1);
         if (isEmissive) {
             renderStandardInvBlockColorMaxBrightness(renderer, block2, metadata, 1.0F);
         } else {
             renderStandardInvBlock(renderer, block2, metadata);
         }
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        block2.renderPass2 = 0;
+        block2.setPass(0);
         GL11.glPopMatrix();
     }
 
@@ -54,16 +54,18 @@ public class BlockOreRenderer extends BlockPrimalRenderer {
         }
 
         block1.isInventory = false;
-        block1.renderPass = 0;
+        block1.setPass(0);
         renderStandardBlockNoColor(renderer, block1, x, y, z);
 
-        block1.renderPass = 1;
+        block1.setPass(1);
+        setAO(false);
         if (isEmissive) {
             renderStandardBlockMaxBrightness(renderer, block1, x, y, z);
         } else {
             renderStandardBlockNoColor(renderer, block1, x, y, z);
         }
-        block1.renderPass = 0;
+        setAO(true);
+        block1.setPass(0);
         return true;
     }
 

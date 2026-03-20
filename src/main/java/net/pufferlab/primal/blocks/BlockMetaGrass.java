@@ -180,6 +180,14 @@ public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlo
         }
     }
 
+    public void setPass(int renderPass) {
+        if (this.isInventory) {
+            this.renderPass2 = renderPass;
+        } else {
+            this.renderPass = renderPass;
+        }
+    }
+
     @Override
     public boolean hasOverlay() {
         return true;

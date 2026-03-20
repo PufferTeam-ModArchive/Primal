@@ -19,6 +19,12 @@ public interface IPrimalBlock {
         return false;
     }
 
+    default int getPass() {
+        return 0;
+    }
+
+    default void setPass(int renderPass) {}
+
     default boolean canRegister() {
         return true;
     }

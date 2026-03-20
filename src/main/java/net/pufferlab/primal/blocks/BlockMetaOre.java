@@ -182,6 +182,14 @@ public class BlockMetaOre extends BlockStone implements IPrimalBlock, IMetaBlock
         }
     }
 
+    public void setPass(int renderPass) {
+        if (this.isInventory) {
+            this.renderPass2 = renderPass;
+        } else {
+            this.renderPass = renderPass;
+        }
+    }
+
     @Override
     public int damageDropped(int meta) {
         return meta;

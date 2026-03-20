@@ -12,7 +12,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.network.packets.PacketFireStarter;
 import net.pufferlab.primal.tileentities.IHeatable;
 import net.pufferlab.primal.utils.BlockUtils;
 

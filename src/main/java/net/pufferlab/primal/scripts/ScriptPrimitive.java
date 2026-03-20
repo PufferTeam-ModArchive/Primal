@@ -3,7 +3,6 @@ package net.pufferlab.primal.scripts;
 import net.pufferlab.primal.*;
 import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.utils.ItemUtils;
-import net.pufferlab.primal.utils.Utils;
 
 public class ScriptPrimitive implements IScript {
 
@@ -388,38 +387,10 @@ public class ScriptPrimitive implements IScript {
             "C   C",
             "CC CC",
             "     ");
-        addKnappingRecipe(
-            KnappingType.straw,
-            getModItem("straw_hat", 1),
-            " CCC ",
-            "CCCCC",
-            "     ",
-            "     ",
-            "     ");
-        addKnappingRecipe(
-            KnappingType.straw,
-            getModItem("straw_hat", 1),
-            "     ",
-            " CCC ",
-            "CCCCC",
-            "     ",
-            "     ");
-        addKnappingRecipe(
-            KnappingType.straw,
-            getModItem("straw_hat", 1),
-            "     ",
-            "     ",
-            " CCC ",
-            "CCCCC",
-            "     ");
-        addKnappingRecipe(
-            KnappingType.straw,
-            getModItem("straw_hat", 1),
-            "     ",
-            "     ",
-            "     ",
-            " CCC ",
-            "CCCCC");
+        addKnappingRecipe(KnappingType.straw, getModItem("straw_hat", 1), " CCC ", "CCCCC", "     ", "     ", "     ");
+        addKnappingRecipe(KnappingType.straw, getModItem("straw_hat", 1), "     ", " CCC ", "CCCCC", "     ", "     ");
+        addKnappingRecipe(KnappingType.straw, getModItem("straw_hat", 1), "     ", "     ", " CCC ", "CCCCC", "     ");
+        addKnappingRecipe(KnappingType.straw, getModItem("straw_hat", 1), "     ", "     ", "     ", " CCC ", "CCCCC");
         addKnappingRecipe(
             KnappingType.straw,
             getModItem("straw_shirt", 1),

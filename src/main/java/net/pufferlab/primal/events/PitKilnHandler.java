@@ -10,7 +10,6 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.blocks.BlockPitKiln;
-import net.pufferlab.primal.network.packets.PacketPitKilnPlace;
 import net.pufferlab.primal.recipes.PitKilnRecipe;
 import net.pufferlab.primal.utils.BlockUtils;
 

@@ -1,12 +1,13 @@
 package net.pufferlab.primal.client.renderer.blocks;
 
-import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.pufferlab.primal.Primal;
+
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 
 @ThreadSafeISBRH(perThread = false)
 public class BlockRopeLadderRenderer extends BlockPrimalRenderer {
@@ -25,11 +26,11 @@ public class BlockRopeLadderRenderer extends BlockPrimalRenderer {
 
         int meta = world.getBlockMetadata(x, y, z);
         IIcon icon = block.getIcon(0, meta);
-        if(meta == 2 || meta == 3) {
+        if (meta == 2 || meta == 3) {
             renderer.renderFaceZNeg(block, x, y, z + 0.1, icon);
             renderer.renderFaceZPos(block, x, y, z - 0.1, icon);
         }
-        if(meta == 4 || meta == 5) {
+        if (meta == 4 || meta == 5) {
             renderer.renderFaceXNeg(block, x + 0.1, y, z, icon);
             renderer.renderFaceXPos(block, x - 0.1, y, z, icon);
         }

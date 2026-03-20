@@ -185,6 +185,14 @@ public class BlockMetaPath extends BlockDirt implements IPrimalBlock, IMetaBlock
         }
     }
 
+    public void setPass(int renderPass) {
+        if (this.isInventory) {
+            this.renderPass2 = renderPass;
+        } else {
+            this.renderPass = renderPass;
+        }
+    }
+
     @Override
     public boolean isOpaqueCube() {
         return false;

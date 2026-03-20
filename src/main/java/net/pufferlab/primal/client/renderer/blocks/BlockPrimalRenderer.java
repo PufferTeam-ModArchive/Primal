@@ -20,6 +20,15 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
 
     private static float lastBrightnessX = 0;
     private static float lastBrightnessY = 0;
+    private boolean hasAO;
+
+    public void setAO(boolean state) {
+        this.hasAO = state;
+    }
+
+    public boolean hasAO() {
+        return this.hasAO && Minecraft.isAmbientOcclusionEnabled();
+    }
 
     public void renderStandardInvBlockColor(RenderBlocks renderblocks, Block block, int meta, float scale) {
         int j;
@@ -107,6 +116,28 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
         GL11.glTranslatef(0.5F, 0.5F, 0.5F);
     }
 
+    public boolean renderStandardBlock(RenderBlocks renderer, Block blockType, int blockX, int blockY, int blockZ) {
+        int l = blockType.colorMultiplier(renderer.blockAccess, blockX, blockY, blockZ);
+        float f = (float) (l >> 16 & 255) / 255.0F;
+        float f1 = (float) (l >> 8 & 255) / 255.0F;
+        float f2 = (float) (l & 255) / 255.0F;
+
+        if (EntityRenderer.anaglyphEnable) {
+            float f3 = (f * 30.0F + f1 * 59.0F + f2 * 11.0F) / 100.0F;
+            float f4 = (f * 30.0F + f1 * 70.0F) / 100.0F;
+            float f5 = (f * 30.0F + f2 * 70.0F) / 100.0F;
+            f = f3;
+            f1 = f4;
+            f2 = f5;
+        }
+
+        return hasAO() && blockType.getLightValue() == 0
+            ? (renderer.partialRenderBounds
+                ? renderer.renderStandardBlockWithAmbientOcclusionPartial(blockType, blockX, blockY, blockZ, f, f1, f2)
+                : renderer.renderStandardBlockWithAmbientOcclusion(blockType, blockX, blockY, blockZ, f, f1, f2))
+            : renderer.renderStandardBlockWithColorMultiplier(blockType, blockX, blockY, blockZ, f, f1, f2);
+    }
+
     public boolean renderStandardBlockNoColor(RenderBlocks renderer, Block blockType, int blockX, int blockY,
         int blockZ) {
         int l = 16777215;
@@ -123,7 +154,7 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
             f2 = f5;
         }
 
-        return Minecraft.isAmbientOcclusionEnabled() && blockType.getLightValue() == 0
+        return hasAO() && blockType.getLightValue() == 0
             ? (renderer.partialRenderBounds
                 ? renderer.renderStandardBlockWithAmbientOcclusionPartial(blockType, blockX, blockY, blockZ, f, f1, f2)
                 : renderer.renderStandardBlockWithAmbientOcclusion(blockType, blockX, blockY, blockZ, f, f1, f2))
