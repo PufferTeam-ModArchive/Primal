@@ -1,7 +1,7 @@
 package net.pufferlab.primal.client.models.entities;
 
 import net.minecraft.client.model.ModelBase;
-import net.pufferlab.primal.client.utils.client.ModelRendererAccessory;
+import net.pufferlab.primal.client.utils.vanilla.ModelRendererAccessory;
 
 public class ModelAccessory extends ModelBase {
 

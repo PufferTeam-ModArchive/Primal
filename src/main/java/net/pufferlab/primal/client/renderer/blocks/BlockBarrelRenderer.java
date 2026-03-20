@@ -56,7 +56,7 @@ public class BlockBarrelRenderer extends BlockPrimalRenderer {
             }
             int meta = tef.facingMeta;
             modelBarrel.setFacing(meta);
-            double o = Constants.modelConst;
+            double o = Constants.pixel;
             if (renderPass == 1 && !tef.isFloorBarrel) {
                 modelFluid.render(renderer, tess, x, y, z, stack, 0.125F + o, 0.1875F, 0.125F + o, 0.875F - o, height, 0.875F - o, false, false);
                 modelFluid.render(renderer, tess, x, y, z, stackOutput, 0.125F + o, 0.1875F, 0.125F + o, 0.875F - o, heightOutput, 0.875F - o, false, false);

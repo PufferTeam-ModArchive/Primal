@@ -38,7 +38,7 @@ public abstract class ModelPrimal extends ModelBase {
     public void render() {
         GL11.glPushAttrib(GL11.GL_TEXTURE_BIT);
         bindTex();
-        bb_main.render(Constants.modelConst);
+        bb_main.render(Constants.pixel);
         GL11.glPopAttrib();
     }
 
@@ -52,7 +52,7 @@ public abstract class ModelPrimal extends ModelBase {
             tess,
             block,
             bb_main,
-            Constants.modelConst,
+            Constants.pixel,
             x,
             y,
             z,
@@ -69,7 +69,7 @@ public abstract class ModelPrimal extends ModelBase {
             tess,
             block,
             bb_main,
-            Constants.modelConst,
+            Constants.pixel,
             x,
             y,
             z,

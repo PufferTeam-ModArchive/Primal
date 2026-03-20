@@ -42,7 +42,7 @@ public class BlockLargeVesselRenderer extends BlockPrimalRenderer {
             } else {
                 modelLargeVessel.lid.isHidden = false;
             }
-            double o = Constants.modelConst;
+            double o = Constants.pixel;
             if (renderPass == 1) {
                 modelFluid.render(
                     renderer,

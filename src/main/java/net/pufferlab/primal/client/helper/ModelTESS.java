@@ -320,7 +320,7 @@ public class ModelTESS {
             icon.getMaxV(),
             icon.getIconWidth(),
             icon.getIconHeight(),
-            Constants.modelConst,
+            Constants.pixel,
             x,
             y,
             z,

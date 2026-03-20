@@ -120,7 +120,7 @@ public class RenderHeat {
             iicon.getMaxV(),
             iicon.getIconWidth(),
             iicon.getIconHeight(),
-            Constants.modelConst);
+            Constants.pixel);
 
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
@@ -134,7 +134,7 @@ public class RenderHeat {
             iiconMask.getMaxV(),
             iiconMask.getIconWidth(),
             iiconMask.getIconHeight(),
-            Constants.modelConst);
+            Constants.pixel);
         GL11.glDepthMask(true);
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glEnable(GL11.GL_LIGHTING);

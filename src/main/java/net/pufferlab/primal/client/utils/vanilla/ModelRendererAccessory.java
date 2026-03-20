@@ -1,4 +1,4 @@
-package net.pufferlab.primal.client.utils.client;
+package net.pufferlab.primal.client.utils.vanilla;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBox;

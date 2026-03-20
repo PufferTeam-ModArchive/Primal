@@ -33,7 +33,8 @@ public enum Config {
         "The extra liquids that the ceramic bucket will be able to hold"),
     ceramicBucketLiquidsHotCap(Module.early_game, 1000,
         "The temperature for a liquid to be considered hot and break the ceramic bucket."),
-    ropeLadderExtension(Module.early_game, 10, "The amount of blocks the rope ladder can be extended from a supported block"),
+    ropeLadderExtension(Module.early_game, 10,
+        "The amount of blocks the rope ladder can be extended from a supported block"),
 
     // Campfire
     campfireBurnTime(Module.early_game, 20 * 120,

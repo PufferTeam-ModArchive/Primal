@@ -8,7 +8,7 @@ public class Constants {
     public static final int wildcard = Short.MAX_VALUE;
     public static final double epsilon = 2e-5;
     public static final String[] none = { "none" };
-    public static final float modelConst = 0.0625F;
+    public static final float pixel = 0.0625F;
     public static final int tagCompound = 10;
     public static final int tagIntArray = 11;
     public static final String white = "§f";
