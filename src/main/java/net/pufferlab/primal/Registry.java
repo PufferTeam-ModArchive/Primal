@@ -38,7 +38,6 @@ import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
-import minetweaker.MineTweakerAPI;
 
 public class Registry {
 
@@ -718,7 +717,7 @@ public class Registry {
 
     public void setupMT() {
         if (Mods.mt.isLoaded()) {
-            MineTweakerAPI.registerClass(MTCompat.class);
+            new MTCompat().loadConfig();
         }
     }
 

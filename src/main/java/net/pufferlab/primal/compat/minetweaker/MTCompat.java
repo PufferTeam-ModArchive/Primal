@@ -17,6 +17,10 @@ import stanhebben.zenscript.annotations.ZenMethod;
 @ZenClass("mods.primal")
 public class MTCompat {
 
+    public void loadConfig() {
+        MineTweakerAPI.registerClass(MTCompat.class);
+    }
+
     @ZenMethod
     public static void registerKnappingType(String name, IItemStack item, boolean needsKnife, String sound,
         float pitch) {
