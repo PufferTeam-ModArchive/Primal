@@ -24,23 +24,48 @@ public class WorldUtils {
         array.setExtBlockMetadata(x, y & 15, z, meta & 15);
     }
 
-    public static void setBlock(World world, int x, int y, int z, Block block, int meta) {
+    public static Block getBlock(World world, int x, int y, int z) {
         Chunk chunk = world.getChunkFromChunkCoords(x >> 4, z >> 4);
-
         int x2 = x & 15;
         int z2 = z & 15;
+        ExtendedBlockStorage storage = WorldUtils.getStorage(chunk, y);
+        if(storage == null) return null;
 
+        return WorldUtils.getChunkBlock(storage, x2, y, z2);
+    }
+
+    public static int getBlockMetadata(World world, int x, int y, int z) {
+        Chunk chunk = world.getChunkFromChunkCoords(x >> 4, z >> 4);
+        int x2 = x & 15;
+        int z2 = z & 15;
+        ExtendedBlockStorage storage = WorldUtils.getStorage(chunk, y);
+        if(storage == null) return 0;
+
+        return WorldUtils.getChunkBlockMetadata(storage, x2, y, z2);
+    }
+
+    public static void setBlock(World world, int x, int y, int z, Block block, int meta) {
+        Chunk chunk = world.getChunkFromChunkCoords(x >> 4, z >> 4);
+        int x2 = x & 15;
+        int z2 = z & 15;
+        ExtendedBlockStorage storage = WorldUtils.getStorage(chunk, y);
+        if(storage == null) return;
+
+        WorldUtils.setChunkBlock(storage, x2, y, z2, block, meta);
+    }
+
+    public static ExtendedBlockStorage getStorage(Chunk chunk, int y) {
         ExtendedBlockStorage[] storageArray = chunk.getBlockStorageArray();
         int section = y >> 4;
+        if(section < 0) return null;
 
         ExtendedBlockStorage storage = storageArray[section];
 
         if (storage == null) {
-            storage = new ExtendedBlockStorage(section << 4, !world.provider.hasNoSky);
+            storage = new ExtendedBlockStorage(section << 4, !chunk.worldObj.provider.hasNoSky);
             storageArray[section] = storage;
         }
-
-        WorldUtils.setChunkBlock(storage, x2, y, z2, block, meta);
+        return storage;
     }
 
     public static double getPerlin(NoiseGeneratorPerlin noise, int x, int z, double scale) {

@@ -347,6 +347,35 @@ public class Utils {
         return result;
     }
 
+    @SafeVarargs
+    public static <T> T[] combineArrays(T[]... arrays) {
+        int totalLength = 0;
+
+        for (T[] array : arrays) {
+            if (array != null) {
+                totalLength += array.length;
+            }
+        }
+
+        if (arrays.length == 0) {
+            return null;
+        }
+
+        T[] result = Arrays.copyOf(arrays[0], totalLength);
+
+        int offset = arrays[0].length;
+
+        for (int i = 1; i < arrays.length; i++) {
+            T[] array = arrays[i];
+            if (array != null) {
+                System.arraycopy(array, 0, result, offset, array.length);
+                offset += array.length;
+            }
+        }
+
+        return result;
+    }
+
     public static String[] removeFirst(String[] old) {
         if (old == null || old.length <= 1) {
             return new String[0];

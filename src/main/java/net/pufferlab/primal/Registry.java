@@ -678,8 +678,6 @@ public class Registry {
         }
 
         StoneType.genLayerCache(Constants.stoneTypes);
-        VeinType.genVeinCache(Constants.veinTypes);
-        VeinType.genTcVeinCache(Constants.tcVeinTypes);
 
         for (AnvilAction action : AnvilAction.values()) {
             if (ConfigUtils.hasAnvilStep(action)) {

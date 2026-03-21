@@ -148,7 +148,7 @@ public class Constants {
     public static final VeinType common_ordo        = new VeinType(ordo, "common_ordo", 0, 100, 2, 4, 0.0F, 0.3F, 0.4F, stoneTypes);
     public static final VeinType common_perditio    = new VeinType(perditio, "common_perditio", 0, 100, 2, 4, 0.0F, 0.3F, 0.4F, stoneTypes);
     public static final VeinType[] tcVeinTypes      = { common_aer, common_ignis, common_aqua, common_terra, common_ordo, common_perditio };
-    public static final VeinType[] veinTypesAll     = { surface_copper, deep_copper, deep_malachite, medium_cassiterite, common_aer, common_ignis, common_aqua, common_terra, common_ordo, common_perditio};
+    public static final VeinType[] veinTypesAll     = Utils.combineArrays(veinTypes, tcVeinTypes);
 
     // Soil Types
     public static final SoilType loamy      = new SoilType("loamy");

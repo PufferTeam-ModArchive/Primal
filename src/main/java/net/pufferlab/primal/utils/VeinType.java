@@ -85,47 +85,8 @@ public class VeinType {
         return false;
     }
 
-    public static final TIntObjectMap<VeinType[]> veinLayerCache = new TIntObjectHashMap<>();
-
-    public static VeinType pickOneVeinType(Random rand, int y) {
-        VeinType[] cache = veinLayerCache.get(y);
-        if (cache != null) {
-            return cache[rand.nextInt(cache.length)];
-        }
-        return null;
-    }
-
-    public static final TIntObjectMap<VeinType[]> tcVeinLayerCache = new TIntObjectHashMap<>();
-
-    public static VeinType pickOneThaumcraftVeinType(Random rand, int y) {
-        VeinType[] cache = tcVeinLayerCache.get(y);
-        if (cache != null) {
-            return cache[rand.nextInt(cache.length)];
-        }
-        return null;
-    }
-
-    public static void genVeinCache(VeinType[] stoneTypes) {
-        gen(stoneTypes, veinLayerCache);
-    }
-
-    public static void genTcVeinCache(VeinType[] stoneTypes) {
-        gen(stoneTypes, tcVeinLayerCache);
-    }
-
-    private static void gen(VeinType[] stoneTypes, TIntObjectMap<VeinType[]> cache) {
-        for (int i = Constants.minHeight; i < Constants.maxHeight; i++) {
-            List<VeinType> cacheStone = new ArrayList<>(stoneTypes.length);
-
-            for (VeinType stone : stoneTypes) {
-                if (stone.canGenerate(i)) {
-                    cacheStone.add(stone);
-                }
-            }
-
-            if (!cacheStone.isEmpty()) {
-                cache.put(i, cacheStone.toArray(new VeinType[0]));
-            }
-        }
+    public int getHeight(Random random) {
+        int y = minY + random.nextInt(Math.abs(maxY - minY));
+        return y;
     }
 }

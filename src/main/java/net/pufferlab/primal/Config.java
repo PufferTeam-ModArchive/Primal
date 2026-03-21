@@ -134,9 +134,6 @@ public enum Config {
         "The corresponding min/max size values that the ore veins will randomly generate between these values."),
     oreVeinsSizeClamp(Module.world$generation, true,
         "Clamp the veins to be maximum 8 blocks in size to prevent crashes/cascading worldgen. Enable at your own risk if you want huge veins."),
-    thaumcraftOreVeins(Module.world, true, "Whether to enable large ore veins for Thaumcraft"),
-    thaumcraftOreVeinsWorldGen(Module.world$generation, true,
-        "Whether to enable the generation of the ore types for Thaumcraft"),
 
     // Mixins
     wearableRenderer(Module.fixes, true,
