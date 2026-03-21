@@ -135,11 +135,13 @@ public class Constants {
 
     //Vein Type
 
-    public static final VeinType surface_copper     = new VeinType(native_copper, "surface_copper", 40, 100, 3, 5, 0.5F,0.3F, 0.3F, andesite, granite, dacite, basalt, rhyolite, diorite);
+    public static final VeinType surface_copper     = new VeinType(native_copper, "surface_copper", 40, 100, 3, 5, 0.5F,0.3F, 0.4F, andesite, granite, dacite, basalt, rhyolite, diorite, shale, chalk);
     public static final VeinType deep_copper        = new VeinType(native_copper, "deep_copper", 10, 40, 5, 6, 0.0F, 0.3F, 0.15F, gabbro, diorite, schist);
     public static final VeinType deep_malachite     = new VeinType(malachite, "malachite", 10, 40, 5, 6, 0.0F, 0.3F, 0.15F, slate, diorite, schist);
     public static final VeinType medium_cassiterite = new VeinType(cassiterite, "medium_cassiterite", 20, 50, 3, 5, 0.0F,0.5F, 0.2F, diorite, granite, dacite, claystone, andesite);
-    public static final VeinType[] veinTypes        = { surface_copper, deep_copper, deep_malachite, medium_cassiterite };
+    public static final VeinType medium_magnetite = new VeinType(magnetite, "medium_magnetite", 10, 60, 3, 6, 0.0F,0.5F, 0.3F, slate, schist, dacite, granite, gabbro, diorite, granite);
+    public static final VeinType medium_limonite = new VeinType(limonite, "medium_limonite", 0, 40, 3, 5, 0.0F,0.5F, 0.15F, slate, schist, dacite, granite, gabbro);
+    public static final VeinType[] veinTypes        = { surface_copper, deep_copper, deep_malachite, medium_cassiterite, medium_magnetite, medium_limonite };
 
     public static final VeinType common_aer         = new VeinType(aer, "common_aer", 0, 100, 2, 4, 0.0F, 0.3F, 0.4F, stoneTypes);
     public static final VeinType common_ignis       = new VeinType(ignis, "common_ignis", 0, 100, 2, 4, 0.0F, 0.3F, 0.4F, stoneTypes);

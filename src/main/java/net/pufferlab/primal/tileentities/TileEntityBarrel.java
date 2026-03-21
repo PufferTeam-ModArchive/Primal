@@ -202,8 +202,8 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
                         scaledOutput.stackSize = lastStackSize;
                         setInventorySlotContentsUpdate(slotOutput, scaledOutput);
                     }
-                    int scaledAmountO = recipe.inputLiquid.amount * lastStackSize;
                     if (recipe.outputLiquid != null) {
+                        int scaledAmountO = recipe.outputLiquid.amount * lastStackSize;
                         FluidStack scaledOutput = recipe.outputLiquid.copy();
                         scaledOutput.amount = scaledAmountO;
                         tankOutput.fill(scaledOutput, true);
