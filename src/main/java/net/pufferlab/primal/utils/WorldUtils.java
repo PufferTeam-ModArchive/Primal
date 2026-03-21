@@ -29,7 +29,7 @@ public class WorldUtils {
         int x2 = x & 15;
         int z2 = z & 15;
         ExtendedBlockStorage storage = WorldUtils.getStorage(chunk, y);
-        if(storage == null) return null;
+        if (storage == null) return null;
 
         return WorldUtils.getChunkBlock(storage, x2, y, z2);
     }
@@ -39,7 +39,7 @@ public class WorldUtils {
         int x2 = x & 15;
         int z2 = z & 15;
         ExtendedBlockStorage storage = WorldUtils.getStorage(chunk, y);
-        if(storage == null) return 0;
+        if (storage == null) return 0;
 
         return WorldUtils.getChunkBlockMetadata(storage, x2, y, z2);
     }
@@ -49,7 +49,7 @@ public class WorldUtils {
         int x2 = x & 15;
         int z2 = z & 15;
         ExtendedBlockStorage storage = WorldUtils.getStorage(chunk, y);
-        if(storage == null) return;
+        if (storage == null) return;
 
         WorldUtils.setChunkBlock(storage, x2, y, z2, block, meta);
     }
@@ -57,7 +57,7 @@ public class WorldUtils {
     public static ExtendedBlockStorage getStorage(Chunk chunk, int y) {
         ExtendedBlockStorage[] storageArray = chunk.getBlockStorageArray();
         int section = y >> 4;
-        if(section < 0) return null;
+        if (section < 0) return null;
 
         ExtendedBlockStorage storage = storageArray[section];
 

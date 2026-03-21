@@ -1,13 +1,6 @@
 package net.pufferlab.primal.utils;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-
-import net.pufferlab.primal.Constants;
-
-import gnu.trove.map.TIntObjectMap;
-import gnu.trove.map.hash.TIntObjectHashMap;
 
 public class VeinType {
 

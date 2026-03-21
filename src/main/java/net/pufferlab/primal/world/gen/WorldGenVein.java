@@ -23,13 +23,13 @@ public class WorldGenVein {
     }
 
     public void genVein(World world, Random rand, Chunk chunk, int chunkX, int chunkZ) {
-        for(VeinType vein : Constants.veinTypesAll) {
-            if(vein.oreType.oreBlock != null) {
+        for (VeinType vein : Constants.veinTypesAll) {
+            if (vein.oreType.oreBlock != null) {
                 int x = (chunkX << 4) + rand.nextInt(16) + 8;
                 int z = (chunkZ << 4) + rand.nextInt(16) + 8;
                 int maxY = world.getTopSolidOrLiquidBlock(x, z);
                 int y = vein.getHeight(rand);
-                if(vein.getChance(rand)) {
+                if (vein.getChance(rand)) {
                     Block block = world.getBlock(x, y, z);
                     int meta = world.getBlockMetadata(x, y, z);
                     StoneType type = StoneType.getStoneType(block, meta);
