@@ -402,6 +402,11 @@ public class Utils {
         return dst;
     }
 
+    @SafeVarargs
+    public static <T> List<T> asList(T... elements) {
+        return new ArrayList<>(Arrays.asList(elements));
+    }
+
     public static String getItemKey(Item item, int meta) {
         if (item != null) {
             return Item.getIdFromItem(item) + ":" + meta;

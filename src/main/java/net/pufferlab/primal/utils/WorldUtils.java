@@ -57,7 +57,7 @@ public class WorldUtils {
     public static ExtendedBlockStorage getStorage(Chunk chunk, int y) {
         ExtendedBlockStorage[] storageArray = chunk.getBlockStorageArray();
         int section = y >> 4;
-        if (section < 0) return null;
+        if (section < 0 || section >= storageArray.length) return null;
 
         ExtendedBlockStorage storage = storageArray[section];
 

@@ -11,7 +11,7 @@ public class CreativeTabsPrimal extends CreativeTabs {
     String name;
 
     public CreativeTabsPrimal(String name, String item) {
-        super(Primal.MODID + "CreativeTab" + name);
+        super("group." + Primal.MODID + "." + name);
         this.name = name;
         this.item = Primal.MODID + ":" + item;
     }

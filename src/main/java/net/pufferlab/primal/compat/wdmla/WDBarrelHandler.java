@@ -3,7 +3,6 @@ package net.pufferlab.primal.compat.wdmla;
 import static net.pufferlab.primal.tileentities.TileEntityBarrel.slotInput;
 import static net.pufferlab.primal.tileentities.TileEntityBarrel.updateProcess;
 
-import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
@@ -14,6 +13,7 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.recipes.BarrelRecipe;
 import net.pufferlab.primal.tileentities.TileEntityBarrel;
 import net.pufferlab.primal.utils.RecipeUtils;
+import net.pufferlab.primal.utils.Utils;
 
 import com.gtnewhorizons.wdmla.api.accessor.BlockAccessor;
 import com.gtnewhorizons.wdmla.api.provider.IBlockComponentProvider;
@@ -39,8 +39,8 @@ public class WDBarrelHandler implements IBlockComponentProvider, IServerDataProv
             if (canProcess) {
                 BarrelRecipe recipe = tef.getRecipe();
                 if (recipe != null) {
-                    List<ItemStack> inputs = Arrays.asList(tef.getInventoryStack(slotInput), recipe.inputLiquidBlock);
-                    List<ItemStack> outputs = Arrays.asList(recipe.output, recipe.outputLiquidBlock);
+                    List<ItemStack> inputs = Utils.asList(tef.getInventoryStack(slotInput), recipe.inputLiquidBlock);
+                    List<ItemStack> outputs = Utils.asList(recipe.output, recipe.outputLiquidBlock);
 
                     int timeToProcess = tef.manager.getTime(updateProcess);
                     int timeRemaining = RecipeUtils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);

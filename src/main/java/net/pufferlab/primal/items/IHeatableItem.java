@@ -46,6 +46,10 @@ public interface IHeatableItem {
         }
     }
 
+    default boolean hasItemRendering() {
+        return false;
+    }
+
     default MetalType getMetal(ItemStack stack) {
         return null;
     };

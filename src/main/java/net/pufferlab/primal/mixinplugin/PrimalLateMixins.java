@@ -6,6 +6,7 @@ import java.util.Set;
 
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Mods;
+import net.pufferlab.primal.Primal;
 
 import com.gtnewhorizon.gtnhmixins.ILateMixinLoader;
 import com.gtnewhorizon.gtnhmixins.LateMixin;
@@ -15,7 +16,7 @@ public class PrimalLateMixins implements ILateMixinLoader {
 
     @Override
     public String getMixinConfig() {
-        return "mixins.primal.late.json";
+        return Primal.lateMixins;
     }
 
     List<String> mixins = new ArrayList<>();

@@ -1,7 +1,5 @@
 package net.pufferlab.primal;
 
-import java.util.Collections;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.command.CommandHandler;
@@ -841,11 +839,11 @@ public class Registry {
     }
 
     public void registerHeat(Item item, Item maskItem) {
-        HeatUtils.registerImpl(item, Collections.singletonList(0), maskItem);
+        HeatUtils.registerImpl(item, new int[] { 0 }, maskItem);
     }
 
     public void registerHeat(Item item, Item maskItem, MetalType metal) {
-        HeatUtils.registerImpl(item, Collections.singletonList(0), maskItem, Collections.singletonList(metal));
+        HeatUtils.registerImpl(item, new int[] { 0 }, maskItem, new MetalType[] { metal });
     }
 
     public void registerCut(Block block) {

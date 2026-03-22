@@ -1,6 +1,5 @@
 package net.pufferlab.primal.commands;
 
-import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.command.CommandBase;
@@ -58,7 +57,7 @@ public class CommandTemperature extends CommandSub {
 
     @Override
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args) {
-        return args.length == 1 ? Arrays.asList(arguments) : null;
+        return args.length == 1 ? Utils.asList(arguments) : null;
     }
 
     @Override

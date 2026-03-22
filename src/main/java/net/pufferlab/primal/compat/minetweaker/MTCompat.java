@@ -1,10 +1,10 @@
 package net.pufferlab.primal.compat.minetweaker;
 
-import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+import net.pufferlab.primal.utils.Utils;
 
 import minetweaker.MineTweakerAPI;
 import minetweaker.api.item.IIngredient;
@@ -128,7 +128,7 @@ public class MTCompat {
 
     public static List<ItemStack> get(IIngredient iIngredient) {
         List<IItemStack> items = iIngredient.getItems();
-        return Arrays.asList(MineTweakerMC.getItemStacks(items));
+        return Utils.asList(MineTweakerMC.getItemStacks(items));
     }
 
     public static FluidStack get(ILiquidStack iStack) {

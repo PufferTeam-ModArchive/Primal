@@ -1,7 +1,5 @@
 package net.pufferlab.primal.recipes;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,7 +20,7 @@ public class KnappingType {
     public static final KnappingType leather = new KnappingType("leather", ItemUtils.getItem("minecraft", "leather", 0, 5), true, "knapping.leather", 0F);
     // spotless:on
 
-    private static final List<KnappingType> values = new ArrayList<>(Arrays.asList(clay, straw, flint, stone, leather));
+    private static final List<KnappingType> values = Utils.asList(clay, straw, flint, stone, leather);
 
     private static int nextId = 0;
 

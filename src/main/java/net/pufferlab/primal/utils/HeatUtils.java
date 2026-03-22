@@ -14,7 +14,7 @@ import net.pufferlab.primal.world.GlobalTickingData;
 public class HeatUtils {
 
     private static final Map<Item, IHeatableItem> heatableItems = new HashMap<>();
-    private static final Map<Item, List<Integer>> heatableMetaItems = new HashMap<>();
+    private static final Map<Item, int[]> heatableMetaItems = new HashMap<>();
     private static final Map<Item, Item> heatableMaskItems = new HashMap<>();
     private static final List<Item> heatableList = new ArrayList<>();
     private static final IHeatableItem basicImpl = new IHeatableItem() {};
@@ -24,11 +24,29 @@ public class HeatUtils {
     private static final String tagWorldTime = "worldTime";
     private static final String tagMultiplier = "multiplier";
 
+    public static List<Item> getBuiltinHeatableItems() {
+        Iterator iterator = Item.itemRegistry.iterator();
+        List<Item> itemList = new ArrayList<>();
+
+        while (iterator.hasNext()) {
+            Item item = (Item) iterator.next();
+
+            if (item != null) {
+                if (item instanceof IHeatableItem heat) {
+                    if (heat.hasItemRendering()) {
+                        itemList.add(item);
+                    }
+                }
+            }
+        }
+        return itemList;
+    }
+
     public static List<Item> getHeatableItems() {
         return heatableList;
     }
 
-    public static List<Integer> getHeatableMeta(Item item) {
+    public static int[] getHeatableMeta(Item item) {
         return heatableMetaItems.get(item);
     }
 
@@ -36,44 +54,40 @@ public class HeatUtils {
         return heatableMaskItems.get(item);
     }
 
-    public static void registerImpl(Item item, List<Integer> meta, Item mask) {
+    public static void registerImpl(Item item, int[] meta, Item mask) {
         registerImpl(item, meta, mask, basicImpl);
     }
 
     public static void registerImpl(Item item, int[] meta, Item mask, MetalType[] metals) {
-        registerImpl(item, Arrays.asList(Utils.toIntegerArray(meta)), mask, Arrays.asList(metals));
-    }
-
-    public static void registerImpl(Item item, List<Integer> meta, Item mask, List<MetalType> metals) {
         registerImpl(item, meta, mask, new IHeatableItem() {
 
             @Override
             public MetalType getMetal(ItemStack stack) {
-                if (stack.getItemDamage() >= metals.size()) return null;
-                return metals.get(stack.getItemDamage());
+                if (stack.getItemDamage() >= metals.length) return null;
+                return metals[stack.getItemDamage()];
             }
 
             @Override
             public int getMeltingTemperature(ItemStack stack) {
-                if (stack.getItemDamage() >= metals.size()) return -1;
-                return metals.get(stack.getItemDamage()).meltingTemperature;
+                if (stack.getItemDamage() >= metals.length) return -1;
+                return metals[stack.getItemDamage()].meltingTemperature;
             }
 
             @Override
             public int getWeldingTemperature(ItemStack stack) {
-                if (stack.getItemDamage() >= metals.size()) return -1;
-                return metals.get(stack.getItemDamage()).weldingTemperature;
+                if (stack.getItemDamage() >= metals.length) return -1;
+                return metals[stack.getItemDamage()].weldingTemperature;
             }
 
             @Override
             public int getForgingTemperature(ItemStack stack) {
-                if (stack.getItemDamage() >= metals.size()) return -1;
-                return metals.get(stack.getItemDamage()).forgingTemperature;
+                if (stack.getItemDamage() >= metals.length) return -1;
+                return metals[stack.getItemDamage()].forgingTemperature;
             }
         });
     }
 
-    public static void registerImpl(Item item, List<Integer> meta, Item mask, IHeatableItem impl) {
+    public static void registerImpl(Item item, int[] meta, Item mask, IHeatableItem impl) {
         heatableItems.put(item, impl);
         heatableMetaItems.put(item, meta);
         heatableMaskItems.put(item, mask);
@@ -84,10 +98,9 @@ public class HeatUtils {
         Item item = stack.getItem();
         if (item instanceof IHeatableItem) return true;
         if (heatableItems.containsKey(item)) {
-            if (item.isDamageable()) return true;
-            if (heatableMetaItems.get(item) == null) return true;
-            if (heatableMetaItems.get(item)
-                .contains(stack.getItemDamage())) {
+            int[] array = heatableMetaItems.get(item);
+            if (array == null) return true;
+            if (Utils.contains(array, stack.getItemDamage()) || item.isDamageable()) {
                 return true;
             }
         }
@@ -98,8 +111,8 @@ public class HeatUtils {
         Item item = stack.getItem();
         if (item instanceof IHeatableItem item2) return item2;
         if (heatableItems.containsKey(item)) {
-            if (heatableMetaItems.get(item)
-                .contains(stack.getItemDamage())) {
+            int[] array = heatableMetaItems.get(item);
+            if (Utils.contains(array, stack.getItemDamage()) || item.isDamageable()) {
                 return heatableItems.get(item);
             }
         }

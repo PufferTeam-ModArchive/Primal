@@ -28,6 +28,8 @@ public class Primal {
     public static final String guiFactory = "net.pufferlab.primal.client.gui.config.GuiFactory";
     public static final String clientProxy = "net.pufferlab.primal.ClientProxy";
     public static final String commonProxy = "net.pufferlab.primal.CommonProxy";
+    public static final String earlyMixins = "mixins.primal.early.json";
+    public static final String lateMixins = "mixins.primal.late.json";
     public static final String downloadPath = "https://github.com/PufferTeam-ModArchive/Primal/raw/refs/heads/main/builtin/";
     public static final String textureFile = "Primal-Modern-Resources";
     public static final Logger LOG = LogManager.getLogger(MODID);

@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.pufferlab.primal.Config;
+import net.pufferlab.primal.Primal;
 
 import com.gtnewhorizon.gtnhmixins.IEarlyMixinLoader;
 
@@ -18,7 +19,7 @@ public class PrimalEarlyMixins implements IFMLLoadingPlugin, IEarlyMixinLoader {
 
     @Override
     public String getMixinConfig() {
-        return "mixins.primal.early.json";
+        return Primal.earlyMixins;
     }
 
     List<String> mixins = new ArrayList<>();

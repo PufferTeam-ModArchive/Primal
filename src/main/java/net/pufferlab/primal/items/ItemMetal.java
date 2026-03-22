@@ -15,6 +15,11 @@ public class ItemMetal extends ItemMetaHeatable {
     }
 
     @Override
+    public boolean hasItemRendering() {
+        return true;
+    }
+
+    @Override
     public MetalType getMetal(ItemStack stack) {
         return metalTypes[stack.getItemDamage()];
     }

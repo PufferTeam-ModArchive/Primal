@@ -162,14 +162,9 @@ public class ClientProxy extends CommonProxy {
         register(Registry.bloomery, new ItemBloomeryRenderer());
 
         if (Config.metalHeatRendering.getBoolean()) {
-            register(Registry.ingot, new ItemHeatableRenderer());
-            register(Registry.nugget, new ItemHeatableRenderer());
-            register(Registry.axe_head, new ItemHeatableRenderer());
-            register(Registry.pickaxe_head, new ItemHeatableRenderer());
-            register(Registry.shovel_head, new ItemHeatableRenderer());
-            register(Registry.sword_blade, new ItemHeatableRenderer());
-            register(Registry.hoe_head, new ItemHeatableRenderer());
-
+            for (Item item : HeatUtils.getBuiltinHeatableItems()) {
+                register(item, new ItemHeatableRenderer());
+            }
             if (Config.modMetalHeatRendering.getBoolean()) {
                 for (Item item : HeatUtils.getHeatableItems()) {
                     register(

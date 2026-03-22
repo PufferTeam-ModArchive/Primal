@@ -157,7 +157,7 @@ public class WorldGenStrata {
                 }
 
                 for (int y = 0; y <= Constants.maxHeight; y++) {
-                    ExtendedBlockStorage array = chunk.getBlockStorageArray()[y >> 4];
+                    ExtendedBlockStorage array = WorldUtils.getStorage(chunk, y);
                     if (array == null) continue;
                     for (int i = 0; i < noiseBiomeGen.length; i++) {
                         double div = (double) y / 200;

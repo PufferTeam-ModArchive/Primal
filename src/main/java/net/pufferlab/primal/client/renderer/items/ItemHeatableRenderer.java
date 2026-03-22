@@ -1,17 +1,16 @@
 package net.pufferlab.primal.client.renderer.items;
 
-import java.util.List;
-
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.utils.HeatUtils;
+import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 public class ItemHeatableRenderer extends ItemPrimalRenderer {
 
     public Item renderItem;
-    public List<Integer> whitelistMeta;
+    public int[] whitelistMeta;
     public boolean hasWhitelist;
 
     public ItemHeatableRenderer() {
@@ -19,7 +18,7 @@ public class ItemHeatableRenderer extends ItemPrimalRenderer {
         this.hasWhitelist = false;
     }
 
-    public ItemHeatableRenderer(Item renderItem, List<Integer> whitelist) {
+    public ItemHeatableRenderer(Item renderItem, int[] whitelist) {
         this.renderItem = renderItem;
         this.hasWhitelist = true;
         this.whitelistMeta = whitelist;
@@ -38,7 +37,7 @@ public class ItemHeatableRenderer extends ItemPrimalRenderer {
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
         if (this.hasWhitelist) {
-            if (!whitelistMeta.contains(item.getItemDamage())) return false;
+            if (!Utils.contains(whitelistMeta, item.getItemDamage())) return false;
         }
         if (handleTemperatureRendering()) {
             if (item.hasTagCompound()) {
