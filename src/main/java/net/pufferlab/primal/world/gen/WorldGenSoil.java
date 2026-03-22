@@ -66,7 +66,7 @@ public class WorldGenSoil {
                 int worldX = (chunk.xPosition << 4) + x;
                 int worldZ = (chunk.zPosition << 4) + z;
 
-                for (int y = 0; y < Constants.maxHeight; y++) {
+                for (int y = 0; y <= Constants.maxHeight; y++) {
                     ExtendedBlockStorage array = chunk.getBlockStorageArray()[y >> 4];
                     if (array == null) continue;
 

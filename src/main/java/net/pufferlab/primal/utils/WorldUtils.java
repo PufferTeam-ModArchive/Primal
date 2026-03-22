@@ -62,8 +62,9 @@ public class WorldUtils {
         ExtendedBlockStorage storage = storageArray[section];
 
         if (storage == null) {
-            storage = new ExtendedBlockStorage(section << 4, !chunk.worldObj.provider.hasNoSky);
-            storageArray[section] = storage;
+            storage = chunk.getBlockStorageArray()[y >> 4] = new ExtendedBlockStorage(
+                y >> 4 << 4,
+                !chunk.worldObj.provider.hasNoSky);
         }
         return storage;
     }

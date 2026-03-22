@@ -16,7 +16,7 @@ public class Constants {
     public static final String reset = "§r";
 
     public static int minHeight = 0;
-    public static int maxHeight = 256;
+    public static int maxHeight = 255;
 
     public static final short lightNone = 0x000;
     public static final short lightFire = 0xEC0;

@@ -156,7 +156,7 @@ public class WorldGenStrata {
                     noiseBiome[i] = noise1;
                 }
 
-                for (int y = 0; y < Constants.maxHeight; y++) {
+                for (int y = 0; y <= Constants.maxHeight; y++) {
                     ExtendedBlockStorage array = chunk.getBlockStorageArray()[y >> 4];
                     if (array == null) continue;
                     for (int i = 0; i < noiseBiomeGen.length; i++) {

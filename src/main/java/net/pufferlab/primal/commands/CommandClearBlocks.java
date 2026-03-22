@@ -17,7 +17,7 @@ public class CommandClearBlocks extends CommandSub {
         if (args.length > 0) {
             if (args[0].equals("chunk")) {
                 for (int x = -32; x <= 32; x++) {
-                    for (int y = 0; y <= Constants.maxHeight; y++) {
+                    for (int y = Constants.minHeight; y <= Constants.maxHeight; y++) {
                         for (int z = -32; z <= 32; z++) {
 
                             int bx = c.posX + x;
@@ -39,7 +39,7 @@ public class CommandClearBlocks extends CommandSub {
                             int by = c.posY + y;
                             int bz = c.posZ + z;
 
-                            if (by < 0 || by > 255) continue;
+                            if (by < Constants.minHeight || by > Constants.maxHeight) continue;
 
                             Block block = world.getBlock(bx, by, bz);
                             if (block instanceof BlockMetaOre) continue;
