@@ -11,6 +11,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.pufferlab.primal.blocks.IMetaBlock;
 import net.pufferlab.primal.blocks.IPrimalBlock;
+import net.pufferlab.primal.client.utils.RenderState;
 
 import org.lwjgl.opengl.GL11;
 
@@ -20,14 +21,21 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
 
     private static float lastBrightnessX = 0;
     private static float lastBrightnessY = 0;
-    private boolean hasAO = true;
 
-    public void setAO(boolean state) {
-        this.hasAO = state;
+    public static void setInventory(boolean isInventory) {
+        RenderState.setInventory(isInventory);
+    }
+
+    public static void setPass(int pass) {
+        RenderState.setPass(pass);
+    }
+
+    public static int getPass() {
+        return RenderState.getPass();
     }
 
     public boolean hasAO() {
-        return this.hasAO && Minecraft.isAmbientOcclusionEnabled();
+        return Minecraft.isAmbientOcclusionEnabled();
     }
 
     public void renderStandardInvBlockColor(RenderBlocks renderblocks, Block block, int meta, float scale) {

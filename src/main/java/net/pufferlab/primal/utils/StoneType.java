@@ -1,16 +1,16 @@
 package net.pufferlab.primal.utils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 
 import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
+import gnu.trove.map.hash.TObjectIntHashMap;
 
 public class StoneType {
 
@@ -107,11 +107,11 @@ public class StoneType {
         }
     }
 
-    public static Map<StoneType, Integer> metaList;
+    public static TObjectIntMap<StoneType> metaList;
 
     public static int getMeta(StoneType[] stoneTypes, StoneType type) {
         if (metaList == null) {
-            metaList = new HashMap<>();
+            metaList = new TObjectIntHashMap<>();
             for (int i = 0; i < stoneTypes.length; i++) {
                 metaList.put(stoneTypes[i], i);
             }

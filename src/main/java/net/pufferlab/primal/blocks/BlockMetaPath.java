@@ -16,6 +16,7 @@ import net.minecraft.world.World;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
+import net.pufferlab.primal.client.utils.RenderState;
 import net.pufferlab.primal.items.itemblocks.ItemBlockMeta;
 import net.pufferlab.primal.utils.Utils;
 
@@ -34,11 +35,6 @@ public class BlockMetaPath extends BlockDirt implements IPrimalBlock, IMetaBlock
     protected String name;
     protected String[] elementsTextures;
     public boolean hasSuffix;
-    public BlockMetaPath blockTexture;
-
-    public int renderPass;
-    public int renderPass2;
-    public boolean isInventory;
 
     public BlockMetaPath(Material material, String[] materials, String type, String[] blacklist, String[] tools,
         int[] levels) {
@@ -46,7 +42,6 @@ public class BlockMetaPath extends BlockDirt implements IPrimalBlock, IMetaBlock
         elements = materials;
         name = type;
         elementsBlacklist = blacklist;
-        blockTexture = this;
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.9375F, 1.0F);
         this.useNeighborBrightness = true;
         this.setHarvestLevel("shovel", 0);
@@ -118,23 +113,22 @@ public class BlockMetaPath extends BlockDirt implements IPrimalBlock, IMetaBlock
     }
 
     public IIcon getIcon(IBlockAccess worldIn, int x, int y, int z, int side, int meta) {
-        BlockMetaPath inc = this.blockTexture;
-        if (meta >= inc.icons.length) {
+        if (meta >= this.icons.length) {
             meta = 0;
         }
         if (getPass() == 0) {
             if (side == 1) {
-                return inc.pathIcons[empty];
+                return this.pathIcons[empty];
             } else {
-                return inc.icons[meta];
+                return this.icons[meta];
             }
         } else {
             if (side == 1) {
-                return inc.pathIcons[pathTop];
+                return this.pathIcons[pathTop];
             } else if (side == 0) {
-                return inc.pathIcons[empty];
+                return this.pathIcons[empty];
             } else {
-                return inc.pathIcons[pathSide];
+                return this.pathIcons[pathSide];
             }
         }
     }
@@ -152,45 +146,36 @@ public class BlockMetaPath extends BlockDirt implements IPrimalBlock, IMetaBlock
 
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
-        BlockMetaPath inc = this.blockTexture;
-        if (meta >= inc.icons.length) {
+        if (meta >= this.icons.length) {
             meta = 0;
         }
-        if (isInventory) {
+        if (isInventory()) {
             if (getPass() == 0) {
                 if (side == 1) {
-                    return inc.pathIcons[empty];
+                    return this.pathIcons[empty];
                 } else {
-                    return inc.icons[meta];
+                    return this.icons[meta];
                 }
             } else {
                 if (side == 1) {
-                    return inc.pathIcons[pathTop];
+                    return this.pathIcons[pathTop];
                 } else if (side == 0) {
-                    return inc.pathIcons[empty];
+                    return this.pathIcons[empty];
                 } else {
-                    return inc.pathIcons[pathSide];
+                    return this.pathIcons[pathSide];
                 }
             }
         } else {
-            return inc.icons[meta];
+            return this.icons[meta];
         }
+    }
+
+    public boolean isInventory() {
+        return RenderState.isInventory();
     }
 
     public int getPass() {
-        if (this.isInventory) {
-            return renderPass2;
-        } else {
-            return renderPass;
-        }
-    }
-
-    public void setPass(int renderPass) {
-        if (this.isInventory) {
-            this.renderPass2 = renderPass;
-        } else {
-            this.renderPass = renderPass;
-        }
+        return RenderState.getPass();
     }
 
     @Override

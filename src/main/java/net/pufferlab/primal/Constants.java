@@ -91,11 +91,11 @@ public class Constants {
     public static final MetalType tin               = new MetalType("tin", false, 138, 184, 232, moltenTin, 0);
     public static final FluidType moltenBronze      = new FluidType("molten_bronze", true);
     public static final MetalType bronze            = new MetalType("bronze", true, 570, 760, 950, moltenBronze, 1);
-    public static final MetalType[] metalTypes      = new MetalType[] { iron, gold, copper, tin, bronze, };
-    public static final MetalType[] blockMetalTypes = new MetalType[] { copper, tin, bronze };
-    public static final MetalType[] toolMetalTypes  = new MetalType[] { iron, copper, bronze };
-    public static final MetalType[] anvilMetalTypes = new MetalType[] { iron, copper, bronze };
-    public static final MetalType[] metalTypesAll   = new MetalType[] { iron, castIron, gold, copper, tin, bronze, };
+    public static final MetalType[] metalTypes      = { iron, gold, copper, tin, bronze, };
+    public static final MetalType[] blockMetalTypes = { copper, tin, bronze };
+    public static final MetalType[] toolMetalTypes  = { iron, copper, bronze };
+    public static final MetalType[] anvilMetalTypes = { iron, copper, bronze };
+    public static final MetalType[] metalTypesAll   = { iron, castIron, gold, copper, tin, bronze, };
     public static final String[] ingotBlacklist     = { "iron", "gold" };
     public static final String[] nuggetBlacklist    = { "gold" };
 

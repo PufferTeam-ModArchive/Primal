@@ -14,6 +14,7 @@ import net.minecraft.world.IBlockAccess;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
+import net.pufferlab.primal.client.utils.RenderState;
 import net.pufferlab.primal.items.itemblocks.ItemBlockMeta;
 import net.pufferlab.primal.utils.Utils;
 
@@ -31,21 +32,15 @@ public class BlockMetaOre extends BlockStone implements IPrimalBlock, IMetaBlock
     protected String name;
     protected String[] elementsTextures;
     public boolean hasSuffix;
-    public BlockMetaOre blockTexture;
     public boolean isEmissive;
     public String topTexture;
     public int color = 16777215;
-
-    public int renderPass;
-    public int renderPass2;
-    public boolean isInventory;
 
     public BlockMetaOre(Material material, String[] materials, String type, String[] blacklist, int level) {
         super();
         elements = materials;
         name = type;
         elementsBlacklist = blacklist;
-        blockTexture = this;
 
         for (int i = 0; i < elements.length; i++) {
             this.setHarvestLevel("pickaxe", level, i);
@@ -94,22 +89,22 @@ public class BlockMetaOre extends BlockStone implements IPrimalBlock, IMetaBlock
 
     @Override
     public boolean isEmissive() {
-        return this.blockTexture.isEmissive;
+        return this.isEmissive;
     }
 
     @Override
     public int getBlockColor() {
-        return this.blockTexture.color;
+        return this.color;
     }
 
     @Override
     public int colorMultiplier(IBlockAccess worldIn, int x, int y, int z) {
-        return this.blockTexture.color;
+        return this.color;
     }
 
     @Override
     public int getRenderColor(int meta) {
-        return this.blockTexture.color;
+        return this.color;
     }
 
     @SideOnly(Side.CLIENT)
@@ -146,48 +141,38 @@ public class BlockMetaOre extends BlockStone implements IPrimalBlock, IMetaBlock
     }
 
     public IIcon getIcon(IBlockAccess worldIn, int x, int y, int z, int side, int meta) {
-        BlockMetaOre inc = this.blockTexture;
-        if (meta >= inc.icons.length) {
+        if (meta >= this.icons.length) {
             meta = 0;
         }
         if (getPass() == 0) {
-            return inc.icons[meta];
+            return this.icons[meta];
         } else {
-            return inc.oreIcons[oreOverlay];
+            return this.oreIcons[oreOverlay];
         }
     }
 
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
-        BlockMetaOre inc = this.blockTexture;
-        if (meta >= inc.icons.length) {
+        if (meta >= this.icons.length) {
             meta = 0;
         }
-        if (isInventory) {
+        if (isInventory()) {
             if (getPass() == 0) {
-                return inc.icons[meta];
+                return this.icons[meta];
             } else {
-                return inc.oreIcons[oreOverlay];
+                return this.oreIcons[oreOverlay];
             }
         } else {
-            return inc.icons[meta];
+            return this.icons[meta];
         }
+    }
+
+    public boolean isInventory() {
+        return RenderState.isInventory();
     }
 
     public int getPass() {
-        if (this.isInventory) {
-            return renderPass2;
-        } else {
-            return renderPass;
-        }
-    }
-
-    public void setPass(int renderPass) {
-        if (this.isInventory) {
-            this.renderPass2 = renderPass;
-        } else {
-            this.renderPass = renderPass;
-        }
+        return RenderState.getPass();
     }
 
     @Override

@@ -20,6 +20,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
+import net.pufferlab.primal.client.utils.RenderState;
 import net.pufferlab.primal.items.itemblocks.ItemBlockMeta;
 import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.Utils;
@@ -41,11 +42,6 @@ public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlo
     protected String name;
     protected String[] elementsTextures;
     public boolean hasSuffix;
-    public BlockMetaGrass blockTexture;
-
-    public int renderPass;
-    public int renderPass2;
-    public boolean isInventory;
 
     public BlockMetaGrass(Material material, String[] materials, String type, String[] blacklist, String[] tools,
         int[] levels) {
@@ -53,7 +49,6 @@ public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlo
         elements = materials;
         name = type;
         elementsBlacklist = blacklist;
-        blockTexture = this;
         this.setHarvestLevel("shovel", 0);
     }
 
@@ -113,23 +108,22 @@ public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlo
     }
 
     public IIcon getIcon(IBlockAccess worldIn, int x, int y, int z, int side, int meta) {
-        BlockMetaGrass inc = this.blockTexture;
         if (getPass() == 0) {
             if (side == 1) {
-                return inc.grassIcons[empty];
+                return this.grassIcons[empty];
             } else {
-                return inc.icons[meta];
+                return this.icons[meta];
             }
         } else {
             if (side == 1) {
-                return inc.grassIcons[grassTop];
+                return this.grassIcons[grassTop];
             } else if (side == 0) {
-                return inc.grassIcons[empty];
+                return this.grassIcons[empty];
             } else {
                 Material material = worldIn.getBlock(x, y + 1, z)
                     .getMaterial();
-                return material != Material.snow && material != Material.craftedSnow ? inc.grassIcons[grassSideOverlay]
-                    : inc.grassIcons[grassSideSnowed];
+                return material != Material.snow && material != Material.craftedSnow ? this.grassIcons[grassSideOverlay]
+                    : this.grassIcons[grassSideSnowed];
             }
         }
     }
@@ -147,45 +141,36 @@ public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlo
 
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
-        BlockMetaGrass inc = this.blockTexture;
-        if (meta >= inc.icons.length) {
+        if (meta >= this.icons.length) {
             meta = 0;
         }
-        if (isInventory) {
+        if (isInventory()) {
             if (getPass() == 0) {
                 if (side == 1) {
-                    return inc.grassIcons[empty];
+                    return this.grassIcons[empty];
                 } else {
-                    return inc.icons[meta];
+                    return this.icons[meta];
                 }
             } else {
                 if (side == 1) {
-                    return inc.grassIcons[grassTop];
+                    return this.grassIcons[grassTop];
                 } else if (side == 0) {
-                    return inc.grassIcons[empty];
+                    return this.grassIcons[empty];
                 } else {
-                    return inc.grassIcons[grassSideOverlay];
+                    return this.grassIcons[grassSideOverlay];
                 }
             }
         } else {
-            return inc.icons[meta];
+            return this.icons[meta];
         }
+    }
+
+    public boolean isInventory() {
+        return RenderState.isInventory();
     }
 
     public int getPass() {
-        if (this.isInventory) {
-            return renderPass2;
-        } else {
-            return renderPass;
-        }
-    }
-
-    public void setPass(int renderPass) {
-        if (this.isInventory) {
-            this.renderPass2 = renderPass;
-        } else {
-            this.renderPass = renderPass;
-        }
+        return RenderState.getPass();
     }
 
     @Override

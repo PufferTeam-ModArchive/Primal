@@ -5,7 +5,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.blocks.BlockMetaGrass;
 
 import org.lwjgl.opengl.GL11;
 
@@ -14,26 +13,22 @@ import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 @ThreadSafeISBRH(perThread = true)
 public class BlockGrassRenderer extends BlockPrimalRenderer {
 
-    private final BlockMetaGrass block1 = new BlockMetaGrass();
-    private final BlockMetaGrass block2 = new BlockMetaGrass();
-
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
         GL11.glPushMatrix();
 
         metadata = getValidMeta(block, metadata);
 
-        block2.blockTexture = (BlockMetaGrass) block;
-
-        block2.isInventory = true;
-        block2.setPass(0);
+        setInventory(true);
+        setPass(0);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        renderStandardInvBlock(renderer, block2, metadata);
-        block2.setPass(1);
-        renderStandardInvBlockColor(renderer, block2, metadata, 1.0F);
+        renderStandardInvBlock(renderer, block, metadata);
+        setPass(1);
+        renderStandardInvBlockColor(renderer, block, metadata, 1.0F);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        block2.setPass(0);
+        setPass(0);
         GL11.glPopMatrix();
+        setInventory(false);
     }
 
     @Override
@@ -42,19 +37,17 @@ public class BlockGrassRenderer extends BlockPrimalRenderer {
         Material material = world.getBlock(x, y + 1, z)
             .getMaterial();
 
-        block1.blockTexture = (BlockMetaGrass) block;
+        setInventory(false);
+        setPass(0);
+        renderStandardBlockNoColor(renderer, block, x, y, z);
 
-        block1.isInventory = false;
-        block1.setPass(0);
-        renderStandardBlockNoColor(renderer, block1, x, y, z);
-
-        block1.setPass(1);
+        setPass(1);
         if (material != Material.craftedSnow && material != Material.snow) {
-            renderStandardBlock(renderer, block1, x, y, z);
+            renderStandardBlock(renderer, block, x, y, z);
         } else {
-            renderStandardBlockNoColor(renderer, block1, x, y, z);
+            renderStandardBlockNoColor(renderer, block, x, y, z);
         }
-        block1.setPass(0);
+        setPass(0);
         return true;
     }
 
