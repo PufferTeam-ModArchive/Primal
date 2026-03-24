@@ -1,7 +1,7 @@
 package net.pufferlab.primal.client.renderer.tileentities;
 
 import net.minecraft.tileentity.TileEntity;
-import net.pufferlab.primal.client.models.blocks.ModelAxle;
+import net.pufferlab.primal.client.models.ModelAxle;
 import net.pufferlab.primal.tileentities.TileEntityMotion;
 
 public class TileEntityGeneratorRenderer extends TileEntityMotionRenderer {

@@ -1,8 +1,8 @@
 package net.pufferlab.primal.client.renderer.tileentities;
 
 import net.minecraft.tileentity.TileEntity;
-import net.pufferlab.primal.client.models.blocks.ModelAxle;
-import net.pufferlab.primal.client.models.blocks.ModelWaterwheel;
+import net.pufferlab.primal.client.models.ModelAxle;
+import net.pufferlab.primal.client.models.ModelWaterwheel;
 import net.pufferlab.primal.tileentities.TileEntityWaterwheel;
 
 public class TileEntityWaterwheelRenderer extends TileEntityMotionRenderer {

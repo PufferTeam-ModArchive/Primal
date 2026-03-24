@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.client.models.blocks.ModelQuern;
+import net.pufferlab.primal.client.models.ModelQuern;
 
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 

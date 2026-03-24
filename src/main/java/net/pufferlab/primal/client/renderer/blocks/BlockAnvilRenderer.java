@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.client.models.blocks.ModelAnvil;
+import net.pufferlab.primal.client.models.ModelAnvil;
 import net.pufferlab.primal.tileentities.TileEntityAnvil;
 
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;

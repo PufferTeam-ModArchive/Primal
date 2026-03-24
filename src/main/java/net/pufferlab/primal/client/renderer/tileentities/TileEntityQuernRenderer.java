@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.pufferlab.primal.blocks.BlockQuern;
-import net.pufferlab.primal.client.models.blocks.ModelHandstone;
+import net.pufferlab.primal.client.models.ModelHandstone;
 import net.pufferlab.primal.client.renderer.RenderMotion;
 import net.pufferlab.primal.tileentities.TileEntityQuern;
 

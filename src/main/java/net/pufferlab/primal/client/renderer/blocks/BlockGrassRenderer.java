@@ -5,6 +5,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.blocks.IPrimalBlock;
 
 import org.lwjgl.opengl.GL11;
 
@@ -17,21 +18,22 @@ public class BlockGrassRenderer extends BlockPrimalRenderer {
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
         GL11.glPushMatrix();
 
+        IPrimalBlock block0 = (IPrimalBlock) block;
         metadata = getValidMeta(block, metadata);
 
-        setInventory(true);
-        setPass(0);
+        block0.setInventory(true);
+        block0.setPass(0);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         renderStandardInvBlock(renderer, block, metadata);
-        setPass(1);
+        block0.setPass(1);
         renderStandardInvBlockColor(renderer, block, metadata, 1.0F);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        setPass(0);
+        block0.setPass(0);
         GL11.glPopMatrix();
-        setInventory(false);
+        block0.setInventory(false);
 
         // Better Foliage
-        setPass(1);
+        block0.setPass(1);
     }
 
     @Override
@@ -39,21 +41,22 @@ public class BlockGrassRenderer extends BlockPrimalRenderer {
         RenderBlocks renderer) {
         Material material = world.getBlock(x, y + 1, z)
             .getMaterial();
+        IPrimalBlock block0 = (IPrimalBlock) block;
 
-        setInventory(false);
-        setPass(0);
+        block0.setInventory(false);
+        block0.setPass(0);
         renderStandardBlockNoColor(renderer, block, x, y, z);
 
-        setPass(1);
+        block0.setPass(1);
         if (material != Material.craftedSnow && material != Material.snow) {
             renderStandardBlock(renderer, block, x, y, z);
         } else {
             renderStandardBlockNoColor(renderer, block, x, y, z);
         }
-        setPass(0);
+        block0.setPass(0);
 
         // Better Foliage
-        setPass(1);
+        block0.setPass(1);
         return true;
     }
 

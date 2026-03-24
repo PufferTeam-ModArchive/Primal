@@ -10,7 +10,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.BlockForge;
-import net.pufferlab.primal.client.models.blocks.ModelFluid;
+import net.pufferlab.primal.client.models.ModelFluid;
 import net.pufferlab.primal.tileentities.TileEntityCrucible;
 
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;

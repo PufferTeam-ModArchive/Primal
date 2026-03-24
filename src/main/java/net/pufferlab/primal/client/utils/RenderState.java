@@ -1,40 +1,46 @@
 package net.pufferlab.primal.client.utils;
 
+import net.pufferlab.primal.blocks.IPrimalBlock;
+
 public class RenderState {
 
     public static final ThreadLocal<RenderState> state = ThreadLocal.withInitial(RenderState::new);
 
-    boolean isInventory;
-    int renderPass;
-    int renderPassWorld;
+    boolean[] isInventory = new boolean[3];
+    int[] renderPass = new int[3];
+    int[] renderPassWorld = new int[3];
 
     public static RenderState getInstance() {
         return state.get();
     }
 
-    public static void setInventory(boolean isInventory) {
-        getInstance().isInventory = isInventory;
+    public static void setInventory(IPrimalBlock block, boolean isInventory) {
+        int passID = block.getStateID();
+        getInstance().isInventory[passID] = isInventory;
     }
 
-    public static boolean isInventory() {
-        return getInstance().isInventory;
+    public static boolean isInventory(IPrimalBlock block) {
+        int passID = block.getStateID();
+        return getInstance().isInventory[passID];
     }
 
-    public static void setPass(int pass) {
+    public static void setPass(IPrimalBlock block, int pass) {
+        int passID = block.getStateID();
         RenderState render = getInstance();
-        if (render.isInventory) {
-            render.renderPass = pass;
+        if (render.isInventory[passID]) {
+            render.renderPass[passID] = pass;
         } else {
-            render.renderPassWorld = pass;
+            render.renderPassWorld[passID] = pass;
         }
     }
 
-    public static int getPass() {
+    public static int getPass(IPrimalBlock block) {
+        int passID = block.getStateID();
         RenderState render = getInstance();
-        if (render.isInventory) {
-            return render.renderPass;
+        if (render.isInventory[passID]) {
+            return render.renderPass[passID];
         } else {
-            return render.renderPassWorld;
+            return render.renderPassWorld[passID];
         }
     }
 

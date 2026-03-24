@@ -1,8 +1,8 @@
 package net.pufferlab.primal.client.renderer.items;
 
 import net.minecraft.item.ItemStack;
-import net.pufferlab.primal.client.models.blocks.ModelForge;
-import net.pufferlab.primal.client.models.blocks.ModelPrimal;
+import net.pufferlab.primal.client.models.ModelForge;
+import net.pufferlab.primal.client.models.ModelPrimal;
 
 public class ItemForgeRenderer extends ItemPrimalRenderer {
 

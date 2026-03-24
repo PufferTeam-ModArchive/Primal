@@ -1,8 +1,8 @@
 package net.pufferlab.primal.client.renderer.items;
 
 import net.minecraft.item.ItemStack;
-import net.pufferlab.primal.client.models.blocks.ModelFaucet;
-import net.pufferlab.primal.client.models.blocks.ModelValve;
+import net.pufferlab.primal.client.models.ModelFaucet;
+import net.pufferlab.primal.client.models.ModelValve;
 
 import org.lwjgl.opengl.GL11;
 

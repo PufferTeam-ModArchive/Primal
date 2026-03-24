@@ -2,9 +2,9 @@ package net.pufferlab.primal.client.renderer.items;
 
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Constants;
-import net.pufferlab.primal.client.models.blocks.ModelCrucible;
-import net.pufferlab.primal.client.models.blocks.ModelLargeVessel;
-import net.pufferlab.primal.client.models.blocks.ModelPrimal;
+import net.pufferlab.primal.client.models.ModelCrucible;
+import net.pufferlab.primal.client.models.ModelLargeVessel;
+import net.pufferlab.primal.client.models.ModelPrimal;
 import net.pufferlab.primal.utils.Utils;
 
 public class ItemClayRenderer extends ItemPrimalRenderer {

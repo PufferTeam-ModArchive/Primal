@@ -1,9 +1,9 @@
 package net.pufferlab.primal.client.renderer.items;
 
 import net.minecraft.item.ItemStack;
-import net.pufferlab.primal.client.models.blocks.ModelAxle;
-import net.pufferlab.primal.client.models.blocks.ModelPrimal;
-import net.pufferlab.primal.client.models.blocks.ModelWindmill;
+import net.pufferlab.primal.client.models.ModelAxle;
+import net.pufferlab.primal.client.models.ModelPrimal;
+import net.pufferlab.primal.client.models.ModelWindmill;
 
 public class ItemWindmillRenderer extends ItemPrimalRenderer {
 

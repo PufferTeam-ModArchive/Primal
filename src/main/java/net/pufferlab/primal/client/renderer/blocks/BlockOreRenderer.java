@@ -17,47 +17,43 @@ public class BlockOreRenderer extends BlockPrimalRenderer {
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
         GL11.glPushMatrix();
 
+        IPrimalBlock block0 = (IPrimalBlock) block;
         metadata = getValidMeta(block, metadata);
 
-        boolean isEmissive = true;
-        if (block instanceof IPrimalBlock block0) {
-            isEmissive = block0.isEmissive();
-        }
+        boolean isEmissive = block0.isEmissive();
 
-        setInventory(true);
-        setPass(0);
+        block0.setInventory(true);
+        block0.setPass(0);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         renderStandardInvBlock(renderer, block, metadata);
-        setPass(1);
+        block0.setPass(1);
         if (isEmissive) {
             renderStandardInvBlockColorMaxBrightness(renderer, block, metadata, 1.0F);
         } else {
             renderStandardInvBlock(renderer, block, metadata);
         }
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        setPass(0);
+        block0.setPass(0);
         GL11.glPopMatrix();
     }
 
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
-        boolean isEmissive = true;
-        if (block instanceof IPrimalBlock block0) {
-            isEmissive = block0.isEmissive();
-        }
+        IPrimalBlock block0 = (IPrimalBlock) block;
+        boolean isEmissive = block0.isEmissive();
 
-        setInventory(false);
-        setPass(0);
+        block0.setInventory(false);
+        block0.setPass(0);
         renderStandardBlockNoColor(renderer, block, x, y, z);
 
-        setPass(1);
+        block0.setPass(1);
         if (isEmissive) {
             renderStandardBlockMaxBrightness(renderer, block, x, y, z);
         } else {
             renderStandardBlockNoColor(renderer, block, x, y, z);
         }
-        setPass(0);
+        block0.setPass(0);
         return true;
     }
 

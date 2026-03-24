@@ -7,8 +7,8 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.client.models.blocks.ModelTanning;
-import net.pufferlab.primal.client.models.blocks.ModelTanningFrame;
+import net.pufferlab.primal.client.models.ModelTanning;
+import net.pufferlab.primal.client.models.ModelTanningFrame;
 import net.pufferlab.primal.tileentities.TileEntityTanning;
 
 import org.lwjgl.opengl.GL11;

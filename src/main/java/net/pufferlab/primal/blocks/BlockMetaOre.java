@@ -14,7 +14,6 @@ import net.minecraft.world.IBlockAccess;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
-import net.pufferlab.primal.client.utils.RenderState;
 import net.pufferlab.primal.items.itemblocks.ItemBlockMeta;
 import net.pufferlab.primal.utils.Utils;
 
@@ -167,12 +166,9 @@ public class BlockMetaOre extends BlockStone implements IPrimalBlock, IMetaBlock
         }
     }
 
-    public boolean isInventory() {
-        return RenderState.isInventory();
-    }
-
-    public int getPass() {
-        return RenderState.getPass();
+    @Override
+    public int getStateID() {
+        return 2;
     }
 
     @Override

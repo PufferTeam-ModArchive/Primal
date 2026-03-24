@@ -2,6 +2,7 @@ package net.pufferlab.primal.blocks;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemBlock;
+import net.pufferlab.primal.client.utils.RenderState;
 
 public interface IPrimalBlock {
 
@@ -17,6 +18,26 @@ public interface IPrimalBlock {
 
     default boolean hasOverlay() {
         return false;
+    }
+
+    default int getStateID() {
+        return 0;
+    }
+
+    default void setPass(int pass) {
+        RenderState.setPass(this, pass);
+    }
+
+    default int getPass() {
+        return RenderState.getPass(this);
+    }
+
+    default boolean isInventory() {
+        return RenderState.isInventory(this);
+    }
+
+    default void setInventory(boolean state) {
+        RenderState.setInventory(this, state);
     }
 
     default boolean canRegister() {
