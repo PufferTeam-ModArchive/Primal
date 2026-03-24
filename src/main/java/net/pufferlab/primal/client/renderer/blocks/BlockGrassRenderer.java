@@ -29,6 +29,9 @@ public class BlockGrassRenderer extends BlockPrimalRenderer {
         setPass(0);
         GL11.glPopMatrix();
         setInventory(false);
+
+        // Better Foliage
+        setPass(1);
     }
 
     @Override
@@ -48,6 +51,9 @@ public class BlockGrassRenderer extends BlockPrimalRenderer {
             renderStandardBlockNoColor(renderer, block, x, y, z);
         }
         setPass(0);
+
+        // Better Foliage
+        setPass(1);
         return true;
     }
 
