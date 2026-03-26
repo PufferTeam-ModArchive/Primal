@@ -22,8 +22,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemMetaFood extends ItemFood implements IMetaItem {
 
-    private FoodType[] elements;
-    private String[] elementsNames;
+    protected FoodType[] elements;
+    protected String[] elementsNames;
     private String[] elementsBlacklist;
     private IIcon[] icons;
     private String name;

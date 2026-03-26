@@ -65,6 +65,7 @@ public class ClientProxy extends CommonProxy {
     private int generatorRenderID;
     private int anvilRenderID;
     private int bloomeryRenderID;
+    private int cropRenderID;
 
     @Override
     public void setupRenders() {
@@ -96,6 +97,7 @@ public class ClientProxy extends CommonProxy {
         generatorRenderID = getNextId();
         anvilRenderID = getNextId();
         bloomeryRenderID = getNextId();
+        cropRenderID = getNextId();
 
         register(new BlockSlabRenderer());
         register(new BlockSlabVerticalRenderer());
@@ -125,6 +127,7 @@ public class ClientProxy extends CommonProxy {
         register(new BlockGeneratorRenderer());
         register(new BlockAnvilRenderer());
         register(new BlockBloomeryRenderer());
+        register(new BlockCropsRenderer());
 
         register(TileEntityPitKiln.class, new TileEntityPitKilnRenderer());
         register(TileEntityChoppingLog.class, new TileEntityChoppingLogRenderer());
@@ -485,5 +488,10 @@ public class ClientProxy extends CommonProxy {
     @Override
     public int getRopeLadderRenderID() {
         return ropeLadderRenderID;
+    }
+
+    @Override
+    public int getCropsRenderID() {
+        return cropRenderID;
     }
 }

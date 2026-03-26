@@ -38,6 +38,7 @@ public class PrimalEarlyMixins implements IFMLLoadingPlugin, IEarlyMixinLoader {
         if (Config.plantFix.getBoolean()) {
             mixins.add("minecraft.MixinEntityAIEatGrass");
             mixins.add("minecraft.MixinBlockBush");
+            mixins.add("minecraft.MixinBlockCrops");
         }
         if (Config.destructiveFallingBlocks.getBoolean()) {
             mixins.add("minecraft.MixinBlockFalling");

@@ -77,6 +77,7 @@ public class Registry {
     public static final Block tc_earth_ore;
     public static final Block tc_order_ore;
     public static final Block tc_entropy_ore;
+    public static final Block tomatoes;
     public static final Block block;
     public static final Block anvil;
     public static final Block rope_ladder;
@@ -114,6 +115,8 @@ public class Registry {
     public static final Item wood;
     public static final Item glowstone;
     public static final Item bark;
+    public static final Item seed;
+    public static final Item crop;
     public static final Item flour;
     public static final Item dough;
     public static final Item powder;
@@ -234,6 +237,8 @@ public class Registry {
             tc_entropy_ore = null;
         }
 
+        tomatoes = new BlockCropsPrimal(Constants.tomatoes);
+
         ground_rock = new BlockStoneGround(Constants.stoneTypes, "ground_rock");
         ground_ore = new BlockStoneGroundOre(Constants.oreTypes, "ground_ore");
         ground_shell = new BlockGroundcover(Material.rock, Constants.shellTypes, "ground_shell").setItemTexture();
@@ -294,6 +299,9 @@ public class Registry {
 
         ingot = new ItemMetal(Constants.metalTypes, "ingot").setBlacklist(Constants.ingotBlacklist);
         nugget = new ItemMetal(Constants.metalTypes, "nugget").setBlacklist(Constants.nuggetBlacklist);
+
+        crop = new ItemCropsFood(Constants.crops, "crop");
+        seed = new ItemCropsSeed(Constants.crops, "seed");
 
         dough = new ItemMetaFood(Constants.doughItems, "dough");
         flour = new ItemMetaFood(Constants.flourItems, "flour");
@@ -400,6 +408,8 @@ public class Registry {
             register(tc_entropy_ore, "tc_infused_entropy");
         }
 
+        register(tomatoes, "tomatoes");
+
         register(ground_rock, "ground_rock");
         register(ground_ore, "ground_ore");
         register(ground_shell, "ground_shell");
@@ -441,6 +451,8 @@ public class Registry {
         register(glowstone, "glowstone");
         register(bark, "bark");
         register(flour, "flour");
+        register(crop, "crop");
+        register(seed, "seed");
         register(dough, "dough");
         register(powder, "powder");
         register(rock, "rock");

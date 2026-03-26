@@ -162,6 +162,15 @@ public class Constants {
 
     public static final SoilType[] soilTypes = { loamy, silty_loam, silty, sandy, sandy_loam, peaty };
 
+    // Food
+    public static final FoodType tomato = new FoodType("tomato", 2, 0.6F);
+    public static final FoodType wheatFlour = new FoodType("wheat_flour", 1, 0.5F, false, null, 17, 20, 1.0F);
+    public static final FoodType wheatDough = new FoodType("wheat_dough", 1, 0.5F, false, null, 17, 20, 1.0F);
+    public static final FoodType[] flourItems       = { wheatFlour };
+    public static final FoodType[] doughItems       = { wheatDough };
+    public static final CropType tomatoes = new CropType(tomato, "tomatoes", 8, 1, 3, 2);
+    public static final CropType[] crops = {tomatoes};
+
     // Misc
     public static final String[] chimneyTypes       = { "brick" };
     public static final String[] chimneyTextures    = { "minecraft:brick" };
@@ -179,11 +188,6 @@ public class Constants {
     public static final String[] colorItemsEFR      = { "banner", "concrete", "concrete_powder",
                                                         "glazed_terracotta", "bed" };
     public static final String[] icons              = { "knapping" };
-    // Food
-    public static final FoodType wheatFlour = new FoodType("wheat_flour", 1, 0.5F, false, null, 17, 20, 1.0F);
-    public static final FoodType wheatDough = new FoodType("wheat_dough", 1, 0.5F, false, null, 17, 20, 1.0F);
-    public static final FoodType[] flourItems       = { wheatFlour };
-    public static final FoodType[] doughItems       = { wheatDough };
 
     // Fluids
     public static final FluidType empty             = new FluidType("empty", false, true);

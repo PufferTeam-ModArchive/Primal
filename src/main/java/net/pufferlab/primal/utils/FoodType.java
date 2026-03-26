@@ -59,4 +59,12 @@ public class FoodType {
         }
         return names;
     }
+
+    public static String[] getSeedNames(FoodType[] foods) {
+        String[] names = new String[foods.length];
+        for (int i = 0; i < foods.length; i++) {
+            names[i] = foods[i].name + "_seed";
+        }
+        return names;
+    }
 }

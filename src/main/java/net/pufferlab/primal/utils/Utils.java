@@ -393,13 +393,8 @@ public class Utils {
         return result;
     }
 
-    public static Integer[] toIntegerArray(int[] src) {
-        Integer[] dst = new Integer[src.length];
-
-        for (int i = 0; i < src.length; i++) {
-            dst[i] = src[i];
-        }
-        return dst;
+    public static int getRandomInRange(Random random, int min, int max) {
+        return random.nextInt(max) - min;
     }
 
     @SafeVarargs

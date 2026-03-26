@@ -89,6 +89,9 @@ tile.primal.copper_block.name=Copper Block
 tile.primal.tin_block.name=Tin Block
 tile.primal.bronze_block.name=Bronze Block
 
+item.primal.tomato.name=Tomato
+item.primal.tomato_seed.name=Tomato Seeds
+
 item.primal.copper_ingot.name=Copper Ingot
 item.primal.tin_ingot.name=Tin Ingot
 item.primal.bronze_ingot.name=Bronze Ingot
