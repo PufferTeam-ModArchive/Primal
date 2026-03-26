@@ -7,6 +7,7 @@ import java.awt.*;
 
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Constants;
+import net.pufferlab.primal.Mods;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.utils.MetalType;
 import net.pufferlab.primal.utils.Utils;
@@ -25,7 +26,7 @@ public class NEICompat implements IConfigureNEI {
     @Override
     public void loadConfig() {
         if (Utils.isClient()) {
-            if (isGTNHNEI()) {
+            if (Mods.gtnhnei.isLoaded()) {
                 loadHandlersGTNH();
             }
             loadHandlers();
@@ -106,15 +107,6 @@ public class NEICompat implements IConfigureNEI {
             return GuiUsageRecipe.openRecipeGui("liquid", stack);
         } else {
             return GuiCraftingRecipe.openRecipeGui("liquid", stack);
-        }
-    }
-
-    public static boolean isGTNHNEI() {
-        try {
-            Class.forName("codechicken.nei.recipe.GuiRecipeTabs");
-            return true;
-        } catch (ClassNotFoundException e) {
-            return false;
         }
     }
 

@@ -263,10 +263,15 @@ public class Utils {
     }
 
     public static int getBlockKey(int blockId, int metadata) {
-        if (metadata >= 16) {
-            metadata = 0;
-        }
-        return (blockId * 16) + metadata;
+        return (blockId << 15) | metadata;
+    }
+
+    public static int getBlockId(int key) {
+        return key >>> 15;
+    }
+
+    public static int getMeta(int key) {
+        return key & 0x7FFF;
     }
 
     public static int getBlockKey(Block block, int metadata) {
@@ -394,7 +399,16 @@ public class Utils {
     }
 
     public static int getRandomInRange(Random random, int min, int max) {
-        return random.nextInt(max) - min;
+        return random.nextInt(Math.abs(max - min)) + min;
+    }
+
+    public static boolean classExists(String className) {
+        try {
+            Class.forName(className);
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
     }
 
     @SafeVarargs

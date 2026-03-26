@@ -8,6 +8,7 @@ import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.stats.StatList;
+import net.minecraft.util.RegistryNamespaced;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
@@ -166,6 +167,10 @@ public class ItemUtils {
             }
         }
         return null;
+    }
+
+    public static RegistryNamespaced getItemRegistry() {
+        return Item.itemRegistry;
     }
 
     public static boolean isValidOreDict(String oreDict) {

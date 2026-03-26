@@ -8,12 +8,17 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.RegistryNamespaced;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.blocks.*;
 
 public class BlockUtils {
+
+    public static RegistryNamespaced getBlockRegistry() {
+        return Block.blockRegistry;
+    }
 
     public static int getBlockX(int side, int x) {
         if (side == 4) {

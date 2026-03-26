@@ -62,11 +62,13 @@ public class BlockCropsPrimal extends BlockCrops implements IPrimalBlock {
                 ret.add(new ItemStack(this.func_149865_P(), 1, this.cropType.cropMeta));
             }
 
+            int amount = 1;
             for (int i = 0; i < 2 + fortune; ++i) {
                 if (world.rand.nextInt(15) <= metadata) {
-                    ret.add(new ItemStack(this.func_149866_i(), 1, this.cropType.seedMeta));
+                    amount++;
                 }
             }
+            ret.add(new ItemStack(this.func_149866_i(), amount, this.cropType.seedMeta));
         }
 
         return ret;

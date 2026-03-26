@@ -25,13 +25,10 @@ public class HeatUtils {
     private static final String tagMultiplier = "multiplier";
 
     public static List<Item> getBuiltinHeatableItems() {
-        Iterator iterator = Item.itemRegistry.iterator();
         List<Item> itemList = new ArrayList<>();
 
-        while (iterator.hasNext()) {
-            Item item = (Item) iterator.next();
-
-            if (item != null) {
+        for (Object obj : ItemUtils.getItemRegistry()) {
+            if (obj instanceof Item item) {
                 if (item instanceof IHeatableItem heat) {
                     if (heat.hasItemRendering()) {
                         itemList.add(item);
