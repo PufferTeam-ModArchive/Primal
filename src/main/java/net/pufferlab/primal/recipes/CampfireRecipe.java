@@ -26,7 +26,7 @@ public class CampfireRecipe {
     }
 
     public static void addRecipe(ItemStack output, ItemStack input) {
-        recipeMap.put(Collections.singletonList(input), output);
+        recipeMap.put(Utils.asList(input), output);
     }
 
     public static void removeRecipe(ItemStack output, List<ItemStack> input) {

@@ -15,6 +15,7 @@ import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Mods;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.utils.StoneType;
+import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.utils.WorldUtils;
 
 import biomesoplenty.api.content.BOPCBiomes;
@@ -104,7 +105,7 @@ public class WorldGenStrata {
 
                 // Volcano are with basalt
                 BiomeGenBase biomeVolcano = BOPCBiomes.volcano;
-                stoneTypeBiomeMap.put(volcanicStone, Collections.singletonList(biomeVolcano));
+                stoneTypeBiomeMap.put(volcanicStone, Utils.asList(biomeVolcano));
                 stoneTypeMap.put(volcanicStone, Constants.basalt);
             }
             // Desert Sandstone
@@ -113,9 +114,9 @@ public class WorldGenStrata {
             Block sand = Blocks.sand;
             stoneList.add(sandstone);
             sandList.add(sand);
-            stoneTypeBiomeMap.put(sandstone, Arrays.asList(desert));
+            stoneTypeBiomeMap.put(sandstone, Utils.asList(desert));
             stoneTypeMap.put(sandstone, Constants.sandstone);
-            stoneTypeBiomeMap.put(sand, Arrays.asList(desert));
+            stoneTypeBiomeMap.put(sand, Utils.asList(desert));
             stoneTypeMap.put(sand, Constants.sandstone);
 
             blockList.add(Registry.ground_rock);

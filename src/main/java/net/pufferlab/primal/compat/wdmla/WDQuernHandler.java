@@ -18,6 +18,7 @@ import com.gtnewhorizons.wdmla.api.provider.IServerDataProvider;
 import com.gtnewhorizons.wdmla.api.ui.IComponent;
 import com.gtnewhorizons.wdmla.api.ui.ITooltip;
 import com.gtnewhorizons.wdmla.impl.ui.ThemeHelper;
+import net.pufferlab.primal.utils.Utils;
 
 public class WDQuernHandler implements IBlockComponentProvider, IServerDataProvider<BlockAccessor> {
 
@@ -44,8 +45,8 @@ public class WDQuernHandler implements IBlockComponentProvider, IServerDataProvi
                 }
                 if (output != null) {
                     IComponent progress = ThemeHelper.INSTANCE.furnaceLikeProgress(
-                        Collections.singletonList(input),
-                        Collections.singletonList(output),
+                        Utils.asList(input),
+                        Utils.asList(output),
                         timePassed,
                         timeToProcess,
                         false);

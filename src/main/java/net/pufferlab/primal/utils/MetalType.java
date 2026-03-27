@@ -17,7 +17,7 @@ public class MetalType {
     public ItemArmor.ArmorMaterial armorMaterial;
 
     public String name;
-    private String langKey;
+    private final String langKey;
     public String fluidName;
     public Fluid fluid;
     public boolean isAlloy;

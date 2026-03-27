@@ -143,24 +143,20 @@ public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlo
         if (meta >= this.icons.length) {
             meta = 0;
         }
-        if (isInventory()) {
-            if (getPass() == 0) {
-                if (side == 1) {
-                    return this.grassIcons[empty];
-                } else {
-                    return this.icons[meta];
-                }
+        if (getPass() == 0) {
+            if (side == 1) {
+                return this.grassIcons[empty];
             } else {
-                if (side == 1) {
-                    return this.grassIcons[grassTop];
-                } else if (side == 0) {
-                    return this.grassIcons[empty];
-                } else {
-                    return this.grassIcons[grassSideOverlay];
-                }
+                return this.icons[meta];
             }
         } else {
-            return this.icons[meta];
+            if (side == 1) {
+                return this.grassIcons[grassTop];
+            } else if (side == 0) {
+                return this.grassIcons[empty];
+            } else {
+                return this.grassIcons[grassSideOverlay];
+            }
         }
     }
 

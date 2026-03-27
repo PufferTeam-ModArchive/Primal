@@ -29,7 +29,7 @@ public class NEIChoppingLogHandler extends TemplateRecipeHandler {
 
         @Override
         public List<PositionedStack> getIngredients() {
-            return getCycledIngredients(cycleticks / 20, Collections.singletonList(ingredients));
+            return getCycledIngredients(cycleticks / 20, Utils.asList(ingredients));
         }
 
         public PositionedStack getResult() {

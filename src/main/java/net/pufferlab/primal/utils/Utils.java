@@ -413,6 +413,9 @@ public class Utils {
 
     @SafeVarargs
     public static <T> List<T> asList(T... elements) {
+        if (elements.length == 1) {
+            return Collections.singletonList(elements[0]);
+        }
         return new ArrayList<>(Arrays.asList(elements));
     }
 

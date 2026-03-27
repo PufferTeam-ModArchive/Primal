@@ -32,8 +32,8 @@ public class WDAnvilHandler implements IBlockComponentProvider, IServerDataProvi
         if (te instanceof TileEntityAnvil tef) {
             AnvilRecipe recipe = tef.getRecipe();
             if (recipe != null) {
-                List<ItemStack> inputs = Collections.singletonList(tef.getInventoryStack(slotInput));
-                List<ItemStack> outputs = Collections.singletonList(recipe.output);
+                List<ItemStack> inputs = Utils.asList(tef.getInventoryStack(slotInput));
+                List<ItemStack> outputs = Utils.asList(recipe.output);
 
                 boolean hasMetalLevel = tef.hasMetalLevel();
                 boolean isHotEnough = tef.isInputHotEnough();

@@ -28,7 +28,7 @@ public class NEIAnvilHandler extends TemplateRecipeHandler {
 
         @Override
         public List<PositionedStack> getIngredients() {
-            return getCycledIngredients(cycleticks / 20, Collections.singletonList(ingred));
+            return getCycledIngredients(cycleticks / 20, Utils.asList(ingred));
         }
 
         @Override

@@ -37,7 +37,7 @@ public class NEIKnappingHandler extends TemplateRecipeHandler {
 
         @Override
         public List<PositionedStack> getIngredients() {
-            return getCycledIngredients(cycleticks / 48, Collections.singletonList(ingred));
+            return getCycledIngredients(cycleticks / 48, Utils.asList(ingred));
         }
 
         @Override
@@ -84,7 +84,7 @@ public class NEIKnappingHandler extends TemplateRecipeHandler {
         for (KnappingRecipe pattern : recipes) {
             if (Utils.equalsStack(pattern.type.item, ingredient)) {
                 KnappingPair pair = new KnappingPair(pattern.type, pattern.pattern, pattern.output);
-                pair.setIngredientPermutation(Collections.singletonList(pair.ingred), ingredient);
+                pair.setIngredientPermutation(Utils.asList(pair.ingred), ingredient);
                 arecipes.add(pair);
             }
         }

@@ -14,7 +14,7 @@ public class MeltingRecipe {
     private static final List<MeltingRecipe> recipeList = new ArrayList<>();
 
     public static void addRecipe(FluidStack output, ItemStack input) {
-        recipeList.add(new MeltingRecipe(output, Collections.singletonList(input)));
+        recipeList.add(new MeltingRecipe(output, Utils.asList(input)));
     }
 
     public static void addRecipe(FluidStack output, String input) {

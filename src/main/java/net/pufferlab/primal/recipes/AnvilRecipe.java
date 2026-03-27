@@ -14,7 +14,7 @@ public class AnvilRecipe {
     private static final Map<String, AnvilRecipe> recipeIDMap = new HashMap<>();
 
     public static void addRecipe(ItemStack output, ItemStack input, Object... objects) {
-        recipeList.add(new AnvilRecipe(output, Collections.singletonList(input), objects).setRecipeID(output, input));
+        recipeList.add(new AnvilRecipe(output, Utils.asList(input), objects).setRecipeID(output, input));
     }
 
     public static void addRecipe(ItemStack output, String input, Object... objects) {

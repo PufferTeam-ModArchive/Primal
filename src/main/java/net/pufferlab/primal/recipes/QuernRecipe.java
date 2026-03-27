@@ -22,7 +22,7 @@ public class QuernRecipe {
     }
 
     public static void addRecipe(ItemStack output, ItemStack input) {
-        recipeMap.put(Collections.singletonList(input), output);
+        recipeMap.put(Utils.asList(input), output);
     }
 
     public static void removeRecipe(ItemStack output, List<ItemStack> input) {

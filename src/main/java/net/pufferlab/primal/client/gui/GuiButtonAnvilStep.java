@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
 import net.pufferlab.primal.recipes.AnvilAction;
 import net.pufferlab.primal.recipes.AnvilOrder;
+import net.pufferlab.primal.utils.Utils;
 
 public class GuiButtonAnvilStep extends GuiButtonPrimal {
 
@@ -32,11 +33,10 @@ public class GuiButtonAnvilStep extends GuiButtonPrimal {
     public void renderTooltip(int mouseX, int mouseY) {
         if (this.action == null) return;
         if (this.order == null) {
-            this.gui.drawTooltip(Collections.singletonList(this.action.getTranslatedName()), mouseX, mouseY);
+            this.gui.drawTooltip(Utils.asList(this.action.getTranslatedName()), mouseX, mouseY);
         } else {
             this.gui.drawTooltip(
-                Collections
-                    .singletonList(this.action.getRecipeTranslatedName() + ", " + this.order.getTranslatedName()),
+                Utils.asList(this.action.getRecipeTranslatedName() + ", " + this.order.getTranslatedName()),
                 mouseX,
                 mouseY);
         }

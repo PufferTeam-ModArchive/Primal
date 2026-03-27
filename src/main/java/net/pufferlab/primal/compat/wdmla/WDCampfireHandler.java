@@ -22,6 +22,7 @@ import com.gtnewhorizons.wdmla.api.provider.IServerDataProvider;
 import com.gtnewhorizons.wdmla.api.ui.IComponent;
 import com.gtnewhorizons.wdmla.api.ui.ITooltip;
 import com.gtnewhorizons.wdmla.impl.ui.ThemeHelper;
+import net.pufferlab.primal.utils.Utils;
 
 public class WDCampfireHandler implements IBlockComponentProvider, IServerDataProvider<BlockAccessor> {
 
@@ -43,8 +44,8 @@ public class WDCampfireHandler implements IBlockComponentProvider, IServerDataPr
                     int timeToProcess = tef.manager.getTime(updateItem1);
                     int timeRemaining = RecipeUtils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);
                     IComponent progress = ThemeHelper.INSTANCE.furnaceLikeProgress(
-                        Collections.singletonList(inputItem),
-                        Collections.singletonList(outputItem),
+                        Utils.asList(inputItem),
+                        Utils.asList(outputItem),
                         timeRemaining,
                         timeToProcess,
                         false);
@@ -59,8 +60,8 @@ public class WDCampfireHandler implements IBlockComponentProvider, IServerDataPr
                     int timeToProcess = tef.manager.getTime(updateItem2);
                     int timeRemaining = RecipeUtils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);
                     IComponent progress = ThemeHelper.INSTANCE.furnaceLikeProgress(
-                        Collections.singletonList(inputItem),
-                        Collections.singletonList(outputItem),
+                        Utils.asList(inputItem),
+                        Utils.asList(outputItem),
                         timeRemaining,
                         timeToProcess,
                         false);
@@ -75,8 +76,8 @@ public class WDCampfireHandler implements IBlockComponentProvider, IServerDataPr
                     int timeToProcess = tef.manager.getTime(updateItem3);
                     int timeRemaining = RecipeUtils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);
                     IComponent progress = ThemeHelper.INSTANCE.furnaceLikeProgress(
-                        Collections.singletonList(inputItem),
-                        Collections.singletonList(outputItem),
+                        Utils.asList(inputItem),
+                        Utils.asList(outputItem),
                         timeRemaining,
                         timeToProcess,
                         false);
@@ -91,8 +92,8 @@ public class WDCampfireHandler implements IBlockComponentProvider, IServerDataPr
                     int timeToProcess = tef.manager.getTime(updateItem4);
                     int timeRemaining = RecipeUtils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);
                     IComponent progress = ThemeHelper.INSTANCE.furnaceLikeProgress(
-                        Collections.singletonList(inputItem),
-                        Collections.singletonList(outputItem),
+                        Utils.asList(inputItem),
+                        Utils.asList(outputItem),
                         timeRemaining,
                         timeToProcess,
                         false);

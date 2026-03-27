@@ -15,7 +15,7 @@ public class BarrelRecipe {
 
     public static void addRecipe(ItemStack output, FluidStack outputLiquid, ItemStack input, FluidStack inputLiquid) {
         recipeList.add(
-            new BarrelRecipe(output, outputLiquid, Collections.singletonList(input), inputLiquid, 60)
+            new BarrelRecipe(output, outputLiquid, Utils.asList(input), inputLiquid, 60)
                 .setRecipeID(output, outputLiquid, input, inputLiquid));
     }
 
@@ -29,7 +29,7 @@ public class BarrelRecipe {
     public static void addRecipe(ItemStack output, FluidStack outputLiquid, ItemStack input, FluidStack inputLiquid,
         int processingTime) {
         recipeList.add(
-            new BarrelRecipe(output, outputLiquid, Collections.singletonList(input), inputLiquid, processingTime)
+            new BarrelRecipe(output, outputLiquid, Utils.asList(input), inputLiquid, processingTime)
                 .setRecipeID(output, outputLiquid, input, inputLiquid));
     }
 

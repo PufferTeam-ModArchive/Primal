@@ -18,6 +18,7 @@ import com.gtnewhorizons.wdmla.api.ui.MessageType;
 import com.gtnewhorizons.wdmla.api.view.ClientViewGroup;
 import com.gtnewhorizons.wdmla.api.view.FluidView;
 import com.gtnewhorizons.wdmla.api.view.ViewGroup;
+import net.pufferlab.primal.utils.Utils;
 
 public class WDFluidHandler
     implements IServerExtensionProvider<FluidView.Data>, IClientExtensionProvider<FluidView.Data, FluidView> {
@@ -52,7 +53,7 @@ public class WDFluidHandler
 
     public ViewGroup<FluidView.Data> getFluidTank(FluidTankInfo info) {
         ViewGroup<FluidView.Data> data = new ViewGroup<>(
-            Collections.singletonList(new FluidView.Data(info.fluid, info.capacity)));
+            Utils.asList(new FluidView.Data(info.fluid, info.capacity)));
         return data;
     }
 

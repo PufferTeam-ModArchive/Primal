@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
 import net.pufferlab.primal.recipes.AnvilAction;
 
+import net.pufferlab.primal.utils.Utils;
 import org.lwjgl.opengl.GL11;
 
 public class GuiButtonAnvil extends GuiButtonPrimal {
@@ -51,7 +52,7 @@ public class GuiButtonAnvil extends GuiButtonPrimal {
 
     @Override
     public void renderTooltip(int mouseX, int mouseY) {
-        this.gui.drawTooltip(Collections.singletonList(this.action.getTranslatedName()), mouseX, mouseY);
+        this.gui.drawTooltip(Utils.asList(this.action.getTranslatedName()), mouseX, mouseY);
     }
 
     @Override
