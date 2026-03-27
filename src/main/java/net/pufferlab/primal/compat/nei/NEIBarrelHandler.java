@@ -214,14 +214,23 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
         int timeSecondSmelt = recipePair.processingTime / 20;
         int timeMinuteSmelt = timeSecondSmelt / 60;
         if (timeMinuteSmelt < 1) {
-            Minecraft.getMinecraft().fontRenderer
-                .drawString(translate("recipe.primal.barrel.smeltTime", timeSecondSmelt), 40, 10, 0xFF000000);
+            Minecraft.getMinecraft().fontRenderer.drawString(
+                translate("recipe." + Primal.MODID + ".barrel.smeltTime", timeSecondSmelt),
+                40,
+                10,
+                0xFF000000);
         } else if (timeMinuteSmelt < 2) {
-            Minecraft.getMinecraft().fontRenderer
-                .drawString(translate("recipe.primal.barrel.smeltTimeMinute", timeMinuteSmelt), 40, 10, 0xFF000000);
+            Minecraft.getMinecraft().fontRenderer.drawString(
+                translate("recipe." + Primal.MODID + ".barrel.smeltTimeMinute", timeMinuteSmelt),
+                40,
+                10,
+                0xFF000000);
         } else {
-            Minecraft.getMinecraft().fontRenderer
-                .drawString(translate("recipe.primal.barrel.smeltTimeMinutes", timeMinuteSmelt), 40, 10, 0xFF000000);
+            Minecraft.getMinecraft().fontRenderer.drawString(
+                translate("recipe." + Primal.MODID + ".barrel.smeltTimeMinutes", timeMinuteSmelt),
+                40,
+                10,
+                0xFF000000);
         }
 
     }

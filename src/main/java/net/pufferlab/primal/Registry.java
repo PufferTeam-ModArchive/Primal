@@ -428,7 +428,7 @@ public class Registry {
         register(oven, "oven");
         register(chimney, "chimney");
         register(forge, "forge");
-        register(bloomery, "bloomery");
+        //register(bloomery, "bloomery");
         register(cast, "cast");
         register(quern, "quern");
         register(large_vessel, "large_vessel");
