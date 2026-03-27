@@ -7,6 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
+import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.utils.Utils;
 
@@ -60,7 +61,7 @@ public class SchedulerData extends WorldSavedData {
     public void readFromNBT(NBTTagCompound nbt) {
         queue.clear();
 
-        NBTTagList list = nbt.getTagList("ScheduledTasks", 10);
+        NBTTagList list = nbt.getTagList("ScheduledTasks", Constants.tagCompound);
 
         for (int i = 0; i < list.tagCount(); i++) {
             NBTTagCompound tag = list.getCompoundTagAt(i);
@@ -70,7 +71,7 @@ public class SchedulerData extends WorldSavedData {
                 .add(task);
         }
 
-        NBTTagList listWait = nbt.getTagList("WaitingTasks", 10);
+        NBTTagList listWait = nbt.getTagList("WaitingTasks", Constants.tagCompound);
 
         for (int i = 0; i < listWait.tagCount(); i++) {
             NBTTagCompound tag = listWait.getCompoundTagAt(i);

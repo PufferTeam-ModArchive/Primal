@@ -9,6 +9,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Mods;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.MetalType;
 import net.pufferlab.primal.utils.Utils;
 
@@ -34,9 +35,9 @@ public class NEICompat implements IConfigureNEI {
     }
 
     public void loadHandlersGTNH() {
-        API.hideItem(Primal.MODID + ":icon");
-        API.hideItem(Primal.MODID + ":double_stone_slab");
-        API.hideItem(Primal.MODID + ":double_vertical_stone_slab");
+        for (String filter : ItemUtils.getItemHideFilter()) {
+            API.hideItem(filter);
+        }
         loadGTNHIMC();
     }
 

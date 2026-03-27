@@ -10,7 +10,7 @@ import net.pufferlab.primal.utils.Utils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemShovelPrimitive extends ItemSpade {
+public class ItemShovelPrimitive extends ItemSpade implements IPrimalItem {
 
     String toolName;
     ToolMaterial toolMaterial;

@@ -793,6 +793,11 @@ public class Registry {
     }
 
     public void registerModItem(Item item, String name) {
+        if (item instanceof IPrimalItem item3) {
+            if (item3.hideItem()) {
+                ItemUtils.registerItemHideFilter(Primal.MODID + ":" + name);
+            }
+        }
         if (item instanceof IMetaItem item2) {
             if (item2.registerModItem()) {
                 String[] elements = item2.getElements();
@@ -811,7 +816,8 @@ public class Registry {
                 }
             }
         } else {
-            ItemUtils.registerModItem(name, new ItemStack(item, 1, 0));
+            ItemStack stack = new ItemStack(item, 1, 0);
+            ItemUtils.registerModItem(name, stack);
         }
     }
 

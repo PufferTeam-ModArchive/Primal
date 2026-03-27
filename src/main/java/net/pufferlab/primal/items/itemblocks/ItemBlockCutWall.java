@@ -9,9 +9,10 @@ import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.BlockCutWall;
 import net.pufferlab.primal.items.IMetaItem;
+import net.pufferlab.primal.items.IPrimalItem;
 import net.pufferlab.primal.utils.CutUtils;
 
-public class ItemBlockCutWall extends ItemBlock implements IMetaItem {
+public class ItemBlockCutWall extends ItemBlock implements IMetaItem, IPrimalItem {
 
     public ItemBlockCutWall(Block block) {
         super(block);

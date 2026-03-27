@@ -9,10 +9,11 @@ import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.BlockCutSlabVertical;
 import net.pufferlab.primal.items.IMetaItem;
+import net.pufferlab.primal.items.IPrimalItem;
 import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.CutUtils;
 
-public class ItemBlockCutSlabVertical extends ItemBlock implements IMetaItem {
+public class ItemBlockCutSlabVertical extends ItemBlock implements IMetaItem, IPrimalItem {
 
     private final boolean isFull;
     private final BlockCutSlabVertical slabBlock;
@@ -30,6 +31,11 @@ public class ItemBlockCutSlabVertical extends ItemBlock implements IMetaItem {
         blockFullSlab.fullBlock = fullBlock;
         this.setHasSubtypes(true);
         this.setMaxDamage(0);
+    }
+
+    @Override
+    public boolean hideItem() {
+        return isFull;
     }
 
     @Override

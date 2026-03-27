@@ -10,7 +10,7 @@ import net.pufferlab.primal.utils.Utils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemHoePrimitive extends ItemHoe {
+public class ItemHoePrimitive extends ItemHoe implements IPrimalItem {
 
     String toolName;
     ToolMaterial toolMaterial;

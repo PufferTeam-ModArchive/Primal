@@ -11,7 +11,7 @@ import net.pufferlab.primal.utils.Utils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemHammerPrimitive extends Item {
+public class ItemHammerPrimitive extends Item implements IPrimalItem {
 
     String toolName;
     ToolMaterial toolMaterial;

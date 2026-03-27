@@ -34,6 +34,7 @@ public class ItemUtils {
     private static final Map<String, FluidStack> fluidCache = new HashMap<>();
     private static final Map<String, ItemStack> modItemCache = new HashMap<>();
     private static final Map<String, ItemStack> oreDictCache = new HashMap<>();
+    private static final List<String> itemHideFilter = new ArrayList<>();
     public static Map<String, String> metalTypes = new HashMap<>();
     private static List<String> modItemNames;
     private static Map<String, Integer> priorityMap;
@@ -106,6 +107,14 @@ public class ItemUtils {
 
     public static void registerModOreDict(String name, ItemStack stack) {
         oreDictCache.put(name, stack);
+    }
+
+    public static void registerItemHideFilter(String string) {
+        itemHideFilter.add(string);
+    }
+
+    public static List<String> getItemHideFilter() {
+        return itemHideFilter;
     }
 
     public static Set<Map.Entry<String, ItemStack>> getOreDictCache() {
@@ -378,7 +387,7 @@ public class ItemUtils {
     }
 
     public static ItemStack[] getItemStackListFromNBT(NBTTagCompound compound) {
-        NBTTagList tagList = compound.getTagList("Items", 10);
+        NBTTagList tagList = compound.getTagList("Items", Constants.tagCompound);
         ItemStack[] inventory = new ItemStack[tagList.tagCount()];
         for (int i = 0; i < tagList.tagCount(); i++) {
             NBTTagCompound tag = tagList.getCompoundTagAt(i);

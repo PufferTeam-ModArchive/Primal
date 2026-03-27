@@ -10,8 +10,9 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.BlockBarrel;
 import net.pufferlab.primal.blocks.BlockContainerPrimal;
 import net.pufferlab.primal.blocks.BlockLargeVessel;
+import net.pufferlab.primal.items.IPrimalItem;
 
-public class ItemBlockPrimal extends ItemBlock {
+public class ItemBlockPrimal extends ItemBlock implements IPrimalItem {
 
     public ItemBlockPrimal(Block block) {
         super(block);

@@ -14,7 +14,7 @@ import net.pufferlab.primal.utils.Utils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemMeta extends Item implements IMetaItem {
+public class ItemMeta extends Item implements IMetaItem, IPrimalItem {
 
     private String[] elements;
     private String[] elementsBlacklist;
@@ -23,6 +23,7 @@ public class ItemMeta extends Item implements IMetaItem {
     private String name;
     private boolean hasSuffix;
     private boolean registerOre;
+    private boolean hideAll;
 
     public ItemMeta(String[] materials, String type) {
         elements = materials;
@@ -49,8 +50,13 @@ public class ItemMeta extends Item implements IMetaItem {
 
     public ItemMeta setHiddenAll() {
         this.elementsHidden = elements;
-        this.hasSubtypes = false;
+        this.hideAll = true;
         return this;
+    }
+
+    @Override
+    public boolean hideItem() {
+        return hideAll;
     }
 
     public ItemMeta setHasSuffix() {

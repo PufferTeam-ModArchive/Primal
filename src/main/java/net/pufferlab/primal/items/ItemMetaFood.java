@@ -20,7 +20,7 @@ import net.pufferlab.primal.utils.Utils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemMetaFood extends ItemFood implements IMetaItem {
+public class ItemMetaFood extends ItemFood implements IMetaItem, IPrimalItem {
 
     protected FoodType[] elements;
     protected String[] elementsNames;

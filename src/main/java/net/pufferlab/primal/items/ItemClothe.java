@@ -9,7 +9,7 @@ import net.minecraft.util.IIcon;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.compat.baubles.IBaubleItem;
 
-public class ItemClothe extends Item implements IBaubleItem {
+public class ItemClothe extends Item implements IBaubleItem, IPrimalItem {
 
     public String[] baubleType;
     public String baubleTypeName;

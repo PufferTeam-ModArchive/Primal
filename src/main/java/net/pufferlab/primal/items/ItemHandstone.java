@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.pufferlab.primal.Primal;
 
-public class ItemHandstone extends Item {
+public class ItemHandstone extends Item implements IPrimalItem {
 
     public ItemHandstone() {
         this.setMaxStackSize(1);

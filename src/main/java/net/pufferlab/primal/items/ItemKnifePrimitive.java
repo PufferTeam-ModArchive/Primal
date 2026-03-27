@@ -12,7 +12,7 @@ import net.pufferlab.primal.utils.Utils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemKnifePrimitive extends ItemSword {
+public class ItemKnifePrimitive extends ItemSword implements IPrimalItem {
 
     String toolName;
     protected ToolMaterial toolMaterial;

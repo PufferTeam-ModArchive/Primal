@@ -15,7 +15,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
 
-public class ItemArmorPrimitive extends ItemArmor {
+public class ItemArmorPrimitive extends ItemArmor implements IPrimalItem {
 
     String armorName;
     ArmorMaterial armorMaterial;
