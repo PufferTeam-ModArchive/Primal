@@ -1,7 +1,6 @@
 package net.pufferlab.primal.recipes;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;

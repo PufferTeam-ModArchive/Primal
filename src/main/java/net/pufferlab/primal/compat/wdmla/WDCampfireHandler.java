@@ -5,8 +5,6 @@ import static net.pufferlab.primal.tileentities.TileEntityCampfire.slotItem2;
 import static net.pufferlab.primal.tileentities.TileEntityCampfire.slotItem3;
 import static net.pufferlab.primal.tileentities.TileEntityCampfire.slotItem4;
 
-import java.util.Collections;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -15,6 +13,7 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.recipes.CampfireRecipe;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
 import net.pufferlab.primal.utils.RecipeUtils;
+import net.pufferlab.primal.utils.Utils;
 
 import com.gtnewhorizons.wdmla.api.accessor.BlockAccessor;
 import com.gtnewhorizons.wdmla.api.provider.IBlockComponentProvider;
@@ -22,7 +21,6 @@ import com.gtnewhorizons.wdmla.api.provider.IServerDataProvider;
 import com.gtnewhorizons.wdmla.api.ui.IComponent;
 import com.gtnewhorizons.wdmla.api.ui.ITooltip;
 import com.gtnewhorizons.wdmla.impl.ui.ThemeHelper;
-import net.pufferlab.primal.utils.Utils;
 
 public class WDCampfireHandler implements IBlockComponentProvider, IServerDataProvider<BlockAccessor> {
 

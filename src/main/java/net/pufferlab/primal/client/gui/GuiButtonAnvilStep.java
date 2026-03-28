@@ -1,7 +1,5 @@
 package net.pufferlab.primal.client.gui;
 
-import java.util.Collections;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
 import net.pufferlab.primal.recipes.AnvilAction;

@@ -1,7 +1,6 @@
 package net.pufferlab.primal.compat.wdmla;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.tileentity.TileEntity;
@@ -10,6 +9,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.utils.Utils;
 
 import com.gtnewhorizons.wdmla.api.accessor.Accessor;
 import com.gtnewhorizons.wdmla.api.provider.IClientExtensionProvider;
@@ -18,7 +18,6 @@ import com.gtnewhorizons.wdmla.api.ui.MessageType;
 import com.gtnewhorizons.wdmla.api.view.ClientViewGroup;
 import com.gtnewhorizons.wdmla.api.view.FluidView;
 import com.gtnewhorizons.wdmla.api.view.ViewGroup;
-import net.pufferlab.primal.utils.Utils;
 
 public class WDFluidHandler
     implements IServerExtensionProvider<FluidView.Data>, IClientExtensionProvider<FluidView.Data, FluidView> {
@@ -52,8 +51,7 @@ public class WDFluidHandler
     }
 
     public ViewGroup<FluidView.Data> getFluidTank(FluidTankInfo info) {
-        ViewGroup<FluidView.Data> data = new ViewGroup<>(
-            Utils.asList(new FluidView.Data(info.fluid, info.capacity)));
+        ViewGroup<FluidView.Data> data = new ViewGroup<>(Utils.asList(new FluidView.Data(info.fluid, info.capacity)));
         return data;
     }
 

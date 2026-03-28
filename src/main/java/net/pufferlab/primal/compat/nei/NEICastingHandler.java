@@ -4,7 +4,6 @@ import static codechicken.lib.gui.GuiDraw.changeTexture;
 import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
 
 import java.awt.*;
-import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;

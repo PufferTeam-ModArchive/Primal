@@ -1,12 +1,10 @@
 package net.pufferlab.primal.client.gui;
 
-import java.util.Collections;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
 import net.pufferlab.primal.recipes.AnvilAction;
-
 import net.pufferlab.primal.utils.Utils;
+
 import org.lwjgl.opengl.GL11;
 
 public class GuiButtonAnvil extends GuiButtonPrimal {

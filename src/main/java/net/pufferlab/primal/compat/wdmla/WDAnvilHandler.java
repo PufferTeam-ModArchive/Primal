@@ -2,7 +2,6 @@ package net.pufferlab.primal.compat.wdmla;
 
 import static net.pufferlab.primal.tileentities.TileEntityAnvil.*;
 
-import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
