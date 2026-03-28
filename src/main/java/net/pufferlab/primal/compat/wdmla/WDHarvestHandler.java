@@ -61,10 +61,8 @@ public class WDHarvestHandler implements HarvestHandler {
     public boolean testHarvest(HarvestabilityInfo info, HarvestabilityTestPhase phase, EntityPlayer player, Block block,
         int meta, MovingObjectPosition position) {
         if (phase == HarvestabilityTestPhase.CURRENTLY_HARVESTABLE) {
-            if (player.getHeldItem() != null) {
-                if (BlockUtils.isLogBlock(block) && !ItemUtils.isAxeTool(player.getHeldItem())) {
-                    info.setCurrentlyHarvestable(false);
-                }
+            if (BlockUtils.isLogBlock(block) && !ItemUtils.isAxeTool(player.getHeldItem())) {
+                info.setCurrentlyHarvestable(false);
             }
         }
         if (phase == HarvestabilityTestPhase.EFFECTIVE_TOOL_NAME) {

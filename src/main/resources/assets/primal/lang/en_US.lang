@@ -316,6 +316,16 @@ item.primal.rye_seed.name=Rye Seeds
 item.primal.rye_dough.name=Rye Dough
 item.primal.rye_flour.name=Rye Flour
 item.primal.rye_bread.name=Rye Bread
+item.primal.flax.name=Flax
+item.primal.flax_seed.name=Flax Seeds
+item.primal.jute.name=Jute
+item.primal.jute_seed.name=Jute Seeds
+item.primal.garlic.name=Garlic
+item.primal.garlic_seed.name=Garlic Seeds
+item.primal.cotton.name=Cotton
+item.primal.cotton_seed.name=Cotton Seeds
+item.primal.sugarcane.name=Sugar Canes
+item.primal.sugarcane_seed.name=Sugar Canes Seeds
 
 commands.primal.give.usage=/primal give [player] [primal item] <number>
 

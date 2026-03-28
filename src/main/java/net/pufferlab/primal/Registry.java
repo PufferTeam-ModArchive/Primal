@@ -85,8 +85,13 @@ public class Registry {
     public static final Block cabbages;
     public static final Block carrots;
     public static final Block potatoes;
+    public static final Block garlic;
     public static final Block onion;
     public static final Block corn;
+    public static final Block flax;
+    public static final Block jute;
+    public static final Block cotton;
+    public static final Block sugar_canes;
     public static final Block block;
     public static final Block anvil;
     public static final Block rope_ladder;
@@ -256,8 +261,13 @@ public class Registry {
         cabbages = new BlockCropsPrimal(Constants.cabbages_crop);
         carrots = new BlockCropsPrimal(Constants.carrots_crop);
         potatoes = new BlockCropsPrimal(Constants.potatoes_crop);
+        garlic = new BlockCropsPrimal(Constants.garlic_crop);
         corn = new BlockCropsPrimal(Constants.corn_crop);
         onion = new BlockCropsPrimal(Constants.onion_crop);
+        flax = new BlockCropsPrimal(Constants.flax_crop);
+        jute = new BlockCropsPrimal(Constants.jute_crop);
+        cotton = new BlockCropsPrimal(Constants.cotton_crop);
+        sugar_canes = new BlockCropsPrimal(Constants.sugar_canes_crop);
 
         ground_rock = new BlockStoneGround(Constants.stoneTypes, "ground_rock");
         ground_ore = new BlockStoneGroundOre(Constants.oreTypes, "ground_ore");
@@ -438,8 +448,13 @@ public class Registry {
         register(cabbages, "cabbages");
         register(carrots, "carrots");
         register(potatoes, "potatoes");
+        register(garlic, "garlic");
         register(corn, "corn");
         register(onion, "onion");
+        register(flax, "flax");
+        register(jute, "jute");
+        register(cotton, "cotton");
+        register(sugar_canes, "sugar_canes");
 
         register(ground_rock, "ground_rock");
         register(ground_ore, "ground_ore");

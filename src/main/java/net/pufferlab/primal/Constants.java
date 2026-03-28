@@ -176,11 +176,16 @@ public class Constants {
     public static final FoodType cabbage = new FoodType("cabbage", 2, 0.6F);
     public static final FoodType carrot = new FoodType("carrot", 2, 0.6F);
     public static final FoodType potato = new FoodType("potato", 2, 0.6F);
+    public static final FoodType garlic = new FoodType("garlic", 2, 0.6F);
     public static final FoodType corn = new FoodType("corn", 2, 0.6F);
     public static final FoodType wheat = new FoodType("wheat");
     public static final FoodType oat = new FoodType("oat");
     public static final FoodType barley = new FoodType("barley");
     public static final FoodType rye = new FoodType("rye");
+    public static final FoodType flax = new FoodType("flax");
+    public static final FoodType jute = new FoodType("jute");
+    public static final FoodType cotton = new FoodType("cotton");
+    public static final FoodType sugar_cane = new FoodType("sugarcane");
     public static final FoodType wheat_flour = new FoodType("wheat_flour", 1, 0.5F, false, null, effectHunger, 20, 1.0F);
     public static final FoodType oat_flour = new FoodType("oat_flour", 1, 0.5F, false, null, effectHunger, 20, 1.0F);
     public static final FoodType barley_flour = new FoodType("barley_flour", 1, 0.5F, false, null, effectHunger, 20, 1.0F);
@@ -201,12 +206,17 @@ public class Constants {
     public static final CropType cabbages_crop = new CropType(cabbage, "cabbages", 6, 1, 3, crossedModel);
     public static final CropType carrots_crop = new CropType(carrot, "carrots", 5, 1, 3, cropModel).hasNoCropItem();
     public static final CropType potatoes_crop = new CropType(potato, "potatoes", 7, 1, 3, cropModel).hasNoCropItem();
+    public static final CropType garlic_crop = new CropType(garlic, "garlic", 5, 1, 3, crossedModel);
     public static final CropType corn_crop = new CropType(corn, "corn", 5, 1, 3, cropModel32);
     public static final CropType wheat_crop = new CropType(wheat, "wheat", 8, 1, 3, cropModel).hasNoCropFood().hasNoCropItem().hasNoSeedItem();
     public static final CropType oat_crop = new CropType(oat, "oat", 8, 1, 3, cropModel).hasNoCropFood();
     public static final CropType barley_crop = new CropType(barley, "barley", 8, 1, 3, cropModel).hasNoCropFood();
     public static final CropType rye_crop = new CropType(rye, "rye", 8, 1, 3, cropModel).hasNoCropFood();
-    public static final CropType[] crops = {wheat_crop, oat_crop, barley_crop, rye_crop, onion_crop, tomatoes_crop, cabbages_crop, carrots_crop, potatoes_crop, corn_crop};
+    public static final CropType flax_crop = new CropType(flax, "flax", 6, 1, 3, cropModel32).hasNoCropFood();
+    public static final CropType jute_crop = new CropType(jute, "jute", 6, 1, 3, cropModel32).hasNoCropFood();
+    public static final CropType cotton_crop = new CropType(cotton, "cotton", 6, 1, 3, crossedModel32).hasNoCropFood();
+    public static final CropType sugar_canes_crop = new CropType(sugar_cane, "sugarcanes", 8, 1, 3, crossedModel32).hasNoCropFood();
+    public static final CropType[] crops = {wheat_crop, oat_crop, barley_crop, rye_crop, flax_crop, jute_crop, cotton_crop, sugar_canes_crop, onion_crop, tomatoes_crop, cabbages_crop, carrots_crop, potatoes_crop, garlic_crop, corn_crop};
     public static final FoodType[] foodTypesAll = Utils.combineArrays(CropType.getFoodTypes(crops), flourItems, doughItems, breadItems);
 
     // Misc
