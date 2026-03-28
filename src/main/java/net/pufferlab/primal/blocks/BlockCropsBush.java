@@ -19,14 +19,14 @@ import net.pufferlab.primal.utils.Utils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockCropsPrimal extends BlockCrops implements IPrimalBlock {
+public class BlockCropsBush extends BlockCrops implements IPrimalBlock {
 
     public CropType cropType;
     public IIcon[] cropsIcons;
     public String name;
     int growStages;
 
-    public BlockCropsPrimal(CropType cropType) {
+    public BlockCropsBush(CropType cropType) {
         super();
         this.cropType = cropType;
         this.cropType.cropBlock = this;

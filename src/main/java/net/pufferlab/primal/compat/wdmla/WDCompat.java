@@ -22,6 +22,7 @@ public class WDCompat implements IWDMlaPlugin {
     public static final WDLargeVesselHandler largeVesselHandler = new WDLargeVesselHandler();
     public static final WDHarvestHandler harvestHandler = new WDHarvestHandler();
     public static final WDCropHandler cropHandler = new WDCropHandler();
+    public static final WDFarmlandHandler farmlandHandler = new WDFarmlandHandler();
 
     @Override
     public void register(IWDMlaCommonRegistration registration) {
@@ -52,7 +53,8 @@ public class WDCompat implements IWDMlaPlugin {
         registration.registerBlockComponent(anvilHandler, BlockMetalAnvil.class);
         registration.registerBlockComponent(pitKilnHandler, BlockPitKiln.class);
         registration.registerBlockComponent(largeVesselHandler, BlockLargeVessel.class);
-        registration.registerBlockComponent(cropHandler, BlockCropsPrimal.class);
+        registration.registerBlockComponent(cropHandler, BlockCropsBush.class);
+        registration.registerBlockComponent(farmlandHandler, BlockSoilFarmland.class);
         registration.registerFluidStorageClient(fluidHandler);
     }
 

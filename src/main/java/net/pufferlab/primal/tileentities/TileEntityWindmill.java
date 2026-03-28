@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 import net.pufferlab.primal.Config;
 
 public class TileEntityWindmill extends TileEntityMotion {
@@ -13,15 +14,22 @@ public class TileEntityWindmill extends TileEntityMotion {
     public static int windRange = Config.windmillRange.getDefaultInt();
 
     public float generatedSpeed;
-    public boolean needsWindUpdate;
     int timePassed;
 
     public TileEntityWindmill() {
-        this.scheduleWindUpdate();
-
         defaultSpeed = Config.windmillDefaultSpeed.getFloat();
         idealHeight = Config.windmillIdealHeight.getInt();
         windRange = Config.windmillRange.getInt();
+    }
+
+    @Override
+    public void init() {
+        addSchedule(10, updateWind);
+    }
+
+    @Override
+    public boolean canUpdate() {
+        return false;
     }
 
     @Override
@@ -29,7 +37,6 @@ public class TileEntityWindmill extends TileEntityMotion {
         super.readFromNBT(tag);
 
         this.generatedSpeed = tag.getFloat("generatedSpeed");
-        this.needsWindUpdate = tag.getBoolean("needsWindUpdate");
         this.timePassed = tag.getInteger("timePassed");
     }
 
@@ -38,7 +45,6 @@ public class TileEntityWindmill extends TileEntityMotion {
         super.writeToNBT(tag);
 
         tag.setFloat("generatedSpeed", this.generatedSpeed);
-        tag.setBoolean("needsWindUpdate", this.needsWindUpdate);
         tag.setInteger("timePassed", this.timePassed);
     }
 
@@ -57,17 +63,10 @@ public class TileEntityWindmill extends TileEntityMotion {
     }
 
     @Override
-    public void updateEntity() {
-        super.updateEntity();
+    public void onSchedule(World world, int x, int y, int z, int type, int id) {
+        super.onSchedule(world, x, y, z, type, id);
 
-        this.timePassed++;
-        if (this.timePassed > 20) {
-            this.timePassed = 0;
-            this.scheduleWindUpdate();
-        }
-
-        if (this.needsWindUpdate) {
-            this.needsWindUpdate = false;
+        if (type == updateWind) {
             float newSpeed = getSpeedFromWind();
             if (this.generatedSpeed != newSpeed) {
                 this.generatedSpeed = newSpeed;
@@ -75,6 +74,7 @@ public class TileEntityWindmill extends TileEntityMotion {
                 this.updateTEState();
                 this.scheduleUpdate();
             }
+            addSchedule(300, updateWind);
         }
     }
 
@@ -135,7 +135,7 @@ public class TileEntityWindmill extends TileEntityMotion {
     }
 
     public void scheduleWindUpdate() {
-        this.needsWindUpdate = true;
+        addSchedule(0, updateWind);
     }
 
     @Override

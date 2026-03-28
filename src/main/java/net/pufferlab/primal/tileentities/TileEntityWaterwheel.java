@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.utils.BlockUtils;
@@ -15,7 +16,6 @@ public class TileEntityWaterwheel extends TileEntityMotion {
     public int baseXCoord;
     public int baseYCoord;
     public int baseZCoord;
-    public boolean needsFlowUpdate;
     public float generatedSpeed;
 
     public TileEntityWaterwheel() {
@@ -30,7 +30,6 @@ public class TileEntityWaterwheel extends TileEntityMotion {
         this.baseXCoord = tag.getInteger("baseX");
         this.baseYCoord = tag.getInteger("baseY");
         this.baseZCoord = tag.getInteger("baseZ");
-        this.needsFlowUpdate = tag.getBoolean("needsFlowUpdate");
         this.generatedSpeed = tag.getFloat("generatedSpeed");
     }
 
@@ -42,7 +41,6 @@ public class TileEntityWaterwheel extends TileEntityMotion {
         tag.setInteger("baseX", this.baseXCoord);
         tag.setInteger("baseY", this.baseYCoord);
         tag.setInteger("baseZ", this.baseZCoord);
-        tag.setBoolean("needsFlowUpdate", this.needsFlowUpdate);
         tag.setFloat("generatedSpeed", this.generatedSpeed);
     }
 
@@ -69,11 +67,10 @@ public class TileEntityWaterwheel extends TileEntityMotion {
     }
 
     @Override
-    public void updateEntity() {
-        super.updateEntity();
+    public void onSchedule(World world, int x, int y, int z, int type, int id) {
+        super.onSchedule(world, x, y, z, type, id);
 
-        if (this.needsFlowUpdate) {
-            this.needsFlowUpdate = false;
+        if (type == updateFlow) {
             float newSpeed = getSpeedFromFlow();
             if (this.generatedSpeed != newSpeed) {
                 this.generatedSpeed = newSpeed;
@@ -132,6 +129,11 @@ public class TileEntityWaterwheel extends TileEntityMotion {
         return totalSpeed;
     }
 
+    @Override
+    public boolean canUpdate() {
+        return false;
+    }
+
     public boolean hasLiquid(ForgeDirection facing) {
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
             if (BlockUtils.getAxis(direction.ordinal()) != axisMeta
@@ -150,6 +152,6 @@ public class TileEntityWaterwheel extends TileEntityMotion {
     }
 
     public void scheduleFlowUpdate() {
-        this.needsFlowUpdate = true;
+        addSchedule(0, updateFlow);
     }
 }

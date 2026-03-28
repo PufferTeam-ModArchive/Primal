@@ -1,23 +1,43 @@
 package net.pufferlab.primal.tileentities;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.network.NetworkMotion;
 import net.pufferlab.primal.utils.BlockUtils;
+import net.pufferlab.primal.world.ScheduleManager;
 
-public abstract class TileEntityMotionInventory extends TileEntityInventory implements IMotion {
+public abstract class TileEntityMotionInventory extends TileEntityInventory implements IMotion, IScheduledTile {
 
     float torque;
     float speed;
     float speedModifier = 1;
-    boolean needsUpdate;
-    boolean needsSpreadUpdate;
-    boolean needsRemovalUpdate;
     boolean hasOffset;
+
+    public static int updateNetwork = -1;
+    public static int updateNetworkSpread = -2;
+    public static int updateRemoval = -3;
+    public static int updateGenerator = -4;
+    public static int updateGeneratorLate = -5;
+    public static int updateFlow = -6;
+    public static int updateWind = -7;
+
+    public ScheduleManager manager = new ScheduleManager(
+        updateNetwork,
+        updateNetworkSpread,
+        updateRemoval,
+        updateGenerator,
+        updateGeneratorLate,
+        updateFlow,
+        updateWind);
 
     public TileEntityMotionInventory(int slots) {
         super(slots);
+    }
+
+    public ScheduleManager getManager() {
+        return manager;
     }
 
     @Override
@@ -27,9 +47,6 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
         this.torque = tag.getFloat("torque");
         this.speed = tag.getFloat("speed");
         this.speedModifier = tag.getFloat("speedModifier");
-        this.needsUpdate = tag.getBoolean("needsUpdate");
-        this.needsSpreadUpdate = tag.getBoolean("needsSpreadUpdate");
-        this.needsRemovalUpdate = tag.getBoolean("needsRemovalUpdate");
         this.hasOffset = tag.getBoolean("hasOffset");
     }
 
@@ -40,9 +57,6 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
         tag.setFloat("torque", this.torque);
         tag.setFloat("speed", this.speed);
         tag.setFloat("speedModifier", this.speedModifier);
-        tag.setBoolean("needsUpdate", this.needsUpdate);
-        tag.setBoolean("needsSpreadUpdate", this.needsSpreadUpdate);
-        tag.setBoolean("needsRemovalUpdate", this.needsRemovalUpdate);
         tag.setBoolean("hasOffset", this.hasOffset);
     }
 
@@ -63,17 +77,17 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
     }
 
     @Override
-    public void updateEntity() {
-        if (this.needsRemovalUpdate) {
-            this.worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
-        }
-        if (this.needsUpdate) {
-            this.needsUpdate = false;
+    public void onSchedule(World world, int x, int y, int z, int type, int id) {
+        IScheduledTile.super.onSchedule(world, x, y, z, type, id);
+
+        if (type == updateNetwork) {
             NetworkMotion.sendUpdate(this);
         }
-        if (this.needsSpreadUpdate) {
-            this.needsSpreadUpdate = false;
+        if (type == updateNetworkSpread) {
             NetworkMotion.sendSpreadUpdate(this);
+        }
+        if (type == updateRemoval) {
+            this.worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
         }
     }
 
@@ -104,7 +118,7 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
 
     @Override
     public void scheduleUpdate() {
-        this.needsUpdate = true;
+        addSchedule(0, updateNetwork);
     }
 
     @Override
@@ -114,12 +128,12 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
 
     @Override
     public void scheduleSpreadUpdate() {
-        this.needsSpreadUpdate = true;
+        addSchedule(0, updateNetworkSpread);
     }
 
     @Override
     public void scheduleRemoval() {
-        this.needsRemovalUpdate = true;
+        addSchedule(0, updateRemoval);
     }
 
     @Override

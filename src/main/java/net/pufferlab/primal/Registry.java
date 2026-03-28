@@ -90,6 +90,9 @@ public class Registry {
     public static final Block corn;
     public static final Block flax;
     public static final Block jute;
+    public static final Block blueberry;
+    public static final Block strawberry;
+    public static final Block blackberry;
     public static final Block cotton;
     public static final Block sugar_canes;
     public static final Block block;
@@ -129,6 +132,7 @@ public class Registry {
     public static final Item wood;
     public static final Item glowstone;
     public static final Item bark;
+    public static final Item berry;
     public static final Item seed;
     public static final Item crop;
     public static final Item crop_food;
@@ -253,21 +257,25 @@ public class Registry {
             tc_entropy_ore = null;
         }
 
-        wheat = new BlockCropsPrimal(Constants.wheat_crop);
-        oat = new BlockCropsPrimal(Constants.oat_crop);
-        barley = new BlockCropsPrimal(Constants.barley_crop);
-        rye = new BlockCropsPrimal(Constants.rye_crop);
-        tomatoes = new BlockCropsPrimal(Constants.tomatoes_crop);
-        cabbages = new BlockCropsPrimal(Constants.cabbages_crop);
-        carrots = new BlockCropsPrimal(Constants.carrots_crop);
-        potatoes = new BlockCropsPrimal(Constants.potatoes_crop);
-        garlic = new BlockCropsPrimal(Constants.garlic_crop);
-        corn = new BlockCropsPrimal(Constants.corn_crop);
-        onion = new BlockCropsPrimal(Constants.onion_crop);
-        flax = new BlockCropsPrimal(Constants.flax_crop);
-        jute = new BlockCropsPrimal(Constants.jute_crop);
-        cotton = new BlockCropsPrimal(Constants.cotton_crop);
-        sugar_canes = new BlockCropsPrimal(Constants.sugar_canes_crop);
+        wheat = new BlockCropsBush(Constants.wheat_crop);
+        oat = new BlockCropsBush(Constants.oat_crop);
+        barley = new BlockCropsBush(Constants.barley_crop);
+        rye = new BlockCropsBush(Constants.rye_crop);
+        tomatoes = new BlockCropsBush(Constants.tomatoes_crop);
+        cabbages = new BlockCropsBush(Constants.cabbages_crop);
+        carrots = new BlockCropsBush(Constants.carrots_crop);
+        potatoes = new BlockCropsBush(Constants.potatoes_crop);
+        garlic = new BlockCropsBush(Constants.garlic_crop);
+        corn = new BlockCropsBush(Constants.corn_crop);
+        onion = new BlockCropsBush(Constants.onion_crop);
+        flax = new BlockCropsBush(Constants.flax_crop);
+        jute = new BlockCropsBush(Constants.jute_crop);
+        cotton = new BlockCropsBush(Constants.cotton_crop);
+        sugar_canes = new BlockCropsBush(Constants.sugar_canes_crop);
+
+        blueberry = new BlockBerryBush(Constants.blueberry_crop);
+        strawberry = new BlockBerryBush(Constants.strawberry_crop);
+        blackberry = new BlockBerryBush(Constants.blackberry_crop);
 
         ground_rock = new BlockStoneGround(Constants.stoneTypes, "ground_rock");
         ground_ore = new BlockStoneGroundOre(Constants.oreTypes, "ground_ore");
@@ -330,6 +338,7 @@ public class Registry {
         ingot = new ItemMetal(Constants.metalTypes, "ingot").setBlacklist(Constants.ingotBlacklist);
         nugget = new ItemMetal(Constants.metalTypes, "nugget").setBlacklist(Constants.nuggetBlacklist);
 
+        berry = new ItemBerryFood(Constants.berries, "berry");
         crop = new ItemCrops(Constants.crops, "crop");
         crop_food = new ItemCropsFood(Constants.crops, "crop_food");
         seed = new ItemCropsSeed(Constants.crops, "seed");
@@ -455,6 +464,9 @@ public class Registry {
         register(jute, "jute");
         register(cotton, "cotton");
         register(sugar_canes, "sugar_canes");
+        register(blueberry, "blueberry");
+        register(strawberry, "strawberry");
+        register(blackberry, "blackberry");
 
         register(ground_rock, "ground_rock");
         register(ground_ore, "ground_ore");
@@ -496,6 +508,7 @@ public class Registry {
         register(wood, "wood");
         register(glowstone, "glowstone");
         register(bark, "bark");
+        register(berry, "berry");
         register(crop, "crop");
         register(crop_food, "crop_food");
         register(seed, "seed");
@@ -590,6 +603,7 @@ public class Registry {
         register(TileEntityWindmill.class, "windmill");
         register(TileEntityAnvil.class, "anvil");
         register(TileEntityBloomery.class, "bloomery");
+        register(TileEntityFarmland.class, "farmland");
         register(TileEntityCut.class, "cut_block");
         register(TileEntityCutDouble.class, "double_cut_block");
     }

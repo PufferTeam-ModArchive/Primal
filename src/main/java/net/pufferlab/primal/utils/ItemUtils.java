@@ -10,7 +10,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.RegistryNamespaced;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -28,8 +27,6 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class ItemUtils {
 
     public static final Map<Integer, ItemStack> cacheIS = new HashMap<>();
-    public static final ForgeDirection[] sideDirections = new ForgeDirection[] { ForgeDirection.WEST,
-        ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.NORTH, ForgeDirection.DOWN };
     private static final Map<String, ItemStack> itemCache = new HashMap<>();
     private static final Map<String, FluidStack> fluidCache = new HashMap<>();
     private static final Map<String, ItemStack> modItemCache = new HashMap<>();

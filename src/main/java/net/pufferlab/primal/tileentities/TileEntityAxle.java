@@ -94,6 +94,11 @@ public class TileEntityAxle extends TileEntityMotion {
     }
 
     @Override
+    public boolean canUpdate() {
+        return false;
+    }
+
+    @Override
     public boolean hasGear(int side) {
         if (BlockUtils.isSidePositive(side)) {
             if (hasGearPos) {

@@ -143,6 +143,8 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
         return false;
     }
 
+    public void init() {}
+
     @Override
     public void invalidate() {
         super.invalidate();

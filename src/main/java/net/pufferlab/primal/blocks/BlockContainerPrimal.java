@@ -19,6 +19,7 @@ import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.items.itemblocks.ItemBlockPrimal;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
+import net.pufferlab.primal.tileentities.TileEntityPrimal;
 import net.pufferlab.primal.utils.BlockUtils;
 
 public abstract class BlockContainerPrimal extends BlockContainer implements IPrimalBlock {
@@ -52,6 +53,15 @@ public abstract class BlockContainerPrimal extends BlockContainer implements IPr
         if (te instanceof TileEntityMetaFacing tef) {
             tef.setFacingMeta(metayaw);
             tef.setAxisMeta(metaaxis);
+        }
+    }
+
+    @Override
+    public void onBlockPlacedBy(World worldIn, int x, int y, int z, EntityLivingBase placer, ItemStack itemIn) {
+        super.onBlockPlacedBy(worldIn, x, y, z, placer, itemIn);
+        TileEntity te = worldIn.getTileEntity(x, y, z);
+        if (te instanceof TileEntityPrimal tef) {
+            tef.init();
         }
     }
 

@@ -326,6 +326,14 @@ item.primal.cotton.name=Cotton
 item.primal.cotton_seed.name=Cotton Seeds
 item.primal.sugarcane.name=Sugar Canes
 item.primal.sugarcane_seed.name=Sugar Canes Seeds
+item.primal.blueberry.name=Blueberry
+item.primal.strawberry.name=Strawberry
+item.primal.blackberry.name=Blackberry
+
+hud.primal.info.moisture=Moisture
+hud.primal.info.potassium=Potassium (K)
+hud.primal.info.nitrogen=Nitrogen (N)
+hud.primal.info.phosphorus=Phosphorus (P)
 
 commands.primal.give.usage=/primal give [player] [primal item] <number>
 

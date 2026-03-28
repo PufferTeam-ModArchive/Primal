@@ -30,12 +30,14 @@ public class ScheduleManager {
 
     public void readFromNBT(NBTTagCompound tag) {
         for (UpdateTask task : tasks) {
+            if (task.id < 0) continue;
             UpdateTask.readFromNBT(tag, task);
         }
     }
 
     public void writeToNBT(NBTTagCompound tag) {
         for (UpdateTask task : tasks) {
+            if (task.id < 0) continue;
             UpdateTask.writeToNBT(tag, task);
         }
     }

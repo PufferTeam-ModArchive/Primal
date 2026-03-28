@@ -11,19 +11,21 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.utils.CropType;
 
-public class ItemCropsSeed extends ItemMeta implements IPlantable {
+public class ItemBerryFood extends ItemMetaFood implements IPlantable {
 
     public CropType[] cropType;
     public IIcon icon;
 
-    public ItemCropsSeed(CropType[] cropType, String name) {
-        super(CropType.getNames(cropType), name);
+    public ItemBerryFood(CropType[] cropType, String name) {
+        super(CropType.getFoodTypes(cropType), name);
         this.cropType = cropType;
         for (int i = 0; i < cropType.length; i++) {
-            cropType[i].setCropSeedItem(this, i);
+            if (cropType[i].hasCropFood) {
+                cropType[i].setCropItem(this, i);
+                cropType[i].setCropSeedItem(this, i);
+            }
         }
-        this.setBlacklist(CropType.getSeedsBlacklistNames(cropType));
-        this.setHasSuffix();
+        this.setBlacklist(CropType.getCropsFoodBlacklistNames(cropType));
     }
 
     @Override
@@ -48,7 +50,7 @@ public class ItemCropsSeed extends ItemMeta implements IPlantable {
 
     @Override
     public EnumPlantType getPlantType(IBlockAccess world, int x, int y, int z) {
-        return EnumPlantType.Crop;
+        return EnumPlantType.Plains;
     }
 
     @Override

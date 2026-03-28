@@ -171,6 +171,9 @@ public class Constants {
     public static final int crossedModel32 = 2;
     public static final int cropModel = 1;
     public static final int cropModel32 = 3;
+    public static final FoodType blueberry = new FoodType("blueberry", 1, 0.6F);
+    public static final FoodType strawberry = new FoodType("strawberry", 1, 0.6F);
+    public static final FoodType blackberry = new FoodType("blackberry", 1, 0.6F);
     public static final FoodType onion = new FoodType("onion", 2, 0.6F);
     public static final FoodType tomato = new FoodType("tomato", 2, 0.6F);
     public static final FoodType cabbage = new FoodType("cabbage", 2, 0.6F);
@@ -201,6 +204,9 @@ public class Constants {
     public static final FoodType[] flourItems       = {wheat_flour, oat_flour, barley_flour, rye_flour};
     public static final FoodType[] doughItems       = {wheat_dough, oat_dough, barley_dough, rye_dough };
     public static final FoodType[] breadItems       = {wheat_bread, oat_bread, barley_bread, rye_bread};
+    public static final CropType blueberry_crop = new CropType(blueberry, "blueberry", 2, 3, 6, crossedModel);
+    public static final CropType strawberry_crop = new CropType(strawberry, "strawberry", 2, 3, 6, crossedModel);
+    public static final CropType blackberry_crop = new CropType(blackberry, "blackberry", 2, 3, 6, crossedModel);
     public static final CropType onion_crop = new CropType(onion, "onion", 7, 1, 3, crossedModel);
     public static final CropType tomatoes_crop = new CropType(tomato, "tomatoes", 8, 1, 3, crossedModel32);
     public static final CropType cabbages_crop = new CropType(cabbage, "cabbages", 6, 1, 3, crossedModel);
@@ -217,7 +223,8 @@ public class Constants {
     public static final CropType cotton_crop = new CropType(cotton, "cotton", 6, 1, 3, crossedModel32).hasNoCropFood();
     public static final CropType sugar_canes_crop = new CropType(sugar_cane, "sugarcanes", 8, 1, 3, crossedModel32).hasNoCropFood();
     public static final CropType[] crops = {wheat_crop, oat_crop, barley_crop, rye_crop, flax_crop, jute_crop, cotton_crop, sugar_canes_crop, onion_crop, tomatoes_crop, cabbages_crop, carrots_crop, potatoes_crop, garlic_crop, corn_crop};
-    public static final FoodType[] foodTypesAll = Utils.combineArrays(CropType.getFoodTypes(crops), flourItems, doughItems, breadItems);
+    public static final CropType[] berries = {blueberry_crop, strawberry_crop, blackberry_crop};
+    public static final FoodType[] foodTypesAll = Utils.combineArrays(CropType.getFoodTypes(berries), CropType.getFoodTypes(crops), flourItems, doughItems, breadItems);
 
     // Misc
     public static final String[] chimneyTypes       = { "brick" };

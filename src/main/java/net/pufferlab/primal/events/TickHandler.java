@@ -23,6 +23,10 @@ public class TickHandler implements IEventHandler {
 
     @SubscribeEvent
     public void onTick(TickEvent.WorldTickEvent event) {
+        synchronizedTick(event);
+    }
+
+    synchronized void synchronizedTick(TickEvent.WorldTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             if (!event.world.isRemote) {
                 if (Primal.proxy.isOverworld(event.world)) {

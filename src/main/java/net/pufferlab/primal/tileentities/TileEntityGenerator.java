@@ -1,16 +1,17 @@
 package net.pufferlab.primal.tileentities;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 
 public class TileEntityGenerator extends TileEntityMotion {
 
     public float generatedSpeed;
-    public boolean needsGeneratorUpdate;
-    public boolean needsLateUpdate;
     public float newGeneratedSpeed;
-    public int timePassed;
 
-    public TileEntityGenerator() {
+    public TileEntityGenerator() {}
+
+    @Override
+    public void init() {
         this.scheduleGeneratorUpdate(10.0F);
     }
 
@@ -19,10 +20,7 @@ public class TileEntityGenerator extends TileEntityMotion {
         super.readFromNBT(tag);
 
         this.generatedSpeed = tag.getFloat("generatedSpeed");
-        this.needsGeneratorUpdate = tag.getBoolean("needsGeneratorUpdate");
-        this.needsLateUpdate = tag.getBoolean("needsLateUpdate");
         this.newGeneratedSpeed = tag.getFloat("newGeneratedSpeed");
-        this.timePassed = tag.getInteger("timePassed");
     }
 
     @Override
@@ -30,10 +28,7 @@ public class TileEntityGenerator extends TileEntityMotion {
         super.writeToNBT(tag);
 
         tag.setFloat("generatedSpeed", this.generatedSpeed);
-        tag.setBoolean("needsGeneratorUpdate", this.needsGeneratorUpdate);
-        tag.setBoolean("needsLateUpdate", this.needsLateUpdate);
         tag.setFloat("newGeneratedSpeed", this.newGeneratedSpeed);
-        tag.setInteger("timePassed", this.timePassed);
     }
 
     @Override
@@ -51,20 +46,18 @@ public class TileEntityGenerator extends TileEntityMotion {
     }
 
     @Override
-    public void updateEntity() {
-        super.updateEntity();
+    public boolean canUpdate() {
+        return false;
+    }
 
-        if (this.needsLateUpdate) {
-            this.timePassed++;
-        }
-        if (this.timePassed > 20) {
-            this.needsLateUpdate = false;
-            this.timePassed = 0;
+    @Override
+    public void onSchedule(World world, int x, int y, int z, int type, int id) {
+        super.onSchedule(world, x, y, z, type, id);
+
+        if (type == updateGeneratorLate) {
             this.scheduleUpdate();
         }
-
-        if (this.needsGeneratorUpdate) {
-            this.needsGeneratorUpdate = false;
+        if (type == updateGenerator) {
             this.generatedSpeed = this.newGeneratedSpeed;
             this.speed = this.newGeneratedSpeed;
             this.newGeneratedSpeed = 0.0F;
@@ -75,12 +68,12 @@ public class TileEntityGenerator extends TileEntityMotion {
     }
 
     public void scheduleGeneratorUpdate(float newSpeed) {
-        this.needsGeneratorUpdate = true;
+        addSchedule(0, updateGenerator);
         this.newGeneratedSpeed = newSpeed;
     }
 
     public void scheduleLateUpdate() {
-        this.needsLateUpdate = true;
+        addSchedule(20, updateGeneratorLate);
     }
 
     @Override

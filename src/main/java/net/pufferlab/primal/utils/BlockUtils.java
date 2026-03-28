@@ -16,6 +16,9 @@ import net.pufferlab.primal.blocks.*;
 
 public class BlockUtils {
 
+    public static final ForgeDirection[] sideDirections = new ForgeDirection[] { ForgeDirection.WEST,
+        ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.NORTH, ForgeDirection.DOWN };
+
     public static RegistryNamespaced getBlockRegistry() {
         return Block.blockRegistry;
     }
@@ -96,7 +99,7 @@ public class BlockUtils {
     }
 
     public static boolean hasSolidWalls(World world, int x, int y, int z) {
-        for (ForgeDirection dir : ItemUtils.sideDirections) {
+        for (ForgeDirection dir : sideDirections) {
             Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
             if (!block.isSideSolid(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir.getOpposite())) {
                 return false;
@@ -419,6 +422,12 @@ public class BlockUtils {
         if (block == null) return false;
         if (block instanceof BlockMetaGravel) return true;
         if (block == Blocks.gravel) return true;
+        return false;
+    }
+
+    public static boolean isWaterBlock(Block block) {
+        if (block == null) return false;
+        if (block == Blocks.flowing_water || block == Blocks.water) return true;
         return false;
     }
 
