@@ -2,15 +2,14 @@ package net.pufferlab.primal.tileentities;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.ScheduleManager;
+import net.pufferlab.primal.world.Tasks;
 
 public class TileEntityBloomery extends TileEntityInventory implements IHeatable, IScheduledTile {
 
-    public static int updateFuel = 0;
-    public ScheduleManager manager = new ScheduleManager(updateFuel);
+    public ScheduleManager manager = new ScheduleManager(Tasks.fuel);
 
     public int temperature;
 
@@ -39,14 +38,14 @@ public class TileEntityBloomery extends TileEntityInventory implements IHeatable
 
     @Override
     public void onSlotUpdate(int index) {
-        removeSchedule(updateFuel);
+        removeSchedule(Tasks.fuel);
     }
 
     @Override
-    public void onSchedule(World world, int x, int y, int z, int type, int id) {
-        IScheduledTile.super.onSchedule(world, x, y, z, type, id);
+    public void onScheduleTask(Tasks task) {
+        IScheduledTile.super.onScheduleTask(task);
 
-        if (type == updateFuel) {
+        if (task == Tasks.fuel) {
             updateFuel();
         }
     }
@@ -69,7 +68,7 @@ public class TileEntityBloomery extends TileEntityInventory implements IHeatable
         if (getMeta() == 0) {
             setFired(false);
         } else {
-            addSchedule(Config.campfireBurnTime.getInt(), updateFuel);
+            addSchedule(Config.campfireBurnTime.getInt(), Tasks.fuel);
         }
     }
 

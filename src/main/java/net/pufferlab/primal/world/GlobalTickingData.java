@@ -4,6 +4,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.network.packets.PacketWorldTime;
 
 public class GlobalTickingData extends WorldSavedData {
 
@@ -41,7 +42,12 @@ public class GlobalTickingData extends WorldSavedData {
     public static void tick() {
         GlobalTickingData data = GlobalTickingData.get();
         data.tickTime++;
+        tickClient(data.tickTime);
         data.markDirty();
+    }
+
+    public static void tickClient(long tickTime) {
+        Primal.proxy.sendPacketToClient(new PacketWorldTime(tickTime));
     }
 
     public static void add(int tick) {

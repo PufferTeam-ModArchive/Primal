@@ -11,10 +11,10 @@ public class ScheduleManager {
     public UpdateTask[] tasks;
     public TIntObjectMap<UpdateTask> tasksMap = new TIntObjectHashMap<>();
 
-    public ScheduleManager(int... tasksID) {
+    public ScheduleManager(Tasks... tasksID) {
         this.tasks = new UpdateTask[tasksID.length];
         for (int i = 0; i < tasksID.length; i++) {
-            tasks[i] = new UpdateTask(tasksID[i]);
+            tasks[i] = new UpdateTask(tasksID[i].ordinal());
         }
         for (UpdateTask task : tasks) {
             this.tasksMap.put(task.id, task);
@@ -67,8 +67,16 @@ public class ScheduleManager {
             .getNextUpdate();
     }
 
+    public long getNextUpdate(Tasks task) {
+        return getNextUpdate(task.ordinal());
+    }
+
     public int getTime(int type) {
         return tasksMap.get(type)
             .getTime();
+    }
+
+    public int getTime(Tasks task) {
+        return getTime(task.ordinal());
     }
 }

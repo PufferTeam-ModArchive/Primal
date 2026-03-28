@@ -6,6 +6,7 @@ import java.util.Random;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -126,6 +127,17 @@ public class BlockCropsBush extends BlockCrops implements IPrimalBlock {
         }
 
         p_149863_1_.setBlockMetadataWithNotify(p_149863_2_, p_149863_3_, p_149863_4_, l, 2);
+    }
+
+    @Override
+    public void onBlockPlacedBy(World worldIn, int x, int y, int z, EntityLivingBase placer, ItemStack itemIn) {
+        super.onBlockPlacedBy(worldIn, x, y, z, placer, itemIn);
+
+    }
+
+    @Override
+    public void onBlockPreDestroy(World worldIn, int x, int y, int z, int meta) {
+        super.onBlockPreDestroy(worldIn, x, y, z, meta);
     }
 
     @Override

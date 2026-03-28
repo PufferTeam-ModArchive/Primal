@@ -85,6 +85,8 @@ public class ToolHandler implements IEventHandler {
             if (BlockUtils.isGrassBlock(block) || BlockUtils.isDirtBlock(block)) {
                 BlockUtils.playSound(event.world, event.x, event.y, event.z, Blocks.farmland);
                 event.world.setBlock(event.x, event.y, event.z, Registry.farmland, meta, 2);
+                Block block2 = event.world.getBlock(event.x, event.y, event.z);
+                block2.onBlockPlacedBy(event.world, event.x, event.y, event.z, event.entityPlayer, event.current);
 
                 event.setResult(Event.Result.ALLOW);
             }

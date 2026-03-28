@@ -3,6 +3,7 @@ package net.pufferlab.primal.tileentities;
 import net.minecraft.world.World;
 import net.pufferlab.primal.world.ScheduleManager;
 import net.pufferlab.primal.world.SchedulerData;
+import net.pufferlab.primal.world.Tasks;
 
 public interface IScheduledTile extends ITile {
 
@@ -15,7 +16,12 @@ public interface IScheduledTile extends ITile {
         if (manager != null) {
             manager.onUpdate(type, world);
         }
+        onScheduleTask(Tasks.getTask(type));
         mark();
+    }
+
+    default void onScheduleTask(Tasks task) {
+
     }
 
     default void addSchedule(World world, int x, int y, int z, int inTime, int type) {
@@ -27,6 +33,10 @@ public interface IScheduledTile extends ITile {
         }
         SchedulerData.addScheduledTileTask(inTime, getBlock(), world, x, y, z, type, 0);
         mark();
+    }
+
+    default void addSchedule(int inTime, Tasks type) {
+        addSchedule(inTime, type.ordinal());
     }
 
     default void addSchedule(int inTime, int type) {
@@ -49,6 +59,10 @@ public interface IScheduledTile extends ITile {
 
     default void removeSchedule() {
         removeSchedule(getWorld(), getX(), getY(), getZ());
+    }
+
+    default void removeSchedule(Tasks type) {
+        removeSchedule(type.ordinal());
     }
 
     default void removeSchedule(int type) {

@@ -3,12 +3,12 @@ package net.pufferlab.primal.tileentities;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 import net.pufferlab.primal.recipes.BarrelRecipe;
 import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.ScheduleManager;
+import net.pufferlab.primal.world.Tasks;
 
 public class TileEntityBarrel extends TileEntityFluidInventory implements IScheduledTile {
 
@@ -22,10 +22,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
     public static int slotInput = 0;
     public static int slotOutput = 1;
 
-    public static int updateRain = 0;
-    public static int updateProcess = 1;
-
-    public ScheduleManager manager = new ScheduleManager(updateRain, updateProcess);
+    public ScheduleManager manager = new ScheduleManager(Tasks.rain, Tasks.process);
 
     public TileEntityBarrel() {
         super(10000, 2);
@@ -166,7 +163,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
         if (worldObj.isRaining() && worldObj.canBlockSeeTheSky(this.xCoord, this.yCoord, this.zCoord)
             && !this.isFloorBarrel
             && this.isOpen) {
-            addSchedule(20, updateRain);
+            addSchedule(20, Tasks.rain);
         }
     }
 
@@ -187,13 +184,13 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
         if (recipe != null && input != null) {
             int numberInput = input.stackSize;
             if (numberInput != lastStackSize) {
-                removeSchedule(updateProcess);
+                removeSchedule(Tasks.process);
                 lastStackSize = numberInput;
             }
             int scaledAmount = recipe.inputLiquid.amount * lastStackSize;
             if (getFluidStack().amount >= (scaledAmount)) {
                 this.canProcess = true;
-                addSchedule(recipe.processingTime, updateProcess);
+                addSchedule(recipe.processingTime, Tasks.process);
                 if (process) {
                     setInventorySlotContentsUpdate(slotInput);
                     tank.drain(scaledAmount, true);
@@ -217,7 +214,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
             this.canProcess = false;
         }
         if (!this.canProcess) {
-            removeSchedule(updateProcess);
+            removeSchedule(Tasks.process);
         }
     }
 
@@ -248,13 +245,13 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
     }
 
     @Override
-    public void onSchedule(World world, int x, int y, int z, int type, int id) {
-        IScheduledTile.super.onSchedule(world, x, y, z, type, id);
+    public void onScheduleTask(Tasks task) {
+        IScheduledTile.super.onScheduleTask(task);
 
-        if (type == updateRain) {
+        if (task == Tasks.rain) {
             fillRainWater();
         }
-        if (type == updateProcess) {
+        if (task == Tasks.process) {
             processBarrel(true);
             moveFluid();
         }

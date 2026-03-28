@@ -4,11 +4,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.Utils;
+import net.pufferlab.primal.world.Tasks;
 
 public class TileEntityWaterwheel extends TileEntityMotion {
 
@@ -18,7 +18,10 @@ public class TileEntityWaterwheel extends TileEntityMotion {
     public int baseZCoord;
     public float generatedSpeed;
 
-    public TileEntityWaterwheel() {
+    public TileEntityWaterwheel() {}
+
+    @Override
+    public void init() {
         this.scheduleFlowUpdate();
     }
 
@@ -67,10 +70,10 @@ public class TileEntityWaterwheel extends TileEntityMotion {
     }
 
     @Override
-    public void onSchedule(World world, int x, int y, int z, int type, int id) {
-        super.onSchedule(world, x, y, z, type, id);
+    public void onScheduleTask(Tasks task) {
+        super.onScheduleTask(task);
 
-        if (type == updateFlow) {
+        if (task == Tasks.flow) {
             float newSpeed = getSpeedFromFlow();
             if (this.generatedSpeed != newSpeed) {
                 this.generatedSpeed = newSpeed;
@@ -152,6 +155,6 @@ public class TileEntityWaterwheel extends TileEntityMotion {
     }
 
     public void scheduleFlowUpdate() {
-        addSchedule(0, updateFlow);
+        addSchedule(0, Tasks.flow);
     }
 }

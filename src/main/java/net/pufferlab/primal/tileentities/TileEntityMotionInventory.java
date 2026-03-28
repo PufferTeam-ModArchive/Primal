@@ -1,12 +1,12 @@
 package net.pufferlab.primal.tileentities;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.network.NetworkMotion;
 import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.world.ScheduleManager;
+import net.pufferlab.primal.world.Tasks;
 
 public abstract class TileEntityMotionInventory extends TileEntityInventory implements IMotion, IScheduledTile {
 
@@ -15,22 +15,14 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
     float speedModifier = 1;
     boolean hasOffset;
 
-    public static int updateNetwork = -1;
-    public static int updateNetworkSpread = -2;
-    public static int updateRemoval = -3;
-    public static int updateGenerator = -4;
-    public static int updateGeneratorLate = -5;
-    public static int updateFlow = -6;
-    public static int updateWind = -7;
-
     public ScheduleManager manager = new ScheduleManager(
-        updateNetwork,
-        updateNetworkSpread,
-        updateRemoval,
-        updateGenerator,
-        updateGeneratorLate,
-        updateFlow,
-        updateWind);
+        Tasks.network,
+        Tasks.networkSpread,
+        Tasks.removal,
+        Tasks.generator,
+        Tasks.generatorLate,
+        Tasks.flow,
+        Tasks.wind);
 
     public TileEntityMotionInventory(int slots) {
         super(slots);
@@ -77,16 +69,16 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
     }
 
     @Override
-    public void onSchedule(World world, int x, int y, int z, int type, int id) {
-        IScheduledTile.super.onSchedule(world, x, y, z, type, id);
+    public void onScheduleTask(Tasks task) {
+        IScheduledTile.super.onScheduleTask(task);
 
-        if (type == updateNetwork) {
+        if (task == Tasks.network) {
             NetworkMotion.sendUpdate(this);
         }
-        if (type == updateNetworkSpread) {
+        if (task == Tasks.networkSpread) {
             NetworkMotion.sendSpreadUpdate(this);
         }
-        if (type == updateRemoval) {
+        if (task == Tasks.removal) {
             this.worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
         }
     }
@@ -118,7 +110,7 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
 
     @Override
     public void scheduleUpdate() {
-        addSchedule(0, updateNetwork);
+        addSchedule(0, Tasks.network);
     }
 
     @Override
@@ -128,12 +120,12 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
 
     @Override
     public void scheduleSpreadUpdate() {
-        addSchedule(0, updateNetworkSpread);
+        addSchedule(0, Tasks.networkSpread);
     }
 
     @Override
     public void scheduleRemoval() {
-        addSchedule(0, updateRemoval);
+        addSchedule(0, Tasks.removal);
     }
 
     @Override

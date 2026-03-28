@@ -171,16 +171,17 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
     public String toString() {
         return "ScheduledTask{" + "inTime="
             + (timeScheduled - GlobalTickingData.getTickTime())
-            + ", taskType="
-            + taskType
+            + ", type="
+            + Tasks.getTask(type)
+                .toString()
             + ", x="
             + x
             + ", y="
             + y
             + ", z="
             + z
-            + ", type="
-            + type
+            + ", taskType="
+            + taskType
             + ", id="
             + id
             + '}';

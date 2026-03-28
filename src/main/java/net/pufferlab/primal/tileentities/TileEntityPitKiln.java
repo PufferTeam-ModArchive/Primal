@@ -6,15 +6,14 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.recipes.PitKilnRecipe;
 import net.pufferlab.primal.world.ScheduleManager;
+import net.pufferlab.primal.world.Tasks;
 
 public class TileEntityPitKiln extends TileEntityInventory implements IHeatable, IScheduledTile {
 
-    public static int updateProcess = 1;
-    public ScheduleManager manager = new ScheduleManager(updateProcess);
+    public ScheduleManager manager = new ScheduleManager(Tasks.process);
     public static int slotItem1 = 0;
     public static int slotItem2 = 1;
     public static int slotItem3 = 2;
@@ -91,7 +90,7 @@ public class TileEntityPitKiln extends TileEntityInventory implements IHeatable,
     }
 
     public void sendContentUpdate() {
-        addSchedule(getSmeltTime(), updateProcess);
+        addSchedule(getSmeltTime(), Tasks.process);
     }
 
     public void spreadFire() {
@@ -117,10 +116,10 @@ public class TileEntityPitKiln extends TileEntityInventory implements IHeatable,
     public void onSlotUpdate(int index) {}
 
     @Override
-    public void onSchedule(World world, int x, int y, int z, int type, int id) {
-        IScheduledTile.super.onSchedule(world, x, y, z, type, id);
+    public void onScheduleTask(Tasks task) {
+        IScheduledTile.super.onScheduleTask(task);
 
-        if (type == updateProcess) {
+        if (task == Tasks.process) {
             smeltContent();
         }
     }

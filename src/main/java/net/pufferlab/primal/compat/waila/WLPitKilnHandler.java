@@ -1,7 +1,5 @@
 package net.pufferlab.primal.compat.waila;
 
-import static net.pufferlab.primal.tileentities.TileEntityPitKiln.*;
-
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -11,6 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.pufferlab.primal.tileentities.TileEntityPitKiln;
 import net.pufferlab.primal.utils.RecipeUtils;
+import net.pufferlab.primal.world.Tasks;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -28,8 +27,8 @@ public class WLPitKilnHandler implements IWailaDataProvider {
             if (tag != null) {
                 boolean isFired = tag.getBoolean("isFired");
                 if (isFired) {
-                    long nextUpdate = tef.manager.getNextUpdate(updateProcess);
-                    int timeToProcess = tef.manager.getTime(updateProcess);
+                    long nextUpdate = tef.manager.getNextUpdate(Tasks.process);
+                    int timeToProcess = tef.manager.getTime(Tasks.process);
                     currenttip.add(
                         RecipeUtils.getRecipeTooltip("Pottery", tef.getWorld(), nextUpdate, timeToProcess, "fired"));
                 }

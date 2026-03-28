@@ -15,6 +15,7 @@ import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
+import net.pufferlab.primal.world.Tasks;
 
 import com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness;
 
@@ -24,7 +25,6 @@ import cpw.mods.fml.common.Optional;
 public class BlockTorchPrimitive extends BlockTorch
     implements IPrimalBlock, IScheduledBlock, RPLECustomBlockBrightness {
 
-    public static final int updateFired = 0;
     public static int burnTime = Config.torchBurnTime.getDefaultInt();
     public IIcon torch;
     public String name;
@@ -75,7 +75,7 @@ public class BlockTorchPrimitive extends BlockTorch
         super.onBlockPlacedBy(worldIn, x, y, z, placer, itemIn);
 
         if (this.isLit) {
-            addSchedule(worldIn, x, y, z, burnTime, updateFired);
+            addSchedule(worldIn, x, y, z, burnTime, Tasks.fuel);
         }
     }
 
@@ -89,8 +89,8 @@ public class BlockTorchPrimitive extends BlockTorch
     }
 
     @Override
-    public void onSchedule(World world, int x, int y, int z, int type, int id) {
-        if (this.isLit && type == updateFired) {
+    public void onScheduleTask(World world, int x, int y, int z, Tasks task) {
+        if (this.isLit && task == Tasks.fuel) {
             world.setBlock(x, y, z, Registry.unlit_torch);
         }
     }

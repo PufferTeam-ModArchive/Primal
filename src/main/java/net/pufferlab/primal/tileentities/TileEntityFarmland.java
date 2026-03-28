@@ -2,9 +2,9 @@ package net.pufferlab.primal.tileentities;
 
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.world.ScheduleManager;
+import net.pufferlab.primal.world.Tasks;
 
 public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTile {
 
@@ -13,22 +13,17 @@ public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTi
     public float nitrogen = 0.0F;
     public float phosphorus = 0.0F;
 
-    public static int updateMoisture = 0;
-    public static int updatePotassium = 1;
-    public static int updateNitrogen = 2;
-    public static int updatePhosphorus = 3;
-
     public ScheduleManager manager = new ScheduleManager(
-        updateMoisture,
-        updatePotassium,
-        updateNitrogen,
-        updatePhosphorus);
+        Tasks.moisture,
+        Tasks.potassium,
+        Tasks.nitrogen,
+        Tasks.phosphorus);
 
     public TileEntityFarmland() {}
 
     @Override
     public void init() {
-        addSchedule(10, updateMoisture);
+        addSchedule(10, Tasks.moisture);
     }
 
     @Override
@@ -77,12 +72,12 @@ public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTi
     }
 
     @Override
-    public void onSchedule(World world, int x, int y, int z, int type, int id) {
-        IScheduledTile.super.onSchedule(world, x, y, z, type, id);
+    public void onScheduleTask(Tasks task) {
+        IScheduledTile.super.onScheduleTask(task);
 
-        if (type == updateMoisture) {
+        if (task == Tasks.moisture) {
             setMoisture(getMoisture());
-            addSchedule(200, updateMoisture);
+            addSchedule(200, Tasks.moisture);
         }
     }
 

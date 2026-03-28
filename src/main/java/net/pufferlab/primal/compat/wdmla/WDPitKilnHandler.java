@@ -1,7 +1,5 @@
 package net.pufferlab.primal.compat.wdmla;
 
-import static net.pufferlab.primal.tileentities.TileEntityPitKiln.updateProcess;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +11,7 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.recipes.PitKilnRecipe;
 import net.pufferlab.primal.tileentities.TileEntityPitKiln;
 import net.pufferlab.primal.utils.RecipeUtils;
+import net.pufferlab.primal.world.Tasks;
 
 import com.gtnewhorizons.wdmla.api.accessor.BlockAccessor;
 import com.gtnewhorizons.wdmla.api.provider.IBlockComponentProvider;
@@ -49,8 +48,8 @@ public class WDPitKilnHandler implements IBlockComponentProvider, IServerDataPro
                         }
                     }
                 }
-                long nextUpdate = tef.manager.getNextUpdate(updateProcess);
-                int timeToProcess = tef.manager.getTime(updateProcess);
+                long nextUpdate = tef.manager.getNextUpdate(Tasks.process);
+                int timeToProcess = tef.manager.getTime(Tasks.process);
                 int timeRemaining = RecipeUtils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);
                 IComponent progress = ThemeHelper.INSTANCE
                     .furnaceLikeProgress(inputs, outputs, timeRemaining, timeToProcess, false);

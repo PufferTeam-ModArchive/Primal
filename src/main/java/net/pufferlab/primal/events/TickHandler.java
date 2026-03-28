@@ -1,12 +1,10 @@
 package net.pufferlab.primal.events;
 
-import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.helper.ClientTickHolder;
-import net.pufferlab.primal.network.packets.PacketWorldTime;
 import net.pufferlab.primal.world.GlobalTickingData;
 import net.pufferlab.primal.world.SchedulerData;
 
@@ -23,18 +21,25 @@ public class TickHandler implements IEventHandler {
 
     @SubscribeEvent
     public void onTick(TickEvent.WorldTickEvent event) {
-        synchronizedTick(event);
+        tick(event);
+        tickTasks(event);
     }
 
-    synchronized void synchronizedTick(TickEvent.WorldTickEvent event) {
+    private synchronized void tick(TickEvent.WorldTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             if (!event.world.isRemote) {
                 if (Primal.proxy.isOverworld(event.world)) {
                     GlobalTickingData.tick();
                 }
+            }
+        }
+    }
+
+    private synchronized void tickTasks(TickEvent.WorldTickEvent event) {
+        if (event.phase == TickEvent.Phase.END) {
+            if (!event.world.isRemote) {
                 SchedulerData.tickTasks(GlobalTickingData.getTickTime(event.world), event.world);
                 SchedulerData.tickWaitingTasks(event.world);
-                syncTime(event.world);
             }
         }
     }
@@ -63,17 +68,6 @@ public class TickHandler implements IEventHandler {
 
     protected boolean isGameActive() {
         return !(Primal.proxy.getClientWorld() == null || Primal.proxy.getClientPlayer() == null);
-    }
-
-    public void syncTime(World world) {
-        long tickTime = GlobalTickingData.getTickTime(world);
-        updatePacket(world, tickTime);
-    }
-
-    public void updatePacket(World world, long tickTime) {
-        if (!world.isRemote) {
-            Primal.proxy.sendPacketToClient(new PacketWorldTime(tickTime));
-        }
     }
 
     @Override
