@@ -20,9 +20,9 @@ public class ItemCropsSeed extends ItemMeta implements IPlantable {
         super(CropType.getNames(cropType), name);
         this.cropType = cropType;
         for (int i = 0; i < cropType.length; i++) {
-            cropType[i].seedItem = this;
-            cropType[i].seedMeta = i;
+            cropType[i].setCropSeedItem(this, i);
         }
+        this.setBlacklist(CropType.getSeedsBlacklistNames(cropType));
         this.setHasSuffix();
     }
 

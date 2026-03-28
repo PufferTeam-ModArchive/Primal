@@ -362,10 +362,6 @@ public class Utils {
             }
         }
 
-        if (arrays.length == 0) {
-            return null;
-        }
-
         T[] result = Arrays.copyOf(arrays[0], totalLength);
 
         int offset = arrays[0].length;
@@ -399,7 +395,21 @@ public class Utils {
     }
 
     public static int getRandomInRange(Random random, int min, int max) {
-        return random.nextInt(Math.abs(max - min)) + min;
+        if (min > max) {
+            int tmp = min;
+            min = max;
+            max = tmp;
+        }
+        return random.nextInt((max - min) + 1) + min;
+    }
+
+    public static float getRandomInRange(Random random, float min, float max) {
+        if (min > max) {
+            float tmp = min;
+            min = max;
+            max = tmp;
+        }
+        return min + random.nextFloat() * (max - min);
     }
 
     public static boolean classExists(String className) {

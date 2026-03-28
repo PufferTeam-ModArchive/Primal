@@ -21,8 +21,7 @@ public class ItemGem extends ItemMeta {
         this.setHasSuffix();
         if (this.isMainOre) {
             for (int i = 0; i < oreTypes.length; i++) {
-                oreTypes[i].oreItem = this;
-                oreTypes[i].oreMeta = i;
+                oreTypes[i].setOreItem(this, i);
             }
         }
     }

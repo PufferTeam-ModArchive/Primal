@@ -148,6 +148,9 @@ public class ScriptPrimitive implements IScript {
     public void addCampfireRecipes() {
         addCampfireRecipe(getModItem("lit_torch", 1), getModItem("unlit_torch", 1));
         addCampfireRecipe(getItem("minecraft:bread:0:1"), getModItem("wheat_dough", 1));
+        addCampfireRecipe(getModItem("oat_bread", 1), getModItem("oat_dough", 1));
+        addCampfireRecipe(getModItem("barley_bread", 1), getModItem("barley_dough", 1));
+        addCampfireRecipe(getModItem("rye_bread", 1), getModItem("rye_dough", 1));
         addCampfireRecipe(getItem("minecraft:cooked_beef:0:1"), getItem("minecraft:beef:0:1"));
         addCampfireRecipe(getItem("minecraft:cooked_chicken:0:1"), getItem("minecraft:chicken:0:1"));
         addCampfireRecipe(getItem("minecraft:cooked_porkchop:0:1"), getItem("minecraft:porkchop:0:1"));
@@ -167,6 +170,9 @@ public class ScriptPrimitive implements IScript {
 
     public void addQuernRecipes() {
         addQuernRecipe(getModItem("wheat_flour", 1), getItem("minecraft:wheat:0:1"));
+        addQuernRecipe(getModItem("oat_flour", 1), getModItem("oat", 1));
+        addQuernRecipe(getModItem("barley_flour", 1), getModItem("barley", 1));
+        addQuernRecipe(getModItem("rye_flour", 1), getModItem("rye", 1));
         addQuernRecipe(getModItem("lime_powder", 1), "limeAny");
     }
 
@@ -434,6 +440,14 @@ public class ScriptPrimitive implements IScript {
 
     public void addBarrelRecipes() {
         addBarrelRecipe(getModItem("wheat_dough", 1), null, getModItem("wheat_flour", 1), getFluid("water", 100), 100);
+        addBarrelRecipe(getModItem("oat_dough", 1), null, getModItem("oat_flour", 1), getFluid("water", 100), 100);
+        addBarrelRecipe(
+            getModItem("barley_dough", 1),
+            null,
+            getModItem("barley_flour", 1),
+            getFluid("water", 100),
+            100);
+        addBarrelRecipe(getModItem("rye_dough", 1), null, getModItem("rye_flour", 1), getFluid("water", 100), 100);
         addBarrelRecipe(null, getFluid("limewater", 500), getModItem("lime_powder", 1), getFluid("water", 500), 100);
         addBarrelRecipe(getModItem("soaked_hide", 1), null, getModItem("hide", 1), getFluid("limewater", 500), 1200);
         addBarrelRecipe(

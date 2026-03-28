@@ -89,9 +89,6 @@ tile.primal.copper_block.name=Copper Block
 tile.primal.tin_block.name=Tin Block
 tile.primal.bronze_block.name=Bronze Block
 
-item.primal.tomato.name=Tomato
-item.primal.tomato_seed.name=Tomato Seeds
-
 item.primal.copper_ingot.name=Copper Ingot
 item.primal.tin_ingot.name=Tin Ingot
 item.primal.bronze_ingot.name=Bronze Ingot
@@ -286,8 +283,39 @@ item.primal.stone_rock.name=Stone Rock
 item.primal.scallop.name=Scallop
 item.primal.conch.name=Conch
 item.primal.lime_powder.name=Lime Powder
+
+item.primal.tomato.name=Tomato
+item.primal.tomato_seed.name=Tomato Seeds
+item.primal.cabbage.name=Cabbage
+item.primal.cabbage_seed.name=Cabbage Seeds
+item.primal.carrot.name=Carrot
+item.primal.carrot_seed.name=Carrot Seeds
+item.primal.potato.name=Potato
+item.primal.potato_seed.name=Potato Seeds
+item.primal.corn.name=Corn
+item.primal.corn_seed.name=Corn Seeds
+item.primal.wheat.name=Wheat
+item.primal.wheat_seed.name=Wheat Seeds
 item.primal.wheat_dough.name=Wheat Dough
 item.primal.wheat_flour.name=Wheat Flour
+item.primal.wheat_bread.name=Wheat Bread
+item.primal.onion.name=Onion
+item.primal.onion_seed.name=Onion Seeds
+item.primal.oat.name=Oat
+item.primal.oat_seed.name=Oat Seeds
+item.primal.oat_dough.name=Oat Dough
+item.primal.oat_flour.name=Oat Flour
+item.primal.oat_bread.name=Oat Bread
+item.primal.barley.name=Barley
+item.primal.barley_seed.name=Barley Seeds
+item.primal.barley_dough.name=Barley Dough
+item.primal.barley_flour.name=Barley Flour
+item.primal.barley_bread.name=Barley Bread
+item.primal.rye.name=Rye
+item.primal.rye_seed.name=Rye Seeds
+item.primal.rye_dough.name=Rye Dough
+item.primal.rye_flour.name=Rye Flour
+item.primal.rye_bread.name=Rye Bread
 
 commands.primal.give.usage=/primal give [player] [primal item] <number>
 

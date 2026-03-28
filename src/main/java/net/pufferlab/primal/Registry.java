@@ -77,7 +77,16 @@ public class Registry {
     public static final Block tc_earth_ore;
     public static final Block tc_order_ore;
     public static final Block tc_entropy_ore;
+    public static final Block wheat;
+    public static final Block oat;
+    public static final Block barley;
+    public static final Block rye;
     public static final Block tomatoes;
+    public static final Block cabbages;
+    public static final Block carrots;
+    public static final Block potatoes;
+    public static final Block onion;
+    public static final Block corn;
     public static final Block block;
     public static final Block anvil;
     public static final Block rope_ladder;
@@ -117,8 +126,10 @@ public class Registry {
     public static final Item bark;
     public static final Item seed;
     public static final Item crop;
+    public static final Item crop_food;
     public static final Item flour;
     public static final Item dough;
+    public static final Item bread;
     public static final Item powder;
     public static final Item handstone;
     public static final Item mold;
@@ -237,7 +248,16 @@ public class Registry {
             tc_entropy_ore = null;
         }
 
-        tomatoes = new BlockCropsPrimal(Constants.tomatoes);
+        wheat = new BlockCropsPrimal(Constants.wheat_crop);
+        oat = new BlockCropsPrimal(Constants.oat_crop);
+        barley = new BlockCropsPrimal(Constants.barley_crop);
+        rye = new BlockCropsPrimal(Constants.rye_crop);
+        tomatoes = new BlockCropsPrimal(Constants.tomatoes_crop);
+        cabbages = new BlockCropsPrimal(Constants.cabbages_crop);
+        carrots = new BlockCropsPrimal(Constants.carrots_crop);
+        potatoes = new BlockCropsPrimal(Constants.potatoes_crop);
+        corn = new BlockCropsPrimal(Constants.corn_crop);
+        onion = new BlockCropsPrimal(Constants.onion_crop);
 
         ground_rock = new BlockStoneGround(Constants.stoneTypes, "ground_rock");
         ground_ore = new BlockStoneGroundOre(Constants.oreTypes, "ground_ore");
@@ -300,11 +320,13 @@ public class Registry {
         ingot = new ItemMetal(Constants.metalTypes, "ingot").setBlacklist(Constants.ingotBlacklist);
         nugget = new ItemMetal(Constants.metalTypes, "nugget").setBlacklist(Constants.nuggetBlacklist);
 
-        crop = new ItemCropsFood(Constants.crops, "crop");
+        crop = new ItemCrops(Constants.crops, "crop");
+        crop_food = new ItemCropsFood(Constants.crops, "crop_food");
         seed = new ItemCropsSeed(Constants.crops, "seed");
 
         dough = new ItemMetaFood(Constants.doughItems, "dough");
         flour = new ItemMetaFood(Constants.flourItems, "flour");
+        bread = new ItemMetaFood(Constants.breadItems, "bread");
 
         bucket = new ItemBucketMeta("bucket");
         ceramic_bucket = new ItemBucketCeramic("ceramic_bucket");
@@ -408,7 +430,16 @@ public class Registry {
             register(tc_entropy_ore, "tc_infused_entropy");
         }
 
+        register(wheat, "wheat");
+        register(oat, "oat");
+        register(barley, "barley");
+        register(rye, "rye");
         register(tomatoes, "tomatoes");
+        register(cabbages, "cabbages");
+        register(carrots, "carrots");
+        register(potatoes, "potatoes");
+        register(corn, "corn");
+        register(onion, "onion");
 
         register(ground_rock, "ground_rock");
         register(ground_ore, "ground_ore");
@@ -450,10 +481,12 @@ public class Registry {
         register(wood, "wood");
         register(glowstone, "glowstone");
         register(bark, "bark");
-        register(flour, "flour");
         register(crop, "crop");
+        register(crop_food, "crop_food");
         register(seed, "seed");
+        register(flour, "flour");
         register(dough, "dough");
+        register(bread, "bread");
         register(powder, "powder");
         register(rock, "rock");
         register(shell, "shell");
@@ -695,6 +728,14 @@ public class Registry {
                 action.setStep(step);
             }
         }
+
+        for (FoodType type : Constants.foodTypesAll) {
+            if (ConfigUtils.hasFoodValue(type)) {
+                int hunger = ConfigUtils.getHunger(type);
+                float saturation = ConfigUtils.getSaturation(type);
+                type.setFoodValues(hunger, saturation);
+            }
+        }
     }
 
     public void setupModCompat() {
@@ -703,6 +744,15 @@ public class Registry {
         PrimalEarlyGenerator.soilGen.initBlockList();
         BlockStoneOreThaumcraft.setupShards();
         CutUtils.registerItems();
+        Constants.wheat_crop.setCropItem(Items.wheat, 0)
+            .setCropSeedItem(Items.wheat_seeds, 0)
+            .updateFoodValues();
+        Constants.carrots_crop.setCropItem(Items.carrot, 0)
+            .updateFoodValues();
+        Constants.potatoes_crop.setCropItem(Items.potato, 0)
+            .updateFoodValues();
+        Constants.wheat_bread.setFoodItem(Items.bread, 0)
+            .updateFoodValues();
     }
 
     public void setupHeatables() {

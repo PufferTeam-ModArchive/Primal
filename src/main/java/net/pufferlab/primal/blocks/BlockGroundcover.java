@@ -14,14 +14,13 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 
 public class BlockGroundcover extends BlockMeta {
 
     public Item item;
-    public static final int typeRock = 0;
-    public static final int typeShell = 1;
-    public int typeID;
+    public int groundcoverShape;
 
     public BlockGroundcover(Material material, String[] materials, String type) {
         super(material, materials, type);
@@ -29,10 +28,15 @@ public class BlockGroundcover extends BlockMeta {
         this.canBlockGrass = true;
 
         if (type.equals("ground_rock")) {
-            this.typeID = typeRock;
+            this.groundcoverShape = Constants.rockModel;
         } else if (type.equals("ground_shell")) {
-            this.typeID = typeShell;
+            this.groundcoverShape = Constants.itemModel;
         }
+    }
+
+    @Override
+    public int getRenderShape() {
+        return groundcoverShape;
     }
 
     @Override
@@ -136,10 +140,6 @@ public class BlockGroundcover extends BlockMeta {
     @Override
     public int getRenderType() {
         return Primal.proxy.getGroundcoverRenderID();
-    }
-
-    public int getGroundcoverRenderType() {
-        return this.typeID;
     }
 
     @Override

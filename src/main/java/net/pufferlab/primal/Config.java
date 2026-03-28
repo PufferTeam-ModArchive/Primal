@@ -62,6 +62,10 @@ public enum Config {
     torchRebalance(Module.early_game$lighting, true,
         "Whether to make vanilla torches require glowstone to balance the lit torches"),
 
+    // Food
+    foodValues(Module.food, ConfigUtils.getDefaultFood(Constants.foodTypesAll),
+        "All of the corresponding food values and how much food they give when eating, the first argument argument is hunger, and second is saturation"),
+
     // Metal
     temperatureCap(Module.metalworking, 1,
         "The minimum temperature will be displayed, anything lower will not show in tooltips"),
@@ -336,6 +340,7 @@ public enum Config {
             "Includes all the early game stuff such as campfire, pitkiln and everything you will use early on."),
         early_game$tweaks(true, "Multiple vanilla tweaks to spice up the early game."),
         early_game$lighting(true, "Includes all of the changes related to lighting."),
+        food(true, "Includes all of the food stuff."),
         metalworking(true, "Includes all of the metalworking aspect of the mod, such as the forge, crucible and such."),
         metalworking$forging(true, "Includes all options for the Anvil Forging minigame"),
         mechanical_power(true,

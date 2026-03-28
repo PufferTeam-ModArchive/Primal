@@ -1,5 +1,7 @@
 package net.pufferlab.primal.client.renderer.blocks;
 
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
@@ -11,12 +13,15 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.pufferlab.primal.blocks.IMetaBlock;
 import net.pufferlab.primal.blocks.IPrimalBlock;
+import net.pufferlab.primal.utils.Utils;
 
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandler {
+
+    private final Random randomLocal = new Random(91964521L);
 
     private static float lastBrightnessX = 0;
     private static float lastBrightnessY = 0;
@@ -40,7 +45,7 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
         renderStandardInvBlock(renderblocks, block, meta);
     }
 
-    public boolean renderCrossedSquares(RenderBlocks renderBlocks, Block block, int x, int y, int z, float scale) {
+    public boolean renderBlockCropsSimple(RenderBlocks renderBlocks, Block block, int x, int y, int z, float scale) {
         Tessellator tessellator = Tessellator.instance;
         tessellator.setBrightness(block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y, z));
         int l = block.colorMultiplier(renderBlocks.blockAccess, x, y, z);
@@ -63,10 +68,89 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
         double d0 = (double) z;
         long i1;
 
+        Random rand = Utils.getSeededRandom(randomLocal, x, y, z);
+        float x2 = Utils.getRandomInRange(rand, -1e-2F, 1e-2F);
+        float z2 = Utils.getRandomInRange(rand, -1e-2F, 1e-2F);
         IIcon iicon = renderBlocks
             .getBlockIconFromSideAndMetadata(block, 0, renderBlocks.blockAccess.getBlockMetadata(x, y, z));
-        renderBlocks.drawCrossedSquares(iicon, d1, d2, d0, scale);
+        renderBlocks.drawCrossedSquares(iicon, d1 + x2, d2 - 0.0625F, d0 + z2, scale);
         return true;
+    }
+
+    public boolean renderBlockCrops(RenderBlocks renderBlocks, Block block, int x, int y, int z, float scale) {
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.setBrightness(block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y, z));
+        tessellator.setColorOpaque_F(1.0F, 1.0F, 1.0F);
+        Random rand = Utils.getSeededRandom(randomLocal, x, y, z);
+        float x2 = Utils.getRandomInRange(rand, -1e-2F, 1e-2F);
+        float z2 = Utils.getRandomInRange(rand, -1e-2F, 1e-2F);
+        renderBlockCropsImpl(
+            renderBlocks,
+            block,
+            renderBlocks.blockAccess.getBlockMetadata(x, y, z),
+            (double) x + x2,
+            (double) ((float) y - 0.0625F),
+            (double) z + z2,
+            scale);
+        return true;
+    }
+
+    public void renderBlockCropsImpl(RenderBlocks renderBlocks, Block p_147795_1_, int p_147795_2_, double p_147795_3_,
+        double p_147795_5_, double p_147795_7_, float scale) {
+        Tessellator tessellator = Tessellator.instance;
+        IIcon iicon = renderBlocks.getBlockIconFromSideAndMetadata(p_147795_1_, 0, p_147795_2_);
+
+        if (renderBlocks.hasOverrideBlockTexture()) {
+            iicon = renderBlocks.overrideBlockTexture;
+        }
+
+        double d3 = (double) iicon.getMinU();
+        double d4 = (double) iicon.getMinV();
+        double d5 = (double) iicon.getMaxU();
+        double d6 = (double) iicon.getMaxV();
+        double d61 = (0.25D / 2) * scale;
+        double d65 = 0.25D * (double) scale;
+        double d66 = 0.5D * (double) scale;
+        double d7 = p_147795_3_ + 0.5D - (d65) + (d61);
+        double d8 = p_147795_3_ + 0.5D + (d65) - (d61);
+        double d9 = p_147795_7_ + 0.5D - (d66);
+        double d10 = p_147795_7_ + 0.5D + (d66);
+        tessellator.addVertexWithUV(d7, p_147795_5_ + scale, d9, d3, d4);
+        tessellator.addVertexWithUV(d7, p_147795_5_ + 0.0D, d9, d3, d6);
+        tessellator.addVertexWithUV(d7, p_147795_5_ + 0.0D, d10, d5, d6);
+        tessellator.addVertexWithUV(d7, p_147795_5_ + scale, d10, d5, d4);
+        tessellator.addVertexWithUV(d7, p_147795_5_ + scale, d10, d3, d4);
+        tessellator.addVertexWithUV(d7, p_147795_5_ + 0.0D, d10, d3, d6);
+        tessellator.addVertexWithUV(d7, p_147795_5_ + 0.0D, d9, d5, d6);
+        tessellator.addVertexWithUV(d7, p_147795_5_ + scale, d9, d5, d4);
+        tessellator.addVertexWithUV(d8, p_147795_5_ + scale, d10, d3, d4);
+        tessellator.addVertexWithUV(d8, p_147795_5_ + 0.0D, d10, d3, d6);
+        tessellator.addVertexWithUV(d8, p_147795_5_ + 0.0D, d9, d5, d6);
+        tessellator.addVertexWithUV(d8, p_147795_5_ + scale, d9, d5, d4);
+        tessellator.addVertexWithUV(d8, p_147795_5_ + scale, d9, d3, d4);
+        tessellator.addVertexWithUV(d8, p_147795_5_ + 0.0D, d9, d3, d6);
+        tessellator.addVertexWithUV(d8, p_147795_5_ + 0.0D, d10, d5, d6);
+        tessellator.addVertexWithUV(d8, p_147795_5_ + scale, d10, d5, d4);
+        d7 = p_147795_3_ + 0.5D - (d66);
+        d8 = p_147795_3_ + 0.5D + (d66);
+        d9 = p_147795_7_ + 0.5D - (d65) + (d61);
+        d10 = p_147795_7_ + 0.5D + (d65) - (d61);
+        tessellator.addVertexWithUV(d7, p_147795_5_ + scale, d9, d3, d4);
+        tessellator.addVertexWithUV(d7, p_147795_5_ + 0.0D, d9, d3, d6);
+        tessellator.addVertexWithUV(d8, p_147795_5_ + 0.0D, d9, d5, d6);
+        tessellator.addVertexWithUV(d8, p_147795_5_ + scale, d9, d5, d4);
+        tessellator.addVertexWithUV(d8, p_147795_5_ + scale, d9, d3, d4);
+        tessellator.addVertexWithUV(d8, p_147795_5_ + 0.0D, d9, d3, d6);
+        tessellator.addVertexWithUV(d7, p_147795_5_ + 0.0D, d9, d5, d6);
+        tessellator.addVertexWithUV(d7, p_147795_5_ + scale, d9, d5, d4);
+        tessellator.addVertexWithUV(d8, p_147795_5_ + scale, d10, d3, d4);
+        tessellator.addVertexWithUV(d8, p_147795_5_ + 0.0D, d10, d3, d6);
+        tessellator.addVertexWithUV(d7, p_147795_5_ + 0.0D, d10, d5, d6);
+        tessellator.addVertexWithUV(d7, p_147795_5_ + scale, d10, d5, d4);
+        tessellator.addVertexWithUV(d7, p_147795_5_ + scale, d10, d3, d4);
+        tessellator.addVertexWithUV(d7, p_147795_5_ + 0.0D, d10, d3, d6);
+        tessellator.addVertexWithUV(d8, p_147795_5_ + 0.0D, d10, d5, d6);
+        tessellator.addVertexWithUV(d8, p_147795_5_ + scale, d10, d5, d4);
     }
 
     public void renderStandardInvBlockColorMaxBrightness(RenderBlocks renderblocks, Block block, int meta,
@@ -138,28 +222,6 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
         renderblocks.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, block.getIcon(5, meta));
         tessellator.draw();
         GL11.glTranslatef(0.5F, 0.5F, 0.5F);
-    }
-
-    public boolean renderStandardBlock(RenderBlocks renderer, Block blockType, int blockX, int blockY, int blockZ) {
-        int l = blockType.colorMultiplier(renderer.blockAccess, blockX, blockY, blockZ);
-        float f = (float) (l >> 16 & 255) / 255.0F;
-        float f1 = (float) (l >> 8 & 255) / 255.0F;
-        float f2 = (float) (l & 255) / 255.0F;
-
-        if (EntityRenderer.anaglyphEnable) {
-            float f3 = (f * 30.0F + f1 * 59.0F + f2 * 11.0F) / 100.0F;
-            float f4 = (f * 30.0F + f1 * 70.0F) / 100.0F;
-            float f5 = (f * 30.0F + f2 * 70.0F) / 100.0F;
-            f = f3;
-            f1 = f4;
-            f2 = f5;
-        }
-
-        return hasAO() && blockType.getLightValue() == 0
-            ? (renderer.partialRenderBounds
-                ? renderer.renderStandardBlockWithAmbientOcclusionPartial(blockType, blockX, blockY, blockZ, f, f1, f2)
-                : renderer.renderStandardBlockWithAmbientOcclusion(blockType, blockX, blockY, blockZ, f, f1, f2))
-            : renderer.renderStandardBlockWithColorMultiplier(blockType, blockX, blockY, blockZ, f, f1, f2);
     }
 
     public boolean renderStandardBlockNoColor(RenderBlocks renderer, Block blockType, int blockX, int blockY,

@@ -3,8 +3,9 @@ package net.pufferlab.primal.client.renderer.blocks;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;
+import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.blocks.BlockCropsPrimal;
+import net.pufferlab.primal.blocks.IPrimalBlock;
 
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 
@@ -17,17 +18,22 @@ public class BlockCropsRenderer extends BlockPrimalRenderer {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
-        BlockCropsPrimal blockCropsPrimal = (BlockCropsPrimal) block;
-        int renderType = blockCropsPrimal.cropType.cropRenderType;
+        int renderType = 0;
+        if (block instanceof IPrimalBlock block2) {
+            renderType = block2.getRenderShape();
+        }
 
-        if (renderType == 0) {
+        if (renderType == Constants.crossedModel) {
+            renderBlockCropsSimple(renderer, block, x, y, z, 1.0F);
+        }
+        if (renderType == Constants.crossedModel32) {
+            renderBlockCropsSimple(renderer, block, x, y, z, 2.0F);
+        }
+        if (renderType == Constants.cropModel) {
             renderer.renderBlockCrops(block, x, y, z);
         }
-        if (renderType == 1) {
-            renderer.renderCrossedSquares(block, x, y, z);
-        }
-        if (renderType == 2) {
-            renderCrossedSquares(renderer, block, x, y, z, 2.0F);
+        if (renderType == Constants.cropModel32) {
+            renderBlockCrops(renderer, block, x, y, z, 2.0F);
         }
 
         return true;

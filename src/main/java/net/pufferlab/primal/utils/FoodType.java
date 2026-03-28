@@ -1,7 +1,12 @@
 package net.pufferlab.primal.utils;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemFood;
+
 public class FoodType {
 
+    public Item foodItem;
+    public int foodMeta;
     public String name;
     public int hunger;
     public float saturation;
@@ -10,6 +15,11 @@ public class FoodType {
     public int effectId;
     public int effectDuration;
     public float effectProbability;
+    public boolean hasFoodItem = true;
+
+    public FoodType(String name) {
+        this.name = name;
+    }
 
     public FoodType(String name, int hunger, float saturation) {
         this.name = name;
@@ -44,6 +54,31 @@ public class FoodType {
         this.effectProbability = effectProbability;
     }
 
+    public FoodType setFoodItem(Item item, int meta) {
+        this.foodItem = item;
+        this.foodMeta = meta;
+        return this;
+    }
+
+    public FoodType hasNoFoodItem() {
+        this.hasFoodItem = false;
+        return this;
+    }
+
+    public void updateFoodValues() {
+        Item item = this.foodItem;
+        if (item instanceof ItemFood foodItem2) {
+            foodItem2.healAmount = this.hunger;
+            foodItem2.saturationModifier = this.saturation;
+        }
+    }
+
+    public FoodType setFoodValues(int hunger, float saturation) {
+        this.hunger = hunger;
+        this.saturation = saturation;
+        return this;
+    }
+
     public boolean hasEffect() {
         return effectId != 0;
     }
@@ -56,6 +91,16 @@ public class FoodType {
         String[] names = new String[foods.length];
         for (int i = 0; i < foods.length; i++) {
             names[i] = foods[i].name;
+        }
+        return names;
+    }
+
+    public static String[] getBlacklistNames(FoodType[] foods) {
+        String[] names = new String[foods.length];
+        for (int i = 0; i < foods.length; i++) {
+            if (!foods[i].hasFoodItem) {
+                names[i] = foods[i].name;
+            }
         }
         return names;
     }

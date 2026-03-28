@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
+import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.BlockGroundcover;
 import net.pufferlab.primal.client.models.ModelItem;
@@ -45,8 +46,8 @@ public class BlockGroundcoverRenderer extends BlockPrimalRenderer {
 
         if (block instanceof BlockGroundcover block2) {
             meta = getValidMeta(block2, meta);
-            int type = block2.getGroundcoverRenderType();
-            if (type == BlockGroundcover.typeRock) {
+            int type = block2.getRenderShape();
+            if (type == Constants.rockModel) {
                 if (modelType > 3) {
                     modelRock2.setFacing(rotation);
                     modelRock2.render(renderer, tess, block, x, y, z, 0.0F, 0.0F, 0.0F, meta);
@@ -55,7 +56,7 @@ public class BlockGroundcoverRenderer extends BlockPrimalRenderer {
                     modelRock.render(renderer, tess, block, x, y, z, ox, 0.0F, oz, meta);
                 }
             }
-            if (type == BlockGroundcover.typeShell) {
+            if (type == Constants.itemModel) {
                 modelItem.setFacingOffset(-0.25F, 0.0F, -0.25F);
                 modelItem.setFacing(rotation);
                 modelItem.bb_main.rotateAngleY = modelItem.bb_main.rotateAngleY + o2;

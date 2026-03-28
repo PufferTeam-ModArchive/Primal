@@ -12,8 +12,10 @@ public class ItemCropsFood extends ItemMetaFood {
         super(CropType.getFoodTypes(cropType), name);
         this.cropType = cropType;
         for (int i = 0; i < cropType.length; i++) {
-            cropType[i].cropItem = this;
-            cropType[i].cropMeta = i;
+            if (cropType[i].hasCropFood) {
+                cropType[i].setCropItem(this, i);
+            }
         }
+        this.setBlacklist(CropType.getCropsFoodBlacklistNames(cropType));
     }
 }

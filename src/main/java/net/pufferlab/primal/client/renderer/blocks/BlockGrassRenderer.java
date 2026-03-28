@@ -49,7 +49,7 @@ public class BlockGrassRenderer extends BlockPrimalRenderer {
 
         block0.setPass(1);
         if (material != Material.craftedSnow && material != Material.snow) {
-            renderStandardBlock(renderer, block, x, y, z);
+            renderer.renderStandardBlock(block, x, y, z);
         } else {
             renderStandardBlockNoColor(renderer, block, x, y, z);
         }

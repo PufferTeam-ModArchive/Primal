@@ -5,8 +5,6 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Registry;
@@ -19,21 +17,6 @@ public class BlockSoilFarmland extends BlockMetaFarmland {
         this.setHardness(0.6F);
         this.setStepSound(soundTypeGravel);
         this.setHasSuffix();
-    }
-
-    public void onFallenUpon(World worldIn, int x, int y, int z, Entity entityIn, float fallDistance) {
-        if (this == Registry.farmland) {
-            int meta = worldIn.getBlockMetadata(x, y, z);
-            if (!worldIn.isRemote && worldIn.rand.nextFloat() < fallDistance - 0.5F) {
-                if (!(entityIn instanceof EntityPlayer) && !worldIn.getGameRules()
-                    .getGameRuleBooleanValue("mobGriefing")) {
-                    return;
-                }
-
-                worldIn.setBlock(x, y, z, Registry.dirt, meta, 2);
-            }
-        }
-
     }
 
     @Override

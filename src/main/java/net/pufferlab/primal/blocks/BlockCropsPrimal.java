@@ -93,6 +93,11 @@ public class BlockCropsPrimal extends BlockCrops implements IPrimalBlock {
     }
 
     @Override
+    public int getRenderShape() {
+        return this.cropType.cropRenderType;
+    }
+
+    @Override
     public Item getItem(World worldIn, int x, int y, int z) {
         return this.cropType.seedItem;
     }
@@ -110,6 +115,17 @@ public class BlockCropsPrimal extends BlockCrops implements IPrimalBlock {
     @Override
     public int getMaxMeta() {
         return growStages - 1;
+    }
+
+    @Override
+    public void func_149863_m(World p_149863_1_, int p_149863_2_, int p_149863_3_, int p_149863_4_) {
+        int l = p_149863_1_.getBlockMetadata(p_149863_2_, p_149863_3_, p_149863_4_) + 1;
+
+        if (l > (growStages - 1)) {
+            l = (growStages - 1);
+        }
+
+        p_149863_1_.setBlockMetadataWithNotify(p_149863_2_, p_149863_3_, p_149863_4_, l, 2);
     }
 
     @Override

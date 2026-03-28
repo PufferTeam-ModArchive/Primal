@@ -19,8 +19,6 @@ import org.joml.Vector3f;
 
 public class ModelTESS {
 
-    static double epsilon = Constants.epsilon;
-
     public void renderBlock(RenderBlocks renderblocks, Tessellator tess, Block block, ModelRenderer renderer,
         float scale, int x, int y, int z, double offsetX, double offsetY, double offsetZ, int index) {
 
@@ -451,9 +449,9 @@ public class ModelTESS {
 
         for (int i = 0; i < coords.length; i++) {
             if (Math.abs(coords[i] - min) < 1e-9) {
-                coords[i] = min + epsilon;
+                coords[i] = min + Constants.epsilon;
             } else if (Math.abs(coords[i] - max) < 1e-9) {
-                coords[i] = max - epsilon;
+                coords[i] = max - Constants.epsilon;
             }
         }
 

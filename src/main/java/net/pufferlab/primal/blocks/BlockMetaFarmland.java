@@ -7,6 +7,7 @@ import net.minecraft.block.BlockFarmland;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -109,6 +110,8 @@ public class BlockMetaFarmland extends BlockFarmland implements IPrimalBlock, IM
     }
 
     public void updateTick(World worldIn, int x, int y, int z, Random random) {}
+
+    public void onFallenUpon(World worldIn, int x, int y, int z, Entity entityIn, float fallDistance) {}
 
     @Override
     public Item getItem(World worldIn, int x, int y, int z) {

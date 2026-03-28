@@ -11,8 +11,6 @@ import org.joml.Vector3f;
 
 public class TexturedQuad {
 
-    static double epsilon = Constants.epsilon;
-
     public PositionTextureVertex[] vertexPositions;
     public int nVertices;
     private boolean invertNormal;
@@ -178,9 +176,9 @@ public class TexturedQuad {
 
         for (int i = 0; i < coords.length; i++) {
             if (Math.abs(coords[i] - min) < 1e-9) {
-                coords[i] = min + epsilon;
+                coords[i] = min + Constants.epsilon;
             } else if (Math.abs(coords[i] - max) < 1e-9) {
-                coords[i] = max - epsilon;
+                coords[i] = max - Constants.epsilon;
             }
         }
 

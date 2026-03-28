@@ -20,6 +20,10 @@ public interface IPrimalBlock {
         return false;
     }
 
+    default int getRenderShape() {
+        return 0;
+    }
+
     default int getStateID() {
         return 0;
     }

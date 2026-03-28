@@ -11,7 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.utils.FoodType;
 import net.pufferlab.primal.utils.ItemUtils;
@@ -28,14 +27,21 @@ public class ItemMetaFood extends ItemFood implements IMetaItem, IPrimalItem {
     private IIcon[] icons;
     private String name;
 
-    public ItemMetaFood(FoodType[] elements, String type) {
-        super(0, 0.0f, false);
+    public ItemMetaFood(FoodType[] elements, String type, boolean meat) {
+        super(0, 0.0f, meat);
         this.elements = elements;
         this.elementsNames = FoodType.getNames(elements);
         this.name = type;
-        this.elementsBlacklist = Constants.none;
+        this.elementsBlacklist = FoodType.getBlacklistNames(elements);
         this.setHasSubtypes(true);
         setCreativeTab(CreativeTabs.tabFood);
+        for (int i = 0; i < elements.length; i++) {
+            elements[i].setFoodItem(this, i);
+        }
+    }
+
+    public ItemMetaFood(FoodType[] elements, String type) {
+        this(elements, type, false);
     }
 
     @Override
@@ -48,6 +54,11 @@ public class ItemMetaFood extends ItemFood implements IMetaItem, IPrimalItem {
                 icons[i] = register.registerIcon(Primal.MODID + ":" + elements[i].name);
             }
         }
+    }
+
+    public ItemMetaFood setBlacklist(String[] blacklist) {
+        this.elementsBlacklist = blacklist;
+        return this;
     }
 
     @Override
@@ -134,6 +145,11 @@ public class ItemMetaFood extends ItemFood implements IMetaItem, IPrimalItem {
 
     public String[] getElements() {
         return elementsNames;
+    }
+
+    @Override
+    public String[] getElementsBlacklist() {
+        return elementsBlacklist;
     }
 
     public boolean hasSuffix() {

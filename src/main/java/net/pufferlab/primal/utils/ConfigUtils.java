@@ -1,6 +1,8 @@
 package net.pufferlab.primal.utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.minecraftforge.fluids.Fluid;
@@ -8,7 +10,9 @@ import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.recipes.AnvilAction;
 
+import gnu.trove.map.TObjectFloatMap;
 import gnu.trove.map.TObjectIntMap;
+import gnu.trove.map.hash.TObjectFloatHashMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
 
 public class ConfigUtils {
@@ -20,6 +24,7 @@ public class ConfigUtils {
         genStrataHeightMap();
         genVeinSizeMap();
         genAnvilStep();
+        genFoodMap();
     }
 
     private static final TObjectIntMap<String> meltingMetalMap = new TObjectIntHashMap<>();
@@ -51,7 +56,7 @@ public class ConfigUtils {
     }
 
     public static boolean hasMetalMelting(MetalType metalType) {
-        return meltingMetalMap.containsKey(metalType);
+        return meltingMetalMap.containsKey(metalType.name);
     }
 
     public static int getMetalMelting(MetalType metalType) {
@@ -124,7 +129,7 @@ public class ConfigUtils {
     }
 
     public static boolean hasVeinHeight(VeinType veinType) {
-        return veinHeightMinMap.containsKey(veinType) && veinHeightMaxMap.containsKey(veinType);
+        return veinHeightMinMap.containsKey(veinType.name) && veinHeightMaxMap.containsKey(veinType.name);
     }
 
     public static int getVeinHeightMin(VeinType veinType) {
@@ -168,7 +173,7 @@ public class ConfigUtils {
     }
 
     public static boolean hasStrataHeight(StoneType veinType) {
-        return strataHeightMinMap.containsKey(veinType) && strataHeightMaxMap.containsKey(veinType);
+        return strataHeightMinMap.containsKey(veinType.name) && strataHeightMaxMap.containsKey(veinType.name);
     }
 
     public static int getStrataHeightMin(StoneType veinType) {
@@ -212,7 +217,7 @@ public class ConfigUtils {
     }
 
     public static boolean hasVeinSize(VeinType veinType) {
-        return veinSizeMinMap.containsKey(veinType) && veinSizeMaxMap.containsKey(veinType);
+        return veinSizeMinMap.containsKey(veinType.name) && veinSizeMaxMap.containsKey(veinType.name);
     }
 
     public static int getVeinSizeMin(VeinType veinType) {
@@ -255,12 +260,58 @@ public class ConfigUtils {
     }
 
     public static boolean hasAnvilStep(AnvilAction anvilAction) {
-        return anvilStepMap.containsKey(anvilAction);
+        return anvilStepMap.containsKey(anvilAction.name);
     }
 
     public static int getAnvilStep(AnvilAction metalType) {
         String metal = metalType.name;
         return anvilStepMap.get(metal);
+    }
+
+    public static final TObjectIntMap<String> foodHungerMap = new TObjectIntHashMap<>();
+    public static final TObjectFloatMap<String> foodSaturationMap = new TObjectFloatHashMap<>();
+
+    public static String[] getDefaultFood(FoodType[] veinTypes) {
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < veinTypes.length; i++) {
+            if (veinTypes[i].hunger > 0 && veinTypes[i].saturation > 0.0F) {
+                list.add(veinTypes[i].name + "=" + veinTypes[i].hunger + "," + veinTypes[i].saturation);
+            }
+        }
+        return list.toArray(new String[0]);
+    }
+
+    public static void genFoodMap() {
+        String[] priorityOverride = Config.foodValues.getStringList();
+        for (String s : priorityOverride) {
+            String[] spl = s.split("=");
+            if (spl.length == 2) {
+                String ore = spl[0];
+                String[] hs = spl[1].split(",");
+                try {
+                    int hunger = Integer.parseInt(hs[0]);
+                    float saturation = Float.parseFloat(hs[1]);
+                    foodHungerMap.put(ore, hunger);
+                    foodSaturationMap.put(ore, saturation);
+                } catch (Exception e) {
+                    throwInvalidConfig(Config.foodValues);
+                }
+            }
+        }
+    }
+
+    public static boolean hasFoodValue(FoodType foodType) {
+        return foodHungerMap.containsKey(foodType.name) && foodSaturationMap.containsKey(foodType.name);
+    }
+
+    public static int getHunger(FoodType foodType) {
+        String vein = foodType.name;
+        return foodHungerMap.get(vein);
+    }
+
+    public static float getSaturation(FoodType foodType) {
+        String vein = foodType.name;
+        return foodSaturationMap.get(vein);
     }
 
     public static void throwInvalidConfig(Config config) {
