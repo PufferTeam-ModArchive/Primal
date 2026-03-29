@@ -32,6 +32,10 @@ public class TickHandler implements IEventHandler {
                     GlobalTickingData.tick();
                 }
             }
+        } else {
+            if (!event.world.isRemote) {
+                GlobalTickingData.tickClient();
+            }
         }
     }
 

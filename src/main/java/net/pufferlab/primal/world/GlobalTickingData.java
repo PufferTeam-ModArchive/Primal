@@ -42,12 +42,12 @@ public class GlobalTickingData extends WorldSavedData {
     public static void tick() {
         GlobalTickingData data = GlobalTickingData.get();
         data.tickTime++;
-        tickClient(data.tickTime);
         data.markDirty();
     }
 
-    public static void tickClient(long tickTime) {
-        Primal.proxy.sendPacketToClient(new PacketWorldTime(tickTime));
+    public static void tickClient() {
+        GlobalTickingData data = GlobalTickingData.get();
+        Primal.proxy.sendPacketToClient(new PacketWorldTime(data.tickTime));
     }
 
     public static void add(int tick) {
