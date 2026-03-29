@@ -74,7 +74,7 @@ public class TileEntityWindmill extends TileEntityMotion {
                 this.updateTEState();
                 this.scheduleUpdate();
             }
-            addSchedule(300, Tasks.wind);
+            addSchedule(20, Tasks.wind);
         }
     }
 
