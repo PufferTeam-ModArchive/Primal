@@ -51,6 +51,8 @@ public interface IScheduledTile extends ITile {
     default void removeSchedule(World world, int x, int y, int z, int type) {
         ScheduleManager manager = getManager();
         if (manager != null) {
+            if (!manager.hasSentUpdate(type)) return;
+
             manager.removeUpdate(type, world);
         }
         SchedulerData.removeScheduledTask(world, x, y, z, type);

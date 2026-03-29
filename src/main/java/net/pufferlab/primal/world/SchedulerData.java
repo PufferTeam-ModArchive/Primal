@@ -82,12 +82,30 @@ public class SchedulerData extends WorldSavedData {
         }
     }
 
+    public void addScheduledTask(ScheduledTask task) {
+        this.queue.add(task);
+        this.taskMap.computeIfAbsent(task.packedCoords, p -> new ArrayList<>())
+            .add(task);
+        this.markDirty();
+    }
+
+    public void removeScheduledTask(int x, int y, int z) {
+        this.queue.removeIf(p -> p.equals(x, y, z));
+        this.taskMap.remove(Utils.packCoord(x, y, z));
+    }
+
+    public void removeScheduledTask(int x, int y, int z, int type) {
+        this.queue.removeIf(p -> p.equals(x, y, z, type));
+        List<ScheduledTask> tasks = this.taskMap.get(Utils.packCoord(x, y, z));
+        if (tasks == null) return;
+        tasks.removeIf(p -> p.equals(x, y, z, type));
+    }
+
     public static void addScheduledTask(int inTime, World world) {
         long currentTime = GlobalTickingData.getTickTime(world);
         SchedulerData scheduler = get(world);
 
-        scheduler.queue.add(new ScheduledTask(ScheduledTask.simpleTask, currentTime, inTime));
-        scheduler.markDirty();
+        scheduler.addScheduledTask(new ScheduledTask(ScheduledTask.simpleTask, currentTime, inTime));
     }
 
     public static void addScheduledTask(byte task, int inTime, Block block, World world, int x, int y, int z, int type,
@@ -95,8 +113,7 @@ public class SchedulerData extends WorldSavedData {
         long currentTime = GlobalTickingData.getTickTime(world);
         SchedulerData scheduler = get(world);
 
-        scheduler.queue.add(new ScheduledTask(task, block, currentTime, inTime, x, y, z, type, id));
-        scheduler.markDirty();
+        scheduler.addScheduledTask(new ScheduledTask(task, block, currentTime, inTime, x, y, z, type, id));
     }
 
     public static void addScheduledBlockTask(int inTime, Block block, World world, int x, int y, int z, int type,
@@ -112,15 +129,13 @@ public class SchedulerData extends WorldSavedData {
     public static void removeScheduledTask(World world, int x, int y, int z, int type) {
         SchedulerData scheduler = get(world);
 
-        scheduler.queue.removeIf(task -> task.equals(x, y, z, type));
-        scheduler.markDirty();
+        scheduler.removeScheduledTask(x, y, z, type);
     }
 
     public static void removeScheduledTask(World world, int x, int y, int z) {
         SchedulerData scheduler = get(world);
 
-        scheduler.queue.removeIf(task -> task.equals(x, y, z));
-        scheduler.markDirty();
+        scheduler.removeScheduledTask(x, y, z);
     }
 
     public static void addWaitingTask(ScheduledTask task, World world) {
