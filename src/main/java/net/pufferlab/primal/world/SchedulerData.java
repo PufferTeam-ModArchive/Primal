@@ -49,7 +49,8 @@ public class SchedulerData extends WorldSavedData {
         readFromNBT(nbt, nameQueueWait, queueWait, null);
     }
 
-    public void writeToNBT(NBTTagCompound nbt, String name, PriorityQueue<ScheduledTask> queue, Map<Long, List<ScheduledTask>> map) {
+    public void writeToNBT(NBTTagCompound nbt, String name, PriorityQueue<ScheduledTask> queue,
+        Map<Long, List<ScheduledTask>> map) {
         NBTTagList list = new NBTTagList();
 
         for (ScheduledTask task : queue) {
@@ -61,14 +62,15 @@ public class SchedulerData extends WorldSavedData {
         nbt.setTag(name, list);
     }
 
-    public void readFromNBT(NBTTagCompound nbt, String name, PriorityQueue<ScheduledTask> queue, Map<Long, List<ScheduledTask>> map) {
+    public void readFromNBT(NBTTagCompound nbt, String name, PriorityQueue<ScheduledTask> queue,
+        Map<Long, List<ScheduledTask>> map) {
         NBTTagList list = nbt.getTagList(name, Constants.tagCompound);
 
         for (int i = 0; i < list.tagCount(); i++) {
             NBTTagCompound tag = list.getCompoundTagAt(i);
             ScheduledTask task = new ScheduledTask(tag);
             queue.add(task);
-            if(map != null) {
+            if (map != null) {
                 map.computeIfAbsent(task.packedCoords, p -> new ArrayList<>())
                     .add(task);
             }
