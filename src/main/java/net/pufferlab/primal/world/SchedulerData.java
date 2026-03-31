@@ -13,7 +13,9 @@ import net.pufferlab.primal.utils.Utils;
 
 public class SchedulerData extends WorldSavedData {
 
-    private static String name = Primal.MODID + "SchedulerData";
+    private static final String name = Primal.MODID + "SchedulerData";
+    private static final String nameQueue = "ScheduledTasks";
+    private static final String nameQueueWait = "ScheduledWaitingTasks";
 
     public PriorityQueue<ScheduledTask> queue = new PriorityQueue<>();
     public PriorityQueue<ScheduledTask> queueWait = new PriorityQueue<>();
@@ -35,7 +37,19 @@ public class SchedulerData extends WorldSavedData {
 
     @Override
     public void writeToNBT(NBTTagCompound nbt) {
+        writeToNBT(nbt, nameQueue, queue, taskMap);
+        writeToNBT(nbt, nameQueueWait, queueWait, null);
+    }
 
+    @Override
+    public void readFromNBT(NBTTagCompound nbt) {
+        queue.clear();
+
+        readFromNBT(nbt, nameQueue, queue, taskMap);
+        readFromNBT(nbt, nameQueueWait, queueWait, null);
+    }
+
+    public void writeToNBT(NBTTagCompound nbt, String name, PriorityQueue<ScheduledTask> queue, Map<Long, List<ScheduledTask>> map) {
         NBTTagList list = new NBTTagList();
 
         for (ScheduledTask task : queue) {
@@ -44,41 +58,20 @@ public class SchedulerData extends WorldSavedData {
             list.appendTag(tag);
         }
 
-        nbt.setTag("ScheduledTasks", list);
-
-        NBTTagList listWait = new NBTTagList();
-
-        for (ScheduledTask task : queueWait) {
-            NBTTagCompound tag = new NBTTagCompound();
-            task.writeToNBT(tag);
-            list.appendTag(tag);
-        }
-
-        nbt.setTag("WaitingTasks", listWait);
+        nbt.setTag(name, list);
     }
 
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        queue.clear();
-
-        NBTTagList list = nbt.getTagList("ScheduledTasks", Constants.tagCompound);
+    public void readFromNBT(NBTTagCompound nbt, String name, PriorityQueue<ScheduledTask> queue, Map<Long, List<ScheduledTask>> map) {
+        NBTTagList list = nbt.getTagList(name, Constants.tagCompound);
 
         for (int i = 0; i < list.tagCount(); i++) {
             NBTTagCompound tag = list.getCompoundTagAt(i);
             ScheduledTask task = new ScheduledTask(tag);
             queue.add(task);
-            taskMap.computeIfAbsent(task.packedCoords, p -> new ArrayList<>())
-                .add(task);
-        }
-
-        NBTTagList listWait = nbt.getTagList("WaitingTasks", Constants.tagCompound);
-
-        for (int i = 0; i < listWait.tagCount(); i++) {
-            NBTTagCompound tag = listWait.getCompoundTagAt(i);
-            ScheduledTask task = new ScheduledTask(tag);
-            queueWait.add(task);
-            taskMap.computeIfAbsent(task.packedCoords, p -> new ArrayList<>())
-                .add(task);
+            if(map != null) {
+                map.computeIfAbsent(task.packedCoords, p -> new ArrayList<>())
+                    .add(task);
+            }
         }
     }
 
