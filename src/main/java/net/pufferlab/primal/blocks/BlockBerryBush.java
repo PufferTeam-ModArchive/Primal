@@ -7,4 +7,9 @@ public class BlockBerryBush extends BlockCropsBush {
     public BlockBerryBush(CropType cropType) {
         super(cropType);
     }
+
+    @Override
+    public boolean needsFarmland() {
+        return false;
+    }
 }

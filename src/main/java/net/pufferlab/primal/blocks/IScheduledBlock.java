@@ -13,12 +13,20 @@ public interface IScheduledBlock {
 
     default void onScheduleTask(World world, int x, int y, int z, Tasks task) {}
 
+    default boolean sentSchedule(World world, int x, int y, int z, int type) {
+        return SchedulerData.hasScheduledTask(world, x, y, z, type);
+    }
+
+    default boolean sentSchedule(World world, int x, int y, int z, Tasks tasks) {
+        return sentSchedule(world, x, y, z, tasks.ordinal());
+    }
+
     default void addSchedule(World world, int x, int y, int z, int inTime, Tasks task) {
         addSchedule(world, x, y, z, inTime, task.ordinal());
     }
 
     default void addSchedule(World world, int x, int y, int z, int inTime, int type) {
-        SchedulerData.addScheduledBlockTask(inTime, getBlock(), world, x, y, z, type, 0);
+        SchedulerData.addScheduledBlockTask(inTime, getBlock(), world, x, y, z, type);
     }
 
     default void removeSchedule(World world, int x, int y, int z) {

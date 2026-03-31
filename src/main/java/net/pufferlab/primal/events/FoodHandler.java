@@ -3,8 +3,11 @@ package net.pufferlab.primal.events;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.pufferlab.primal.items.ItemMetaFood;
+import net.pufferlab.primal.utils.CropType;
 
+import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class FoodHandler implements IEventHandler {
@@ -31,5 +34,18 @@ public class FoodHandler implements IEventHandler {
                     .setInventorySlotContents(event.entityPlayer.inventory.currentItem, (ItemStack) null);
         }
         event.setCanceled(true);
+    }
+
+    @SubscribeEvent
+    public void playerInteractEventHandler(PlayerInteractEvent event) {
+        if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
+            ItemStack item = event.entityPlayer.getHeldItem();
+            if (item != null) {
+                if (CropType.cropTypes.contains(item.getItem())) {
+                    event.setResult(Event.Result.DENY);
+                    event.setCanceled(true);
+                }
+            }
+        }
     }
 }

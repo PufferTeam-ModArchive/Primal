@@ -20,7 +20,8 @@ public enum Tasks {
     removal,
     wind,
     flow,
-    grow;
+    growth,
+    replenishment;
 
     boolean serialize;
 

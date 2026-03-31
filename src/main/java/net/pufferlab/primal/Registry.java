@@ -649,6 +649,7 @@ public class Registry {
         registerPacket(PacketAnvilPlan.class, Side.SERVER);
         registerPacket(PacketAnvilWork.class, Side.SERVER);
         registerPacket(PacketCutMaterial.class, Side.SERVER);
+        registerPacket(PacketTask.class, Side.SERVER);
 
         registerPacket(PacketSwingArm.class, Side.CLIENT);
         registerPacket(PacketFireStarter.class, Side.CLIENT);

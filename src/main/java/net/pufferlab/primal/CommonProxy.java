@@ -128,6 +128,10 @@ public class CommonProxy implements IGuiHandler {
         return null;
     }
 
+    public World getWorldFromID(int id) {
+        return server.worldServerForDimension(id);
+    }
+
     public EntityPlayer getPlayer(MessageContext ctx) {
         if (ctx.side == Side.SERVER) {
             return ctx.getServerHandler().playerEntity;

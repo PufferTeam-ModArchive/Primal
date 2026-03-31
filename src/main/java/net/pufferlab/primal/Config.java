@@ -63,8 +63,14 @@ public enum Config {
         "Whether to make vanilla torches require glowstone to balance the lit torches"),
 
     // Food
-    foodValues(Module.food, ConfigUtils.getDefaultFood(Constants.foodTypesAll),
+    foodValues(Module.farming, ConfigUtils.getDefaultFood(Constants.foodTypesAll),
         "All of the corresponding food values and how much food they give when eating, the first argument argument is hunger, and second is saturation"),
+    foodBaseGrowth(Module.farming, 1500,
+        "The base amount of ticks it takes to grow one stage (depends on how much stages a plant has"),
+    farmlandReplenishment(Module.farming, 2000,
+        "Numbers of ticks that the farmlands takes to replenishment its nutrient content a small amount"),
+    bonemealInstantGrowth(Module.farming, false,
+        "Keeps the function that makes bone meal instantly grow crops one stage (kind of overpowered)"),
 
     // Metal
     temperatureCap(Module.metalworking, 1,
@@ -340,7 +346,7 @@ public enum Config {
             "Includes all the early game stuff such as campfire, pitkiln and everything you will use early on."),
         early_game$tweaks(true, "Multiple vanilla tweaks to spice up the early game."),
         early_game$lighting(true, "Includes all of the changes related to lighting."),
-        food(true, "Includes all of the food stuff."),
+        farming(true, "Includes all of the food stuff."),
         metalworking(true, "Includes all of the metalworking aspect of the mod, such as the forge, crucible and such."),
         metalworking$forging(true, "Includes all options for the Anvil Forging minigame"),
         mechanical_power(true,

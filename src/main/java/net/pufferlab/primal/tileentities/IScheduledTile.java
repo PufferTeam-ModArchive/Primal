@@ -31,7 +31,7 @@ public interface IScheduledTile extends ITile {
 
             manager.addUpdate(type, world, inTime);
         }
-        SchedulerData.addScheduledTileTask(inTime, getBlock(), world, x, y, z, type, 0);
+        SchedulerData.addScheduledTileTask(inTime, getBlock(), world, x, y, z, type);
         mark();
     }
 

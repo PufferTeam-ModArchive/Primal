@@ -11,7 +11,7 @@ public class RenderingHandler {
     @SubscribeEvent
     public void renderPlayer(RenderPlayerEvent.Specials.Pre event) {
         if (Config.wearableRenderer.getBoolean()) {
-            RenderAccessory.instance.handleRendering(event.entityLiving, event.renderer);
+            RenderAccessory.handleRendering(event.entityLiving, event.renderer);
         }
     }
 

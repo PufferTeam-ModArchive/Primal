@@ -20,8 +20,8 @@ import baubles.common.lib.PlayerHandler;
 public class RenderAccessory {
 
     public static final RenderAccessory instance = new RenderAccessory();
-    public static final Map<Item, IAccessoryRenderer> renderingMap = new HashMap<>();
-    public static final List<ModelAccessory> models = new ArrayList<>();
+    private static final Map<Item, IAccessoryRenderer> renderingMap = new HashMap<>();
+    private static final List<ModelAccessory> models = new ArrayList<>();
 
     public static void registerRenderer(Item item, IAccessoryRenderer renderer) {
         renderingMap.put(item, renderer);
@@ -70,7 +70,11 @@ public class RenderAccessory {
 
     public RenderPlayer player;
 
-    public void handleRendering(EntityLivingBase entity, RenderPlayer renderer) {
+    public static void handleRendering(EntityLivingBase entity, RenderPlayer renderer) {
+        instance.handleRenderingImpl(entity, renderer);
+    }
+
+    private void handleRenderingImpl(EntityLivingBase entity, RenderPlayer renderer) {
         if (player != renderer) {
             registerRenderers(renderer);
             player = renderer;

@@ -171,6 +171,7 @@ public class Constants {
     public static final int crossedModel32 = 2;
     public static final int cropModel = 1;
     public static final int cropModel32 = 3;
+
     public static final FoodType blueberry = new FoodType("blueberry", 1, 0.6F);
     public static final FoodType strawberry = new FoodType("strawberry", 1, 0.6F);
     public static final FoodType blackberry = new FoodType("blackberry", 1, 0.6F);
@@ -181,6 +182,7 @@ public class Constants {
     public static final FoodType potato = new FoodType("potato", 2, 0.6F);
     public static final FoodType garlic = new FoodType("garlic", 2, 0.6F);
     public static final FoodType corn = new FoodType("corn", 2, 0.6F);
+
     public static final FoodType wheat = new FoodType("wheat");
     public static final FoodType oat = new FoodType("oat");
     public static final FoodType barley = new FoodType("barley");
@@ -189,14 +191,17 @@ public class Constants {
     public static final FoodType jute = new FoodType("jute");
     public static final FoodType cotton = new FoodType("cotton");
     public static final FoodType sugar_cane = new FoodType("sugarcane");
+
     public static final FoodType wheat_flour = new FoodType("wheat_flour", 1, 0.5F, false, null, effectHunger, 20, 1.0F);
     public static final FoodType oat_flour = new FoodType("oat_flour", 1, 0.5F, false, null, effectHunger, 20, 1.0F);
     public static final FoodType barley_flour = new FoodType("barley_flour", 1, 0.5F, false, null, effectHunger, 20, 1.0F);
     public static final FoodType rye_flour = new FoodType("rye_flour", 1, 0.5F, false, null, effectHunger, 20, 1.0F);
+
     public static final FoodType wheat_dough = new FoodType("wheat_dough", 1, 0.5F, false, null, effectHunger, 20, 1.0F);
     public static final FoodType oat_dough = new FoodType("oat_dough", 1, 0.5F, false, null, effectHunger, 20, 1.0F);
     public static final FoodType barley_dough = new FoodType("barley_dough", 1, 0.5F, false, null, effectHunger, 20, 1.0F);
     public static final FoodType rye_dough = new FoodType("rye_dough", 1, 0.5F, false, null, effectHunger, 20, 1.0F);
+
     public static final FoodType wheat_bread = new FoodType("wheat_bread", 5, 0.6F).hasNoFoodItem();
     public static final FoodType oat_bread = new FoodType("oat_bread", 5, 0.6F);
     public static final FoodType barley_bread = new FoodType("barley_bread", 5, 0.6F);
@@ -204,24 +209,31 @@ public class Constants {
     public static final FoodType[] flourItems       = {wheat_flour, oat_flour, barley_flour, rye_flour};
     public static final FoodType[] doughItems       = {wheat_dough, oat_dough, barley_dough, rye_dough };
     public static final FoodType[] breadItems       = {wheat_bread, oat_bread, barley_bread, rye_bread};
-    public static final CropType blueberry_crop = new CropType(blueberry, "blueberry", 2, 3, 6, crossedModel);
-    public static final CropType strawberry_crop = new CropType(strawberry, "strawberry", 2, 3, 6, crossedModel);
-    public static final CropType blackberry_crop = new CropType(blackberry, "blackberry", 2, 3, 6, crossedModel);
-    public static final CropType onion_crop = new CropType(onion, "onion", 7, 1, 3, crossedModel);
-    public static final CropType tomatoes_crop = new CropType(tomato, "tomatoes", 8, 1, 3, crossedModel32);
-    public static final CropType cabbages_crop = new CropType(cabbage, "cabbages", 6, 1, 3, crossedModel);
-    public static final CropType carrots_crop = new CropType(carrot, "carrots", 5, 1, 3, cropModel).hasNoCropItem();
-    public static final CropType potatoes_crop = new CropType(potato, "potatoes", 7, 1, 3, cropModel).hasNoCropItem();
-    public static final CropType garlic_crop = new CropType(garlic, "garlic", 5, 1, 3, crossedModel);
-    public static final CropType corn_crop = new CropType(corn, "corn", 5, 1, 3, cropModel32);
-    public static final CropType wheat_crop = new CropType(wheat, "wheat", 8, 1, 3, cropModel).hasNoCropFood().hasNoCropItem().hasNoSeedItem();
-    public static final CropType oat_crop = new CropType(oat, "oat", 8, 1, 3, cropModel).hasNoCropFood();
-    public static final CropType barley_crop = new CropType(barley, "barley", 8, 1, 3, cropModel).hasNoCropFood();
-    public static final CropType rye_crop = new CropType(rye, "rye", 8, 1, 3, cropModel).hasNoCropFood();
-    public static final CropType flax_crop = new CropType(flax, "flax", 6, 1, 3, cropModel32).hasNoCropFood();
-    public static final CropType jute_crop = new CropType(jute, "jute", 6, 1, 3, cropModel32).hasNoCropFood();
-    public static final CropType cotton_crop = new CropType(cotton, "cotton", 6, 1, 3, crossedModel32).hasNoCropFood();
-    public static final CropType sugar_canes_crop = new CropType(sugar_cane, "sugarcanes", 8, 1, 3, crossedModel32).hasNoCropFood();
+    public static final CropType blueberry_crop = new CropType(blueberry, "blueberry", 2, 3, 6, 'N', 0.15f, 1.20f, crossedModel);
+    public static final CropType strawberry_crop = new CropType(strawberry, "strawberry", 2, 3, 6, 'P', 0.35f, 1.20f, crossedModel);
+    public static final CropType blackberry_crop = new CropType(blackberry, "blackberry", 2, 3, 6, 'P', 0.35f, 1.20f, crossedModel);
+
+    public static final CropType onion_crop = new CropType(onion, "onion", 7, 1, 3, 'P', 0.35f, 1.85f, crossedModel);
+    public static final CropType tomatoes_crop = new CropType(tomato, "tomatoes", 8, 1, 3, 'P', 0.35f, 1.85f, crossedModel32);
+    public static final CropType cabbages_crop = new CropType(cabbage, "cabbages", 6, 1, 3, 'N', 0.40f, 1.50f, crossedModel);
+
+    public static final CropType carrots_crop = new CropType(carrot, "carrots", 5, 1, 3, 'K', 0.40f, 1.20f, cropModel).hasNoCropItem();
+    public static final CropType potatoes_crop = new CropType(potato, "potatoes", 7, 1, 3, 'K', 0.50f, 1.20f, cropModel).hasNoCropItem();
+    public static final CropType garlic_crop = new CropType(garlic, "garlic", 5, 1, 3, 'P', 0.35f, 1.20f, crossedModel);
+
+    public static final CropType corn_crop = new CropType(corn, "corn", 5, 1, 3, 'N', 0.40f, 1.25f, cropModel32);
+
+    public static final CropType wheat_crop = new CropType(wheat, "wheat", 8, 1, 3, 'N', 0.40f, 2.00f, cropModel).hasNoCropFood().hasNoCropItem().hasNoSeedItem();
+    public static final CropType oat_crop = new CropType(oat, "oat", 8, 1, 3, 'N', 0.40f, 2.00f, cropModel).hasNoCropFood();
+    public static final CropType barley_crop = new CropType(barley, "barley", 8, 1, 3, 'N', 0.40f, 2.00f, cropModel).hasNoCropFood();
+    public static final CropType rye_crop = new CropType(rye, "rye", 8, 1, 3, 'N', 0.40f, 2.00f, cropModel).hasNoCropFood();
+
+    public static final CropType flax_crop = new CropType(flax, "flax", 6, 1, 3, 'K', 0.50f, 2.00f, cropModel32).hasNoCropFood();
+    public static final CropType jute_crop = new CropType(jute, "jute", 6, 1, 3, 'P', 0.45f, 2.50f, cropModel32).hasNoCropFood();
+    public static final CropType cotton_crop = new CropType(cotton, "cotton", 6, 1, 3, 'P', 0.20f, 2.20f, crossedModel32).hasNoCropFood();
+
+    public static final CropType sugar_canes_crop = new CropType(sugar_cane, "sugarcanes", 8, 1, 3, 'K', 0.50f, 2.25f, crossedModel32).hasNoCropFood();
+
     public static final CropType[] crops = {wheat_crop, oat_crop, barley_crop, rye_crop, flax_crop, jute_crop, cotton_crop, sugar_canes_crop, onion_crop, tomatoes_crop, cabbages_crop, carrots_crop, potatoes_crop, garlic_crop, corn_crop};
     public static final CropType[] berries = {blueberry_crop, strawberry_crop, blackberry_crop};
     public static final FoodType[] foodTypesAll = Utils.combineArrays(CropType.getFoodTypes(berries), CropType.getFoodTypes(crops), flourItems, doughItems, breadItems);

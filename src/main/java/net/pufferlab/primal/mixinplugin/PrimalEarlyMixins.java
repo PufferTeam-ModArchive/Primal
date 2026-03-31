@@ -47,7 +47,6 @@ public class PrimalEarlyMixins implements IFMLLoadingPlugin, IEarlyMixinLoader {
         if (Config.sidewayFallingBlocks.getBoolean()) {
             mixins.add("minecraft.MixinBlockFalling_SideFall");
         }
-        mixins.add("minecraft.MixinItemSeedFood");
         return mixins;
     }
 

@@ -2,16 +2,18 @@ package net.pufferlab.primal.tileentities;
 
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.utils.BlockUtils;
+import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.ScheduleManager;
 import net.pufferlab.primal.world.Tasks;
 
 public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTile {
 
     public float moisture = 0.0F;
-    public float potassium = 0.0F;
-    public float nitrogen = 0.0F;
-    public float phosphorus = 0.0F;
+    public float potassium = 0.5F;
+    public float nitrogen = 0.5F;
+    public float phosphorus = 0.5F;
 
     public ScheduleManager manager = new ScheduleManager(
         Tasks.moisture,
@@ -23,7 +25,8 @@ public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTi
 
     @Override
     public void init() {
-        addSchedule(10, Tasks.moisture);
+        addSchedule(0, Tasks.moisture);
+        // addSchedule(Config.farmlandReplenishment.getInt(), Tasks.replenishment);
     }
 
     @Override
@@ -79,17 +82,21 @@ public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTi
             setMoisture(getMoisture());
             addSchedule(200, Tasks.moisture);
         }
+        if (task == Tasks.replenishment) {
+            replenishNutrients();
+            addSchedule(Config.farmlandReplenishment.getInt(), Tasks.replenishment);
+        }
     }
 
     public void setMoisture(float moisture) {
-        this.moisture = moisture;
+        this.moisture = Utils.clamp(0, 1, moisture);
         updateTEState();
     }
 
     public void setNutrients(float potassium, float nitrogen, float phosphorus) {
-        this.potassium = potassium;
-        this.nitrogen = nitrogen;
-        this.phosphorus = phosphorus;
+        this.potassium = Utils.clamp(0, 1, potassium);
+        this.nitrogen = Utils.clamp(0, 1, nitrogen);
+        this.phosphorus = Utils.clamp(0, 1, phosphorus);
         updateTEState();
     }
 
@@ -112,6 +119,47 @@ public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTi
             }
         }
         return best;
+    }
+
+    public void replenishNutrients() {
+        setNutrients(
+            this.potassium + (this.potassium * 0.10F),
+            this.nitrogen + (this.nitrogen * 0.10F),
+            this.phosphorus + (this.phosphorus * 0.10F));
+    }
+
+    public float getGrowthSpeed(char nutrient) {
+        return Math.max(0.01F, (getGrowthSpeedMoisture() + getGrowthSpeedNutrients(nutrient)) / 2.0F);
+    }
+
+    public float getGrowthSpeedMoisture() {
+        return (float) Math.pow(Math.max(0.01, (this.moisture * 100) / 70 - 0.0143), 0.35);
+    }
+
+    public float getGrowthSpeedNutrients(char nutrientType) {
+        float nutrientAmount = 0.0F;
+        if (nutrientType == 'N') {
+            nutrientAmount = this.nitrogen;
+        } else if (nutrientType == 'K') {
+            nutrientAmount = this.potassium;
+        } else if (nutrientType == 'P') {
+            nutrientAmount = this.phosphorus;
+        }
+        return -0.0001644F * (nutrientAmount * nutrientAmount) + 0.02582F * nutrientAmount + 0.10F;
+    }
+
+    public void consumeNutrient(char nutrientType, float consume) {
+        float potassium = this.potassium;
+        float nitrogen = this.nitrogen;
+        float phosphorus = this.phosphorus;
+        if (nutrientType == 'N') {
+            nitrogen -= consume;
+        } else if (nutrientType == 'K') {
+            potassium -= consume;
+        } else if (nutrientType == 'P') {
+            phosphorus -= consume;
+        }
+        setNutrients(potassium, nitrogen, phosphorus);
     }
 
     @Override

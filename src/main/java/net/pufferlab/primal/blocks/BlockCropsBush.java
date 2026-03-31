@@ -3,24 +3,28 @@ package net.pufferlab.primal.blocks;
 import java.util.ArrayList;
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
+import net.pufferlab.primal.tileentities.TileEntityFarmland;
 import net.pufferlab.primal.utils.CropType;
 import net.pufferlab.primal.utils.Utils;
+import net.pufferlab.primal.world.Tasks;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockCropsBush extends BlockCrops implements IPrimalBlock {
+public class BlockCropsBush extends BlockCrops implements IPrimalBlock, IScheduledBlock {
 
     public CropType cropType;
     public IIcon[] cropsIcons;
@@ -39,17 +43,77 @@ public class BlockCropsBush extends BlockCrops implements IPrimalBlock {
     public void updateTick(World worldIn, int x, int y, int z, Random random) {
         this.checkAndDropBlock(worldIn, x, y, z);
 
-        if (worldIn.getBlockLightValue(x, y + 1, z) >= 9) {
-            int l = worldIn.getBlockMetadata(x, y, z);
+        if (!sentSchedule(worldIn, x, y, z, Tasks.growth)) {
+            updateGrowth(worldIn, x, y, z, worldIn.rand);
+        }
+    }
 
-            if (l < growStages - 1) {
-                float f = this.func_149864_n(worldIn, x, y, z);
+    @Override
+    public float func_149864_n(World p_149864_1_, int p_149864_2_, int p_149864_3_, int p_149864_4_) {
+        return 1.0F;
+    }
 
-                if (random.nextInt((int) (25.0F / f) + 1) == 0) {
-                    ++l;
-                    worldIn.setBlockMetadataWithNotify(x, y, z, l, 2);
-                }
+    public void updateGrowth(World worldIn, int x, int y, int z, Random rand) {
+        int meta = worldIn.getBlockMetadata(x, y, z);
+        if (meta != (this.growStages - 1) && worldIn.getBlockLightValue(x, y + 1, z) >= 9) {
+            TileEntity te = worldIn.getTileEntity(x, y - 1, z);
+            float growthSpeed = 0.75F;
+            if (te instanceof TileEntityFarmland farmland) {
+                growthSpeed = farmland.getGrowthSpeed(this.cropType.nutrient);
+            } else {
+                if (needsFarmland()) return;
             }
+            int ticksToGrow = this.cropType.getGrowthTicks(rand);
+            int updateTick = (int) (((float) ticksToGrow) / growthSpeed);
+            addSchedule(worldIn, x, y, z, updateTick, Tasks.growth);
+        }
+    }
+
+    @Override
+    public void onBlockAdded(World worldIn, int x, int y, int z) {
+        super.onBlockAdded(worldIn, x, y, z);
+
+        if (!sentSchedule(worldIn, x, y, z, Tasks.growth)) {
+            updateGrowth(worldIn, x, y, z, worldIn.rand);
+        }
+    }
+
+    public boolean needsFarmland() {
+        return true;
+    }
+
+    @Override
+    public void onScheduleTask(World world, int x, int y, int z, Tasks task) {
+        IScheduledBlock.super.onScheduleTask(world, x, y, z, task);
+
+        if (task == Tasks.growth) {
+            grow(world, x, y, z);
+        }
+    }
+
+    public void grow(World world, int x, int y, int z) {
+        TileEntity te = world.getTileEntity(x, y - 1, z);
+        if (needsFarmland()) {
+            if (te instanceof TileEntityFarmland farmland) {
+                farmland.consumeNutrient(
+                    this.cropType.nutrient,
+                    this.cropType.nutrientConsumption / (float) this.cropType.growStages);
+            }
+        }
+        int l = world.getBlockMetadata(x, y, z) + 1;
+
+        if (l > (growStages - 1)) {
+            l = (growStages - 1);
+        }
+
+        world.setBlockMetadataWithNotify(x, y, z, l, 2);
+
+        updateGrowth(world, x, y, z, world.rand);
+    }
+
+    public void bonemealGrow(World world, int x, int y, int z) {
+        if (Config.bonemealInstantGrowth.getBoolean()) {
+            grow(world, x, y, z);
         }
     }
 
@@ -119,25 +183,15 @@ public class BlockCropsBush extends BlockCrops implements IPrimalBlock {
     }
 
     @Override
-    public void func_149863_m(World p_149863_1_, int p_149863_2_, int p_149863_3_, int p_149863_4_) {
-        int l = p_149863_1_.getBlockMetadata(p_149863_2_, p_149863_3_, p_149863_4_) + 1;
-
-        if (l > (growStages - 1)) {
-            l = (growStages - 1);
-        }
-
-        p_149863_1_.setBlockMetadataWithNotify(p_149863_2_, p_149863_3_, p_149863_4_, l, 2);
-    }
-
-    @Override
-    public void onBlockPlacedBy(World worldIn, int x, int y, int z, EntityLivingBase placer, ItemStack itemIn) {
-        super.onBlockPlacedBy(worldIn, x, y, z, placer, itemIn);
-
+    public void func_149863_m(World world, int x, int y, int z) {
+        bonemealGrow(world, x, y, z);
     }
 
     @Override
     public void onBlockPreDestroy(World worldIn, int x, int y, int z, int meta) {
         super.onBlockPreDestroy(worldIn, x, y, z, meta);
+
+        removeSchedule(worldIn, x, y, z);
     }
 
     @Override
@@ -166,5 +220,10 @@ public class BlockCropsBush extends BlockCrops implements IPrimalBlock {
     @Override
     public CreativeTabs getCreativeTab() {
         return Registry.creativeTabWorld;
+    }
+
+    @Override
+    public Block getBlock() {
+        return this;
     }
 }
