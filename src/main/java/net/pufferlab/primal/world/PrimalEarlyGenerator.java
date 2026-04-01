@@ -34,5 +34,7 @@ public class PrimalEarlyGenerator implements IWorldGenerator {
             }
             soilGen.genSoil(chunk);
         }
+        chunk.generateHeightMap();
+        chunk.generateSkylightMap();
     }
 }
