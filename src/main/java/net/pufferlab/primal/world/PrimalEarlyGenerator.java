@@ -30,7 +30,6 @@ public class PrimalEarlyGenerator implements IWorldGenerator {
             soilGen.initNoiseSeed(world.getSeed());
             soilGen.genSoil(chunk);
         }
-        chunk.generateHeightMap();
         chunk.generateSkylightMap();
     }
 }
