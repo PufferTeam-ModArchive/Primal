@@ -7,7 +7,6 @@ import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.IScheduledBlock;
 import net.pufferlab.primal.tileentities.IScheduledTile;
-import net.pufferlab.primal.utils.Utils;
 
 public class ScheduledTask implements Comparable<ScheduledTask> {
 
@@ -26,9 +25,10 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
         }
     }
 
-    long timeCurrent, timeScheduled, packedCoords;
+    long timeCurrent, timeScheduled;
     byte taskType;
     int blockID, x, y, z, type, id;
+    boolean invalid;
 
     public ScheduledTask(NBTTagCompound tag) {
         readFromNBT(tag);
@@ -46,7 +46,6 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
         this.blockID = Block.getIdFromBlock(block);
         this.timeCurrent = currentTime;
         this.timeScheduled = currentTime + inTime;
-        this.packedCoords = Utils.packCoord(x, y, z);
         this.x = x;
         this.y = y;
         this.z = z;
@@ -63,7 +62,6 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
         this.x = newX;
         this.y = newY;
         this.z = newZ;
-        this.packedCoords = Utils.packCoord(newX, newY, newZ);
     }
 
     public void writeToNBT(NBTTagCompound tag) {
@@ -71,7 +69,6 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
         tag.setLong("timeSent", timeCurrent);
         tag.setLong("time", timeScheduled);
         tag.setInteger("blockID", blockID);
-        tag.setLong("packedCoords", packedCoords);
         tag.setInteger("x", x);
         tag.setInteger("y", y);
         tag.setInteger("z", z);
@@ -84,7 +81,6 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
         timeCurrent = tag.getLong("timeSent");
         timeScheduled = tag.getLong("time");
         blockID = tag.getInteger("blockID");
-        packedCoords = tag.getLong("packedCoords");
         x = tag.getInteger("x");
         y = tag.getInteger("y");
         z = tag.getInteger("z");
@@ -135,6 +131,7 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
     }
 
     public boolean run(World world) {
+        if (this.invalid()) return false;
         switch (ScheduledTask.TaskType.getTask(this.taskType)) {
             case simpleTask: {
                 Primal.LOG.info("ScheduledTask Ran");
@@ -169,6 +166,14 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
             }
         }
         return false;
+    }
+
+    public boolean invalid() {
+        return this.invalid;
+    }
+
+    public void invalidate() {
+        this.invalid = true;
     }
 
     public boolean isLoaded(World world) {

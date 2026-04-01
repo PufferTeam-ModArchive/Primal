@@ -24,6 +24,7 @@ public class CommandSchedule extends CommandSub {
                         "List of ScheduledTasks in dimension " + sender.getEntityWorld().provider.dimensionId));
                 sender.addChatMessage(new ChatComponentText("Size of List :" + size));
                 for (ScheduledTask task : SchedulerData.getTasks(sender.getEntityWorld())) {
+                    if (task.invalid()) continue;
                     sender.addChatMessage(new ChatComponentText(task.toString()));
                 }
             } else if (args[0].equals("waitlist")) {

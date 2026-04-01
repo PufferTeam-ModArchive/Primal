@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.utils.Utils;
+import net.pufferlab.primal.utils.PositionMap;
 
 public class SchedulerData extends WorldSavedData {
 
@@ -19,7 +19,7 @@ public class SchedulerData extends WorldSavedData {
 
     public PriorityQueue<ScheduledTask> queue = new PriorityQueue<>();
     public PriorityQueue<ScheduledTask> queueWait = new PriorityQueue<>();
-    public Map<Long, List<ScheduledTask>> taskMap = new HashMap<>();
+    public PositionMap<ScheduledTask> taskMap = new PositionMap<>();
 
     public SchedulerData(String p_i2141_1_) {
         super(name);
@@ -50,10 +50,11 @@ public class SchedulerData extends WorldSavedData {
     }
 
     public void writeToNBT(NBTTagCompound nbt, String name, PriorityQueue<ScheduledTask> queue,
-        Map<Long, List<ScheduledTask>> map) {
+        PositionMap<ScheduledTask> map) {
         NBTTagList list = new NBTTagList();
 
         for (ScheduledTask task : queue) {
+            if (task.invalid()) continue;
             NBTTagCompound tag = new NBTTagCompound();
             task.writeToNBT(tag);
             list.appendTag(tag);
@@ -63,7 +64,7 @@ public class SchedulerData extends WorldSavedData {
     }
 
     public void readFromNBT(NBTTagCompound nbt, String name, PriorityQueue<ScheduledTask> queue,
-        Map<Long, List<ScheduledTask>> map) {
+        PositionMap<ScheduledTask> map) {
         NBTTagList list = nbt.getTagList(name, Constants.tagCompound);
 
         for (int i = 0; i < list.tagCount(); i++) {
@@ -71,40 +72,47 @@ public class SchedulerData extends WorldSavedData {
             ScheduledTask task = new ScheduledTask(tag);
             queue.add(task);
             if (map != null) {
-                map.computeIfAbsent(task.packedCoords, p -> new ArrayList<>())
-                    .add(task);
+                map.put(task.x, task.y, task.z, task);
             }
         }
     }
 
     public void addScheduledTask(ScheduledTask task) {
         this.queue.add(task);
-        this.taskMap.computeIfAbsent(task.packedCoords, p -> new ArrayList<>())
-            .add(task);
+        this.taskMap.put(task.x, task.y, task.z, task);
         this.markDirty();
     }
 
     public void removeScheduledTask(int x, int y, int z) {
-        this.queue.removeIf(p -> p.equals(x, y, z));
-        this.taskMap.remove(Utils.packCoord(x, y, z));
+        List<ScheduledTask> tasks = this.taskMap.remove(x, y, z);
+        if (tasks == null) return;
+        if (tasks.isEmpty()) return;
+        for (ScheduledTask task : tasks) {
+            if (task.equals(x, y, z)) {
+                task.invalidate();
+            }
+        }
         this.markDirty();
     }
 
     public void removeScheduledTask(int x, int y, int z, int type) {
-        this.queue.removeIf(p -> p.equals(x, y, z, type));
-        List<ScheduledTask> tasks = this.taskMap.get(Utils.packCoord(x, y, z));
+        List<ScheduledTask> tasks = this.taskMap.get(x, y, z);
         if (tasks == null) return;
         if (tasks.isEmpty()) return;
-        tasks.removeIf(p -> p.equals(x, y, z, type));
+        for (ScheduledTask task : tasks) {
+            if (task.equals(x, y, z, type)) {
+                task.invalidate();
+            }
+        }
         this.markDirty();
     }
 
     public boolean hasScheduledTask(int x, int y, int z, int type) {
-        List<ScheduledTask> tasks = this.taskMap.get(Utils.packCoord(x, y, z));
+        List<ScheduledTask> tasks = this.taskMap.get(x, y, z);
         if (tasks == null) return false;
         if (tasks.isEmpty()) return false;
         for (ScheduledTask task : tasks) {
-            if (task.equals(type)) return true;
+            if (task.equals(type) && !task.invalid()) return true;
         }
         return false;
     }
@@ -166,14 +174,12 @@ public class SchedulerData extends WorldSavedData {
     public static void moveScheduledTask(Block block, World world, int x, int y, int z, int newX, int newY, int newZ) {
         SchedulerData scheduler = get(world);
 
-        long packedCoords = Utils.packCoord(x, y, z);
-        List<ScheduledTask> tasks = scheduler.taskMap.remove(packedCoords);
+        List<ScheduledTask> tasks = scheduler.taskMap.remove(x, y, z);
 
         if (tasks != null) {
             for (ScheduledTask task : tasks) {
                 task.updateCoords(newX, newY, newZ);
-                scheduler.taskMap.computeIfAbsent(task.packedCoords, p -> new ArrayList<>())
-                    .add(task);
+                scheduler.taskMap.put(task.x, task.y, task.z, task);
             }
         }
     }
@@ -184,7 +190,10 @@ public class SchedulerData extends WorldSavedData {
         while (!scheduler.queue.isEmpty() && scheduler.queue.peek().timeScheduled <= currentTick) {
             ScheduledTask task = scheduler.queue.poll();
 
-            task.run(world);
+            boolean executed = task.run(world);
+            if (executed) {
+                task.invalidate();
+            }
             scheduler.markDirty();
         }
     }
