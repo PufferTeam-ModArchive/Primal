@@ -30,11 +30,8 @@ public class TickHandler implements IEventHandler {
             if (!event.world.isRemote) {
                 if (Primal.proxy.isOverworld(event.world)) {
                     GlobalTickingData.tick();
+                    GlobalTickingData.tickClient();
                 }
-            }
-        } else {
-            if (!event.world.isRemote) {
-                GlobalTickingData.tickClient();
             }
         }
     }

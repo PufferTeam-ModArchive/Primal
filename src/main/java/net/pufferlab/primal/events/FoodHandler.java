@@ -2,8 +2,11 @@ package net.pufferlab.primal.events;
 
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.pufferlab.primal.Config;
+import net.pufferlab.primal.blocks.BlockCropsBush;
 import net.pufferlab.primal.items.ItemMetaFood;
 import net.pufferlab.primal.utils.CropType;
 
@@ -45,6 +48,16 @@ public class FoodHandler implements IEventHandler {
                     event.setResult(Event.Result.DENY);
                     event.setCanceled(true);
                 }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void bonemealHandler(BonemealEvent event) {
+        if (!Config.bonemealInstantGrowth.getBoolean()) {
+            if (event.block instanceof BlockCropsBush) {
+                event.setResult(Event.Result.DENY);
+                event.setCanceled(true);
             }
         }
     }

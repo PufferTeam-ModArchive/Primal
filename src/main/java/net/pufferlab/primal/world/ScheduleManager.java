@@ -14,7 +14,7 @@ public class ScheduleManager {
     public ScheduleManager(Tasks... tasksID) {
         this.tasks = new UpdateTask[tasksID.length];
         for (int i = 0; i < tasksID.length; i++) {
-            tasks[i] = new UpdateTask(tasksID[i].ordinal());
+            tasks[i] = new UpdateTask(tasksID[i]);
         }
         for (UpdateTask task : tasks) {
             this.tasksMap.put(task.id, task);
@@ -30,36 +30,45 @@ public class ScheduleManager {
 
     public void readFromNBT(NBTTagCompound tag) {
         for (UpdateTask task : tasks) {
-            if (task.id < 0) continue;
+            if (!task.serialize) continue;
             UpdateTask.readFromNBT(tag, task);
         }
     }
 
     public void writeToNBT(NBTTagCompound tag) {
         for (UpdateTask task : tasks) {
-            if (task.id < 0) continue;
+            if (!task.serialize) continue;
             UpdateTask.writeToNBT(tag, task);
         }
     }
 
-    public boolean hasSentUpdate(int type) {
-        return tasksMap.get(type)
-            .hasSentUpdate();
+    public boolean hasSentUpdate(World world, int x, int y, int z, int type) {
+        UpdateTask task = tasksMap.get(type);
+        if (task == null) {
+            return SchedulerData.hasScheduledTask(world, x, y, z, type);
+        }
+        return task.hasSentUpdate();
     }
 
     public void addUpdate(int type, World world, int inTime) {
-        tasksMap.get(type)
-            .addUpdate(world, inTime);
+        UpdateTask task = tasksMap.get(type);
+        if (task != null) {
+            task.addUpdate(world, inTime);
+        }
     }
 
     public void removeUpdate(int type, World world) {
-        tasksMap.get(type)
-            .removeUpdate(world);
+        UpdateTask task = tasksMap.get(type);
+        if (task != null) {
+            task.removeUpdate(world);
+        }
     }
 
     public void onUpdate(int type, World world) {
-        tasksMap.get(type)
-            .onUpdate(world);
+        UpdateTask task = tasksMap.get(type);
+        if (task != null) {
+            task.onUpdate(world);
+        }
     }
 
     public long getNextUpdate(int type) {

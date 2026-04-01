@@ -11,9 +11,11 @@ public class UpdateTask {
     public long timeSent;
     public long timeScheduled;
     public boolean sentUpdate;
+    public boolean serialize;
 
-    public UpdateTask(int id) {
-        this.id = id;
+    public UpdateTask(Tasks task) {
+        this.id = Tasks.getID(task);
+        this.serialize = Tasks.shouldSerialize(task);
         this.name = "UpdateTask" + id;
         this.sentUpdate = false;
     }

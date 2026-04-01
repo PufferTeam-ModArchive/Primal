@@ -15,18 +15,14 @@ public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTi
     public float nitrogen = 0.5F;
     public float phosphorus = 0.5F;
 
-    public ScheduleManager manager = new ScheduleManager(
-        Tasks.moisture,
-        Tasks.potassium,
-        Tasks.nitrogen,
-        Tasks.phosphorus);
+    public ScheduleManager manager = new ScheduleManager(Tasks.moisture, Tasks.replenishment);
 
     public TileEntityFarmland() {}
 
     @Override
     public void init() {
         addSchedule(0, Tasks.moisture);
-        // addSchedule(Config.farmlandReplenishment.getInt(), Tasks.replenishment);
+        addSchedule(Config.farmlandReplenishment.getInt(), Tasks.replenishment);
     }
 
     @Override
@@ -122,10 +118,11 @@ public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTi
     }
 
     public void replenishNutrients() {
+        float rate = Config.farmlandReplenishmentRate.getFloat();
         setNutrients(
-            this.potassium + (this.potassium * 0.10F),
-            this.nitrogen + (this.nitrogen * 0.10F),
-            this.phosphorus + (this.phosphorus * 0.10F));
+            Utils.clamp(0.0F, 0.5F, this.potassium + (this.potassium * rate)),
+            Utils.clamp(0.0F, 0.5F, this.nitrogen + (this.nitrogen * rate)),
+            Utils.clamp(0.0F, 0.5F, this.phosphorus + (this.phosphorus * rate)));
     }
 
     public float getGrowthSpeed(char nutrient) {

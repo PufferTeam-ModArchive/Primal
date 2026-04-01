@@ -24,10 +24,12 @@ public class Primal {
     public static final String MODID = "primal";
     public static final String VERSION = Tags.VERSION;
     public static final String mcVersion = "[1.7.10]";
-    public static final String dependencies = "required-after:gtnhmixins@[2.0.0,);";
-    public static final String guiFactory = "net.pufferlab.primal.client.gui.config.GuiFactory";
-    public static final String clientProxy = "net.pufferlab.primal.ClientProxy";
-    public static final String commonProxy = "net.pufferlab.primal.CommonProxy";
+    public static final String dependencies = "required-after:gtnhmixins@[2.0.0,);"
+        + "required-after:Baubles|Expanded@[2.2.6-GTNH,);";
+    public static final String GROUPNAME = "net.pufferlab.primal";
+    public static final String guiFactory = GROUPNAME + ".client.gui.config.GuiFactory";
+    public static final String clientProxy = GROUPNAME + ".ClientProxy";
+    public static final String commonProxy = GROUPNAME + ".CommonProxy";
     public static final String earlyMixins = "mixins.primal.early.json";
     public static final String lateMixins = "mixins.primal.late.json";
     public static final String downloadPath = "https://github.com/PufferTeam-ModArchive/Primal/raw/refs/heads/main/builtin/";

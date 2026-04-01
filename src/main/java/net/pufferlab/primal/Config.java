@@ -69,6 +69,8 @@ public enum Config {
         "The base amount of ticks it takes to grow one stage (depends on how much stages a plant has"),
     farmlandReplenishment(Module.farming, 2000,
         "Numbers of ticks that the farmlands takes to replenishment its nutrient content a small amount"),
+    farmlandReplenishmentRate(Module.farming, 0.02F,
+        "The percentage of the nutrients that get restored every times it replenishes"),
     bonemealInstantGrowth(Module.farming, false,
         "Keeps the function that makes bone meal instantly grow crops one stage (kind of overpowered)"),
 

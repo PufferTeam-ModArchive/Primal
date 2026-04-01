@@ -10,23 +10,20 @@ public enum Tasks {
     item4,
     rain,
     moisture,
-    potassium,
-    nitrogen,
-    phosphorus,
-    network,
-    networkSpread,
-    generator,
-    generatorLate,
-    removal,
-    wind,
-    flow,
+    network(false),
+    networkSpread(false),
+    generator(false),
+    generatorLate(false),
+    removal(false),
+    wind(false),
+    flow(false),
     growth,
     replenishment;
 
     boolean serialize;
 
     Tasks() {
-
+        this.serialize = true;
     }
 
     Tasks(boolean serialize) {
@@ -35,6 +32,14 @@ public enum Tasks {
 
     public static Tasks getTask(int ordinal) {
         return values()[ordinal];
+    }
+
+    public static int getID(Tasks task) {
+        return task.ordinal();
+    }
+
+    public static boolean shouldSerialize(Tasks task) {
+        return task.serialize;
     }
 
     @Override

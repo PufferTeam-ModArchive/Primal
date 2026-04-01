@@ -11,9 +11,20 @@ import net.pufferlab.primal.utils.Utils;
 
 public class ScheduledTask implements Comparable<ScheduledTask> {
 
-    public static final byte simpleTask = 0;
-    public static final byte blockTask = 1;
-    public static final byte tileTask = 2;
+    public static enum TaskType {
+
+        simpleTask,
+        blockTask,
+        tileTask;
+
+        public static TaskType getTask(byte ordinal) {
+            return values()[ordinal];
+        }
+
+        public static byte getID(TaskType taskType) {
+            return (byte) taskType.ordinal();
+        }
+    }
 
     long timeCurrent, timeScheduled, packedCoords;
     byte taskType;
@@ -124,7 +135,7 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
     }
 
     public boolean run(World world) {
-        switch (this.taskType) {
+        switch (ScheduledTask.TaskType.getTask(this.taskType)) {
             case simpleTask: {
                 Primal.LOG.info("ScheduledTask Ran");
                 return true;

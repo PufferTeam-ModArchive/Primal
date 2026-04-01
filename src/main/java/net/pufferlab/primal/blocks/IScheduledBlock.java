@@ -18,11 +18,11 @@ public interface IScheduledBlock {
     }
 
     default boolean sentSchedule(World world, int x, int y, int z, Tasks tasks) {
-        return sentSchedule(world, x, y, z, tasks.ordinal());
+        return sentSchedule(world, x, y, z, Tasks.getID(tasks));
     }
 
     default void addSchedule(World world, int x, int y, int z, int inTime, Tasks task) {
-        addSchedule(world, x, y, z, inTime, task.ordinal());
+        addSchedule(world, x, y, z, inTime, Tasks.getID(task));
     }
 
     default void addSchedule(World world, int x, int y, int z, int inTime, int type) {
