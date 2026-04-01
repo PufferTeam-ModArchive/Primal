@@ -106,7 +106,7 @@ public class SchedulerData extends WorldSavedData {
         for (ScheduledTask task : tasks) {
             if (task.equals(type)) return true;
         }
-        return true;
+        return false;
     }
 
     public static boolean hasScheduledTask(World world, int x, int y, int z, int type) {

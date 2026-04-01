@@ -31,10 +31,6 @@ public class ClientTickHolder {
     }
 
     public static float getRenderTime() {
-        return getTicks();
-    }
-
-    public static float getPartialRenderTime() {
         return getTicks() + getPartialTicks();
     }
 
