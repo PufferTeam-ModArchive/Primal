@@ -5,7 +5,6 @@ import java.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
-import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
@@ -29,13 +28,15 @@ public class WorldGenSoil {
     private final double[] noiseBiome = new double[1];
     private final int[] offsetB = new int[1];
 
-    public World lastWorld;
+    public long lastSeed;
 
-    public void initNoiseSeed(World world) {
-        for (int i = 0; i < noiseBiomeGen.length; i++) {
-            this.noiseBiomeGen[i] = new NoiseGeneratorPerlin(new Random(world.getSeed() + (i * 100L)), 2);
+    public void initNoiseSeed(long seed) {
+        if (lastSeed != seed) {
+            for (int i = 0; i < noiseBiomeGen.length; i++) {
+                this.noiseBiomeGen[i] = new NoiseGeneratorPerlin(new Random(seed + (i * 100L)), 2);
+            }
+            lastSeed = seed;
         }
-        lastWorld = world;
     }
 
     public void initBlockList() {

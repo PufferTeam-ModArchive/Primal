@@ -22,16 +22,12 @@ public class PrimalEarlyGenerator implements IWorldGenerator {
         Chunk chunk = world.getChunkFromChunkCoords(chunkX, chunkZ);
 
         if (Config.strataStoneTypes.getBoolean() && Config.strataWorldGen.getBoolean()) {
-            if (strataGen.lastWorld != world) {
-                strataGen.initNoiseSeed(world);
-            }
+            strataGen.initNoiseSeed(world.getSeed());
             strataGen.genStrata(chunk);
         }
 
         if (Config.soilTypes.getBoolean() && Config.soilWorldGen.getBoolean()) {
-            if (soilGen.lastWorld != world) {
-                soilGen.initNoiseSeed(world);
-            }
+            soilGen.initNoiseSeed(world.getSeed());
             soilGen.genSoil(chunk);
         }
         chunk.generateHeightMap();

@@ -70,12 +70,12 @@ public class Primal {
     public void init(FMLInitializationEvent event) {
         proxy.init(event);
 
+        registry.setupConfig();
         registry.setupPackets();
         registry.setupNEI();
         registry.setupMT();
         registry.setupWAILA();
         registry.setupHeatables();
-        registry.setupConfig();
         registry.setupModCompat();
 
         if (debugMode && Utils.isDev()) {
