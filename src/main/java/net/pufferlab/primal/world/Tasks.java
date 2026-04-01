@@ -18,7 +18,7 @@ public enum Tasks {
     wind(false),
     flow(false),
     growth,
-    replenishment;
+    nutrient;
 
     boolean serialize;
 

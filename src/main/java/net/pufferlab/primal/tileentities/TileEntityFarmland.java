@@ -15,14 +15,14 @@ public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTi
     public float nitrogen = 0.5F;
     public float phosphorus = 0.5F;
 
-    public ScheduleManager manager = new ScheduleManager(Tasks.moisture, Tasks.replenishment);
+    public ScheduleManager manager = new ScheduleManager(Tasks.moisture, Tasks.nutrient);
 
     public TileEntityFarmland() {}
 
     @Override
     public void init() {
         addSchedule(0, Tasks.moisture);
-        addSchedule(Config.farmlandReplenishment.getInt(), Tasks.replenishment);
+        addSchedule(Config.farmlandReplenishment.getInt(), Tasks.nutrient);
     }
 
     @Override
@@ -78,9 +78,9 @@ public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTi
             setMoisture(getMoisture());
             addSchedule(200, Tasks.moisture);
         }
-        if (task == Tasks.replenishment) {
+        if (task == Tasks.nutrient) {
             replenishNutrients();
-            addSchedule(Config.farmlandReplenishment.getInt(), Tasks.replenishment);
+            addSchedule(Config.farmlandReplenishment.getInt(), Tasks.nutrient);
         }
     }
 
