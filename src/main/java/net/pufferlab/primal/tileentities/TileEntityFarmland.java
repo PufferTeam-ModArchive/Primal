@@ -120,9 +120,9 @@ public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTi
     public void replenishNutrients() {
         float rate = Config.farmlandReplenishmentRate.getFloat();
         setNutrients(
-            Utils.clamp(0.0F, 0.5F, this.potassium + (this.potassium * rate)),
-            Utils.clamp(0.0F, 0.5F, this.nitrogen + (this.nitrogen * rate)),
-            Utils.clamp(0.0F, 0.5F, this.phosphorus + (this.phosphorus * rate)));
+            Utils.clamp(0.0F, 0.5F, this.potassium + (rate)),
+            Utils.clamp(0.0F, 0.5F, this.nitrogen + (rate)),
+            Utils.clamp(0.0F, 0.5F, this.phosphorus + (rate)));
     }
 
     public float getGrowthSpeed(char nutrient) {

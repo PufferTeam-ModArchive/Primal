@@ -18,7 +18,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class WorldGenSoil {
 
-    private final List<Block> blockList = new ArrayList<>();
+    private final Set<Block> blockList = new HashSet<>();
     private final List<Block> dirtList = new ArrayList<>();
     private final List<Block> grassList = new ArrayList<>();
     private boolean init = false;

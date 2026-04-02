@@ -23,11 +23,17 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
         public static byte getID(TaskType taskType) {
             return (byte) taskType.ordinal();
         }
+
+        @Override
+        public String toString() {
+            return this.name();
+        }
     }
 
     long timeCurrent, timeScheduled;
     byte taskType;
-    int blockID, x, y, z, type, id;
+    int x, y, z, type, id;
+    Block block;
     boolean invalid;
 
     public ScheduledTask(NBTTagCompound tag) {
@@ -43,7 +49,7 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
     public ScheduledTask(byte taskType, Block block, long currentTime, int inTime, int x, int y, int z, int type,
         int id) {
         this.taskType = taskType;
-        this.blockID = Block.getIdFromBlock(block);
+        this.block = block;
         this.timeCurrent = currentTime;
         this.timeScheduled = currentTime + inTime;
         this.x = x;
@@ -68,7 +74,7 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
         tag.setByte("task", this.taskType);
         tag.setLong("timeSent", timeCurrent);
         tag.setLong("time", timeScheduled);
-        tag.setInteger("blockID", blockID);
+        tag.setInteger("blockID", Block.getIdFromBlock(block));
         tag.setInteger("x", x);
         tag.setInteger("y", y);
         tag.setInteger("z", z);
@@ -80,7 +86,7 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
         taskType = tag.getByte("task");
         timeCurrent = tag.getLong("timeSent");
         timeScheduled = tag.getLong("time");
-        blockID = tag.getInteger("blockID");
+        block = Block.getBlockById(tag.getInteger("blockID"));
         x = tag.getInteger("x");
         y = tag.getInteger("y");
         z = tag.getInteger("z");
@@ -88,12 +94,8 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
         id = tag.getInteger("id");
     }
 
-    public Block getBlock() {
-        return Block.getBlockById(this.blockID);
-    }
-
     public boolean equals(Block block, int x, int y, int z) {
-        if (this.x == x && this.y == y && this.z == z && this.blockID == Block.getIdFromBlock(block)) {
+        if (this.x == x && this.y == y && this.z == z && this.block == block) {
             return true;
         }
         return false;
@@ -110,7 +112,7 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
         if (this.x == x && this.y == y
             && this.z == z
             && this.type == type
-            && this.blockID == Block.getIdFromBlock(block)) {
+            && this.block == block) {
             return true;
         }
         return false;
@@ -143,7 +145,7 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
                     return false;
                 }
                 Block block = world.getBlock(this.x, this.y, this.z);
-                if (getBlock() == block) {
+                if (this.block == block) {
                     if (block instanceof IScheduledBlock block2) {
                         block2.onSchedule(world, this.x, this.y, this.z, this.type, this.id);
                         return true;
@@ -156,7 +158,7 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
                     return false;
                 }
                 Block block = world.getBlock(this.x, this.y, this.z);
-                if (getBlock() == block) {
+                if (this.block == block) {
                     TileEntity te = world.getTileEntity(this.x, this.y, this.z);
                     if (te instanceof IScheduledTile te2) {
                         te2.onSchedule(world, this.x, this.y, this.z, this.type, this.id);
@@ -197,7 +199,7 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
             + ", z="
             + z
             + ", taskType="
-            + taskType
+            + TaskType.getTask(taskType).toString()
             + ", id="
             + id
             + '}';

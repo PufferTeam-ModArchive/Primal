@@ -25,9 +25,15 @@ public class SchedulerData extends WorldSavedData {
         super(name);
     }
 
-    public static PriorityQueue<ScheduledTask> getTasks(World world) {
+    public static List<ScheduledTask> getTasks(World world) {
         SchedulerData scheduler = get(world);
-        return scheduler.queue;
+        List<ScheduledTask> list = new ArrayList<>();
+        for(ScheduledTask task : scheduler.queue) {
+            if(task.invalid()) continue;
+            list.add(task);
+        }
+        scheduler.queue.removeIf(ScheduledTask::invalid);
+        return list;
     }
 
     public static PriorityQueue<ScheduledTask> getWaitingTasks(World world) {
@@ -104,6 +110,7 @@ public class SchedulerData extends WorldSavedData {
                 task.invalidate();
             }
         }
+        tasks.removeIf(task -> task.equals(x, y, z, type));
         this.markDirty();
     }
 

@@ -21,7 +21,7 @@ import biomesoplenty.api.content.BOPCBiomes;
 
 public class WorldGenStrata {
 
-    private final List<Block> blockList = new ArrayList<>();
+    private final Set<Block> blockList = new HashSet<>();
     private final List<Block> stoneList = new ArrayList<>();
     private final List<Block> cobbleList = new ArrayList<>();
     private final List<Block> gravelList = new ArrayList<>();
@@ -137,8 +137,9 @@ public class WorldGenStrata {
             }
 
             blockList.addAll(stoneList);
-            blockList.addAll(gravelList);
+            blockList.addAll(cobbleList);
             blockList.addAll(sandList);
+            blockList.addAll(gravelList);
 
             init = true;
         }
