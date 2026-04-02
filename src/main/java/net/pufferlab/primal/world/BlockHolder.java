@@ -53,7 +53,7 @@ public class BlockHolder {
     }
 
     public boolean place(World world) {
-        if (world.getChunkProvider()
+        if (!world.getChunkProvider()
             .chunkExists(chunkX, chunkZ)) return false;
         if (this.invalid()) return false;
         WorldUtils.setBlock(world, this.x, this.y, this.z, this.block, this.meta);
