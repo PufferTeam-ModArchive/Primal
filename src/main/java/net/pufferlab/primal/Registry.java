@@ -29,6 +29,7 @@ import net.pufferlab.primal.tileentities.*;
 import net.pufferlab.primal.utils.*;
 import net.pufferlab.primal.world.PrimalDecorator;
 import net.pufferlab.primal.world.PrimalEarlyGenerator;
+import net.pufferlab.primal.world.PrimalFinalGenerator;
 import net.pufferlab.primal.world.PrimalLateGenerator;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -825,6 +826,7 @@ public class Registry {
         registerWorld(new PrimalEarlyGenerator(), 10000);
         registerWorld(new PrimalLateGenerator(), 20000);
         registerWorld(new PrimalDecorator(), 30000);
+        registerWorld(new PrimalFinalGenerator(), Integer.MAX_VALUE - 1);
     }
 
     public void register(Item item, String name) {

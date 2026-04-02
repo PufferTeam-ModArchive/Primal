@@ -109,10 +109,7 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
     }
 
     public boolean equals(Block block, int x, int y, int z, int type) {
-        if (this.x == x && this.y == y
-            && this.z == z
-            && this.type == type
-            && this.block == block) {
+        if (this.x == x && this.y == y && this.z == z && this.type == type && this.block == block) {
             return true;
         }
         return false;
@@ -199,7 +196,8 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
             + ", z="
             + z
             + ", taskType="
-            + TaskType.getTask(taskType).toString()
+            + TaskType.getTask(taskType)
+                .toString()
             + ", id="
             + id
             + '}';

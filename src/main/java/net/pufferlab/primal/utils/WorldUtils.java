@@ -8,6 +8,7 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraft.world.gen.ChunkProviderFlat;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
+import net.pufferlab.primal.world.ChunkPlacerData;
 
 public class WorldUtils {
 
@@ -42,6 +43,10 @@ public class WorldUtils {
         if (storage == null) return 0;
 
         return WorldUtils.getChunkBlockMetadata(storage, x2, y, z2);
+    }
+
+    public static void setBlockWorldgen(World world, int x, int y, int z, Block block, int meta) {
+        ChunkPlacerData.addBlock(world, x, y, z, block, meta);
     }
 
     public static void setBlock(World world, int x, int y, int z, Block block, int meta) {

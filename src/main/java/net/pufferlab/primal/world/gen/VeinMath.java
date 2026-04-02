@@ -4,7 +4,6 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
-import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.blocks.BlockStoneRaw;
 import net.pufferlab.primal.utils.VeinType;
@@ -40,27 +39,16 @@ public class VeinMath {
         }
     }
 
-    public static int getMaxSize() {
-        if (Config.oreVeinsSizeClamp.getBoolean()) {
-            return 8;
-        }
-        return Integer.MAX_VALUE;
-    }
-
     public static void ovalImperfect(World world, Random rand, int cx, int cy, int cz, VeinType vein) {
-        int maxSize = getMaxSize();
-        int ox = Math.min(vein.getSize(rand), maxSize);
-        int oy = Math.min(vein.getSize(rand), maxSize);
-        int oz = Math.min(vein.getSize(rand), maxSize);
+        int ox = vein.getSize(rand);
+        int oy = vein.getSize(rand);
+        int oz = vein.getSize(rand);
 
         Block block = vein.oreType.oreBlock;
 
         for (int x = cx - ox; x <= cx + ox; x++) {
             for (int y = cy - oy; y <= cy + oy; y++) {
                 for (int z = cz - oz; z <= cz + oz; z++) {
-
-                    if (Math.abs(x - cx) > maxSize || Math.abs(y - cy) > maxSize || Math.abs(z - cz) > maxSize)
-                        continue;
 
                     double dx = (x - cx) / (double) ox;
                     double dy = (y - cy) / (double) oy;
@@ -71,7 +59,7 @@ public class VeinMath {
                             Block block2 = world.getBlock(x, y, z);
                             if (block2 instanceof BlockStoneRaw) {
                                 int meta2 = world.getBlockMetadata(x, y, z);
-                                WorldUtils.setBlock(world, x, y, z, block, meta2);
+                                WorldUtils.setBlockWorldgen(world, x, y, z, block, meta2);
                             }
                         }
                     }

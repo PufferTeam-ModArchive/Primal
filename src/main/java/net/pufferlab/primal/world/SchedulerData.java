@@ -28,8 +28,8 @@ public class SchedulerData extends WorldSavedData {
     public static List<ScheduledTask> getTasks(World world) {
         SchedulerData scheduler = get(world);
         List<ScheduledTask> list = new ArrayList<>();
-        for(ScheduledTask task : scheduler.queue) {
-            if(task.invalid()) continue;
+        for (ScheduledTask task : scheduler.queue) {
+            if (task.invalid()) continue;
             list.add(task);
         }
         scheduler.queue.removeIf(ScheduledTask::invalid);

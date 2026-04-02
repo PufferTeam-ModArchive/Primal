@@ -17,6 +17,10 @@ public class PositionMap<T> {
         return (lx << 38) | (ly << 26) | lz;
     }
 
+    public static long packChunkCoord(int x, int z) {
+        return (long) x & 4294967295L | ((long) z & 4294967295L) << 32;
+    }
+
     public static int unpackX(long packed) {
         return (int) (packed << 0 >> 38); // signed
     }
@@ -39,11 +43,29 @@ public class PositionMap<T> {
         return list;
     }
 
+    public List<T> put(int x, int z, T object) {
+        List<T> list = get(x, z);
+        if (list == null) {
+            list = new ArrayList<>();
+            map.put(packChunkCoord(x, z), list);
+        }
+        list.add(object);
+        return list;
+    }
+
     public List<T> get(int x, int y, int z) {
         return map.get(packCoord(x, y, z));
     }
 
+    public List<T> get(int x, int z) {
+        return map.get(packChunkCoord(x, z));
+    }
+
     public List<T> remove(int x, int y, int z) {
         return map.remove(packCoord(x, y, z));
+    }
+
+    public List<T> remove(int x, int z) {
+        return map.remove(packChunkCoord(x, z));
     }
 }

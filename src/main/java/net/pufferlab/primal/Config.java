@@ -144,8 +144,6 @@ public enum Config {
         "The corresponding min/max Y Value that the ores will be able to spawn."),
     oreVeinsSizeRange(Module.world$generation, ConfigUtils.getDefaultSize(Constants.veinTypesAll),
         "The corresponding min/max size values that the ore veins will randomly generate between these values."),
-    oreVeinsSizeClamp(Module.world$generation, true,
-        "Clamp the veins to be maximum 8 blocks in size to prevent crashes/cascading worldgen. Enable at your own risk if you want huge veins."),
 
     // Mixins
     wearableRenderer(Module.fixes, true,
