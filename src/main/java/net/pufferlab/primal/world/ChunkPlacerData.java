@@ -78,6 +78,7 @@ public class ChunkPlacerData extends WorldSavedData {
                 block.invalidate();
             }
         }
+        blockHolder.removeIf(BlockHolder::invalid);
         placer.markDirty();
     }
 
