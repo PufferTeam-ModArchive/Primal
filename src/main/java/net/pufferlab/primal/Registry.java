@@ -66,36 +66,6 @@ public class Registry {
     public static final Block farmland;
     public static final Block path;
     public static final Block grass;
-    public static final Block native_copper_ore;
-    public static final Block native_gold_ore;
-    public static final Block malachite_ore;
-    public static final Block cassiterite_ore;
-    public static final Block limonite_ore;
-    public static final Block magnetite_ore;
-    public static final Block tc_air_ore;
-    public static final Block tc_fire_ore;
-    public static final Block tc_water_ore;
-    public static final Block tc_earth_ore;
-    public static final Block tc_order_ore;
-    public static final Block tc_entropy_ore;
-    public static final Block wheat;
-    public static final Block oat;
-    public static final Block barley;
-    public static final Block rye;
-    public static final Block tomatoes;
-    public static final Block cabbages;
-    public static final Block carrots;
-    public static final Block potatoes;
-    public static final Block garlic;
-    public static final Block onion;
-    public static final Block corn;
-    public static final Block flax;
-    public static final Block jute;
-    public static final Block blueberry;
-    public static final Block strawberry;
-    public static final Block blackberry;
-    public static final Block cotton;
-    public static final Block sugar_canes;
     public static final Block block;
     public static final Block anvil;
     public static final Block rope_ladder;
@@ -124,6 +94,7 @@ public class Registry {
     public static final Item ore;
     public static final Item small_ore;
     public static final Item coal;
+    public static final Item gem;
     public static final Item icons;
     public static final Item straw;
     public static final Item hide;
@@ -235,49 +206,6 @@ public class Registry {
         farmland = new BlockSoilFarmland(Constants.soilTypes, "farmland");
         path = new BlockSoilPath(Constants.soilTypes, "path");
 
-        native_copper_ore = new BlockStoneOre(Constants.stoneTypes, Constants.native_copper);
-        native_gold_ore = new BlockStoneOre(Constants.stoneTypes, Constants.native_gold);
-        malachite_ore = new BlockStoneOre(Constants.stoneTypes, Constants.malachite);
-        cassiterite_ore = new BlockStoneOre(Constants.stoneTypes, Constants.cassiterite);
-        limonite_ore = new BlockStoneOre(Constants.stoneTypes, Constants.limonite);
-        magnetite_ore = new BlockStoneOre(Constants.stoneTypes, Constants.magnetite);
-
-        if (Mods.tc.isLoaded()) {
-            tc_air_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.aer);
-            tc_fire_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.ignis);
-            tc_water_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.aqua);
-            tc_earth_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.terra);
-            tc_order_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.ordo);
-            tc_entropy_ore = new BlockStoneOreThaumcraft(Constants.stoneTypes, Constants.perditio);
-        } else {
-            tc_air_ore = null;
-            tc_fire_ore = null;
-            tc_water_ore = null;
-            tc_earth_ore = null;
-            tc_order_ore = null;
-            tc_entropy_ore = null;
-        }
-
-        wheat = new BlockCropsBush(Constants.wheat_crop);
-        oat = new BlockCropsBush(Constants.oat_crop);
-        barley = new BlockCropsBush(Constants.barley_crop);
-        rye = new BlockCropsBush(Constants.rye_crop);
-        tomatoes = new BlockCropsBush(Constants.tomatoes_crop);
-        cabbages = new BlockCropsBush(Constants.cabbages_crop);
-        carrots = new BlockCropsBush(Constants.carrots_crop);
-        potatoes = new BlockCropsBush(Constants.potatoes_crop);
-        garlic = new BlockCropsBush(Constants.garlic_crop);
-        corn = new BlockCropsBush(Constants.corn_crop);
-        onion = new BlockCropsBush(Constants.onion_crop);
-        flax = new BlockCropsBush(Constants.flax_crop);
-        jute = new BlockCropsBush(Constants.jute_crop);
-        cotton = new BlockCropsBush(Constants.cotton_crop);
-        sugar_canes = new BlockCropsBush(Constants.sugar_canes_crop);
-
-        blueberry = new BlockBerryBush(Constants.blueberry_crop);
-        strawberry = new BlockBerryBush(Constants.strawberry_crop);
-        blackberry = new BlockBerryBush(Constants.blackberry_crop);
-
         ground_rock = new BlockStoneGround(Constants.stoneTypes, "ground_rock");
         ground_ore = new BlockStoneGroundOre(Constants.oreTypes, "ground_ore");
         ground_shell = new BlockGroundcover(Material.rock, Constants.shellTypes, "ground_shell").setItemTexture();
@@ -320,7 +248,8 @@ public class Registry {
         ore = new ItemOre(Constants.oreTypes, "medium_ore", true);
         small_ore = new ItemOre(Constants.oreTypes, "small_ore");
         ((BlockGroundcover) ground_ore).setItem(small_ore);
-        coal = new ItemGem(Constants.coalOreTypes, "coal", true).setBlacklist(Constants.coalOreBlacklist);
+        coal = new ItemGem(Constants.coalOreTypes, "coal", true);
+        gem = new ItemGem(Constants.gemOreTypes, "gem", true);
 
         icons = new ItemMeta(Constants.icons, "icon").setHiddenAll()
             .setHasSuffix();
@@ -434,40 +363,9 @@ public class Registry {
         register(farmland, "farmland");
         register(path, "path");
 
-        register(native_copper_ore, "native_copper");
-        register(malachite_ore, "malachite");
-        register(cassiterite_ore, "cassiterite");
-        register(native_gold_ore, "native_gold");
-        register(limonite_ore, "limonite");
-        register(magnetite_ore, "magnetite");
+        setupOres();
 
-        if (Mods.tc.isLoaded()) {
-            register(tc_air_ore, "tc_infused_air");
-            register(tc_fire_ore, "tc_infused_fire");
-            register(tc_water_ore, "tc_infused_water");
-            register(tc_earth_ore, "tc_infused_earth");
-            register(tc_order_ore, "tc_infused_order");
-            register(tc_entropy_ore, "tc_infused_entropy");
-        }
-
-        register(wheat, "wheat");
-        register(oat, "oat");
-        register(barley, "barley");
-        register(rye, "rye");
-        register(tomatoes, "tomatoes");
-        register(cabbages, "cabbages");
-        register(carrots, "carrots");
-        register(potatoes, "potatoes");
-        register(garlic, "garlic");
-        register(corn, "corn");
-        register(onion, "onion");
-        register(flax, "flax");
-        register(jute, "jute");
-        register(cotton, "cotton");
-        register(sugar_canes, "sugar_canes");
-        register(blueberry, "blueberry");
-        register(strawberry, "strawberry");
-        register(blackberry, "blackberry");
+        setupCrops();
 
         register(ground_rock, "ground_rock");
         register(ground_ore, "ground_ore");
@@ -500,9 +398,12 @@ public class Registry {
         register(waterwheel, "waterwheel");
         register(windmill, "windmill");
 
+        setupFluids();
+
         register(ore, "ore");
         register(small_ore, "small_ore");
         register(coal, "coal");
+        register(gem, "gem");
         register(icons, "icon");
         register(straw, "straw");
         register(hide, "hide");
@@ -607,6 +508,58 @@ public class Registry {
         register(TileEntityFarmland.class, "farmland");
         register(TileEntityCut.class, "cut_block");
         register(TileEntityCutDouble.class, "double_cut_block");
+    }
+
+    public static final Block[] oreBlocks = new Block[Constants.oreTypes.length];
+    public static final Block[] tcOreBlocks = new Block[Constants.tcOreTypes.length];
+    public static final Block[] coalOreBlocks = new Block[Constants.coalOreTypes.length];
+    public static final Block[] gemOreBlocks = new Block[Constants.gemOreTypes.length];
+
+    public void setupOres() {
+        for (int i = 0; i < Constants.oreTypes.length; i++) {
+            OreType ore = Constants.oreTypes[i];
+            Block block = new BlockStoneOre(Constants.stoneTypes, ore);
+            register(block, ore.name);
+            oreBlocks[i] = block;
+        }
+        for (int i = 0; i < Constants.coalOreTypes.length; i++) {
+            OreType ore = Constants.coalOreTypes[i];
+            Block block = new BlockStoneOre(Constants.stoneTypes, ore);
+            register(block, ore.name);
+            coalOreBlocks[i] = block;
+        }
+        for (int i = 0; i < Constants.gemOreTypes.length; i++) {
+            OreType ore = Constants.gemOreTypes[i];
+            Block block = new BlockStoneOre(Constants.stoneTypes, ore);
+            register(block, ore.name);
+            gemOreBlocks[i] = block;
+        }
+        if (Mods.tc.isLoaded()) {
+            for (int i = 0; i < Constants.tcOreTypes.length; i++) {
+                OreType ore = Constants.tcOreTypes[i];
+                Block block = new BlockStoneOreThaumcraft(Constants.stoneTypes, ore);
+                register(block, ore.name);
+                tcOreBlocks[i] = block;
+            }
+        }
+    }
+
+    public static final Block[] cropsBlocks = new Block[Constants.crops.length];
+    public static final Block[] berriesBlocks = new Block[Constants.berries.length];
+
+    public void setupCrops() {
+        for (int i = 0; i < Constants.crops.length; i++) {
+            CropType crop = Constants.crops[i];
+            Block block = new BlockCropsBush(crop);
+            register(block, crop.cropName);
+            cropsBlocks[i] = block;
+        }
+        for (int i = 0; i < Constants.berries.length; i++) {
+            CropType berry = Constants.berries[i];
+            Block block = new BlockBerryBush(berry);
+            register(block, berry.cropName);
+            berriesBlocks[i] = block;
+        }
     }
 
     public static final Block[] fluidsBlocks = new Block[Constants.fluidsTypes.length];
@@ -784,6 +737,10 @@ public class Registry {
             .updateFoodValues();
         Constants.wheat_bread.setFoodItem(Items.bread, 0)
             .updateFoodValues();
+        Constants.bituminous_coal.setOreItem(Items.coal, 0);
+        Constants.diamond.setOreItem(Items.diamond, 0);
+        Constants.emerald.setOreItem(Items.emerald, 0);
+        Constants.lapis_lazuli.setOreItem(Items.dye, 4);
     }
 
     public void setupHeatables() {

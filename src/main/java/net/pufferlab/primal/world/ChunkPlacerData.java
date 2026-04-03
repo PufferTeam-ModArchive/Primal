@@ -65,6 +65,7 @@ public class ChunkPlacerData extends WorldSavedData {
         BlockHolder blockHolder = new BlockHolder(x, y, z, block, meta);
         placer.list.add(blockHolder);
         placer.map.put(blockHolder.chunkX, blockHolder.chunkZ, blockHolder);
+        placer.markDirty();
     }
 
     public static void tickPlacement(World world, int chunkX, int chunkZ) {
@@ -77,6 +78,7 @@ public class ChunkPlacerData extends WorldSavedData {
                 block.invalidate();
             }
         }
+        placer.markDirty();
     }
 
     public static ChunkPlacerData get(World world) {

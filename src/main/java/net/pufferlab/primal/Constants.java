@@ -116,11 +116,20 @@ public class Constants {
 
     //Special
 
-    public static final OreType anthracite_coal     = new OreType("anthracite", 0);
-    public static final OreType bituminous_coal     = new OreType("bituminous", 0);
-    public static final OreType lignite_coal        = new OreType("lignite", 0);
+    public static final OreType anthracite_coal     = new OreType("anthracite_coal", 0);
+    public static final OreType bituminous_coal     = new OreType("bituminous_coal", 0).hasNoGem();
+    public static final OreType lignite_coal        = new OreType("lignite_coal", 0);
     public static final OreType[] coalOreTypes      = {anthracite_coal, bituminous_coal, lignite_coal};
-    public static final String[] coalOreBlacklist   = { bituminous_coal.name };
+
+    public static final OreType diamond = new OreType("diamond", 2).hasNoGem();
+    public static final OreType emerald = new OreType("emerald", 2).hasNoGem();
+    public static final OreType amethyst = new OreType("amethyst", 2);
+    public static final OreType lapis_lazuli = new OreType("lapis_lazuli", 2).hasNoGem();
+    public static final OreType opal = new OreType("opal", 2);
+    public static final OreType ruby = new OreType("ruby", 2);
+    public static final OreType sapphire = new OreType("sapphire", 2);
+    public static final OreType topaz = new OreType("topaz", 2);
+    public static final OreType[] gemOreTypes      = {diamond, emerald, amethyst, lapis_lazuli, opal, ruby, sapphire, topaz};
 
     //Mod Compat
     public static final int aerColor = 0xFFFF7E;
@@ -136,6 +145,8 @@ public class Constants {
     public static final OreType terra       = new OreType("terra", 0, terraColor);
     public static final OreType ordo        = new OreType("ordo", 0, ordoColor);
     public static final OreType perditio    = new OreType("perditio", 0,perditioColor);
+
+    public static final OreType[] tcOreTypes = {aer, ignis, aqua, terra, ordo, perditio};
 
     //Vein Type
 

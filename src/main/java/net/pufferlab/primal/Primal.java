@@ -61,7 +61,6 @@ public class Primal {
 
         registry.setup();
         registry.setupTiles();
-        registry.setupFluids();
         registry.setupWorldGen();
         registry.setupBaubles();
     }

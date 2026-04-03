@@ -16,6 +16,7 @@ public class OreType {
     public int oreMeta;
     public Block oreBlock;
     public int color;
+    public boolean hasGem = true;
 
     public OreType(MetalType metalType, String name) {
         this.metalType = metalType;
@@ -38,6 +39,20 @@ public class OreType {
         this.oreItem = item;
         this.oreMeta = meta;
         return this;
+    }
+
+    public OreType hasNoGem() {
+        this.hasGem = false;
+        return this;
+    }
+
+    public static String[] getBlacklistNames(OreType[] stones) {
+        String[] names = new String[stones.length];
+        for (int i = 0; i < stones.length; i++) {
+            if (stones[i].hasGem) continue;
+            names[i] = stones[i].name;
+        }
+        return names;
     }
 
     public static String[] getNames(OreType[] stones) {

@@ -226,6 +226,7 @@ public class ScriptOreProcessing implements IScript {
         }
         for (OreType type : Constants.oreTypes) {
             String name = type.name;
+            if (type.metalType == null) continue;
             addMeltingRecipe(type.metalType.oreFluid, getOreDictionaryName("medium_ore", name));
             addMeltingRecipe(type.metalType.smallOreFluid, getOreDictionaryName("small_ore", name));
         }

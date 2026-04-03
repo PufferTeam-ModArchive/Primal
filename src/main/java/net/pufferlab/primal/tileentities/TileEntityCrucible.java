@@ -24,7 +24,6 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     public boolean isHeating;
     public boolean needsMeltingUpdate;
     public FluidStack[] fluidInventory;
-    public int[] temperatureInventory;
 
     public int temperature;
     public int maxTemperature;
@@ -32,7 +31,6 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     public TileEntityCrucible() {
         super(3000, 5);
         fluidInventory = new FluidStack[getSizeInventory()];
-        temperatureInventory = new int[getSizeInventory()];
     }
 
     @Override
@@ -134,7 +132,6 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
             if (slot >= 0 && slot < this.fluidInventory.length)
                 this.fluidInventory[slot] = FluidStack.loadFluidStackFromNBT(tag);
         }
-        this.temperatureInventory = compound.getIntArray("TemperatureItems");
     }
 
     @Override
@@ -153,7 +150,6 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
             }
         }
         compound.setTag("Fluids", (NBTBase) itemList);
-        compound.setIntArray("TemperatureItems", this.temperatureInventory);
     }
 
     boolean needsUpdate = true;
@@ -206,7 +202,7 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
             if (!this.isHeating) {
                 modifier = 1.0F;
             }
-            updateHeatInventory(modifier, this.maxTemperature);
+            updateHeatInventory(modifier, this.temperature);
         }
 
         timeMelting++;
@@ -287,11 +283,13 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     public boolean getHeatInventoryMelting() {
         for (int i = 0; i < getSizeInventory(); i++) {
             ItemStack stack = getInventoryStack(i);
-            int lastTemp = this.temperatureInventory[i];
             if (stack != null) {
                 if (HeatUtils.hasImpl(stack)) {
+                    int temp = HeatUtils.getInterpolatedTemperature(
+                        GlobalTickingData.getTickTime(this.worldObj),
+                        Utils.getOrCreateTagCompound(stack));
                     IHeatableItem item = HeatUtils.getImpl(stack);
-                    if (lastTemp > item.getMeltingTemperature(stack)) {
+                    if (temp > item.getMeltingTemperature(stack)) {
                         return true;
                     }
                 }
@@ -307,16 +305,11 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     public void updateHeatInventory(float modifier, int maxTemperature) {
         for (int i = 0; i < getSizeInventory(); i++) {
             ItemStack stack = getInventoryStack(i);
-            int lastTemp = this.temperatureInventory[i];
-            if (lastTemp > this.temperature) {
-                modifier = -1.0F;
-            }
             if (stack != null) {
                 if (HeatUtils.hasImpl(stack)) {
                     IHeatableItem item = HeatUtils.getImpl(stack);
                     int temperature = HeatUtils
                         .getInterpolatedTemperature(GlobalTickingData.getTickTime(getWorld()), stack.getTagCompound());
-                    this.temperatureInventory[i] = temperature;
                     item.updateHeat(stack, this.getWorld(), modifier, temperature, maxTemperature);
                 }
             }

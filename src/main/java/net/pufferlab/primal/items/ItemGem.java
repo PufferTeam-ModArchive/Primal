@@ -18,12 +18,12 @@ public class ItemGem extends ItemMeta {
         this.oreTypes = oreTypes;
         this.isMainOre = isMainOre;
         this.setRegisterOre();
-        this.setHasSuffix();
         if (this.isMainOre) {
             for (int i = 0; i < oreTypes.length; i++) {
                 oreTypes[i].setOreItem(this, i);
             }
         }
+        this.setBlacklist(OreType.getBlacklistNames(oreTypes));
     }
 
     @Override
