@@ -14,7 +14,7 @@ import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.RecipeUtils;
 import net.pufferlab.primal.utils.Utils;
 
-public class CommandTemperature extends CommandSub {
+public class CommandHeat extends CommandSub {
 
     public static String[] arguments = new String[] { "", "debug" };
 
@@ -62,7 +62,7 @@ public class CommandTemperature extends CommandSub {
 
     @Override
     public String getCommandName() {
-        return "temp";
+        return "heat";
     }
 
     @Override

@@ -5,7 +5,6 @@ import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.entities.player.PlayerData;
-import net.pufferlab.primal.network.packets.PacketPlayerData;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
@@ -30,7 +29,7 @@ public class PlayerHandler implements IEventHandler {
         PlayerData newData = PlayerData.get(event.entityPlayer);
         PlayerData.syncPlayerData(oldData, newData);
 
-        updatePacket(event.entityPlayer, newData);
+        Primal.proxy.packet.sendPlayerData(event.entityPlayer, newData);
     }
 
     @SubscribeEvent
@@ -38,7 +37,7 @@ public class PlayerHandler implements IEventHandler {
         EntityPlayer player = event.player;
         PlayerData data = PlayerData.get(player);
         if (data != null) {
-            updatePacket(player, data);
+            Primal.proxy.packet.sendPlayerData(event.player, data);
         }
     }
 
@@ -46,13 +45,7 @@ public class PlayerHandler implements IEventHandler {
     public void onPlayerChangeDimension(PlayerChangedDimensionEvent event) {
         PlayerData data = PlayerData.get(event.player);
         if (data != null) {
-            updatePacket(event.player, data);
-        }
-    }
-
-    public void updatePacket(EntityPlayer player, PlayerData data) {
-        if (!player.worldObj.isRemote) {
-            Primal.proxy.sendPacketToClient(new PacketPlayerData(player, data));
+            Primal.proxy.packet.sendPlayerData(event.player, data);
         }
     }
 

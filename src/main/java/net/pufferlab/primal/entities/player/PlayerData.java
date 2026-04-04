@@ -13,6 +13,7 @@ public class PlayerData implements IExtendedEntityProperties {
 
     private final EntityPlayer player;
     public boolean temperatureDebug;
+    public boolean blockInfoDebug;
 
     public PlayerData(EntityPlayer player) {
         this.player = player;
@@ -20,6 +21,10 @@ public class PlayerData implements IExtendedEntityProperties {
 
     public void setTemperatureDebug(boolean state) {
         this.temperatureDebug = state;
+    }
+
+    public void setBlockInfoDebug(boolean state) {
+        this.blockInfoDebug = state;
     }
 
     public static void register(EntityPlayer player) {
@@ -35,19 +40,22 @@ public class PlayerData implements IExtendedEntityProperties {
         NBTTagCompound tag = new NBTTagCompound();
         compound.setTag(name, tag);
 
-        tag.setBoolean("TemperatureDebug", this.temperatureDebug);
+        tag.setBoolean("temperatureDebug", this.temperatureDebug);
+        tag.setBoolean("blockInfoDebug", this.blockInfoDebug);
     }
 
     @Override
     public void loadNBTData(NBTTagCompound compound) {
         NBTTagCompound tag = compound.getCompoundTag(name);
 
-        this.temperatureDebug = tag.getBoolean("TemperatureDebug");
+        this.temperatureDebug = tag.getBoolean("temperatureDebug");
+        this.blockInfoDebug = tag.getBoolean("blockInfoDebug");
     }
 
     public static void syncPlayerData(PlayerData from, PlayerData to) {
         if (from != null && to != null) {
             to.temperatureDebug = from.temperatureDebug;
+            to.blockInfoDebug = from.blockInfoDebug;
         }
     }
 

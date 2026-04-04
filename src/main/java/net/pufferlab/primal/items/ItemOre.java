@@ -2,6 +2,7 @@ package net.pufferlab.primal.items;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.utils.MetalType;
 import net.pufferlab.primal.utils.OreType;
@@ -50,5 +51,10 @@ public class ItemOre extends ItemMetaHeatable {
     @Override
     public CreativeTabs getCreativeTab() {
         return Registry.creativeTabWorld;
+    }
+
+    @Override
+    public boolean canRegister() {
+        return Config.oreVeins.getBoolean();
     }
 }

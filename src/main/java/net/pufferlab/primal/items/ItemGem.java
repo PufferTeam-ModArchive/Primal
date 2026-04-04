@@ -1,6 +1,7 @@
 package net.pufferlab.primal.items;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.utils.OreType;
 
@@ -29,5 +30,10 @@ public class ItemGem extends ItemMeta {
     @Override
     public CreativeTabs getCreativeTab() {
         return Registry.creativeTabWorld;
+    }
+
+    @Override
+    public boolean canRegister() {
+        return Config.oreVeins.getBoolean();
     }
 }

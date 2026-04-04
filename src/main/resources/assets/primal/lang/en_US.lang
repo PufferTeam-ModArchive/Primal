@@ -802,6 +802,21 @@ tile.primal.chalk_magnetite.name=Chalk Magnetite
 tile.primal.slate_magnetite.name=Slate Magnetite
 tile.primal.schist_magnetite.name=Schist Magnetite
 
+tile.primal.andesite_hematite.name=Andesite Hematite
+tile.primal.basalt_hematite.name=Basalt Hematite
+tile.primal.dacite_hematite.name=Dacite Hematite
+tile.primal.rhyolite_hematite.name=Rhyolite Hematite
+tile.primal.diorite_hematite.name=Diorite Hematite
+tile.primal.gabbro_hematite.name=Gabbro Hematite
+tile.primal.granite_hematite.name=Granite Hematite
+tile.primal.claystone_hematite.name=Claystone Hematite
+tile.primal.limestone_hematite.name=Limestone Hematite
+tile.primal.sandstone_hematite.name=Sandstone Hematite
+tile.primal.shale_hematite.name=Shale Hematite
+tile.primal.chalk_hematite.name=Chalk Hematite
+tile.primal.slate_hematite.name=Slate Hematite
+tile.primal.schist_hematite.name=Schist Hematite
+
 item.primal.native_gold_medium_ore.name=Native Gold Ore
 item.primal.native_gold_small_ore.name=Small Native Gold Ore
 item.primal.native_copper_medium_ore.name=Native Copper Ore
@@ -814,6 +829,8 @@ item.primal.magnetite_medium_ore.name=Magnetite Ore
 item.primal.magnetite_small_ore.name=Small Magnetite Ore
 item.primal.limonite_medium_ore.name=Limonite Ore
 item.primal.limonite_small_ore.name=Small Limonite Ore
+item.primal.hematite_medium_ore.name=Hematite Ore
+item.primal.hematite_small_ore.name=Small Hematite Ore
 
 item.primal.anthracite_coal.name=Anthracite Coal
 item.primal.lignite_coal.name=Lignite Coal

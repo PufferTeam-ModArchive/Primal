@@ -7,6 +7,8 @@ import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.utils.StoneType;
 
+import gnu.trove.map.TIntObjectMap;
+
 public class CommandStrata extends CommandSub {
 
     @Override
@@ -16,7 +18,7 @@ public class CommandStrata extends CommandSub {
 
         if (args.length > 0) {
             if (args[0].equals("debug")) {
-                StoneType[][] layers = Constants.stoneTypesLayer;
+                TIntObjectMap<StoneType[]> layers = StoneType.stoneLayerCache;
                 for (int x = -32; x <= 32; x++) {
                     for (int y = 0; y <= Constants.maxHeight; y++) {
                         for (int z = -32; z <= 32; z++) {
@@ -28,8 +30,8 @@ public class CommandStrata extends CommandSub {
                         }
                     }
                 }
-                for (int i = 0; i < layers.length; i++) {
-                    StoneType[] stones = layers[i];
+                for (int i = 0; i < layers.size(); i++) {
+                    StoneType[] stones = layers.get(i);
                     if (stones == null) continue;
                     for (int j = 0; j < stones.length; j++) {
                         int meta = StoneType.getMeta(Constants.stoneTypes, stones[j]);

@@ -147,8 +147,10 @@ public class TileEntityQuern extends TileEntityMotionInventory {
             this.timeGround = 0;
             ItemStack output = QuernRecipe.getOutput(getInventoryStack(slotInput));
             if (output != null) {
+                output.stackSize = 1;
                 addItemInSlotUpdate(slotOutput, output.copy());
                 decrStackSize(slotInput, 1);
+                updateTEState();
             }
         }
 

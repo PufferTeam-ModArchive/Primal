@@ -112,10 +112,14 @@ public class RecipeUtils {
     }
 
     public static String getStateTooltip(boolean state, String on, String off) {
+        return getStateTooltip("State", state, on, off);
+    }
+
+    public static String getStateTooltip(String prefix, boolean state, String on, String off) {
         if (state) {
-            return Constants.gray + "State: " + EnumChatFormatting.GREEN + on;
+            return Constants.gray + prefix + ": " + EnumChatFormatting.GREEN + on;
         } else {
-            return Constants.gray + "State: " + EnumChatFormatting.RED + off;
+            return Constants.gray + prefix + ": " + EnumChatFormatting.RED + off;
         }
     }
 }

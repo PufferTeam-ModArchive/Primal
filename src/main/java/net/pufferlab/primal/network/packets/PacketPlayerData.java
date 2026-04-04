@@ -14,24 +14,28 @@ public class PacketPlayerData implements IMessage, IMessageHandler<PacketPlayerD
 
     private int playerEntityId;
     private boolean temperatureDebug;
+    private boolean blockInfoDebug;
 
     public PacketPlayerData() {}
 
     public PacketPlayerData(EntityPlayer player, PlayerData data) {
         this.playerEntityId = player.getEntityId();
         this.temperatureDebug = data.temperatureDebug;
+        this.blockInfoDebug = data.blockInfoDebug;
     }
 
     @Override
     public void fromBytes(ByteBuf buf) {
         this.playerEntityId = buf.readInt();
         this.temperatureDebug = buf.readBoolean();
+        this.blockInfoDebug = buf.readBoolean();
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
         buf.writeInt(this.playerEntityId);
         buf.writeBoolean(this.temperatureDebug);
+        buf.writeBoolean(this.blockInfoDebug);
     }
 
     @Override
@@ -40,6 +44,7 @@ public class PacketPlayerData implements IMessage, IMessageHandler<PacketPlayerD
         EntityPlayer player = (EntityPlayer) world.getEntityByID(msg.playerEntityId);
         PlayerData data = PlayerData.get(player);
         data.temperatureDebug = msg.temperatureDebug;
+        data.blockInfoDebug = msg.blockInfoDebug;
         return null;
     }
 }

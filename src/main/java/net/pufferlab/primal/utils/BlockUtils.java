@@ -83,6 +83,11 @@ public class BlockUtils {
         return z;
     }
 
+    public static String getName(Block block) {
+        String mod = getBlockRegistry().getNameForObject(block);
+        return mod;
+    }
+
     public static boolean hasSolidWallsTop(World world, int x, int y, int z) {
         for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
             Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);

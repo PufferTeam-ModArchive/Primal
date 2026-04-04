@@ -10,8 +10,10 @@ import com.gtnewhorizons.wdmla.api.IWDMlaPlugin;
 import com.gtnewhorizons.wdmla.api.WDMlaPlugin;
 
 @WDMlaPlugin(uid = Primal.MODID)
+@SuppressWarnings("unused")
 public class WDCompat implements IWDMlaPlugin {
 
+    public static final WDBlockInfoHandler blockInfoHandler = new WDBlockInfoHandler();
     public static final WDFluidHandler fluidHandler = new WDFluidHandler();
     public static final WDHeatHandler heatHandler = new WDHeatHandler();
     public static final WDCampfireHandler campfireHandler = new WDCampfireHandler();
@@ -26,6 +28,7 @@ public class WDCompat implements IWDMlaPlugin {
 
     @Override
     public void register(IWDMlaCommonRegistration registration) {
+        registration.registerBlockDataProvider(blockInfoHandler, Block.class);
         registration.registerBlockDataProvider(heatHandler, BlockCrucible.class);
         registration.registerBlockDataProvider(heatHandler, BlockForge.class);
         registration.registerBlockDataProvider(heatHandler, BlockCast.class);
@@ -44,6 +47,7 @@ public class WDCompat implements IWDMlaPlugin {
     @Override
     public void registerClient(IWDMlaClientRegistration registration) {
         registration.registerHarvest(harvestHandler, Block.class);
+        registration.registerBlockComponent(blockInfoHandler, Block.class);
         registration.registerBlockComponent(heatHandler, BlockCrucible.class);
         registration.registerBlockComponent(heatHandler, BlockForge.class);
         registration.registerBlockComponent(heatHandler, BlockCast.class);

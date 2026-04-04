@@ -80,8 +80,6 @@ public class Constants {
     public static final StoneType[] stoneTypes = new StoneType[] { andesite, basalt, dacite, rhyolite, diorite, gabbro,
         granite, claystone, limestone, sandstone, shale, chalk, slate, schist };
 
-    public static StoneType[][] stoneTypesLayer;
-
     // Metals
     public static final FluidType moltenIron        = new FluidType("molten_iron", true);
     public static final MetalType iron              = new MetalType("iron", false, 921, 1148, 1538, moltenIron, 2);
@@ -110,9 +108,10 @@ public class Constants {
     public static final OreType native_gold     = new OreType(gold, "native_gold");
     public static final OreType limonite        = new OreType(castIron, "limonite");
     public static final OreType magnetite       = new OreType(castIron, "magnetite");
+    public static final OreType hematite        = new OreType(castIron, "hematite");
 
     public static final OreType[] oreTypes = { native_copper, malachite, cassiterite, native_gold,
-        limonite, magnetite };
+        limonite, magnetite, hematite };
 
     //Special
 
@@ -257,6 +256,7 @@ public class Constants {
     public static final String[] woodItems          = { "firewood", "ash" };
     public static final String[] glowstoneItems     = { "glowstone_crystal" };
     public static final String[] powderItems        = { "lime" };
+    public static final String[] bloomItems         = { "raw_iron_bloom", "refined_iron_bloom" };
     public static final String[] flintItems         = { "flint_shard", "flint_axe_head", "flint_pickaxe_head",  "flint_shovel_head", "flint_knife_blade", "flint_hoe_head" };
     public static final String[] clayItems          = { "clay_brick", "clay_flower_pot", "clay_large_vessel", "clay_crucible", "clay_ingot_mold", "clay_pickaxe_mold",
                                                         "clay_axe_mold", "clay_shovel_mold", "clay_sword_mold", "clay_knife_mold", "clay_hoe_mold", "clay_hammer_mold", "clay_bucket" };

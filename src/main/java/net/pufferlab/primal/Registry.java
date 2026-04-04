@@ -9,6 +9,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.MinecraftForge;
@@ -119,6 +120,7 @@ public class Registry {
     public static final Item ceramic_bucket_modded;
     public static final Item ingot;
     public static final Item nugget;
+    public static final Item bloom;
     public static final Item axe_head;
     public static final Item pickaxe_head;
     public static final Item shovel_head;
@@ -267,6 +269,7 @@ public class Registry {
 
         ingot = new ItemMetal(Constants.metalTypes, "ingot").setBlacklist(Constants.ingotBlacklist);
         nugget = new ItemMetal(Constants.metalTypes, "nugget").setBlacklist(Constants.nuggetBlacklist);
+        bloom = new ItemBloom(Constants.bloomItems, Constants.castIron, "bloom");
 
         berry = new ItemBerryFood(Constants.berries, "berry");
         crop = new ItemCrops(Constants.crops, "crop");
@@ -385,7 +388,7 @@ public class Registry {
         register(oven, "oven");
         register(chimney, "chimney");
         register(forge, "forge");
-        //register(bloomery, "bloomery");
+        register(bloomery, "bloomery");
         register(cast, "cast");
         register(quern, "quern");
         register(large_vessel, "large_vessel");
@@ -426,6 +429,7 @@ public class Registry {
 
         register(ingot, "ingot");
         register(nugget, "nugget");
+        register(bloom, "bloom");
 
         register(flint_axe, "flint_axe");
         register(flint_pickaxe, "flint_pickaxe");
@@ -654,7 +658,8 @@ public class Registry {
         registerCommand(new CommandTPS());
         registerCommand(new CommandTickTime());
         registerCommand(new CommandModGive());
-        registerCommand(new CommandTemperature());
+        registerCommand(new CommandHeat());
+        registerCommand(new CommandBlockInfo());
         registerCommand(new CommandSchedule());
         registerCommand(new CommandClearBlocks());
         registerCommand(new CommandStrata());
@@ -726,7 +731,6 @@ public class Registry {
         ((ItemBucketCeramicModded) ceramic_bucket_modded).registerModdedLiquids();
         PrimalEarlyGenerator.strataGen.initBlockList();
         PrimalEarlyGenerator.soilGen.initBlockList();
-        BlockStoneOreThaumcraft.setupShards();
         CutUtils.registerItems();
         Constants.wheat_crop.setCropItem(Items.wheat, 0)
             .setCropSeedItem(Items.wheat_seeds, 0)
@@ -741,6 +745,15 @@ public class Registry {
         Constants.diamond.setOreItem(Items.diamond, 0);
         Constants.emerald.setOreItem(Items.emerald, 0);
         Constants.lapis_lazuli.setOreItem(Items.dye, 4);
+        if (Mods.tc.isLoaded()) {
+            Item shardItem = Mods.tc.getModItem("ItemShard");
+            Constants.aer.setOreItem(shardItem, 0);
+            Constants.ignis.setOreItem(shardItem, 1);
+            Constants.aqua.setOreItem(shardItem, 2);
+            Constants.terra.setOreItem(shardItem, 3);
+            Constants.ordo.setOreItem(shardItem, 4);
+            Constants.perditio.setOreItem(shardItem, 5);
+        }
     }
 
     public void setupHeatables() {
@@ -835,6 +848,9 @@ public class Registry {
         if (item instanceof IPrimalItem item3) {
             if (item3.hideItem()) {
                 ItemUtils.registerItemHideFilter(Primal.MODID + ":" + name);
+            }
+            if ((item instanceof ItemBlock)) {
+                if (!item3.canRegister()) return;
             }
         }
         if (item instanceof IMetaItem item2) {
