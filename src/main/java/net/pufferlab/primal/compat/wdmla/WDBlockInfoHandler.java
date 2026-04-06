@@ -12,11 +12,10 @@ import net.pufferlab.primal.utils.RecipeUtils;
 
 import com.gtnewhorizons.wdmla.api.accessor.BlockAccessor;
 import com.gtnewhorizons.wdmla.api.provider.IBlockComponentProvider;
-import com.gtnewhorizons.wdmla.api.provider.IServerDataProvider;
 import com.gtnewhorizons.wdmla.api.ui.ITooltip;
 import com.gtnewhorizons.wdmla.impl.ui.component.TextComponent;
 
-public class WDBlockInfoHandler implements IBlockComponentProvider, IServerDataProvider<BlockAccessor> {
+public class WDBlockInfoHandler implements IBlockComponentProvider {
 
     public static final ResourceLocation resourceLocation = new ResourceLocation(Primal.MODID + ":wdblockinfohandler");
 
@@ -36,7 +35,8 @@ public class WDBlockInfoHandler implements IBlockComponentProvider, IServerDataP
 
             TileEntity te = accessor.getTileEntity();
             if (te != null) {
-                NBTTagCompound nbt = accessor.getServerData();
+                NBTTagCompound nbt = new NBTTagCompound();
+                te.writeToNBT(nbt);
                 if (nbt.hasKey("facingMeta", 1)) {
                     int metaFacing = nbt.getByte("facingMeta");
                     tooltip.child(new TextComponent("Facing: " + metaFacing));
@@ -56,14 +56,6 @@ public class WDBlockInfoHandler implements IBlockComponentProvider, IServerDataP
             }
         }
 
-    }
-
-    @Override
-    public void appendServerData(NBTTagCompound data, BlockAccessor accessor) {
-        TileEntity te = accessor.getTileEntity();
-        if (te instanceof TileEntity) {
-            te.writeToNBT(data);
-        }
     }
 
     @Override

@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
@@ -36,7 +35,7 @@ public class BlockBarrelRenderer extends BlockPrimalRenderer {
         dumpVertices(tess, x, y, z);
         TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileEntityBarrel tef) {
-            int renderPass = ForgeHooksClient.getWorldRenderPass();
+            int renderPass = getWorldRenderPass();
             FluidStack stack = tef.getFluidStack();
             FluidStack stackOutput = tef.getFluidStackOutput();
             float height = tef.getFillLevel(0.1875F, 0.875F);

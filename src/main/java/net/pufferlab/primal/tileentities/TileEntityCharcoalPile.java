@@ -15,4 +15,9 @@ public class TileEntityCharcoalPile extends TileEntityInventory {
     public int getInventoryStackLimit() {
         return 1;
     }
+
+    @Override
+    public boolean hasFacing() {
+        return false;
+    }
 }

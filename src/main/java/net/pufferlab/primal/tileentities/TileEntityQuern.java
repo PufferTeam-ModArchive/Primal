@@ -203,4 +203,8 @@ public class TileEntityQuern extends TileEntityMotionInventory {
         return this.hasNetwork;
     }
 
+    @Override
+    public boolean hasAxis() {
+        return false;
+    }
 }

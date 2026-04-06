@@ -127,7 +127,7 @@ public class WorldGenStrata {
                 blockReplacement.put(block, Registry.stone);
             }
             for (Block block : cobbleList) {
-                blockReplacement.put(block, Registry.cobble);
+                blockReplacement.put(block, Registry.stone_cobble);
             }
             for (Block block : sandList) {
                 blockReplacement.put(block, Registry.sand);

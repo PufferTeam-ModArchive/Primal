@@ -224,6 +224,10 @@ public class BlockPitKiln extends BlockContainerPrimal {
 
     @Override
     public boolean shouldSideBeRendered(IBlockAccess worldIn, int x, int y, int z, int side) {
+        int meta = worldIn.getBlockMetadata(x, y, z);
+        if (meta == 8) {
+            return super.shouldSideBeRendered(worldIn, x, y, z, side);
+        }
         return true;
     }
 

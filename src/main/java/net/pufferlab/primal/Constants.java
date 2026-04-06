@@ -266,6 +266,7 @@ public class Constants {
     public static final String[] colorItemsEFR      = { "banner", "concrete", "concrete_powder",
                                                         "glazed_terracotta", "bed" };
     public static final String[] icons              = { "knapping" };
+    public static final String[] brickItems         = { "fire_bricks" };
 
     // Fluids
     public static final FluidType empty             = new FluidType("empty", false, true);

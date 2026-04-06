@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.client.ForgeHooksClient;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.models.*;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
@@ -68,7 +67,7 @@ public class BlockCampfireRenderer extends BlockPrimalRenderer {
                 rotated = true;
             }
         }
-        int renderPass = ForgeHooksClient.getWorldRenderPass();
+        int renderPass = getWorldRenderPass();
         if (renderPass == 0) {
             modelCampfire.render(renderer, tess, block, x, y, z, 0.0F, 0.5F, 0.0F, iconCampfire);
             modelKindling.render(renderer, tess, block, x, y, z, 0.0F, 0.5F, 0.0F, iconKindling);

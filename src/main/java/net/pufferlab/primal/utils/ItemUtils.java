@@ -427,4 +427,13 @@ public class ItemUtils {
             }
         }
     }
+
+    public static NBTTagCompound getOrCreateTagCompound(ItemStack item) {
+        NBTTagCompound tag = item.getTagCompound();
+        if (tag == null) {
+            tag = new NBTTagCompound();
+            item.setTagCompound(tag);
+        }
+        return tag;
+    }
 }

@@ -31,7 +31,7 @@ public class BlockStoneOre extends BlockMetaOre {
 
     @Override
     public Item getItemDropped(int meta, Random random, int fortune) {
-        return Item.getItemFromBlock(Registry.cobble);
+        return Item.getItemFromBlock(Registry.stone_cobble);
     }
 
     @Override

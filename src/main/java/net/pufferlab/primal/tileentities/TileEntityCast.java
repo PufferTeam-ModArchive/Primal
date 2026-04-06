@@ -129,4 +129,9 @@ public class TileEntityCast extends TileEntityFluidInventory implements IHeatabl
     public boolean isHeatProvider() {
         return false;
     }
+
+    @Override
+    public boolean hasFacing() {
+        return false;
+    }
 }

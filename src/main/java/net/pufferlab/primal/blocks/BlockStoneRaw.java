@@ -25,7 +25,7 @@ public class BlockStoneRaw extends BlockMeta {
     @Override
     public Item getItemDropped(int meta, Random random, int fortune) {
         if (this == Registry.stone) {
-            return Item.getItemFromBlock(Registry.cobble);
+            return Item.getItemFromBlock(Registry.stone_cobble);
         } else {
             return super.getItemDropped(meta, random, fortune);
         }

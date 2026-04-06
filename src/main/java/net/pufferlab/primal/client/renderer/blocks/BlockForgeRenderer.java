@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.client.ForgeHooksClient;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.models.ModelForge;
 import net.pufferlab.primal.tileentities.TileEntityForge;
@@ -29,7 +28,7 @@ public class BlockForgeRenderer extends BlockPrimalRenderer {
         RenderBlocks renderer) {
         Tessellator tess = Tessellator.instance;
         TileEntity te = world.getTileEntity(x, y, z);
-        int renderPass = ForgeHooksClient.getWorldRenderPass();
+        int renderPass = getWorldRenderPass();
         if (te instanceof TileEntityForge tef) {
             if (renderPass == 0) {
                 int metadata = world.getBlockMetadata(x, y, z);

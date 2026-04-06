@@ -48,13 +48,14 @@ public class Registry {
     public static final Block ground_rock;
     public static final Block ground_shell;
     public static final Block pit_kiln;
+    public static final Block bricks;
     public static final Block thatch;
     public static final Block thatch_roof;
     public static final Block stone;
-    public static final Block cobble;
-    public static final Block small_bricks;
-    public static final Block bricks;
-    public static final Block smooth;
+    public static final Block stone_cobble;
+    public static final Block stone_small_bricks;
+    public static final Block stone_bricks;
+    public static final Block smooth_stone;
     public static final Block stone_slab;
     public static final Block double_stone_slab;
     public static final Block vertical_stone_slab;
@@ -100,6 +101,7 @@ public class Registry {
     public static final Item straw;
     public static final Item hide;
     public static final Item rock;
+    public static final Item brick;
     public static final Item shell;
     public static final Item flint;
     public static final Item wood;
@@ -189,10 +191,10 @@ public class Registry {
             .setArmorMaterial(armorIron);
 
         stone = new BlockStoneRaw(Constants.stoneTypes, "raw");
-        cobble = new BlockStoneRaw(Constants.stoneTypes, "cobble");
-        small_bricks = new BlockStoneRaw(Constants.stoneTypes, "small_bricks");
-        bricks = new BlockStoneRaw(Constants.stoneTypes, "bricks");
-        smooth = new BlockStoneRaw(Constants.stoneTypes, "smooth");
+        stone_cobble = new BlockStoneRaw(Constants.stoneTypes, "cobble");
+        stone_small_bricks = new BlockStoneRaw(Constants.stoneTypes, "small_bricks");
+        stone_bricks = new BlockStoneRaw(Constants.stoneTypes, "bricks");
+        smooth_stone = new BlockStoneRaw(Constants.stoneTypes, "smooth");
 
         stone_slab = new BlockCutSlab(stone, false);
         double_stone_slab = new BlockCutSlab(stone, true);
@@ -235,6 +237,7 @@ public class Registry {
         waterwheel = new BlockWaterwheel();
         windmill = new BlockWindmill();
 
+        bricks = new BlockBricks(Constants.brickItems, "bricks");
         thatch = new BlockThatch();
         thatch_roof = new BlockThatchRoof();
         block = new BlockMetal(Constants.blockMetalTypes, "block");
@@ -246,6 +249,7 @@ public class Registry {
 
         rock = new ItemRock(Constants.stoneTypes, "rock");
         ((BlockGroundcover) ground_rock).setItem(rock);
+        brick = new ItemRock(Constants.stoneTypes, "brick");
 
         ore = new ItemOre(Constants.oreTypes, "medium_ore", true);
         small_ore = new ItemOre(Constants.oreTypes, "small_ore");
@@ -340,17 +344,18 @@ public class Registry {
         // spotless:off
         register(thatch, "thatch");
         register(thatch_roof, "thatch_roof");
-        register(stone, "stone");
-        register(cobble, "cobble");
-        register(small_bricks, "small_bricks");
         register(bricks, "bricks");
-        register(smooth, "smooth");
+        register(stone, "stone");
+        register(stone_cobble, "stone_cobble");
+        register(stone_small_bricks, "stone_small_bricks");
+        register(stone_bricks, "stone_bricks");
+        register(smooth_stone, "smooth_stone");
 
         registerCut(stone);
-        registerCut(cobble);
-        registerCut(small_bricks);
-        registerCut(bricks);
-        registerCut(smooth);
+        registerCut(stone_cobble);
+        registerCut(stone_small_bricks);
+        registerCut(stone_bricks);
+        registerCut(smooth_stone);
 
         register(stone_slab, "stone_slab", stone_slab, double_stone_slab, false);
         register(double_stone_slab, "double_stone_slab", stone_slab, double_stone_slab, true);
@@ -422,6 +427,7 @@ public class Registry {
         register(bread, "bread");
         register(powder, "powder");
         register(rock, "rock");
+        register(brick, "brick");
         register(shell, "shell");
         register(flint, "flint");
         register(mold, "mold");

@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
+import net.minecraftforge.client.ForgeHooksClient;
 import net.pufferlab.primal.blocks.IMetaBlock;
 import net.pufferlab.primal.blocks.IPrimalBlock;
 import net.pufferlab.primal.utils.Utils;
@@ -28,6 +29,10 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
 
     public boolean hasAO() {
         return Minecraft.isAmbientOcclusionEnabled();
+    }
+
+    public static int getWorldRenderPass() {
+        return ForgeHooksClient.getWorldRenderPass();
     }
 
     public void renderStandardInvBlockColor(RenderBlocks renderblocks, Block block, int meta, float scale) {
@@ -245,6 +250,46 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
                 ? renderer.renderStandardBlockWithAmbientOcclusionPartial(blockType, blockX, blockY, blockZ, f, f1, f2)
                 : renderer.renderStandardBlockWithAmbientOcclusion(blockType, blockX, blockY, blockZ, f, f1, f2))
             : renderer.renderStandardBlockWithColorMultiplier(blockType, blockX, blockY, blockZ, f, f1, f2);
+    }
+
+    double epsilon = 5e-4;
+    double previousRenderMinX;
+    double previousRenderMaxX;
+    double previousRenderMinY;
+    double previousRenderMaxY;
+    double previousRenderMinZ;
+    double previousRenderMaxZ;
+
+    public void setRenderBounds(RenderBlocks renderBlocks) {
+        if (!renderBlocks.lockBlockBounds) {
+            previousRenderMinX = renderBlocks.renderMinX;
+            previousRenderMaxX = renderBlocks.renderMaxX;
+            previousRenderMinY = renderBlocks.renderMinY;
+            previousRenderMaxY = renderBlocks.renderMaxY;
+            previousRenderMinZ = renderBlocks.renderMinZ;
+            previousRenderMaxZ = renderBlocks.renderMaxZ;
+            renderBlocks.renderMinX = renderBlocks.renderMinX - epsilon;
+            renderBlocks.renderMaxX = renderBlocks.renderMaxX + epsilon;
+            renderBlocks.renderMinY = renderBlocks.renderMinY - epsilon;
+            renderBlocks.renderMaxY = renderBlocks.renderMaxY + epsilon;
+            renderBlocks.renderMinZ = renderBlocks.renderMinZ - epsilon;
+            renderBlocks.renderMaxZ = renderBlocks.renderMaxZ + epsilon;
+            renderBlocks.partialRenderBounds = renderBlocks.minecraftRB.gameSettings.ambientOcclusion >= 2
+                && (renderBlocks.renderMinX > 0.0D || renderBlocks.renderMaxX < 1.0D
+                    || renderBlocks.renderMinY > 0.0D
+                    || renderBlocks.renderMaxY < 1.0D
+                    || renderBlocks.renderMinZ > 0.0D
+                    || renderBlocks.renderMaxZ < 1.0D);
+        }
+    }
+
+    public void restoreRenderBounds(RenderBlocks renderBlocks) {
+        renderBlocks.renderMinX = previousRenderMinX;
+        renderBlocks.renderMaxX = previousRenderMaxX;
+        renderBlocks.renderMinY = previousRenderMinY;
+        renderBlocks.renderMaxY = previousRenderMaxY;
+        renderBlocks.renderMinZ = previousRenderMinZ;
+        renderBlocks.renderMaxZ = previousRenderMaxZ;
     }
 
     public boolean renderStandardBlockMaxBrightness(RenderBlocks renderblocks, Block block, int x, int y, int z) {

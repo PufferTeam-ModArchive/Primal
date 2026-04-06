@@ -179,4 +179,9 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
     public boolean isHeatProvider() {
         return true;
     }
+
+    @Override
+    public boolean hasFacing() {
+        return false;
+    }
 }

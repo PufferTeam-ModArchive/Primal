@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.models.ModelFaucet;
@@ -36,7 +35,7 @@ public class BlockFaucetRenderer extends BlockPrimalRenderer {
         // spotless:off
         Tessellator tess = Tessellator.instance;
         dumpVertices(tess, x, y, z);
-        int renderPass = ForgeHooksClient.getWorldRenderPass();
+        int renderPass = getWorldRenderPass();
         TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileEntityFaucet tef) {
             int meta = tef.facingMeta;

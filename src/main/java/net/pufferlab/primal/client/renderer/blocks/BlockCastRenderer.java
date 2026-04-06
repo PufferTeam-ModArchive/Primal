@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.models.ModelFluid;
@@ -36,7 +35,7 @@ public class BlockCastRenderer extends BlockPrimalRenderer {
         Tessellator tess = Tessellator.instance;
         dumpVertices(tess, x, y, z);
         TileEntity te = world.getTileEntity(x, y, z);
-        int renderPass = ForgeHooksClient.getWorldRenderPass();
+        int renderPass = getWorldRenderPass();
         if (te instanceof TileEntityCast tef) {
             FluidStack stack = tef.getFluidStack();
             float height = tef.getFillLevel(0.0625F, 0.125F);

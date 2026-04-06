@@ -12,6 +12,7 @@ import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.recipes.AlloyingRecipe;
 import net.pufferlab.primal.recipes.MeltingRecipe;
 import net.pufferlab.primal.utils.HeatUtils;
+import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.GlobalTickingData;
 
@@ -287,7 +288,7 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
                 if (HeatUtils.hasImpl(stack)) {
                     int temp = HeatUtils.getInterpolatedTemperature(
                         GlobalTickingData.getTickTime(this.worldObj),
-                        Utils.getOrCreateTagCompound(stack));
+                        ItemUtils.getOrCreateTagCompound(stack));
                     IHeatableItem item = HeatUtils.getImpl(stack);
                     if (temp > item.getMeltingTemperature(stack)) {
                         return true;
@@ -347,5 +348,10 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     @Override
     public int getInventoryStackLimit() {
         return 64;
+    }
+
+    @Override
+    public boolean hasFacing() {
+        return false;
     }
 }

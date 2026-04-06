@@ -66,4 +66,9 @@ public class TileEntityLargeVessel extends TileEntityFluidInventory {
         }
         return true;
     }
+
+    @Override
+    public boolean hasFacing() {
+        return false;
+    }
 }

@@ -22,16 +22,24 @@ public class TileEntityMetaFacing extends TileEntityPrimal {
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        this.facingMeta = tag.getByte("facingMeta");
-        this.axisMeta = tag.getByte("axisMeta");
+        if (hasFacing()) {
+            this.facingMeta = tag.getByte("facingMeta");
+        }
+        if (hasAxis()) {
+            this.axisMeta = tag.getByte("axisMeta");
+        }
     }
 
     @Override
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setByte("facingMeta", (byte) this.facingMeta);
-        tag.setByte("axisMeta", (byte) this.axisMeta);
+        if (hasFacing()) {
+            tag.setByte("facingMeta", (byte) this.facingMeta);
+        }
+        if (hasAxis()) {
+            tag.setByte("axisMeta", (byte) this.axisMeta);
+        }
     }
 
     public void setFacingMeta(int meta) {
@@ -47,14 +55,30 @@ public class TileEntityMetaFacing extends TileEntityPrimal {
     @Override
     public void writeToNBTPacket(NBTTagCompound tag) {
         super.writeToNBTPacket(tag);
-        tag.setByte("facingMeta", (byte) this.facingMeta);
-        tag.setByte("axisMeta", (byte) this.axisMeta);
+        if (hasFacing()) {
+            tag.setByte("facingMeta", (byte) this.facingMeta);
+        }
+        if (hasAxis()) {
+            tag.setByte("axisMeta", (byte) this.axisMeta);
+        }
     }
 
     @Override
     public void readFromNBTPacket(NBTTagCompound tag) {
         super.readFromNBTPacket(tag);
-        this.facingMeta = tag.getByte("facingMeta");
-        this.axisMeta = tag.getByte("axisMeta");
+        if (hasFacing()) {
+            this.facingMeta = tag.getByte("facingMeta");
+        }
+        if (hasAxis()) {
+            this.axisMeta = tag.getByte("axisMeta");
+        }
+    }
+
+    public boolean hasFacing() {
+        return true;
+    }
+
+    public boolean hasAxis() {
+        return false;
     }
 }

@@ -355,6 +355,24 @@ item.primal.chalk_rock.name=Chalk Rock
 item.primal.slate_rock.name=Slate Rock
 item.primal.schist_rock.name=Schist Rock
 
+item.primal.andesite_brick.name=Andesite Brick
+item.primal.basalt_brick.name=Basalt Brick
+item.primal.dacite_brick.name=Dacite Brick
+item.primal.rhyolite_brick.name=Rhyolite Brick
+
+item.primal.diorite_brick.name=Diorite Brick
+item.primal.gabbro_brick.name=Gabbro Brick
+item.primal.granite_brick.name=Granite Brick
+
+item.primal.claystone_brick.name=Claystone Brick
+item.primal.limestone_brick.name=Limestone Brick
+item.primal.sandstone_brick.name=Sandstone Brick
+item.primal.shale_brick.name=Shale Brick
+item.primal.chalk_brick.name=Chalk Brick
+
+item.primal.slate_brick.name=Slate Brick
+item.primal.schist_brick.name=Schist Brick
+
 tile.primal.loamy_dirt.name=Loamy Dirt
 tile.primal.loamy_path.name=Loamy Path
 tile.primal.loamy_grass.name=Loamy Grass

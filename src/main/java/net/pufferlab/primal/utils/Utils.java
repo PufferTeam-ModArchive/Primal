@@ -5,7 +5,6 @@ import java.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.item.*;
 import net.minecraft.launchwrapper.Launch;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -40,15 +39,6 @@ public class Utils {
             return true;
         }
         return false;
-    }
-
-    public static NBTTagCompound getOrCreateTagCompound(ItemStack item) {
-        NBTTagCompound tag = item.getTagCompound();
-        if (tag == null) {
-            tag = new NBTTagCompound();
-            item.setTagCompound(tag);
-        }
-        return tag;
     }
 
     public static int toInt(long value) {

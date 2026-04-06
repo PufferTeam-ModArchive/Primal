@@ -116,4 +116,9 @@ public class TileEntityAxle extends TileEntityMotion {
     public float getGeneratedSpeed() {
         return 0;
     }
+
+    @Override
+    public boolean hasFacing() {
+        return true;
+    }
 }

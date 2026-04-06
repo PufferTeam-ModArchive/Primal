@@ -4,19 +4,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.pufferlab.primal.utils.HeatUtils;
+import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.MetalType;
-import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 public interface IHeatableItem {
 
     default void updateHeat(ItemStack stack, World world, float multiplier, int maxTemperature) {
-        NBTTagCompound tag = Utils.getOrCreateTagCompound(stack);
+        NBTTagCompound tag = ItemUtils.getOrCreateTagCompound(stack);
         HeatUtils.setInterpolatedTemperatureToNBT(tag, world, multiplier, maxTemperature);
     };
 
     default void updateHeat(ItemStack stack, World world, float multiplier, int temperature, int maxTemperature) {
-        NBTTagCompound tag = Utils.getOrCreateTagCompound(stack);
+        NBTTagCompound tag = ItemUtils.getOrCreateTagCompound(stack);
         HeatUtils.setInterpolatedTemperatureToNBT(tag, world, multiplier, temperature, maxTemperature);
     };
 

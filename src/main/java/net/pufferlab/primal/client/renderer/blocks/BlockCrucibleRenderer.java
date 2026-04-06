@@ -5,7 +5,6 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
@@ -30,7 +29,7 @@ public class BlockCrucibleRenderer extends BlockPrimalRenderer {
         Tessellator tess = Tessellator.instance;
         dumpVertices(tess, x, y, z);
         TileEntity te = world.getTileEntity(x, y, z);
-        int renderPass = ForgeHooksClient.getWorldRenderPass();
+        int renderPass = getWorldRenderPass();
         if (te instanceof TileEntityCrucible tef) {
             Block blockBelow = tef.getWorldObj()
                 .getBlock(tef.xCoord, tef.yCoord - 1, tef.zCoord);

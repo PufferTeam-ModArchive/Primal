@@ -100,8 +100,8 @@ public class TileEntityAnvil extends TileEntityInventory {
         ItemStack stack2 = getInventoryStack(slotOutput);
         if (HeatUtils.hasImpl(stack) && HeatUtils.hasImpl(stack2)) {
             HeatUtils.transferInterpolatedTemperatureToNBT(
-                Utils.getOrCreateTagCompound(stack2),
-                Utils.getOrCreateTagCompound(stack));
+                ItemUtils.getOrCreateTagCompound(stack2),
+                ItemUtils.getOrCreateTagCompound(stack));
         }
         setInventorySlotContents(slotInput, null);
     }

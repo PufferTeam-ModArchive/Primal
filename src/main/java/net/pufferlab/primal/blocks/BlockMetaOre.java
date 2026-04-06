@@ -26,8 +26,9 @@ public class BlockMetaOre extends BlockStone implements IPrimalBlock, IMetaBlock
     protected String[] elementsBlacklist;
     protected IIcon[] icons;
     public IIcon[] oreIcons;
+    public IIcon empty;
     public static final int oreOverlay = 0;
-    public static final int empty = 1;
+    public static final int oreDepth = 1;
     protected String name;
     protected String[] elementsTextures;
     public boolean hasSuffix;
@@ -118,10 +119,12 @@ public class BlockMetaOre extends BlockStone implements IPrimalBlock, IMetaBlock
 
         if (topTexture != null) {
             this.oreIcons[oreOverlay] = register.registerIcon(Primal.MODID + ":" + topTexture);
+            this.oreIcons[oreDepth] = register.registerIcon(Primal.MODID + ":" + topTexture + "_stone");
         } else {
             this.oreIcons[oreOverlay] = register.registerIcon(Primal.MODID + ":" + name + "_ore");
+            this.oreIcons[oreDepth] = register.registerIcon(Primal.MODID + ":" + name + "_ore_stone");
         }
-        this.oreIcons[empty] = register.registerIcon(Primal.MODID + ":empty");
+        this.empty = register.registerIcon(Primal.MODID + ":empty");
     }
 
     @SideOnly(Side.CLIENT)
@@ -143,11 +146,15 @@ public class BlockMetaOre extends BlockStone implements IPrimalBlock, IMetaBlock
         if (meta >= this.icons.length) {
             meta = 0;
         }
-        if (getPass() == 0) {
+        int pass = getPass();
+        if (pass == 0) {
             return this.icons[meta];
-        } else {
+        } else if (pass == 1) {
             return this.oreIcons[oreOverlay];
+        } else if (pass == 2) {
+            return this.oreIcons[oreDepth];
         }
+        return this.empty;
     }
 
     @SideOnly(Side.CLIENT)
@@ -155,12 +162,16 @@ public class BlockMetaOre extends BlockStone implements IPrimalBlock, IMetaBlock
         if (meta >= this.icons.length) {
             meta = 0;
         }
+        int pass = getPass();
         if (isInventory()) {
-            if (getPass() == 0) {
+            if (pass == 0) {
                 return this.icons[meta];
-            } else {
+            } else if (pass == 1) {
                 return this.oreIcons[oreOverlay];
+            } else if (pass == 2) {
+                return this.oreIcons[oreDepth];
             }
+            return this.empty;
         } else {
             return this.icons[meta];
         }
@@ -205,5 +216,15 @@ public class BlockMetaOre extends BlockStone implements IPrimalBlock, IMetaBlock
     @Override
     public int getRenderType() {
         return Primal.proxy.getOreRenderID();
+    }
+
+    @Override
+    public boolean canRenderInPass(int pass) {
+        return true;
+    }
+
+    @Override
+    public int getRenderBlockPass() {
+        return 1;
     }
 }

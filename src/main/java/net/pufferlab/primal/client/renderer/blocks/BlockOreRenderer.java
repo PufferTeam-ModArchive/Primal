@@ -32,6 +32,9 @@ public class BlockOreRenderer extends BlockPrimalRenderer {
         } else {
             renderStandardInvBlock(renderer, block, metadata);
         }
+        block0.setPass(2);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        renderStandardInvBlock(renderer, block, metadata);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         block0.setPass(0);
         GL11.glPopMatrix();
@@ -43,18 +46,30 @@ public class BlockOreRenderer extends BlockPrimalRenderer {
         IPrimalBlock block0 = (IPrimalBlock) block;
         boolean isEmissive = block0.isEmissive();
 
+        int worldPass = getWorldRenderPass();
         block0.setInventory(false);
-        block0.setPass(0);
-        renderStandardBlockNoColor(renderer, block, x, y, z);
-
-        block0.setPass(1);
-        if (isEmissive) {
-            renderStandardBlockMaxBrightness(renderer, block, x, y, z);
-        } else {
+        if (worldPass == 0) {
+            block0.setPass(0);
             renderStandardBlockNoColor(renderer, block, x, y, z);
+
+            block0.setPass(1);
+            if (isEmissive) {
+                renderStandardBlockMaxBrightness(renderer, block, x, y, z);
+            } else {
+                renderStandardBlockNoColor(renderer, block, x, y, z);
+            }
+            block0.setPass(0);
+            return true;
+        } else if (worldPass == 1) {
+            block0.setPass(2);
+            setRenderBounds(renderer);
+            renderStandardBlockNoColor(renderer, block, x, y, z);
+            restoreRenderBounds(renderer);
+            block0.setPass(0);
+            return true;
         }
-        block0.setPass(0);
-        return true;
+
+        return false;
     }
 
     @Override

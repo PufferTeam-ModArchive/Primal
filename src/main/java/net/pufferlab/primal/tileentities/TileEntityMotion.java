@@ -179,4 +179,14 @@ public abstract class TileEntityMotion extends TileEntityMetaFacing implements I
     public void setHasOffset(boolean state) {
         this.hasOffset = state;
     }
+
+    @Override
+    public boolean hasFacing() {
+        return false;
+    }
+
+    @Override
+    public boolean hasAxis() {
+        return true;
+    }
 }

@@ -42,7 +42,9 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
 
-        this.isFired = compound.getBoolean("isFired");
+        if (this instanceof IHeatable) {
+            this.isFired = compound.getBoolean("isFired");
+        }
         this.needsInventoryUpdate = compound.getBoolean("needsInventoryUpdate");
 
         this.readFromNBTInventory(compound);
@@ -62,7 +64,9 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
     public void writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
 
-        compound.setBoolean("isFired", this.isFired);
+        if (this instanceof IHeatable) {
+            compound.setBoolean("isFired", this.isFired);
+        }
         compound.setBoolean("needsInventoryUpdate", this.needsInventoryUpdate);
 
         this.writeToNBTInventory(compound);
@@ -86,7 +90,9 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
     public void writeToNBTPacket(NBTTagCompound tag) {
         super.writeToNBTPacket(tag);
         this.writeToNBTInventory(tag);
-        tag.setBoolean("isFired", this.isFired);
+        if (this instanceof IHeatable) {
+            tag.setBoolean("isFired", this.isFired);
+        }
         tag.setBoolean("needsInventoryUpdate", this.needsInventoryUpdate);
     }
 
@@ -94,7 +100,9 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
     public void readFromNBTPacket(NBTTagCompound tag) {
         super.readFromNBTPacket(tag);
         this.readFromNBTInventory(tag);
-        this.isFired = tag.getBoolean("isFired");
+        if (this instanceof IHeatable) {
+            this.isFired = tag.getBoolean("isFired");
+        }
         this.needsInventoryUpdate = tag.getBoolean("needsInventoryUpdate");
     }
 

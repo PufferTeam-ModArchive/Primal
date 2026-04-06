@@ -28,7 +28,6 @@ public class WDCompat implements IWDMlaPlugin {
 
     @Override
     public void register(IWDMlaCommonRegistration registration) {
-        registration.registerBlockDataProvider(blockInfoHandler, Block.class);
         registration.registerBlockDataProvider(heatHandler, BlockCrucible.class);
         registration.registerBlockDataProvider(heatHandler, BlockForge.class);
         registration.registerBlockDataProvider(heatHandler, BlockCast.class);
