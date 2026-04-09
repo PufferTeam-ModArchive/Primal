@@ -72,6 +72,12 @@ public abstract class ModelPrimal extends ModelBase {
         return list;
     }
 
+    public List<AxisAlignedBB> getBounds(double offsetX, double offsetY, double offsetZ) {
+        List<AxisAlignedBB> list = new ArrayList<>();
+        buildBounds(list, offsetX, offsetY, offsetZ);
+        return list;
+    }
+
     public void buildBounds(List<AxisAlignedBB> list) {
         buildBounds(list, 0.0f, 0.0f, 0.0f);
     }

@@ -21,7 +21,7 @@ public class MotionHandler implements IEventHandler {
         if (event.action != PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) return;
         ItemStack heldItem = event.entityPlayer.getHeldItem();
         if (heldItem == null) return;
-        if (heldItem.getItem() == Item.getItemFromBlock(Registry.axle)) {
+        if (heldItem.getItem() == Item.getItemFromBlock(Registry.axle) && heldItem.getItemDamage() == 2) {
             if (!event.world.isRemote) {
                 placeAxle(event.entityPlayer, event.face);
             } else {

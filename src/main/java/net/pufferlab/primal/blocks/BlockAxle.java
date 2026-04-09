@@ -62,7 +62,7 @@ public class BlockAxle extends BlockMotion {
     @Override
     public MovingObjectPosition collisionRayTrace(World worldIn, int x, int y, int z, Vec3 startVec, Vec3 endVec) {
         List<AxisAlignedBB> bounds;
-        bounds = getBounds(worldIn, x, y, z);
+        bounds = getBoundsSimple(worldIn, x, y, z);
         if (bounds != null && !bounds.isEmpty()) {
             for (AxisAlignedBB bb : bounds) {
                 MovingObjectPosition mop = BlockUtils.collisionRayTrace(bb, worldIn, x, y, z, startVec, endVec);
@@ -72,6 +72,18 @@ public class BlockAxle extends BlockMotion {
             }
         }
         return super.collisionRayTrace(worldIn, x, y, z, startVec, endVec);
+    }
+
+    public List<AxisAlignedBB> getBoundsSimple(World world, int x, int y, int z) {
+        List<AxisAlignedBB> bounds = new ArrayList<>();
+        TileEntity te = world.getTileEntity(x, y, z);
+        if (te instanceof TileEntityAxle tef) {
+            if (tef.hasBracket) {
+                modelBracket.setFacingFromAxis(tef.facingMeta, tef.axisMeta);
+                bounds.addAll(modelBracket.getBounds());
+            }
+        }
+        return bounds;
     }
 
     @Override
@@ -86,11 +98,11 @@ public class BlockAxle extends BlockMotion {
             int axis = tef.axisMeta;
             if (tef.hasGearPos) {
                 modelGearPos.setAxis(axis);
-                bounds.addAll(modelGearPos.getBounds());
+                bounds.addAll(modelGearPos.getBounds(0.0F, 0.5F, 0.0F));
             }
             if (tef.hasGearNeg) {
                 modelGearNeg.setAxisReversed(axis);
-                bounds.addAll(modelGearNeg.getBounds());
+                bounds.addAll(modelGearNeg.getBounds(0.0F, 0.5F, 0.0F));
             }
         }
         return bounds;
@@ -100,6 +112,16 @@ public class BlockAxle extends BlockMotion {
     public void addCollisionBoxesToList(World worldIn, int x, int y, int z, AxisAlignedBB mask,
         List<AxisAlignedBB> list, Entity collider) {
         this.setBlockBoundsBasedOnState(worldIn, x, y, z);
+        List<AxisAlignedBB> bounds;
+        bounds = getBounds(worldIn, x, y, z);
+        if (bounds != null && !bounds.isEmpty()) {
+            for (AxisAlignedBB bb : bounds) {
+                bb.offset(x, y, z);
+                if (mask.intersectsWith(bb)) {
+                    list.add(bb);
+                }
+            }
+        }
         super.addCollisionBoxesToList(worldIn, x, y, z, mask, list, collider);
     }
 
