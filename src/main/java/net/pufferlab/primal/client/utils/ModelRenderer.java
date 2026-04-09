@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 
 import org.joml.Matrix4f;
@@ -211,6 +212,29 @@ public class ModelRenderer {
 
     public Matrix4f localMatrix2 = new Matrix4f();
 
+    public void buildJOML(float scale, double offsetX, double offsetY, double offsetZ, Matrix4f matrix,
+        List<AxisAlignedBB> bounds) {
+        if (this.isHidden || !this.showModel) return;
+
+        localMatrix2.set(matrix);
+
+        localMatrix2.translate(this.offsetX, this.offsetY, this.offsetZ);
+
+        localMatrix2.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
+
+        if (this.rotateAngleZ != 0.0F) localMatrix2.rotateZ(this.rotateAngleZ);
+        if (this.rotateAngleY != 0.0F) localMatrix2.rotateY(this.rotateAngleY);
+        if (this.rotateAngleX != 0.0F) localMatrix2.rotateX(this.rotateAngleX);
+
+        compileBoundMatrix(localMatrix2, offsetX, offsetY, offsetZ, bounds);
+
+        if (this.childModels != null) {
+            for (Object child : this.childModels) {
+                ((ModelRenderer) child).buildJOML(scale, offsetX, offsetY, offsetZ, localMatrix2, bounds);
+            }
+        }
+    }
+
     public Matrix4f getLocalMatrix(float scale) {
         if (this.isHidden || !this.showModel) return null;
 
@@ -325,6 +349,19 @@ public class ModelRenderer {
         }
 
         this.compiled = true;
+    }
+
+    private void compileBoundMatrix(Matrix4f matrix, double offsetX, double offsetY, double offsetZ,
+        List<AxisAlignedBB> bb) {
+        for (int i = 0; i < this.cubeList.size(); ++i) {
+            ModelBound oldbound = this.cubeList.get(i).bound;
+            if (oldbound != null) {
+                ModelBound newBound = oldbound.transform(matrix);
+                bb.add(
+                    newBound.getAxisAlignedBB()
+                        .getOffsetBoundingBox(offsetX + 0.5, offsetY, offsetZ + 0.5));
+            }
+        }
     }
 
     /**

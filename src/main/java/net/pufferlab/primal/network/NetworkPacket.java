@@ -100,6 +100,12 @@ public class NetworkPacket {
         }
     }
 
+    public void sendAxlePacket(EntityPlayer player, int side) {
+        if (player.worldObj.isRemote) {
+            Primal.proxy.sendPacketToServer(new PacketAxlePlace(side));
+        }
+    }
+
     public void sendFireStarterPacket(EntityPlayer player, boolean success) {
         if (!player.worldObj.isRemote) {
             Primal.proxy.sendPacketToClient(new PacketFireStarter(player, success));

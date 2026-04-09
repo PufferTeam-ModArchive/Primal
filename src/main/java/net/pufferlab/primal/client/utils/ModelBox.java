@@ -10,6 +10,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ModelBox {
 
+    public ModelBound bound;
     /** The (x,y,z) vertex positions and (u,v) texture coordinates for each of the 8 points on a cube */
     public PositionTextureVertex[] vertexPositions;
     /** An array of 6 TexturedQuads, one for each face of a cube */
@@ -41,6 +42,7 @@ public class ModelBox {
         float scaleFactor, ModelConfig config) {
         if (config != null) {
             this.quadsEnabled = config.quadsEnabled;
+            this.bound = config.bound;
         } else {
             this.quadsEnabled = new boolean[] { true, true, true, true, true, true };
         }

@@ -125,6 +125,8 @@ public enum Config {
     shellWorldGen(Module.world$generation, true, "Whether to enable loose shell generating bear beaches."),
 
     // Strata
+    worldLayerExtending(Module.world, false,
+        "[EXPERIMENTAL] Extends the height of the world, making the surface generate higher"),
     minimumYHeight(Module.world, 0,
         "The minimum Y value that the mod features will spawn. (Do not put lower than 0 without Cubic Chunks)"),
     maximumYHeight(Module.world, 256,

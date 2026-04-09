@@ -1,9 +1,13 @@
 package net.pufferlab.primal.client.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
@@ -60,6 +64,26 @@ public abstract class ModelPrimal extends ModelBase {
             0.0F + facingOffsetY,
             facingOffsetZ,
             index);
+    }
+
+    public List<AxisAlignedBB> getBounds() {
+        List<AxisAlignedBB> list = new ArrayList<>();
+        buildBounds(list);
+        return list;
+    }
+
+    public void buildBounds(List<AxisAlignedBB> list) {
+        buildBounds(list, 0.0f, 0.0f, 0.0f);
+    }
+
+    public void buildBounds(List<AxisAlignedBB> list, double offsetX, double offsetY, double offsetZ) {
+        modelTESS.buildBoundsJOML(
+            bb_main,
+            offsetX + facingOffsetX,
+            offsetY + facingOffsetY,
+            offsetZ + facingOffsetZ,
+            Constants.pixel,
+            list);
     }
 
     public void render(RenderBlocks renderblocks, Tessellator tess, Block block, int x, int y, int z, double offsetX,

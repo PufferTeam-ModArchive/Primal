@@ -97,6 +97,7 @@ public class Registry {
     public static final Item small_ore;
     public static final Item coal;
     public static final Item gem;
+    public static final Item gem_powder;
     public static final Item icons;
     public static final Item straw;
     public static final Item hide;
@@ -256,6 +257,7 @@ public class Registry {
         ((BlockGroundcover) ground_ore).setItem(small_ore);
         coal = new ItemGem(Constants.coalOreTypes, "coal", true);
         gem = new ItemGem(Constants.gemOreTypes, "gem", true);
+        gem_powder = new ItemGemPowder(Constants.gemOreTypes, "powder");
 
         icons = new ItemMeta(Constants.icons, "icon").setHiddenAll()
             .setHasSuffix();
@@ -412,6 +414,10 @@ public class Registry {
         register(small_ore, "small_ore");
         register(coal, "coal");
         register(gem, "gem");
+        register(gem_powder, "gem_powder");
+        register(rock, "rock");
+        register(brick, "brick");
+
         register(icons, "icon");
         register(straw, "straw");
         register(hide, "hide");
@@ -426,8 +432,6 @@ public class Registry {
         register(dough, "dough");
         register(bread, "bread");
         register(powder, "powder");
-        register(rock, "rock");
-        register(brick, "brick");
         register(shell, "shell");
         register(flint, "flint");
         register(mold, "mold");
@@ -609,6 +613,7 @@ public class Registry {
         Primal.network = NetworkRegistry.INSTANCE.newSimpleChannel(Primal.MODID);
         registerPacket(PacketKnappingClick.class, Side.SERVER);
         registerPacket(PacketPitKilnPlace.class, Side.SERVER);
+        registerPacket(PacketAxlePlace.class, Side.SERVER);
         registerPacket(PacketSpeedButton.class, Side.SERVER);
         registerPacket(PacketAnvilPlan.class, Side.SERVER);
         registerPacket(PacketAnvilWork.class, Side.SERVER);
@@ -639,6 +644,7 @@ public class Registry {
         registerEvent(new GroundOreHandler());
         registerEvent(new GroundRockHandler());
         registerEvent(new GroundShellHandler());
+        registerEvent(new MotionHandler());
         registerEvent(new MobDropHandler());
         registerEvent(new CastHandler());
         registerEvent(new HeatHandler());

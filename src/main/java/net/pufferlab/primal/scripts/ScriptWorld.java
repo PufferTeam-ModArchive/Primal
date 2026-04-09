@@ -4,6 +4,7 @@ import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.utils.CutUtils;
+import net.pufferlab.primal.utils.OreType;
 import net.pufferlab.primal.utils.SoilType;
 import net.pufferlab.primal.utils.StoneType;
 
@@ -15,6 +16,7 @@ public class ScriptWorld implements IScript {
 
     public void run() {
         addCraftingRecipes();
+        addQuernRecipes();
     }
 
     public void addOredicts() {
@@ -32,6 +34,18 @@ public class ScriptWorld implements IScript {
                 String name = soil.name;
                 addOreDict("dirt", getModItem(name + "_dirt", 1));
             }
+            for (OreType oreType : Constants.gemOreTypes) {
+                String name = oreType.name;
+                ItemStack stack = new ItemStack(oreType.oreItem, 1, oreType.oreMeta);
+                addOreDict(getOreDictionaryName("gem", name), stack);
+            }
+        }
+    }
+
+    public void addQuernRecipes() {
+        for (OreType oreType : Constants.gemOreTypes) {
+            String name = oreType.name;
+            addQuernRecipe(getModItem(name + "_powder", 1), getOreDictionaryName("gem", name));
         }
     }
 

@@ -43,7 +43,7 @@ public class PacketAnvilWork implements IMessage, IMessageHandler<PacketAnvilWor
 
     @Override
     public IMessage onMessage(PacketAnvilWork msg, MessageContext ctx) {
-        final EntityPlayer player = ctx.getServerHandler().playerEntity;
+        final EntityPlayer player = Primal.proxy.getPlayer(ctx);
         TileEntity te = player.worldObj.getTileEntity(msg.x, msg.y, msg.z);
         ItemStack heldItem = player.getHeldItem();
         if (te instanceof TileEntityAnvil tef) {

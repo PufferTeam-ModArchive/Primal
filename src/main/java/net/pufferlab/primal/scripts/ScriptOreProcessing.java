@@ -28,7 +28,7 @@ public class ScriptOreProcessing implements IScript {
     }
 
     public void addOreDicts() {
-        addOreDict("mediumOre", getItem(Primal.MODID, "medium_ore", wildcard, 1));
+        addOreDict("mediumOre", getItem(Primal.MODID, "ore", wildcard, 1));
         addOreDict("smallOre", getItem(Primal.MODID, "small_ore", wildcard, 1));
 
         addOreDict("axeCopper", getModItem("copper_axe", 1));

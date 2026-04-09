@@ -13,6 +13,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Constants;
+import net.pufferlab.primal.Mods;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.items.itemblocks.ItemBlockCrucible;
@@ -25,7 +26,7 @@ import com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness;
 
 import cpw.mods.fml.common.Optional;
 
-@Optional.Interface(iface = "com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness", modid = "rple")
+@Optional.Interface(iface = "com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness", modid = Mods.ID.rple)
 public class BlockCrucible extends BlockContainerPrimal implements RPLECustomBlockBrightness {
 
     public IIcon crucible;

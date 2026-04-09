@@ -1,10 +1,18 @@
 package net.pufferlab.primal.blocks;
 
+import java.util.List;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 import net.pufferlab.primal.client.utils.RenderState;
 
 public interface IPrimalBlock {
+
+    default List<AxisAlignedBB> getBounds(World world, int x, int y, int z) {
+        return null;
+    }
 
     default Class<? extends ItemBlock> getItemBlockClass() {
         return ItemBlock.class;

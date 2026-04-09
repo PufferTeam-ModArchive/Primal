@@ -26,6 +26,9 @@ public class ItemBlockPrimal extends ItemBlock implements IPrimalItem {
         int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_) {
         Block block = p_77648_3_.getBlock(p_77648_4_, p_77648_5_, p_77648_6_);
 
+        if (cancelPlacement(p_77648_1_)) {
+            return false;
+        }
         if (block == Blocks.snow_layer && (p_77648_3_.getBlockMetadata(p_77648_4_, p_77648_5_, p_77648_6_) & 7) < 1) {
             p_77648_7_ = 1;
         } else if (block != Blocks.vine && block != Blocks.tallgrass
@@ -116,8 +119,6 @@ public class ItemBlockPrimal extends ItemBlock implements IPrimalItem {
     @Override
     public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
         float hitX, float hitY, float hitZ, int metadata) {
-
-        if (cancelPlacement(stack)) return false;
 
         if (!world.setBlock(x, y, z, field_150939_a, metadata, 3)) {
             return false;

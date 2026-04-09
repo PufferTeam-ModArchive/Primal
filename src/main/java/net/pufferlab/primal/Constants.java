@@ -128,7 +128,8 @@ public class Constants {
     public static final OreType ruby = new OreType("ruby", 2);
     public static final OreType sapphire = new OreType("sapphire", 2);
     public static final OreType topaz = new OreType("topaz", 2);
-    public static final OreType[] gemOreTypes      = {diamond, emerald, amethyst, lapis_lazuli, opal, ruby, sapphire, topaz};
+    public static final OreType amber = new OreType("amber", 2);
+    public static final OreType[] gemOreTypes      = {diamond, emerald, amethyst, lapis_lazuli, opal, ruby, sapphire, topaz, amber};
 
     //Mod Compat
     public static final int aerColor = 0xFFFF7E;

@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Constants;
+import net.pufferlab.primal.Mods;
 import net.pufferlab.primal.blocks.BlockCast;
 import net.pufferlab.primal.blocks.BlockCrucible;
 import net.pufferlab.primal.items.IHeatableItem;
@@ -16,7 +17,7 @@ import com.falsepattern.rple.api.common.item.RPLECustomItemBrightness;
 
 import cpw.mods.fml.common.Optional;
 
-@Optional.Interface(iface = "com.falsepattern.rple.api.common.item.RPLECustomItemBrightness", modid = "rple")
+@Optional.Interface(iface = "com.falsepattern.rple.api.common.item.RPLECustomItemBrightness", modid = Mods.ID.rple)
 public class ItemBlockCrucible extends ItemBlockPrimal implements IHeatableItem, RPLECustomItemBrightness {
 
     public ItemBlockCrucible(Block p_i45328_1_) {

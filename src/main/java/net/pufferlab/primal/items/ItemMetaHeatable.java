@@ -4,6 +4,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.pufferlab.primal.Constants;
+import net.pufferlab.primal.Mods;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.world.GlobalTickingData;
@@ -12,7 +13,7 @@ import com.falsepattern.rple.api.common.item.RPLECustomItemBrightness;
 
 import cpw.mods.fml.common.Optional;
 
-@Optional.Interface(iface = "com.falsepattern.rple.api.common.item.RPLECustomItemBrightness", modid = "rple")
+@Optional.Interface(iface = "com.falsepattern.rple.api.common.item.RPLECustomItemBrightness", modid = Mods.ID.rple)
 public class ItemMetaHeatable extends ItemMeta implements IHeatableItem, RPLECustomItemBrightness {
 
     public IIcon[] heatOverlay;

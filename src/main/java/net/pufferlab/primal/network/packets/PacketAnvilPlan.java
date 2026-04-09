@@ -2,6 +2,7 @@ package net.pufferlab.primal.network.packets;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.tileentities.TileEntityAnvil;
 import net.pufferlab.primal.utils.IOUtils;
 
@@ -42,7 +43,7 @@ public class PacketAnvilPlan implements IMessage, IMessageHandler<PacketAnvilPla
 
     @Override
     public IMessage onMessage(PacketAnvilPlan msg, MessageContext ctx) {
-        final EntityPlayer player = ctx.getServerHandler().playerEntity;
+        final EntityPlayer player = Primal.proxy.getPlayer(ctx);
         TileEntity te = player.worldObj.getTileEntity(msg.x, msg.y, msg.z);
         if (te instanceof TileEntityAnvil tef) {
             tef.setInput(player);

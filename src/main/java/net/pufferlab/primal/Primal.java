@@ -24,8 +24,7 @@ public class Primal {
     public static final String MODID = "primal";
     public static final String VERSION = Tags.VERSION;
     public static final String mcVersion = "[1.7.10]";
-    public static final String dependencies = "required-after:gtnhmixins@[2.0.0,);"
-        + "required-after:Baubles|Expanded@[2.2.6-GTNH,);";
+    public static final String dependencies = "required-after:gtnhmixins@[2.0.0,);";
     public static final String group = "net.pufferlab.primal";
     public static final String guiFactory = group + ".client.gui.config.GuiFactory";
     public static final String clientProxy = group + ".ClientProxy";

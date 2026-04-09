@@ -6,9 +6,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.RegistryNamespaced;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Registry;
@@ -230,6 +228,128 @@ public class BlockUtils {
     public static MovingObjectPosition getMovingObjectPositionFromPlayer(World worldIn, EntityPlayer playerIn,
         boolean useLiquids) {
         return ItemDummy.instance.getMovingObjectPositionFromPlayerPublic(worldIn, playerIn, useLiquids);
+    }
+
+    public static MovingObjectPosition collisionRayTrace(AxisAlignedBB bound, World worldIn, int x, int y, int z,
+        Vec3 startVec, Vec3 endVec) {
+        startVec = startVec.addVector((double) (-x), (double) (-y), (double) (-z));
+        endVec = endVec.addVector((double) (-x), (double) (-y), (double) (-z));
+        Vec3 vec32 = startVec.getIntermediateWithXValue(endVec, bound.minX);
+        Vec3 vec33 = startVec.getIntermediateWithXValue(endVec, bound.maxX);
+        Vec3 vec34 = startVec.getIntermediateWithYValue(endVec, bound.minY);
+        Vec3 vec35 = startVec.getIntermediateWithYValue(endVec, bound.maxY);
+        Vec3 vec36 = startVec.getIntermediateWithZValue(endVec, bound.minZ);
+        Vec3 vec37 = startVec.getIntermediateWithZValue(endVec, bound.maxZ);
+
+        if (!isVecInsideYZBounds(bound, vec32)) {
+            vec32 = null;
+        }
+
+        if (!isVecInsideYZBounds(bound, vec33)) {
+            vec33 = null;
+        }
+
+        if (!isVecInsideXZBounds(bound, vec34)) {
+            vec34 = null;
+        }
+
+        if (!isVecInsideXZBounds(bound, vec35)) {
+            vec35 = null;
+        }
+
+        if (!isVecInsideXYBounds(bound, vec36)) {
+            vec36 = null;
+        }
+
+        if (!isVecInsideXYBounds(bound, vec37)) {
+            vec37 = null;
+        }
+
+        Vec3 vec38 = null;
+
+        if (vec32 != null && (vec38 == null || startVec.squareDistanceTo(vec32) < startVec.squareDistanceTo(vec38))) {
+            vec38 = vec32;
+        }
+
+        if (vec33 != null && (vec38 == null || startVec.squareDistanceTo(vec33) < startVec.squareDistanceTo(vec38))) {
+            vec38 = vec33;
+        }
+
+        if (vec34 != null && (vec38 == null || startVec.squareDistanceTo(vec34) < startVec.squareDistanceTo(vec38))) {
+            vec38 = vec34;
+        }
+
+        if (vec35 != null && (vec38 == null || startVec.squareDistanceTo(vec35) < startVec.squareDistanceTo(vec38))) {
+            vec38 = vec35;
+        }
+
+        if (vec36 != null && (vec38 == null || startVec.squareDistanceTo(vec36) < startVec.squareDistanceTo(vec38))) {
+            vec38 = vec36;
+        }
+
+        if (vec37 != null && (vec38 == null || startVec.squareDistanceTo(vec37) < startVec.squareDistanceTo(vec38))) {
+            vec38 = vec37;
+        }
+
+        if (vec38 == null) {
+            return null;
+        } else {
+            byte b0 = -1;
+
+            if (vec38 == vec32) {
+                b0 = 4;
+            }
+
+            if (vec38 == vec33) {
+                b0 = 5;
+            }
+
+            if (vec38 == vec34) {
+                b0 = 0;
+            }
+
+            if (vec38 == vec35) {
+                b0 = 1;
+            }
+
+            if (vec38 == vec36) {
+                b0 = 2;
+            }
+
+            if (vec38 == vec37) {
+                b0 = 3;
+            }
+
+            MovingObjectPosition mop = new MovingObjectPosition(
+                x,
+                y,
+                z,
+                b0,
+                vec38.addVector((double) x, (double) y, (double) z));
+            mop.hitInfo = bound;
+            return mop;
+        }
+    }
+
+    private static boolean isVecInsideYZBounds(AxisAlignedBB bound, Vec3 point) {
+        return point == null ? false
+            : point.yCoord >= bound.minY && point.yCoord <= bound.maxY
+                && point.zCoord >= bound.minZ
+                && point.zCoord <= bound.maxZ;
+    }
+
+    private static boolean isVecInsideXZBounds(AxisAlignedBB bound, Vec3 point) {
+        return point == null ? false
+            : point.xCoord >= bound.minX && point.xCoord <= bound.maxX
+                && point.zCoord >= bound.minZ
+                && point.zCoord <= bound.maxZ;
+    }
+
+    private static boolean isVecInsideXYBounds(AxisAlignedBB bound, Vec3 point) {
+        return point == null ? false
+            : point.xCoord >= bound.minX && point.xCoord <= bound.maxX
+                && point.yCoord >= bound.minY
+                && point.yCoord <= bound.maxY;
     }
 
     public static int getDirectionXZYaw(int yaw) {

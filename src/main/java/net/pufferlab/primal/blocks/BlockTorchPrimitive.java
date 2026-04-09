@@ -11,17 +11,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.pufferlab.primal.Config;
-import net.pufferlab.primal.Constants;
-import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Registry;
+import net.pufferlab.primal.*;
 import net.pufferlab.primal.world.Tasks;
 
 import com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness;
 
 import cpw.mods.fml.common.Optional;
 
-@Optional.Interface(iface = "com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness", modid = "rple")
+@Optional.Interface(iface = "com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness", modid = Mods.ID.rple)
 public class BlockTorchPrimitive extends BlockTorch
     implements IPrimalBlock, IScheduledBlock, RPLECustomBlockBrightness {
 

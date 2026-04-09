@@ -858,6 +858,17 @@ item.primal.opal.name=Opal
 item.primal.ruby.name=Ruby
 item.primal.sapphire.name=Sapphire
 item.primal.topaz.name=Topaz
+item.primal.amber.name=Amber
+
+item.primal.diamond_powder.name=Diamond Powder
+item.primal.emerald_powder.name=Emerald Powder
+item.primal.amethyst_powder.name=Amethyst Powder
+item.primal.lapis_lazuli_powder.name=Lapis Lazuli Powder
+item.primal.opal_powder.name=Opal Powder
+item.primal.ruby_powder.name=Ruby Powder
+item.primal.sapphire_powder.name=Sapphire Powder
+item.primal.topaz_powder.name=Topaz Powder
+item.primal.amber_powder.name=Amber Powder
 
 tile.primal.andesite_aer.name=Air Infused Andesite
 tile.primal.basalt_aer.name=Air Infused Basalt
@@ -1068,6 +1079,21 @@ tile.primal.shale_topaz.name=Shale Topaz
 tile.primal.chalk_topaz.name=Chalk Topaz
 tile.primal.slate_topaz.name=Slate Topaz
 tile.primal.schist_topaz.name=Schist Topaz
+
+tile.primal.andesite_amber.name=Andesite Amber
+tile.primal.basalt_amber.name=Basalt Amber
+tile.primal.dacite_amber.name=Dacite Amber
+tile.primal.rhyolite_amber.name=Rhyolite Amber
+tile.primal.diorite_amber.name=Diorite Amber
+tile.primal.gabbro_amber.name=Gabbro Amber
+tile.primal.granite_amber.name=Granite Amber
+tile.primal.claystone_amber.name=Claystone Amber
+tile.primal.limestone_amber.name=Limestone Amber
+tile.primal.sandstone_amber.name=Sandstone Amber
+tile.primal.shale_amber.name=Shale Amber
+tile.primal.chalk_amber.name=Chalk Amber
+tile.primal.slate_amber.name=Slate Amber
+tile.primal.schist_amber.name=Schist Amber
 
 tile.primal.andesite_anthracite_coal.name=Andesite Anthracite Coal
 tile.primal.basalt_anthracite_coal.name=Basalt Anthracite Coal

@@ -1,9 +1,12 @@
 package net.pufferlab.primal.client.helper;
 
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.fluids.Fluid;
@@ -231,6 +234,14 @@ public class ModelTESS {
         tess.setBrightness(block.getMixedBrightnessForBlock(renderblocks.blockAccess, x, y, z));
         int i1 = block.colorMultiplier(renderblocks.blockAccess, x, y, z);
         renderer.renderJOML(scale, matrix, i1, x, y, z, offsetX, offsetY, offsetZ, icon);
+    }
+
+    public Matrix4f matrix2 = new Matrix4f();
+
+    public void buildBoundsJOML(ModelRenderer renderer, double offsetX, double offsetY, double offsetZ, float scale,
+        List<AxisAlignedBB> bb) {
+        matrix2.identity();
+        renderer.buildJOML(scale, offsetX, offsetY, offsetZ, matrix2, bb);
     }
 
     public void renderCrossed(RenderBlocks renderblocks, Block block, int x, int y, int z, int index) {

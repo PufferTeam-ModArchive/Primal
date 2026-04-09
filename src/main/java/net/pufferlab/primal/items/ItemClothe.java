@@ -6,9 +6,13 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.pufferlab.primal.Mods;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.compat.baubles.IBaubleItem;
 
+import cpw.mods.fml.common.Optional;
+
+@Optional.Interface(iface = "net.pufferlab.primal.compat.baubles.IBaubleItem", modid = Mods.ID.baubles)
 public class ItemClothe extends Item implements IBaubleItem, IPrimalItem {
 
     public String[] baubleType;
