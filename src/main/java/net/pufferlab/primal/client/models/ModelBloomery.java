@@ -8,6 +8,10 @@ public class ModelBloomery extends ModelPrimal {
         super(64);
 
         // spotless:off
+        bb_main.addBound(-8.0F, 0.0F, -8.0F, -8.0F + 16,  13.0F, -8.0F + 16);
+        bb_main.addBound(-7.0F, 13.0F, -7.0F, -7.0F + 14, 13.0F + 5, -7.0F + 14);
+        bb_main.addBound(-6.0F, 18.0F, -6.0F, -6.0F + 12, 18.0F + 5, -6.0F + 12);
+
         bb_main.addBox(0, 3, 4.0F, 0.0F, -8.0F, 4, 13, 16, 0.0F, new ModelConfig().setNorth(false).setSouth(false));
         bb_main.addBox(0, 3, -8.0F, 0.0F, -8.0F, 4, 13, 16, 0.0F, new ModelConfig().setNorth(false).setSouth(false));
         bb_main.addBox(0, 32, -4.0F, 0.0F, -8.0F, 8, 13, 4, 0.0F, new ModelConfig().setNorth(false));

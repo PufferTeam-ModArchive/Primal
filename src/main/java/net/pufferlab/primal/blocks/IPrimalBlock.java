@@ -10,7 +10,7 @@ import net.pufferlab.primal.client.utils.RenderState;
 
 public interface IPrimalBlock {
 
-    default List<AxisAlignedBB> getBounds(World world, int x, int y, int z) {
+    default List<AxisAlignedBB> getBounds(World world, int x, int y, int z, BoundsType bounds) {
         return null;
     }
 

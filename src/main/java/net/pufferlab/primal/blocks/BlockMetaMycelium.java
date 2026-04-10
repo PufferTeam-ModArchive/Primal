@@ -1,10 +1,8 @@
 package net.pufferlab.primal.blocks;
 
 import java.util.List;
-import java.util.Random;
 
-import net.minecraft.block.BlockGrass;
-import net.minecraft.block.IGrowable;
+import net.minecraft.block.BlockMycelium;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -14,25 +12,22 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.items.itemblocks.ItemBlockMeta;
-import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.Utils;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlock, IGrowable {
+public class BlockMetaMycelium extends BlockMycelium implements IPrimalBlock, IMetaBlock {
 
     protected String[] elements;
     protected String[] elementsBlacklist;
     protected IIcon[] icons;
-    public IIcon grassSide;
     public IIcon grassTop;
     public IIcon grassSideSnowed;
     public IIcon grassSideOverlay;
@@ -41,7 +36,7 @@ public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlo
     protected String[] elementsTextures;
     public boolean hasSuffix;
 
-    public BlockMetaGrass(Material material, String[] materials, String type, String[] blacklist, String[] tools,
+    public BlockMetaMycelium(Material material, String[] materials, String type, String[] blacklist, String[] tools,
         int[] levels) {
         super();
         elements = materials;
@@ -50,25 +45,25 @@ public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlo
         this.setHarvestLevel("shovel", 0);
     }
 
-    public BlockMetaGrass(Material material, String[] materials, String type) {
+    public BlockMetaMycelium(Material material, String[] materials, String type) {
         this(material, materials, type, Constants.none, null, null);
     }
 
-    public BlockMetaGrass() {
+    public BlockMetaMycelium() {
         super();
     }
 
-    public BlockMetaGrass setTextureOverride(String[] elementsTextures) {
+    public BlockMetaMycelium setTextureOverride(String[] elementsTextures) {
         this.elementsTextures = elementsTextures;
         return this;
     }
 
-    public BlockMetaGrass setBlacklist(String[] blacklist) {
+    public BlockMetaMycelium setBlacklist(String[] blacklist) {
         this.elementsBlacklist = blacklist;
         return this;
     }
 
-    public BlockMetaGrass setHasSuffix() {
+    public BlockMetaMycelium setHasSuffix() {
         this.hasSuffix = true;
         return this;
     }
@@ -81,10 +76,9 @@ public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlo
             icons[i] = register.registerIcon(Primal.MODID + ":" + elements[i] + "_dirt");
         }
 
-        this.grassSide = register.registerIcon("grass_side");
-        this.grassTop = register.registerIcon("grass_top");
+        this.grassSideOverlay = register.registerIcon(Primal.MODID + ":mycelium_side_overlay");
+        this.grassTop = register.registerIcon("mycelium_top");
         this.grassSideSnowed = register.registerIcon(Primal.MODID + ":grass_side_snowed_overlay");
-        this.grassSideOverlay = register.registerIcon("grass_side_overlay");
         this.empty = register.registerIcon(Primal.MODID + ":empty");
     }
 
@@ -172,48 +166,9 @@ public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlo
     }
 
     @Override
-    public void func_149853_b(World worldIn, Random random, int x, int y, int z) {
-        int l = 0;
-
-        while (l < 128) {
-            int i1 = x;
-            int j1 = y + 1;
-            int k1 = z;
-            int l1 = 0;
-
-            while (true) {
-                if (l1 < l / 16) {
-                    i1 += random.nextInt(3) - 1;
-                    j1 += (random.nextInt(3) - 1) * random.nextInt(3) / 2;
-                    k1 += random.nextInt(3) - 1;
-
-                    if (BlockUtils.isGrassBlock(worldIn.getBlock(i1, j1 - 1, k1)) && !worldIn.getBlock(i1, j1, k1)
-                        .isNormalCube()) {
-                        ++l1;
-                        continue;
-                    }
-                } else if (worldIn.getBlock(i1, j1, k1)
-                    .getMaterial() == Material.air) {
-                        if (random.nextInt(8) != 0) {
-                            if (Blocks.tallgrass.canBlockStay(worldIn, i1, j1, k1)) {
-                                worldIn.setBlock(i1, j1, k1, Blocks.tallgrass, 1, 3);
-                            }
-                        } else {
-                            worldIn.getBiomeGenForCoords(i1, k1)
-                                .plantFlower(worldIn, random, i1, j1, k1);
-                        }
-                    }
-
-                ++l;
-                break;
-            }
-        }
-    }
-
-    @Override
     public boolean canSustainPlant(IBlockAccess world, int x, int y, int z, ForgeDirection direction,
         IPlantable plantable) {
-        return Blocks.grass.canSustainPlant(world, x, y, z, direction, plantable);
+        return Blocks.mycelium.canSustainPlant(world, x, y, z, direction, plantable);
     }
 
     @Override

@@ -68,6 +68,7 @@ public class Registry {
     public static final Block farmland;
     public static final Block path;
     public static final Block grass;
+    public static final Block mycelium;
     public static final Block block;
     public static final Block anvil;
     public static final Block rope_ladder;
@@ -208,6 +209,7 @@ public class Registry {
         sand = new BlockStoneSand(Constants.stoneTypes, "sand");
         dirt = new BlockSoilDirt(Constants.soilTypes, "dirt");
         grass = new BlockSoilGrass(Constants.soilTypes, "grass");
+        mycelium = new BlockSoilMycelium(Constants.soilTypes, "mycelium");
         farmland = new BlockSoilFarmland(Constants.soilTypes, "farmland");
         path = new BlockSoilPath(Constants.soilTypes, "path");
 
@@ -370,6 +372,7 @@ public class Registry {
         register(sand, "sand");
         register(dirt, "dirt");
         register(grass, "grass");
+        register(mycelium, "mycelium");
         register(farmland, "farmland");
         register(path, "path");
 

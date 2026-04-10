@@ -5,8 +5,6 @@ import java.util.List;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -14,8 +12,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
@@ -60,21 +56,7 @@ public class BlockAxle extends BlockMotion {
     ModelGear modelGearNeg = new ModelGear();
 
     @Override
-    public MovingObjectPosition collisionRayTrace(World worldIn, int x, int y, int z, Vec3 startVec, Vec3 endVec) {
-        List<AxisAlignedBB> bounds;
-        bounds = getBoundsSimple(worldIn, x, y, z);
-        if (bounds != null && !bounds.isEmpty()) {
-            for (AxisAlignedBB bb : bounds) {
-                MovingObjectPosition mop = BlockUtils.collisionRayTrace(bb, worldIn, x, y, z, startVec, endVec);
-                if (mop != null) {
-                    return mop;
-                }
-            }
-        }
-        return super.collisionRayTrace(worldIn, x, y, z, startVec, endVec);
-    }
-
-    public List<AxisAlignedBB> getBoundsSimple(World world, int x, int y, int z) {
+    public List<AxisAlignedBB> getBounds(World world, int x, int y, int z, BoundsType type) {
         List<AxisAlignedBB> bounds = new ArrayList<>();
         TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileEntityAxle tef) {
@@ -82,47 +64,19 @@ public class BlockAxle extends BlockMotion {
                 modelBracket.setFacingFromAxis(tef.facingMeta, tef.axisMeta);
                 bounds.addAll(modelBracket.getBounds());
             }
-        }
-        return bounds;
-    }
-
-    @Override
-    public List<AxisAlignedBB> getBounds(World world, int x, int y, int z) {
-        List<AxisAlignedBB> bounds = new ArrayList<>();
-        TileEntity te = world.getTileEntity(x, y, z);
-        if (te instanceof TileEntityAxle tef) {
-            if (tef.hasBracket) {
-                modelBracket.setFacingFromAxis(tef.facingMeta, tef.axisMeta);
-                bounds.addAll(modelBracket.getBounds());
-            }
-            int axis = tef.axisMeta;
-            if (tef.hasGearPos) {
-                modelGearPos.setAxis(axis);
-                bounds.addAll(modelGearPos.getBounds(0.0F, 0.5F, 0.0F));
-            }
-            if (tef.hasGearNeg) {
-                modelGearNeg.setAxisReversed(axis);
-                bounds.addAll(modelGearNeg.getBounds(0.0F, 0.5F, 0.0F));
-            }
-        }
-        return bounds;
-    }
-
-    @Override
-    public void addCollisionBoxesToList(World worldIn, int x, int y, int z, AxisAlignedBB mask,
-        List<AxisAlignedBB> list, Entity collider) {
-        this.setBlockBoundsBasedOnState(worldIn, x, y, z);
-        List<AxisAlignedBB> bounds;
-        bounds = getBounds(worldIn, x, y, z);
-        if (bounds != null && !bounds.isEmpty()) {
-            for (AxisAlignedBB bb : bounds) {
-                bb.offset(x, y, z);
-                if (mask.intersectsWith(bb)) {
-                    list.add(bb);
+            if (type != BoundsType.rayTraced) {
+                int axis = tef.axisMeta;
+                if (tef.hasGearPos) {
+                    modelGearPos.setAxis(axis);
+                    bounds.addAll(modelGearPos.getBounds(0.0F, 0.5F, 0.0F));
+                }
+                if (tef.hasGearNeg) {
+                    modelGearNeg.setAxisReversed(axis);
+                    bounds.addAll(modelGearNeg.getBounds(0.0F, 0.5F, 0.0F));
                 }
             }
         }
-        super.addCollisionBoxesToList(worldIn, x, y, z, mask, list, collider);
+        return bounds;
     }
 
     @Override
@@ -167,23 +121,6 @@ public class BlockAxle extends BlockMotion {
             if (tef.hasBracket) {
                 dropItemStack(worldIn, x, y, z, new ItemStack(this, 1, 2));
             }
-        }
-    }
-
-    public void dropItemStack(World world, int x, int y, int z, ItemStack item) {
-        if (item != null && item.stackSize > 0) {
-            EntityItem entityItem = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, item.copy());
-            entityItem.motionX = 0.0D;
-            entityItem.motionY = 0.0D;
-            entityItem.motionZ = 0.0D;
-            spawnEntity(world, entityItem);
-            item.stackSize = 0;
-        }
-    }
-
-    public void spawnEntity(World world, Entity entityItem) {
-        if (!world.isRemote) {
-            world.spawnEntityInWorld((Entity) entityItem);
         }
     }
 

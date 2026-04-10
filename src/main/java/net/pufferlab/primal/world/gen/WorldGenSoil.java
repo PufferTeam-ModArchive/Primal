@@ -20,6 +20,7 @@ public class WorldGenSoil {
 
     private final Set<Block> blockList = new HashSet<>();
     private final List<Block> dirtList = new ArrayList<>();
+    private final List<Block> myceliumList = new ArrayList<>();
     private final List<Block> grassList = new ArrayList<>();
     private boolean init = false;
     private final Map<Block, Block> blockReplacement = new HashMap<>();
@@ -48,6 +49,7 @@ public class WorldGenSoil {
             }
             dirtList.add(Blocks.dirt);
             grassList.add(Blocks.grass);
+            myceliumList.add(Blocks.mycelium);
             blockList.addAll(dirtList);
             blockList.addAll(grassList);
             for (Block block : dirtList) {
@@ -55,6 +57,9 @@ public class WorldGenSoil {
             }
             for (Block block : grassList) {
                 blockReplacement.put(block, Registry.grass);
+            }
+            for (Block block : myceliumList) {
+                blockReplacement.put(block, Registry.mycelium);
             }
 
             init = true;

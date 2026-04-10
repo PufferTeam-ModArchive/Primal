@@ -377,31 +377,37 @@ tile.primal.loamy_dirt.name=Loamy Dirt
 tile.primal.loamy_path.name=Loamy Path
 tile.primal.loamy_grass.name=Loamy Grass
 tile.primal.loamy_farmland.name=Loamy Farmland
+tile.primal.loamy_mycelium.name=Loamy Mycelium
 
 tile.primal.sandy_dirt.name=Sandy Dirt
 tile.primal.sandy_path.name=Sandy Path
 tile.primal.sandy_grass.name=Sandy Grass
 tile.primal.sandy_farmland.name=Sandy Farmland
+tile.primal.sandy_mycelium.name=Sandy Mycelium
 
 tile.primal.silty_dirt.name=Silty Dirt
 tile.primal.silty_path.name=Silty Path
 tile.primal.silty_grass.name=Silty Grass
 tile.primal.silty_farmland.name=Silty Farmland
+tile.primal.silty_mycelium.name=Silty Mycelium
 
 tile.primal.sandy_loam_dirt.name=Sandy Loam Dirt
 tile.primal.sandy_loam_path.name=Sandy Loam Path
 tile.primal.sandy_loam_grass.name=Sandy Loam Grass
 tile.primal.sandy_loam_farmland.name=Sandy Loam Farmland
+tile.primal.sandy_loam_mycelium.name=Sandy Loam Mycelium
 
 tile.primal.silty_loam_dirt.name=Silty Loam Dirt
 tile.primal.silty_loam_path.name=Silty Loam Path
 tile.primal.silty_loam_grass.name=Silty Loam Grass
 tile.primal.silty_loam_farmland.name=Silty Loam Farmland
+tile.primal.silty_loam_mycelium.name=Silty Loam Mycelium
 
 tile.primal.peaty_dirt.name=Peaty Dirt
 tile.primal.peaty_path.name=Peaty Path
 tile.primal.peaty_grass.name=Peaty Grass
 tile.primal.peaty_farmland.name=Peaty Farmland
+tile.primal.peaty_mycelium.name=Peaty Mycelium
 
 stone.primal.igneous_extrusive.name=Igneous Extrusive
 stone.primal.igneous_intrusive.name=Igneous Intrusive

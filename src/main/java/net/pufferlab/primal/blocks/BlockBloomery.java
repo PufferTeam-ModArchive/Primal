@@ -1,10 +1,14 @@
 package net.pufferlab.primal.blocks;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -12,6 +16,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
+import net.pufferlab.primal.client.models.ModelBloomery;
 import net.pufferlab.primal.tileentities.TileEntityBloomery;
 import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.HeatUtils;
@@ -30,6 +35,25 @@ public class BlockBloomery extends BlockContainerPrimal {
         super(Material.rock);
         this.setStepSound(soundTypeStone);
         this.setHardness(0.8F);
+    }
+
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, int x, int y, int z) {
+        super.setBlockBoundsBasedOnState(worldIn, x, y, z);
+        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1 - 0.1875F, 1.0F);
+    }
+
+    ModelBloomery modelBloomery = new ModelBloomery();
+
+    @Override
+    public List<AxisAlignedBB> getBounds(World world, int x, int y, int z, BoundsType type) {
+        List<AxisAlignedBB> bounds = new ArrayList<>();
+        TileEntity te = world.getTileEntity(x, y, z);
+        if (te instanceof TileEntityBloomery tef) {
+            modelBloomery.setFacing(tef.facingMeta);
+            bounds.addAll(modelBloomery.getBounds());
+        }
+        return bounds;
     }
 
     @Override

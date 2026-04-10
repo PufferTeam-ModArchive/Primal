@@ -43,7 +43,7 @@ public class BlockGenerator extends BlockMotion {
         super.setBlockBoundsBasedOnState(worldIn, x, y, z);
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityGenerator tef) {
-            float b0 = 0.125F;
+            float b0 = 0.25F;
             float b1 = 1 - b0;
             if (tef.axisMeta == 0) {
                 this.setBlockBounds(b0, 0.0F, b0, b1, 1.0F, b1);

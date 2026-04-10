@@ -241,7 +241,7 @@ public class ModelTESS {
     public void buildBoundsJOML(ModelRenderer renderer, double offsetX, double offsetY, double offsetZ, float scale,
         List<AxisAlignedBB> bb) {
         matrix2.identity();
-        renderer.buildJOML(scale, offsetX, offsetY, offsetZ, matrix2, bb);
+        renderer.buildBoundsJOML(scale, offsetX, offsetY, offsetZ, matrix2, bb);
     }
 
     public void renderCrossed(RenderBlocks renderblocks, Block block, int x, int y, int z, int index) {

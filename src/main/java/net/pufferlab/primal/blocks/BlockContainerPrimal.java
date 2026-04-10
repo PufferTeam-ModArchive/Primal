@@ -1,5 +1,6 @@
 package net.pufferlab.primal.blocks;
 
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.BlockContainer;
@@ -13,6 +14,9 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Registry;
@@ -93,7 +97,6 @@ public abstract class BlockContainerPrimal extends BlockContainer implements IPr
     }
 
     public void dropItems(World world, int i, int j, int k, int start) {
-        Random rando = world.rand;
         TileEntity tileEntity = world.getTileEntity(i, j, k);
         if (!(tileEntity instanceof TileEntityInventory)) return;
         TileEntityInventory inventory = (TileEntityInventory) tileEntity;
@@ -101,18 +104,68 @@ public abstract class BlockContainerPrimal extends BlockContainer implements IPr
             ItemStack item = inventory.getStackInSlot(x);
             inventory.setInventorySlotContentsUpdate(x, null);
             if (item != null && item.stackSize > 0) {
-                float ri = rando.nextFloat() * 0.8F + 0.1F;
-                float rj = rando.nextFloat() * 0.8F + 0.1F;
-                float rk = rando.nextFloat() * 0.8F + 0.1F;
-                EntityItem entityItem = new EntityItem(world, (i + ri), (j + rj), (k + rk), item.copy());
-                float factor = 0.05F;
-                entityItem.motionX = rando.nextGaussian() * factor;
-                entityItem.motionY = rando.nextGaussian() * factor + 0.20000000298023224D;
-                entityItem.motionZ = rando.nextGaussian() * factor;
+                EntityItem entityItem = getEntityItem(world, i, j, k, item.copy());
                 spawnEntity(world, entityItem);
                 item.stackSize = 0;
             }
         }
+    }
+
+    @Override
+    public MovingObjectPosition collisionRayTrace(World worldIn, int x, int y, int z, Vec3 startVec, Vec3 endVec) {
+        List<AxisAlignedBB> bounds;
+        this.setBlockBoundsBasedOnState(worldIn, x, y, z);
+        bounds = getBounds(worldIn, x, y, z, BoundsType.rayTraced);
+        if (bounds != null && !bounds.isEmpty()) {
+            for (AxisAlignedBB bb : bounds) {
+                MovingObjectPosition mop = BlockUtils.collisionRayTrace(bb, worldIn, x, y, z, startVec, endVec);
+                if (mop != null) {
+                    return mop;
+                }
+            }
+        }
+        return BlockUtils.collisionRayTrace(
+            AxisAlignedBB.getBoundingBox(this.minX, this.minY, this.minZ, this.maxX, this.maxY, this.maxZ),
+            worldIn,
+            x,
+            y,
+            z,
+            startVec,
+            endVec);
+    }
+
+    @Override
+    public void addCollisionBoxesToList(World worldIn, int x, int y, int z, AxisAlignedBB mask,
+        List<AxisAlignedBB> list, Entity collider) {
+        this.setBlockBoundsBasedOnState(worldIn, x, y, z);
+        List<AxisAlignedBB> bounds;
+        bounds = getBounds(worldIn, x, y, z, BoundsType.collision);
+        if (bounds != null && !bounds.isEmpty()) {
+            for (AxisAlignedBB bb : bounds) {
+                bb.offset(x, y, z);
+                if (mask.intersectsWith(bb)) {
+                    list.add(bb);
+                }
+            }
+        }
+        AxisAlignedBB axisalignedbb1 = this.getCollisionBoundingBoxFromPool(worldIn, x, y, z);
+
+        if (axisalignedbb1 != null && mask.intersectsWith(axisalignedbb1)) {
+            list.add(axisalignedbb1);
+        }
+    }
+
+    public EntityItem getEntityItem(World world, double i, double j, double k, ItemStack item) {
+        Random rando = world.rand;
+        float ri = rando.nextFloat() * 0.8F + 0.1F;
+        float rj = rando.nextFloat() * 0.8F + 0.1F;
+        float rk = rando.nextFloat() * 0.8F + 0.1F;
+        EntityItem entityItem = new EntityItem(world, (i + ri), (j + rj), (k + rk), item);
+        float factor = 0.05F;
+        entityItem.motionX = rando.nextGaussian() * factor;
+        entityItem.motionY = rando.nextGaussian() * factor + 0.20000000298023224D;
+        entityItem.motionZ = rando.nextGaussian() * factor;
+        return entityItem;
     }
 
     public void dropItems(World world, int i, int j, int k) {
@@ -153,10 +206,7 @@ public abstract class BlockContainerPrimal extends BlockContainer implements IPr
             item = pile.getInventoryStack(index);
         }
         if (item != null && item.stackSize > 0) {
-            EntityItem entityItem = new EntityItem(world, x + 0.5, y + 1.25, z + 0.5, item.copy());
-            entityItem.motionX = 0.0D;
-            entityItem.motionY = 0.0D;
-            entityItem.motionZ = 0.0D;
+            EntityItem entityItem = getEntityItem(world, x, y, z, item.copy());
             spawnEntity(world, entityItem);
             item.stackSize = 0;
             return true;
@@ -166,10 +216,7 @@ public abstract class BlockContainerPrimal extends BlockContainer implements IPr
 
     public void dropItemStack(World world, int x, int y, int z, ItemStack item) {
         if (item != null && item.stackSize > 0) {
-            EntityItem entityItem = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, item.copy());
-            entityItem.motionX = 0.0D;
-            entityItem.motionY = 0.0D;
-            entityItem.motionZ = 0.0D;
+            EntityItem entityItem = getEntityItem(world, x, y, z, item.copy());
             spawnEntity(world, entityItem);
             item.stackSize = 0;
         }

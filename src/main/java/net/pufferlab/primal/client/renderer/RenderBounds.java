@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
+import net.pufferlab.primal.blocks.BoundsType;
 import net.pufferlab.primal.blocks.IPrimalBlock;
 
 import org.lwjgl.opengl.GL11;
@@ -46,7 +47,7 @@ public class RenderBounds {
                 double d2 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double) partialTicks;
                 List<AxisAlignedBB> boxes = null;
                 if (block instanceof IPrimalBlock block2) {
-                    boxes = block2.getBounds(player.worldObj, mop.blockX, mop.blockY, mop.blockZ);
+                    boxes = block2.getBounds(player.worldObj, mop.blockX, mop.blockY, mop.blockZ, BoundsType.rendered);
                 }
                 if (boxes == null) return;
                 for (AxisAlignedBB box : boxes) {

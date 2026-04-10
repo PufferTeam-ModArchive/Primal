@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
+import net.pufferlab.primal.Constants;
 
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
@@ -38,6 +39,7 @@ public class ModelRenderer {
     /** Hides the model. */
     public boolean isHidden;
     public List<ModelBox> cubeList;
+    public List<ModelBound> boundList;
     public List<ModelRenderer> childModels;
     public final String boxName;
     private ModelBase baseModel;
@@ -53,6 +55,7 @@ public class ModelRenderer {
         this.textureHeight = 32.0F;
         this.showModel = true;
         this.cubeList = new ArrayList();
+        this.boundList = new ArrayList<>();
         this.boxName = null;
     }
 
@@ -61,6 +64,7 @@ public class ModelRenderer {
         this.textureHeight = 32.0F;
         this.showModel = true;
         this.cubeList = new ArrayList();
+        this.boundList = new ArrayList<>();
         this.baseModel = baseModel;
         baseModel.boxList.add(this);
         this.boxName = boxName;
@@ -102,6 +106,18 @@ public class ModelRenderer {
     public ModelRenderer addBox(int U, int V, float x, float y, float z, int xWidth, int yHeight, int zDepth,
         float scaleFactor) {
         this.cubeList.add(new ModelBox(this, U, V, x, y, z, xWidth, yHeight, zDepth, scaleFactor));
+        return this;
+    }
+
+    public ModelRenderer addBound(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+        this.boundList.add(
+            new ModelBound(
+                minX * Constants.pixel,
+                minY * Constants.pixel,
+                minZ * Constants.pixel,
+                maxX * Constants.pixel,
+                maxY * Constants.pixel,
+                maxZ * Constants.pixel));
         return this;
     }
 
@@ -212,7 +228,7 @@ public class ModelRenderer {
 
     public Matrix4f localMatrix2 = new Matrix4f();
 
-    public void buildJOML(float scale, double offsetX, double offsetY, double offsetZ, Matrix4f matrix,
+    public void buildBoundsJOML(float scale, double offsetX, double offsetY, double offsetZ, Matrix4f matrix,
         List<AxisAlignedBB> bounds) {
         if (this.isHidden || !this.showModel) return;
 
@@ -230,7 +246,7 @@ public class ModelRenderer {
 
         if (this.childModels != null) {
             for (Object child : this.childModels) {
-                ((ModelRenderer) child).buildJOML(scale, offsetX, offsetY, offsetZ, localMatrix2, bounds);
+                ((ModelRenderer) child).buildBoundsJOML(scale, offsetX, offsetY, offsetZ, localMatrix2, bounds);
             }
         }
     }
@@ -353,8 +369,8 @@ public class ModelRenderer {
 
     private void compileBoundMatrix(Matrix4f matrix, double offsetX, double offsetY, double offsetZ,
         List<AxisAlignedBB> bb) {
-        for (int i = 0; i < this.cubeList.size(); ++i) {
-            ModelBound oldbound = this.cubeList.get(i).bound;
+        for (int i = 0; i < this.boundList.size(); ++i) {
+            ModelBound oldbound = this.boundList.get(i);
             if (oldbound != null) {
                 ModelBound newBound = oldbound.transform(matrix);
                 bb.add(
