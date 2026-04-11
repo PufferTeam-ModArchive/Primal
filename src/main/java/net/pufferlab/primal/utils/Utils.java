@@ -367,6 +367,18 @@ public class Utils {
         return result;
     }
 
+    public static <T> T[] append(T[] array, T element) {
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == null) {
+                array[i] = element;
+                return array;
+            }
+        }
+        T[] result = Arrays.copyOf(array, array.length + 1);
+        result[array.length] = element;
+        return result;
+    }
+
     public static String[] removeFirst(String[] old) {
         if (old == null || old.length <= 1) {
             return new String[0];

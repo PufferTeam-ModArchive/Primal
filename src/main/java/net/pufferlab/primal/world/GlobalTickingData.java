@@ -56,6 +56,10 @@ public class GlobalTickingData extends WorldSavedData {
         data.markDirty();
     }
 
+    public static void setClientTick(long tick) {
+        clientTickTime = tick;
+    }
+
     public static long getTickTime(World world) {
         if (world.isRemote) {
             return clientTickTime;

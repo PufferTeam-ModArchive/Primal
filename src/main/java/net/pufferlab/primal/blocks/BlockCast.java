@@ -26,6 +26,7 @@ import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.MetalType;
 import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.GlobalTickingData;
+import net.pufferlab.primal.world.Tasks;
 
 public class BlockCast extends BlockContainerPrimal {
 
@@ -71,7 +72,9 @@ public class BlockCast extends BlockContainerPrimal {
                                         FluidStack fluid = FluidUtils
                                             .drainFluidTankFromNBT(heldItem.getTagCompound(), recipe.input.amount);
                                         if (tef.getFluidStack() == null && fluid != null) {
-                                            tef.temperature = temp;
+                                            tef.setTemperature(temp);
+                                            tef.setTemperatureMultiplier(-1.0F);
+                                            tef.addSchedule(0, Tasks.heat);
                                             tef.fill(ForgeDirection.getOrientation(side), fluid, true);
                                         }
                                     }

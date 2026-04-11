@@ -29,7 +29,7 @@ public class PacketWorldTime implements IMessage, IMessageHandler<PacketWorldTim
 
     @Override
     public IMessage onMessage(PacketWorldTime msg, MessageContext ctx) {
-        GlobalTickingData.clientTickTime = msg.tickTime;
+        GlobalTickingData.setClientTick(msg.tickTime);
         return null;
     }
 }

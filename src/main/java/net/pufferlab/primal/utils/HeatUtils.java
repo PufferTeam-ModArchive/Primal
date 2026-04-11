@@ -267,6 +267,14 @@ public class HeatUtils {
         return Constants.lightNone;
     }
 
+    public static String getFiredTooltip(boolean isFired) {
+        if (isFired) {
+            return Utils.translate("heat." + Primal.MODID + ".fired.desc");
+        } else {
+            return Utils.translate("heat." + Primal.MODID + ".unfired.desc");
+        }
+    }
+
     public static String getTemperatureTooltip(int temperature) {
         return Utils.translate("heat." + Primal.MODID + ".temperature.desc", temperature);
     }

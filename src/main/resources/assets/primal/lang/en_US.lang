@@ -65,6 +65,8 @@ gui.primal.anvil.not_last.name=Not Last
 gui.primal.anvil.second_last.name=Second Last
 gui.primal.anvil.third_last.name=Third Last
 
+heat.primal.fired.desc=§7State: §aFired
+heat.primal.unfired.desc=§7State: §cUnfired
 heat.primal.temperature.desc=§7Temperature: §f%d§7 C
 heat.primal.debug.info.desc=§7Advanced Info:
 heat.primal.debug.last-temperature.desc=§7Last-Temperature: §f%d§7 C

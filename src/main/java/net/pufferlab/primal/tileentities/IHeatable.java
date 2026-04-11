@@ -15,11 +15,20 @@ public interface IHeatable extends ITile {
 
     public boolean isFired();
 
-    default void setTemperature(float multiplier) {
+    default void setTemperatureMultiplier(float multiplier) {
         HeatInfo heat = getHeatInfo();
         if (heat != null) {
             heat.setTemperatureInfo(GlobalTickingData.getTickTime(), getMaxTemperature(), multiplier, getTemperature());
         }
+        updateTEState();
+    }
+
+    default void setTemperature(int temperature) {
+        HeatInfo heat = getHeatInfo();
+        if (heat != null) {
+            heat.setTemperatureInfo(GlobalTickingData.getTickTime(), getMaxTemperature(), getMultiplier(), temperature);
+        }
+        updateTEState();
     }
 
     default void setMaxTemperature(int maxTemperature) {
@@ -37,6 +46,14 @@ public interface IHeatable extends ITile {
         return 0;
     }
 
+    default float getMultiplier() {
+        HeatInfo heat = getHeatInfo();
+        if (heat != null) {
+            return heat.getMultiplier();
+        }
+        return 1.0F;
+    }
+
     default int getMaxTemperature() {
         HeatInfo heat = getHeatInfo();
         if (heat != null) {
@@ -48,7 +65,7 @@ public interface IHeatable extends ITile {
     default int getTemperature() {
         HeatInfo heat = getHeatInfo();
         if (heat != null) {
-            return heat.getTemperature();
+            return heat.getTemperature(getWorld());
         }
         return 0;
     }

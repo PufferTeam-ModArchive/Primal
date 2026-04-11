@@ -7,6 +7,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.recipes.AlloyingRecipe;
@@ -31,7 +32,7 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     public FluidStack[] fluidInventory;
 
     public TileEntityCrucible() {
-        super(3000, 5);
+        super(Config.metalIngotValue.getInt() * 20, 5);
         fluidInventory = new FluidStack[getSizeInventory()];
     }
 
@@ -78,33 +79,26 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     @Override
     public void readFromNBTPacket(NBTTagCompound tag) {
         super.readFromNBTPacket(tag);
+        heat.readFromNBT(tag);
         this.isHeating = tag.getBoolean("isHeating");
     }
 
     @Override
     public void writeToNBTPacket(NBTTagCompound tag) {
         super.writeToNBTPacket(tag);
+        heat.writeToNBT(tag);
         tag.setBoolean("isHeating", this.isHeating);
     }
 
     public void addFluidInventory(FluidStack stack) {
-        boolean hasExistingFluid = false;
         for (int i = 0; i < getSizeInventory(); i++) {
             FluidStack stack2 = getFluidInventoryStack(i);
             if (Utils.equalsStack(stack2, stack)) {
                 stack2.amount = stack2.amount + stack.amount;
-                hasExistingFluid = true;
+                return;
             }
         }
-        if (!hasExistingFluid) {
-            for (int i = 0; i < getSizeInventory(); i++) {
-                FluidStack stack2 = getFluidInventoryStack(i);
-                if (stack2 == null) {
-                    fluidInventory[i] = stack.copy();
-                    break;
-                }
-            }
-        }
+        fluidInventory = Utils.append(getFluidInventory(), stack.copy());
     }
 
     public FluidStack getFluidInventoryStack(int index) {
@@ -167,13 +161,16 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
             if (MeltingRecipe.hasRecipe(stack)) {
                 if (HeatUtils.hasImpl(stack)) {
                     IHeatableItem impl = HeatUtils.getImpl(stack);
-                    FluidStack output = MeltingRecipe.getOutput(stack);
+                    FluidStack output = MeltingRecipe.getOutput(stack)
+                        .copy();
+                    int scaled = stack.stackSize;
+                    output.amount = output.amount * scaled;
                     int currentTemperature = HeatUtils.getInterpolatedTemperature(
                         GlobalTickingData.getTickTime(this.worldObj),
                         stack.getTagCompound());
                     if (currentTemperature > impl.getMeltingTemperature(stack)) {
                         addFluidInventory(output);
-                        decrStackSize(i, 1);
+                        decrStackSize(i, scaled);
                     }
                 }
             }
@@ -208,9 +205,9 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
         if (teBelow instanceof IHeatable heat) {
             setMaxTemperature(heat.getTemperature());
             if (heat.isFired()) {
-                setTemperature(1.0F);
+                setTemperatureMultiplier(1.0F);
             } else {
-                setTemperature(-1.0F);
+                setTemperatureMultiplier(-1.0F);
             }
         }
     }

@@ -107,7 +107,7 @@ public class BlockCrucible extends BlockContainerPrimal implements RPLECustomBlo
         item.setTagCompound(tagCompound);
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityCrucible tef) {
-            tef.setTemperature(-1.0F);
+            tef.setTemperatureMultiplier(-1.0F);
             tef.updateHeatInventory(-1.0F, tef.getMaxTemperature());
             tef.writeToNBTInventory(tagCompound);
         }

@@ -5,30 +5,39 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.recipes.CastingRecipe;
 import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.ItemUtils;
+import net.pufferlab.primal.world.HeatInfo;
+import net.pufferlab.primal.world.ScheduleManager;
+import net.pufferlab.primal.world.Tasks;
 
-public class TileEntityCast extends TileEntityFluidInventory implements IHeatable {
+public class TileEntityCast extends TileEntityFluidInventory implements IHeatable, IScheduledTile {
+
+    public ScheduleManager manager = new ScheduleManager(Tasks.heat);
+    public HeatInfo heat = new HeatInfo(1300);
 
     public static final int slotCast = 0;
     public static final int slotOutput = 1;
     public static final int slotOutputSmall = 2;
-    public int timeHeat;
-    public int temperature;
     public int castIndex;
 
     public TileEntityCast() {
-        super(432, 3);
+        super(Config.metalIngotValue.getInt() * 3, 3);
+    }
+
+    @Override
+    public HeatInfo getHeatInfo() {
+        return heat;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        this.timeHeat = tag.getInteger("timeHeat");
-        this.temperature = tag.getInteger("temperature");
+        heat.readFromNBT(tag);
         this.castIndex = tag.getInteger("castIndex");
     }
 
@@ -36,21 +45,22 @@ public class TileEntityCast extends TileEntityFluidInventory implements IHeatabl
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setInteger("timeHeat", this.timeHeat);
-        tag.setInteger("temperature", this.temperature);
+        heat.writeToNBT(tag);
         tag.setInteger("castIndex", this.castIndex);
     }
 
     @Override
     public void readFromNBTPacket(NBTTagCompound tag) {
         super.readFromNBTPacket(tag);
-        this.readFromNBT(tag);
+        heat.readFromNBT(tag);
+        this.castIndex = tag.getInteger("castIndex");
     }
 
     @Override
     public void writeToNBTPacket(NBTTagCompound tag) {
         super.writeToNBTPacket(tag);
-        this.writeToNBT(tag);
+        heat.writeToNBT(tag);
+        tag.setInteger("castIndex", this.castIndex);
     }
 
     @Override
@@ -63,17 +73,7 @@ public class TileEntityCast extends TileEntityFluidInventory implements IHeatabl
         return getInventoryStack(slotCast).getItemDamage();
     }
 
-    @Override
-    public void updateEntity() {
-        timeHeat--;
-
-        if (timeHeat < -3) {
-            timeHeat = 0;
-            if (this.temperature > 0) {
-                this.temperature--;
-            }
-        }
-
+    public void updateMold() {
         if (CastingRecipe.hasRecipe(getInventoryStack(slotCast), getFluidStack())) {
             CastingRecipe recipe = CastingRecipe.getRecipe(getInventoryStack(slotCast), getFluidStack());
             ItemStack output = recipe.output;
@@ -98,6 +98,16 @@ public class TileEntityCast extends TileEntityFluidInventory implements IHeatabl
     }
 
     @Override
+    public void onScheduleTask(Tasks task) {
+        IScheduledTile.super.onScheduleTask(task);
+
+        if (task == Tasks.heat) {
+            updateMold();
+            addSchedule(40, Tasks.heat);
+        }
+    }
+
+    @Override
     public int getInventoryStackLimit() {
         return 1;
     }
@@ -113,16 +123,6 @@ public class TileEntityCast extends TileEntityFluidInventory implements IHeatabl
     @Override
     public boolean isFired() {
         return false;
-    }
-
-    @Override
-    public int getMaxTemperature() {
-        return 2000;
-    }
-
-    @Override
-    public int getTemperature() {
-        return this.temperature;
     }
 
     @Override

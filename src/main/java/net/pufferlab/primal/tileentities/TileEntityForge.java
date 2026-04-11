@@ -108,11 +108,11 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
     public void sendFuelUpdate() {
         if (getMeta() == 0) {
             setFired(false);
-            setTemperature(-1.0F);
+            setTemperatureMultiplier(-1.0F);
         } else {
             addSchedule(Config.campfireBurnTime.getInt(), Tasks.fuel);
             if (isFired()) {
-                setTemperature(1.0F);
+                setTemperatureMultiplier(1.0F);
             }
         }
     }

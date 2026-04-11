@@ -1,6 +1,7 @@
 package net.pufferlab.primal.world;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 import net.pufferlab.primal.utils.HeatUtils;
 
 public class HeatInfo {
@@ -47,9 +48,13 @@ public class HeatInfo {
         return this.maxTemperature;
     }
 
-    public int getTemperature() {
+    public float getMultiplier() {
+        return this.multiplier;
+    }
+
+    public int getTemperature(World world) {
         return HeatUtils.getInterpolatedTemperature(
-            GlobalTickingData.getTickTime(),
+            GlobalTickingData.getTickTime(world),
             this.worldTime,
             this.lastTemperature,
             this.multiplier,
