@@ -21,6 +21,7 @@ public enum Mods {
     exbl(ID.exbl),
     wg(ID.wg),
     mt(ID.mt),
+    appleCore(ID.appleCore),
     waila(ID.waila),
     wdmla(ID.wdmla),
     baubles(ID.baubles),
@@ -40,6 +41,7 @@ public enum Mods {
         public static final String exbl = "ExtrabiomesXL";
         public static final String wg = "WitchingGadgets";
         public static final String mt = "MineTweaker3";
+        public static final String appleCore = "AppleCore";
         public static final String waila = "Waila";
         public static final String wdmla = "wdmla";
         public static final String baubles = "Baubles|Expanded";

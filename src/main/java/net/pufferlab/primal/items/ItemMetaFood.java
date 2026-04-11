@@ -11,15 +11,20 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.pufferlab.primal.Mods;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.utils.FoodType;
 import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.Utils;
 
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import squeek.applecore.api.food.FoodValues;
+import squeek.applecore.api.food.IEdible;
 
-public class ItemMetaFood extends ItemFood implements IMetaItem, IPrimalItem {
+@Optional.Interface(iface = "squeek.applecore.api.food.IEdible", modid = Mods.ID.appleCore)
+public class ItemMetaFood extends ItemFood implements IMetaItem, IPrimalItem, IEdible {
 
     protected FoodType[] elements;
     protected String[] elementsNames;
@@ -111,16 +116,10 @@ public class ItemMetaFood extends ItemFood implements IMetaItem, IPrimalItem {
         return elements[meta].isMeat;
     }
 
-    /*
-     * @Override
-     * public FoodValues getFoodValues(ItemStack itemStackIn) {
-     * if (Loader.isModLoaded("AppleCore")) {
-     * return new FoodValues(func_150905_g(itemStackIn), func_150906_h(itemStackIn));
-     * } else {
-     * return null;
-     * }
-     * }
-     */
+    @Override
+    public FoodValues getFoodValues(ItemStack itemStackIn) {
+        return new FoodValues(func_150905_g(itemStackIn), func_150906_h(itemStackIn));
+    }
 
     @Override
     protected void onFoodEaten(ItemStack itemstack, World world, EntityPlayer player) {
