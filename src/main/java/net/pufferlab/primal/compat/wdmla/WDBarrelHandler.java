@@ -35,7 +35,7 @@ public class WDBarrelHandler implements IBlockComponentProvider, IServerDataProv
             boolean isOpen = tag.getBoolean("isOpen");
             tooltip.child(new TextComponent(RecipeUtils.getStateTooltip(isOpen, "Open", "Sealed")));
             boolean canProcess = tag.getBoolean("canProcess");
-            long nextUpdate = tef.manager.getNextUpdate(Tasks.process);
+            long nextUpdate = tef.manager.getTimeScheduled(Tasks.process);
             if (canProcess) {
                 BarrelRecipe recipe = tef.getRecipe();
                 if (recipe != null) {

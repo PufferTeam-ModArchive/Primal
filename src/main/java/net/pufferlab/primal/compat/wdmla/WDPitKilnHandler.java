@@ -48,7 +48,7 @@ public class WDPitKilnHandler implements IBlockComponentProvider, IServerDataPro
                         }
                     }
                 }
-                long nextUpdate = tef.manager.getNextUpdate(Tasks.process);
+                long nextUpdate = tef.manager.getTimeScheduled(Tasks.process);
                 int timeToProcess = tef.manager.getTime(Tasks.process);
                 int timeRemaining = RecipeUtils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);
                 IComponent progress = ThemeHelper.INSTANCE

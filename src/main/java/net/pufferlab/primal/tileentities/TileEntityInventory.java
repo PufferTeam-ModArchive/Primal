@@ -19,7 +19,6 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
     private int[] outputSlots;
     private int maxSize;
     public boolean isFired;
-    public boolean needsInventoryUpdate;
 
     public TileEntityInventory(int slots) {
         this.inventory = new ItemStack[slots];
@@ -45,8 +44,6 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         if (this instanceof IHeatable) {
             this.isFired = compound.getBoolean("isFired");
         }
-        this.needsInventoryUpdate = compound.getBoolean("needsInventoryUpdate");
-
         this.readFromNBTInventory(compound);
     }
 
@@ -67,7 +64,6 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         if (this instanceof IHeatable) {
             compound.setBoolean("isFired", this.isFired);
         }
-        compound.setBoolean("needsInventoryUpdate", this.needsInventoryUpdate);
 
         this.writeToNBTInventory(compound);
     }
@@ -93,7 +89,6 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         if (this instanceof IHeatable) {
             tag.setBoolean("isFired", this.isFired);
         }
-        tag.setBoolean("needsInventoryUpdate", this.needsInventoryUpdate);
     }
 
     @Override
@@ -103,7 +98,6 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         if (this instanceof IHeatable) {
             this.isFired = tag.getBoolean("isFired");
         }
-        this.needsInventoryUpdate = tag.getBoolean("needsInventoryUpdate");
     }
 
     public ItemStack getInventoryStack(int slot) {
@@ -178,9 +172,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
         this.scheduleInventoryUpdate();
     }
 
-    public void scheduleInventoryUpdate() {
-        this.needsInventoryUpdate = true;
-    }
+    public void scheduleInventoryUpdate() {}
 
     public void setInventorySlotContentsUpdate(int index, ItemStack stack) {
         if (stack == null) {

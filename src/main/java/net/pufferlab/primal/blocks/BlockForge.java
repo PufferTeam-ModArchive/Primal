@@ -102,7 +102,7 @@ public class BlockForge extends BlockContainerPrimal implements RPLECustomBlockB
         if (side < 6) {
             TileEntity te = worldIn.getTileEntity(x, y, z);
             if (te instanceof TileEntityForge tef) {
-                int heatingLevel = HeatUtils.getHeatingLevel(tef.temperature);
+                int heatingLevel = HeatUtils.getHeatingLevel(tef.getTemperature());
                 return heatingIcons[heatingLevel];
             }
         }

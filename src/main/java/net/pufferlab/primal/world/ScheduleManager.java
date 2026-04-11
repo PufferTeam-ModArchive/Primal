@@ -8,42 +8,53 @@ import gnu.trove.map.hash.TIntObjectHashMap;
 
 public class ScheduleManager {
 
-    public UpdateTask[] tasks;
-    public TIntObjectMap<UpdateTask> tasksMap = new TIntObjectHashMap<>();
+    public TaskInfo[] tasks;
+    public TIntObjectMap<TaskInfo> tasksMap = new TIntObjectHashMap<>();
 
     public ScheduleManager(Tasks... tasksID) {
-        this.tasks = new UpdateTask[tasksID.length];
+        this.tasks = new TaskInfo[tasksID.length];
         for (int i = 0; i < tasksID.length; i++) {
-            tasks[i] = new UpdateTask(tasksID[i]);
+            tasks[i] = new TaskInfo(tasksID[i]);
         }
-        for (UpdateTask task : tasks) {
+        for (TaskInfo task : tasks) {
             this.tasksMap.put(task.id, task);
         }
     }
 
-    public ScheduleManager(UpdateTask... tasks) {
+    public ScheduleManager(TaskInfo... tasks) {
         this.tasks = tasks;
-        for (UpdateTask task : tasks) {
+        for (TaskInfo task : tasks) {
             this.tasksMap.put(task.id, task);
         }
     }
 
     public void readFromNBT(NBTTagCompound tag) {
-        for (UpdateTask task : tasks) {
+        for (TaskInfo task : tasks) {
             if (!task.serialize) continue;
-            UpdateTask.readFromNBT(tag, task);
+            TaskInfo.readFromNBT(tag, task);
         }
     }
 
     public void writeToNBT(NBTTagCompound tag) {
-        for (UpdateTask task : tasks) {
+        for (TaskInfo task : tasks) {
             if (!task.serialize) continue;
-            UpdateTask.writeToNBT(tag, task);
+            TaskInfo.writeToNBT(tag, task);
         }
     }
 
+    public boolean hasSchedule(Tasks task) {
+        return hasSchedule(Tasks.getID(task));
+    }
+
+    public boolean hasSchedule(int type) {
+        for (TaskInfo task : tasks) {
+            if (task.id == type) return true;
+        }
+        return false;
+    }
+
     public boolean hasSentUpdate(World world, int x, int y, int z, int type) {
-        UpdateTask task = tasksMap.get(type);
+        TaskInfo task = tasksMap.get(type);
         if (task == null) {
             return SchedulerData.hasScheduledTask(world, x, y, z, type);
         }
@@ -51,33 +62,42 @@ public class ScheduleManager {
     }
 
     public void addUpdate(int type, World world, int inTime) {
-        UpdateTask task = tasksMap.get(type);
+        TaskInfo task = tasksMap.get(type);
         if (task != null) {
             task.addUpdate(world, inTime);
         }
     }
 
     public void removeUpdate(int type, World world) {
-        UpdateTask task = tasksMap.get(type);
+        TaskInfo task = tasksMap.get(type);
         if (task != null) {
             task.removeUpdate(world);
         }
     }
 
     public void onUpdate(int type, World world) {
-        UpdateTask task = tasksMap.get(type);
+        TaskInfo task = tasksMap.get(type);
         if (task != null) {
             task.onUpdate(world);
         }
     }
 
-    public long getNextUpdate(int type) {
+    public long getTimeScheduled(int type) {
         return tasksMap.get(type)
-            .getNextUpdate();
+            .getTimeScheduled();
     }
 
-    public long getNextUpdate(Tasks task) {
-        return getNextUpdate(task.ordinal());
+    public long getTimeScheduled(Tasks task) {
+        return getTimeScheduled(Tasks.getID(task));
+    }
+
+    public long getTimeSent(int type) {
+        return tasksMap.get(type)
+            .getTimeSent();
+    }
+
+    public long getTimeSent(Tasks task) {
+        return getTimeSent(Tasks.getID(task));
     }
 
     public int getTime(int type) {
@@ -86,6 +106,6 @@ public class ScheduleManager {
     }
 
     public int getTime(Tasks task) {
-        return getTime(task.ordinal());
+        return getTime(Tasks.getID(task));
     }
 }

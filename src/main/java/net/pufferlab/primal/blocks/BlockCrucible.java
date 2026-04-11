@@ -15,12 +15,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Mods;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.items.itemblocks.ItemBlockCrucible;
 import net.pufferlab.primal.tileentities.TileEntityCrucible;
 import net.pufferlab.primal.utils.FluidUtils;
 import net.pufferlab.primal.utils.HeatUtils;
-import net.pufferlab.primal.world.GlobalTickingData;
 
 import com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness;
 
@@ -90,14 +88,13 @@ public class BlockCrucible extends BlockContainerPrimal implements RPLECustomBlo
 
     @Override
     public void onBlockPlacedBy(World worldIn, int x, int y, int z, EntityLivingBase placer, ItemStack itemIn) {
+        super.onBlockPlacedBy(worldIn, x, y, z, placer, itemIn);
         ItemStack heldItem = placer.getHeldItem();
         NBTTagCompound tagCompound = heldItem.getTagCompound();
         if (tagCompound != null) {
             TileEntity te = worldIn.getTileEntity(x, y, z);
             if (te instanceof TileEntityCrucible tef) {
                 tef.readFromNBTInventory(tagCompound);
-                tef.temperature = HeatUtils
-                    .getInterpolatedTemperature(GlobalTickingData.getTickTime(worldIn), tagCompound);
                 tef.scheduleInventoryUpdate();
             }
         }
@@ -110,12 +107,9 @@ public class BlockCrucible extends BlockContainerPrimal implements RPLECustomBlo
         item.setTagCompound(tagCompound);
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityCrucible tef) {
-            tef.updateHeatInventory(-1.0F, tef.maxTemperature);
+            tef.setTemperature(-1.0F);
+            tef.updateHeatInventory(-1.0F, tef.getMaxTemperature());
             tef.writeToNBTInventory(tagCompound);
-            if (HeatUtils.hasImpl(item)) {
-                IHeatableItem item2 = HeatUtils.getImpl(item);
-                item2.updateHeat(item, worldIn, -1.0F, tef.temperature, tef.maxTemperature);
-            }
         }
         dropItemStack(worldIn, x, y, z, item);
     }

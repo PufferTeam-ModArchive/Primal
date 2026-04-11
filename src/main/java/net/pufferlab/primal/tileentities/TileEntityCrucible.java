@@ -15,23 +15,34 @@ import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.GlobalTickingData;
+import net.pufferlab.primal.world.HeatInfo;
+import net.pufferlab.primal.world.ScheduleManager;
+import net.pufferlab.primal.world.Tasks;
 
-public class TileEntityCrucible extends TileEntityFluidInventory implements IHeatable {
+public class TileEntityCrucible extends TileEntityFluidInventory implements IHeatable, IScheduledTile {
 
-    public int timeHeat;
-    public int timeHeating;
+    public ScheduleManager manager = new ScheduleManager(Tasks.heat, Tasks.melting, Tasks.inventory);
+
+    public HeatInfo heat = new HeatInfo(1300);
+
     public int timeMelting;
     public int lastLevel;
     public boolean isHeating;
-    public boolean needsMeltingUpdate;
     public FluidStack[] fluidInventory;
-
-    public int temperature;
-    public int maxTemperature;
 
     public TileEntityCrucible() {
         super(3000, 5);
         fluidInventory = new FluidStack[getSizeInventory()];
+    }
+
+    @Override
+    public HeatInfo getHeatInfo() {
+        return heat;
+    }
+
+    @Override
+    public ScheduleManager getManager() {
+        return manager;
     }
 
     @Override
@@ -40,29 +51,28 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     }
 
     @Override
+    public void init() {
+        addSchedule(0, Tasks.heat);
+    }
+
+    @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
-        this.timeHeat = tag.getInteger("timeHeat");
-        this.timeHeating = tag.getInteger("timeHeating");
+        heat.readFromNBT(tag);
+        manager.readFromNBT(tag);
         this.timeMelting = tag.getInteger("timeMelting");
         this.lastLevel = tag.getInteger("lastLevel");
         this.isHeating = tag.getBoolean("isHeating");
-        this.needsMeltingUpdate = tag.getBoolean("needsMeltingUpdate");
-        this.temperature = tag.getInteger("temperature");
-        this.maxTemperature = tag.getInteger("maxTemperature");
     }
 
     @Override
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
-        tag.setInteger("timeHeat", this.timeHeat);
-        tag.setInteger("timeHeating", this.timeHeating);
+        heat.writeToNBT(tag);
+        manager.writeToNBT(tag);
         tag.setInteger("timeMelting", this.timeMelting);
         tag.setInteger("lastLevel", this.lastLevel);
         tag.setBoolean("isHeating", this.isHeating);
-        tag.setBoolean("needsMeltingUpdate", this.needsMeltingUpdate);
-        tag.setInteger("temperature", this.temperature);
-        tag.setInteger("maxTemperature", this.maxTemperature);
     }
 
     @Override
@@ -123,8 +133,7 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     @Override
     public void readFromNBTInventory(NBTTagCompound compound) {
         super.readFromNBTInventory(compound);
-        this.temperature = compound.getInteger("temperature");
-
+        heat.readFromNBT(compound);
         NBTTagList tagList = compound.getTagList("Fluids", Constants.tagCompound);
         this.fluidInventory = new FluidStack[getSize()];
         for (int i = 0; i < tagList.tagCount(); i++) {
@@ -138,8 +147,7 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     @Override
     public void writeToNBTInventory(NBTTagCompound compound) {
         super.writeToNBTInventory(compound);
-        compound.setInteger("temperature", this.temperature);
-
+        heat.writeToNBT(compound);
         NBTTagList itemList = new NBTTagList();
         for (int i = 0; i < this.fluidInventory.length; i++) {
             FluidStack stack = this.fluidInventory[i];
@@ -153,68 +161,68 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
         compound.setTag("Fluids", (NBTBase) itemList);
     }
 
-    boolean needsUpdate = true;
-
-    @Override
-    public void updateEntity() {
-        if (needsUpdate) {
-            needsUpdate = false;
-            scheduleInventoryUpdate();
-        }
-        TileEntity teBelow = this.worldObj.getTileEntity(this.xCoord, this.yCoord - 1, this.zCoord);
-        this.maxTemperature = 1300;
-        if (teBelow instanceof IHeatable tef) {
-            if (tef.isHeatProvider()) {
-                this.maxTemperature = tef.getMaxTemperature();
-                if (tef.getTemperature() > this.temperature) {
-                    if (tef.isFired()) {
-                        this.timeHeat++;
-                    } else {
-                        if (this.temperature > 0 && (this.temperature != tef.getTemperature())) {
-                            this.timeHeat--;
-                        }
-                    }
-                } else {
-                    if (this.temperature > 0 && (this.temperature != tef.getTemperature())) {
-                        this.timeHeat--;
+    public void meltContent() {
+        for (int i = 0; i < getSizeInventory(); i++) {
+            ItemStack stack = getInventoryStack(i);
+            if (MeltingRecipe.hasRecipe(stack)) {
+                if (HeatUtils.hasImpl(stack)) {
+                    IHeatableItem impl = HeatUtils.getImpl(stack);
+                    FluidStack output = MeltingRecipe.getOutput(stack);
+                    int currentTemperature = HeatUtils.getInterpolatedTemperature(
+                        GlobalTickingData.getTickTime(this.worldObj),
+                        stack.getTagCompound());
+                    if (currentTemperature > impl.getMeltingTemperature(stack)) {
+                        addFluidInventory(output);
+                        decrStackSize(i, 1);
                     }
                 }
-                this.isHeating = tef.isFired();
             }
-        } else {
-            if (this.temperature > 0) {
-                this.timeHeat--;
-            }
-            this.isHeating = false;
         }
 
-        if (timeHeat > 3) {
-            timeHeat = 0;
-            this.temperature++;
+        FluidStack[] fluids = getFluidInventory();
+        if (getFluidStack() != null) {
+            fluids = Utils.combineArrays(fluids, getFluidStack());
         }
-        if (timeHeat < -3) {
-            timeHeat = 0;
-            this.temperature--;
-        }
-
-        if (this.needsInventoryUpdate) {
-            this.needsInventoryUpdate = false;
-            float modifier = 1.5F;
-            if (!this.isHeating) {
-                modifier = 1.0F;
+        if (AlloyingRecipe.hasRecipe(fluids)) {
+            AlloyingRecipe recipe = AlloyingRecipe.getRecipe(fluids);
+            FluidStack output = AlloyingRecipe.getOutput(fluids);
+            if (Utils.containsStack(getFluidStack(), recipe.inputs)) {
+                drain(ForgeDirection.UP, Integer.MAX_VALUE, true);
             }
-            updateHeatInventory(modifier, this.temperature);
+            putFluidInventoryStack(output);
         }
 
-        timeMelting++;
-        timeHeating++;
-        if (timeHeating > 20) {
-            timeHeating = 0;
+        for (int j = 0; j < getSizeInventory(); j++) {
+            FluidStack stack = getFluidInventoryStack(j);
+            if (stack != null) {
+                if (fill(ForgeDirection.UP, stack, false) > 0) {
+                    fill(ForgeDirection.UP, stack, true);
+                    removeFluidInventoryStack(stack);
+                }
+            }
+        }
+    }
+
+    public void updateHeat() {
+        TileEntity teBelow = this.worldObj.getTileEntity(this.xCoord, this.yCoord - 1, this.zCoord);
+        if (teBelow instanceof IHeatable heat) {
+            setMaxTemperature(heat.getTemperature());
+            if (heat.isFired()) {
+                setTemperature(1.0F);
+            } else {
+                setTemperature(-1.0F);
+            }
+        }
+    }
+
+    @Override
+    public void onScheduleTask(Tasks task) {
+        IScheduledTile.super.onScheduleTask(task);
+
+        if (task == Tasks.heat) {
+            updateHeat();
             scheduleInventoryUpdate();
-        }
 
-        if (timeMelting > 40) {
-            timeMelting = 0;
             boolean hasIngotMelting = getHeatInventoryMelting();
             if (hasIngotMelting) {
                 scheduleMeltingUpdate();
@@ -225,49 +233,19 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
                     scheduleMeltingUpdate();
                 }
             }
+            addSchedule(40, Tasks.heat);
         }
 
-        if (this.needsMeltingUpdate) {
-            this.needsMeltingUpdate = false;
-            for (int i = 0; i < getSizeInventory(); i++) {
-                ItemStack stack = getInventoryStack(i);
-                if (MeltingRecipe.hasRecipe(stack)) {
-                    if (HeatUtils.hasImpl(stack)) {
-                        IHeatableItem impl = HeatUtils.getImpl(stack);
-                        FluidStack output = MeltingRecipe.getOutput(stack);
-                        int currentTemperature = HeatUtils.getInterpolatedTemperature(
-                            GlobalTickingData.getTickTime(this.worldObj),
-                            stack.getTagCompound());
-                        if (currentTemperature > impl.getMeltingTemperature(stack)) {
-                            addFluidInventory(output);
-                            decrStackSize(i, 1);
-                        }
-                    }
-                }
+        if (task == Tasks.inventory) {
+            float modifier = 1.5F;
+            if (!this.isHeating) {
+                modifier = 1.0F;
             }
+            updateHeatInventory(modifier, this.getTemperature());
+        }
 
-            FluidStack[] fluids = getFluidInventory();
-            if (getFluidStack() != null) {
-                fluids = Utils.combineArrays(fluids, getFluidStack());
-            }
-            if (AlloyingRecipe.hasRecipe(fluids)) {
-                AlloyingRecipe recipe = AlloyingRecipe.getRecipe(fluids);
-                FluidStack output = AlloyingRecipe.getOutput(fluids);
-                if (Utils.containsStack(getFluidStack(), recipe.inputs)) {
-                    drain(ForgeDirection.UP, Integer.MAX_VALUE, true);
-                }
-                putFluidInventoryStack(output);
-            }
-
-            for (int j = 0; j < getSizeInventory(); j++) {
-                FluidStack stack = getFluidInventoryStack(j);
-                if (stack != null) {
-                    if (fill(ForgeDirection.UP, stack, false) > 0) {
-                        fill(ForgeDirection.UP, stack, true);
-                        removeFluidInventoryStack(stack);
-                    }
-                }
-            }
+        if (task == Tasks.melting) {
+            meltContent();
         }
     }
 
@@ -276,7 +254,7 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
         if (stack != null) {
             if (HeatUtils.hasImpl(stack)) {
                 IHeatableItem item = HeatUtils.getImpl(stack);
-                item.updateHeat(stack, this.getWorld(), -1.0F, this.maxTemperature);
+                item.updateHeat(stack, this.getWorld(), -1.0F, this.getMaxTemperature());
             }
         }
     }
@@ -300,7 +278,12 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     }
 
     public void scheduleMeltingUpdate() {
-        this.needsMeltingUpdate = true;
+        addSchedule(0, Tasks.melting);
+    }
+
+    @Override
+    public void scheduleInventoryUpdate() {
+        addSchedule(0, Tasks.inventory);
     }
 
     public void updateHeatInventory(float modifier, int maxTemperature) {
@@ -328,16 +311,6 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     @Override
     public boolean isFired() {
         return this.isFired;
-    }
-
-    @Override
-    public int getMaxTemperature() {
-        return 0;
-    }
-
-    @Override
-    public int getTemperature() {
-        return this.temperature;
     }
 
     @Override

@@ -19,10 +19,10 @@ public class HeatUtils {
     private static final List<Item> heatableList = new ArrayList<>();
     private static final IHeatableItem basicImpl = new IHeatableItem() {};
 
-    private static final String tagTemperature = "temperature";
-    private static final String tagMaxTemperature = "maxTemperature";
-    private static final String tagWorldTime = "worldTime";
-    private static final String tagMultiplier = "multiplier";
+    public static final String tagTemperature = "temperature";
+    public static final String tagMaxTemperature = "maxTemperature";
+    public static final String tagWorldTime = "worldTime";
+    public static final String tagMultiplier = "multiplier";
 
     public static List<Item> getBuiltinHeatableItems() {
         List<Item> itemList = new ArrayList<>();
@@ -211,22 +211,24 @@ public class HeatUtils {
     }
 
     public static int getInterpolatedTemperature(long currentTime, NBTTagCompound tag) {
-        if (tag != null) {
-            long worldTime = getWorldTimeFromNBT(tag);
-            int timePassed = Utils.toInt(currentTime - worldTime);
-            int lastTemperature = getTemperatureFromNBT(tag);
-            float multiplier = getMultiplierFromNBT(tag);
-            int newTemperature = (int) (lastTemperature + ((timePassed / 5) * multiplier));
-            int maxTemperature = getMaxTemperatureFromNBT(tag);
-            if (newTemperature < 0) {
-                return 0;
-            }
-            if (newTemperature > maxTemperature) {
-                return maxTemperature;
-            }
-            return newTemperature;
+        long worldTime = getWorldTimeFromNBT(tag);
+        int lastTemperature = getTemperatureFromNBT(tag);
+        float multiplier = getMultiplierFromNBT(tag);
+        int maxTemperature = getMaxTemperatureFromNBT(tag);
+        return getInterpolatedTemperature(currentTime, worldTime, lastTemperature, multiplier, maxTemperature);
+    }
+
+    public static int getInterpolatedTemperature(long currentTime, long worldTime, int lastTemperature,
+        float multiplier, int maxTemperature) {
+        int timePassed = Utils.toInt(currentTime - worldTime);
+        int newTemperature = (int) (lastTemperature + ((timePassed / 5) * multiplier));
+        if (newTemperature < 0) {
+            return 0;
         }
-        return 0;
+        if (newTemperature > maxTemperature) {
+            return maxTemperature;
+        }
+        return newTemperature;
     }
 
     public static int getHeatingLevel(int temperature) {

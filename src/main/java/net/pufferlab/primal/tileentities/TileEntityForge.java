@@ -5,15 +5,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.Utils;
+import net.pufferlab.primal.world.HeatInfo;
 import net.pufferlab.primal.world.ScheduleManager;
 import net.pufferlab.primal.world.Tasks;
 
 public class TileEntityForge extends TileEntityInventory implements IHeatable, IScheduledTile {
 
     public ScheduleManager manager = new ScheduleManager(Tasks.fuel);
+    public HeatInfo heat = new HeatInfo(1300);
 
-    public int temperature;
-    public int timeHeat;
     public int timeUpdate;
     public int lastLevel;
 
@@ -27,14 +27,18 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
     }
 
     @Override
+    public HeatInfo getHeatInfo() {
+        return heat;
+    }
+
+    @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
         manager.readFromNBT(tag);
+        heat.readFromNBT(tag);
 
-        this.timeHeat = tag.getInteger("timeHeat");
         this.timeUpdate = tag.getInteger("timeUpdate");
-        this.temperature = tag.getInteger("temperature");
         this.lastLevel = tag.getInteger("lastLevel");
     }
 
@@ -43,55 +47,34 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
         super.writeToNBT(tag);
 
         manager.writeToNBT(tag);
+        heat.writeToNBT(tag);
 
-        tag.setInteger("timeHeat", this.timeHeat);
         tag.setInteger("timeUpdate", this.timeUpdate);
-        tag.setInteger("temperature", this.temperature);
         tag.setInteger("lastLevel", this.lastLevel);
     }
 
     @Override
     public void readFromNBTPacket(NBTTagCompound tag) {
         super.readFromNBTPacket(tag);
-        this.temperature = tag.getInteger("temperature");
+        heat.readFromNBT(tag);
     }
 
     @Override
     public void writeToNBTPacket(NBTTagCompound tag) {
         super.writeToNBTPacket(tag);
-        tag.setInteger("temperature", this.temperature);
+        heat.writeToNBT(tag);
     }
 
     @Override
     public void updateEntity() {
-        if (this.getMaxTemperature() > this.temperature) {
-            if (this.isFired()) {
-                this.timeHeat++;
-            }
-        }
-        if (!this.isFired()) {
-            this.timeHeat--;
-        }
-        if (timeHeat > 5) {
-            timeHeat = 0;
-            this.temperature++;
-        }
-        if (timeHeat < -3) {
-            timeHeat = 0;
-            if (this.temperature > 0) {
-                this.temperature--;
-            }
-        }
-
         timeUpdate++;
         if (timeUpdate > 20) {
             timeUpdate = 0;
-            if (HeatUtils.getHeatingLevel(this.temperature) != this.lastLevel) {
-                this.lastLevel = HeatUtils.getHeatingLevel(this.temperature);
+            if (HeatUtils.getHeatingLevel(this.getTemperature()) != this.lastLevel) {
+                this.lastLevel = HeatUtils.getHeatingLevel(this.getTemperature());
                 updateTEState();
             }
         }
-
     }
 
     @Override
@@ -125,8 +108,12 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
     public void sendFuelUpdate() {
         if (getMeta() == 0) {
             setFired(false);
+            setTemperature(-1.0F);
         } else {
             addSchedule(Config.campfireBurnTime.getInt(), Tasks.fuel);
+            if (isFired()) {
+                setTemperature(1.0F);
+            }
         }
     }
 
@@ -163,16 +150,6 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
     @Override
     public boolean isFired() {
         return this.isFired;
-    }
-
-    @Override
-    public int getMaxTemperature() {
-        return 1300;
-    }
-
-    @Override
-    public int getTemperature() {
-        return this.temperature;
     }
 
     @Override

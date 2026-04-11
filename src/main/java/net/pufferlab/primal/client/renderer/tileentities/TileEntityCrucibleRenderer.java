@@ -25,7 +25,7 @@ public class TileEntityCrucibleRenderer extends TileEntityPrimalRenderer {
                 offsetY = 0.125F + 0.0625F * (4 - blockBelowMeta);
             }
             GL11.glTranslated(x + 0.5, y - offsetY, z + 0.5);
-            renderHeat.renderHeat(model, tef.temperature);
+            renderHeat.renderHeat(model, tef.getTemperature());
         }
         GL11.glPopMatrix();
     }

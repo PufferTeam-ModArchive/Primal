@@ -33,7 +33,7 @@ public class WLCampfireHandler implements IWailaDataProvider {
                     ItemStack outputItem1 = CampfireRecipe.getOutput(tef.getInventoryStack(slotItem1));
                     if (outputItem1 != null) {
                         String inputName = RecipeUtils.getDisplayName(tef.getInventoryStack(slotItem1));
-                        long nextUpdate = tef.manager.getNextUpdate(Tasks.item1);
+                        long nextUpdate = tef.manager.getTimeScheduled(Tasks.item1);
                         int timeToProcess = tef.manager.getTime(Tasks.item1);
                         currenttip.add(
                             RecipeUtils
@@ -42,7 +42,7 @@ public class WLCampfireHandler implements IWailaDataProvider {
                     ItemStack outputItem2 = CampfireRecipe.getOutput(tef.getInventoryStack(slotItem2));
                     if (outputItem2 != null) {
                         String inputName = RecipeUtils.getDisplayName(tef.getInventoryStack(slotItem2));
-                        long nextUpdate = tef.manager.getNextUpdate(Tasks.item2);
+                        long nextUpdate = tef.manager.getTimeScheduled(Tasks.item2);
                         int timeToProcess = tef.manager.getTime(Tasks.item2);
                         currenttip.add(
                             RecipeUtils
@@ -51,7 +51,7 @@ public class WLCampfireHandler implements IWailaDataProvider {
                     ItemStack outputItem3 = CampfireRecipe.getOutput(tef.getInventoryStack(slotItem3));
                     if (outputItem3 != null) {
                         String inputName = RecipeUtils.getDisplayName(tef.getInventoryStack(slotItem3));
-                        long nextUpdate = tef.manager.getNextUpdate(Tasks.item3);
+                        long nextUpdate = tef.manager.getTimeScheduled(Tasks.item3);
                         int timeToProcess = tef.manager.getTime(Tasks.item3);
                         currenttip.add(
                             RecipeUtils
@@ -60,7 +60,7 @@ public class WLCampfireHandler implements IWailaDataProvider {
                     ItemStack outputItem4 = CampfireRecipe.getOutput(tef.getInventoryStack(slotItem4));
                     if (outputItem4 != null) {
                         String inputName = RecipeUtils.getDisplayName(tef.getInventoryStack(slotItem4));
-                        long nextUpdate = tef.manager.getNextUpdate(Tasks.item4);
+                        long nextUpdate = tef.manager.getTimeScheduled(Tasks.item4);
                         int timeToProcess = tef.manager.getTime(Tasks.item4);
                         currenttip.add(
                             RecipeUtils

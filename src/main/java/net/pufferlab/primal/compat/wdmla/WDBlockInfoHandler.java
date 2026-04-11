@@ -8,7 +8,9 @@ import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.entities.player.PlayerData;
 import net.pufferlab.primal.utils.BlockUtils;
+import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.RecipeUtils;
+import net.pufferlab.primal.utils.Utils;
 
 import com.gtnewhorizons.wdmla.api.accessor.BlockAccessor;
 import com.gtnewhorizons.wdmla.api.provider.IBlockComponentProvider;
@@ -52,6 +54,36 @@ public class WDBlockInfoHandler implements IBlockComponentProvider {
                 if (nbt.hasKey("materialMeta2")) {
                     int metaMaterial = nbt.getShort("materialMeta2");
                     tooltip.child(new TextComponent("Material2: " + metaMaterial));
+                }
+                if (data.temperatureDebug) {
+                    if (nbt.hasKey(HeatUtils.tagTemperature)) {
+                        tooltip.child(
+                            new TextComponent(
+                                Utils.translate(
+                                    "heat." + Primal.MODID + ".debug.last-temperature.desc",
+                                    HeatUtils.getTemperatureFromNBT(nbt))));
+                    }
+                    if (nbt.hasKey(HeatUtils.tagWorldTime)) {
+                        tooltip.child(
+                            new TextComponent(
+                                Utils.translate(
+                                    "heat." + Primal.MODID + ".debug.worldtime.desc",
+                                    HeatUtils.getWorldTimeFromNBT(nbt))));
+                    }
+                    if (nbt.hasKey(HeatUtils.tagMultiplier)) {
+                        tooltip.child(
+                            new TextComponent(
+                                Utils.translate(
+                                    "heat." + Primal.MODID + ".debug.modifier.desc",
+                                    HeatUtils.getMultiplierFromNBT(nbt))));
+                    }
+                    if (nbt.hasKey(HeatUtils.tagMaxTemperature)) {
+                        tooltip.child(
+                            new TextComponent(
+                                Utils.translate(
+                                    "heat." + Primal.MODID + ".debug.max-temperature.desc",
+                                    HeatUtils.getMaxTemperatureFromNBT(nbt))));
+                    }
                 }
             }
         }

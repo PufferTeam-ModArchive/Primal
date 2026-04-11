@@ -31,7 +31,7 @@ public class WLBarrelHandler implements IWailaDataProvider {
                 boolean isOpen = tag.getBoolean("isOpen");
                 currenttip.add(RecipeUtils.getStateTooltip(isOpen, "Open", "Sealed"));
                 boolean canProcess = tag.getBoolean("canProcess");
-                long nextUpdate = tef.manager.getNextUpdate(Tasks.process);
+                long nextUpdate = tef.manager.getTimeScheduled(Tasks.process);
                 if (canProcess) {
                     BarrelRecipe recipe = BarrelRecipe.getRecipe(tef.getInventoryStack(slotInput), tef.getFluidStack());
                     if (recipe != null) {

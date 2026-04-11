@@ -27,7 +27,7 @@ public class WLPitKilnHandler implements IWailaDataProvider {
             if (tag != null) {
                 boolean isFired = tag.getBoolean("isFired");
                 if (isFired) {
-                    long nextUpdate = tef.manager.getNextUpdate(Tasks.process);
+                    long nextUpdate = tef.manager.getTimeScheduled(Tasks.process);
                     int timeToProcess = tef.manager.getTime(Tasks.process);
                     currenttip.add(
                         RecipeUtils.getRecipeTooltip("Pottery", tef.getWorld(), nextUpdate, timeToProcess, "fired"));

@@ -1,5 +1,7 @@
 package net.pufferlab.primal.world;
 
+import net.pufferlab.primal.utils.ItemUtils;
+
 public enum Tasks {
 
     fuel,
@@ -18,7 +20,10 @@ public enum Tasks {
     wind(false),
     flow(false),
     growth,
-    nutrient;
+    nutrient,
+    heat,
+    melting,
+    inventory;
 
     boolean serialize;
 
@@ -36,6 +41,10 @@ public enum Tasks {
 
     public static int getID(Tasks task) {
         return task.ordinal();
+    }
+
+    public static String getCapitalizedName(Tasks task) {
+        return ItemUtils.getCapitalizedName(task.name());
     }
 
     public static boolean shouldSerialize(Tasks task) {

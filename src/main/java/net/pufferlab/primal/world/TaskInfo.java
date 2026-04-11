@@ -3,7 +3,7 @@ package net.pufferlab.primal.world;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class UpdateTask {
+public class TaskInfo {
 
     public int id;
     public String name;
@@ -13,10 +13,10 @@ public class UpdateTask {
     public boolean sentUpdate;
     public boolean serialize;
 
-    public UpdateTask(Tasks task) {
+    public TaskInfo(Tasks task) {
         this.id = Tasks.getID(task);
         this.serialize = Tasks.shouldSerialize(task);
-        this.name = "UpdateTask" + id;
+        this.name = "Task" + Tasks.getCapitalizedName(task);
         this.sentUpdate = false;
     }
 
@@ -28,8 +28,12 @@ public class UpdateTask {
         return inTime;
     }
 
-    public long getNextUpdate() {
+    public long getTimeScheduled() {
         return timeScheduled;
+    }
+
+    public long getTimeSent() {
+        return timeSent;
     }
 
     public void addUpdate(World world, int inTime) {
@@ -63,13 +67,13 @@ public class UpdateTask {
         this.sentUpdate = tag.getBoolean("sentUpdate");
     }
 
-    public static void writeToNBT(NBTTagCompound tag, UpdateTask task) {
+    public static void writeToNBT(NBTTagCompound tag, TaskInfo task) {
         NBTTagCompound tagTask = new NBTTagCompound();
         task.writeToNBT(tagTask);
         tag.setTag(task.name, tagTask);
     }
 
-    public static void readFromNBT(NBTTagCompound tag, UpdateTask task) {
+    public static void readFromNBT(NBTTagCompound tag, TaskInfo task) {
         NBTTagCompound tagTask = tag.getCompoundTag(task.name);
         task.readFromNBT(tagTask);
     }
