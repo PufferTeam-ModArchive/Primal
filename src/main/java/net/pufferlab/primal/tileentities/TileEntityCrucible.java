@@ -23,7 +23,7 @@ import net.pufferlab.primal.world.Tasks;
 
 public class TileEntityCrucible extends TileEntityFluidInventory implements IHeatable, IScheduledTile {
 
-    public ScheduleManager manager = new ScheduleManager(Tasks.heat, Tasks.melting, Tasks.inventory);
+    public ScheduleManager manager = new ScheduleManager(Tasks.heat, Tasks.melting, Tasks.melting, Tasks.inventory);
 
     public HeatInfo heat = new HeatInfo(1300);
 
@@ -173,6 +173,15 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
         }
 
         FluidStack[] fluids = fluidInventory;
+        for (FluidStack fluid : fluids) {
+            if (fluid != null) {
+                scheduleAlloyUpdate();
+            }
+        }
+    }
+
+    public void alloyContent() {
+        FluidStack[] fluids = fluidInventory;
         if (getFluidStack() != null) {
             fluids = Utils.combineArrays(fluids, getFluidStack());
         }
@@ -256,10 +265,10 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
         fluidInventoryTemp = Utils.append(fluidInventoryTemp, stack.copy());
     }
 
-    public void updateHeat() {
+    public void updateCrucibleHeat() {
         TileEntity teBelow = this.worldObj.getTileEntity(this.xCoord, this.yCoord - 1, this.zCoord);
         if (teBelow instanceof IHeatable heat) {
-            setMaxTemperature(heat.getTemperature() + 10);
+            setMaxTemperature(Utils.clamp(0, heat.getMaxTemperature(), heat.getTemperature() + 10));
             if (heat.isFired()) {
                 setTemperatureMultiplier(1.0F);
             } else {
@@ -273,18 +282,12 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
         IScheduledTile.super.onScheduleTask(task);
 
         if (task == Tasks.heat) {
-            updateHeat();
+            updateCrucibleHeat();
             scheduleInventoryUpdate();
 
             boolean hasIngotMelting = getHeatInventoryMelting();
             if (hasIngotMelting) {
                 scheduleMeltingUpdate();
-            }
-            FluidStack[] fluids = fluidInventory;
-            for (FluidStack fluid : fluids) {
-                if (fluid != null) {
-                    scheduleMeltingUpdate();
-                }
             }
             addSchedule(40, Tasks.heat);
         }
@@ -297,6 +300,10 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
 
         if (task == Tasks.melting) {
             meltContent();
+        }
+
+        if (task == Tasks.alloy) {
+            alloyContent();
         }
     }
 
@@ -330,6 +337,10 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
 
     public void scheduleMeltingUpdate() {
         addSchedule(0, Tasks.melting);
+    }
+
+    public void scheduleAlloyUpdate() {
+        addSchedule(20, Tasks.alloy);
     }
 
     @Override

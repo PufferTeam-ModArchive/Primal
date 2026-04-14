@@ -23,6 +23,7 @@ public enum Tasks {
     nutrient,
     heat,
     melting,
+    alloy,
     inventory;
 
     boolean serialize;
