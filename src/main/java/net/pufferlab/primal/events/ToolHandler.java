@@ -171,10 +171,9 @@ public class ToolHandler implements IEventHandler {
 
     @SubscribeEvent
     public void harvestDropsEvent(BlockEvent.HarvestDropsEvent event) {
-        int chance = Config.stickDropChance.getChance();
 
         if (event.block instanceof BlockLeavesBase) {
-            if (event.world.rand.nextInt(chance) == 0) {
+            if (Config.stickDropChance.roll(event.world.rand)) {
                 event.drops.add(new ItemStack(Items.stick, 1, 0));
             }
         }

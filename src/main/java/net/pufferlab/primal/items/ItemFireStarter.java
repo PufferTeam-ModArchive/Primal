@@ -50,7 +50,6 @@ public class ItemFireStarter extends Item {
         int max = 60;
         int charge = (getMaxItemUseDuration(stack) - count) % (max + 2);
         boolean success = false;
-        int chance = Config.fireStarterSuccessChance.getChance();
 
         if (charge > max) {
             MovingObjectPosition mop = this.getMovingObjectPositionFromPlayer(world, player, false);
@@ -61,7 +60,7 @@ public class ItemFireStarter extends Item {
                 float hitX = (float) (mop.hitVec.xCoord - mop.blockX);
                 float hitY = (float) (mop.hitVec.yCoord - mop.blockY);
                 float hitZ = (float) (mop.hitVec.zCoord - mop.blockZ);
-                if (world.rand.nextInt(chance) == 0) {
+                if (Config.fireStarterSuccessChance.roll(world.rand)) {
                     TileEntity te = world.getTileEntity(mop.blockX, mop.blockY, mop.blockZ);
                     if (te instanceof IHeatable tef) {
                         if (tef.canBeFired()) {

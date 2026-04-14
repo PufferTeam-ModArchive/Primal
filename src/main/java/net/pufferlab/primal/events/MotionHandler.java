@@ -2,15 +2,15 @@ package net.pufferlab.primal.events;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.blocks.BlockAxle;
 import net.pufferlab.primal.utils.BlockUtils;
+import net.pufferlab.primal.utils.ItemUtils;
+import net.pufferlab.primal.utils.Utils;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -21,7 +21,8 @@ public class MotionHandler implements IEventHandler {
         if (event.action != PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) return;
         ItemStack heldItem = event.entityPlayer.getHeldItem();
         if (heldItem == null) return;
-        if (heldItem.getItem() == Item.getItemFromBlock(Registry.axle) && heldItem.getItemDamage() == 2) {
+        ItemStack bracket = ItemUtils.getModItem("bracket", 1);
+        if (Utils.equalsStack(heldItem, bracket)) {
             if (!event.world.isRemote) {
                 placeAxle(event.entityPlayer, event.face);
             } else {

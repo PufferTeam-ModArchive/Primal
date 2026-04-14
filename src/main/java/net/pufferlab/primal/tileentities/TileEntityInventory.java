@@ -127,6 +127,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
                 this.markDirty();
                 onItemRemoved(itemstack);
                 onSlotUpdate(index);
+                scheduleInventoryUpdate();
                 return itemstack;
             } else {
                 itemstack = this.inventory[index].splitStack(count);
@@ -138,6 +139,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
                 this.markDirty();
                 onItemRemoved(itemstack);
                 onSlotUpdate(index);
+                scheduleInventoryUpdate();
                 return itemstack;
             }
         } else {

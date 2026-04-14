@@ -93,7 +93,7 @@ public class Utils {
 
     public static boolean equalsStack(FluidStack wild, FluidStack check) {
         if (wild == null || check == null) {
-            return check == wild;
+            return false;
         }
 
         return wild.getFluid() == check.getFluid();
@@ -365,6 +365,10 @@ public class Utils {
         }
 
         return result;
+    }
+
+    public static <T> void clear(T[] array) {
+        Arrays.fill(array, null);
     }
 
     public static <T> T[] append(T[] array, T element) {

@@ -148,6 +148,11 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
     }
 
     @Override
+    public boolean canUpdate() {
+        return false;
+    }
+
+    @Override
     public boolean isFired() {
         return this.isFired;
     }

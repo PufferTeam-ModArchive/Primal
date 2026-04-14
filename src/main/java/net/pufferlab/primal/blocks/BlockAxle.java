@@ -6,7 +6,6 @@ import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -20,6 +19,8 @@ import net.pufferlab.primal.client.models.ModelGear;
 import net.pufferlab.primal.items.itemblocks.ItemBlockAxle;
 import net.pufferlab.primal.tileentities.TileEntityAxle;
 import net.pufferlab.primal.utils.BlockUtils;
+import net.pufferlab.primal.utils.ItemUtils;
+import net.pufferlab.primal.utils.Utils;
 
 public class BlockAxle extends BlockMotion {
 
@@ -86,7 +87,9 @@ public class BlockAxle extends BlockMotion {
         if (te instanceof TileEntityAxle tef) {
             ItemStack heldItem = player.getHeldItem();
             if (heldItem == null) return false;
-            if (heldItem.getItem() == Item.getItemFromBlock(this) && heldItem.getItemDamage() == 1) {
+            ItemStack gear = ItemUtils.getModItem("gear", 1);
+            ItemStack bracket = ItemUtils.getModItem("bracket", 1);
+            if (Utils.equalsStack(heldItem, gear)) {
                 int axis = tef.axisMeta;
                 int axisClicked = BlockUtils.getAxis(side);
                 if (axis == axisClicked) {
@@ -94,7 +97,7 @@ public class BlockAxle extends BlockMotion {
                     return true;
                 }
             }
-            if (heldItem.getItem() == Item.getItemFromBlock(this) && heldItem.getItemDamage() == 2) {
+            if (Utils.equalsStack(heldItem, bracket)) {
                 return tef.setBracket(side, player);
             }
         }

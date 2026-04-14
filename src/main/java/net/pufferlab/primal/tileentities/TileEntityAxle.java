@@ -4,7 +4,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.pufferlab.primal.utils.BlockUtils;
+import net.pufferlab.primal.utils.ItemUtils;
 
 public class TileEntityAxle extends TileEntityMotion {
 
@@ -55,13 +57,14 @@ public class TileEntityAxle extends TileEntityMotion {
     }
 
     public void setGear(int side, EntityPlayer player) {
+        ItemStack gear = ItemUtils.getModItem("gear", 1);
         if (BlockUtils.isSidePositive(side)) {
             this.hasGearPos = !this.hasGearPos;
             if (this.hasGearPos) {
                 BlockUtils.playSound(this.worldObj, this.xCoord, this.yCoord, this.zCoord, Blocks.log);
                 player.getHeldItem().stackSize--;
             } else {
-                player.inventory.addItemStackToInventory(new ItemStack(this.blockType, 1, 1));
+                player.inventory.addItemStackToInventory(gear.copy());
             }
         } else {
             this.hasGearNeg = !this.hasGearNeg;
@@ -69,13 +72,14 @@ public class TileEntityAxle extends TileEntityMotion {
                 BlockUtils.playSound(this.worldObj, this.xCoord, this.yCoord, this.zCoord, Blocks.log);
                 player.getHeldItem().stackSize--;
             } else {
-                player.inventory.addItemStackToInventory(new ItemStack(this.blockType, 1, 1));
+                player.inventory.addItemStackToInventory(gear.copy());
             }
         }
         this.scheduleStrongUpdate();
     }
 
     public boolean setBracket(int side, EntityPlayer player) {
+        ItemStack bracket = ItemUtils.getModItem("bracket", 1);
         int facing = BlockUtils.getFacingMeta(side, this.axisMeta);
         if (facing != 0) {
             this.hasBracket = !this.hasBracket;
@@ -84,7 +88,7 @@ public class TileEntityAxle extends TileEntityMotion {
                 BlockUtils.playSound(this.worldObj, this.xCoord, this.yCoord, this.zCoord, Blocks.log);
                 player.getHeldItem().stackSize--;
             } else {
-                player.inventory.addItemStackToInventory(new ItemStack(this.blockType, 1, 2));
+                player.inventory.addItemStackToInventory(bracket.copy());
             }
             this.updateTEState();
             this.scheduleUpdate();
@@ -110,6 +114,14 @@ public class TileEntityAxle extends TileEntityMotion {
             }
         }
         return false;
+    }
+
+    @Override
+    public AxisAlignedBB getRenderBoundingBox() {
+        if (this.hasGearPos || this.hasGearNeg) {
+            return AxisAlignedBB.getBoundingBox(xCoord - 1, yCoord - 1, zCoord - 1, xCoord + 1, yCoord + 1, zCoord + 1);
+        }
+        return super.getRenderBoundingBox();
     }
 
     @Override

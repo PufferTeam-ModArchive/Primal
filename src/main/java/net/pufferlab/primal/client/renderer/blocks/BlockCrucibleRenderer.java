@@ -39,7 +39,7 @@ public class BlockCrucibleRenderer extends BlockPrimalRenderer {
                 offsetY = 0.125F + 0.0625F * (4 - blockBelowMeta);
             }
             FluidStack stack = tef.getFluidStack();
-            float height = tef.getFillLevel(0.0625F, 0.4375F);
+            float height = tef.getFillLevel(0.0625F, 0.4360F);
             double o = 2 * Constants.pixel;
             if (renderPass == 1) {
                 modelFluid.setFacingOffset(0.0F, -offsetY, 0.0F);

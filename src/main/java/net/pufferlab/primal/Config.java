@@ -1,6 +1,7 @@
 package net.pufferlab.primal;
 
 import java.io.File;
+import java.util.Random;
 
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.common.config.Configuration;
@@ -240,56 +241,49 @@ public enum Config {
 
     public boolean getBoolean() {
         if (!this.isBoolean) {
-            throw new NullPointerException();
+            throw new IllegalStateException();
         }
         return bValue;
     }
 
-    public boolean getDefaultBoolean() {
-        if (!this.isBoolean) {
-            throw new NullPointerException();
-        }
-        return bDefault;
-    }
-
     public int getInt() {
         if (!this.isInt) {
-            throw new NullPointerException();
+            throw new IllegalStateException();
         }
         return iValue;
     }
 
     public int getDefaultInt() {
         if (!this.isInt) {
-            throw new NullPointerException();
+            throw new IllegalStateException();
         }
         return iDefault;
     }
 
     public float getFloat() {
         if (!this.isFloat) {
-            throw new NullPointerException();
+            throw new IllegalStateException();
         }
         return fValue;
     }
 
     public float getDefaultFloat() {
         if (!this.isFloat) {
-            throw new NullPointerException();
+            throw new IllegalStateException();
         }
         return fDefault;
     }
 
-    public int getChance() {
+    public boolean roll(Random random) {
         if (!this.isFloat) {
-            throw new NullPointerException();
+            throw new IllegalStateException();
         }
-        return (int) Math.floor(1 / getFloat());
+        return random.nextFloat() < getFloat();
     }
 
     public String[] getStringList() {
         if (!this.isStringList) {
-            throw new NullPointerException();
+            throw new IllegalStateException();
         }
         return slValue;
     }

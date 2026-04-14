@@ -21,7 +21,7 @@ public class RenderAccessory {
 
     public static final RenderAccessory instance = new RenderAccessory();
     private static final Map<Item, IAccessoryRenderer> renderingMap = new HashMap<>();
-    private static final List<ModelAccessory> models = new ArrayList<>();
+    private static ModelAccessory[] models;
 
     public static void registerRenderer(Item item, IAccessoryRenderer renderer) {
         renderingMap.put(item, renderer);
@@ -32,11 +32,12 @@ public class RenderAccessory {
     }
 
     public void registerRenderers(RenderPlayer player) {
+        List<ModelAccessory> childModels = new ArrayList<>();
         for (Map.Entry<Item, IAccessoryRenderer> entry : renderingMap.entrySet()) {
             ModelAccessory[] rendererAccessory = entry.getValue()
                 .getModel();
             for (ModelAccessory renderer : rendererAccessory) {
-                models.add(renderer);
+                childModels.add(renderer);
                 player.modelBipedMain.bipedHead.addChild(renderer.modelHead);
                 player.modelBipedMain.bipedHeadwear.addChild(renderer.modelHeadwear);
                 player.modelBipedMain.bipedBody.addChild(renderer.modelBody);
@@ -48,6 +49,7 @@ public class RenderAccessory {
                 player.modelBipedMain.bipedCloak.addChild(renderer.modelCloak);
             }
         }
+        models = childModels.toArray(new ModelAccessory[0]);
     }
 
     public void resetVisibility() {

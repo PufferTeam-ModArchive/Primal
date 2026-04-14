@@ -108,6 +108,11 @@ public class TileEntityCast extends TileEntityFluidInventory implements IHeatabl
     }
 
     @Override
+    public boolean canUpdate() {
+        return false;
+    }
+
+    @Override
     public int getInventoryStackLimit() {
         return 1;
     }

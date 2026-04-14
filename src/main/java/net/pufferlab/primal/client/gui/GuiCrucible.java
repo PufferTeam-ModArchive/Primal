@@ -3,9 +3,12 @@ package net.pufferlab.primal.client.gui;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.inventory.ContainerCrucible;
 import net.pufferlab.primal.tileentities.TileEntityCrucible;
+import net.pufferlab.primal.utils.MetalType;
+import net.pufferlab.primal.utils.Utils;
 
 import org.lwjgl.opengl.GL11;
 
@@ -27,6 +30,17 @@ public class GuiCrucible extends GuiContainerPrimal {
         this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
         this.fontRendererObj
             .drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 2, 4210752);
+        this.drawOutputPrediction();
+    }
+
+    public void drawOutputPrediction() {
+        FluidStack stack = this.tileCrucible.getMeltResult();
+        MetalType metal = MetalType.getMetalFromFluid(stack);
+        if (metal != null) {
+            String result = Utils
+                .translate("metal." + Primal.MODID + ".melting.result.desc", stack.amount, metal.getTranslatedName());
+            this.fontRendererObj.drawString(result, 8, this.ySize - 102, 4210752);
+        }
     }
 
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {

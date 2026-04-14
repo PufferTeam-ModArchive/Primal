@@ -626,6 +626,7 @@ public class Registry {
         registerPacket(PacketSwingArm.class, Side.CLIENT);
         registerPacket(PacketFireStarter.class, Side.CLIENT);
         registerPacket(PacketSpeedUpdate.class, Side.CLIENT);
+        registerPacket(PacketCrucibleUpdate.class, Side.CLIENT);
         registerPacket(PacketWorldTime.class, Side.CLIENT);
         registerPacket(PacketPlayerData.class, Side.CLIENT);
         registerPacket(PacketEffect.class, Side.CLIENT);

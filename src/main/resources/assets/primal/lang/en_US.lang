@@ -78,7 +78,8 @@ metal.primal.forging.wrong_tier.name=§cAnvil is not solid enough to forge that 
 metal.primal.forging.too_cold.name=§cInput is too cold to be forged.
 metal.primal.melting.solid.name=Content is solid
 metal.primal.melting.liquid.name=Content is liquid
-metal.primal.melting.desc=Melts into §f%s§7 at §f%d§7 C
+metal.primal.melting.desc=§7Melts into §f%s§7 at §f%d C
+metal.primal.melting.result.desc=§8Will melt into §0%d§8mb of §0%s
 
 metal.primal.iron.name=Iron
 metal.primal.cast_iron.name=Cast Iron

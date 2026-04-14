@@ -9,6 +9,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Constants;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.recipes.AlloyingRecipe;
 import net.pufferlab.primal.recipes.MeltingRecipe;
@@ -28,7 +29,6 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
 
     public int timeMelting;
     public int lastLevel;
-    public boolean isHeating;
     public FluidStack[] fluidInventory;
 
     public TileEntityCrucible() {
@@ -63,7 +63,7 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
         manager.readFromNBT(tag);
         this.timeMelting = tag.getInteger("timeMelting");
         this.lastLevel = tag.getInteger("lastLevel");
-        this.isHeating = tag.getBoolean("isHeating");
+        this.readFromNBTFluidInventory(tag);
     }
 
     @Override
@@ -73,52 +73,42 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
         manager.writeToNBT(tag);
         tag.setInteger("timeMelting", this.timeMelting);
         tag.setInteger("lastLevel", this.lastLevel);
-        tag.setBoolean("isHeating", this.isHeating);
+        this.writeToNBTFluidInventory(tag);
     }
 
     @Override
     public void readFromNBTPacket(NBTTagCompound tag) {
         super.readFromNBTPacket(tag);
         heat.readFromNBT(tag);
-        this.isHeating = tag.getBoolean("isHeating");
+        this.readFromNBTFluidInventory(tag);
     }
 
     @Override
     public void writeToNBTPacket(NBTTagCompound tag) {
         super.writeToNBTPacket(tag);
         heat.writeToNBT(tag);
-        tag.setBoolean("isHeating", this.isHeating);
+        this.writeToNBTFluidInventory(tag);
     }
 
     public void addFluidInventory(FluidStack stack) {
-        for (int i = 0; i < getSizeInventory(); i++) {
-            FluidStack stack2 = getFluidInventoryStack(i);
+        for (int i = 0; i < fluidInventory.length; i++) {
+            FluidStack stack2 = fluidInventory[i];
             if (Utils.equalsStack(stack2, stack)) {
                 stack2.amount = stack2.amount + stack.amount;
                 return;
             }
         }
-        fluidInventory = Utils.append(getFluidInventory(), stack.copy());
-    }
-
-    public FluidStack getFluidInventoryStack(int index) {
-        return fluidInventory[index];
-    }
-
-    public FluidStack[] getFluidInventory() {
-        return fluidInventory;
+        fluidInventory = Utils.append(fluidInventory, stack.copy());
     }
 
     public void putFluidInventoryStack(FluidStack stack) {
-        for (int i = 0; i < getSizeInventory(); i++) {
-            fluidInventory[i] = null;
-        }
+        Utils.clear(fluidInventory);
         fluidInventory[0] = stack;
     }
 
     public void removeFluidInventoryStack(FluidStack stack) {
-        for (int i = 0; i < getSizeInventory(); i++) {
-            if (Utils.equalsStack(stack, getFluidInventoryStack(i))) {
+        for (int i = 0; i < fluidInventory.length; i++) {
+            if (Utils.equalsStack(stack, fluidInventory[i])) {
                 fluidInventory[i] = null;
             }
         }
@@ -128,8 +118,11 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     public void readFromNBTInventory(NBTTagCompound compound) {
         super.readFromNBTInventory(compound);
         heat.readFromNBT(compound);
+    }
+
+    public void readFromNBTFluidInventory(NBTTagCompound compound) {
         NBTTagList tagList = compound.getTagList("Fluids", Constants.tagCompound);
-        this.fluidInventory = new FluidStack[getSize()];
+        this.fluidInventory = new FluidStack[tagList.tagCount()];
         for (int i = 0; i < tagList.tagCount(); i++) {
             NBTTagCompound tag = tagList.getCompoundTagAt(i);
             byte slot = tag.getByte("Slot");
@@ -142,6 +135,9 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     public void writeToNBTInventory(NBTTagCompound compound) {
         super.writeToNBTInventory(compound);
         heat.writeToNBT(compound);
+    }
+
+    public void writeToNBTFluidInventory(NBTTagCompound compound) {
         NBTTagList itemList = new NBTTagList();
         for (int i = 0; i < this.fluidInventory.length; i++) {
             FluidStack stack = this.fluidInventory[i];
@@ -176,7 +172,7 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
             }
         }
 
-        FluidStack[] fluids = getFluidInventory();
+        FluidStack[] fluids = fluidInventory;
         if (getFluidStack() != null) {
             fluids = Utils.combineArrays(fluids, getFluidStack());
         }
@@ -189,8 +185,8 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
             putFluidInventoryStack(output);
         }
 
-        for (int j = 0; j < getSizeInventory(); j++) {
-            FluidStack stack = getFluidInventoryStack(j);
+        for (int j = 0; j < fluidInventory.length; j++) {
+            FluidStack stack = fluidInventory[j];
             if (stack != null) {
                 if (fill(ForgeDirection.UP, stack, false) > 0) {
                     fill(ForgeDirection.UP, stack, true);
@@ -200,10 +196,70 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
         }
     }
 
+    public FluidStack lastResult;
+
+    public FluidStack getMeltResult() {
+        return this.lastResult;
+    }
+
+    public void updateMeltCache() {
+        this.lastResult = calculateMeltContent();
+    }
+
+    public FluidStack calculateMeltContent() {
+        fluidInventoryTemp = new FluidStack[0];
+        FluidStack lastFluid = null;
+        boolean valid = true;
+        for (int i = 0; i < getSizeInventory(); i++) {
+            ItemStack stack = getInventoryStack(i);
+            if (MeltingRecipe.hasRecipe(stack)) {
+                FluidStack output = MeltingRecipe.getOutput(stack)
+                    .copy();
+                int scaled = stack.stackSize;
+                output.amount = output.amount * scaled;
+                addFluidInventoryTemp(output);
+                if (lastFluid == null) {
+                    lastFluid = output;
+                    continue;
+                }
+                if (Utils.equalsStack(output, lastFluid)) {
+                    lastFluid.amount = lastFluid.amount + output.amount;
+                } else {
+                    valid = false;
+                }
+            }
+        }
+
+        FluidStack[] fluids = Utils.combineArrays(fluidInventory, fluidInventoryTemp);
+        if (getFluidStack() != null) {
+            fluids = Utils.combineArrays(fluids, getFluidStack());
+        }
+        if (AlloyingRecipe.hasRecipe(fluids)) {
+            FluidStack output = AlloyingRecipe.getOutput(fluids);
+            return output;
+        } else {
+            if (!valid) return null;
+            return lastFluid;
+        }
+    }
+
+    FluidStack[] fluidInventoryTemp = new FluidStack[0];
+
+    public void addFluidInventoryTemp(FluidStack stack) {
+        for (int i = 0; i < fluidInventoryTemp.length; i++) {
+            FluidStack stack2 = fluidInventoryTemp[i];
+            if (Utils.equalsStack(stack2, stack)) {
+                stack2.amount = stack2.amount + stack.amount;
+                return;
+            }
+        }
+        fluidInventoryTemp = Utils.append(fluidInventoryTemp, stack.copy());
+    }
+
     public void updateHeat() {
         TileEntity teBelow = this.worldObj.getTileEntity(this.xCoord, this.yCoord - 1, this.zCoord);
         if (teBelow instanceof IHeatable heat) {
-            setMaxTemperature(heat.getTemperature());
+            setMaxTemperature(heat.getTemperature() + 10);
             if (heat.isFired()) {
                 setTemperatureMultiplier(1.0F);
             } else {
@@ -224,7 +280,7 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
             if (hasIngotMelting) {
                 scheduleMeltingUpdate();
             }
-            FluidStack[] fluids = getFluidInventory();
+            FluidStack[] fluids = fluidInventory;
             for (FluidStack fluid : fluids) {
                 if (fluid != null) {
                     scheduleMeltingUpdate();
@@ -234,10 +290,8 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
         }
 
         if (task == Tasks.inventory) {
-            float modifier = 1.5F;
-            if (!this.isHeating) {
-                modifier = 1.0F;
-            }
+            float modifier = 1.0F;
+            Primal.proxy.packet.sendCruciblePacket(this);
             updateHeatInventory(modifier, this.getTemperature());
         }
 
@@ -295,6 +349,11 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
                 }
             }
         }
+    }
+
+    @Override
+    public boolean canUpdate() {
+        return false;
     }
 
     @Override
