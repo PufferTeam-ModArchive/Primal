@@ -336,11 +336,11 @@ public class Utils {
         return result;
     }
 
-    public static FluidStack[] combineArrays(FluidStack[] a, FluidStack b) {
-        FluidStack[] result = new FluidStack[a.length + 1];
-        System.arraycopy(a, 0, result, 0, a.length);
-        result[result.length - 1] = b;
-        return result;
+    public static FluidStack[] combineStackArrays(FluidStack[] array, FluidStack[] array2) {
+        for (FluidStack stack : array2) {
+            array = Utils.appendStack(array, stack);
+        }
+        return array;
     }
 
     @SafeVarargs
@@ -370,6 +370,28 @@ public class Utils {
 
     public static <T> void clear(T[] array) {
         Arrays.fill(array, null);
+    }
+
+    public static ItemStack[] appendStack(ItemStack[] array, ItemStack stack) {
+        for (int i = 0; i < array.length; i++) {
+            ItemStack stack2 = array[i];
+            if (Utils.equalsStack(stack2, stack)) {
+                stack2.stackSize = stack2.stackSize + stack.stackSize;
+                return array;
+            }
+        }
+        return Utils.append(array, stack.copy());
+    }
+
+    public static FluidStack[] appendStack(FluidStack[] array, FluidStack stack) {
+        for (int i = 0; i < array.length; i++) {
+            FluidStack stack2 = array[i];
+            if (Utils.equalsStack(stack2, stack)) {
+                stack2.amount = stack2.amount + stack.amount;
+                return array;
+            }
+        }
+        return Utils.append(array, stack.copy());
     }
 
     public static <T> T[] append(T[] array, T element) {

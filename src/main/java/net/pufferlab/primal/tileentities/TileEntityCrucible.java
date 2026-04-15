@@ -91,14 +91,7 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     }
 
     public void addFluidInventory(FluidStack stack) {
-        for (int i = 0; i < fluidInventory.length; i++) {
-            FluidStack stack2 = fluidInventory[i];
-            if (Utils.equalsStack(stack2, stack)) {
-                stack2.amount = stack2.amount + stack.amount;
-                return;
-            }
-        }
-        fluidInventory = Utils.append(fluidInventory, stack.copy());
+        fluidInventory = Utils.appendStack(fluidInventory, stack);
     }
 
     public void putFluidInventoryStack(FluidStack stack) {
@@ -183,7 +176,7 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     public void alloyContent() {
         FluidStack[] fluids = fluidInventory;
         if (getFluidStack() != null) {
-            fluids = Utils.combineArrays(fluids, getFluidStack());
+            fluids = Utils.appendStack(fluids, getFluidStack());
         }
         if (AlloyingRecipe.hasRecipe(fluids)) {
             AlloyingRecipe recipe = AlloyingRecipe.getRecipe(fluids);
@@ -239,9 +232,9 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
             }
         }
 
-        FluidStack[] fluids = Utils.combineArrays(fluidInventory, fluidInventoryTemp);
+        FluidStack[] fluids = Utils.combineStackArrays(fluidInventory, fluidInventoryTemp);
         if (getFluidStack() != null) {
-            fluids = Utils.combineArrays(fluids, getFluidStack());
+            fluids = Utils.appendStack(fluids, getFluidStack());
         }
         if (AlloyingRecipe.hasRecipe(fluids)) {
             FluidStack output = AlloyingRecipe.getOutput(fluids);
@@ -255,14 +248,7 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     FluidStack[] fluidInventoryTemp = new FluidStack[0];
 
     public void addFluidInventoryTemp(FluidStack stack) {
-        for (int i = 0; i < fluidInventoryTemp.length; i++) {
-            FluidStack stack2 = fluidInventoryTemp[i];
-            if (Utils.equalsStack(stack2, stack)) {
-                stack2.amount = stack2.amount + stack.amount;
-                return;
-            }
-        }
-        fluidInventoryTemp = Utils.append(fluidInventoryTemp, stack.copy());
+        fluidInventoryTemp = Utils.appendStack(fluidInventoryTemp, stack);
     }
 
     public void updateCrucibleHeat() {
