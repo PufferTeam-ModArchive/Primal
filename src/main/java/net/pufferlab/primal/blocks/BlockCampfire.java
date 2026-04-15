@@ -27,6 +27,7 @@ import net.pufferlab.primal.utils.Utils;
 
 import com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.common.Optional;
 
 @Optional.Interface(iface = "com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness", modid = Mods.ID.rple)
@@ -312,8 +313,8 @@ public class BlockCampfire extends BlockContainerPrimal implements RPLECustomBlo
     }
 
     @Override
-    public int getRenderType() {
-        return Primal.proxy.getCampfireRenderID();
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.campfireRenderer;
     }
 
     @Override

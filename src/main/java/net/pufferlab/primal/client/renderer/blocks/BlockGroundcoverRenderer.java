@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
 import net.pufferlab.primal.Constants;
-import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.BlockGroundcover;
 import net.pufferlab.primal.client.models.ModelItem;
 import net.pufferlab.primal.client.models.ModelRock;
@@ -71,10 +70,5 @@ public class BlockGroundcoverRenderer extends BlockPrimalRenderer {
     @Override
     public boolean shouldRender3DInInventory(int modelId) {
         return false;
-    }
-
-    @Override
-    public int getRenderId() {
-        return Primal.proxy.getGroundcoverRenderID();
     }
 }

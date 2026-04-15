@@ -1,16 +1,17 @@
 package net.pufferlab.primal.inventory;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.tileentities.TileEntityLargeVessel;
 import net.pufferlab.primal.utils.Utils;
 
-public class ContainerLargeVessel extends Container {
+public class ContainerLargeVessel extends ContainerPrimal {
 
     public TileEntityLargeVessel tileLargeVessel;
+
+    public ContainerLargeVessel() {}
 
     public ContainerLargeVessel(IInventory inv, TileEntityLargeVessel te) {
         for (int i = 0; i < 3; ++i) {

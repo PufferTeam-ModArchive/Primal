@@ -21,6 +21,7 @@ import net.pufferlab.primal.utils.CropType;
 import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.Tasks;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -208,8 +209,13 @@ public class BlockCropsBush extends BlockCrops implements IPrimalBlock, ISchedul
     }
 
     @Override
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.cropsRenderer;
+    }
+
+    @Override
     public int getRenderType() {
-        return Primal.proxy.getCropsRenderID();
+        return getRenderId();
     }
 
     @Override

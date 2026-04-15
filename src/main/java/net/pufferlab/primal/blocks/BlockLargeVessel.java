@@ -15,6 +15,8 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.tileentities.TileEntityLargeVessel;
 import net.pufferlab.primal.utils.FluidUtils;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+
 public class BlockLargeVessel extends BlockContainerPrimal {
 
     public IIcon largeVessel;
@@ -101,8 +103,8 @@ public class BlockLargeVessel extends BlockContainerPrimal {
     }
 
     @Override
-    public int getRenderType() {
-        return Primal.proxy.getLargeVesselRenderID();
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.largeVesselRenderer;
     }
 
     @Override

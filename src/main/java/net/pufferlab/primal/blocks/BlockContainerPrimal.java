@@ -42,6 +42,11 @@ public abstract class BlockContainerPrimal extends BlockContainer implements IPr
         return Registry.creativeTab;
     }
 
+    @Override
+    public int getRenderType() {
+        return getRenderId();
+    }
+
     public void onBlockSidePlacedBy(World worldIn, int x, int y, int z, EntityLivingBase placer, ItemStack itemIn,
         int side) {
         int side2 = side;

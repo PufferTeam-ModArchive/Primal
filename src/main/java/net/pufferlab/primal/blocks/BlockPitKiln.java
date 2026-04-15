@@ -25,6 +25,8 @@ import net.pufferlab.primal.tileentities.TileEntityPitKiln;
 import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.Utils;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+
 public class BlockPitKiln extends BlockContainerPrimal {
 
     public IIcon[] icons = new IIcon[7];
@@ -232,6 +234,11 @@ public class BlockPitKiln extends BlockContainerPrimal {
     }
 
     @Override
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.pitKilnRenderer;
+    }
+
+    @Override
     public boolean isOpaqueCube() {
         return false;
     }
@@ -239,10 +246,5 @@ public class BlockPitKiln extends BlockContainerPrimal {
     @Override
     public boolean hasTileEntity(int metadata) {
         return true;
-    }
-
-    @Override
-    public int getRenderType() {
-        return Primal.proxy.getPitKilnRenderID();
     }
 }

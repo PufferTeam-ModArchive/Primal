@@ -14,6 +14,8 @@ import net.pufferlab.primal.tileentities.TileEntityCharcoalPile;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 import net.pufferlab.primal.utils.SoundTypePrimal;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+
 public class BlockCharcoalPile extends BlockPile {
 
     public IIcon charcoal;
@@ -72,8 +74,8 @@ public class BlockCharcoalPile extends BlockPile {
     }
 
     @Override
-    public int getRenderType() {
-        return Primal.proxy.getCharcoalPileRenderID();
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.charcoalPileRenderer;
     }
 
     @Override

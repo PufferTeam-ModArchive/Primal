@@ -14,6 +14,8 @@ import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.tileentities.TileEntityGenerator;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+
 public class BlockGenerator extends BlockMotion {
 
     public IIcon generator;
@@ -87,7 +89,7 @@ public class BlockGenerator extends BlockMotion {
     }
 
     @Override
-    public int getRenderType() {
-        return Primal.proxy.getGeneratorRenderID();
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.generatorRenderer;
     }
 }

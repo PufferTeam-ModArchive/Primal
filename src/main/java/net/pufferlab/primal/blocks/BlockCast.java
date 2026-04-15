@@ -28,6 +28,8 @@ import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.GlobalTickingData;
 import net.pufferlab.primal.world.Tasks;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+
 public class BlockCast extends BlockContainerPrimal {
 
     public IIcon[] moldIcons;
@@ -217,8 +219,8 @@ public class BlockCast extends BlockContainerPrimal {
     }
 
     @Override
-    public int getRenderType() {
-        return Primal.proxy.getCastRenderID();
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.castRenderer;
     }
 
     @Override

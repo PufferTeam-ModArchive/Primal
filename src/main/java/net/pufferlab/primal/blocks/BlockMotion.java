@@ -38,11 +38,6 @@ public abstract class BlockMotion extends BlockContainerPrimal {
     }
 
     @Override
-    public int getRenderType() {
-        return 0;
-    }
-
-    @Override
     public boolean isOpaqueCube() {
         return false;
     }

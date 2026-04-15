@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
-import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.models.ModelCampfire;
 import net.pufferlab.primal.client.models.ModelCampfireKindling;
 import net.pufferlab.primal.client.models.ModelCrossed;
@@ -73,10 +72,5 @@ public class BlockOvenRenderer extends BlockPrimalRenderer {
     @Override
     public boolean shouldRender3DInInventory(int modelId) {
         return false;
-    }
-
-    @Override
-    public int getRenderId() {
-        return Primal.proxy.getOvenRenderID();
     }
 }

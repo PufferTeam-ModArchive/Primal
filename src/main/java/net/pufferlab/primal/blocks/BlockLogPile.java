@@ -18,6 +18,8 @@ import net.pufferlab.primal.tileentities.TileEntityLogPile;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 import net.pufferlab.primal.utils.ItemUtils;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+
 public class BlockLogPile extends BlockPile {
 
     private IIcon[] icons = new IIcon[6];
@@ -145,8 +147,8 @@ public class BlockLogPile extends BlockPile {
     }
 
     @Override
-    public int getRenderType() {
-        return Primal.proxy.getLogPileRenderID();
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.logPileRenderer;
     }
 
     @Override

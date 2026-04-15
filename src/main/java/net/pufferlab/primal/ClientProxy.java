@@ -24,6 +24,7 @@ import net.pufferlab.primal.client.renderer.blocks.*;
 import net.pufferlab.primal.client.renderer.entities.*;
 import net.pufferlab.primal.client.renderer.items.*;
 import net.pufferlab.primal.client.renderer.tileentities.*;
+import net.pufferlab.primal.inventory.*;
 import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.tileentities.*;
 import net.pufferlab.primal.utils.HeatUtils;
@@ -31,103 +32,72 @@ import net.pufferlab.primal.utils.IOUtils;
 import net.pufferlab.primal.utils.Utils;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
 public class ClientProxy extends CommonProxy {
 
-    private int slabRenderID;
-    private int verticalSlabRenderID;
-    private int stairsRenderID;
-    private int wallRenderID;
-    private int ropeLadderRenderID;
-    private int grassRenderID;
-    private int pathRenderID;
-    private int oreRenderID;
-    private int pitKilnRenderID;
-    private int logPileRenderID;
-    private int charcoalPileRenderID;
-    private int ashPileRenderID;
-    private int campfireRenderID;
-    private int largeVesselRenderID;
-    private int barrelRenderID;
-    private int faucetRenderID;
-    private int groundcoverRenderID;
-    private int tanningRenderID;
-    private int ovenRenderID;
-    private int chimneyRenderID;
-    private int crucibleRenderID;
-    private int forgeRenderID;
-    private int castRenderID;
-    private int quernRenderID;
-    private int axleRenderID;
-    private int generatorRenderID;
-    private int anvilRenderID;
-    private int bloomeryRenderID;
-    private int cropRenderID;
-
     @Override
     public void setupRenders() {
-        slabRenderID = getNextId();
-        verticalSlabRenderID = getNextId();
-        stairsRenderID = getNextId();
-        wallRenderID = getNextId();
-        ropeLadderRenderID = getNextId();
-        grassRenderID = getNextId();
-        pathRenderID = getNextId();
-        oreRenderID = getNextId();
-        pitKilnRenderID = getNextId();
-        logPileRenderID = getNextId();
-        charcoalPileRenderID = getNextId();
-        ashPileRenderID = getNextId();
-        campfireRenderID = getNextId();
-        largeVesselRenderID = getNextId();
-        barrelRenderID = getNextId();
-        faucetRenderID = getNextId();
-        groundcoverRenderID = getNextId();
-        tanningRenderID = getNextId();
-        ovenRenderID = getNextId();
-        chimneyRenderID = getNextId();
-        crucibleRenderID = getNextId();
-        forgeRenderID = getNextId();
-        castRenderID = getNextId();
-        quernRenderID = getNextId();
-        axleRenderID = getNextId();
-        generatorRenderID = getNextId();
-        anvilRenderID = getNextId();
-        bloomeryRenderID = getNextId();
-        cropRenderID = getNextId();
+        slabRenderer = new BlockSlabRenderer();
+        slabVerticalRenderer = new BlockSlabVerticalRenderer();
+        stairsRenderer = new BlockStairsRenderer();
+        wallRenderer = new BlockWallRenderer();
+        ropeLadderRenderer = new BlockRopeLadderRenderer();
+        grassRenderer = new BlockGrassRenderer();
+        pathRenderer = new BlockPathRenderer();
+        oreRenderer = new BlockOreRenderer();
+        pitKilnRenderer = new BlockPitKilnRenderer();
+        logPileRenderer = new BlockLogPileRenderer();
+        charcoalPileRenderer = new BlockCharcoalPileRenderer();
+        ashPileRenderer = new BlockAshPileRenderer();
+        campfireRenderer = new BlockCampfireRenderer();
+        largeVesselRenderer = new BlockLargeVesselRenderer();
+        barrelRenderer = new BlockBarrelRenderer();
+        faucetRenderer = new BlockFaucetRenderer();
+        groundcoverRenderer = new BlockGroundcoverRenderer();
+        tanningRenderer = new BlockTanningRenderer();
+        ovenRenderer = new BlockOvenRenderer();
+        chimneyRenderer = new BlockChimneyRenderer();
+        crucibleRenderer = new BlockCrucibleRenderer();
+        forgeRenderer = new BlockForgeRenderer();
+        castRenderer = new BlockCastRenderer();
+        quernRenderer = new BlockQuernRenderer();
+        axleRenderer = new BlockAxleRenderer();
+        generatorRenderer = new BlockGeneratorRenderer();
+        anvilRenderer = new BlockAnvilRenderer();
+        bloomeryRenderer = new BlockBloomeryRenderer();
+        cropsRenderer = new BlockCropsRenderer();
 
-        register(new BlockSlabRenderer());
-        register(new BlockSlabVerticalRenderer());
-        register(new BlockStairsRenderer());
-        register(new BlockWallRenderer());
-        register(new BlockRopeLadderRenderer());
-        register(new BlockGrassRenderer());
-        register(new BlockPathRenderer());
-        register(new BlockOreRenderer());
-        register(new BlockPitKilnRenderer());
-        register(new BlockLogPileRenderer());
-        register(new BlockCharcoalPileRenderer());
-        register(new BlockAshPileRenderer());
-        register(new BlockCampfireRenderer());
-        register(new BlockLargeVesselRenderer());
-        register(new BlockBarrelRenderer());
-        register(new BlockFaucetRenderer());
-        register(new BlockGroundcoverRenderer());
-        register(new BlockTanningRenderer());
-        register(new BlockOvenRenderer());
-        register(new BlockChimneyRenderer());
-        register(new BlockCrucibleRenderer());
-        register(new BlockForgeRenderer());
-        register(new BlockCastRenderer());
-        register(new BlockQuernRenderer());
-        register(new BlockAxleRenderer());
-        register(new BlockGeneratorRenderer());
-        register(new BlockAnvilRenderer());
-        register(new BlockBloomeryRenderer());
-        register(new BlockCropsRenderer());
+        register(slabRenderer);
+        register(slabVerticalRenderer);
+        register(stairsRenderer);
+        register(wallRenderer);
+        register(ropeLadderRenderer);
+        register(grassRenderer);
+        register(pathRenderer);
+        register(oreRenderer);
+        register(pitKilnRenderer);
+        register(logPileRenderer);
+        register(charcoalPileRenderer);
+        register(ashPileRenderer);
+        register(campfireRenderer);
+        register(largeVesselRenderer);
+        register(barrelRenderer);
+        register(faucetRenderer);
+        register(groundcoverRenderer);
+        register(tanningRenderer);
+        register(ovenRenderer);
+        register(chimneyRenderer);
+        register(crucibleRenderer);
+        register(forgeRenderer);
+        register(castRenderer);
+        register(quernRenderer);
+        register(axleRenderer);
+        register(generatorRenderer);
+        register(anvilRenderer);
+        register(bloomeryRenderer);
+        register(cropsRenderer);
 
         register(TileEntityPitKiln.class, new TileEntityPitKilnRenderer());
         register(TileEntityChoppingLog.class, new TileEntityChoppingLogRenderer());
@@ -187,7 +157,8 @@ public class ClientProxy extends CommonProxy {
         return RenderingRegistry.getNextAvailableRenderId();
     }
 
-    public <T extends ISimpleBlockRenderingHandler> void register(T object) {
+    public <T extends BlockPrimalRenderer> void register(T object) {
+        object.setRenderId(getNextId());
         RenderingRegistry.registerBlockHandler(object);
     }
 
@@ -244,19 +215,20 @@ public class ClientProxy extends CommonProxy {
             return new GuiKnapping(knappingType, player.inventory);
         }
         TileEntity te = world.getTileEntity(x, y, z);
-        if (ID == largeVesselGuiID && te instanceof TileEntityLargeVessel tef) {
+        ContainerPrimal gui = getGui(ID);
+        if (gui instanceof ContainerLargeVessel && te instanceof TileEntityLargeVessel tef) {
             return new GuiLargeVessel(player.inventory, tef);
         }
-        if (ID == crucibleGuiID && te instanceof TileEntityCrucible tef) {
+        if (gui instanceof ContainerCrucible && te instanceof TileEntityCrucible tef) {
             return new GuiCrucible(player.inventory, tef);
         }
-        if (ID == generatorGuiID && te instanceof TileEntityGenerator tef) {
+        if (gui instanceof ContainerGenerator && te instanceof TileEntityGenerator tef) {
             return new GuiGenerator(tef);
         }
-        if (ID == anvilWorkGuiID && te instanceof TileEntityAnvil tef) {
+        if (gui instanceof ContainerAnvilWork && te instanceof TileEntityAnvil tef) {
             return new GuiAnvilWork(tef);
         }
-        if (ID == anvilPlanGuiID && te instanceof TileEntityAnvil tef) {
+        if (gui instanceof ContainerAnvilPlan && te instanceof TileEntityAnvil tef) {
             return new GuiAnvilPlan(player.inventory, tef);
         }
         return null;
@@ -348,150 +320,5 @@ public class ClientProxy extends CommonProxy {
                 }
             }
         }
-    }
-
-    @Override
-    public int getSlabRenderID() {
-        return slabRenderID;
-    }
-
-    @Override
-    public int getVerticalSlabRenderID() {
-        return verticalSlabRenderID;
-    }
-
-    @Override
-    public int getStairsRenderID() {
-        return stairsRenderID;
-    }
-
-    @Override
-    public int getWallRenderID() {
-        return wallRenderID;
-    }
-
-    @Override
-    public int getGrassRenderID() {
-        return grassRenderID;
-    }
-
-    @Override
-    public int getPathRenderID() {
-        return pathRenderID;
-    }
-
-    @Override
-    public int getOreRenderID() {
-        return oreRenderID;
-    }
-
-    @Override
-    public int getPitKilnRenderID() {
-        return pitKilnRenderID;
-    }
-
-    @Override
-    public int getLogPileRenderID() {
-        return logPileRenderID;
-    }
-
-    @Override
-    public int getCharcoalPileRenderID() {
-        return charcoalPileRenderID;
-    }
-
-    @Override
-    public int getAshPileRenderID() {
-        return ashPileRenderID;
-    }
-
-    @Override
-    public int getCampfireRenderID() {
-        return campfireRenderID;
-    }
-
-    @Override
-    public int getLargeVesselRenderID() {
-        return largeVesselRenderID;
-    }
-
-    @Override
-    public int getBarrelRenderID() {
-        return barrelRenderID;
-    }
-
-    @Override
-    public int getFaucetRenderID() {
-        return faucetRenderID;
-    }
-
-    @Override
-    public int getGroundcoverRenderID() {
-        return groundcoverRenderID;
-    }
-
-    @Override
-    public int getTanningRenderID() {
-        return tanningRenderID;
-    }
-
-    @Override
-    public int getOvenRenderID() {
-        return ovenRenderID;
-    }
-
-    @Override
-    public int getChimneyRenderID() {
-        return chimneyRenderID;
-    }
-
-    @Override
-    public int getCrucibleRenderID() {
-        return crucibleRenderID;
-    }
-
-    @Override
-    public int getForgeRenderID() {
-        return forgeRenderID;
-    }
-
-    @Override
-    public int getCastRenderID() {
-        return castRenderID;
-    }
-
-    @Override
-    public int getQuernRenderID() {
-        return quernRenderID;
-    }
-
-    @Override
-    public int getAxleRenderID() {
-        return axleRenderID;
-    }
-
-    @Override
-    public int getGeneratorRenderID() {
-        return generatorRenderID;
-    }
-
-    @Override
-    public int getAnvilRenderID() {
-        return anvilRenderID;
-    }
-
-    @Override
-    public int getBloomeryRenderID() {
-        return bloomeryRenderID;
-    }
-
-    @Override
-    public int getRopeLadderRenderID() {
-        return ropeLadderRenderID;
-    }
-
-    @Override
-    public int getCropsRenderID() {
-        return cropRenderID;
     }
 }

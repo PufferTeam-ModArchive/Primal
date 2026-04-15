@@ -22,6 +22,8 @@ import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.Utils;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+
 public class BlockAxle extends BlockMotion {
 
     public IIcon bracket;
@@ -157,8 +159,8 @@ public class BlockAxle extends BlockMotion {
     }
 
     @Override
-    public int getRenderType() {
-        return Primal.proxy.getAxleRenderID();
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.axleRenderer;
     }
 
     @Override

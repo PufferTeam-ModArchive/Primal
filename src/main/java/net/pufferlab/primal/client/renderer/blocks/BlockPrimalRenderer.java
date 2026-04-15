@@ -24,8 +24,19 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
 
     private final Random randomLocal = new Random(91964521L);
 
+    public int renderID;
+
     private static float lastBrightnessX = 0;
     private static float lastBrightnessY = 0;
+
+    public void setRenderId(int renderID) {
+        this.renderID = renderID;
+    }
+
+    @Override
+    public int getRenderId() {
+        return this.renderID;
+    }
 
     public boolean hasAO() {
         return Minecraft.isAmbientOcclusionEnabled();

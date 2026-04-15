@@ -20,6 +20,7 @@ import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.items.itemblocks.ItemBlockMeta;
 import net.pufferlab.primal.utils.Utils;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -203,7 +204,12 @@ public class BlockMetaMycelium extends BlockMycelium implements IPrimalBlock, IM
     }
 
     @Override
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.grassRenderer;
+    }
+
+    @Override
     public int getRenderType() {
-        return Primal.proxy.getGrassRenderID();
+        return getRenderId();
     }
 }

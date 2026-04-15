@@ -1,16 +1,17 @@
 package net.pufferlab.primal.inventory;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.tileentities.TileEntityCrucible;
 import net.pufferlab.primal.utils.Utils;
 
-public class ContainerCrucible extends Container {
+public class ContainerCrucible extends ContainerPrimal {
 
     public TileEntityCrucible tileCrucible;
+
+    public ContainerCrucible() {}
 
     public ContainerCrucible(IInventory inv, TileEntityCrucible te) {
         for (int j = 0; j < 5; ++j) {

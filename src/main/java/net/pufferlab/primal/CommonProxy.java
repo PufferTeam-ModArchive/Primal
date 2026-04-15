@@ -8,6 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.pufferlab.primal.client.gui.*;
+import net.pufferlab.primal.client.renderer.blocks.*;
 import net.pufferlab.primal.inventory.*;
 import net.pufferlab.primal.network.NetworkPacket;
 import net.pufferlab.primal.recipes.KnappingType;
@@ -24,29 +26,75 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
+import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
 
 public class CommonProxy implements IGuiHandler {
 
     public MinecraftServer server;
     public final NetworkPacket packet = new NetworkPacket();
 
+    public BlockSlabRenderer slabRenderer;
+    public BlockSlabVerticalRenderer slabVerticalRenderer;
+    public BlockStairsRenderer stairsRenderer;
+    public BlockWallRenderer wallRenderer;
+    public BlockRopeLadderRenderer ropeLadderRenderer;
+    public BlockGrassRenderer grassRenderer;
+    public BlockPathRenderer pathRenderer;
+    public BlockOreRenderer oreRenderer;
+    public BlockPitKilnRenderer pitKilnRenderer;
+    public BlockLogPileRenderer logPileRenderer;
+    public BlockCharcoalPileRenderer charcoalPileRenderer;
+    public BlockAshPileRenderer ashPileRenderer;
+    public BlockCampfireRenderer campfireRenderer;
+    public BlockLargeVesselRenderer largeVesselRenderer;
+    public BlockBarrelRenderer barrelRenderer;
+    public BlockFaucetRenderer faucetRenderer;
+    public BlockGroundcoverRenderer groundcoverRenderer;
+    public BlockTanningRenderer tanningRenderer;
+    public BlockOvenRenderer ovenRenderer;
+    public BlockChimneyRenderer chimneyRenderer;
+    public BlockCrucibleRenderer crucibleRenderer;
+    public BlockForgeRenderer forgeRenderer;
+    public BlockCastRenderer castRenderer;
+    public BlockQuernRenderer quernRenderer;
+    public BlockAxleRenderer axleRenderer;
+    public BlockGeneratorRenderer generatorRenderer;
+    public BlockAnvilRenderer anvilRenderer;
+    public BlockBloomeryRenderer bloomeryRenderer;
+    public BlockCropsRenderer cropsRenderer;
+
+    public ContainerLargeVessel largeVesselGui;
+    public ContainerCrucible crucibleGui;
+    public ContainerGenerator generatorGui;
+    public ContainerAnvilWork anvilWorkGui;
+    public ContainerAnvilPlan anvilPlanGui;
+
     public int nextGuiID;
-    public int largeVesselGuiID;
-    public int crucibleGuiID;
-    public int generatorGuiID;
-    public int anvilWorkGuiID;
-    public int anvilPlanGuiID;
 
     public void preInit(FMLPreInitializationEvent event) {}
+
+    public TIntObjectMap<ContainerPrimal> guiMap = new TIntObjectHashMap<>();
 
     public void setupGUIs() {
         NetworkRegistry.INSTANCE.registerGuiHandler(Primal.instance, Primal.proxy);
 
-        largeVesselGuiID = getNextGuiID();
-        crucibleGuiID = getNextGuiID();
-        generatorGuiID = getNextGuiID();
-        anvilWorkGuiID = getNextGuiID();
-        anvilPlanGuiID = getNextGuiID();
+        largeVesselGui = new ContainerLargeVessel();
+        crucibleGui = new ContainerCrucible();
+        generatorGui = new ContainerGenerator();
+        anvilWorkGui = new ContainerAnvilWork();
+        anvilPlanGui = new ContainerAnvilPlan();
+
+        register(largeVesselGui);
+        register(crucibleGui);
+        register(generatorGui);
+        register(anvilWorkGui);
+        register(anvilPlanGui);
+    }
+
+    public <T extends ContainerPrimal> void register(T object) {
+        object.setGuiId(getNextGuiID());
+        guiMap.put(object.getGuiId(), object);
     }
 
     public int getNextGuiID() {
@@ -75,20 +123,25 @@ public class CommonProxy implements IGuiHandler {
         if (knappingType != null) {
             return new ContainerKnapping(knappingType, player.inventory);
         }
+        ContainerPrimal gui = getGui(ID);
         TileEntity te = world.getTileEntity(x, y, z);
-        if (ID == largeVesselGuiID && te instanceof TileEntityLargeVessel tef) {
+        if (gui instanceof ContainerLargeVessel && te instanceof TileEntityLargeVessel tef) {
             return new ContainerLargeVessel(player.inventory, tef);
         }
-        if (ID == crucibleGuiID && te instanceof TileEntityCrucible tef) {
+        if (gui instanceof ContainerCrucible && te instanceof TileEntityCrucible tef) {
             return new ContainerCrucible(player.inventory, tef);
         }
-        if (ID == anvilWorkGuiID && te instanceof TileEntityAnvil tef) {
+        if (gui instanceof ContainerAnvilWork && te instanceof TileEntityAnvil tef) {
             return new ContainerAnvilWork(tef);
         }
-        if (ID == anvilPlanGuiID && te instanceof TileEntityAnvil tef) {
+        if (gui instanceof ContainerAnvilPlan && te instanceof TileEntityAnvil tef) {
             return new ContainerAnvilPlan(player.inventory, tef);
         }
         return null;
+    }
+
+    public ContainerPrimal getGui(int id) {
+        return guiMap.get(id);
     }
 
     @Override
@@ -180,142 +233,26 @@ public class CommonProxy implements IGuiHandler {
     public <T extends IMessage> void sendPacketToServer(T object) {};
 
     public void openLargeVesselGui(EntityPlayer player, World worldIn, int x, int y, int z) {
-        openPrimalGui(largeVesselGuiID, player, worldIn, x, y, z);
+        openPrimalGui(largeVesselGui, player, worldIn, x, y, z);
     }
 
     public void openCrucibleGui(EntityPlayer player, World worldIn, int x, int y, int z) {
-        openPrimalGui(crucibleGuiID, player, worldIn, x, y, z);
+        openPrimalGui(crucibleGui, player, worldIn, x, y, z);
     }
 
     public void openGeneratorGui(EntityPlayer player, World worldIn, int x, int y, int z) {
-        openPrimalGui(generatorGuiID, player, worldIn, x, y, z);
+        openPrimalGui(generatorGui, player, worldIn, x, y, z);
     }
 
     public void openAnvilWorkGui(EntityPlayer player, World worldIn, int x, int y, int z) {
-        openPrimalGui(anvilWorkGuiID, player, worldIn, x, y, z);
+        openPrimalGui(anvilWorkGui, player, worldIn, x, y, z);
     }
 
     public void openAnvilPlanGui(EntityPlayer player, World worldIn, int x, int y, int z) {
-        openPrimalGui(anvilPlanGuiID, player, worldIn, x, y, z);
+        openPrimalGui(anvilPlanGui, player, worldIn, x, y, z);
     }
 
-    public void openPrimalGui(int containerID, EntityPlayer player, World worldIn, int x, int y, int z) {
-        player.openGui(Primal.instance, containerID, worldIn, x, y, z);
-    }
-
-    public int getSlabRenderID() {
-        return 0;
-    }
-
-    public int getVerticalSlabRenderID() {
-        return 0;
-    }
-
-    public int getStairsRenderID() {
-        return 0;
-    }
-
-    public int getWallRenderID() {
-        return 0;
-    }
-
-    public int getGrassRenderID() {
-        return 0;
-    }
-
-    public int getPathRenderID() {
-        return 0;
-    }
-
-    public int getOreRenderID() {
-        return 0;
-    }
-
-    public int getPitKilnRenderID() {
-        return 0;
-    }
-
-    public int getLogPileRenderID() {
-        return 0;
-    }
-
-    public int getCharcoalPileRenderID() {
-        return 0;
-    }
-
-    public int getAshPileRenderID() {
-        return 0;
-    }
-
-    public int getCampfireRenderID() {
-        return 0;
-    }
-
-    public int getLargeVesselRenderID() {
-        return 0;
-    }
-
-    public int getBarrelRenderID() {
-        return 0;
-    }
-
-    public int getFaucetRenderID() {
-        return 0;
-    }
-
-    public int getGroundcoverRenderID() {
-        return 0;
-    }
-
-    public int getTanningRenderID() {
-        return 0;
-    }
-
-    public int getOvenRenderID() {
-        return 0;
-    }
-
-    public int getChimneyRenderID() {
-        return 0;
-    }
-
-    public int getCrucibleRenderID() {
-        return 0;
-    }
-
-    public int getForgeRenderID() {
-        return 0;
-    }
-
-    public int getCastRenderID() {
-        return 0;
-    }
-
-    public int getQuernRenderID() {
-        return 0;
-    }
-
-    public int getAxleRenderID() {
-        return 0;
-    }
-
-    public int getGeneratorRenderID() {
-        return 0;
-    }
-
-    public int getAnvilRenderID() {
-        return 0;
-    }
-
-    public int getBloomeryRenderID() {
-        return 0;
-    }
-
-    public int getRopeLadderRenderID() {
-        return 0;
-    }
-
-    public int getCropsRenderID() {
-        return 0;
+    public void openPrimalGui(ContainerPrimal container, EntityPlayer player, World worldIn, int x, int y, int z) {
+        player.openGui(Primal.instance, container.getGuiId(), worldIn, x, y, z);
     }
 }

@@ -5,7 +5,6 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-import net.pufferlab.primal.Primal;
 
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 
@@ -41,10 +40,5 @@ public class BlockRopeLadderRenderer extends BlockPrimalRenderer {
     @Override
     public boolean shouldRender3DInInventory(int modelId) {
         return false;
-    }
-
-    @Override
-    public int getRenderId() {
-        return Primal.proxy.getRopeLadderRenderID();
     }
 }

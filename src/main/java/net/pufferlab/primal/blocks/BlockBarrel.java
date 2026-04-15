@@ -20,6 +20,8 @@ import net.pufferlab.primal.recipes.BarrelRecipe;
 import net.pufferlab.primal.tileentities.TileEntityBarrel;
 import net.pufferlab.primal.utils.BlockUtils;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+
 public class BlockBarrel extends BlockContainerPrimal {
 
     public IIcon barrel;
@@ -158,8 +160,8 @@ public class BlockBarrel extends BlockContainerPrimal {
     }
 
     @Override
-    public int getRenderType() {
-        return Primal.proxy.getBarrelRenderID();
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.barrelRenderer;
     }
 
     @Override

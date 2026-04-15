@@ -8,7 +8,7 @@ import net.pufferlab.primal.recipes.KnappingRecipe;
 import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.utils.ItemUtils;
 
-public class ContainerKnapping extends Container {
+public class ContainerKnapping extends ContainerPrimal {
 
     public IInventory craftResult = new InventoryCraftResult();
     public InventoryPlayer invPlayer;

@@ -17,6 +17,7 @@ import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.items.itemblocks.ItemBlockMeta;
 import net.pufferlab.primal.utils.Utils;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -214,8 +215,13 @@ public class BlockMetaOre extends BlockStone implements IPrimalBlock, IMetaBlock
     }
 
     @Override
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.oreRenderer;
+    }
+
+    @Override
     public int getRenderType() {
-        return Primal.proxy.getOreRenderID();
+        return getRenderId();
     }
 
     @Override

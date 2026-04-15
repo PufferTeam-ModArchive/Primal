@@ -22,6 +22,8 @@ import net.pufferlab.primal.tileentities.TileEntityCut;
 import net.pufferlab.primal.tileentities.TileEntityCutDouble;
 import net.pufferlab.primal.utils.CutUtils;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+
 public class BlockCutSlabVertical extends BlockSlabVertical implements ITileEntityProvider, IPrimalBlock, ICutBlock {
 
     private final Block field_150149_b;
@@ -118,8 +120,13 @@ public class BlockCutSlabVertical extends BlockSlabVertical implements ITileEnti
     }
 
     @Override
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.slabRenderer;
+    }
+
+    @Override
     public int getRenderType() {
-        return Primal.proxy.getVerticalSlabRenderID();
+        return getRenderId();
     }
 
     @Override

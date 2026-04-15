@@ -10,6 +10,8 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.items.itemblocks.ItemBlockWindmill;
 import net.pufferlab.primal.tileentities.TileEntityWindmill;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+
 public class BlockWindmill extends BlockMotion {
 
     public IIcon particle;
@@ -41,8 +43,8 @@ public class BlockWindmill extends BlockMotion {
     }
 
     @Override
-    public int getRenderType() {
-        return Primal.proxy.getAxleRenderID();
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.axleRenderer;
     }
 
     @Override

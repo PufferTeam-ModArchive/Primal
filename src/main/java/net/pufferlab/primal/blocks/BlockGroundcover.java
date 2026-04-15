@@ -17,6 +17,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+
 public class BlockGroundcover extends BlockMeta {
 
     public Item item;
@@ -138,8 +140,13 @@ public class BlockGroundcover extends BlockMeta {
     }
 
     @Override
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.groundcoverRenderer;
+    }
+
+    @Override
     public int getRenderType() {
-        return Primal.proxy.getGroundcoverRenderID();
+        return getRenderId();
     }
 
     @Override

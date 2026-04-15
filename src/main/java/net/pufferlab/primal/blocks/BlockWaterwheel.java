@@ -17,6 +17,8 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.items.itemblocks.ItemBlockWaterwheel;
 import net.pufferlab.primal.tileentities.TileEntityWaterwheel;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+
 public class BlockWaterwheel extends BlockMotion {
 
     public IIcon particle;
@@ -157,8 +159,8 @@ public class BlockWaterwheel extends BlockMotion {
     }
 
     @Override
-    public int getRenderType() {
-        return Primal.proxy.getAxleRenderID();
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.axleRenderer;
     }
 
     @Override

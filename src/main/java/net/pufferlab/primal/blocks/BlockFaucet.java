@@ -16,6 +16,8 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.tileentities.TileEntityFaucet;
 import net.pufferlab.primal.tileentities.TileEntityMetaFacing;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+
 public class BlockFaucet extends BlockContainerPrimal {
 
     public IIcon faucet;
@@ -101,8 +103,8 @@ public class BlockFaucet extends BlockContainerPrimal {
     }
 
     @Override
-    public int getRenderType() {
-        return Primal.proxy.getFaucetRenderID();
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.faucetRenderer;
     }
 
     @Override

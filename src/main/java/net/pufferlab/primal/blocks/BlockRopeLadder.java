@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockLadder;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -13,8 +14,11 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.Registry;
 
-public class BlockRopeLadder extends BlockLadder {
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+
+public class BlockRopeLadder extends BlockLadder implements IPrimalBlock {
 
     public IIcon ropeLadder;
 
@@ -108,7 +112,17 @@ public class BlockRopeLadder extends BlockLadder {
     }
 
     @Override
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.ropeLadderRenderer;
+    }
+
+    @Override
     public int getRenderType() {
-        return Primal.proxy.getRopeLadderRenderID();
+        return getRenderId();
+    }
+
+    @Override
+    public CreativeTabs getCreativeTab() {
+        return Registry.creativeTab;
     }
 }

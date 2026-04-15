@@ -6,6 +6,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+
 public class BlockChimney extends BlockMeta {
 
     public BlockChimney() {
@@ -17,8 +19,13 @@ public class BlockChimney extends BlockMeta {
     }
 
     @Override
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.chimneyRenderer;
+    }
+
+    @Override
     public int getRenderType() {
-        return Primal.proxy.getChimneyRenderID();
+        return getRenderId();
     }
 
     @Override

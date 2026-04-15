@@ -8,6 +8,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.pufferlab.primal.client.utils.RenderState;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+
 public interface IPrimalBlock {
 
     default List<AxisAlignedBB> getBounds(World world, int x, int y, int z, BoundsType bounds) {
@@ -26,6 +28,18 @@ public interface IPrimalBlock {
 
     default boolean hasOverlay() {
         return false;
+    }
+
+    default ISimpleBlockRenderingHandler getRenderer() {
+        return null;
+    }
+
+    default int getRenderId() {
+        ISimpleBlockRenderingHandler renderer = getRenderer();
+        if (renderer != null) {
+            return renderer.getRenderId();
+        }
+        return 0;
     }
 
     default int getRenderShape() {

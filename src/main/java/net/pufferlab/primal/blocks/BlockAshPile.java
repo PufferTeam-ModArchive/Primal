@@ -13,6 +13,8 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.tileentities.TileEntityAshPile;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+
 public class BlockAshPile extends BlockPile {
 
     private IIcon[] icons = new IIcon[1];
@@ -71,8 +73,8 @@ public class BlockAshPile extends BlockPile {
     }
 
     @Override
-    public int getRenderType() {
-        return Primal.proxy.getAshPileRenderID();
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.ashPileRenderer;
     }
 
     @Override

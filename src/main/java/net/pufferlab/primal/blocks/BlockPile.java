@@ -312,10 +312,7 @@ public abstract class BlockPile extends BlockContainerPrimal {
             }
         }
         for (ItemStack item : map.values()) {
-            EntityItem entityItem = new EntityItem(world, (i + 0.5), (j + 0.5), (k + 0.5), item.copy());
-            entityItem.motionX = 0.0D;
-            entityItem.motionY = 0.0D;
-            entityItem.motionZ = 0.0D;
+            EntityItem entityItem = getEntityItem(world, i, j, k, item.copy());
             spawnEntity(world, entityItem);
             item.stackSize = 0;
         }

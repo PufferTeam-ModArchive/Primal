@@ -22,6 +22,7 @@ import net.pufferlab.primal.items.itemblocks.ItemBlockCutStairs;
 import net.pufferlab.primal.tileentities.TileEntityCut;
 import net.pufferlab.primal.utils.CutUtils;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -87,8 +88,13 @@ public class BlockCutStairs extends BlockStairs implements ITileEntityProvider, 
     }
 
     @Override
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.stairsRenderer;
+    }
+
+    @Override
     public int getRenderType() {
-        return Primal.proxy.getStairsRenderID();
+        return getRenderId();
     }
 
     @Override

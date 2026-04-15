@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
-import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.models.ModelBloomery;
 import net.pufferlab.primal.tileentities.TileEntityBloomery;
 
@@ -41,10 +40,5 @@ public class BlockBloomeryRenderer extends BlockPrimalRenderer {
     @Override
     public boolean shouldRender3DInInventory(int modelId) {
         return false;
-    }
-
-    @Override
-    public int getRenderId() {
-        return Primal.proxy.getBloomeryRenderID();
     }
 }

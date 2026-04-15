@@ -22,6 +22,7 @@ import net.pufferlab.primal.items.itemblocks.ItemBlockCutWall;
 import net.pufferlab.primal.tileentities.TileEntityCut;
 import net.pufferlab.primal.utils.CutUtils;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -87,8 +88,13 @@ public class BlockCutWall extends BlockWall implements ITileEntityProvider, IPri
     }
 
     @Override
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.wallRenderer;
+    }
+
+    @Override
     public int getRenderType() {
-        return Primal.proxy.getWallRenderID();
+        return getRenderId();
     }
 
     @Override

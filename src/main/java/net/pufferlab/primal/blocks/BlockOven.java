@@ -20,6 +20,8 @@ import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.Utils;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+
 public class BlockOven extends BlockCampfire {
 
     public IIcon oven;
@@ -174,8 +176,8 @@ public class BlockOven extends BlockCampfire {
     }
 
     @Override
-    public int getRenderType() {
-        return Primal.proxy.getOvenRenderID();
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.ovenRenderer;
     }
 
     @Override

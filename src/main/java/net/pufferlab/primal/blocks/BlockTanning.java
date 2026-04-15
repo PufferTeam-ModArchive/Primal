@@ -13,6 +13,8 @@ import net.pufferlab.primal.recipes.TanningRecipe;
 import net.pufferlab.primal.tileentities.TileEntityTanning;
 import net.pufferlab.primal.utils.ItemUtils;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+
 public class BlockTanning extends BlockContainerPrimal {
 
     public IIcon tanningFrame;
@@ -87,8 +89,8 @@ public class BlockTanning extends BlockContainerPrimal {
     }
 
     @Override
-    public int getRenderType() {
-        return Primal.proxy.getTanningRenderID();
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.tanningRenderer;
     }
 
     @Override

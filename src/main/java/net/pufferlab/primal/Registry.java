@@ -909,9 +909,13 @@ public class Registry {
 
     private static int nextPacketID = 0;
 
+    public int getNextPacketID() {
+        return nextPacketID++;
+    }
+
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public void registerPacket(Class cl, Side side) {
-        Primal.network.registerMessage(cl, cl, nextPacketID++, side);
+        Primal.network.registerMessage(cl, cl, getNextPacketID(), side);
     }
 
     public void registerWorld(IWorldGenerator world, int weight) {

@@ -4,15 +4,16 @@ import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.recipes.AnvilRecipe;
 import net.pufferlab.primal.tileentities.TileEntityAnvil;
 
-public class ContainerAnvilPlan extends Container {
+public class ContainerAnvilPlan extends ContainerPrimal {
 
     public TileEntityAnvil tileAnvil;
     public InventoryHolder inv;
+
+    public ContainerAnvilPlan() {}
 
     public ContainerAnvilPlan(InventoryPlayer playerInv, TileEntityAnvil te) {
         EntityPlayer player = playerInv.player;

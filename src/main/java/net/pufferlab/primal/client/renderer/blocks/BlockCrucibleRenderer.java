@@ -7,7 +7,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Constants;
-import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.BlockForge;
 import net.pufferlab.primal.client.models.ModelFluid;
 import net.pufferlab.primal.tileentities.TileEntityCrucible;
@@ -54,10 +53,5 @@ public class BlockCrucibleRenderer extends BlockPrimalRenderer {
     @Override
     public boolean shouldRender3DInInventory(int modelId) {
         return false;
-    }
-
-    @Override
-    public int getRenderId() {
-        return Primal.proxy.getCrucibleRenderID();
     }
 }

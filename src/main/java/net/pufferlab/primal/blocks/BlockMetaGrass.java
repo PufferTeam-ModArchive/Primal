@@ -24,6 +24,7 @@ import net.pufferlab.primal.items.itemblocks.ItemBlockMeta;
 import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.Utils;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -248,7 +249,12 @@ public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlo
     }
 
     @Override
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.grassRenderer;
+    }
+
+    @Override
     public int getRenderType() {
-        return Primal.proxy.getGrassRenderID();
+        return getRenderId();
     }
 }

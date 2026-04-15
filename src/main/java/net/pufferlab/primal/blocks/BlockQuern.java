@@ -21,6 +21,8 @@ import net.pufferlab.primal.recipes.QuernRecipe;
 import net.pufferlab.primal.tileentities.TileEntityQuern;
 import net.pufferlab.primal.utils.ItemUtils;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+
 public class BlockQuern extends BlockContainerPrimal {
 
     public IIcon[] icons = new IIcon[2];
@@ -165,6 +167,11 @@ public class BlockQuern extends BlockContainerPrimal {
     }
 
     @Override
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.quernRenderer;
+    }
+
+    @Override
     public boolean isOpaqueCube() {
         return false;
     }
@@ -172,10 +179,5 @@ public class BlockQuern extends BlockContainerPrimal {
     @Override
     public boolean hasTileEntity(int metadata) {
         return true;
-    }
-
-    @Override
-    public int getRenderType() {
-        return Primal.proxy.getQuernRenderID();
     }
 }

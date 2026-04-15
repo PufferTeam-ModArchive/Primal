@@ -23,6 +23,8 @@ import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.Utils;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+
 public class BlockBloomery extends BlockContainerPrimal {
 
     private IIcon[] heatingIcons = new IIcon[8];
@@ -132,8 +134,8 @@ public class BlockBloomery extends BlockContainerPrimal {
     }
 
     @Override
-    public int getRenderType() {
-        return Primal.proxy.getBloomeryRenderID();
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.bloomeryRenderer;
     }
 
     @Override

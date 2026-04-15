@@ -23,6 +23,8 @@ import net.pufferlab.primal.tileentities.TileEntityAnvil;
 import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.MetalType;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+
 public class BlockMetalAnvil extends BlockMetaContainer {
 
     public MetalType[] metalTypes;
@@ -136,8 +138,8 @@ public class BlockMetalAnvil extends BlockMetaContainer {
     }
 
     @Override
-    public int getRenderType() {
-        return Primal.proxy.getAnvilRenderID();
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.anvilRenderer;
     }
 
     @Override

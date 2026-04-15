@@ -22,6 +22,7 @@ import net.pufferlab.primal.utils.HeatUtils;
 
 import com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.common.Optional;
 
 @Optional.Interface(iface = "com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness", modid = Mods.ID.rple)
@@ -123,8 +124,8 @@ public class BlockCrucible extends BlockContainerPrimal implements RPLECustomBlo
     }
 
     @Override
-    public int getRenderType() {
-        return Primal.proxy.getCrucibleRenderID();
+    public ISimpleBlockRenderingHandler getRenderer() {
+        return Primal.proxy.crucibleRenderer;
     }
 
     @Override
