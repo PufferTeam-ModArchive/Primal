@@ -2,6 +2,7 @@ package net.pufferlab.primal.client.utils;
 
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
+import net.pufferlab.primal.client.helper.VertexCache;
 
 import org.joml.Matrix4f;
 
@@ -180,10 +181,11 @@ public class ModelBox {
     }
 
     public void renderJOML(Tessellator tessellator, float scale, Matrix4f matrix, int color, int x, int y, int z,
-        double offsetX, double offsetY, double offsetZ, IIcon icon) {
+        double offsetX, double offsetY, double offsetZ, IIcon icon, VertexCache cache) {
         for (int i = 0; i < this.quadList.length; ++i) {
             if (this.quadList[i] == null) continue;
-            this.quadList[i].drawJOML(tessellator, scale, matrix, color, x, y, z, offsetX, offsetY, offsetZ, icon);
+            this.quadList[i]
+                .drawJOML(tessellator, scale, matrix, color, x, y, z, offsetX, offsetY, offsetZ, icon, cache);
         }
     }
 

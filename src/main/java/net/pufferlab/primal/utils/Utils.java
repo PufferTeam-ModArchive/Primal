@@ -5,6 +5,7 @@ import java.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.item.*;
 import net.minecraft.launchwrapper.Launch;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -425,6 +426,17 @@ public class Utils {
         } catch (ClassNotFoundException e) {
             return false;
         }
+    }
+
+    private static final Map<String, ResourceLocation> resourceMap = new HashMap<>();
+
+    public static ResourceLocation asResource(String namespace, String resourceLocation) {
+        ResourceLocation resource = resourceMap.get(namespace + ":" + resourceLocation);
+        if (resource == null) {
+            resource = new ResourceLocation(namespace, resourceLocation);
+            resourceMap.put(namespace + ":" + resourceLocation, resource);
+        }
+        return resource;
     }
 
     @SafeVarargs

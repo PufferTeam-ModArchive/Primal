@@ -8,13 +8,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.helper.ModelTESS;
 import net.pufferlab.primal.client.utils.ModelBase;
 import net.pufferlab.primal.client.utils.ModelRenderer;
 import net.pufferlab.primal.utils.BlockUtils;
+import net.pufferlab.primal.utils.Utils;
 
 import org.lwjgl.opengl.GL11;
 
@@ -119,7 +119,7 @@ public abstract class ModelPrimal extends ModelBase {
             suffix = "_overlay";
         }
         Minecraft.getMinecraft().renderEngine
-            .bindTexture(new ResourceLocation(Primal.MODID, "textures/" + getName() + suffix + ".png"));
+            .bindTexture(Utils.asResource(Primal.MODID, "textures/" + getName() + suffix + ".png"));
     }
 
     public ModelPrimal setType(int type) {

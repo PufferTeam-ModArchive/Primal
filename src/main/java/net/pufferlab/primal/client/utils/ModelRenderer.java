@@ -8,12 +8,15 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.pufferlab.primal.Constants;
+import net.pufferlab.primal.client.helper.VertexCache;
 
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
 
 public class ModelRenderer {
 
@@ -202,8 +205,44 @@ public class ModelRenderer {
 
     public Matrix4f localMatrix = new Matrix4f();
 
+    public TIntObjectMap<VertexCache> vertexCache = new TIntObjectHashMap<>();
+
+    public int getHashCode(IIcon icon) {
+        int result = 1;
+
+        result = 31 * result + Boolean.hashCode(this.isHidden || !this.showModel);
+
+        result = 31 * result + (icon != null ? icon.hashCode() : 0);
+
+        result = 31 * result + Float.hashCode(this.rotateAngleX);
+        result = 31 * result + Float.hashCode(this.rotateAngleY);
+        result = 31 * result + Float.hashCode(this.rotateAngleZ);
+
+        if (this.childModels != null) {
+            for (ModelRenderer renderer : childModels) {
+                result = 31 * result + renderer.getHashCode(icon);
+            }
+        }
+
+        return result;
+    }
+
+    public boolean renderJOMLCached(Tessellator tess, IIcon icon, int x, int y, int z, double offsetX0, double offsetY0,
+        double offsetZ0) {
+        VertexCache cache = vertexCache.get(getHashCode(icon));
+        if (cache == null) return false;
+        cache.render(tess, x, y, z, offsetX0, offsetY0, offsetZ0);
+        return true;
+    }
+
+    public VertexCache getCache(IIcon icon) {
+        VertexCache cache = new VertexCache();
+        vertexCache.put(getHashCode(icon), cache);
+        return cache;
+    }
+
     public void renderJOML(float scale, Matrix4f matrix, int color, int x, int y, int z, double offsetX0,
-        double offsetY0, double offsetZ0, IIcon icon) {
+        double offsetY0, double offsetZ0, IIcon icon, VertexCache cache) {
         if (this.isHidden || !this.showModel) return;
 
         localMatrix.set(matrix);
@@ -216,12 +255,12 @@ public class ModelRenderer {
         if (this.rotateAngleY != 0.0F) localMatrix.rotateY(this.rotateAngleY);
         if (this.rotateAngleX != 0.0F) localMatrix.rotateX(this.rotateAngleX);
 
-        compileMatrix(scale, localMatrix, color, x, y, z, offsetX0, offsetY0, offsetZ0, icon);
+        compileMatrix(scale, localMatrix, color, x, y, z, offsetX0, offsetY0, offsetZ0, icon, cache);
 
         if (this.childModels != null) {
             for (Object child : this.childModels) {
                 ((ModelRenderer) child)
-                    .renderJOML(scale, localMatrix, color, x, y, z, offsetX0, offsetY0, offsetZ0, icon);
+                    .renderJOML(scale, localMatrix, color, x, y, z, offsetX0, offsetY0, offsetZ0, icon, cache);
             }
         }
     }
@@ -356,12 +395,12 @@ public class ModelRenderer {
     }
 
     private void compileMatrix(float scale, Matrix4f matrix, int color, int x, int y, int z, double offsetX0,
-        double offsetY0, double offsetZ0, IIcon icon) {
+        double offsetY0, double offsetZ0, IIcon icon, VertexCache cache) {
         Tessellator tessellator = Tessellator.instance;
 
         for (int i = 0; i < this.cubeList.size(); ++i) {
             ((ModelBox) this.cubeList.get(i))
-                .renderJOML(tessellator, scale, matrix, color, x, y, z, offsetX0, offsetY0, offsetZ0, icon);
+                .renderJOML(tessellator, scale, matrix, color, x, y, z, offsetX0, offsetY0, offsetZ0, icon, cache);
         }
 
         this.compiled = true;

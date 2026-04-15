@@ -3,9 +3,9 @@ package net.pufferlab.primal.client.utils.entities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.models.entities.ModelAccessory;
+import net.pufferlab.primal.utils.Utils;
 
 import org.lwjgl.opengl.GL11;
 
@@ -67,6 +67,6 @@ public class ModelRendererAccessory extends ModelRenderer {
 
     public void bindTex() {
         Minecraft.getMinecraft().renderEngine
-            .bindTexture(new ResourceLocation(Primal.MODID, "textures/" + getName() + ".png"));
+            .bindTexture(Utils.asResource(Primal.MODID, "textures/" + getName() + ".png"));
     }
 }

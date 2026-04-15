@@ -219,9 +219,11 @@ public class ModelTESS {
 
     public Matrix4f matrix = new Matrix4f();
 
+    public long lastTime;
+
     public void renderBlockJOML(RenderBlocks renderblocks, Tessellator tess, Block block, ModelRenderer renderer,
         float scale, int x, int y, int z, double offsetX, double offsetY, double offsetZ, int index) {
-
+        lastTime = System.nanoTime();
         if (renderblocks.hasOverrideBlockTexture()) {
             return;
         }
@@ -229,11 +231,15 @@ public class ModelTESS {
         if (index < 16) {
             icon = block.getIcon(0, index);
         }
-
-        matrix.identity();
         tess.setBrightness(block.getMixedBrightnessForBlock(renderblocks.blockAccess, x, y, z));
         int i1 = block.colorMultiplier(renderblocks.blockAccess, x, y, z);
-        renderer.renderJOML(scale, matrix, i1, x, y, z, offsetX, offsetY, offsetZ, icon);
+        if (renderer.renderJOMLCached(tess, icon, x, y, z, offsetX, offsetY, offsetZ)) {
+            return;
+        }
+
+        matrix.identity();
+        VertexCache cache = renderer.getCache(icon);
+        renderer.renderJOML(scale, matrix, i1, x, y, z, offsetX, offsetY, offsetZ, icon, cache);
     }
 
     public Matrix4f matrix2 = new Matrix4f();

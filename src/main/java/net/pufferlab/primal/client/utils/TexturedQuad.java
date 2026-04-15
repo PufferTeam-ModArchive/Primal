@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.Vec3;
 import net.pufferlab.primal.Constants;
+import net.pufferlab.primal.client.helper.VertexCache;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -110,17 +111,25 @@ public class TexturedQuad {
     public Vector3f normalTemp = new Vector3f();
 
     public void drawJOML(Tessellator tess, float scale, Matrix4f matrix, int color, int x, int y, int z, double offsetX,
-        double offsetY, double offsetZ, IIcon icon) {
+        double offsetY, double offsetZ, IIcon icon, VertexCache cache) {
         normalTemp.set((float) getNormal().xCoord, (float) getNormal().yCoord, (float) getNormal().zCoord);
 
         matrix.transformDirection(normalTemp);
         normalTemp.normalize();
 
+        float nX = 0.0F;
+        float nY = 0.0F;
+        float nZ = 0.0F;
         if (this.invertNormal) {
-            tess.setNormal(-((float) normalTemp.x), -((float) normalTemp.y), -((float) normalTemp.z));
+            nX = -((float) normalTemp.x);
+            nY = -((float) normalTemp.y);
+            nZ = -((float) normalTemp.z);
         } else {
-            tess.setNormal((float) normalTemp.x, (float) normalTemp.y, (float) normalTemp.z);
+            nX = (float) normalTemp.x;
+            nY = (float) normalTemp.y;
+            nZ = (float) normalTemp.z;
         }
+        tess.setNormal(nX, nY, nZ);
 
         // Color Recoloration from Block
         float f = (float) (color >> 16 & 255) / 255.0F;
@@ -143,7 +152,10 @@ public class TexturedQuad {
         else if (normalTemp.x > 0.5F || normalTemp.x < -0.5F) shade = 0.6F; // east/west
         else if (normalTemp.z > 0.5F || normalTemp.z < -0.5F) shade = 0.8F; // north/south
 
-        tess.setColorOpaque_F(f * shade, f1 * shade, f2 * shade);
+        float r = f * shade;
+        float g = f1 * shade;
+        float b = f2 * shade;
+        tess.setColorOpaque_F(r, g, b);
 
         cacheUV(icon);
 
@@ -157,12 +169,15 @@ public class TexturedQuad {
             matrix.transformPosition(temp);
             temp.mul(scale);
 
-            tess.addVertexWithUV(
-                temp.x + x + 0.5 + offsetX,
-                temp.y + y + offsetY,
-                temp.z + z + 0.5 + offsetZ,
-                cachedU[i],
-                cachedV[i]);
+            double vX = temp.x + 0.5;
+            double vY = temp.y;
+            double vZ = temp.z + 0.5;
+            double vU = cachedU[i];
+            double vV = cachedV[i];
+            tess.addVertexWithUV(vX + x + offsetX, vY + y + offsetY, vZ + z + offsetZ, vU, vV);
+            if (cache != null) {
+                cache.addVertexWithUV((float) vX, (float) vY, (float) vZ, (float) vU, (float) vV, r, g, b, nX, nY, nZ);
+            }
         }
     }
 
