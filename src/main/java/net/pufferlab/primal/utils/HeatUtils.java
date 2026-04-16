@@ -178,6 +178,15 @@ public class HeatUtils {
             maxTemperature);
     }
 
+    public static void setInterpolatedTemperatureToNBT(NBTTagCompound tag, World world, float multiplier) {
+        setInterpolatedTemperatureToNBT(
+            tag,
+            world,
+            multiplier,
+            HeatUtils.getInterpolatedTemperature(GlobalTickingData.getTickTime(world), tag),
+            getMaxTemperatureFromNBT(tag));
+    }
+
     public static void setInterpolatedTemperatureToNBT(NBTTagCompound tag, World world, float multiplier,
         int currentTemperature, int maxTemperature) {
         setMaxTemperatureToNBT(tag, maxTemperature);

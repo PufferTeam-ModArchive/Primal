@@ -15,6 +15,11 @@ public interface IHeatableItem {
         HeatUtils.setInterpolatedTemperatureToNBT(tag, world, multiplier, maxTemperature);
     };
 
+    default void updateHeat(ItemStack stack, World world, float multiplier) {
+        NBTTagCompound tag = ItemUtils.getOrCreateTagCompound(stack);
+        HeatUtils.setInterpolatedTemperatureToNBT(tag, world, multiplier);
+    };
+
     default void updateHeat(ItemStack stack, World world, float multiplier, int temperature, int maxTemperature) {
         NBTTagCompound tag = ItemUtils.getOrCreateTagCompound(stack);
         HeatUtils.setInterpolatedTemperatureToNBT(tag, world, multiplier, temperature, maxTemperature);

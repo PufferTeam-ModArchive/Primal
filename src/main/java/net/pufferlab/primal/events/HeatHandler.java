@@ -165,7 +165,7 @@ public class HeatHandler implements IEventHandler {
             if (impl != null) {
                 Block block = event.world.getBlock(Utils.floor(ei.posX), Utils.floor(ei.posY), Utils.floor(ei.posZ));
                 if (block.getMaterial() == Material.water) {
-                    impl.onUpdateHeat(stack, event.world, -5.0F);
+                    impl.updateHeat(stack, event.world, -5.0F);
                 } else {
                     impl.onUpdateHeat(stack, event.world);
                 }

@@ -54,8 +54,8 @@ public class TileEntityCastRenderer extends TileEntityPrimalRenderer {
             updateItem(stack);
 
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glTranslated(xAdjust, yAdjust + 0.0625, zAdjust - 0.1125F);
-            GL11.glRotatef(90, 1.0F, 0.0F, 0.0F);
+            GL11.glTranslated(xAdjust, yAdjust + 0.12, zAdjust - 0.1125F + 0.25);
+            GL11.glRotatef(-90, 1.0F, 0.0F, 0.0F);
 
             GL11.glScalef(1.2F, 1.2F, 3.0F);
 
