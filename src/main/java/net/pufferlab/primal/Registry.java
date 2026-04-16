@@ -723,6 +723,10 @@ public class Registry {
                 int maxSize = ConfigUtils.getVeinSizeMax(type);
                 type.setSize(minSize, maxSize);
             }
+            if (ConfigUtils.hasVeinRarity(type)) {
+                float rarity = ConfigUtils.getVeinRarity(type);
+                type.setRarity(rarity);
+            }
         }
 
         StoneType.genLayerCache(Constants.stoneTypes);

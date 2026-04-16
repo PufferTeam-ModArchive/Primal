@@ -23,6 +23,7 @@ public class ConfigUtils {
         genVeinHeightMap();
         genStrataHeightMap();
         genVeinSizeMap();
+        genVeinRarityMap();
         genAnvilStep();
         genFoodMap();
     }
@@ -312,6 +313,38 @@ public class ConfigUtils {
     public static float getSaturation(FoodType foodType) {
         String vein = foodType.name;
         return foodSaturationMap.get(vein);
+    }
+
+    public static final TObjectFloatMap<String> rarityMap = new TObjectFloatHashMap<>();
+
+    public static String[] getDefaultVeinRarity(VeinType[] veinTypes) {
+        String[] veins = new String[veinTypes.length];
+        for (int i = 0; i < veinTypes.length; i++) {
+            veins[i] = veinTypes[i].name + "=" + veinTypes[i].rarity;
+        }
+        return veins;
+    }
+
+    public static void genVeinRarityMap() {
+        String[] priorityOverride = Config.oreVeinsRarity.getStringList();
+        for (String s : priorityOverride) {
+            String[] spl = s.split("=");
+            try {
+                float rarity = Float.parseFloat(spl[1]);
+                rarityMap.put(spl[0], rarity);
+            } catch (Exception e) {
+                throwInvalidConfig(Config.oreVeinsRarity);
+            }
+        }
+    }
+
+    public static boolean hasVeinRarity(VeinType veinType) {
+        return rarityMap.containsKey(veinType.name);
+    }
+
+    public static float getVeinRarity(VeinType veinType) {
+        String vein = veinType.name;
+        return rarityMap.get(vein);
     }
 
     public static void throwInvalidConfig(Config config) {

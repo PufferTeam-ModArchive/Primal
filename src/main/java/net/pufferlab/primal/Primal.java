@@ -49,7 +49,7 @@ public class Primal {
     public static SimpleNetworkWrapper network;
 
     public Primal() {
-        Config.setupEarlyConfig(true);
+        Config.setupEarlyConfig();
     }
 
     @Mod.EventHandler

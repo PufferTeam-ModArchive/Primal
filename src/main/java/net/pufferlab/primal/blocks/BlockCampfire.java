@@ -94,30 +94,25 @@ public class BlockCampfire extends BlockContainerPrimal implements RPLECustomBlo
         ItemStack heldItem = player.getHeldItem();
         if (ItemUtils.canBeLit(heldItem)) return true;
         if (ItemUtils.isLighter(heldItem)) return false;
-        int meta = worldIn.getBlockMetadata(x, y, z);
-        if ((Utils.containsOreDict(heldItem, "firewood") && meta > 0 && meta < 5)
-            || (Utils.containsOreDict(heldItem, "kindling") && meta == 0)) {
-            worldIn.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
-            TileEntity te = worldIn.getTileEntity(x, y, z);
-            if (meta == 0) {
-                BlockUtils.playSound(worldIn, x, y, z, Registry.thatch);
-            } else {
-                BlockUtils.playSound(worldIn, x, y, z, Registry.log_pile);
-            }
-            if (te instanceof TileEntityCampfire tef) {
-                tef.addInventorySlotContentsUpdate(meta + 1, player);
+        TileEntity te = worldIn.getTileEntity(x, y, z);
+        if (te instanceof TileEntityCampfire tef) {
+            if ((Utils.containsOreDict(heldItem, "firewood") && tef.canBeFueled() && tef.hasFuel())
+                || (Utils.containsOreDict(heldItem, "kindling") && !tef.hasFuel())) {
+                tef.addFuel();
+                if (tef.hasFuel()) {
+                    BlockUtils.playSound(worldIn, x, y, z, Registry.log_pile);
+                } else {
+                    BlockUtils.playSound(worldIn, x, y, z, Registry.thatch);
+                }
+                tef.addInventorySlotContentsUpdate(tef.getCurrentFuelStages(), player);
                 tef.markDirty();
-                if (meta == 4) {
+                if (tef.getCurrentFuelStages() >= 4) {
                     tef.isBuilt = true;
-                    worldIn.markBlockRangeForRenderUpdate(x, y, z, x, y, z);
-                    worldIn.markBlockForUpdate(x, y, z);
+                    tef.updateTEState();
                 }
                 tef.sendFuelUpdate();
                 return true;
-            }
-        } else {
-            TileEntity te = worldIn.getTileEntity(x, y, z);
-            if (te instanceof TileEntityCampfire tef) {
+            } else {
                 int slot = 0;
                 int axis = 0;
                 int facing = tef.facingMeta;
@@ -138,6 +133,7 @@ public class BlockCampfire extends BlockContainerPrimal implements RPLECustomBlo
                 return state;
             }
         }
+
         return false;
     }
 
@@ -179,7 +175,7 @@ public class BlockCampfire extends BlockContainerPrimal implements RPLECustomBlo
         if (world.isRemote) return;
         TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileEntityCampfire tef) {
-            if (tef.isFired) {
+            if (tef.isFired()) {
                 entity.attackEntityFrom(DamageSource.inFire, 1.0F);
                 entity.setFire(1);
             }
@@ -195,7 +191,7 @@ public class BlockCampfire extends BlockContainerPrimal implements RPLECustomBlo
     public int getLightValue(IBlockAccess world, int x, int y, int z) {
         TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileEntityCampfire tef) {
-            if (tef.isFired) {
+            if (tef.isFired()) {
                 return 15;
             }
         }
@@ -225,7 +221,7 @@ public class BlockCampfire extends BlockContainerPrimal implements RPLECustomBlo
     public void randomDisplayTick(World worldIn, int x, int y, int z, Random random) {
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityCampfire tef) {
-            if (tef.isFired) {
+            if (tef.isFired()) {
                 if (random.nextInt(24) == 0) {
                     worldIn.playSound(
                         (double) ((float) x + 0.5F),
@@ -256,7 +252,7 @@ public class BlockCampfire extends BlockContainerPrimal implements RPLECustomBlo
     public IIcon getIcon(IBlockAccess worldIn, int x, int y, int z, int side) {
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityCampfire tef) {
-            if (tef.isFired) {
+            if (tef.isFired()) {
                 if (side == iconFire) {
                     return campfireFire;
                 }

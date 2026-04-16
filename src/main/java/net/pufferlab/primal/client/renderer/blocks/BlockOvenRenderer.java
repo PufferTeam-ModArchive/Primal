@@ -30,8 +30,6 @@ public class BlockOvenRenderer extends BlockPrimalRenderer {
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
         Tessellator tess = Tessellator.instance;
-        int meta = world.getBlockMetadata(x, y, z);
-        meta = getValidMeta(block, meta);
         modelKindling.kindling.isHidden = true;
         modelCampfire.log1.isHidden = true;
         modelCampfire.log2.isHidden = true;
@@ -39,26 +37,27 @@ public class BlockOvenRenderer extends BlockPrimalRenderer {
         modelCampfire.log4.isHidden = true;
         modelCampfire.rocks.isHidden = true;
         TileEntity te = world.getTileEntity(x, y, z);
-        if (meta >= 1) {
-            modelKindling.kindling.isHidden = false;
-        }
-        if (meta >= 2) {
-            modelCampfire.log1.isHidden = false;
-        }
-        if (meta >= 3) {
-            modelCampfire.log2.isHidden = false;
-        }
-        if (meta >= 4) {
-            modelCampfire.log3.isHidden = false;
-        }
-        if (meta >= 5) {
-            modelCampfire.log4.isHidden = false;
-        }
-        int renderPass = getWorldRenderPass();
-        if (renderPass == 0) {
-            modelCampfire.render(renderer, tess, block, x, y, z, -0.02F, 0.05F + 0.5F, -0.02F, iconCampfire);
-            modelKindling.render(renderer, tess, block, x, y, z, -0.02F, 0.05F + 0.5F, -0.02F, iconKindling);
-            if (te instanceof TileEntityOven tef) {
+        if (te instanceof TileEntityOven tef) {
+            int meta = tef.getCurrentFuelStages();
+            if (meta >= 1) {
+                modelKindling.kindling.isHidden = false;
+            }
+            if (meta >= 2) {
+                modelCampfire.log1.isHidden = false;
+            }
+            if (meta >= 3) {
+                modelCampfire.log2.isHidden = false;
+            }
+            if (meta >= 4) {
+                modelCampfire.log3.isHidden = false;
+            }
+            if (meta >= 5) {
+                modelCampfire.log4.isHidden = false;
+            }
+            int renderPass = getWorldRenderPass();
+            if (renderPass == 0) {
+                modelCampfire.render(renderer, tess, block, x, y, z, -0.02F, 0.05F + 0.5F, -0.02F, iconCampfire);
+                modelKindling.render(renderer, tess, block, x, y, z, -0.02F, 0.05F + 0.5F, -0.02F, iconKindling);
                 if (tef.isFired()) {
                     modelFire.render(renderer, block, x, y, z, iconFire);
                 }
@@ -66,6 +65,7 @@ public class BlockOvenRenderer extends BlockPrimalRenderer {
                 modelOven.render(renderer, tess, block, x, y, z, iconOven);
             }
         }
+
         return true;
     }
 

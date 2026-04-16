@@ -181,15 +181,11 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void setupResources() {
         try {
-            File rpDir = new File(Minecraft.getMinecraft().mcDataDir, "resourcepacks");
-
-            if (!rpDir.exists()) rpDir.mkdirs();
-
-            File out = new File(rpDir, Primal.textureFile + ".zip");
-            File outTemp = File.createTempFile("texture", ".tmp");
-            File infoFile = new File(rpDir, Primal.textureFile + ".txt");
-            File infoTemp = File.createTempFile("download", ".tmp");
-            IOUtils.downloadFile(Primal.downloadPath + Primal.textureFile + ".txt", infoTemp);
+            File out = IOUtils.createResourceFile(Primal.textureFile, "zip");
+            File outTemp = IOUtils.createTempFile();
+            File infoFile = IOUtils.createResourceFile(Primal.textureFile, "txt");
+            File infoTemp = IOUtils.createTempFile();
+            IOUtils.downloadFile(Primal.downloadPath + Primal.textureFile, "txt", infoTemp);
             String newHash = IOUtils.readFile(infoTemp);
             String oldHash = IOUtils.readFile(infoFile);
             if (newHash == null || newHash.equals(oldHash)) {
@@ -198,7 +194,7 @@ public class ClientProxy extends CommonProxy {
 
             IOUtils.copyFile(infoTemp, infoFile);
             try {
-                IOUtils.downloadFile(Primal.downloadPath + Primal.textureFile + ".zip", outTemp);
+                IOUtils.downloadFile(Primal.downloadPath + Primal.textureFile, "zip", outTemp);
             } catch (IOException e) {
                 return;
             }

@@ -452,6 +452,15 @@ public class Utils {
 
     private static final Map<String, ResourceLocation> resourceMap = new HashMap<>();
 
+    public static ResourceLocation asResource(String resourceLocation) {
+        ResourceLocation resource = resourceMap.get(resourceLocation);
+        if (resource == null) {
+            resource = new ResourceLocation(resourceLocation);
+            resourceMap.put(resourceLocation, resource);
+        }
+        return resource;
+    }
+
     public static ResourceLocation asResource(String namespace, String resourceLocation) {
         ResourceLocation resource = resourceMap.get(namespace + ":" + resourceLocation);
         if (resource == null) {

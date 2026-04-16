@@ -45,6 +45,7 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
         NBTTagCompound nbtData = packet.func_148857_g();
         this.readFromNBTPacket(nbtData);
         this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+        updateTELight();
     }
 
     @Override

@@ -57,7 +57,7 @@ public class BlockLogPile extends BlockPile {
         int offset = 0;
         TileEntity te2 = worldIn.getTileEntity(x, y, z);
         if (te2 instanceof TileEntityLogPile tef) {
-            if (tef.isFired) {
+            if (tef.isFired()) {
                 offset = 3;
             }
         }
@@ -106,7 +106,7 @@ public class BlockLogPile extends BlockPile {
     public void randomDisplayTick(World worldIn, int x, int y, int z, Random random) {
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityLogPile tef) {
-            if (tef.isFired) {
+            if (tef.isFired()) {
                 if (random.nextInt(24) == 0) {
                     worldIn.playSound(
                         (double) ((float) x + 0.5F),

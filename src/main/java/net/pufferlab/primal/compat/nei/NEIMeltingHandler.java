@@ -119,9 +119,8 @@ public class NEIMeltingHandler extends TemplateRecipeHandler {
     @Override
     public void drawBackground(int recipe) {
         GL11.glColor4f(1, 1, 1, 1);
-        changeTexture(getGuiTexture());
+        changeTexture(Utils.asResource(getGuiTexture()));
         drawTexturedModalRect(0, 0, 5, 11, 166, 106);
-
     }
 
     @Override

@@ -41,6 +41,11 @@ public class VeinType {
         return this;
     }
 
+    public VeinType setRarity(float rarity) {
+        this.rarity = rarity;
+        return this;
+    }
+
     public boolean canGenerate(int height) {
         if (height < maxY && height > minY) {
             return true;

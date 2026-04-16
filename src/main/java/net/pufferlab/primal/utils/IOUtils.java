@@ -8,12 +8,42 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.UUID;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.launchwrapper.Launch;
 
 import org.apache.commons.io.FileUtils;
 
 import io.netty.buffer.ByteBuf;
 
 public class IOUtils {
+
+    public static File getResourceDir() {
+        File rpDir = new File(Minecraft.getMinecraft().mcDataDir, "resourcepacks");
+
+        if (!rpDir.exists()) rpDir.mkdirs();
+        return rpDir;
+    }
+
+    public static File getConfigDir() {
+        File rpDir = new File(Launch.minecraftHome, "config");
+
+        if (!rpDir.exists()) rpDir.mkdirs();
+        return rpDir;
+    }
+
+    public static File createResourceFile(String name, String extension) throws IOException {
+        return new File(getResourceDir(), name + "." + extension);
+    }
+
+    public static File createConfigFile(String name) {
+        return new File(getConfigDir(), name + ".cfg");
+    }
+
+    public static File createTempFile() throws IOException {
+        return File.createTempFile("tmp_" + UUID.randomUUID() + "_", ".tmp");
+    }
 
     public static String readFile(File file) throws IOException {
         return file.exists() ? FileUtils.readFileToString(file, "UTF-8")
@@ -28,9 +58,9 @@ public class IOUtils {
         FileUtils.copyFile(from, to);
     }
 
-    public static void downloadFile(String urlTxt, File out) throws IOException {
+    public static void downloadFile(String urlTxt, String extension, File out) throws IOException {
         try {
-            URL url = new URL(urlTxt);
+            URL url = new URL(urlTxt + "." + extension);
             URLConnection connection = url.openConnection();
             connection.setConnectTimeout(5000);
             connection.setReadTimeout(5000);

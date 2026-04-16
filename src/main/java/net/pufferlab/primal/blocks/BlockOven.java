@@ -117,7 +117,7 @@ public class BlockOven extends BlockCampfire {
     public void randomDisplayTick(World worldIn, int x, int y, int z, Random random) {
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityCampfire tef) {
-            if (tef.isFired) {
+            if (tef.isFired()) {
                 if (random.nextInt(24) == 0) {
                     worldIn.playSound(
                         (double) ((float) x + 0.5F),

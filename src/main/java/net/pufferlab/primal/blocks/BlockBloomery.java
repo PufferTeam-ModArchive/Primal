@@ -69,12 +69,11 @@ public class BlockBloomery extends BlockContainerPrimal {
         ItemStack heldItem = player.getHeldItem();
         if (ItemUtils.canBeLit(heldItem)) return true;
         TileEntity te = worldIn.getTileEntity(x, y, z);
-        int meta = worldIn.getBlockMetadata(x, y, z);
         if (te instanceof TileEntityBloomery tef) {
-            if (Utils.containsOreDict(heldItem, Constants.charcoalPileOreDicts) && meta < 5) {
+            if (Utils.containsOreDict(heldItem, Constants.charcoalPileOreDicts) && tef.canBeFueled()) {
                 BlockUtils.playSound(worldIn, x, y, z, Registry.charcoal_pile);
-                tef.addInventorySlotContentsUpdate(meta, player);
-                worldIn.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
+                tef.addFuel();
+                tef.addInventorySlotContentsUpdate(tef.getCurrentFuelStages(), player);
                 tef.sendFuelUpdate();
                 return true;
             }

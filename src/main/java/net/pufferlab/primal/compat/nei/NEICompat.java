@@ -80,6 +80,7 @@ public class NEICompat implements IConfigureNEI {
         sendCatalyst(Primal.MODID + ".tanning", getModItem("tanning_frame", 1));
         sendCatalyst(Primal.MODID + ".quern", getModItem("quern", 1));
         sendCatalyst(Primal.MODID + ".quern", getModItem("handstone", 1));
+        sendCatalyst(Primal.MODID + ".melting", getModItem("crucible", 1));
         for (MetalType metal : Constants.anvilMetalTypes) {
             sendCatalyst(Primal.MODID + ".anvil", getModItem(metal.name + "_anvil", 1));
         }

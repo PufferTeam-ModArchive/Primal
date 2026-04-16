@@ -67,7 +67,6 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
     public void readFromNBTPacket(NBTTagCompound tag) {
         super.readFromNBTPacket(tag);
         this.readFromNBT(tag);
-        updateTELight();
     }
 
     @Override
@@ -136,8 +135,8 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
         if (i != -1) {
             if (meta > 0) {
                 setInventorySlotContentsUpdate(i);
-                setInventorySlotContentsUpdate(slotAsh, ItemUtils.getModItem("ash", 1));
-                this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, meta - 1, 2);
+                setInventorySlotContentsUpdate(i, ItemUtils.getModItem("ash", 1));
+                removeFuel();
                 markDirty();
             }
         }
@@ -145,7 +144,7 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
     }
 
     public void sendFuelUpdate() {
-        if (getMeta() == 0) {
+        if (!hasFuel()) {
             setFired(false);
             removeSchedule(Tasks.item1);
             removeSchedule(Tasks.item2);
@@ -217,7 +216,7 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
 
     @Override
     public boolean canBeFired() {
-        if (this.blockMetadata != 0) {
+        if (hasFuel()) {
             return true;
         }
         return false;
@@ -225,6 +224,7 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
 
     @Override
     public void setFired(boolean state) {
+        IHeatable.super.setFired(state);
         if (this.isFired != state) {
             this.isFired = state;
             this.sendFuelUpdate();
@@ -242,8 +242,8 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
     }
 
     @Override
-    public boolean isFired() {
-        return this.isFired;
+    public boolean consumesFuel() {
+        return true;
     }
 
     @Override

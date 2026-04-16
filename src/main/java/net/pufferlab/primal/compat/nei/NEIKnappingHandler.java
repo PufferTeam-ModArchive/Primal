@@ -120,7 +120,7 @@ public class NEIKnappingHandler extends TemplateRecipeHandler {
     public void drawBackground(int recipe) {
         KnappingPair pair = (KnappingPair) arecipes.get(recipe);
         GL11.glColor4f(1, 1, 1, 1);
-        changeTexture(getGuiTexture());
+        changeTexture(Utils.asResource(getGuiTexture()));
         drawTexturedModalRect(-1, 0, 4, 5, 176, 95);
         this.drawIcons(0, 0, pair.type, pair.icons);
     }

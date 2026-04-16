@@ -25,8 +25,7 @@ public class BlockBloomeryRenderer extends BlockPrimalRenderer {
         Tessellator tess = Tessellator.instance;
         TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileEntityBloomery tef) {
-            int metadata = world.getBlockMetadata(x, y, z);
-            metadata = getValidMeta(block, metadata);
+            int metadata = tef.getCurrentFuelStages();
             if (metadata > 0) {
                 renderer.setRenderBounds(0.25F, 0.0F, 0.25F, 0.75F, 0.0F + (0.0425F * metadata), 0.75F);
                 renderer.renderStandardBlock(block, x, y, z);

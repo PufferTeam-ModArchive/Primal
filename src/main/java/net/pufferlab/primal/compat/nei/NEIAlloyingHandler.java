@@ -221,11 +221,11 @@ public class NEIAlloyingHandler extends TemplateRecipeHandler {
         GL11.glColor4f(1, 1, 1, 1);
         if (arecipes.get(recipe) instanceof AlloyingPair cruciblePair) {
             if (cruciblePair.inputsFS.length == 2) {
-                changeTexture(getGuiTexture());
+                changeTexture(Utils.asResource(getGuiTexture()));
             }
 
             if (cruciblePair.inputsFS.length == 3) {
-                changeTexture(getGuiTexture3());
+                changeTexture(Utils.asResource(getGuiTexture3()));
             }
             drawTexturedModalRect(0, 0, 5, 11, 166, 106);
 

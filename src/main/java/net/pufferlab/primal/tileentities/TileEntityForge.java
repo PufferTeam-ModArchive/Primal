@@ -93,12 +93,12 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
 
     public void updateFuel() {
         int i = findLastFuel();
-        int meta = this.worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord);
+        int meta = getMeta();
         if (i != -1) {
             if (meta > 0) {
                 markDirty();
                 setInventorySlotContentsUpdate(i);
-                this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, meta - 1, 2);
+                removeFuel();
                 markDirty();
             }
         }
@@ -106,7 +106,7 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
     }
 
     public void sendFuelUpdate() {
-        if (getMeta() == 0) {
+        if (!hasFuel()) {
             setFired(false);
             setTemperatureMultiplier(-1.0F);
         } else {
@@ -120,7 +120,7 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
     public int findLastFuel() {
         int last = -1;
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             ItemStack stack = getInventoryStack(i);
             if (stack != null && !Utils.containsOreDict(stack, "ash")) {
                 last = i;
@@ -132,7 +132,7 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
 
     @Override
     public boolean canBeFired() {
-        if (this.blockMetadata != 0) {
+        if (hasFuel()) {
             return true;
         }
         return false;
@@ -140,6 +140,7 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
 
     @Override
     public void setFired(boolean state) {
+        IHeatable.super.setFired(state);
         if (this.isFired != state) {
             this.isFired = state;
             this.sendFuelUpdate();
@@ -148,13 +149,13 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
     }
 
     @Override
-    public boolean canUpdate() {
-        return false;
+    public boolean consumesFuel() {
+        return true;
     }
 
     @Override
-    public boolean isFired() {
-        return this.isFired;
+    public boolean canUpdate() {
+        return false;
     }
 
     @Override

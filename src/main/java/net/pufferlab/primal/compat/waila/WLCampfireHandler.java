@@ -94,7 +94,7 @@ public class WLCampfireHandler implements IWailaDataProvider {
     public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x,
         int y, int z) {
         if (te instanceof TileEntityCampfire tef) {
-            tag.setBoolean("isFired", tef.isFired);
+            tag.setBoolean("isFired", tef.isFired());
         }
         return tag;
     }

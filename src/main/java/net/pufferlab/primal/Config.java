@@ -3,11 +3,9 @@ package net.pufferlab.primal;
 import java.io.File;
 import java.util.Random;
 
-import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.common.config.Configuration;
 import net.pufferlab.primal.utils.ConfigUtils;
-
-import cpw.mods.fml.common.Loader;
+import net.pufferlab.primal.utils.IOUtils;
 
 public enum Config {
 
@@ -147,6 +145,8 @@ public enum Config {
         "The corresponding min/max Y Value that the ores will be able to spawn."),
     oreVeinsSizeRange(Module.world$generation, ConfigUtils.getDefaultSize(Constants.veinTypesAll),
         "The corresponding min/max size values that the ore veins will randomly generate between these values."),
+    oreVeinsRarity(Module.world$generation, ConfigUtils.getDefaultVeinRarity(Constants.veinTypesAll),
+        "The correspond rarity that the vein will spawn every chunk"),
 
     // Mixins
     wearableRenderer(Module.fixes, true,
@@ -290,15 +290,9 @@ public enum Config {
 
     public static Configuration configuration;
 
-    public static void setupEarlyConfig(boolean isLate) {
+    public static void setupEarlyConfig() {
         if (configuration == null) {
-            String configDir = Launch.minecraftHome + File.separator + "config";
-            if (isLate) {
-                configDir = Loader.instance()
-                    .getConfigDir()
-                    .getAbsolutePath();
-            }
-            Config.synchronizeConfiguration(new File(configDir, Primal.MODID + ".cfg"));
+            Config.synchronizeConfiguration(IOUtils.createConfigFile(Primal.MODID));
         }
     }
 

@@ -26,6 +26,10 @@ public interface ITile {
         return getWorld().getBlockMetadata(getX(), getY(), getZ());
     }
 
+    default void setMeta(int meta) {
+        getWorld().setBlockMetadataWithNotify(getX(), getY(), getZ(), meta, 2);
+    }
+
     public void updateTEState();
 
     public void updateTELight();
