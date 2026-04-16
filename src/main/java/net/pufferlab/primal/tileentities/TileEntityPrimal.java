@@ -6,7 +6,6 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.SoundTypePrimal;
@@ -45,7 +44,7 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
         NBTTagCompound nbtData = packet.func_148857_g();
         this.readFromNBTPacket(nbtData);
         this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
-        updateTELight();
+        // updateTELight();
     }
 
     @Override
@@ -64,19 +63,6 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
         this.cachedX = compound.getInteger("xCached");
         this.cachedY = compound.getInteger("yCached");
         this.cachedZ = compound.getInteger("zCached");
-    }
-
-    public void updateTEState() {
-        this.markDirty();
-        if (this.worldObj != null) {
-            this.worldObj.func_147453_f(this.xCoord, this.yCoord, this.zCoord, this.blockType);
-            this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
-        }
-    }
-
-    public void updateTELight() {
-        this.worldObj.updateLightByType(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord);
-        this.worldObj.updateLightByType(EnumSkyBlock.Block, this.xCoord, this.yCoord, this.zCoord);
     }
 
     public void writeToNBTPacket(NBTTagCompound tag) {}

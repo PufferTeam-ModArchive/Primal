@@ -18,7 +18,6 @@ public interface IHeatable extends ITile {
             int meta = getMeta();
             if (meta % (getFuelStages() + 1) == 0) {
                 setFired(false);
-                return;
             }
             setMeta(meta - 1);
         }
@@ -62,10 +61,12 @@ public interface IHeatable extends ITile {
             if (state) {
                 if (!isFired()) {
                     setMeta(meta + (getFuelStages() + 1));
+                    updateTELight();
                 }
             } else {
                 if (isFired()) {
                     setMeta(meta - (getFuelStages() + 1));
+                    updateTELight();
                 }
             }
         }

@@ -2,6 +2,7 @@ package net.pufferlab.primal.tileentities;
 
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
 public interface ITile {
@@ -30,9 +31,22 @@ public interface ITile {
         getWorld().setBlockMetadataWithNotify(getX(), getY(), getZ(), meta, 2);
     }
 
-    public void updateTEState();
+    default void updateTEState() {
+        this.mark();
+        if (this.getWorld() != null) {
+            this.getWorld()
+                .func_147453_f(getX(), getY(), getZ(), getBlock());
+            this.getWorld()
+                .markBlockForUpdate(getX(), getY(), getZ());
+        }
+    }
 
-    public void updateTELight();
+    default void updateTELight() {
+        this.getWorld()
+            .updateLightByType(EnumSkyBlock.Sky, getX(), getY(), getZ());
+        this.getWorld()
+            .updateLightByType(EnumSkyBlock.Block, getX(), getY(), getZ());
+    }
 
     default Block getBlock() {
         return getTile().getBlockType();

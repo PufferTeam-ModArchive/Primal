@@ -3,6 +3,7 @@ package net.pufferlab.primal.tileentities;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.pufferlab.primal.Config;
+import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.ScheduleManager;
 import net.pufferlab.primal.world.Tasks;
@@ -52,13 +53,11 @@ public class TileEntityBloomery extends TileEntityInventory implements IHeatable
 
     public void updateFuel() {
         int i = findLastFuel();
-        int meta = getMeta();
-        if (i != -1) {
-            if (meta > 0) {
-                markDirty();
+        if (isFired()) {
+            removeFuel();
+            if (i != -1) {
                 setInventorySlotContentsUpdate(i);
-                removeFuel();
-                markDirty();
+                setInventorySlotContentsUpdate(i, ItemUtils.getModItem("ash", 1));
             }
         }
         sendFuelUpdate();

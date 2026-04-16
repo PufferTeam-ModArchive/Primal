@@ -4,6 +4,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.utils.HeatUtils;
+import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.HeatInfo;
 import net.pufferlab.primal.world.ScheduleManager;
@@ -93,13 +94,11 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
 
     public void updateFuel() {
         int i = findLastFuel();
-        int meta = getMeta();
-        if (i != -1) {
-            if (meta > 0) {
-                markDirty();
+        if (isFired()) {
+            removeFuel();
+            if (i != -1) {
                 setInventorySlotContentsUpdate(i);
-                removeFuel();
-                markDirty();
+                setInventorySlotContentsUpdate(i, ItemUtils.getModItem("ash", 1));
             }
         }
         sendFuelUpdate();
