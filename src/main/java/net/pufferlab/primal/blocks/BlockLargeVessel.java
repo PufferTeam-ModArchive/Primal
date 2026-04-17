@@ -104,7 +104,7 @@ public class BlockLargeVessel extends BlockContainerPrimal {
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.largeVesselRenderer;
+        return Primal.proxy.getLargeVesselRenderer();
     }
 
     @Override

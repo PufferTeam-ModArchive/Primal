@@ -74,7 +74,7 @@ public class BlockAshPile extends BlockPile {
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.ashPileRenderer;
+        return Primal.proxy.getAshPileRenderer();
     }
 
     @Override

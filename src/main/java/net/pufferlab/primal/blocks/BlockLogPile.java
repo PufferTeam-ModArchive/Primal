@@ -148,7 +148,7 @@ public class BlockLogPile extends BlockPile {
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.logPileRenderer;
+        return Primal.proxy.getLogPileRenderer();
     }
 
     @Override

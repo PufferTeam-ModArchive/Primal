@@ -205,7 +205,7 @@ public class BlockMetaMycelium extends BlockMycelium implements IPrimalBlock, IM
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.grassRenderer;
+        return Primal.proxy.getGrassRenderer();
     }
 
     @Override

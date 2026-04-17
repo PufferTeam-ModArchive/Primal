@@ -177,7 +177,7 @@ public class BlockOven extends BlockCampfire {
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.ovenRenderer;
+        return Primal.proxy.getOvenRenderer();
     }
 
     @Override

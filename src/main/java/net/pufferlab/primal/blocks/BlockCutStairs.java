@@ -89,7 +89,7 @@ public class BlockCutStairs extends BlockStairs implements ITileEntityProvider, 
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.stairsRenderer;
+        return Primal.proxy.getStairsRenderer();
     }
 
     @Override

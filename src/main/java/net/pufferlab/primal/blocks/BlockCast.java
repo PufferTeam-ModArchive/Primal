@@ -220,7 +220,7 @@ public class BlockCast extends BlockContainerPrimal {
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.castRenderer;
+        return Primal.proxy.getCastRenderer();
     }
 
     @Override

@@ -90,6 +90,6 @@ public class BlockGenerator extends BlockMotion {
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.generatorRenderer;
+        return Primal.proxy.getGeneratorRenderer();
     }
 }

@@ -130,7 +130,7 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.slabRenderer;
+        return Primal.proxy.getSlabRenderer();
     }
 
     @Override

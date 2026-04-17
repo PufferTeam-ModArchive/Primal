@@ -20,7 +20,7 @@ public class BlockChimney extends BlockMeta {
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.chimneyRenderer;
+        return Primal.proxy.getChimneyRenderer();
     }
 
     @Override

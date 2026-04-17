@@ -135,7 +135,7 @@ public class BlockForge extends BlockContainerPrimal implements RPLECustomBlockB
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.forgeRenderer;
+        return Primal.proxy.getForgeRenderer();
     }
 
     @Override

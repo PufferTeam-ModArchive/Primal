@@ -250,7 +250,7 @@ public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlo
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.grassRenderer;
+        return Primal.proxy.getGrassRenderer();
     }
 
     @Override

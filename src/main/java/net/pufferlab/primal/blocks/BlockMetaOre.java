@@ -216,7 +216,7 @@ public class BlockMetaOre extends BlockStone implements IPrimalBlock, IMetaBlock
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.oreRenderer;
+        return Primal.proxy.getOreRenderer();
     }
 
     @Override

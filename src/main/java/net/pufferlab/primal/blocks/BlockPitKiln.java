@@ -235,7 +235,7 @@ public class BlockPitKiln extends BlockContainerPrimal {
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.pitKilnRenderer;
+        return Primal.proxy.getPitKilnRenderer();
     }
 
     @Override

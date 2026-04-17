@@ -75,7 +75,7 @@ public class BlockCharcoalPile extends BlockPile {
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.charcoalPileRenderer;
+        return Primal.proxy.getCharcoalPileRenderer();
     }
 
     @Override

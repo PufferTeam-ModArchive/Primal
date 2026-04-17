@@ -104,7 +104,7 @@ public class BlockFaucet extends BlockContainerPrimal {
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.faucetRenderer;
+        return Primal.proxy.getFaucetRenderer();
     }
 
     @Override

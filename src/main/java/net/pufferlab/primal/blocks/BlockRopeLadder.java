@@ -113,7 +113,7 @@ public class BlockRopeLadder extends BlockLadder implements IPrimalBlock {
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.ropeLadderRenderer;
+        return Primal.proxy.getRopeLadderRenderer();
     }
 
     @Override

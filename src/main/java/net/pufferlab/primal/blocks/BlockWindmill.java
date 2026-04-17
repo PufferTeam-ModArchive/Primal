@@ -44,7 +44,7 @@ public class BlockWindmill extends BlockMotion {
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.axleRenderer;
+        return Primal.proxy.getAxleRenderer();
     }
 
     @Override

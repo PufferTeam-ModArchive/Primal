@@ -27,42 +27,44 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
 import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
+import gnu.trove.map.hash.TObjectIntHashMap;
 
 public class CommonProxy implements IGuiHandler {
 
     public MinecraftServer server;
     public final NetworkPacket packet = new NetworkPacket();
 
-    public BlockSlabRenderer slabRenderer;
-    public BlockSlabVerticalRenderer slabVerticalRenderer;
-    public BlockStairsRenderer stairsRenderer;
-    public BlockWallRenderer wallRenderer;
-    public BlockRopeLadderRenderer ropeLadderRenderer;
-    public BlockGrassRenderer grassRenderer;
-    public BlockPathRenderer pathRenderer;
-    public BlockOreRenderer oreRenderer;
-    public BlockPitKilnRenderer pitKilnRenderer;
-    public BlockLogPileRenderer logPileRenderer;
-    public BlockCharcoalPileRenderer charcoalPileRenderer;
-    public BlockAshPileRenderer ashPileRenderer;
-    public BlockCampfireRenderer campfireRenderer;
-    public BlockLargeVesselRenderer largeVesselRenderer;
-    public BlockBarrelRenderer barrelRenderer;
-    public BlockFaucetRenderer faucetRenderer;
-    public BlockGroundcoverRenderer groundcoverRenderer;
-    public BlockTanningRenderer tanningRenderer;
-    public BlockOvenRenderer ovenRenderer;
-    public BlockChimneyRenderer chimneyRenderer;
-    public BlockCrucibleRenderer crucibleRenderer;
-    public BlockForgeRenderer forgeRenderer;
-    public BlockCastRenderer castRenderer;
-    public BlockQuernRenderer quernRenderer;
-    public BlockAxleRenderer axleRenderer;
-    public BlockGeneratorRenderer generatorRenderer;
-    public BlockAnvilRenderer anvilRenderer;
-    public BlockBloomeryRenderer bloomeryRenderer;
-    public BlockCropsRenderer cropsRenderer;
+    protected BlockSlabRenderer slabRenderer;
+    protected BlockSlabVerticalRenderer slabVerticalRenderer;
+    protected BlockStairsRenderer stairsRenderer;
+    protected BlockWallRenderer wallRenderer;
+    protected BlockRopeLadderRenderer ropeLadderRenderer;
+    protected BlockGrassRenderer grassRenderer;
+    protected BlockPathRenderer pathRenderer;
+    protected BlockOreRenderer oreRenderer;
+    protected BlockPitKilnRenderer pitKilnRenderer;
+    protected BlockLogPileRenderer logPileRenderer;
+    protected BlockCharcoalPileRenderer charcoalPileRenderer;
+    protected BlockAshPileRenderer ashPileRenderer;
+    protected BlockCampfireRenderer campfireRenderer;
+    protected BlockLargeVesselRenderer largeVesselRenderer;
+    protected BlockBarrelRenderer barrelRenderer;
+    protected BlockFaucetRenderer faucetRenderer;
+    protected BlockGroundcoverRenderer groundcoverRenderer;
+    protected BlockTanningRenderer tanningRenderer;
+    protected BlockOvenRenderer ovenRenderer;
+    protected BlockChimneyRenderer chimneyRenderer;
+    protected BlockCrucibleRenderer crucibleRenderer;
+    protected BlockForgeRenderer forgeRenderer;
+    protected BlockCastRenderer castRenderer;
+    protected BlockQuernRenderer quernRenderer;
+    protected BlockAxleRenderer axleRenderer;
+    protected BlockGeneratorRenderer generatorRenderer;
+    protected BlockAnvilRenderer anvilRenderer;
+    protected BlockBloomeryRenderer bloomeryRenderer;
+    protected BlockCropsRenderer cropsRenderer;
 
     public ContainerLargeVessel largeVesselGui;
     public ContainerCrucible crucibleGui;
@@ -70,11 +72,12 @@ public class CommonProxy implements IGuiHandler {
     public ContainerAnvilWork anvilWorkGui;
     public ContainerAnvilPlan anvilPlanGui;
 
-    public int nextGuiID;
+    private int nextGuiID;
 
     public void preInit(FMLPreInitializationEvent event) {}
 
-    public TIntObjectMap<ContainerPrimal> guiMap = new TIntObjectHashMap<>();
+    private final TIntObjectMap<ContainerPrimal> guiMap = new TIntObjectHashMap<>();
+    private final TObjectIntMap<Class<? extends ContainerPrimal>> guiIdMap = new TObjectIntHashMap<>();
 
     public void setupGUIs() {
         NetworkRegistry.INSTANCE.registerGuiHandler(Primal.instance, Primal.proxy);
@@ -93,8 +96,9 @@ public class CommonProxy implements IGuiHandler {
     }
 
     public <T extends ContainerPrimal> void register(T object) {
-        object.setGuiId(getNextGuiID());
-        guiMap.put(object.getGuiId(), object);
+        int id = getNextGuiID();
+        guiIdMap.put(object.getClass(), id);
+        guiMap.put(id, object);
     }
 
     public int getNextGuiID() {
@@ -142,6 +146,14 @@ public class CommonProxy implements IGuiHandler {
 
     public ContainerPrimal getGui(int id) {
         return guiMap.get(id);
+    }
+
+    public int getGuiId(ContainerPrimal container) {
+        return guiIdMap.get(container.getClass());
+    }
+
+    public int getRenderId(BlockPrimalRenderer container) {
+        return 0;
     }
 
     @Override
@@ -253,6 +265,122 @@ public class CommonProxy implements IGuiHandler {
     }
 
     public void openPrimalGui(ContainerPrimal container, EntityPlayer player, World worldIn, int x, int y, int z) {
-        player.openGui(Primal.instance, container.getGuiId(), worldIn, x, y, z);
+        player.openGui(Primal.instance, getGuiId(container), worldIn, x, y, z);
+    }
+
+    public BlockSlabRenderer getSlabRenderer() {
+        return slabRenderer;
+    }
+
+    public BlockSlabVerticalRenderer getSlabVerticalRenderer() {
+        return slabVerticalRenderer;
+    }
+
+    public BlockStairsRenderer getStairsRenderer() {
+        return stairsRenderer;
+    }
+
+    public BlockWallRenderer getWallRenderer() {
+        return wallRenderer;
+    }
+
+    public BlockRopeLadderRenderer getRopeLadderRenderer() {
+        return ropeLadderRenderer;
+    }
+
+    public BlockGrassRenderer getGrassRenderer() {
+        return grassRenderer;
+    }
+
+    public BlockPathRenderer getPathRenderer() {
+        return pathRenderer;
+    }
+
+    public BlockOreRenderer getOreRenderer() {
+        return oreRenderer;
+    }
+
+    public BlockPitKilnRenderer getPitKilnRenderer() {
+        return pitKilnRenderer;
+    }
+
+    public BlockLogPileRenderer getLogPileRenderer() {
+        return logPileRenderer;
+    }
+
+    public BlockCharcoalPileRenderer getCharcoalPileRenderer() {
+        return charcoalPileRenderer;
+    }
+
+    public BlockAshPileRenderer getAshPileRenderer() {
+        return ashPileRenderer;
+    }
+
+    public BlockCampfireRenderer getCampfireRenderer() {
+        return campfireRenderer;
+    }
+
+    public BlockLargeVesselRenderer getLargeVesselRenderer() {
+        return largeVesselRenderer;
+    }
+
+    public BlockBarrelRenderer getBarrelRenderer() {
+        return barrelRenderer;
+    }
+
+    public BlockFaucetRenderer getFaucetRenderer() {
+        return faucetRenderer;
+    }
+
+    public BlockGroundcoverRenderer getGroundcoverRenderer() {
+        return groundcoverRenderer;
+    }
+
+    public BlockTanningRenderer getTanningRenderer() {
+        return tanningRenderer;
+    }
+
+    public BlockOvenRenderer getOvenRenderer() {
+        return ovenRenderer;
+    }
+
+    public BlockChimneyRenderer getChimneyRenderer() {
+        return chimneyRenderer;
+    }
+
+    public BlockCrucibleRenderer getCrucibleRenderer() {
+        return crucibleRenderer;
+    }
+
+    public BlockForgeRenderer getForgeRenderer() {
+        return forgeRenderer;
+    }
+
+    public BlockCastRenderer getCastRenderer() {
+        return castRenderer;
+    }
+
+    public BlockQuernRenderer getQuernRenderer() {
+        return quernRenderer;
+    }
+
+    public BlockAxleRenderer getAxleRenderer() {
+        return axleRenderer;
+    }
+
+    public BlockGeneratorRenderer getGeneratorRenderer() {
+        return generatorRenderer;
+    }
+
+    public BlockAnvilRenderer getAnvilRenderer() {
+        return anvilRenderer;
+    }
+
+    public BlockBloomeryRenderer getBloomeryRenderer() {
+        return bloomeryRenderer;
+    }
+
+    public BlockCropsRenderer getCropsRenderer() {
+        return cropsRenderer;
     }
 }

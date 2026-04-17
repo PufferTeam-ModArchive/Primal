@@ -134,7 +134,7 @@ public class BlockBloomery extends BlockContainerPrimal {
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.bloomeryRenderer;
+        return Primal.proxy.getBloomeryRenderer();
     }
 
     @Override

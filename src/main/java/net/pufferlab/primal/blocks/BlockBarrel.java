@@ -161,7 +161,7 @@ public class BlockBarrel extends BlockContainerPrimal {
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.barrelRenderer;
+        return Primal.proxy.getBarrelRenderer();
     }
 
     @Override

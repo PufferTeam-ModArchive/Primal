@@ -141,7 +141,7 @@ public class BlockGroundcover extends BlockMeta {
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.groundcoverRenderer;
+        return Primal.proxy.getGroundcoverRenderer();
     }
 
     @Override

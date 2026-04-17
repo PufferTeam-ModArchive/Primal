@@ -125,7 +125,7 @@ public class BlockCrucible extends BlockContainerPrimal implements RPLECustomBlo
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.crucibleRenderer;
+        return Primal.proxy.getCrucibleRenderer();
     }
 
     @Override

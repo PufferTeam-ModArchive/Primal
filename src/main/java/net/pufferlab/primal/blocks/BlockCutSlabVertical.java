@@ -121,7 +121,7 @@ public class BlockCutSlabVertical extends BlockSlabVertical implements ITileEnti
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.slabRenderer;
+        return Primal.proxy.getSlabVerticalRenderer();
     }
 
     @Override

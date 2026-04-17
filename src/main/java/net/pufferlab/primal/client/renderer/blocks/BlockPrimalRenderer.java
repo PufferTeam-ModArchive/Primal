@@ -12,6 +12,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.ForgeHooksClient;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.IMetaBlock;
 import net.pufferlab.primal.blocks.IPrimalBlock;
 import net.pufferlab.primal.utils.Utils;
@@ -24,17 +25,16 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
 
     private final Random randomLocal = new Random(91964521L);
 
-    public int renderID;
+    public int renderID = 0;
 
     private static float lastBrightnessX = 0;
     private static float lastBrightnessY = 0;
 
-    public void setRenderId(int renderID) {
-        this.renderID = renderID;
-    }
-
     @Override
     public int getRenderId() {
+        if (this.renderID == 0) {
+            this.renderID = Primal.proxy.getRenderId(this);
+        }
         return this.renderID;
     }
 

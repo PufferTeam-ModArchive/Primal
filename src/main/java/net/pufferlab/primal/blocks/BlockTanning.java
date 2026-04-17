@@ -90,7 +90,7 @@ public class BlockTanning extends BlockContainerPrimal {
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.tanningRenderer;
+        return Primal.proxy.getTanningRenderer();
     }
 
     @Override

@@ -210,7 +210,7 @@ public class BlockCropsBush extends BlockCrops implements IPrimalBlock, ISchedul
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.cropsRenderer;
+        return Primal.proxy.getCropsRenderer();
     }
 
     @Override

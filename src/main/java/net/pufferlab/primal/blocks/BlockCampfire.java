@@ -310,7 +310,7 @@ public class BlockCampfire extends BlockContainerPrimal implements RPLECustomBlo
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.campfireRenderer;
+        return Primal.proxy.getCampfireRenderer();
     }
 
     @Override

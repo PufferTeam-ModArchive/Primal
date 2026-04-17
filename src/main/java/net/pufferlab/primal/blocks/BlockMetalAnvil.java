@@ -139,7 +139,7 @@ public class BlockMetalAnvil extends BlockMetaContainer {
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.anvilRenderer;
+        return Primal.proxy.getAnvilRenderer();
     }
 
     @Override

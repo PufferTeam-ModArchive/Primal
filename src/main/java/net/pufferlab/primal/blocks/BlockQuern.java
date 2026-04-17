@@ -168,7 +168,7 @@ public class BlockQuern extends BlockContainerPrimal {
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.quernRenderer;
+        return Primal.proxy.getQuernRenderer();
     }
 
     @Override

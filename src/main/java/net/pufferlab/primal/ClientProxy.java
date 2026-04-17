@@ -34,8 +34,12 @@ import net.pufferlab.primal.utils.Utils;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import gnu.trove.map.TObjectIntMap;
+import gnu.trove.map.hash.TObjectIntHashMap;
 
 public class ClientProxy extends CommonProxy {
+
+    private final TObjectIntMap<Class<? extends BlockPrimalRenderer>> renderIdMap = new TObjectIntHashMap<>();
 
     @Override
     public void setupRenders() {
@@ -158,7 +162,7 @@ public class ClientProxy extends CommonProxy {
     }
 
     public <T extends BlockPrimalRenderer> void register(T object) {
-        object.setRenderId(getNextId());
+        renderIdMap.put(object.getClass(), getNextId());
         RenderingRegistry.registerBlockHandler(object);
     }
 
@@ -176,6 +180,11 @@ public class ClientProxy extends CommonProxy {
 
     public <T extends IItemRenderer> void register(Block block, T object) {
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(block), object);
+    }
+
+    @Override
+    public int getRenderId(BlockPrimalRenderer container) {
+        return this.renderIdMap.get(container.getClass());
     }
 
     @Override

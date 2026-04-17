@@ -89,7 +89,7 @@ public class BlockCutWall extends BlockWall implements ITileEntityProvider, IPri
 
     @Override
     public ISimpleBlockRenderingHandler getRenderer() {
-        return Primal.proxy.wallRenderer;
+        return Primal.proxy.getWallRenderer();
     }
 
     @Override
