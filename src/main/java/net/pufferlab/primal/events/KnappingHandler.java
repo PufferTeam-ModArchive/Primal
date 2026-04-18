@@ -20,11 +20,9 @@ public class KnappingHandler implements IEventHandler {
             int meta = event.world.getBlockMetadata(event.x, event.y, event.z);
             if (block.hasTileEntity(meta)) return;
             if (type != null) {
-                int containerId = KnappingType.getHandler(type);
-                event.entityPlayer.openGui(Primal.instance, containerId, event.world, event.x, event.y, event.z);
+                Primal.proxy.openKnappingGui(type, event.entityPlayer, event.world, event.x, event.y, event.z);
                 event.entityPlayer.swingItem();
             }
-
         }
     }
 }

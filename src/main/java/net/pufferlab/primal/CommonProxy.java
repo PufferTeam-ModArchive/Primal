@@ -264,6 +264,11 @@ public class CommonProxy implements IGuiHandler {
         openPrimalGui(anvilPlanGui, player, worldIn, x, y, z);
     }
 
+    public void openKnappingGui(KnappingType type, EntityPlayer player, World worldIn, int x, int y, int z) {
+        int containerId = KnappingType.getHandler(type);
+        player.openGui(Primal.instance, containerId, worldIn, x, y, z);
+    }
+
     public void openPrimalGui(ContainerPrimal container, EntityPlayer player, World worldIn, int x, int y, int z) {
         player.openGui(Primal.instance, getGuiId(container), worldIn, x, y, z);
     }
