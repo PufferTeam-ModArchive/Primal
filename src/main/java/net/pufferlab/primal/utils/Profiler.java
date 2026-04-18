@@ -1,10 +1,12 @@
 package net.pufferlab.primal.utils;
 
-import gnu.trove.map.TObjectLongMap;
-import gnu.trove.map.hash.TObjectLongHashMap;
 import net.pufferlab.primal.Primal;
 
+import gnu.trove.map.TObjectLongMap;
+import gnu.trove.map.hash.TObjectLongHashMap;
+
 public class Profiler {
+
     public final TObjectLongMap<String> map = new TObjectLongHashMap<>();
     public double timeTaken = 0;
 

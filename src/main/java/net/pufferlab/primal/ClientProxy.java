@@ -196,7 +196,7 @@ public class ClientProxy extends CommonProxy {
 
             String content = IOUtils.readFile(infoFile);
             String current = Primal.textureFile + " [" + Primal.VERSION + "]";
-            if(!current.equals(content)) {
+            if (!current.equals(content)) {
                 IOUtils.writeFile(infoFile, current);
 
                 try {
