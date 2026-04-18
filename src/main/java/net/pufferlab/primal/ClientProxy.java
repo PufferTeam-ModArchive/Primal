@@ -193,21 +193,20 @@ public class ClientProxy extends CommonProxy {
             File out = IOUtils.createResourceFile(Primal.textureFile, "zip");
             File outTemp = IOUtils.createTempFile();
             File infoFile = IOUtils.createResourceFile(Primal.textureFile, "txt");
-            File infoTemp = IOUtils.createTempFile();
-            IOUtils.downloadFile(Primal.downloadPath + Primal.textureFile, "txt", infoTemp);
-            String newHash = IOUtils.readFile(infoTemp);
-            String oldHash = IOUtils.readFile(infoFile);
-            if (newHash == null || newHash.equals(oldHash)) {
-                return;
+
+            String content = IOUtils.readFile(infoFile);
+            String current = Primal.textureFile + " [" + Primal.VERSION + "]";
+            if(!current.equals(content)) {
+                IOUtils.writeFile(infoFile, current);
+
+                try {
+                    IOUtils.downloadFile(Primal.downloadPath + Primal.textureFile, "zip", outTemp);
+                } catch (IOException e) {
+                    return;
+                }
+                IOUtils.copyFile(outTemp, out);
             }
 
-            IOUtils.copyFile(infoTemp, infoFile);
-            try {
-                IOUtils.downloadFile(Primal.downloadPath + Primal.textureFile, "zip", outTemp);
-            } catch (IOException e) {
-                return;
-            }
-            IOUtils.copyFile(outTemp, out);
         } catch (Exception e) {
             e.printStackTrace();
         }

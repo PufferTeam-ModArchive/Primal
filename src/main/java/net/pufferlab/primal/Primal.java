@@ -1,6 +1,7 @@
 package net.pufferlab.primal;
 
 import net.pufferlab.primal.scripts.ScriptRegistry;
+import net.pufferlab.primal.utils.Profiler;
 import net.pufferlab.primal.utils.Utils;
 
 import org.apache.logging.log4j.LogManager;
@@ -33,7 +34,7 @@ public class Primal {
     public static final String lateMixins = "mixins.primal.late.json";
     public static final String downloadPath = "https://github.com/PufferTeam-ModArchive/Primal/raw/refs/heads/main/builtin/";
     public static final String textureFile = "Primal-Modern-Resources";
-    public static final Logger LOG = LogManager.getLogger(MODID);
+    public static final Logger LOG = LogManager.getLogger(MODNAME);
 
     @SidedProxy(clientSide = clientProxy, serverSide = commonProxy)
     public static CommonProxy proxy;
@@ -43,8 +44,9 @@ public class Primal {
 
     public static boolean debugMode = false;
 
-    public static Registry registry = new Registry();
-    public static ScriptRegistry scriptRegistry = new ScriptRegistry();
+    public static final Registry registry = new Registry();
+    public static final ScriptRegistry scriptRegistry = new ScriptRegistry();
+    public static final Profiler profiler = new Profiler();
 
     public static SimpleNetworkWrapper network;
 
@@ -54,6 +56,7 @@ public class Primal {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        profiler.startProfile("PreInitialization");
         proxy.preInit(event);
         proxy.setupGUIs();
         proxy.setupResources();
@@ -62,10 +65,12 @@ public class Primal {
         registry.setupTiles();
         registry.setupWorldGen();
         registry.setupBaubles();
+        profiler.endProfile("PreInitialization");
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
+        profiler.startProfile("Initialization");
         proxy.init(event);
 
         registry.setupConfig();
@@ -83,23 +88,31 @@ public class Primal {
         proxy.setupRenders();
 
         registry.setupEvents();
+        profiler.endProfile("Initialization");
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
+        profiler.startProfile("PostInitialization");
         proxy.postInit(event);
+        profiler.endProfile("PostInitialization");
     }
 
     @Mod.EventHandler
     public void completeInit(FMLLoadCompleteEvent event) {
+        profiler.startProfile("LoadComplete");
         scriptRegistry.runEarly();
         scriptRegistry.run();
+        profiler.endProfile("LoadComplete");
+        profiler.profileTotal();
     }
 
     @Mod.EventHandler
     public void serverStarting(FMLServerStartingEvent event) {
+        profiler.startProfile("ServerStarting");
         proxy.serverStarting(event);
         registry.setupServer();
         registry.setupCommands();
+        profiler.endProfile("ServerStarting");
     }
 }
