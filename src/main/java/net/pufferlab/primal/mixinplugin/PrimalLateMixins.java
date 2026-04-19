@@ -39,6 +39,7 @@ public class PrimalLateMixins implements ILateMixinLoader {
                 mixins.add("bop.MixinBlockBOPMushroom");
                 mixins.add("bop.MixinBlockBOPFlower");
                 mixins.add("bop.MixinBlockBOPFlower2");
+                mixins.add("bop.MixinBlockBOPPlant");
             }
         }
         if (Mods.exbl.isLoaded(loadedMods)) {

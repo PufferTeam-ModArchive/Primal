@@ -62,6 +62,8 @@ public class Registry {
     public static final Block double_vertical_stone_slab;
     public static final Block stone_stairs;
     public static final Block stone_wall;
+    public static final Block stone_pressure_plate;
+    public static final Block stone_button;
     public static final Block gravel;
     public static final Block sand;
     public static final Block dirt;
@@ -202,6 +204,8 @@ public class Registry {
         double_stone_slab = new BlockCutSlab(stone, true);
         stone_stairs = new BlockCutStairs(stone);
         stone_wall = new BlockCutWall(stone);
+        stone_pressure_plate = new BlockCutPressurePlate(stone);
+        stone_button = new BlockCutButton(stone);
         vertical_stone_slab = new BlockCutSlabVertical(stone, false);
         double_vertical_stone_slab = new BlockCutSlabVertical(stone, true);
 
@@ -367,6 +371,8 @@ public class Registry {
         register(double_vertical_stone_slab, "double_vertical_stone_slab", vertical_stone_slab, double_vertical_stone_slab, true);
         register(stone_stairs, "stone_stairs");
         register(stone_wall, "stone_wall");
+        register(stone_pressure_plate, "stone_pressure_plate");
+        register(stone_button, "stone_button");
 
         register(gravel, "gravel");
         register(sand, "sand");

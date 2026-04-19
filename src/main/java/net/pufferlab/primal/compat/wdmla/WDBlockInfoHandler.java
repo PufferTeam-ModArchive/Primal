@@ -30,8 +30,10 @@ public class WDBlockInfoHandler implements IBlockComponentProvider {
             Block block = accessor.getBlock();
             String name = BlockUtils.getName(block);
             int meta = accessor.getMetadata();
+            int renderID = block.getRenderType();
             tooltip.child(new TextComponent("ID: " + name));
             tooltip.child(new TextComponent("Metadata: " + meta));
+            tooltip.child(new TextComponent("RenderID: " + renderID));
             boolean hastile = block.hasTileEntity(meta);
             tooltip.child(new TextComponent(RecipeUtils.getStateTooltip("HasTile", hastile, "Yes", "No")));
 
