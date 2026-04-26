@@ -154,7 +154,23 @@ public class BlockCutSlabVertical extends BlockSlabVertical implements ITileEnti
         }
     }
 
-    // Tile Entity Provider Function
+    @Override
+    public TileEntity createNewTileEntity(World worldIn, int meta) {
+        if (field_150004_a && (meta == 2 || meta == 3)) {
+            return new TileEntityCutDouble();
+        }
+        return new TileEntityCut();
+    }
+
+    @Override
+    public boolean renderAsNormalBlock() {
+        return false;
+    }
+
+    /**
+     * Tile Entity Functions
+     * Necessary for the block to have a Tile Entity correctly, as it doesn't extend BlockContainer
+     **/
     @Override
     public void onBlockAdded(World worldIn, int x, int y, int z) {
         super.onBlockAdded(worldIn, x, y, z);
@@ -173,18 +189,5 @@ public class BlockCutSlabVertical extends BlockSlabVertical implements ITileEnti
         super.onBlockEventReceived(worldIn, x, y, z, eventId, eventData);
         TileEntity tileentity = worldIn.getTileEntity(x, y, z);
         return tileentity != null ? tileentity.receiveClientEvent(eventId, eventData) : false;
-    }
-
-    @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
-        if (field_150004_a && (meta == 2 || meta == 3)) {
-            return new TileEntityCutDouble();
-        }
-        return new TileEntityCut();
-    }
-
-    @Override
-    public boolean renderAsNormalBlock() {
-        return false;
     }
 }

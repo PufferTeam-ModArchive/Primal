@@ -109,6 +109,16 @@ public class BlockCutWall extends BlockWall implements ITileEntityProvider, IPri
     }
 
     @Override
+    public TileEntity createNewTileEntity(World worldIn, int meta) {
+        return new TileEntityCut();
+    }
+
+    /**
+     * Tile Entity Functions
+     * Necessary for the block to have a Tile Entity correctly, as it doesn't extend BlockContainer
+     **/
+
+    @Override
     public void onBlockAdded(World worldIn, int x, int y, int z) {
         super.onBlockAdded(worldIn, x, y, z);
         worldIn.setTileEntity(x, y, z, this.createNewTileEntity(worldIn, 0));
@@ -125,10 +135,5 @@ public class BlockCutWall extends BlockWall implements ITileEntityProvider, IPri
         super.onBlockEventReceived(worldIn, x, y, z, eventId, eventData);
         TileEntity tileentity = worldIn.getTileEntity(x, y, z);
         return tileentity != null ? tileentity.receiveClientEvent(eventId, eventData) : false;
-    }
-
-    @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
-        return new TileEntityCut();
     }
 }

@@ -13,6 +13,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.*;
 import net.minecraftforge.event.world.BlockEvent;
 import net.pufferlab.primal.*;
+import net.pufferlab.primal.blocks.BlockMetaDirt;
+import net.pufferlab.primal.blocks.BlockMetaGrass;
 import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.ItemUtils;
 
@@ -82,7 +84,7 @@ public class ToolHandler implements IEventHandler {
         Block blockAbove = event.world.getBlock(event.x, event.y + 1, event.z);
         int meta = event.world.getBlockMetadata(event.x, event.y, event.z);
         if (blockAbove.getMaterial() == Material.air) {
-            if (BlockUtils.isGrassBlock(block) || BlockUtils.isDirtBlock(block)) {
+            if (block instanceof BlockMetaGrass || block instanceof BlockMetaDirt) {
                 BlockUtils.playSound(event.world, event.x, event.y, event.z, Blocks.farmland);
                 event.world.setBlock(event.x, event.y, event.z, Registry.farmland, meta, 2);
                 Block block2 = event.world.getBlock(event.x, event.y, event.z);

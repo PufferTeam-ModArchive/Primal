@@ -1,5 +1,8 @@
 package net.pufferlab.primal.blocks;
 
+import static net.minecraftforge.common.util.ForgeDirection.*;
+import static net.minecraftforge.common.util.ForgeDirection.NORTH;
+
 import java.util.List;
 import java.util.Random;
 
@@ -67,6 +70,46 @@ public class BlockCutButton extends BlockButton implements ITileEntityProvider, 
     }
 
     @Override
+    public boolean func_150044_m(World worldIn, int x, int y, int z) {
+        if (!this.canPlaceBlockAt(worldIn, x, y, z)) {
+            dropBlockAsItem(worldIn, x, y, z, new ItemStack(this, 1, getDamageValue(worldIn, x, y, z)));
+            worldIn.setBlockToAir(x, y, z);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public void onNeighborBlockChange(World worldIn, int x, int y, int z, Block neighbor) {
+        if (this.func_150044_m(worldIn, x, y, z)) {
+            int l = worldIn.getBlockMetadata(x, y, z) & 7;
+            boolean flag = false;
+
+            if (!worldIn.isSideSolid(x - 1, y, z, EAST) && l == 1) {
+                flag = true;
+            }
+
+            if (!worldIn.isSideSolid(x + 1, y, z, WEST) && l == 2) {
+                flag = true;
+            }
+
+            if (!worldIn.isSideSolid(x, y, z - 1, SOUTH) && l == 3) {
+                flag = true;
+            }
+
+            if (!worldIn.isSideSolid(x, y, z + 1, NORTH) && l == 4) {
+                flag = true;
+            }
+
+            if (flag) {
+                dropBlockAsItem(worldIn, x, y, z, new ItemStack(this, 1, getDamageValue(worldIn, x, y, z)));
+                worldIn.setBlockToAir(x, y, z);
+            }
+        }
+    }
+
+    @Override
     public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
         for (int i = 0; i < CutUtils.getSize(); i++) {
             list.add(new ItemStack(this, 0, i));
@@ -118,7 +161,20 @@ public class BlockCutButton extends BlockButton implements ITileEntityProvider, 
         return null;
     }
 
-    // Tile Entity Provider Function
+    @Override
+    public TileEntity createNewTileEntity(World worldIn, int meta) {
+        return new TileEntityCut();
+    }
+
+    @Override
+    public boolean renderAsNormalBlock() {
+        return false;
+    }
+
+    /**
+     * Tile Entity Functions
+     * Necessary for the block to have a Tile Entity correctly, as it doesn't extend BlockContainer
+     **/
     @Override
     public void onBlockAdded(World worldIn, int x, int y, int z) {
         super.onBlockAdded(worldIn, x, y, z);
@@ -137,15 +193,5 @@ public class BlockCutButton extends BlockButton implements ITileEntityProvider, 
         super.onBlockEventReceived(worldIn, x, y, z, eventId, eventData);
         TileEntity tileentity = worldIn.getTileEntity(x, y, z);
         return tileentity != null ? tileentity.receiveClientEvent(eventId, eventData) : false;
-    }
-
-    @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
-        return new TileEntityCut();
-    }
-
-    @Override
-    public boolean renderAsNormalBlock() {
-        return false;
     }
 }

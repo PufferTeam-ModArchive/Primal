@@ -28,10 +28,7 @@ import net.pufferlab.primal.network.packets.*;
 import net.pufferlab.primal.recipes.AnvilAction;
 import net.pufferlab.primal.tileentities.*;
 import net.pufferlab.primal.utils.*;
-import net.pufferlab.primal.world.PrimalDecorator;
-import net.pufferlab.primal.world.PrimalEarlyGenerator;
-import net.pufferlab.primal.world.PrimalFinalGenerator;
-import net.pufferlab.primal.world.PrimalLateGenerator;
+import net.pufferlab.primal.world.*;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IWorldGenerator;

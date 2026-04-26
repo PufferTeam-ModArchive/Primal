@@ -34,40 +34,35 @@ public class BlockFluidPrimal extends BlockFluidClassic implements IPrimalBlock 
     }
 
     @Override
-    public boolean canDisplace(IBlockAccess world, int x, int y, int z)
-    {
-        if (world.getBlock(x, y, z).isAir(world, x, y, z)) return true;
+    public boolean canDisplace(IBlockAccess world, int x, int y, int z) {
+        if (world.getBlock(x, y, z)
+            .isAir(world, x, y, z)) return true;
 
         Block block = world.getBlock(x, y, z);
 
-        if (block == this)
-        {
+        if (block == this) {
             return false;
         }
 
-        if (displacements.containsKey(block))
-        {
+        if (displacements.containsKey(block)) {
             return displacements.get(block);
         }
 
         Material material = block.getMaterial();
-        if (material.blocksMovement() || material == Material.portal || material == Material.water || material == Material.lava)
-        {
+        if (material.blocksMovement() || material == Material.portal
+            || material == Material.water
+            || material == Material.lava) {
             return false;
         }
 
         int density = getDensity(world, x, y, z);
-        if (density == Integer.MAX_VALUE)
-        {
+        if (density == Integer.MAX_VALUE) {
             return true;
         }
 
-        if (this.density > density)
-        {
+        if (this.density > density) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }

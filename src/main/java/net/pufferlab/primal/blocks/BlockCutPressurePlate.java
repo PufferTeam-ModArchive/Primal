@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockPressurePlate;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.creativetab.CreativeTabs;
@@ -71,6 +72,21 @@ public class BlockCutPressurePlate extends BlockPressurePlate implements ITileEn
     public void onBlockHarvested(World worldIn, int x, int y, int z, int meta, EntityPlayer player) {
         if (player.capabilities.isCreativeMode) return;
         dropBlockAsItem(worldIn, x, y, z, new ItemStack(this, 1, getDamageValue(worldIn, x, y, z)));
+    }
+
+    @Override
+    public void onNeighborBlockChange(World worldIn, int x, int y, int z, Block neighbor) {
+        boolean flag = false;
+
+        if (!World.doesBlockHaveSolidTopSurface(worldIn, x, y - 1, z)
+            && !BlockFence.func_149825_a(worldIn.getBlock(x, y - 1, z))) {
+            flag = true;
+        }
+
+        if (flag) {
+            dropBlockAsItem(worldIn, x, y, z, new ItemStack(this, 1, getDamageValue(worldIn, x, y, z)));
+            worldIn.setBlockToAir(x, y, z);
+        }
     }
 
     @Override
