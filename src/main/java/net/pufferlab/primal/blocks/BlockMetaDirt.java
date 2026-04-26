@@ -2,6 +2,7 @@ package net.pufferlab.primal.blocks;
 
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -122,6 +123,14 @@ public class BlockMetaDirt extends BlockDirt implements IPrimalBlock, IMetaBlock
     public boolean canSustainPlant(IBlockAccess world, int x, int y, int z, ForgeDirection direction,
         IPlantable plantable) {
         return Blocks.dirt.canSustainPlant(world, x, y, z, direction, plantable);
+    }
+
+    public Block getFarmlandBlock() {
+        return null;
+    }
+
+    public Block getPathBlock() {
+        return null;
     }
 
     @Override

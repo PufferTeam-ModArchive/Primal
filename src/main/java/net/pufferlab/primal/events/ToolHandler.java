@@ -84,9 +84,16 @@ public class ToolHandler implements IEventHandler {
         Block blockAbove = event.world.getBlock(event.x, event.y + 1, event.z);
         int meta = event.world.getBlockMetadata(event.x, event.y, event.z);
         if (blockAbove.getMaterial() == Material.air) {
-            if (block instanceof BlockMetaGrass || block instanceof BlockMetaDirt) {
+            Block farmland = null;
+            if (block instanceof BlockMetaGrass block2) {
+                farmland = block2.getFarmlandBlock();
+            }
+            if (block instanceof BlockMetaDirt block2) {
+                farmland = block2.getFarmlandBlock();
+            }
+            if (farmland != null) {
                 BlockUtils.playSound(event.world, event.x, event.y, event.z, Blocks.farmland);
-                event.world.setBlock(event.x, event.y, event.z, Registry.farmland, meta, 2);
+                event.world.setBlock(event.x, event.y, event.z, farmland, meta, 2);
                 Block block2 = event.world.getBlock(event.x, event.y, event.z);
                 block2.onBlockPlacedBy(event.world, event.x, event.y, event.z, event.entityPlayer, event.current);
 
@@ -114,9 +121,16 @@ public class ToolHandler implements IEventHandler {
                 Block blockAbove = event.world.getBlock(event.x, event.y + 1, event.z);
                 int meta = world.getBlockMetadata(event.x, event.y, event.z);
                 if (blockAbove.getMaterial() == Material.air) {
-                    if (BlockUtils.isGrassBlock(block)) {
+                    Block path = null;
+                    if (block instanceof BlockMetaGrass block2) {
+                        path = block2.getPathBlock();
+                    }
+                    if (block instanceof BlockMetaDirt block2) {
+                        path = block2.getPathBlock();
+                    }
+                    if (path != null) {
                         BlockUtils.playSound(world, event.x, event.y, event.z, Blocks.dirt);
-                        world.setBlock(event.x, event.y, event.z, Registry.path, meta, 2);
+                        world.setBlock(event.x, event.y, event.z, path, meta, 2);
                         heldItem.damageItem(1, event.entityPlayer);
                         event.entityPlayer.swingItem();
                     }

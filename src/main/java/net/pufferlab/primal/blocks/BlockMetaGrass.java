@@ -3,6 +3,7 @@ package net.pufferlab.primal.blocks;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockGrass;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.Material;
@@ -215,6 +216,14 @@ public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlo
     public boolean canSustainPlant(IBlockAccess world, int x, int y, int z, ForgeDirection direction,
         IPlantable plantable) {
         return Blocks.grass.canSustainPlant(world, x, y, z, direction, plantable);
+    }
+
+    public Block getFarmlandBlock() {
+        return null;
+    }
+
+    public Block getPathBlock() {
+        return null;
     }
 
     @Override

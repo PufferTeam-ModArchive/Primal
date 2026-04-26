@@ -18,15 +18,19 @@ public class RenderBounds {
 
     public static final RenderBounds instance = new RenderBounds();
 
-    public static void handleRendering(EntityPlayer player, MovingObjectPosition mop, float partialTicks) {
-        instance.handleRenderingImpl(player, mop, partialTicks);
+    public static boolean handleRendering(EntityPlayer player, MovingObjectPosition mop, float partialTicks) {
+        return instance.handleRenderingImpl(player, mop, partialTicks);
     }
 
-    private void handleRenderingImpl(EntityPlayer player, MovingObjectPosition mop, float partialTicks) {
+    private boolean handleRenderingImpl(EntityPlayer player, MovingObjectPosition mop, float partialTicks) {
         Block block = player.worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
-        if (block instanceof IPrimalBlock) {
+        if (block instanceof IPrimalBlock block2) {
             drawSelectionBox(player, mop, 0, partialTicks);
+            if (!block2.renderDefaultBounds()) {
+                return false;
+            }
         }
+        return true;
     }
 
     public void drawSelectionBox(EntityPlayer player, MovingObjectPosition mop, int index, float partialTicks) {
@@ -45,9 +49,20 @@ public class RenderBounds {
                 double d0 = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double) partialTicks;
                 double d1 = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double) partialTicks;
                 double d2 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double) partialTicks;
+                float hitX = (float) (mop.hitVec.xCoord - mop.blockX);
+                float hitY = (float) (mop.hitVec.yCoord - mop.blockY);
+                float hitZ = (float) (mop.hitVec.zCoord - mop.blockZ);
                 List<AxisAlignedBB> boxes = null;
                 if (block instanceof IPrimalBlock block2) {
-                    boxes = block2.getBounds(player.worldObj, mop.blockX, mop.blockY, mop.blockZ, BoundsType.rendered);
+                    boxes = block2.getBounds(
+                        player.worldObj,
+                        mop.blockX,
+                        mop.blockY,
+                        mop.blockZ,
+                        hitX,
+                        hitY,
+                        hitZ,
+                        BoundsType.rendered);
                 }
                 if (boxes == null) return;
                 for (AxisAlignedBB box : boxes) {

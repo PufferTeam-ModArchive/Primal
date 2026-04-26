@@ -12,8 +12,13 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 public interface IPrimalBlock {
 
-    default List<AxisAlignedBB> getBounds(World world, int x, int y, int z, BoundsType bounds) {
+    default List<AxisAlignedBB> getBounds(World world, int x, int y, int z, float hitX, float hitY, float hitZ,
+        BoundsType bounds) {
         return null;
+    }
+
+    default boolean renderDefaultBounds() {
+        return true;
     }
 
     default Class<? extends ItemBlock> getItemBlockClass() {

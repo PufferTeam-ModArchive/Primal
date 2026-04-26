@@ -1,5 +1,6 @@
 package net.pufferlab.primal.blocks;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.pufferlab.primal.Config;
@@ -16,6 +17,11 @@ public class BlockSoilDirt extends BlockMetaDirt {
         this.setHasSuffix();
         this.setHardness(0.5F);
         this.setStepSound(soundTypeGravel);
+    }
+
+    @Override
+    public Block getFarmlandBlock() {
+        return Registry.farmland;
     }
 
     @Override

@@ -57,6 +57,16 @@ public class BlockSoilGrass extends BlockMetaGrass {
     }
 
     @Override
+    public Block getFarmlandBlock() {
+        return Registry.farmland;
+    }
+
+    @Override
+    public Block getPathBlock() {
+        return Registry.path;
+    }
+
+    @Override
     public boolean canRegister() {
         return Config.soilTypes.getBoolean();
     }

@@ -19,7 +19,10 @@ public class RenderingHandler {
 
     @SubscribeEvent
     public void onDrawBlockHighlight(DrawBlockHighlightEvent event) {
-        RenderBounds.handleRendering(event.player, event.target, event.partialTicks);
+        boolean state = RenderBounds.handleRendering(event.player, event.target, event.partialTicks);
+        if (!state) {
+            event.setCanceled(true);
+        }
     }
 
 }

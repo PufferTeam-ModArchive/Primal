@@ -1,5 +1,6 @@
 package net.pufferlab.primal.blocks;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -12,7 +13,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Config;
@@ -21,6 +24,7 @@ import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.items.itemblocks.ItemBlockCutSlab;
 import net.pufferlab.primal.tileentities.TileEntityCut;
 import net.pufferlab.primal.tileentities.TileEntityCutDouble;
+import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.CutUtils;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -68,6 +72,29 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
             int materialMeta = getMaterialMeta(worldIn, x, y, z);
             return CutUtils.getIcon(side, materialMeta);
         }
+    }
+
+    @Override
+    public List<AxisAlignedBB> getBounds(World world, int x, int y, int z, float hitX, float hitY, float hitZ,
+        BoundsType type) {
+        List<AxisAlignedBB> list = new ArrayList<>();
+        if (!isFull) return null;
+        if (type == BoundsType.rendered) {
+            if (hitY < 0.5F) {
+                list.add(AxisAlignedBB.getBoundingBox(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F));
+            } else {
+                list.add(AxisAlignedBB.getBoundingBox(0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F));
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public boolean renderDefaultBounds() {
+        if (!isFull) {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -150,17 +177,49 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
 
     @Override
     public void onBlockHarvested(World worldIn, int x, int y, int z, int meta, EntityPlayer player) {
-        if (player.capabilities.isCreativeMode) return;
-        if (field_150004_a) {
-            if (meta == 1) {
-                dropBlockAsItem(worldIn, x, y, z, new ItemStack(this.slabBlock, 1, getDamageValue(worldIn, x, y, z)));
-                dropBlockAsItem(worldIn, x, y, z, new ItemStack(this.slabBlock, 1, getMaterialMeta2(worldIn, x, y, z)));
-            } else {
-                dropBlockAsItem(worldIn, x, y, z, new ItemStack(this.slabBlock, 2, getDamageValue(worldIn, x, y, z)));
+        if (isFull) {
+            MovingObjectPosition mop = BlockUtils.getMovingObjectPositionFromPlayer(worldIn, player, false);
+            if (mop != null) {
+                int materialMeta = getMaterialMeta(worldIn, x, y, z);
+                int materialMeta2 = getMaterialMeta2(worldIn, x, y, z);
+                float hitY = (float) (mop.hitVec.yCoord - mop.blockY);
+                if (hitY < 0.5F) {
+                    if (meta == 1) {
+                        worldIn.setBlock(x, y, z, this.slabBlock, 8, 2);
+                        Primal.proxy.packet.sendMaterialPacket(worldIn, x, y, z, this.slabBlock, materialMeta2);
+                    } else {
+                        worldIn.setBlock(x, y, z, this.slabBlock, 8, 2);
+                        Primal.proxy.packet.sendMaterialPacket(worldIn, x, y, z, this.slabBlock, materialMeta);
+                    }
+                } else {
+                    worldIn.setBlock(x, y, z, this.slabBlock, 0, 2);
+                    Primal.proxy.packet.sendMaterialPacket(worldIn, x, y, z, this.slabBlock, materialMeta);
+                }
+                Primal.proxy.packet.sendChunkUpdate(worldIn);
+                if (player.capabilities.isCreativeMode) return;
+                if (hitY < 0.5F) {
+                    dropBlockAsItem(worldIn, x, y, z, new ItemStack(this.slabBlock, 1, materialMeta));
+                } else {
+                    if (meta == 1) {
+                        dropBlockAsItem(worldIn, x, y, z, new ItemStack(this.slabBlock, 1, materialMeta2));
+                    } else {
+                        dropBlockAsItem(worldIn, x, y, z, new ItemStack(this.slabBlock, 1, materialMeta));
+                    }
+                }
             }
-        } else {
+        }
+        if (player.capabilities.isCreativeMode) return;
+        if (!isFull) {
             dropBlockAsItem(worldIn, x, y, z, new ItemStack(this, 1, getDamageValue(worldIn, x, y, z)));
         }
+    }
+
+    @Override
+    public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest) {
+        if (isFull) {
+            return true;
+        }
+        return removedByPlayer(world, player, x, y, z);
     }
 
     @Override
