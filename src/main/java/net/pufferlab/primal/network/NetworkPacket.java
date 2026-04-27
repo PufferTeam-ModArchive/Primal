@@ -3,7 +3,9 @@ package net.pufferlab.primal.network;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -137,6 +139,14 @@ public class NetworkPacket {
     public void playAuxFX(World world, int x, int y, int z, Block block, int meta, int side,
         List<AxisAlignedBB> boundingBox) {
         Primal.proxy.playPacketToClientNear(new PacketEffect(x, y, z, block, meta, side, boundingBox), world, x, y, z);
+    }
+
+    public void sendBlockPlacement(int x, int y, int z, int side, EntityPlayer player, float hitX, float hitY,
+        float hitZ) {
+        if (player.worldObj.isRemote) {
+            Minecraft.getMinecraft().playerController.netClientHandler.addToSendQueue(
+                new C08PacketPlayerBlockPlacement(x, y, z, side, player.inventory.getCurrentItem(), hitX, hitY, hitZ));
+        }
     }
 
     public void sendChunkUpdate(World world) {
