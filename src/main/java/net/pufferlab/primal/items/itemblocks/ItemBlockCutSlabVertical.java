@@ -52,22 +52,6 @@ public class ItemBlockCutSlabVertical extends ItemBlock implements IMetaItem, IP
     }
 
     @Override
-    public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
-        float hitX, float hitY, float hitZ) {
-        Block block = world.getBlock(x, y, z);
-        boolean flag = false;
-        if (block == this.slabBlock) {
-            flag = onItemUse(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
-            if (player.capabilities.isCreativeMode) {
-                player.getHeldItem().stackSize++;
-            }
-            Primal.proxy.packet.sendBlockPlacement(x, y, z, side, player, hitX, hitY, hitZ);
-            Primal.proxy.packet.sendChunkUpdate(world);
-        }
-        return flag;
-    }
-
-    @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
         float hitX, float hitY, float hitZ) {
         if (this.isFull) {

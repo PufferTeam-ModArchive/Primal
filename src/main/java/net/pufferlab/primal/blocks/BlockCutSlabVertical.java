@@ -187,78 +187,47 @@ public class BlockCutSlabVertical extends BlockSlabVertical implements ITileEnti
                 float hitY = (float) (mop.hitVec.yCoord - mop.blockY);
                 float hitZ = (float) (mop.hitVec.zCoord - mop.blockZ);
                 List<AxisAlignedBB> list = getBounds(worldIn, x, y, z, hitX, hitY, hitZ, BoundsType.rendered);
+                float hit = 0;
+                int val1 = 0;
+                int val2 = 0;
                 if (meta == 0 || meta == 2) {
-                    if (hitX < 0.5F) {
-                        Primal.proxy.packet.playAuxFX(worldIn, x, y, z, this.slabBlock, materialMeta, -1, list);
+                    hit = hitX;
+                    val2 = 1;
+                } else if (meta == 1 || meta == 3) {
+                    hit = hitZ;
+                    val1 = 2;
+                    val2 = 3;
+                }
+                if (hit < 0.5F) {
+                    Primal.proxy.packet.playAuxFX(worldIn, x, y, z, this.slabBlock, materialMeta, -1, list);
+                } else {
+                    if (meta == 2 || meta == 3) {
+                        Primal.proxy.packet.playAuxFX(worldIn, x, y, z, this.slabBlock, materialMeta2, -1, list);
                     } else {
-                        if (meta == 2) {
-                            Primal.proxy.packet.playAuxFX(worldIn, x, y, z, this.slabBlock, materialMeta2, -1, list);
-                        } else {
-                            Primal.proxy.packet.playAuxFX(worldIn, x, y, z, this.slabBlock, materialMeta, -1, list);
-                        }
+                        Primal.proxy.packet.playAuxFX(worldIn, x, y, z, this.slabBlock, materialMeta, -1, list);
                     }
                 }
-                if (meta == 1 || meta == 3) {
-                    if (hitZ < 0.5F) {
-                        Primal.proxy.packet.playAuxFX(worldIn, x, y, z, this.slabBlock, materialMeta, -1, list);
+                if (hit < 0.5F) {
+                    if (meta == 3 || meta == 2) {
+                        worldIn.setBlock(x, y, z, this.slabBlock, val1, 2);
+                        Primal.proxy.packet.sendMaterialPacket(worldIn, x, y, z, this.slabBlock, materialMeta2);
                     } else {
-                        if (meta == 3) {
-                            Primal.proxy.packet.playAuxFX(worldIn, x, y, z, this.slabBlock, materialMeta2, -1, list);
-                        } else {
-                            Primal.proxy.packet.playAuxFX(worldIn, x, y, z, this.slabBlock, materialMeta, -1, list);
-                        }
-                    }
-                }
-                if (meta == 0 || meta == 2) {
-                    if (hitX < 0.5F) {
-                        if (meta == 2) {
-                            worldIn.setBlock(x, y, z, this.slabBlock, 0, 2);
-                            Primal.proxy.packet.sendMaterialPacket(worldIn, x, y, z, this.slabBlock, materialMeta2);
-                        } else {
-                            worldIn.setBlock(x, y, z, this.slabBlock, 0, 2);
-                            Primal.proxy.packet.sendMaterialPacket(worldIn, x, y, z, this.slabBlock, materialMeta);
-                        }
-                    } else {
-                        worldIn.setBlock(x, y, z, this.slabBlock, 1, 2);
+                        worldIn.setBlock(x, y, z, this.slabBlock, val1, 2);
                         Primal.proxy.packet.sendMaterialPacket(worldIn, x, y, z, this.slabBlock, materialMeta);
                     }
-                }
-                if (meta == 1 || meta == 3) {
-                    if (hitZ < 0.5F) {
-                        if (meta == 3) {
-                            worldIn.setBlock(x, y, z, this.slabBlock, 2, 2);
-                            Primal.proxy.packet.sendMaterialPacket(worldIn, x, y, z, this.slabBlock, materialMeta2);
-                        } else {
-                            worldIn.setBlock(x, y, z, this.slabBlock, 2, 2);
-                            Primal.proxy.packet.sendMaterialPacket(worldIn, x, y, z, this.slabBlock, materialMeta);
-                        }
-                    } else {
-                        worldIn.setBlock(x, y, z, this.slabBlock, 3, 2);
-                        Primal.proxy.packet.sendMaterialPacket(worldIn, x, y, z, this.slabBlock, materialMeta);
-                    }
+                } else {
+                    worldIn.setBlock(x, y, z, this.slabBlock, val2, 2);
+                    Primal.proxy.packet.sendMaterialPacket(worldIn, x, y, z, this.slabBlock, materialMeta);
                 }
                 Primal.proxy.packet.sendChunkUpdate(worldIn);
                 if (player.capabilities.isCreativeMode) return;
-                if (meta == 0 || meta == 2) {
-                    if (hitX < 0.5F) {
-                        dropBlockAsItem(worldIn, x, y, z, new ItemStack(this.slabBlock, 1, materialMeta));
+                if (hit < 0.5F) {
+                    dropBlockAsItem(worldIn, x, y, z, new ItemStack(this.slabBlock, 1, materialMeta));
+                } else {
+                    if (meta == 2 || meta == 3) {
+                        dropBlockAsItem(worldIn, x, y, z, new ItemStack(this.slabBlock, 1, materialMeta2));
                     } else {
-                        if (meta == 2) {
-                            dropBlockAsItem(worldIn, x, y, z, new ItemStack(this.slabBlock, 1, materialMeta2));
-                        } else {
-                            dropBlockAsItem(worldIn, x, y, z, new ItemStack(this.slabBlock, 1, materialMeta));
-                        }
-                    }
-                }
-                if (meta == 1 || meta == 3) {
-                    if (hitZ < 0.5F) {
                         dropBlockAsItem(worldIn, x, y, z, new ItemStack(this.slabBlock, 1, materialMeta));
-                    } else {
-                        if (meta == 3) {
-                            dropBlockAsItem(worldIn, x, y, z, new ItemStack(this.slabBlock, 1, materialMeta2));
-                        } else {
-                            dropBlockAsItem(worldIn, x, y, z, new ItemStack(this.slabBlock, 1, materialMeta));
-                        }
                     }
                 }
             }
