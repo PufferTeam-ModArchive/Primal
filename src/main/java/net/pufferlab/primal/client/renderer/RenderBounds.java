@@ -49,20 +49,10 @@ public class RenderBounds {
                 double d0 = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double) partialTicks;
                 double d1 = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double) partialTicks;
                 double d2 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double) partialTicks;
-                float hitX = (float) (mop.hitVec.xCoord - mop.blockX);
-                float hitY = (float) (mop.hitVec.yCoord - mop.blockY);
-                float hitZ = (float) (mop.hitVec.zCoord - mop.blockZ);
                 List<AxisAlignedBB> boxes = null;
                 if (block instanceof IPrimalBlock block2) {
-                    boxes = block2.getBounds(
-                        player.worldObj,
-                        mop.blockX,
-                        mop.blockY,
-                        mop.blockZ,
-                        hitX,
-                        hitY,
-                        hitZ,
-                        BoundsType.rendered);
+                    boxes = block2
+                        .getBounds(player.worldObj, mop.blockX, mop.blockY, mop.blockZ, player, BoundsType.rendered);
                 }
                 if (boxes == null) return;
                 for (AxisAlignedBB box : boxes) {

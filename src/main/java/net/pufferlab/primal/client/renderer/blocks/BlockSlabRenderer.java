@@ -1,10 +1,15 @@
 package net.pufferlab.primal.client.renderer.blocks;
 
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.pufferlab.primal.blocks.BlockCutSlab;
+import net.pufferlab.primal.blocks.BoundsType;
+import net.pufferlab.primal.blocks.IPrimalBlock;
 import net.pufferlab.primal.tileentities.TileEntityCut;
 import net.pufferlab.primal.tileentities.TileEntityCutDouble;
 
@@ -31,22 +36,29 @@ public class BlockSlabRenderer extends BlockPrimalRenderer {
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
         TileEntity te = world.getTileEntity(x, y, z);
-        if (te instanceof TileEntityCutDouble) {
-            if (renderer.hasOverrideBlockTexture()) {
-                renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-                renderer.renderStandardBlock(block, x, y, z);
-            } else {
-                renderer.field_152631_f = true;
-                renderer.setOverrideBlockTexture(block.getIcon(world, x, y, z, 0));
-                renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
-                renderer.renderStandardBlock(block, x, y, z);
-
-                renderer.setOverrideBlockTexture(block.getIcon(world, x, y, z, 1));
-                renderer.setRenderBounds(0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F);
-                renderer.renderStandardBlock(block, x, y, z);
-                renderer.setOverrideBlockTexture(null);
-                renderer.field_152631_f = false;
+        if (renderBreaking) {
+            if (block instanceof IPrimalBlock block2) {
+                List<AxisAlignedBB> list = block2.getBounds(player.worldObj, x, y, z, player, BoundsType.rendered);
+                if (list != null) {
+                    for (AxisAlignedBB bb : list) {
+                        setRenderBounds(renderer, bb);
+                    }
+                    renderer.renderStandardBlock(block, x, y, z);
+                    return true;
+                }
             }
+        }
+        if (te instanceof TileEntityCutDouble) {
+            renderer.field_152631_f = true;
+            renderer.setOverrideBlockTexture(block.getIcon(world, x, y, z, 0));
+            renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
+            renderer.renderStandardBlock(block, x, y, z);
+
+            renderer.setOverrideBlockTexture(block.getIcon(world, x, y, z, 1));
+            renderer.setRenderBounds(0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F);
+            renderer.renderStandardBlock(block, x, y, z);
+            renderer.setOverrideBlockTexture(null);
+            renderer.field_152631_f = false;
             return true;
         }
         if (te instanceof TileEntityCut tef) {

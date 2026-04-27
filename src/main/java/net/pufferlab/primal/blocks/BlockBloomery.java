@@ -48,8 +48,7 @@ public class BlockBloomery extends BlockContainerPrimal {
     ModelBloomery modelBloomery = new ModelBloomery();
 
     @Override
-    public List<AxisAlignedBB> getBounds(World world, int x, int y, int z, float hitX, float hitY, float hitZ,
-        BoundsType type) {
+    public List<AxisAlignedBB> getBounds(World world, int x, int y, int z, EntityPlayer player, BoundsType type) {
         List<AxisAlignedBB> bounds = new ArrayList<>();
         TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileEntityBloomery tef) {

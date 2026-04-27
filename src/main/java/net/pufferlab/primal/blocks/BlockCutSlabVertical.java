@@ -75,23 +75,27 @@ public class BlockCutSlabVertical extends BlockSlabVertical implements ITileEnti
     }
 
     @Override
-    public List<AxisAlignedBB> getBounds(World world, int x, int y, int z, float hitX, float hitY, float hitZ,
-        BoundsType type) {
+    public List<AxisAlignedBB> getBounds(World world, int x, int y, int z, EntityPlayer player, BoundsType type) {
         List<AxisAlignedBB> list = new ArrayList<>();
         if (!isFull) return null;
         int meta = world.getBlockMetadata(x, y, z);
         if (type == BoundsType.rendered) {
-            if (meta == 1 || meta == 3) {
-                if (hitZ < 0.5F) {
-                    list.add(AxisAlignedBB.getBoundingBox(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.5F));
-                } else {
-                    list.add(AxisAlignedBB.getBoundingBox(0.0F, 0.0F, 0.5F, 1.0F, 1.0F, 1.0F));
-                }
-            } else if (meta == 0 || meta == 2) {
-                if (hitX < 0.5F) {
-                    list.add(AxisAlignedBB.getBoundingBox(0.0F, 0.0F, 0.0F, 0.5F, 1.0F, 1.0F));
-                } else {
-                    list.add(AxisAlignedBB.getBoundingBox(0.5F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F));
+            MovingObjectPosition mop = BlockUtils.getMovingObjectPositionFromPlayer(world, player, false);
+            if (mop != null) {
+                float hitX = (float) (mop.hitVec.xCoord - mop.blockX);
+                float hitZ = (float) (mop.hitVec.zCoord - mop.blockZ);
+                if (meta == 1 || meta == 3) {
+                    if (hitZ < 0.5F) {
+                        list.add(AxisAlignedBB.getBoundingBox(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.5F));
+                    } else {
+                        list.add(AxisAlignedBB.getBoundingBox(0.0F, 0.0F, 0.5F, 1.0F, 1.0F, 1.0F));
+                    }
+                } else if (meta == 0 || meta == 2) {
+                    if (hitX < 0.5F) {
+                        list.add(AxisAlignedBB.getBoundingBox(0.0F, 0.0F, 0.0F, 0.5F, 1.0F, 1.0F));
+                    } else {
+                        list.add(AxisAlignedBB.getBoundingBox(0.5F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F));
+                    }
                 }
             }
         }
@@ -184,9 +188,8 @@ public class BlockCutSlabVertical extends BlockSlabVertical implements ITileEnti
                 int materialMeta = getMaterialMeta(worldIn, x, y, z);
                 int materialMeta2 = getMaterialMeta2(worldIn, x, y, z);
                 float hitX = (float) (mop.hitVec.xCoord - mop.blockX);
-                float hitY = (float) (mop.hitVec.yCoord - mop.blockY);
                 float hitZ = (float) (mop.hitVec.zCoord - mop.blockZ);
-                List<AxisAlignedBB> list = getBounds(worldIn, x, y, z, hitX, hitY, hitZ, BoundsType.rendered);
+                List<AxisAlignedBB> list = getBounds(worldIn, x, y, z, player, BoundsType.rendered);
                 float hit = 0;
                 int val1 = 0;
                 int val2 = 0;

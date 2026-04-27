@@ -76,16 +76,20 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
     }
 
     @Override
-    public List<AxisAlignedBB> getBounds(World world, int x, int y, int z, float hitX, float hitY, float hitZ,
-        BoundsType type) {
+    public List<AxisAlignedBB> getBounds(World world, int x, int y, int z, EntityPlayer player, BoundsType type) {
         List<AxisAlignedBB> list = new ArrayList<>();
         if (!isFull) return null;
         if (type == BoundsType.rendered) {
-            if (hitY < 0.5F) {
-                list.add(AxisAlignedBB.getBoundingBox(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F));
-            } else {
-                list.add(AxisAlignedBB.getBoundingBox(0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F));
+            MovingObjectPosition mop = BlockUtils.getMovingObjectPositionFromPlayer(world, player, false);
+            if (mop != null) {
+                float hitY = (float) (mop.hitVec.yCoord - mop.blockY);
+                if (hitY < 0.5F) {
+                    list.add(AxisAlignedBB.getBoundingBox(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F));
+                } else {
+                    list.add(AxisAlignedBB.getBoundingBox(0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F));
+                }
             }
+
         }
         return list;
     }
@@ -183,10 +187,8 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
             if (mop != null) {
                 int materialMeta = getMaterialMeta(worldIn, x, y, z);
                 int materialMeta2 = getMaterialMeta2(worldIn, x, y, z);
-                float hitX = (float) (mop.hitVec.xCoord - mop.blockX);
                 float hitY = (float) (mop.hitVec.yCoord - mop.blockY);
-                float hitZ = (float) (mop.hitVec.zCoord - mop.blockZ);
-                List<AxisAlignedBB> list = getBounds(worldIn, x, y, z, hitX, hitY, hitZ, BoundsType.rendered);
+                List<AxisAlignedBB> list = getBounds(worldIn, x, y, z, player, BoundsType.rendered);
                 if (hitY < 0.5F) {
                     Primal.proxy.packet.playAuxFX(worldIn, x, y, z, this.slabBlock, materialMeta, -1, list);
                 } else {

@@ -120,7 +120,7 @@ public abstract class BlockContainerPrimal extends BlockContainer implements IPr
     public MovingObjectPosition collisionRayTrace(World worldIn, int x, int y, int z, Vec3 startVec, Vec3 endVec) {
         List<AxisAlignedBB> bounds;
         this.setBlockBoundsBasedOnState(worldIn, x, y, z);
-        bounds = getBounds(worldIn, x, y, z, 0.0F, 0.0F, 0.0F, BoundsType.rayTraced);
+        bounds = getBounds(worldIn, x, y, z, null, BoundsType.rayTraced);
         if (bounds != null && !bounds.isEmpty()) {
             for (AxisAlignedBB bb : bounds) {
                 MovingObjectPosition mop = BlockUtils.collisionRayTrace(bb, worldIn, x, y, z, startVec, endVec);
@@ -144,7 +144,7 @@ public abstract class BlockContainerPrimal extends BlockContainer implements IPr
         List<AxisAlignedBB> list, Entity collider) {
         this.setBlockBoundsBasedOnState(worldIn, x, y, z);
         List<AxisAlignedBB> bounds;
-        bounds = getBounds(worldIn, x, y, z, 0.0F, 0.0F, 0.0F, BoundsType.collision);
+        bounds = getBounds(worldIn, x, y, z, null, BoundsType.collision);
         if (bounds != null && !bounds.isEmpty()) {
             for (AxisAlignedBB bb : bounds) {
                 bb.offset(x, y, z);

@@ -8,7 +8,9 @@ import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.ForgeHooksClient;
@@ -29,6 +31,9 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
 
     private static float lastBrightnessX = 0;
     private static float lastBrightnessY = 0;
+
+    public static EntityPlayer player;
+    public static boolean renderBreaking = false;
 
     @Override
     public int getRenderId() {
@@ -270,6 +275,10 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
     double previousRenderMaxY;
     double previousRenderMinZ;
     double previousRenderMaxZ;
+
+    public void setRenderBounds(RenderBlocks renderBlocks, AxisAlignedBB bb) {
+        renderBlocks.setRenderBounds(bb.minX, bb.minY, bb.minZ, bb.maxX, bb.maxY, bb.maxZ);
+    }
 
     public void setRenderBounds(RenderBlocks renderBlocks) {
         if (!renderBlocks.lockBlockBounds) {
