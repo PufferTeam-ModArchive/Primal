@@ -1,8 +1,11 @@
 package net.pufferlab.primal.network;
 
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.pufferlab.primal.Primal;
@@ -10,6 +13,7 @@ import net.pufferlab.primal.blocks.ICutBlock;
 import net.pufferlab.primal.entities.player.PlayerData;
 import net.pufferlab.primal.network.packets.*;
 import net.pufferlab.primal.tileentities.*;
+import net.pufferlab.primal.utils.Utils;
 
 public class NetworkPacket {
 
@@ -118,6 +122,21 @@ public class NetworkPacket {
 
     public void playAuxFX(World world, int x, int y, int z, Block block, int meta) {
         Primal.proxy.playPacketToClientNear(new PacketEffect(x, y, z, block, meta), world, x, y, z);
+    }
+
+    public void playAuxFX(World world, int x, int y, int z, Block block, int meta, int side,
+        AxisAlignedBB boundingBox) {
+        Primal.proxy.playPacketToClientNear(
+            new PacketEffect(x, y, z, block, meta, side, Utils.asList(boundingBox)),
+            world,
+            x,
+            y,
+            z);
+    }
+
+    public void playAuxFX(World world, int x, int y, int z, Block block, int meta, int side,
+        List<AxisAlignedBB> boundingBox) {
+        Primal.proxy.playPacketToClientNear(new PacketEffect(x, y, z, block, meta, side, boundingBox), world, x, y, z);
     }
 
     public void sendChunkUpdate(World world) {

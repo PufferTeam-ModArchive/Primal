@@ -56,24 +56,31 @@ public abstract class MixinEntityDiggingFX {
                 boolean b1 = false;
                 boolean b2 = false;
                 Block block3 = world.getBlock(x2, y2, z2);
-                if (block3 instanceof IPrimalBlock block4) {
-                    if (block4.useWorldIcon()) {
-                        ((EntityDiggingFX) (Object) this).setParticleIcon(block.getIcon(world, x2, y2, z2, side));
-                        b1 = true;
-                    }
-                }
-                if (!b1) {
-                    Block block4 = world.getBlock(x4, y4, z4);
-                    if (block4 instanceof IPrimalBlock block5) {
-                        if (block5.useWorldIcon()) {
-                            ((EntityDiggingFX) (Object) this).setParticleIcon(block.getIcon(world, x4, y4, z4, side));
-                            b2 = true;
+                if (side < 0) {
+                    ((EntityDiggingFX) (Object) this).setParticleIcon(block.getIcon(world.rand.nextInt(6), meta));
+                } else {
+                    if (block3 instanceof IPrimalBlock block4) {
+                        if (block4.useWorldIcon()) {
+                            ((EntityDiggingFX) (Object) this).setParticleIcon(block.getIcon(world, x2, y2, z2, side));
+                            b1 = true;
                         }
                     }
-                    if (!b2) {
-                        ((EntityDiggingFX) (Object) this).setParticleIcon(block.getIcon(world, x2, y2 - 1, z2, side));
+                    if (!b1) {
+                        Block block4 = world.getBlock(x4, y4, z4);
+                        if (block4 instanceof IPrimalBlock block5) {
+                            if (block5.useWorldIcon()) {
+                                ((EntityDiggingFX) (Object) this)
+                                    .setParticleIcon(block.getIcon(world, x4, y4, z4, side));
+                                b2 = true;
+                            }
+                        }
+                        if (!b2) {
+                            ((EntityDiggingFX) (Object) this)
+                                .setParticleIcon(block.getIcon(world, x2, y2 - 1, z2, side));
+                        }
                     }
                 }
+
             }
         }
     }

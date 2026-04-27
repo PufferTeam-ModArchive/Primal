@@ -2,6 +2,7 @@ package net.pufferlab.primal;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -12,6 +13,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -300,7 +303,7 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public void renderFX(World world, int x, int y, int z, Block block, int meta) {
+    public void renderFX(World world, int x, int y, int z, Block block, int meta, int side) {
         byte b0 = 4;
         if (block instanceof IPrimalBlock block2) {
             b0 = block2.getBlockParticleAmount();
@@ -323,7 +326,45 @@ public class ClientProxy extends CommonProxy {
                                 d1 - (double) y - 0.5D,
                                 d2 - (double) z - 0.5D,
                                 block,
-                                meta).applyColourMultiplier(x, y, z));
+                                meta,
+                                side).applyColourMultiplier(x, y, z));
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void renderFX(World world, int x, int y, int z, Block block, int meta, int side,
+        List<AxisAlignedBB> boundingBox) {
+        for (AxisAlignedBB box : boundingBox) {
+            double d = Math.min(1.0, box.maxX - box.minX);
+            double e = Math.min(1.0, box.maxY - box.minY);
+            double f = Math.min(1.0, box.maxZ - box.minZ);
+            int i = Math.max(2, MathHelper.ceiling_double_int(d * 4));
+            int j = Math.max(2, MathHelper.ceiling_double_int(e * 4));
+            int k = Math.max(2, MathHelper.ceiling_double_int(f * 4));
+            for (int l = 0; l < i; ++l) {
+                for (int m = 0; m < j; ++m) {
+                    for (int n = 0; n < k; ++n) {
+                        double g = ((double) l + 0.5D) / (double) i;
+                        double h = ((double) m + 0.5D) / (double) j;
+                        double o = ((double) n + 0.5D) / (double) k;
+                        double p = g * d + box.minX;
+                        double q = h * e + box.minY;
+                        double r = o * f + box.minZ;
+                        renderFX(
+                            new EntityDiggingFX(
+                                world,
+                                x + p,
+                                y + q,
+                                z + r,
+                                g - 0.5,
+                                h - 0.5,
+                                o - 0.5,
+                                block,
+                                meta,
+                                side).applyColourMultiplier(x, y, z));
                     }
                 }
             }

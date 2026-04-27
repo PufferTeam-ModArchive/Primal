@@ -1,5 +1,7 @@
 package net.pufferlab.primal;
 
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.command.CommandHandler;
@@ -7,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.pufferlab.primal.client.gui.*;
 import net.pufferlab.primal.client.renderer.blocks.*;
@@ -229,7 +232,10 @@ public class CommonProxy implements IGuiHandler {
 
     public void renderFX(TileEntity te, double x, double y, double z, ItemStack stack) {}
 
-    public void renderFX(World world, int x, int y, int z, Block block, int meta) {}
+    public void renderFX(World world, int x, int y, int z, Block block, int meta, int side) {}
+
+    public void renderFX(World world, int x, int y, int z, Block block, int meta, int side,
+        List<AxisAlignedBB> boundingBox) {}
 
     public <T extends IMessage> void sendPacketToClient(T object) {
         Primal.network.sendToAll(object);

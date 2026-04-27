@@ -8,10 +8,13 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.launchwrapper.Launch;
+import net.minecraft.util.AxisAlignedBB;
 
 import org.apache.commons.io.FileUtils;
 
@@ -103,5 +106,41 @@ public class IOUtils {
         byte[] bytes = new byte[length];
         buf.readBytes(bytes); // then read bytes
         return new String(bytes, StandardCharsets.UTF_8);
+    }
+
+    public static void writeBBList(ByteBuf buf, List<AxisAlignedBB> list) {
+        buf.writeInt(list.size());
+        for (AxisAlignedBB bb : list) {
+            writeBB(buf, bb);
+        }
+    }
+
+    public static List<AxisAlignedBB> readBBList(ByteBuf buf) {
+        int length = buf.readInt();
+        List<AxisAlignedBB> list = new ArrayList<>(length);
+        for (int i = 0; i < length; i++) {
+            AxisAlignedBB bb = readBB(buf);
+            list.add(bb);
+        }
+        return list;
+    }
+
+    public static void writeBB(ByteBuf buf, AxisAlignedBB bb) {
+        buf.writeFloat((float) bb.minX);
+        buf.writeFloat((float) bb.minY);
+        buf.writeFloat((float) bb.minZ);
+        buf.writeFloat((float) bb.maxX);
+        buf.writeFloat((float) bb.maxY);
+        buf.writeFloat((float) bb.maxZ);
+    }
+
+    public static AxisAlignedBB readBB(ByteBuf buf) {
+        double minX = buf.readFloat();
+        double minY = buf.readFloat();
+        double minZ = buf.readFloat();
+        double maxX = buf.readFloat();
+        double maxY = buf.readFloat();
+        double maxZ = buf.readFloat();
+        return AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
     }
 }

@@ -6,6 +6,7 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -183,7 +184,31 @@ public class BlockCutSlabVertical extends BlockSlabVertical implements ITileEnti
                 int materialMeta = getMaterialMeta(worldIn, x, y, z);
                 int materialMeta2 = getMaterialMeta2(worldIn, x, y, z);
                 float hitX = (float) (mop.hitVec.xCoord - mop.blockX);
+                float hitY = (float) (mop.hitVec.yCoord - mop.blockY);
                 float hitZ = (float) (mop.hitVec.zCoord - mop.blockZ);
+                List<AxisAlignedBB> list = getBounds(worldIn, x, y, z, hitX, hitY, hitZ, BoundsType.rendered);
+                if (meta == 0 || meta == 2) {
+                    if (hitX < 0.5F) {
+                        Primal.proxy.packet.playAuxFX(worldIn, x, y, z, this.slabBlock, materialMeta, -1, list);
+                    } else {
+                        if (meta == 2) {
+                            Primal.proxy.packet.playAuxFX(worldIn, x, y, z, this.slabBlock, materialMeta2, -1, list);
+                        } else {
+                            Primal.proxy.packet.playAuxFX(worldIn, x, y, z, this.slabBlock, materialMeta, -1, list);
+                        }
+                    }
+                }
+                if (meta == 1 || meta == 3) {
+                    if (hitZ < 0.5F) {
+                        Primal.proxy.packet.playAuxFX(worldIn, x, y, z, this.slabBlock, materialMeta, -1, list);
+                    } else {
+                        if (meta == 3) {
+                            Primal.proxy.packet.playAuxFX(worldIn, x, y, z, this.slabBlock, materialMeta2, -1, list);
+                        } else {
+                            Primal.proxy.packet.playAuxFX(worldIn, x, y, z, this.slabBlock, materialMeta, -1, list);
+                        }
+                    }
+                }
                 if (meta == 0 || meta == 2) {
                     if (hitX < 0.5F) {
                         if (meta == 2) {
@@ -245,11 +270,17 @@ public class BlockCutSlabVertical extends BlockSlabVertical implements ITileEnti
     }
 
     @Override
-    public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest) {
+    public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z) {
+        if (isFull) return false;
+        return world.setBlockToAir(x, y, z);
+    }
+
+    @Override
+    public boolean addDestroyEffects(World world, int x, int y, int z, int meta, EffectRenderer effectRenderer) {
         if (isFull) {
             return true;
         }
-        return removedByPlayer(world, player, x, y, z);
+        return super.addDestroyEffects(world, x, y, z, meta, effectRenderer);
     }
 
     @Override
