@@ -15,6 +15,7 @@ import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.tileentities.TileEntityFarmland;
 import net.pufferlab.primal.tileentities.TileEntityPrimal;
 import net.pufferlab.primal.utils.SoilType;
+import net.pufferlab.primal.world.Tasks;
 
 public class BlockSoilFarmland extends BlockMetaFarmland implements ITileEntityProvider {
 
@@ -38,6 +39,10 @@ public class BlockSoilFarmland extends BlockMetaFarmland implements ITileEntityP
 
         if (material.isSolid()) {
             worldIn.setBlock(x, y, z, Registry.dirt, meta, 2);
+        }
+        TileEntity te = worldIn.getTileEntity(x, y, z);
+        if (te instanceof TileEntityFarmland tef) {
+            tef.addSchedule(0, Tasks.moisture);
         }
     }
 

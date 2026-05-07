@@ -10,52 +10,33 @@ import net.pufferlab.primal.tileentities.IScheduledTile;
 
 public class ScheduledTask implements Comparable<ScheduledTask> {
 
-    public static enum TaskType {
-
-        simpleTask,
-        blockTask,
-        tileTask;
-
-        public static TaskType getTask(byte ordinal) {
-            return values()[ordinal];
-        }
-
-        public static byte getID(TaskType taskType) {
-            return (byte) taskType.ordinal();
-        }
-
-        @Override
-        public String toString() {
-            return this.name();
-        }
-    }
-
     long timeCurrent, timeScheduled;
-    byte taskType;
-    int x, y, z, type, id;
+    int x, y, z, id;
     Block block;
+    Tasks task;
+    Tasks.Type taskType;
     boolean invalid;
 
     public ScheduledTask(NBTTagCompound tag) {
         readFromNBT(tag);
     }
 
-    public ScheduledTask(byte taskType, long currentTime, int inTime) {
-        this.taskType = taskType;
+    public ScheduledTask(Tasks.Type type, long currentTime, int inTime) {
+        this.taskType = type;
         this.timeCurrent = currentTime;
         this.timeScheduled = currentTime + inTime;
     }
 
-    public ScheduledTask(byte taskType, Block block, long currentTime, int inTime, int x, int y, int z, int type,
+    public ScheduledTask(Tasks.Type type, Block block, long currentTime, int inTime, int x, int y, int z, Tasks task,
         int id) {
-        this.taskType = taskType;
+        this.taskType = type;
         this.block = block;
         this.timeCurrent = currentTime;
         this.timeScheduled = currentTime + inTime;
         this.x = x;
         this.y = y;
         this.z = z;
-        this.type = type;
+        this.task = task;
         this.id = id;
     }
 
@@ -71,26 +52,26 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
     }
 
     public void writeToNBT(NBTTagCompound tag) {
-        tag.setByte("task", this.taskType);
+        tag.setByte("taskType", Tasks.Type.getID(this.taskType));
         tag.setLong("timeSent", timeCurrent);
         tag.setLong("time", timeScheduled);
         tag.setInteger("blockID", Block.getIdFromBlock(block));
         tag.setInteger("x", x);
         tag.setInteger("y", y);
         tag.setInteger("z", z);
-        tag.setInteger("type", type);
+        tag.setInteger("task", Tasks.getID(this.task));
         tag.setInteger("id", id);
     }
 
     public void readFromNBT(NBTTagCompound tag) {
-        taskType = tag.getByte("task");
+        taskType = Tasks.Type.getTask(tag.getByte("taskType"));
         timeCurrent = tag.getLong("timeSent");
         timeScheduled = tag.getLong("time");
         block = Block.getBlockById(tag.getInteger("blockID"));
         x = tag.getInteger("x");
         y = tag.getInteger("y");
         z = tag.getInteger("z");
-        type = tag.getInteger("type");
+        task = Tasks.getTask(tag.getInteger("task"));
         id = tag.getInteger("id");
     }
 
@@ -108,22 +89,22 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
         return false;
     }
 
-    public boolean equals(Block block, int x, int y, int z, int type) {
-        if (this.x == x && this.y == y && this.z == z && this.type == type && this.block == block) {
+    public boolean equals(Block block, int x, int y, int z, Tasks task) {
+        if (this.x == x && this.y == y && this.z == z && this.task == task && this.block == block) {
             return true;
         }
         return false;
     }
 
-    public boolean equals(int x, int y, int z, int type) {
-        if (this.x == x && this.y == y && this.z == z && this.type == type) {
+    public boolean equals(int x, int y, int z, Tasks task) {
+        if (this.x == x && this.y == y && this.z == z && this.task == task) {
             return true;
         }
         return false;
     }
 
-    public boolean equals(int type) {
-        if (this.type == type) {
+    public boolean equals(Tasks task) {
+        if (this.task == task) {
             return true;
         }
         return false;
@@ -131,7 +112,7 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
 
     public boolean run(World world) {
         if (this.invalid()) return false;
-        switch (ScheduledTask.TaskType.getTask(this.taskType)) {
+        switch (this.taskType) {
             case simpleTask: {
                 Primal.LOG.info("ScheduledTask Ran");
                 return true;
@@ -144,7 +125,7 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
                 Block block = world.getBlock(this.x, this.y, this.z);
                 if (this.block == block) {
                     if (block instanceof IScheduledBlock block2) {
-                        block2.onSchedule(world, this.x, this.y, this.z, this.type, this.id);
+                        block2.onSchedule(world, this.x, this.y, this.z, this.task, this.id);
                         return true;
                     }
                 }
@@ -158,7 +139,7 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
                 if (this.block == block) {
                     TileEntity te = world.getTileEntity(this.x, this.y, this.z);
                     if (te instanceof IScheduledTile te2) {
-                        te2.onSchedule(world, this.x, this.y, this.z, this.type, this.id);
+                        te2.onSchedule(world, this.x, this.y, this.z, this.task, this.id);
                         return true;
                     }
                 }
@@ -186,18 +167,14 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
     public String toString() {
         return "ScheduledTask{" + "inTime="
             + (timeScheduled - GlobalTickingData.getTickTime())
-            + ", type="
-            + Tasks.getTask(type)
-                .toString()
+            + ", task="
+            + task.toString()
             + ", x="
             + x
             + ", y="
             + y
             + ", z="
             + z
-            + ", taskType="
-            + TaskType.getTask(taskType)
-                .toString()
             + ", id="
             + id
             + '}';

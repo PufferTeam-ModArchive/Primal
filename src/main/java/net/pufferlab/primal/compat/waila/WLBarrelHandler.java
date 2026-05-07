@@ -11,7 +11,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.pufferlab.primal.recipes.BarrelRecipe;
 import net.pufferlab.primal.tileentities.TileEntityBarrel;
-import net.pufferlab.primal.utils.RecipeUtils;
+import net.pufferlab.primal.utils.TextUtils;
 import net.pufferlab.primal.world.Tasks;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -29,20 +29,20 @@ public class WLBarrelHandler implements IWailaDataProvider {
             NBTTagCompound tag = accessor.getNBTData();
             if (tag != null) {
                 boolean isOpen = tag.getBoolean("isOpen");
-                currenttip.add(RecipeUtils.getStateTooltip(isOpen, "Open", "Sealed"));
+                currenttip.add(TextUtils.getStateTooltip(isOpen, "Open", "Sealed"));
                 boolean canProcess = tag.getBoolean("canProcess");
                 long nextUpdate = tef.manager.getTimeScheduled(Tasks.process);
                 if (canProcess) {
                     BarrelRecipe recipe = BarrelRecipe.getRecipe(tef.getInventoryStack(slotInput), tef.getFluidStack());
                     if (recipe != null) {
-                        String outputName = RecipeUtils.getDisplayName(recipe.output, recipe.outputLiquid);
-                        String inputName = RecipeUtils
+                        String outputName = TextUtils.getDisplayName(recipe.output, recipe.outputLiquid);
+                        String inputName = TextUtils
                             .getDisplayName(tef.getInventoryStack(slotInput), tef.getFluidStack());
                         currenttip.add("Making " + outputName);
                         int timeToProcess = tef.manager.getTime(Tasks.process);
                         if (timeToProcess > 0) {
                             currenttip.add(
-                                RecipeUtils.getRecipeTooltip(
+                                TextUtils.getRecipeTooltip(
                                     inputName,
                                     tef.getWorld(),
                                     nextUpdate,

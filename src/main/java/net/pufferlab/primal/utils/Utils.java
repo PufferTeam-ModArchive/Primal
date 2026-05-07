@@ -17,7 +17,7 @@ import net.pufferlab.primal.world.GlobalTickingData;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 
-public class Utils {
+public final class Utils {
 
     public static long getWorldTime(int inTime) {
         return GlobalTickingData.getTickTime() + inTime;

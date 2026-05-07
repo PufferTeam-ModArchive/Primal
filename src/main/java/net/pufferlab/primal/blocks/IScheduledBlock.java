@@ -2,30 +2,27 @@ package net.pufferlab.primal.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
+import net.pufferlab.primal.world.ScheduleManager;
 import net.pufferlab.primal.world.SchedulerData;
 import net.pufferlab.primal.world.Tasks;
 
 public interface IScheduledBlock {
 
-    default void onSchedule(World world, int x, int y, int z, int type, int id) {
-        onScheduleTask(world, x, y, z, Tasks.getTask(type));
+    default ScheduleManager getManager() {
+        return null;
+    }
+
+    default void onSchedule(World world, int x, int y, int z, Tasks type, int id) {
+        onScheduleTask(world, x, y, z, type);
     };
 
     default void onScheduleTask(World world, int x, int y, int z, Tasks task) {}
 
-    default boolean sentSchedule(World world, int x, int y, int z, int type) {
-        return SchedulerData.hasScheduledTask(world, x, y, z, type);
-    }
-
-    default boolean sentSchedule(World world, int x, int y, int z, Tasks tasks) {
-        return sentSchedule(world, x, y, z, Tasks.getID(tasks));
-    }
-
-    default void addSchedule(World world, int x, int y, int z, int inTime, Tasks task) {
-        addSchedule(world, x, y, z, inTime, Tasks.getID(task));
-    }
-
-    default void addSchedule(World world, int x, int y, int z, int inTime, int type) {
+    default void addSchedule(World world, int x, int y, int z, int inTime, Tasks type) {
+        ScheduleManager manager = getManager();
+        if (manager != null) {
+            if (manager.hasSentUpdate(world, x, y, z, type)) return;
+        }
         SchedulerData.addScheduledBlockTask(inTime, getBlock(), world, x, y, z, type);
     }
 

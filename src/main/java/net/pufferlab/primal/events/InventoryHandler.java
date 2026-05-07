@@ -4,7 +4,9 @@ import java.util.List;
 
 import net.minecraft.item.Item;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.pufferlab.primal.Registry;
+import net.pufferlab.primal.entities.player.PlayerData;
 import net.pufferlab.primal.utils.FluidUtils;
 import net.pufferlab.primal.utils.ItemUtils;
 
@@ -42,4 +44,13 @@ public class InventoryHandler implements IEventHandler {
             }
         }
     }
+
+    @SubscribeEvent
+    public void playerInteractEventHandler(PlayerInteractEvent event) {
+        PlayerData data = PlayerData.get(event.entityPlayer);
+        if (data.blockInfoDebug) {
+
+        }
+    }
+
 }

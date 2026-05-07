@@ -3,7 +3,6 @@ package net.pufferlab.primal.commands;
 import java.text.DecimalFormat;
 
 import net.minecraft.command.ICommandSender;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 
@@ -25,7 +24,7 @@ public class CommandTPS extends CommandSub {
     public void handleCommand(ICommandSender sender, String[] args) {
         double tps = getTps(null);
 
-        sender.addChatMessage(new ChatComponentText("TPS: " + floatfmt.format(tps)));
+        sendChatMessage(sender, "TPS: " + floatfmt.format(tps));
     }
 
     private double getTickTimeSum(long[] times) {

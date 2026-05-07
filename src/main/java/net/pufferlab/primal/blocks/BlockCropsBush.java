@@ -19,6 +19,7 @@ import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.tileentities.TileEntityFarmland;
 import net.pufferlab.primal.utils.CropType;
 import net.pufferlab.primal.utils.Utils;
+import net.pufferlab.primal.world.ScheduleManager;
 import net.pufferlab.primal.world.Tasks;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -32,6 +33,8 @@ public class BlockCropsBush extends BlockCrops implements IPrimalBlock, ISchedul
     public String name;
     int growStages;
 
+    public ScheduleManager manager = new ScheduleManager();
+
     public BlockCropsBush(CropType cropType) {
         super();
         this.cropType = cropType;
@@ -40,13 +43,15 @@ public class BlockCropsBush extends BlockCrops implements IPrimalBlock, ISchedul
         this.name = cropType.cropName;
     }
 
+    public ScheduleManager getManager() {
+        return manager;
+    }
+
     @Override
     public void updateTick(World worldIn, int x, int y, int z, Random random) {
         this.checkAndDropBlock(worldIn, x, y, z);
 
-        if (!sentSchedule(worldIn, x, y, z, Tasks.growth)) {
-            updateGrowth(worldIn, x, y, z, worldIn.rand);
-        }
+        updateGrowth(worldIn, x, y, z, worldIn.rand);
     }
 
     @Override
@@ -74,9 +79,7 @@ public class BlockCropsBush extends BlockCrops implements IPrimalBlock, ISchedul
     public void onBlockAdded(World worldIn, int x, int y, int z) {
         super.onBlockAdded(worldIn, x, y, z);
 
-        if (!sentSchedule(worldIn, x, y, z, Tasks.growth)) {
-            updateGrowth(worldIn, x, y, z, worldIn.rand);
-        }
+        updateGrowth(worldIn, x, y, z, worldIn.rand);
     }
 
     public boolean needsFarmland() {

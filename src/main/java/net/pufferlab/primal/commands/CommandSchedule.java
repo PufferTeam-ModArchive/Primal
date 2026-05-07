@@ -22,10 +22,10 @@ public class CommandSchedule extends CommandSub {
                 sender.addChatMessage(
                     new ChatComponentText(
                         "List of ScheduledTasks in dimension " + sender.getEntityWorld().provider.dimensionId));
-                sender.addChatMessage(new ChatComponentText("Size of List :" + size));
+                sendChatMessage(sender, "Size of List :" + size);
                 for (ScheduledTask task : SchedulerData.getTasks(sender.getEntityWorld())) {
                     if (task.invalid()) continue;
-                    sender.addChatMessage(new ChatComponentText(task.toString()));
+                    sendChatMessage(sender, task.toString());
                 }
             } else if (args[0].equals("waitlist")) {
                 String size = Integer.toString(
@@ -34,17 +34,17 @@ public class CommandSchedule extends CommandSub {
                 sender.addChatMessage(
                     new ChatComponentText(
                         "List of ScheduledTasks in dimension " + sender.getEntityWorld().provider.dimensionId));
-                sender.addChatMessage(new ChatComponentText("Size of List :" + size));
+                sendChatMessage(sender, "Size of List :" + size);
                 for (ScheduledTask task : SchedulerData.getWaitingTasks(sender.getEntityWorld())) {
-                    sender.addChatMessage(new ChatComponentText(task.toString()));
+                    sendChatMessage(sender, task.toString());
                 }
             } else {
                 try {
                     int number = Integer.parseInt(args[0]);
-                    sender.addChatMessage(
-                        new ChatComponentText(
-                            "Added ScheduledTask in dimension " + sender.getEntityWorld().provider.dimensionId));
-                    sender.addChatMessage(new ChatComponentText("Task is Scheduled in " + number + " ticks"));
+                    sendChatMessage(
+                        sender,
+                        "Added ScheduledTask in dimension " + sender.getEntityWorld().provider.dimensionId);
+                    sendChatMessage(sender, "Task is Scheduled in " + number + " ticks");
                     SchedulerData.addScheduledTask(number, sender.getEntityWorld());
                 } catch (NumberFormatException ignored) {}
 

@@ -8,7 +8,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.pufferlab.primal.tileentities.TileEntityPitKiln;
-import net.pufferlab.primal.utils.RecipeUtils;
+import net.pufferlab.primal.utils.TextUtils;
 import net.pufferlab.primal.world.Tasks;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -29,8 +29,8 @@ public class WLPitKilnHandler implements IWailaDataProvider {
                 if (isFired) {
                     long nextUpdate = tef.manager.getTimeScheduled(Tasks.process);
                     int timeToProcess = tef.manager.getTime(Tasks.process);
-                    currenttip.add(
-                        RecipeUtils.getRecipeTooltip("Pottery", tef.getWorld(), nextUpdate, timeToProcess, "fired"));
+                    currenttip
+                        .add(TextUtils.getRecipeTooltip("Pottery", tef.getWorld(), nextUpdate, timeToProcess, "fired"));
                 }
             }
         }

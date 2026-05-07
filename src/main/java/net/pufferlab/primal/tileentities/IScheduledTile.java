@@ -11,12 +11,12 @@ public interface IScheduledTile extends ITile {
         return null;
     }
 
-    default void onSchedule(World world, int x, int y, int z, int type, int id) {
+    default void onSchedule(World world, int x, int y, int z, Tasks type, int id) {
         ScheduleManager manager = getManager();
         if (manager != null) {
             manager.onUpdate(type, world);
         }
-        onScheduleTask(Tasks.getTask(type));
+        onScheduleTask(type);
         mark();
     }
 
@@ -24,7 +24,7 @@ public interface IScheduledTile extends ITile {
 
     }
 
-    default void addSchedule(World world, int x, int y, int z, int inTime, int type) {
+    default void addSchedule(World world, int x, int y, int z, int inTime, Tasks type) {
         ScheduleManager manager = getManager();
         if (manager != null) {
             if (manager.hasSentUpdate(world, x, y, z, type)) return;
@@ -36,10 +36,6 @@ public interface IScheduledTile extends ITile {
     }
 
     default void addSchedule(int inTime, Tasks type) {
-        addSchedule(inTime, Tasks.getID(type));
-    }
-
-    default void addSchedule(int inTime, int type) {
         addSchedule(getWorld(), getX(), getY(), getZ(), inTime, type);
     }
 
@@ -48,7 +44,7 @@ public interface IScheduledTile extends ITile {
         mark();
     }
 
-    default void removeSchedule(World world, int x, int y, int z, int type) {
+    default void removeSchedule(World world, int x, int y, int z, Tasks type) {
         ScheduleManager manager = getManager();
         if (manager != null) {
             if (!manager.hasSentUpdate(world, x, y, z, type)) return;
@@ -64,10 +60,6 @@ public interface IScheduledTile extends ITile {
     }
 
     default void removeSchedule(Tasks type) {
-        removeSchedule(Tasks.getID(type));
-    }
-
-    default void removeSchedule(int type) {
         removeSchedule(getWorld(), getX(), getY(), getZ(), type);
     }
 

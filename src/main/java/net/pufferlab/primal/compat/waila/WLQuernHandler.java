@@ -10,7 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.pufferlab.primal.tileentities.TileEntityQuern;
-import net.pufferlab.primal.utils.RecipeUtils;
+import net.pufferlab.primal.utils.TextUtils;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -30,8 +30,8 @@ public class WLQuernHandler implements IWailaDataProvider {
                 boolean isMoving = tag.getBoolean("isMoving");
                 if (isMoving && tef.getInventoryStack(slotInput) != null) {
                     int timePassed = tag.getInteger("timeGround");
-                    String name = RecipeUtils.getDisplayName(tef.getInventoryStack(slotInput));
-                    currenttip.add(RecipeUtils.getRecipeTooltip(name, timePassed, timeToProcess, "processed"));
+                    String name = TextUtils.getDisplayName(tef.getInventoryStack(slotInput));
+                    currenttip.add(TextUtils.getRecipeTooltip(name, timePassed, timeToProcess, "processed"));
                 }
             }
         }

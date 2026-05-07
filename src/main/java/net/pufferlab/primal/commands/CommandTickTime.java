@@ -3,7 +3,6 @@ package net.pufferlab.primal.commands;
 import java.util.List;
 
 import net.minecraft.command.ICommandSender;
-import net.minecraft.util.ChatComponentText;
 import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.GlobalTickingData;
 
@@ -19,8 +18,7 @@ public class CommandTickTime extends CommandSub {
                 GlobalTickingData.add(time);
             }
         }
-        sender.addChatMessage(
-            new ChatComponentText("TickTime: " + GlobalTickingData.getTickTime(sender.getEntityWorld())));
+        sendChatMessage(sender, "TickTime: " + GlobalTickingData.getTickTime(sender.getEntityWorld()));
     }
 
     @Override

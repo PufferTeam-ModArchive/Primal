@@ -11,6 +11,8 @@ public class ScheduleManager {
     public TaskInfo[] tasks;
     public TIntObjectMap<TaskInfo> tasksMap = new TIntObjectHashMap<>();
 
+    public ScheduleManager() {}
+
     public ScheduleManager(Tasks... tasksID) {
         this.tasks = new TaskInfo[tasksID.length];
         for (int i = 0; i < tasksID.length; i++) {
@@ -26,6 +28,10 @@ public class ScheduleManager {
         for (TaskInfo task : tasks) {
             this.tasksMap.put(task.id, task);
         }
+    }
+
+    public TaskInfo get(Tasks task) {
+        return this.tasksMap.get(Tasks.getID(task));
     }
 
     public void readFromNBT(NBTTagCompound tag) {
@@ -53,59 +59,44 @@ public class ScheduleManager {
         return false;
     }
 
-    public boolean hasSentUpdate(World world, int x, int y, int z, int type) {
-        TaskInfo task = tasksMap.get(type);
+    public boolean hasSentUpdate(World world, int x, int y, int z, Tasks type) {
+        TaskInfo task = get(type);
         if (task == null) {
             return SchedulerData.hasScheduledTask(world, x, y, z, type);
         }
         return task.hasSentUpdate();
     }
 
-    public void addUpdate(int type, World world, int inTime) {
-        TaskInfo task = tasksMap.get(type);
+    public void addUpdate(Tasks type, World world, int inTime) {
+        TaskInfo task = get(type);
         if (task != null) {
             task.addUpdate(world, inTime);
         }
     }
 
-    public void removeUpdate(int type, World world) {
-        TaskInfo task = tasksMap.get(type);
+    public void removeUpdate(Tasks type, World world) {
+        TaskInfo task = get(type);
         if (task != null) {
             task.removeUpdate(world);
         }
     }
 
-    public void onUpdate(int type, World world) {
-        TaskInfo task = tasksMap.get(type);
+    public void onUpdate(Tasks type, World world) {
+        TaskInfo task = get(type);
         if (task != null) {
             task.onUpdate(world);
         }
     }
 
-    public long getTimeScheduled(int type) {
-        return tasksMap.get(type)
-            .getTimeScheduled();
+    public long getTimeScheduled(Tasks type) {
+        return get(type).getTimeScheduled();
     }
 
-    public long getTimeScheduled(Tasks task) {
-        return getTimeScheduled(Tasks.getID(task));
+    public long getTimeSent(Tasks type) {
+        return get(type).getTimeSent();
     }
 
-    public long getTimeSent(int type) {
-        return tasksMap.get(type)
-            .getTimeSent();
-    }
-
-    public long getTimeSent(Tasks task) {
-        return getTimeSent(Tasks.getID(task));
-    }
-
-    public int getTime(int type) {
-        return tasksMap.get(type)
-            .getTime();
-    }
-
-    public int getTime(Tasks task) {
-        return getTime(Tasks.getID(task));
+    public int getTime(Tasks type) {
+        return get(type).getTime();
     }
 }

@@ -10,8 +10,8 @@ public enum Tasks {
     item2,
     item3,
     item4,
-    rain,
-    moisture,
+    rain(false),
+    moisture(false),
     network(false),
     networkSpread(false),
     generator(false),
@@ -24,7 +24,7 @@ public enum Tasks {
     heat,
     melting,
     alloy,
-    inventory;
+    inventory(false);
 
     boolean serialize;
 
@@ -55,5 +55,25 @@ public enum Tasks {
     @Override
     public String toString() {
         return this.name();
+    }
+
+    public enum Type {
+
+        simpleTask,
+        blockTask,
+        tileTask;
+
+        public static Type getTask(byte ordinal) {
+            return values()[ordinal];
+        }
+
+        public static byte getID(Type taskType) {
+            return (byte) taskType.ordinal();
+        }
+
+        @Override
+        public String toString() {
+            return this.name();
+        }
     }
 }

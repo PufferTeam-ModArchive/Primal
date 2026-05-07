@@ -5,7 +5,7 @@ import java.util.*;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
-import net.pufferlab.primal.utils.RecipeUtils;
+import net.pufferlab.primal.utils.TextUtils;
 import net.pufferlab.primal.utils.Utils;
 
 public class BarrelRecipe {
@@ -105,12 +105,12 @@ public class BarrelRecipe {
     }
 
     public BarrelRecipe setRecipeID(Object... objects) {
-        String string = RecipeUtils.getRecipeHash(objects);
+        String string = TextUtils.getRecipeHash(objects);
         if (!recipeIDMap.containsKey(string)) {
             this.recipeID = string;
             recipeIDMap.put(string, this);
         } else {
-            RecipeUtils.throwInvalidRecipe(string);
+            TextUtils.throwInvalidRecipe(string);
         }
         return this;
     }

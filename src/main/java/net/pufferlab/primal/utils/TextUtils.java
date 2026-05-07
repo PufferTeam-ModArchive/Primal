@@ -2,7 +2,9 @@ package net.pufferlab.primal.utils;
 
 import java.util.List;
 
+import net.minecraft.command.ICommandSender;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -10,7 +12,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.world.GlobalTickingData;
 
-public class RecipeUtils {
+public class TextUtils {
 
     public static String getDisplayName(Object... objects) {
         for (Object object : objects) {
@@ -121,5 +123,10 @@ public class RecipeUtils {
         } else {
             return Constants.gray + prefix + ": " + EnumChatFormatting.RED + off;
         }
+    }
+
+    public static void sendChatMessage(ICommandSender sender, String string) {
+        if (sender == null) return;
+        sender.addChatMessage(new ChatComponentText(string));
     }
 }

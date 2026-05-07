@@ -9,7 +9,7 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.entities.player.PlayerData;
 import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.HeatUtils;
-import net.pufferlab.primal.utils.RecipeUtils;
+import net.pufferlab.primal.utils.TextUtils;
 import net.pufferlab.primal.utils.Utils;
 
 import com.gtnewhorizons.wdmla.api.accessor.BlockAccessor;
@@ -35,7 +35,7 @@ public class WDBlockInfoHandler implements IBlockComponentProvider {
             tooltip.child(new TextComponent("Metadata: " + meta));
             tooltip.child(new TextComponent("RenderID: " + renderID));
             boolean hastile = block.hasTileEntity(meta);
-            tooltip.child(new TextComponent(RecipeUtils.getStateTooltip("HasTile", hastile, "Yes", "No")));
+            tooltip.child(new TextComponent(TextUtils.getStateTooltip("HasTile", hastile, "Yes", "No")));
 
             TileEntity te = accessor.getTileEntity();
             if (te != null) {
