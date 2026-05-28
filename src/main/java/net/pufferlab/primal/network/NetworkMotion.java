@@ -11,6 +11,7 @@ public class NetworkMotion {
 
     List<IMotion> tiles = new ArrayList<>();
     IMotion generator;
+    boolean spreadSpeed;
     float totalTorque;
 
     public NetworkMotion() {}
@@ -49,7 +50,8 @@ public class NetworkMotion {
         if (spreadSpeed) {
             network.generator = te;
         }
-        recurseTile(network, te, spreadSpeed);
+        network.spreadSpeed = spreadSpeed;
+        network.recurseTile(te);
 
         if (!spreadSpeed) {
             for (IMotion tile : network.tiles) {
@@ -81,16 +83,16 @@ public class NetworkMotion {
 
     }
 
-    public static void recurseTile(NetworkMotion network, IMotion currentTe, boolean spreadSpeed) {
-        for (IMotion te : getConnectedTiles(network, currentTe, spreadSpeed)) {
-            if (!network.tiles.contains(te)) {
-                network.tiles.add(te);
-                recurseTile(network, te, spreadSpeed);
+    public void recurseTile(IMotion currentTe) {
+        for (IMotion te : getConnectedTiles(currentTe)) {
+            if (!this.tiles.contains(te)) {
+                this.tiles.add(te);
+                recurseTile(te);
             }
         }
     }
 
-    public static List<IMotion> getConnectedTiles(NetworkMotion network, IMotion te, boolean spreadSpeed) {
+    public List<IMotion> getConnectedTiles(IMotion te) {
         List<IMotion> connected = new ArrayList<>();
         connected.add(te);
         int connection = 0;
@@ -133,10 +135,10 @@ public class NetworkMotion {
                                     && tef.hasConnection(
                                         direction2.getOpposite()
                                             .ordinal())) {
-                                    if (!network.tiles.contains(tef)) {
+                                    if (!this.tiles.contains(tef)) {
                                         connection++;
                                         if (connection <= 2) {
-                                            if (spreadSpeed) {
+                                            if (this.spreadSpeed) {
                                                 float modifier = getModifierFromSides(
                                                     direction,
                                                     direction2,
@@ -157,7 +159,7 @@ public class NetworkMotion {
         return connected;
     }
 
-    public static float getModifierFromSides(ForgeDirection inSide, ForgeDirection outSide, float baseSign) {
+    public float getModifierFromSides(ForgeDirection inSide, ForgeDirection outSide, float baseSign) {
         switch (inSide) {
             case DOWN:
                 // Y- → X+ / Z+

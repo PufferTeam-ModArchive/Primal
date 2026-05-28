@@ -1,9 +1,8 @@
 package net.pufferlab.primal.tileentities;
 
-import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.pufferlab.primal.Config;
-import net.pufferlab.primal.utils.BlockUtils;
+import net.pufferlab.primal.network.NetworkMoisture;
 import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.ScheduleManager;
 import net.pufferlab.primal.world.Tasks;
@@ -14,14 +13,15 @@ public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTi
     public float potassium = 0.5F;
     public float nitrogen = 0.5F;
     public float phosphorus = 0.5F;
+    public int distanceWater = Integer.MAX_VALUE;
 
-    public ScheduleManager manager = new ScheduleManager(Tasks.moisture, Tasks.nutrient);
+    public ScheduleManager manager = new ScheduleManager(Tasks.network, Tasks.nutrient);
 
     public TileEntityFarmland() {}
 
     @Override
     public void init() {
-        addSchedule(0, Tasks.moisture);
+        scheduleUpdate();
         addSchedule(Config.farmlandReplenishment.getInt(), Tasks.nutrient);
     }
 
@@ -38,6 +38,7 @@ public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTi
         this.potassium = tag.getFloat("potassium");
         this.nitrogen = tag.getFloat("nitrogen");
         this.phosphorus = tag.getFloat("phosphorus");
+        this.distanceWater = tag.getInteger("distanceWater");
     }
 
     @Override
@@ -48,6 +49,7 @@ public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTi
         tag.setFloat("potassium", this.potassium);
         tag.setFloat("nitrogen", this.nitrogen);
         tag.setFloat("phosphorus", this.phosphorus);
+        tag.setInteger("distanceWater", this.distanceWater);
     }
 
     @Override
@@ -74,9 +76,8 @@ public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTi
     public void onScheduleTask(Tasks task) {
         IScheduledTile.super.onScheduleTask(task);
 
-        if (task == Tasks.moisture) {
-            setMoisture(getMoisture());
-            addSchedule(200, Tasks.moisture);
+        if (task == Tasks.network) {
+            NetworkMoisture.generateNetwork(this);
         }
         if (task == Tasks.nutrient) {
             replenishNutrients();
@@ -94,27 +95,6 @@ public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTi
         this.nitrogen = Utils.clamp(0, 1, nitrogen);
         this.phosphorus = Utils.clamp(0, 1, phosphorus);
         updateTEState();
-    }
-
-    public float getMoisture() {
-        float best = 0.0F;
-        for (int x = -3; x <= 3; x++) {
-            for (int z = -3; z <= 3; z++) {
-                int x2 = this.xCoord + x;
-                int z2 = this.zCoord + z;
-                Block block = this.worldObj.getBlock(x2, this.yCoord, z2);
-                if (BlockUtils.isWaterBlock(block)) {
-                    float dist = Math.max(Math.abs(x), Math.abs(z));
-
-                    float moisture = 1.0F - (dist / 4.0F);
-
-                    if (moisture > best) {
-                        best = moisture;
-                    }
-                }
-            }
-        }
-        return best;
     }
 
     public void replenishNutrients() {
@@ -157,6 +137,10 @@ public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTi
             phosphorus -= consume;
         }
         setNutrients(potassium, nitrogen, phosphorus);
+    }
+
+    public void scheduleUpdate() {
+        addSchedule(0, Tasks.network);
     }
 
     @Override

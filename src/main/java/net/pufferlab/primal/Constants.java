@@ -67,7 +67,7 @@ public class Constants {
     public static final StoneCategory sedimentary   = new StoneCategory("sedimentary");
     public static final StoneType claystone         = new StoneType(sedimentary, "claystone", 25, 100, 15);
     public static final StoneType limestone         = new StoneType(sedimentary, "limestone", 40, 70, 2);
-    public static final StoneType sandstone         = new StoneType(sedimentary, "sandstone", 60, 120, 2);
+    public static final StoneType sandstone         = new StoneType(sedimentary, "sandstone", 60, 70, 2);
     public static final StoneType shale             = new StoneType(sedimentary, "shale", 50, 100, 8);
     public static final StoneType chalk             = new StoneType(sedimentary, "chalk", 50, 90, 8);
 

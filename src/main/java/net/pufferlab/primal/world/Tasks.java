@@ -11,7 +11,6 @@ public enum Tasks {
     item3,
     item4,
     rain(false),
-    moisture(false),
     network(false),
     networkSpread(false),
     generator(false),

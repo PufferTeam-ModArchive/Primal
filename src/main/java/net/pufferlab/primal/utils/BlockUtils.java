@@ -16,6 +16,8 @@ public class BlockUtils {
 
     public static final ForgeDirection[] sideDirections = new ForgeDirection[] { ForgeDirection.WEST,
         ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.NORTH, ForgeDirection.DOWN };
+    public static final ForgeDirection[] sideXZDirections = new ForgeDirection[] { ForgeDirection.WEST,
+        ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.NORTH };
 
     public static RegistryNamespaced getBlockRegistry() {
         return Block.blockRegistry;

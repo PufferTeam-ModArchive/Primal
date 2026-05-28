@@ -16,9 +16,10 @@ import io.netty.buffer.ByteBuf;
 public class PacketEffect implements IMessage, IMessageHandler<PacketEffect, IMessage> {
 
     private int x, y, z, side;
-    private int blockID, metadata;
+    private int metadata;
     private boolean bounded;
     private List<AxisAlignedBB> bounds;
+    private Block block;
 
     public PacketEffect() {}
 
@@ -26,7 +27,7 @@ public class PacketEffect implements IMessage, IMessageHandler<PacketEffect, IMe
         this.x = x;
         this.y = y;
         this.z = z;
-        this.blockID = Block.getIdFromBlock(block);
+        this.block = block;
         this.metadata = meta;
         this.side = -1;
     }
@@ -35,7 +36,7 @@ public class PacketEffect implements IMessage, IMessageHandler<PacketEffect, IMe
         this.x = x;
         this.y = y;
         this.z = z;
-        this.blockID = Block.getIdFromBlock(block);
+        this.block = block;
         this.metadata = meta;
         this.side = side;
         this.bounds = list;
@@ -47,7 +48,7 @@ public class PacketEffect implements IMessage, IMessageHandler<PacketEffect, IMe
         x = buf.readInt();
         y = buf.readInt();
         z = buf.readInt();
-        blockID = buf.readInt();
+        block = Block.getBlockById(buf.readInt());
         metadata = buf.readInt();
         side = buf.readInt();
         bounded = buf.readBoolean();
@@ -61,7 +62,7 @@ public class PacketEffect implements IMessage, IMessageHandler<PacketEffect, IMe
         buf.writeInt(x);
         buf.writeInt(y);
         buf.writeInt(z);
-        buf.writeInt(blockID);
+        buf.writeInt(Block.getIdFromBlock(block));
         buf.writeInt(metadata);
         buf.writeInt(side);
         buf.writeBoolean(bounded);
@@ -75,12 +76,10 @@ public class PacketEffect implements IMessage, IMessageHandler<PacketEffect, IMe
         World world = Primal.proxy.getWorld(ctx);
         if (world == null) return null;
 
-        Block block = Block.getBlockById(msg.blockID);
-        int side = msg.side;
         if (msg.bounded) {
-            Primal.proxy.renderFX(world, msg.x, msg.y, msg.z, block, msg.metadata, side, msg.bounds);
+            Primal.proxy.renderFX(world, msg.x, msg.y, msg.z, msg.block, msg.metadata, msg.side, msg.bounds);
         } else {
-            Primal.proxy.renderFX(world, msg.x, msg.y, msg.z, block, msg.metadata, side);
+            Primal.proxy.renderFX(world, msg.x, msg.y, msg.z, msg.block, msg.metadata, msg.side);
         }
         return null;
     }
