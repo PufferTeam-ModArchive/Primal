@@ -43,7 +43,7 @@ public class NetworkMoisture {
 
     }
 
-    private static float getMoisture(TileEntityFarmland tef, long coord) {
+    private static float getMoisture(ITile tef, long coord) {
         int waterX = PositionUtils.unpackX(coord);
         int waterZ = PositionUtils.unpackZ(coord);
 
