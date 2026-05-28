@@ -13,7 +13,6 @@ public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTi
     public float potassium = 0.5F;
     public float nitrogen = 0.5F;
     public float phosphorus = 0.5F;
-    public int distanceWater = Integer.MAX_VALUE;
 
     public ScheduleManager manager = new ScheduleManager(Tasks.network, Tasks.nutrient);
 
@@ -38,7 +37,6 @@ public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTi
         this.potassium = tag.getFloat("potassium");
         this.nitrogen = tag.getFloat("nitrogen");
         this.phosphorus = tag.getFloat("phosphorus");
-        this.distanceWater = tag.getInteger("distanceWater");
     }
 
     @Override
@@ -49,7 +47,6 @@ public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTi
         tag.setFloat("potassium", this.potassium);
         tag.setFloat("nitrogen", this.nitrogen);
         tag.setFloat("phosphorus", this.phosphorus);
-        tag.setInteger("distanceWater", this.distanceWater);
     }
 
     @Override
