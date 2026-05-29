@@ -86,6 +86,7 @@ public class BlockWaterwheel extends BlockMotion {
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityWaterwheel tef) {
             if (tef.isExtension) {
+                worldIn.setBlockMetadataWithNotify(tef.baseXCoord, tef.baseYCoord, tef.baseZCoord, 1, 2);
                 clearExtensions(worldIn, tef.baseXCoord, tef.baseYCoord, tef.baseZCoord, tef.axisMeta);
                 TileEntity te2 = worldIn.getTileEntity(tef.baseXCoord, tef.baseYCoord, tef.baseZCoord);
                 if (te2 instanceof TileEntityWaterwheel tef2) {

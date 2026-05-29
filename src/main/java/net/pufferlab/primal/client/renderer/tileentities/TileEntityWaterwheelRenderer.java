@@ -13,7 +13,7 @@ public class TileEntityWaterwheelRenderer extends TileEntityMotionRenderer {
     @Override
     public void renderModel(TileEntity tileEntity, double x, double y, double z, float partialTicks, float angle) {
         if (tileEntity instanceof TileEntityWaterwheel tef) {
-            if (!tef.isExtension) {
+            if (!tef.isExtension && tef.getMeta() == 0) {
                 int axis = tef.axisMeta;
                 modelAxle.setAxis(axis);
                 modelAxle.render();

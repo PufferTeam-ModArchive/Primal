@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.BlockPipe;
 import net.pufferlab.primal.client.models.ModelPipe;
 import net.pufferlab.primal.utils.BlockUtils;
@@ -70,7 +69,6 @@ public class BlockPipeRenderer extends BlockPrimalRenderer {
             modelPipe.tube[1].isHidden = false;
             modelPipe.tube[3].isHidden = false;
         }
-        Primal.LOG.info(axis);
         modelPipe.render(renderer, tess, block, x, y, z, iconPipe);
         return true;
     }
