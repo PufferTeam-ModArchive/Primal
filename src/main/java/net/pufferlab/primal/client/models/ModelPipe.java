@@ -33,12 +33,18 @@ public class ModelPipe extends ModelPrimal {
             tube[i].addBox(16, 12, -2.0F, -10.0F + 7, -8.0F, 4, 1, 2, 0.0F);
             tube[i].addBox(16, 12, -2.0F, -5.0F + 7, -8.0F, 4, 1, 2, 0.0F);
             tube[i].addBox(0, 0, -2.0F, -9.0F + 7, -7.0F, 4, 4, 5, 0.0F);
+            tube[i].addBound(-3.0F, -10.0F + 7, -8.0F, 1, 6, 2);
+            tube[i].addBound(2.0F, -10.0F + 7, -8.0F, 1, 6, 2);
+            tube[i].addBound(-2.0F, -10.0F + 7, -8.0F, 4, 1, 2);
+            tube[i].addBound(-2.0F, -5.0F + 7, -8.0F, 4, 1, 2);
+            tube[i].addBound(-2.0F, -9.0F + 7, -7.0F, 4, 4, 5);
             bb_main.addChild(tube[i]);
         }
 
         middle = new ModelRenderer(this).mirror();
         middle.setRotationPoint(0.0F, 0.0F, 0.0F);
         middle.addBox(0, 9, -2.0F, -9.0F + 7, -2.0F, 4, 4, 4, 0.0F);
+        middle.addBound(-2.0F, -9.0F + 7, -2.0F, 4, 4, 4);
         bb_main.addChild(middle);
     }
 

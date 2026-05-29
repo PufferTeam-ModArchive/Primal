@@ -129,6 +129,18 @@ public class ModelRenderer {
         return this;
     }
 
+    public ModelRenderer addBound(float x, float y, float z, int xWidth, int yHeight, int zDepth) {
+        this.boundList.add(
+            new ModelBound(
+                x * Constants.pixel,
+                y * Constants.pixel,
+                z * Constants.pixel,
+                (x + xWidth) * Constants.pixel,
+                (y + yHeight) * Constants.pixel,
+                (z + zDepth) * Constants.pixel));
+        return this;
+    }
+
     public void setRotationPoint(float rotPointX, float rotPointY, float rotPointZ) {
         this.rotationPointX = rotPointX;
         this.rotationPointY = rotPointY;

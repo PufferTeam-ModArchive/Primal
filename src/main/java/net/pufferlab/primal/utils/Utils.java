@@ -33,13 +33,11 @@ public final class Utils {
     }
 
     public static boolean isClose(double number, double number2) {
-        double range = 0.0001D;
-        double max = Math.abs(number) + range;
-        double min = Math.abs(number) - range;
-        if (number2 <= max && number2 >= min) {
-            return true;
-        }
-        return false;
+        return isClose(number, number2, 0.0001D);
+    }
+
+    public static boolean isClose(double a, double b, double range) {
+        return Math.abs(a - b) <= range;
     }
 
     public static int toInt(long value) {
