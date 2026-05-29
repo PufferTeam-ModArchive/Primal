@@ -94,6 +94,11 @@ public class ModelRenderer {
         this.childModels.add(p_78792_1_);
     }
 
+    public ModelRenderer mirror() {
+        this.mirror = true;
+        return this;
+    }
+
     public ModelRenderer setTextureOffset(int p_78784_1_, int p_78784_2_) {
         this.textureOffsetX = p_78784_1_;
         this.textureOffsetY = p_78784_2_;

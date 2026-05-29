@@ -10,6 +10,7 @@ tile.primal.torch_unlit.name=Unlit Torch
 tile.primal.large_vessel.name=Large Vessel
 tile.primal.barrel.name=Barrel
 tile.primal.faucet.name=Faucet
+tile.primal.pipe.name=Pipe
 tile.primal.campfire.name=Campfire
 tile.primal.pit_kiln.name=Pit Kiln
 tile.primal.tanning_frame.name=Tanning Frame

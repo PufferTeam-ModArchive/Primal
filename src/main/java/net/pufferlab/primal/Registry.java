@@ -88,6 +88,7 @@ public class Registry {
     public static final Block large_vessel;
     public static final Block barrel;
     public static final Block faucet;
+    public static final Block pipe;
     public static final Block quern;
     public static final Block axle;
     public static final Block generator;
@@ -234,6 +235,7 @@ public class Registry {
         large_vessel = new BlockLargeVessel();
         barrel = new BlockBarrel();
         faucet = new BlockFaucet();
+        pipe = new BlockPipe();
         bloomery = new BlockBloomery();
 
         axle = new BlockAxle();
@@ -408,6 +410,7 @@ public class Registry {
         register(crucible, "crucible");
         register(barrel, "barrel");
         register(faucet, "faucet");
+        register(pipe, "pipe");
         register(tanning, "tanning_frame");
         register(axle, "axle");
         register(generator, "generator");

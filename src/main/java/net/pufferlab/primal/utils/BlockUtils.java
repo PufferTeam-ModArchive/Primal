@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Registry;
@@ -113,7 +114,7 @@ public class BlockUtils {
         return true;
     }
 
-    public static Block getBlockDirection(World world, int x, int y, int z, ForgeDirection... directions) {
+    public static Block getBlockDirection(IBlockAccess world, int x, int y, int z, ForgeDirection... directions) {
         int offsetX = x;
         int offsetY = y;
         int offsetZ = z;
@@ -122,6 +123,21 @@ public class BlockUtils {
             offsetY += direction.offsetY;
             offsetZ += direction.offsetZ;
         }
+        return world.getBlock(offsetX, offsetY, offsetZ);
+    }
+
+    public static Block getBlockDirection(IBlockAccess world, int x, int y, int z, ForgeDirection direction,
+        ForgeDirection direction2) {
+        int offsetX = x + direction.offsetX + direction2.offsetX;
+        int offsetY = y + direction.offsetY + direction2.offsetY;
+        int offsetZ = z + direction.offsetZ + direction2.offsetZ;
+        return world.getBlock(offsetX, offsetY, offsetZ);
+    }
+
+    public static Block getBlockDirection(IBlockAccess world, int x, int y, int z, ForgeDirection direction) {
+        int offsetX = x + direction.offsetX;
+        int offsetY = y + direction.offsetY;
+        int offsetZ = z + direction.offsetZ;
         return world.getBlock(offsetX, offsetY, offsetZ);
     }
 

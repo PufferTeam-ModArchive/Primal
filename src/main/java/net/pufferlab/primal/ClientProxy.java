@@ -64,6 +64,7 @@ public class ClientProxy extends CommonProxy {
         largeVesselRenderer = new BlockLargeVesselRenderer();
         barrelRenderer = new BlockBarrelRenderer();
         faucetRenderer = new BlockFaucetRenderer();
+        pipeRenderer = new BlockPipeRenderer();
         groundcoverRenderer = new BlockGroundcoverRenderer();
         tanningRenderer = new BlockTanningRenderer();
         ovenRenderer = new BlockOvenRenderer();
@@ -96,6 +97,7 @@ public class ClientProxy extends CommonProxy {
         register(largeVesselRenderer);
         register(barrelRenderer);
         register(faucetRenderer);
+        register(pipeRenderer);
         register(groundcoverRenderer);
         register(tanningRenderer);
         register(ovenRenderer);
@@ -129,6 +131,7 @@ public class ClientProxy extends CommonProxy {
         register(Registry.clay, new ItemClayRenderer());
         register(Registry.barrel, new ItemBarrelRenderer());
         register(Registry.faucet, new ItemFaucetRenderer());
+        register(Registry.pipe, new ItemPipeRenderer());
         register(Registry.large_vessel, new ItemLargeVesselRenderer());
         register(Registry.oven, new ItemOvenRenderer());
         register(Registry.crucible, new ItemCrucibleRenderer());

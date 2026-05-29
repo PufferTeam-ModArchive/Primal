@@ -11,7 +11,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-import net.pufferlab.primal.client.gui.*;
 import net.pufferlab.primal.client.renderer.blocks.*;
 import net.pufferlab.primal.inventory.*;
 import net.pufferlab.primal.network.NetworkPacket;
@@ -57,6 +56,7 @@ public class CommonProxy implements IGuiHandler {
     protected BlockLargeVesselRenderer largeVesselRenderer;
     protected BlockBarrelRenderer barrelRenderer;
     protected BlockFaucetRenderer faucetRenderer;
+    protected BlockPipeRenderer pipeRenderer;
     protected BlockGroundcoverRenderer groundcoverRenderer;
     protected BlockTanningRenderer tanningRenderer;
     protected BlockOvenRenderer ovenRenderer;
@@ -351,6 +351,10 @@ public class CommonProxy implements IGuiHandler {
 
     public BlockFaucetRenderer getFaucetRenderer() {
         return faucetRenderer;
+    }
+
+    public BlockPipeRenderer getPipeRenderer() {
+        return pipeRenderer;
     }
 
     public BlockGroundcoverRenderer getGroundcoverRenderer() {
