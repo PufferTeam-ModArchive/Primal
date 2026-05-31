@@ -2,6 +2,8 @@ package net.pufferlab.primal.client.helper;
 
 import net.minecraft.client.renderer.Tessellator;
 
+import org.lwjgl.opengl.GL11;
+
 public class VertexCache {
 
     private float[] vertices = new float[64];
@@ -40,6 +42,18 @@ public class VertexCache {
         if (vertexInQuad == 4) {
             vertexInQuad = 0;
         }
+    }
+
+    public void addVertex(float x, float y, float z, float x2, float y2, float z2) {
+        extendCache(6);
+        int s = size;
+        vertices[s] = x;
+        vertices[s + 1] = y;
+        vertices[s + 2] = z;
+        vertices[s + 3] = x2;
+        vertices[s + 4] = y2;
+        vertices[s + 5] = z2;
+        size = s + 6;
     }
 
     private void extendCache(int additional) {
@@ -85,5 +99,27 @@ public class VertexCache {
                 tess.addVertexWithUV(vX + x + offsetX0, vY + y + offsetY0, vZ + z + offsetZ0, u, v);
             }
         }
+    }
+
+    public void render(Tessellator tess) {
+        tess.startDrawing(GL11.GL_LINES);
+        int stride = 6;
+        int lineSize = stride * 2;
+        int safeSize = size - (size % lineSize);
+        for (int s = 0; s < safeSize; s += lineSize) {
+            for (int i = 0; i < 2; i++) {
+                int idx = s + i * stride;
+                float x = vertices[idx];
+                float y = vertices[idx + 1];
+                float z = vertices[idx + 2];
+                float x2 = vertices[idx + 3];
+                float y2 = vertices[idx + 4];
+                float z2 = vertices[idx + 5];
+
+                tess.addVertex(x, y, z);
+                tess.addVertex(x2, y2, z2);
+            }
+        }
+        tess.draw();
     }
 }

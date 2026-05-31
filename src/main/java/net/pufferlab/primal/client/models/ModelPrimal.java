@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.AxisAlignedBB;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.client.helper.BoxCache;
 import net.pufferlab.primal.client.helper.ModelTESS;
 import net.pufferlab.primal.client.utils.ModelBase;
 import net.pufferlab.primal.client.utils.ModelRenderer;
@@ -69,13 +70,13 @@ public abstract class ModelPrimal extends ModelBase {
     public List<AxisAlignedBB> getBounds() {
         List<AxisAlignedBB> list = new ArrayList<>();
         buildBounds(list);
-        return list;
+        return new BoxCache.BoxList(list, bb_main);
     }
 
     public List<AxisAlignedBB> getBounds(double offsetX, double offsetY, double offsetZ) {
         List<AxisAlignedBB> list = new ArrayList<>();
         buildBounds(list, offsetX, offsetY, offsetZ);
-        return list;
+        return new BoxCache.BoxList(list, bb_main);
     }
 
     public void buildBounds(List<AxisAlignedBB> list) {

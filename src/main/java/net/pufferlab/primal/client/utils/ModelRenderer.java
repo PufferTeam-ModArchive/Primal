@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.pufferlab.primal.Constants;
+import net.pufferlab.primal.client.helper.BoxCache;
 import net.pufferlab.primal.client.helper.VertexCache;
 
 import org.joml.Matrix4f;
@@ -223,13 +224,16 @@ public class ModelRenderer {
     public Matrix4f localMatrix = new Matrix4f();
 
     public TIntObjectMap<VertexCache> vertexCache = new TIntObjectHashMap<>();
+    public TIntObjectMap<BoxCache> boxCache = new TIntObjectHashMap<>();
 
     public int getHashCode(IIcon icon) {
         int result = 1;
 
         result = 31 * result + Boolean.hashCode(this.isHidden || !this.showModel);
 
-        result = 31 * result + (icon != null ? icon.hashCode() : 0);
+        if (icon != null) {
+            result = 31 * result + icon.hashCode();
+        }
 
         result = 31 * result + Float.hashCode(this.rotateAngleX);
         result = 31 * result + Float.hashCode(this.rotateAngleY);
@@ -252,9 +256,27 @@ public class ModelRenderer {
         return true;
     }
 
+    public boolean buildBoundsJOMLCached(float scale, double offsetX, double offsetY, double offsetZ,
+        List<AxisAlignedBB> bb) {
+        BoxCache cache = boxCache.get(getHashCode(null));
+        if (cache == null) return false;
+        for (AxisAlignedBB box : cache.getList()) {
+            if (box != null) {
+                bb.add(box);
+            }
+        }
+        return true;
+    }
+
     public VertexCache getCache(IIcon icon) {
         VertexCache cache = new VertexCache();
         vertexCache.put(getHashCode(icon), cache);
+        return cache;
+    }
+
+    public BoxCache getBoxCache() {
+        BoxCache cache = new BoxCache();
+        boxCache.put(getHashCode(null), cache);
         return cache;
     }
 
@@ -285,7 +307,7 @@ public class ModelRenderer {
     public Matrix4f localMatrix2 = new Matrix4f();
 
     public void buildBoundsJOML(float scale, double offsetX, double offsetY, double offsetZ, Matrix4f matrix,
-        List<AxisAlignedBB> bounds) {
+        List<AxisAlignedBB> bounds, BoxCache cache) {
         if (this.isHidden || !this.showModel) return;
 
         localMatrix2.set(matrix);
@@ -298,11 +320,11 @@ public class ModelRenderer {
         if (this.rotateAngleY != 0.0F) localMatrix2.rotateY(this.rotateAngleY);
         if (this.rotateAngleX != 0.0F) localMatrix2.rotateX(this.rotateAngleX);
 
-        compileBoundMatrix(localMatrix2, offsetX, offsetY, offsetZ, bounds);
+        compileBoundMatrix(localMatrix2, offsetX, offsetY, offsetZ, bounds, cache);
 
         if (this.childModels != null) {
             for (Object child : this.childModels) {
-                ((ModelRenderer) child).buildBoundsJOML(scale, offsetX, offsetY, offsetZ, localMatrix2, bounds);
+                ((ModelRenderer) child).buildBoundsJOML(scale, offsetX, offsetY, offsetZ, localMatrix2, bounds, cache);
             }
         }
     }
@@ -424,14 +446,17 @@ public class ModelRenderer {
     }
 
     private void compileBoundMatrix(Matrix4f matrix, double offsetX, double offsetY, double offsetZ,
-        List<AxisAlignedBB> bb) {
+        List<AxisAlignedBB> bb, BoxCache cache) {
         for (int i = 0; i < this.boundList.size(); ++i) {
             ModelBound oldbound = this.boundList.get(i);
             if (oldbound != null) {
                 ModelBound newBound = oldbound.transform(matrix);
-                bb.add(
-                    newBound.getAxisAlignedBB()
-                        .getOffsetBoundingBox(offsetX + 0.5, offsetY, offsetZ + 0.5));
+                AxisAlignedBB boundingBox = newBound.getAxisAlignedBB()
+                    .getOffsetBoundingBox(offsetX + 0.5, offsetY, offsetZ + 0.5);
+                bb.add(boundingBox);
+                if (cache != null) {
+                    cache.addBox(boundingBox);
+                }
             }
         }
     }

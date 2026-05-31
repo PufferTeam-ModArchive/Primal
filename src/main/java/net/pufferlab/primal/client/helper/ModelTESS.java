@@ -246,8 +246,12 @@ public class ModelTESS {
 
     public void buildBoundsJOML(ModelRenderer renderer, double offsetX, double offsetY, double offsetZ, float scale,
         List<AxisAlignedBB> bb) {
+        if (renderer.buildBoundsJOMLCached(scale, offsetX, offsetY, offsetZ, bb)) {
+            return;
+        }
         matrix2.identity();
-        renderer.buildBoundsJOML(scale, offsetX, offsetY, offsetZ, matrix2, bb);
+        BoxCache cache = renderer.getBoxCache();
+        renderer.buildBoundsJOML(scale, offsetX, offsetY, offsetZ, matrix2, bb, cache);
     }
 
     public void renderCrossed(RenderBlocks renderblocks, Block block, int x, int y, int z, int index) {

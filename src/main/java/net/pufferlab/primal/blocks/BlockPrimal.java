@@ -52,16 +52,19 @@ public abstract class BlockPrimal extends Block implements IPrimalBlock {
         bounds = getBounds(worldIn, x, y, z, null, BoundsType.collision);
         if (bounds != null && !bounds.isEmpty()) {
             for (AxisAlignedBB bb : bounds) {
-                bb.offset(x, y, z);
+                bb = bb.copy()
+                    .offset(x, y, z);
                 if (mask.intersectsWith(bb)) {
                     list.add(bb);
                 }
             }
         }
-        AxisAlignedBB axisalignedbb1 = this.getCollisionBoundingBoxFromPool(worldIn, x, y, z);
+        if (collideDefaultBounds()) {
+            AxisAlignedBB axisalignedbb1 = this.getCollisionBoundingBoxFromPool(worldIn, x, y, z);
 
-        if (axisalignedbb1 != null && mask.intersectsWith(axisalignedbb1)) {
-            list.add(axisalignedbb1);
+            if (axisalignedbb1 != null && mask.intersectsWith(axisalignedbb1)) {
+                list.add(axisalignedbb1);
+            }
         }
     }
 

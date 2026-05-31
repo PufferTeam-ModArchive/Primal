@@ -24,7 +24,7 @@ public class BlockPipe extends BlockPrimal {
 
     public BlockPipe() {
         super(Material.iron);
-        this.setBlockBounds(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+        this.setBlockBounds(0.4f, 0.4f, 0.4f, 0.45f, 0.45f, 0.45f);
     }
 
     @Override
@@ -47,6 +47,11 @@ public class BlockPipe extends BlockPrimal {
     @Override
     public boolean renderDefaultBounds() {
         return false;
+    }
+
+    @Override
+    public boolean collideDefaultBounds() {
+        return true;
     }
 
     @Override

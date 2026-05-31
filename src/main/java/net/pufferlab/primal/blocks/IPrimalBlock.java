@@ -21,6 +21,10 @@ public interface IPrimalBlock {
         return true;
     }
 
+    default boolean collideDefaultBounds() {
+        return true;
+    }
+
     default Class<? extends ItemBlock> getItemBlockClass() {
         return ItemBlock.class;
     };
