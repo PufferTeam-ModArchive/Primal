@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.UUID;
 import net.minecraft.client.Minecraft;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.util.AxisAlignedBB;
+import net.pufferlab.primal.Primal;
 
 import org.apache.commons.io.FileUtils;
 
@@ -44,8 +46,29 @@ public class IOUtils {
         return new File(getConfigDir(), name + ".cfg");
     }
 
-    public static File createTempFile() throws IOException {
-        return File.createTempFile("tmp_" + UUID.randomUUID() + "_", ".tmp");
+    public static File createTempFile() {
+        try {
+            return File.createTempFile("tmp_" + UUID.randomUUID() + "_", ".tmp");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static File createNamedTempFile(String name, String extension) {
+        return new File(System.getProperty("java.io.tmpdir"), name + "." + extension);
+    }
+
+    public static File createResourceStreamFile(String resourceStream, String name, String extension) {
+        File temp = IOUtils.createNamedTempFile(name, extension);
+
+        if (!temp.exists()) {
+            try (InputStream in = Primal.class.getResourceAsStream(resourceStream)) {
+                Files.copy(in, temp.toPath());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return temp;
     }
 
     public static String readFile(File file) throws IOException {

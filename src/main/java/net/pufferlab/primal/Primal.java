@@ -32,7 +32,6 @@ public class Primal {
     public static final String commonProxy = group + ".CommonProxy";
     public static final String earlyMixins = "mixins.primal.early.json";
     public static final String lateMixins = "mixins.primal.late.json";
-    public static final String downloadPath = "https://github.com/PufferTeam-ModArchive/Primal/raw/refs/heads/main/builtin/";
     public static final String textureFile = "Primal-Modern-Resources";
     public static final Logger LOG = LogManager.getLogger(MODNAME);
 
@@ -59,7 +58,7 @@ public class Primal {
         profiler.startProfile("PreInitialization");
         proxy.preInit(event);
         proxy.setupGUIs();
-        proxy.setupResources();
+        // proxy.setupResources();
 
         registry.setup();
         registry.setupTiles();

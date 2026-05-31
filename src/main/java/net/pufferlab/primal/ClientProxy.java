@@ -1,7 +1,5 @@
 package net.pufferlab.primal;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -31,7 +29,6 @@ import net.pufferlab.primal.inventory.*;
 import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.tileentities.*;
 import net.pufferlab.primal.utils.HeatUtils;
-import net.pufferlab.primal.utils.IOUtils;
 import net.pufferlab.primal.utils.Utils;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -195,31 +192,6 @@ public class ClientProxy extends CommonProxy {
     @Override
     public int getRenderId(BlockPrimalRenderer container) {
         return this.renderIdMap.get(container.getClass());
-    }
-
-    @Override
-    public void setupResources() {
-        try {
-            File out = IOUtils.createResourceFile(Primal.textureFile, "zip");
-            File outTemp = IOUtils.createTempFile();
-            File infoFile = IOUtils.createResourceFile(Primal.textureFile, "txt");
-
-            String content = IOUtils.readFile(infoFile);
-            String current = Primal.textureFile + " [" + Primal.VERSION + "]";
-            if (!current.equals(content)) {
-                IOUtils.writeFile(infoFile, current);
-
-                try {
-                    IOUtils.downloadFile(Primal.downloadPath + Primal.textureFile, "zip", outTemp);
-                } catch (IOException e) {
-                    return;
-                }
-                IOUtils.copyFile(outTemp, out);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
