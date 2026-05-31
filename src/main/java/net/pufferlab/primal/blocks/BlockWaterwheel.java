@@ -92,7 +92,9 @@ public class BlockWaterwheel extends BlockMotion {
                 if (te2 instanceof TileEntityWaterwheel tef2) {
                     tef2.scheduleRemoval();
                     tef2.scheduleStrongUpdate();
+                    tef2.isExtension = true;
                 }
+                Primal.proxy.packet.sendChunkUpdate(worldIn);
             } else {
                 clearExtensions(worldIn, tef.xCoord, tef.yCoord, tef.zCoord, tef.axisMeta);
                 tef.scheduleStrongUpdate();
