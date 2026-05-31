@@ -117,23 +117,25 @@ public class RenderBounds {
 
         public boolean isClose(Line line) {
 
-            boolean direct = Utils.isClose(this.a.x, line.a.x, range) && Utils.isClose(this.a.y, line.a.y, range)
-                && Utils.isClose(this.a.z, line.a.z, range)
+            boolean direct = Utils.roughlyEquals(this.a.x, line.a.x, range)
+                && Utils.roughlyEquals(this.a.y, line.a.y, range)
+                && Utils.roughlyEquals(this.a.z, line.a.z, range)
                 &&
 
-                Utils.isClose(this.b.x, line.b.x, range)
-                && Utils.isClose(this.b.y, line.b.y, range)
-                && Utils.isClose(this.b.z, line.b.z, range);
+                Utils.roughlyEquals(this.b.x, line.b.x, range)
+                && Utils.roughlyEquals(this.b.y, line.b.y, range)
+                && Utils.roughlyEquals(this.b.z, line.b.z, range);
 
             if (direct) return true;
 
-            boolean reversed = Utils.isClose(this.a.x, line.b.x, range) && Utils.isClose(this.a.y, line.b.y, range)
-                && Utils.isClose(this.a.z, line.b.z, range)
+            boolean reversed = Utils.roughlyEquals(this.a.x, line.b.x, range)
+                && Utils.roughlyEquals(this.a.y, line.b.y, range)
+                && Utils.roughlyEquals(this.a.z, line.b.z, range)
                 &&
 
-                Utils.isClose(this.b.x, line.a.x, range)
-                && Utils.isClose(this.b.y, line.a.y, range)
-                && Utils.isClose(this.b.z, line.a.z, range);
+                Utils.roughlyEquals(this.b.x, line.a.x, range)
+                && Utils.roughlyEquals(this.b.y, line.a.y, range)
+                && Utils.roughlyEquals(this.b.z, line.a.z, range);
 
             return reversed;
         }

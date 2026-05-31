@@ -35,22 +35,22 @@ public abstract class MixinEntityDiggingFX {
                 int x4 = x2;
                 int y4 = y2;
                 int z4 = z2;
-                if (Utils.isClose(x3, 0.1F)) {
+                if (Utils.roughlyEquals(x3, 0.1F)) {
                     x4--;
                 }
-                if (Utils.isClose(x3, 0.9F)) {
+                if (Utils.roughlyEquals(x3, 0.9F)) {
                     x4++;
                 }
-                if (Utils.isClose(y3, 0.1F)) {
+                if (Utils.roughlyEquals(y3, 0.1F)) {
                     y4--;
                 }
-                if (Utils.isClose(y3, 0.9F)) {
+                if (Utils.roughlyEquals(y3, 0.9F)) {
                     y4++;
                 }
-                if (Utils.isClose(z3, 0.1F)) {
+                if (Utils.roughlyEquals(z3, 0.1F)) {
                     z4--;
                 }
-                if (Utils.isClose(z3, 0.9F)) {
+                if (Utils.roughlyEquals(z3, 0.9F)) {
                     z4++;
                 }
                 boolean b1 = false;

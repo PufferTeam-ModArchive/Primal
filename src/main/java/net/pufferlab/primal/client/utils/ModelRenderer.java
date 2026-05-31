@@ -10,6 +10,7 @@ import net.minecraft.util.IIcon;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.client.helper.BoxCache;
 import net.pufferlab.primal.client.helper.VertexCache;
+import net.pufferlab.primal.utils.HashUtils;
 
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
@@ -235,9 +236,9 @@ public class ModelRenderer {
             result = 31 * result + icon.hashCode();
         }
 
-        result = 31 * result + Float.hashCode(this.rotateAngleX);
-        result = 31 * result + Float.hashCode(this.rotateAngleY);
-        result = 31 * result + Float.hashCode(this.rotateAngleZ);
+        result = 31 * result + HashUtils.angleHashCode(this.rotateAngleX);
+        result = 31 * result + HashUtils.angleHashCode(this.rotateAngleY);
+        result = 31 * result + HashUtils.angleHashCode(this.rotateAngleZ);
 
         if (this.childModels != null) {
             for (ModelRenderer renderer : childModels) {

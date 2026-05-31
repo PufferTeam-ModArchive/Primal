@@ -32,11 +32,11 @@ public final class Utils {
         return false;
     }
 
-    public static boolean isClose(double number, double number2) {
-        return isClose(number, number2, 0.0001D);
+    public static boolean roughlyEquals(double number, double number2) {
+        return roughlyEquals(number, number2, 0.0001D);
     }
 
-    public static boolean isClose(double a, double b, double range) {
+    public static boolean roughlyEquals(double a, double b, double range) {
         return Math.abs(a - b) <= range;
     }
 
