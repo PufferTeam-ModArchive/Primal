@@ -16,15 +16,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ResourcePackRepository.class)
 public class MixinResourcePackRepository {
 
+    public static boolean ranOnce = false;
     @Inject(method = "getResourcePackFiles", at = @At("RETURN"), cancellable = true)
     private void getResourcePackFiles$primal(CallbackInfoReturnable<List<File>> cir) {
 
         List<File> list = new ArrayList<>(cir.getReturnValue());
 
-        File temp = IOUtils.createResourceStreamFile("/" + Primal.textureFile + ".zip", Primal.textureFile + "-" + Primal.VERSION, "tmp");
+        if(!ranOnce) {
+            ranOnce = true;
+            File temp = IOUtils.createResourceStreamFile("/" + Primal.textureFile + ".zip", Primal.textureFile, "tmp");
 
-        if (temp != null) {
-            list.add(temp);
+            if (temp != null) {
+                list.add(temp);
+            }
         }
 
         cir.setReturnValue(list);

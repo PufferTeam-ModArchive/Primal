@@ -8,6 +8,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,12 +62,10 @@ public class IOUtils {
     public static File createResourceStreamFile(String resourceStream, String name, String extension) {
         File temp = IOUtils.createNamedTempFile(name, extension);
 
-        if (!temp.exists()) {
-            try (InputStream in = Primal.class.getResourceAsStream(resourceStream)) {
-                Files.copy(in, temp.toPath());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        try (InputStream in = Primal.class.getResourceAsStream(resourceStream)) {
+            Files.copy(in, temp.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         return temp;
     }
