@@ -70,15 +70,15 @@ public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTi
     }
 
     @Override
-    public void onScheduleTask(Tasks task) {
-        IScheduledTile.super.onScheduleTask(task);
+    public void onScheduleTask(Tasks task, long taskTime) {
+        IScheduledTile.super.onScheduleTask(task, taskTime);
 
         if (task == Tasks.network) {
             NetworkMoisture.generateNetwork(this);
         }
         if (task == Tasks.nutrient) {
             replenishNutrients();
-            addSchedule(Config.farmlandReplenishment.getInt(), Tasks.nutrient);
+            addSchedule(taskTime, Config.farmlandReplenishment.getInt(), Tasks.nutrient);
         }
     }
 

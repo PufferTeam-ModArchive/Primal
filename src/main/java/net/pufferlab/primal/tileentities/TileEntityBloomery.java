@@ -43,8 +43,8 @@ public class TileEntityBloomery extends TileEntityInventory implements IHeatable
     }
 
     @Override
-    public void onScheduleTask(Tasks task) {
-        IScheduledTile.super.onScheduleTask(task);
+    public void onScheduleTask(Tasks task, long taskTime) {
+        IScheduledTile.super.onScheduleTask(task, taskTime);
 
         if (task == Tasks.fuel) {
             updateFuel();

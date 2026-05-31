@@ -140,6 +140,12 @@ public class SchedulerData extends WorldSavedData {
     public static void addScheduledTask(Tasks.Type taskType, int inTime, Block block, World world, int x, int y, int z,
         Tasks task) {
         long currentTime = GlobalTickingData.getTickTime(world);
+        addScheduledTask(taskType, currentTime, inTime, block, world, x, y, z, task);
+
+    }
+
+    public static void addScheduledTask(Tasks.Type taskType, long currentTime, int inTime, Block block, World world,
+        int x, int y, int z, Tasks task) {
         SchedulerData scheduler = get(world);
 
         scheduler.addScheduledTask(new ScheduledTask(taskType, block, currentTime, inTime, x, y, z, task, 0));
@@ -149,8 +155,18 @@ public class SchedulerData extends WorldSavedData {
         addScheduledTask(Tasks.Type.blockTask, inTime, block, world, x, y, z, task);
     }
 
+    public static void addScheduledBlockTask(long currentTime, int inTime, Block block, World world, int x, int y,
+        int z, Tasks task) {
+        addScheduledTask(Tasks.Type.blockTask, currentTime, inTime, block, world, x, y, z, task);
+    }
+
     public static void addScheduledTileTask(int inTime, Block block, World world, int x, int y, int z, Tasks task) {
         addScheduledTask(Tasks.Type.tileTask, inTime, block, world, x, y, z, task);
+    }
+
+    public static void addScheduledTileTask(long currentTime, int inTime, Block block, World world, int x, int y, int z,
+        Tasks task) {
+        addScheduledTask(Tasks.Type.tileTask, currentTime, inTime, block, world, x, y, z, task);
     }
 
     public static void removeScheduledTask(World world, int x, int y, int z, Tasks type) {

@@ -69,8 +69,8 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
     }
 
     @Override
-    public void onScheduleTask(Tasks task) {
-        IScheduledTile.super.onScheduleTask(task);
+    public void onScheduleTask(Tasks task, long taskTime) {
+        IScheduledTile.super.onScheduleTask(task, taskTime);
 
         if (task == Tasks.network) {
             NetworkMotion.sendUpdate(this);

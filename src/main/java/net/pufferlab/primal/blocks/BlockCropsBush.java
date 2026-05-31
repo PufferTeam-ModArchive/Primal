@@ -19,7 +19,7 @@ import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.tileentities.TileEntityFarmland;
 import net.pufferlab.primal.utils.CropType;
 import net.pufferlab.primal.utils.Utils;
-import net.pufferlab.primal.world.ScheduleManager;
+import net.pufferlab.primal.world.GlobalTickingData;
 import net.pufferlab.primal.world.Tasks;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -33,8 +33,6 @@ public class BlockCropsBush extends BlockCrops implements IPrimalBlock, ISchedul
     public String name;
     int growStages;
 
-    public ScheduleManager manager = new ScheduleManager();
-
     public BlockCropsBush(CropType cropType) {
         super();
         this.cropType = cropType;
@@ -43,15 +41,13 @@ public class BlockCropsBush extends BlockCrops implements IPrimalBlock, ISchedul
         this.name = cropType.cropName;
     }
 
-    public ScheduleManager getManager() {
-        return manager;
-    }
-
     @Override
     public void updateTick(World worldIn, int x, int y, int z, Random random) {
         this.checkAndDropBlock(worldIn, x, y, z);
 
-        updateGrowth(worldIn, x, y, z, worldIn.rand);
+        if (hasSchedule(worldIn, x, y, z, Tasks.growth)) {
+            updateGrowth(worldIn, x, y, z, worldIn.rand, GlobalTickingData.getTickTime(worldIn));
+        }
     }
 
     @Override
@@ -59,7 +55,7 @@ public class BlockCropsBush extends BlockCrops implements IPrimalBlock, ISchedul
         return 1.0F;
     }
 
-    public void updateGrowth(World worldIn, int x, int y, int z, Random rand) {
+    public void updateGrowth(World worldIn, int x, int y, int z, Random rand, long currentTime) {
         int meta = worldIn.getBlockMetadata(x, y, z);
         if (meta != (this.growStages - 1) && worldIn.getBlockLightValue(x, y + 1, z) >= 9) {
             TileEntity te = worldIn.getTileEntity(x, y - 1, z);
@@ -71,7 +67,7 @@ public class BlockCropsBush extends BlockCrops implements IPrimalBlock, ISchedul
             }
             int ticksToGrow = this.cropType.getGrowthTicks(rand);
             int updateTick = (int) (((float) ticksToGrow) / growthSpeed);
-            addSchedule(worldIn, x, y, z, updateTick, Tasks.growth);
+            addSchedule(worldIn, x, y, z, currentTime, updateTick, Tasks.growth);
         }
     }
 
@@ -79,7 +75,7 @@ public class BlockCropsBush extends BlockCrops implements IPrimalBlock, ISchedul
     public void onBlockAdded(World worldIn, int x, int y, int z) {
         super.onBlockAdded(worldIn, x, y, z);
 
-        updateGrowth(worldIn, x, y, z, worldIn.rand);
+        updateGrowth(worldIn, x, y, z, worldIn.rand, GlobalTickingData.getTickTime(worldIn));
     }
 
     public boolean needsFarmland() {
@@ -87,15 +83,15 @@ public class BlockCropsBush extends BlockCrops implements IPrimalBlock, ISchedul
     }
 
     @Override
-    public void onScheduleTask(World world, int x, int y, int z, Tasks task) {
-        IScheduledBlock.super.onScheduleTask(world, x, y, z, task);
+    public void onScheduleTask(World world, int x, int y, int z, Tasks task, long taskTime) {
+        IScheduledBlock.super.onScheduleTask(world, x, y, z, task, taskTime);
 
         if (task == Tasks.growth) {
-            grow(world, x, y, z);
+            grow(world, x, y, z, taskTime);
         }
     }
 
-    public void grow(World world, int x, int y, int z) {
+    public void grow(World world, int x, int y, int z, long currentTime) {
         TileEntity te = world.getTileEntity(x, y - 1, z);
         if (needsFarmland()) {
             if (te instanceof TileEntityFarmland farmland) {
@@ -112,12 +108,12 @@ public class BlockCropsBush extends BlockCrops implements IPrimalBlock, ISchedul
 
         world.setBlockMetadataWithNotify(x, y, z, l, 2);
 
-        updateGrowth(world, x, y, z, world.rand);
+        updateGrowth(world, x, y, z, world.rand, currentTime);
     }
 
     public void bonemealGrow(World world, int x, int y, int z) {
         if (Config.bonemealInstantGrowth.getBoolean()) {
-            grow(world, x, y, z);
+            grow(world, x, y, z, GlobalTickingData.getTickTime(world));
         }
     }
 

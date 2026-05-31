@@ -98,8 +98,8 @@ public class TileEntityCast extends TileEntityFluidInventory implements IHeatabl
     }
 
     @Override
-    public void onScheduleTask(Tasks task) {
-        IScheduledTile.super.onScheduleTask(task);
+    public void onScheduleTask(Tasks task, long taskTime) {
+        IScheduledTile.super.onScheduleTask(task, taskTime);
 
         if (task == Tasks.heat) {
             updateMold();

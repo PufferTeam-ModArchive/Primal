@@ -63,8 +63,8 @@ public class TileEntityWindmill extends TileEntityMotion {
     }
 
     @Override
-    public void onScheduleTask(Tasks task) {
-        super.onScheduleTask(task);
+    public void onScheduleTask(Tasks task, long taskTime) {
+        super.onScheduleTask(task, taskTime);
 
         if (task == Tasks.wind) {
             float newSpeed = getSpeedFromWind();

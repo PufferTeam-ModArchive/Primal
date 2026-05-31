@@ -36,11 +36,16 @@ public class TaskInfo {
         return timeSent;
     }
 
-    public void addUpdate(World world, int inTime) {
+    public void addUpdate(World world, long timeSent, int inTime) {
         this.inTime = inTime;
-        this.timeSent = GlobalTickingData.getTickTime(world);
+        this.timeSent = timeSent;
         this.timeScheduled = timeSent + inTime;
         this.sentUpdate = true;
+    }
+
+    public void addUpdate(World world, int inTime) {
+        long currentTime = GlobalTickingData.getTickTime(world);
+        addUpdate(world, currentTime, inTime);
     }
 
     public void removeUpdate(World world) {

@@ -125,7 +125,7 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
                 Block block = world.getBlock(this.x, this.y, this.z);
                 if (this.block == block) {
                     if (block instanceof IScheduledBlock block2) {
-                        block2.onSchedule(world, this.x, this.y, this.z, this.task, this.id);
+                        block2.onSchedule(world, this.x, this.y, this.z, this.task, this.id, this.timeScheduled);
                         return true;
                     }
                 }
@@ -139,7 +139,7 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
                 if (this.block == block) {
                     TileEntity te = world.getTileEntity(this.x, this.y, this.z);
                     if (te instanceof IScheduledTile te2) {
-                        te2.onSchedule(world, this.x, this.y, this.z, this.task, this.id);
+                        te2.onSchedule(world, this.x, this.y, this.z, this.task, this.id, this.timeScheduled);
                         return true;
                     }
                 }

@@ -86,7 +86,7 @@ public class BlockTorchPrimitive extends BlockTorch
     }
 
     @Override
-    public void onScheduleTask(World world, int x, int y, int z, Tasks task) {
+    public void onScheduleTask(World world, int x, int y, int z, Tasks task, long taskTime) {
         if (this.isLit && task == Tasks.fuel) {
             world.setBlock(x, y, z, Registry.unlit_torch);
         }

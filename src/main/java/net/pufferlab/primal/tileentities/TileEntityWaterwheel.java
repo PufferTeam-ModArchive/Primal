@@ -70,8 +70,8 @@ public class TileEntityWaterwheel extends TileEntityMotion {
     }
 
     @Override
-    public void onScheduleTask(Tasks task) {
-        super.onScheduleTask(task);
+    public void onScheduleTask(Tasks task, long taskTime) {
+        super.onScheduleTask(task, taskTime);
 
         if (task == Tasks.flow) {
             float newSpeed = getSpeedFromFlow();

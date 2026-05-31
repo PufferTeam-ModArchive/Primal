@@ -74,6 +74,13 @@ public class ScheduleManager {
         }
     }
 
+    public void addUpdate(Tasks type, World world, long currentTime, int inTime) {
+        TaskInfo task = get(type);
+        if (task != null) {
+            task.addUpdate(world, currentTime, inTime);
+        }
+    }
+
     public void removeUpdate(Tasks type, World world) {
         TaskInfo task = get(type);
         if (task != null) {
