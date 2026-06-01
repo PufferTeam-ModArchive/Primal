@@ -75,7 +75,9 @@ public class BlockCropsBush extends BlockCrops implements IPrimalBlock, ISchedul
     public void onBlockAdded(World worldIn, int x, int y, int z) {
         super.onBlockAdded(worldIn, x, y, z);
 
-        updateGrowth(worldIn, x, y, z, worldIn.rand, GlobalTickingData.getTickTime(worldIn));
+        if (!hasSchedule(worldIn, x, y, z, Tasks.growth)) {
+            updateGrowth(worldIn, x, y, z, worldIn.rand, GlobalTickingData.getTickTime(worldIn));
+        }
     }
 
     public boolean needsFarmland() {
