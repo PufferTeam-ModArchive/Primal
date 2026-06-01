@@ -45,7 +45,7 @@ public class BlockCropsBush extends BlockCrops implements IPrimalBlock, ISchedul
     public void updateTick(World worldIn, int x, int y, int z, Random random) {
         this.checkAndDropBlock(worldIn, x, y, z);
 
-        if (hasSchedule(worldIn, x, y, z, Tasks.growth)) {
+        if (!hasSchedule(worldIn, x, y, z, Tasks.growth)) {
             updateGrowth(worldIn, x, y, z, worldIn.rand, GlobalTickingData.getTickTime(worldIn));
         }
     }
