@@ -26,7 +26,7 @@ import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.MetalType;
 import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.GlobalTickingData;
-import net.pufferlab.primal.world.Tasks;
+import net.pufferlab.primal.world.scheduling.Task;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
@@ -76,7 +76,7 @@ public class BlockCast extends BlockContainerPrimal {
                                         if (tef.getFluidStack() == null && fluid != null) {
                                             tef.setTemperature(temp);
                                             tef.setTemperatureMultiplier(-1.0F);
-                                            tef.addSchedule(0, Tasks.heat);
+                                            tef.addSchedule(0, Task.heat);
                                             tef.fill(ForgeDirection.getOrientation(side), fluid, true);
                                         }
                                     }

@@ -1,4 +1,4 @@
-package net.pufferlab.primal.world;
+package net.pufferlab.primal.world.scheduling;
 
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
@@ -7,27 +7,28 @@ import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.IScheduledBlock;
 import net.pufferlab.primal.tileentities.IScheduledTile;
+import net.pufferlab.primal.world.GlobalTickingData;
 
 public class ScheduledTask implements Comparable<ScheduledTask> {
 
     long timeCurrent, timeScheduled;
     int x, y, z, id;
     Block block;
-    Tasks task;
-    Tasks.Type taskType;
+    Task task;
+    Task.Type taskType;
     boolean invalid;
 
     public ScheduledTask(NBTTagCompound tag) {
         readFromNBT(tag);
     }
 
-    public ScheduledTask(Tasks.Type type, long currentTime, int inTime) {
+    public ScheduledTask(Task.Type type, long currentTime, int inTime) {
         this.taskType = type;
         this.timeCurrent = currentTime;
         this.timeScheduled = currentTime + inTime;
     }
 
-    public ScheduledTask(Tasks.Type type, Block block, long currentTime, int inTime, int x, int y, int z, Tasks task,
+    public ScheduledTask(Task.Type type, Block block, long currentTime, int inTime, int x, int y, int z, Task task,
         int id) {
         this.taskType = type;
         this.block = block;
@@ -52,27 +53,31 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
     }
 
     public void writeToNBT(NBTTagCompound tag) {
-        tag.setByte("taskType", Tasks.Type.getID(this.taskType));
+        tag.setByte("taskType", Task.Type.getID(this.taskType));
         tag.setLong("timeSent", timeCurrent);
         tag.setLong("time", timeScheduled);
         tag.setInteger("blockID", Block.getIdFromBlock(block));
         tag.setInteger("x", x);
         tag.setInteger("y", y);
         tag.setInteger("z", z);
-        tag.setInteger("task", Tasks.getID(this.task));
+        tag.setInteger("task", Task.getID(this.task));
         tag.setInteger("id", id);
     }
 
     public void readFromNBT(NBTTagCompound tag) {
-        taskType = Tasks.Type.getTask(tag.getByte("taskType"));
+        taskType = Task.Type.getTask(tag.getByte("taskType"));
         timeCurrent = tag.getLong("timeSent");
         timeScheduled = tag.getLong("time");
         block = Block.getBlockById(tag.getInteger("blockID"));
         x = tag.getInteger("x");
         y = tag.getInteger("y");
         z = tag.getInteger("z");
-        task = Tasks.getTask(tag.getInteger("task"));
+        task = Task.getTask(tag.getInteger("task"));
         id = tag.getInteger("id");
+    }
+
+    public Class<?> getTileClass() {
+        return null;
     }
 
     public boolean equals(Block block, int x, int y, int z) {
@@ -89,21 +94,21 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
         return false;
     }
 
-    public boolean equals(Block block, int x, int y, int z, Tasks task) {
+    public boolean equals(Block block, int x, int y, int z, Task task) {
         if (this.x == x && this.y == y && this.z == z && this.task == task && this.block == block) {
             return true;
         }
         return false;
     }
 
-    public boolean equals(int x, int y, int z, Tasks task) {
+    public boolean equals(int x, int y, int z, Task task) {
         if (this.x == x && this.y == y && this.z == z && this.task == task) {
             return true;
         }
         return false;
     }
 
-    public boolean equals(Tasks task) {
+    public boolean equals(Task task) {
         if (this.task == task) {
             return true;
         }

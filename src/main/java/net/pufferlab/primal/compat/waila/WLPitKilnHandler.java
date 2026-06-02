@@ -9,7 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.pufferlab.primal.tileentities.TileEntityPitKiln;
 import net.pufferlab.primal.utils.TextUtils;
-import net.pufferlab.primal.world.Tasks;
+import net.pufferlab.primal.world.scheduling.Task;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -27,8 +27,8 @@ public class WLPitKilnHandler implements IWailaDataProvider {
             if (tag != null) {
                 boolean isFired = tag.getBoolean("isFired");
                 if (isFired) {
-                    long nextUpdate = tef.manager.getTimeScheduled(Tasks.process);
-                    int timeToProcess = tef.manager.getTime(Tasks.process);
+                    long nextUpdate = tef.manager.getTimeScheduled(Task.process);
+                    int timeToProcess = tef.manager.getTime(Task.process);
                     currenttip
                         .add(TextUtils.getRecipeTooltip("Pottery", tef.getWorld(), nextUpdate, timeToProcess, "fired"));
                 }

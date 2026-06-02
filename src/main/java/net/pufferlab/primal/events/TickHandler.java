@@ -6,7 +6,7 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.helper.ClientTickHolder;
 import net.pufferlab.primal.world.GlobalTickingData;
-import net.pufferlab.primal.world.SchedulerData;
+import net.pufferlab.primal.world.scheduling.SchedulerData;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -37,11 +37,9 @@ public class TickHandler implements IEventHandler {
     }
 
     private synchronized void tickTasks(TickEvent.WorldTickEvent event) {
-        if (event.phase == TickEvent.Phase.END) {
-            if (!event.world.isRemote) {
-                SchedulerData.tickTasks(GlobalTickingData.getTickTime(event.world), event.world);
-                SchedulerData.tickWaitingTasks(event.world);
-            }
+        if (!event.world.isRemote) {
+            SchedulerData.tickTasks(GlobalTickingData.getTickTime(event.world), event.world);
+            SchedulerData.tickWaitingTasks(event.world);
         }
     }
 

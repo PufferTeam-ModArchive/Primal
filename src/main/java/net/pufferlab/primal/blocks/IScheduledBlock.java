@@ -2,26 +2,26 @@ package net.pufferlab.primal.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
-import net.pufferlab.primal.world.SchedulerData;
-import net.pufferlab.primal.world.Tasks;
+import net.pufferlab.primal.world.scheduling.SchedulerData;
+import net.pufferlab.primal.world.scheduling.Task;
 
 public interface IScheduledBlock {
 
-    default void onSchedule(World world, int x, int y, int z, Tasks type, int id, long taskTime) {
+    default void onSchedule(World world, int x, int y, int z, Task type, int id, long taskTime) {
         onScheduleTask(world, x, y, z, type, taskTime);
     };
 
-    default void onScheduleTask(World world, int x, int y, int z, Tasks task, long taskTime) {}
+    default void onScheduleTask(World world, int x, int y, int z, Task task, long taskTime) {}
 
-    default void addSchedule(World world, int x, int y, int z, int inTime, Tasks type) {
+    default void addSchedule(World world, int x, int y, int z, int inTime, Task type) {
         SchedulerData.addScheduledBlockTask(inTime, getBlock(), world, x, y, z, type);
     }
 
-    default void addSchedule(World world, int x, int y, int z, long currentTime, int inTime, Tasks type) {
+    default void addSchedule(World world, int x, int y, int z, long currentTime, int inTime, Task type) {
         SchedulerData.addScheduledBlockTask(currentTime, inTime, getBlock(), world, x, y, z, type);
     }
 
-    default boolean hasSchedule(World world, int x, int y, int z, Tasks type) {
+    default boolean hasSchedule(World world, int x, int y, int z, Task type) {
         return SchedulerData.hasScheduledTask(world, x, y, z, type);
     }
 

@@ -5,7 +5,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.pufferlab.primal.Config;
-import net.pufferlab.primal.world.Tasks;
+import net.pufferlab.primal.world.scheduling.Task;
 
 public class TileEntityWindmill extends TileEntityMotion {
 
@@ -63,10 +63,10 @@ public class TileEntityWindmill extends TileEntityMotion {
     }
 
     @Override
-    public void onScheduleTask(Tasks task, long taskTime) {
+    public void onScheduleTask(Task task, long taskTime) {
         super.onScheduleTask(task, taskTime);
 
-        if (task == Tasks.wind) {
+        if (task == Task.wind) {
             float newSpeed = getSpeedFromWind();
             if (this.generatedSpeed != newSpeed) {
                 this.generatedSpeed = newSpeed;
@@ -74,7 +74,7 @@ public class TileEntityWindmill extends TileEntityMotion {
                 this.updateTEState();
                 this.scheduleUpdate();
             }
-            addSchedule(20, Tasks.wind);
+            addSchedule(20, Task.wind);
         }
     }
 
@@ -135,7 +135,7 @@ public class TileEntityWindmill extends TileEntityMotion {
     }
 
     public void scheduleWindUpdate() {
-        addSchedule(0, Tasks.wind);
+        addSchedule(0, Task.wind);
     }
 
     @Override

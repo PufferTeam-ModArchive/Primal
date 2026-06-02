@@ -7,17 +7,12 @@ import net.pufferlab.primal.Config;
 import net.pufferlab.primal.recipes.CampfireRecipe;
 import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.Utils;
-import net.pufferlab.primal.world.ScheduleManager;
-import net.pufferlab.primal.world.Tasks;
+import net.pufferlab.primal.world.scheduling.ScheduleManager;
+import net.pufferlab.primal.world.scheduling.Task;
 
 public class TileEntityCampfire extends TileEntityInventory implements IHeatable, IScheduledTile {
 
-    public ScheduleManager manager = new ScheduleManager(
-        Tasks.fuel,
-        Tasks.item1,
-        Tasks.item2,
-        Tasks.item3,
-        Tasks.item4);
+    public ScheduleManager manager = new ScheduleManager(Task.fuel, Task.item1, Task.item2, Task.item3, Task.item4);
 
     public boolean isBuilt;
     public boolean hasSpit;
@@ -75,56 +70,56 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
     @Override
     public void onSlotUpdate(int index) {
         if (index < 6) {
-            removeSchedule(Tasks.fuel);
+            removeSchedule(Task.fuel);
         }
         if (index == slotItem1) {
             if (canProcess(slotItem1)) {
-                addSchedule(getSmeltTime(), Tasks.item1);
+                addSchedule(getSmeltTime(), Task.item1);
             } else {
-                removeSchedule(Tasks.item1);
+                removeSchedule(Task.item1);
             }
         }
         if (index == slotItem2) {
             if (canProcess(slotItem2)) {
-                addSchedule(getSmeltTime(), Tasks.item2);
+                addSchedule(getSmeltTime(), Task.item2);
             } else {
-                removeSchedule(Tasks.item2);
+                removeSchedule(Task.item2);
             }
         }
         if (index == slotItem3) {
             if (canProcess(slotItem3)) {
-                addSchedule(getSmeltTime(), Tasks.item3);
+                addSchedule(getSmeltTime(), Task.item3);
             } else {
-                removeSchedule(Tasks.item3);
+                removeSchedule(Task.item3);
             }
         }
         if (index == slotItem4) {
             if (canProcess(slotItem4)) {
-                addSchedule(getSmeltTime(), Tasks.item4);
+                addSchedule(getSmeltTime(), Task.item4);
             } else {
-                removeSchedule(Tasks.item4);
+                removeSchedule(Task.item4);
             }
         }
         updateTEState();
     }
 
     @Override
-    public void onScheduleTask(Tasks task, long taskTime) {
+    public void onScheduleTask(Task task, long taskTime) {
         IScheduledTile.super.onScheduleTask(task, taskTime);
 
-        if (task == Tasks.fuel) {
+        if (task == Task.fuel) {
             updateFuel();
         }
-        if (task == Tasks.item1) {
+        if (task == Task.item1) {
             setOutput(slotItem1);
         }
-        if (task == Tasks.item2) {
+        if (task == Task.item2) {
             setOutput(slotItem2);
         }
-        if (task == Tasks.item3) {
+        if (task == Task.item3) {
             setOutput(slotItem3);
         }
-        if (task == Tasks.item4) {
+        if (task == Task.item4) {
             setOutput(slotItem4);
         }
     }
@@ -144,12 +139,12 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
     public void sendFuelUpdate() {
         if (!hasFuel()) {
             setFired(false);
-            removeSchedule(Tasks.item1);
-            removeSchedule(Tasks.item2);
-            removeSchedule(Tasks.item3);
-            removeSchedule(Tasks.item4);
+            removeSchedule(Task.item1);
+            removeSchedule(Task.item2);
+            removeSchedule(Task.item3);
+            removeSchedule(Task.item4);
         } else {
-            addSchedule(Config.campfireBurnTime.getInt(), Tasks.fuel);
+            addSchedule(Config.campfireBurnTime.getInt(), Task.fuel);
         }
     }
 

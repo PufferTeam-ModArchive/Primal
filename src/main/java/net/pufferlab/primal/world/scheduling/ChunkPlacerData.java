@@ -1,4 +1,4 @@
-package net.pufferlab.primal.world;
+package net.pufferlab.primal.world.scheduling;
 
 import java.util.ArrayList;
 import java.util.List;

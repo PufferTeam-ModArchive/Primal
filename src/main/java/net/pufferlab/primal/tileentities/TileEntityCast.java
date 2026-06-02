@@ -11,12 +11,12 @@ import net.pufferlab.primal.recipes.CastingRecipe;
 import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.world.HeatInfo;
-import net.pufferlab.primal.world.ScheduleManager;
-import net.pufferlab.primal.world.Tasks;
+import net.pufferlab.primal.world.scheduling.ScheduleManager;
+import net.pufferlab.primal.world.scheduling.Task;
 
 public class TileEntityCast extends TileEntityFluidInventory implements IHeatable, IScheduledTile {
 
-    public ScheduleManager manager = new ScheduleManager(Tasks.heat);
+    public ScheduleManager manager = new ScheduleManager(Task.heat);
     public HeatInfo heat = new HeatInfo(1300);
 
     public static final int slotCast = 0;
@@ -98,12 +98,12 @@ public class TileEntityCast extends TileEntityFluidInventory implements IHeatabl
     }
 
     @Override
-    public void onScheduleTask(Tasks task, long taskTime) {
+    public void onScheduleTask(Task task, long taskTime) {
         IScheduledTile.super.onScheduleTask(task, taskTime);
 
-        if (task == Tasks.heat) {
+        if (task == Task.heat) {
             updateMold();
-            addSchedule(40, Tasks.heat);
+            addSchedule(40, Task.heat);
         }
     }
 

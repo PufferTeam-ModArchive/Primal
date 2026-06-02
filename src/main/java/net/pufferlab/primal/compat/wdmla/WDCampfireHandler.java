@@ -14,7 +14,7 @@ import net.pufferlab.primal.recipes.CampfireRecipe;
 import net.pufferlab.primal.tileentities.TileEntityCampfire;
 import net.pufferlab.primal.utils.TextUtils;
 import net.pufferlab.primal.utils.Utils;
-import net.pufferlab.primal.world.Tasks;
+import net.pufferlab.primal.world.scheduling.Task;
 
 import com.gtnewhorizons.wdmla.api.accessor.BlockAccessor;
 import com.gtnewhorizons.wdmla.api.provider.IBlockComponentProvider;
@@ -39,8 +39,8 @@ public class WDCampfireHandler implements IBlockComponentProvider, IServerDataPr
                     ItemStack inputItem = tef.getInventoryStack(slotItem1);
                     ItemStack outputItem = outputItem1.copy();
                     outputItem.stackSize = 0;
-                    long nextUpdate = tef.manager.getTimeScheduled(Tasks.item1);
-                    int timeToProcess = tef.manager.getTime(Tasks.item1);
+                    long nextUpdate = tef.manager.getTimeScheduled(Task.item1);
+                    int timeToProcess = tef.manager.getTime(Task.item1);
                     int timeRemaining = TextUtils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);
                     IComponent progress = ThemeHelper.INSTANCE.furnaceLikeProgress(
                         Utils.asList(inputItem),
@@ -55,8 +55,8 @@ public class WDCampfireHandler implements IBlockComponentProvider, IServerDataPr
                     ItemStack inputItem = tef.getInventoryStack(slotItem2);
                     ItemStack outputItem = outputItem2.copy();
                     outputItem.stackSize = 0;
-                    long nextUpdate = tef.manager.getTimeScheduled(Tasks.item2);
-                    int timeToProcess = tef.manager.getTime(Tasks.item2);
+                    long nextUpdate = tef.manager.getTimeScheduled(Task.item2);
+                    int timeToProcess = tef.manager.getTime(Task.item2);
                     int timeRemaining = TextUtils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);
                     IComponent progress = ThemeHelper.INSTANCE.furnaceLikeProgress(
                         Utils.asList(inputItem),
@@ -71,8 +71,8 @@ public class WDCampfireHandler implements IBlockComponentProvider, IServerDataPr
                     ItemStack inputItem = tef.getInventoryStack(slotItem3);
                     ItemStack outputItem = outputItem3.copy();
                     outputItem.stackSize = 0;
-                    long nextUpdate = tef.manager.getTimeScheduled(Tasks.item3);
-                    int timeToProcess = tef.manager.getTime(Tasks.item3);
+                    long nextUpdate = tef.manager.getTimeScheduled(Task.item3);
+                    int timeToProcess = tef.manager.getTime(Task.item3);
                     int timeRemaining = TextUtils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);
                     IComponent progress = ThemeHelper.INSTANCE.furnaceLikeProgress(
                         Utils.asList(inputItem),
@@ -87,8 +87,8 @@ public class WDCampfireHandler implements IBlockComponentProvider, IServerDataPr
                     ItemStack inputItem = tef.getInventoryStack(slotItem4);
                     ItemStack outputItem = outputItem4.copy();
                     outputItem.stackSize = 0;
-                    long nextUpdate = tef.manager.getTimeScheduled(Tasks.item4);
-                    int timeToProcess = tef.manager.getTime(Tasks.item4);
+                    long nextUpdate = tef.manager.getTimeScheduled(Task.item4);
+                    int timeToProcess = tef.manager.getTime(Task.item4);
                     int timeRemaining = TextUtils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);
                     IComponent progress = ThemeHelper.INSTANCE.furnaceLikeProgress(
                         Utils.asList(inputItem),

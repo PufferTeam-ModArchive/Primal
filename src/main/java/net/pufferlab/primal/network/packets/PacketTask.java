@@ -3,8 +3,8 @@ package net.pufferlab.primal.network.packets;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.world.SchedulerData;
-import net.pufferlab.primal.world.Tasks;
+import net.pufferlab.primal.world.scheduling.SchedulerData;
+import net.pufferlab.primal.world.scheduling.Task;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -14,13 +14,13 @@ import io.netty.buffer.ByteBuf;
 public class PacketTask implements IMessage, IMessageHandler<PacketTask, IMessage> {
 
     private int inTime, worldId, x, y, z;
-    Tasks task;
-    Tasks.Type taskType;
+    Task task;
+    Task.Type taskType;
     Block block;
 
     public PacketTask() {}
 
-    public PacketTask(Tasks.Type taskType, int inTime, Block block, World world, int x, int y, int z, Tasks task) {
+    public PacketTask(Task.Type taskType, int inTime, Block block, World world, int x, int y, int z, Task task) {
         this.taskType = taskType;
         this.inTime = inTime;
         this.worldId = world.provider.dimensionId;
@@ -34,25 +34,25 @@ public class PacketTask implements IMessage, IMessageHandler<PacketTask, IMessag
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        taskType = Tasks.Type.getTask(buf.readByte());
+        taskType = Task.Type.getTask(buf.readByte());
         inTime = buf.readInt();
         worldId = buf.readInt();
         x = buf.readInt();
         y = buf.readInt();
         z = buf.readInt();
-        task = Tasks.getTask(buf.readInt());
+        task = Task.getTask(buf.readInt());
         block = Block.getBlockById(buf.readInt());
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
-        buf.writeByte(Tasks.Type.getID(taskType));
+        buf.writeByte(Task.Type.getID(taskType));
         buf.writeInt(inTime);
         buf.writeInt(worldId);
         buf.writeInt(x);
         buf.writeInt(y);
         buf.writeInt(z);
-        buf.writeInt(Tasks.getID(task));
+        buf.writeInt(Task.getID(task));
         buf.writeInt(Block.getIdFromBlock(block));
     }
 

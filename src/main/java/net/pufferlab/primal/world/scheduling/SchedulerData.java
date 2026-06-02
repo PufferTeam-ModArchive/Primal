@@ -1,4 +1,4 @@
-package net.pufferlab.primal.world;
+package net.pufferlab.primal.world.scheduling;
 
 import java.util.*;
 
@@ -10,6 +10,7 @@ import net.minecraft.world.WorldSavedData;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.utils.PositionMap;
+import net.pufferlab.primal.world.GlobalTickingData;
 
 public class SchedulerData extends WorldSavedData {
 
@@ -101,7 +102,7 @@ public class SchedulerData extends WorldSavedData {
         this.markDirty();
     }
 
-    public void removeScheduledTask(int x, int y, int z, Tasks type) {
+    public void removeScheduledTask(int x, int y, int z, Task type) {
         List<ScheduledTask> tasks = this.taskMap.get(x, y, z);
         if (tasks == null) return;
         if (tasks.isEmpty()) return;
@@ -114,7 +115,7 @@ public class SchedulerData extends WorldSavedData {
         this.markDirty();
     }
 
-    public boolean hasScheduledTask(int x, int y, int z, Tasks type) {
+    public boolean hasScheduledTask(int x, int y, int z, Task type) {
         List<ScheduledTask> tasks = this.taskMap.get(x, y, z);
         if (tasks == null) return false;
         if (tasks.isEmpty()) return false;
@@ -124,7 +125,7 @@ public class SchedulerData extends WorldSavedData {
         return false;
     }
 
-    public static boolean hasScheduledTask(World world, int x, int y, int z, Tasks type) {
+    public static boolean hasScheduledTask(World world, int x, int y, int z, Task type) {
         SchedulerData scheduler = get(world);
 
         return scheduler.hasScheduledTask(x, y, z, type);
@@ -134,42 +135,42 @@ public class SchedulerData extends WorldSavedData {
         long currentTime = GlobalTickingData.getTickTime(world);
         SchedulerData scheduler = get(world);
 
-        scheduler.addScheduledTask(new ScheduledTask(Tasks.Type.simpleTask, currentTime, inTime));
+        scheduler.addScheduledTask(new ScheduledTask(Task.Type.simpleTask, currentTime, inTime));
     }
 
-    public static void addScheduledTask(Tasks.Type taskType, int inTime, Block block, World world, int x, int y, int z,
-        Tasks task) {
+    public static void addScheduledTask(Task.Type taskType, int inTime, Block block, World world, int x, int y, int z,
+        Task task) {
         long currentTime = GlobalTickingData.getTickTime(world);
         addScheduledTask(taskType, currentTime, inTime, block, world, x, y, z, task);
 
     }
 
-    public static void addScheduledTask(Tasks.Type taskType, long currentTime, int inTime, Block block, World world,
-        int x, int y, int z, Tasks task) {
+    public static void addScheduledTask(Task.Type taskType, long currentTime, int inTime, Block block, World world,
+        int x, int y, int z, Task task) {
         SchedulerData scheduler = get(world);
 
         scheduler.addScheduledTask(new ScheduledTask(taskType, block, currentTime, inTime, x, y, z, task, 0));
     }
 
-    public static void addScheduledBlockTask(int inTime, Block block, World world, int x, int y, int z, Tasks task) {
-        addScheduledTask(Tasks.Type.blockTask, inTime, block, world, x, y, z, task);
+    public static void addScheduledBlockTask(int inTime, Block block, World world, int x, int y, int z, Task task) {
+        addScheduledTask(Task.Type.blockTask, inTime, block, world, x, y, z, task);
     }
 
     public static void addScheduledBlockTask(long currentTime, int inTime, Block block, World world, int x, int y,
-        int z, Tasks task) {
-        addScheduledTask(Tasks.Type.blockTask, currentTime, inTime, block, world, x, y, z, task);
+        int z, Task task) {
+        addScheduledTask(Task.Type.blockTask, currentTime, inTime, block, world, x, y, z, task);
     }
 
-    public static void addScheduledTileTask(int inTime, Block block, World world, int x, int y, int z, Tasks task) {
-        addScheduledTask(Tasks.Type.tileTask, inTime, block, world, x, y, z, task);
+    public static void addScheduledTileTask(int inTime, Block block, World world, int x, int y, int z, Task task) {
+        addScheduledTask(Task.Type.tileTask, inTime, block, world, x, y, z, task);
     }
 
     public static void addScheduledTileTask(long currentTime, int inTime, Block block, World world, int x, int y, int z,
-        Tasks task) {
-        addScheduledTask(Tasks.Type.tileTask, currentTime, inTime, block, world, x, y, z, task);
+        Task task) {
+        addScheduledTask(Task.Type.tileTask, currentTime, inTime, block, world, x, y, z, task);
     }
 
-    public static void removeScheduledTask(World world, int x, int y, int z, Tasks type) {
+    public static void removeScheduledTask(World world, int x, int y, int z, Task type) {
         SchedulerData scheduler = get(world);
 
         scheduler.removeScheduledTask(x, y, z, type);

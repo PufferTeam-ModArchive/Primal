@@ -8,12 +8,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.recipes.PitKilnRecipe;
-import net.pufferlab.primal.world.ScheduleManager;
-import net.pufferlab.primal.world.Tasks;
+import net.pufferlab.primal.world.scheduling.ScheduleManager;
+import net.pufferlab.primal.world.scheduling.Task;
 
 public class TileEntityPitKiln extends TileEntityInventory implements IHeatable, IScheduledTile {
 
-    public ScheduleManager manager = new ScheduleManager(Tasks.process);
+    public ScheduleManager manager = new ScheduleManager(Task.process);
     public static int slotItem1 = 0;
     public static int slotItem2 = 1;
     public static int slotItem3 = 2;
@@ -90,7 +90,7 @@ public class TileEntityPitKiln extends TileEntityInventory implements IHeatable,
     }
 
     public void sendContentUpdate() {
-        addSchedule(getSmeltTime(), Tasks.process);
+        addSchedule(getSmeltTime(), Task.process);
     }
 
     public void spreadFire() {
@@ -116,10 +116,10 @@ public class TileEntityPitKiln extends TileEntityInventory implements IHeatable,
     public void onSlotUpdate(int index) {}
 
     @Override
-    public void onScheduleTask(Tasks task, long taskTime) {
+    public void onScheduleTask(Task task, long taskTime) {
         IScheduledTile.super.onScheduleTask(task, taskTime);
 
-        if (task == Tasks.process) {
+        if (task == Task.process) {
             smeltContent();
         }
     }

@@ -1,7 +1,7 @@
 package net.pufferlab.primal.tileentities;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.pufferlab.primal.world.Tasks;
+import net.pufferlab.primal.world.scheduling.Task;
 
 public class TileEntityGenerator extends TileEntityMotion {
 
@@ -51,13 +51,13 @@ public class TileEntityGenerator extends TileEntityMotion {
     }
 
     @Override
-    public void onScheduleTask(Tasks task, long taskTime) {
+    public void onScheduleTask(Task task, long taskTime) {
         super.onScheduleTask(task, taskTime);
 
-        if (task == Tasks.generatorLate) {
+        if (task == Task.generatorLate) {
             this.scheduleUpdate();
         }
-        if (task == Tasks.generator) {
+        if (task == Task.generator) {
             this.generatedSpeed = this.newGeneratedSpeed;
             this.speed = this.newGeneratedSpeed;
             this.newGeneratedSpeed = 0.0F;
@@ -68,12 +68,12 @@ public class TileEntityGenerator extends TileEntityMotion {
     }
 
     public void scheduleGeneratorUpdate(float newSpeed) {
-        addSchedule(0, Tasks.generator);
+        addSchedule(0, Task.generator);
         this.newGeneratedSpeed = newSpeed;
     }
 
     public void scheduleLateUpdate() {
-        addSchedule(20, Tasks.generatorLate);
+        addSchedule(20, Task.generatorLate);
     }
 
     @Override

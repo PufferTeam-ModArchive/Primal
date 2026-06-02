@@ -12,7 +12,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.pufferlab.primal.*;
-import net.pufferlab.primal.world.Tasks;
+import net.pufferlab.primal.world.scheduling.Task;
 
 import com.falsepattern.rple.api.common.block.RPLECustomBlockBrightness;
 
@@ -72,7 +72,7 @@ public class BlockTorchPrimitive extends BlockTorch
         super.onBlockPlacedBy(worldIn, x, y, z, placer, itemIn);
 
         if (this.isLit) {
-            addSchedule(worldIn, x, y, z, burnTime, Tasks.fuel);
+            addSchedule(worldIn, x, y, z, burnTime, Task.fuel);
         }
     }
 
@@ -86,8 +86,8 @@ public class BlockTorchPrimitive extends BlockTorch
     }
 
     @Override
-    public void onScheduleTask(World world, int x, int y, int z, Tasks task, long taskTime) {
-        if (this.isLit && task == Tasks.fuel) {
+    public void onScheduleTask(World world, int x, int y, int z, Task task, long taskTime) {
+        if (this.isLit && task == Task.fuel) {
             world.setBlock(x, y, z, Registry.unlit_torch);
         }
     }

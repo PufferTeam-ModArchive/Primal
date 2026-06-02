@@ -1,7 +1,8 @@
-package net.pufferlab.primal.world;
+package net.pufferlab.primal.world.scheduling;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.pufferlab.primal.world.GlobalTickingData;
 
 public class TaskInfo {
 
@@ -13,10 +14,10 @@ public class TaskInfo {
     public boolean sentUpdate;
     public boolean serialize;
 
-    public TaskInfo(Tasks task) {
-        this.id = Tasks.getID(task);
-        this.serialize = Tasks.shouldSerialize(task);
-        this.name = "Task" + Tasks.getCapitalizedName(task);
+    public TaskInfo(Task task) {
+        this.id = Task.getID(task);
+        this.serialize = Task.shouldSerialize(task);
+        this.name = "Task" + Task.getCapitalizedName(task);
         this.sentUpdate = false;
     }
 

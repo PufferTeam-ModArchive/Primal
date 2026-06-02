@@ -18,12 +18,12 @@ import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.GlobalTickingData;
 import net.pufferlab.primal.world.HeatInfo;
-import net.pufferlab.primal.world.ScheduleManager;
-import net.pufferlab.primal.world.Tasks;
+import net.pufferlab.primal.world.scheduling.ScheduleManager;
+import net.pufferlab.primal.world.scheduling.Task;
 
 public class TileEntityCrucible extends TileEntityFluidInventory implements IHeatable, IScheduledTile {
 
-    public ScheduleManager manager = new ScheduleManager(Tasks.heat, Tasks.melting, Tasks.melting, Tasks.inventory);
+    public ScheduleManager manager = new ScheduleManager(Task.heat, Task.melting, Task.melting, Task.inventory);
 
     public HeatInfo heat = new HeatInfo(1300);
 
@@ -53,7 +53,7 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
 
     @Override
     public void init() {
-        addSchedule(0, Tasks.heat);
+        addSchedule(0, Task.heat);
     }
 
     @Override
@@ -264,10 +264,10 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     }
 
     @Override
-    public void onScheduleTask(Tasks task, long taskTime) {
+    public void onScheduleTask(Task task, long taskTime) {
         IScheduledTile.super.onScheduleTask(task, taskTime);
 
-        if (task == Tasks.heat) {
+        if (task == Task.heat) {
             updateCrucibleHeat();
             scheduleInventoryUpdate();
 
@@ -275,20 +275,20 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
             if (hasIngotMelting) {
                 scheduleMeltingUpdate();
             }
-            addSchedule(40, Tasks.heat);
+            addSchedule(40, Task.heat);
         }
 
-        if (task == Tasks.inventory) {
+        if (task == Task.inventory) {
             float modifier = 1.0F;
             Primal.proxy.packet.sendCruciblePacket(this);
             updateHeatInventory(modifier, this.getTemperature());
         }
 
-        if (task == Tasks.melting) {
+        if (task == Task.melting) {
             meltContent();
         }
 
-        if (task == Tasks.alloy) {
+        if (task == Task.alloy) {
             alloyContent();
         }
     }
@@ -322,16 +322,16 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     }
 
     public void scheduleMeltingUpdate() {
-        addSchedule(0, Tasks.melting);
+        addSchedule(0, Task.melting);
     }
 
     public void scheduleAlloyUpdate() {
-        addSchedule(20, Tasks.alloy);
+        addSchedule(20, Task.alloy);
     }
 
     @Override
     public void scheduleInventoryUpdate() {
-        addSchedule(0, Tasks.inventory);
+        addSchedule(0, Task.inventory);
     }
 
     public void updateHeatInventory(float modifier, int maxTemperature) {

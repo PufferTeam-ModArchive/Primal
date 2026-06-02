@@ -5,8 +5,8 @@ import java.util.List;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.pufferlab.primal.utils.Utils;
-import net.pufferlab.primal.world.ScheduledTask;
-import net.pufferlab.primal.world.SchedulerData;
+import net.pufferlab.primal.world.scheduling.ScheduledTask;
+import net.pufferlab.primal.world.scheduling.SchedulerData;
 
 public class CommandSchedule extends CommandSub {
 

@@ -8,7 +8,7 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraft.world.gen.ChunkProviderFlat;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
-import net.pufferlab.primal.world.ChunkPlacerData;
+import net.pufferlab.primal.world.scheduling.ChunkPlacerData;
 
 public class WorldUtils {
 

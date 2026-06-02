@@ -7,12 +7,12 @@ import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.HeatInfo;
-import net.pufferlab.primal.world.ScheduleManager;
-import net.pufferlab.primal.world.Tasks;
+import net.pufferlab.primal.world.scheduling.ScheduleManager;
+import net.pufferlab.primal.world.scheduling.Task;
 
 public class TileEntityForge extends TileEntityInventory implements IHeatable, IScheduledTile {
 
-    public ScheduleManager manager = new ScheduleManager(Tasks.fuel);
+    public ScheduleManager manager = new ScheduleManager(Task.fuel);
     public HeatInfo heat = new HeatInfo(1300);
 
     public int timeUpdate;
@@ -80,14 +80,14 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
 
     @Override
     public void onSlotUpdate(int index) {
-        removeSchedule(Tasks.fuel);
+        removeSchedule(Task.fuel);
     }
 
     @Override
-    public void onScheduleTask(Tasks task, long taskTime) {
+    public void onScheduleTask(Task task, long taskTime) {
         IScheduledTile.super.onScheduleTask(task, taskTime);
 
-        if (task == Tasks.fuel) {
+        if (task == Task.fuel) {
             updateFuel();
         }
     }
@@ -109,7 +109,7 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
             setFired(false);
             setTemperatureMultiplier(-1.0F);
         } else {
-            addSchedule(Config.campfireBurnTime.getInt(), Tasks.fuel);
+            addSchedule(Config.campfireBurnTime.getInt(), Task.fuel);
             if (isFired()) {
                 setTemperatureMultiplier(1.0F);
             }

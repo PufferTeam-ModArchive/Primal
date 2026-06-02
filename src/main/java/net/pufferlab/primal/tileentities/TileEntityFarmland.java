@@ -4,8 +4,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.network.NetworkMoisture;
 import net.pufferlab.primal.utils.Utils;
-import net.pufferlab.primal.world.ScheduleManager;
-import net.pufferlab.primal.world.Tasks;
+import net.pufferlab.primal.world.scheduling.ScheduleManager;
+import net.pufferlab.primal.world.scheduling.Task;
 
 public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTile {
 
@@ -14,14 +14,14 @@ public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTi
     public float nitrogen = 0.5F;
     public float phosphorus = 0.5F;
 
-    public ScheduleManager manager = new ScheduleManager(Tasks.network, Tasks.nutrient);
+    public ScheduleManager manager = new ScheduleManager(Task.network, Task.nutrient);
 
     public TileEntityFarmland() {}
 
     @Override
     public void init() {
         scheduleUpdate();
-        addSchedule(Config.farmlandReplenishment.getInt(), Tasks.nutrient);
+        addSchedule(Config.farmlandReplenishment.getInt(), Task.nutrient);
     }
 
     @Override
@@ -70,15 +70,15 @@ public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTi
     }
 
     @Override
-    public void onScheduleTask(Tasks task, long taskTime) {
+    public void onScheduleTask(Task task, long taskTime) {
         IScheduledTile.super.onScheduleTask(task, taskTime);
 
-        if (task == Tasks.network) {
+        if (task == Task.network) {
             NetworkMoisture.generateNetwork(this);
         }
-        if (task == Tasks.nutrient) {
+        if (task == Task.nutrient) {
             replenishNutrients();
-            addSchedule(taskTime, Config.farmlandReplenishment.getInt(), Tasks.nutrient);
+            addSchedule(taskTime, Config.farmlandReplenishment.getInt(), Task.nutrient);
         }
     }
 
@@ -137,7 +137,7 @@ public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTi
     }
 
     public void scheduleUpdate() {
-        addSchedule(0, Tasks.network);
+        addSchedule(0, Task.network);
     }
 
     @Override

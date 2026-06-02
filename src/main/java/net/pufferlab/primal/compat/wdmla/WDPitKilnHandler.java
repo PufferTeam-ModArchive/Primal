@@ -11,7 +11,7 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.recipes.PitKilnRecipe;
 import net.pufferlab.primal.tileentities.TileEntityPitKiln;
 import net.pufferlab.primal.utils.TextUtils;
-import net.pufferlab.primal.world.Tasks;
+import net.pufferlab.primal.world.scheduling.Task;
 
 import com.gtnewhorizons.wdmla.api.accessor.BlockAccessor;
 import com.gtnewhorizons.wdmla.api.provider.IBlockComponentProvider;
@@ -48,8 +48,8 @@ public class WDPitKilnHandler implements IBlockComponentProvider, IServerDataPro
                         }
                     }
                 }
-                long nextUpdate = tef.manager.getTimeScheduled(Tasks.process);
-                int timeToProcess = tef.manager.getTime(Tasks.process);
+                long nextUpdate = tef.manager.getTimeScheduled(Task.process);
+                int timeToProcess = tef.manager.getTime(Task.process);
                 int timeRemaining = TextUtils.getCurrentProgress(tef.getWorld(), nextUpdate, timeToProcess);
                 IComponent progress = ThemeHelper.INSTANCE
                     .furnaceLikeProgress(inputs, outputs, timeRemaining, timeToProcess, false);

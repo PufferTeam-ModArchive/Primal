@@ -8,7 +8,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.Utils;
-import net.pufferlab.primal.world.Tasks;
+import net.pufferlab.primal.world.scheduling.Task;
 
 public class TileEntityWaterwheel extends TileEntityMotion {
 
@@ -70,10 +70,10 @@ public class TileEntityWaterwheel extends TileEntityMotion {
     }
 
     @Override
-    public void onScheduleTask(Tasks task, long taskTime) {
+    public void onScheduleTask(Task task, long taskTime) {
         super.onScheduleTask(task, taskTime);
 
-        if (task == Tasks.flow) {
+        if (task == Task.flow) {
             float newSpeed = getSpeedFromFlow();
             if (this.generatedSpeed != newSpeed) {
                 this.generatedSpeed = newSpeed;
@@ -155,6 +155,6 @@ public class TileEntityWaterwheel extends TileEntityMotion {
     }
 
     public void scheduleFlowUpdate() {
-        addSchedule(0, Tasks.flow);
+        addSchedule(0, Task.flow);
     }
 }

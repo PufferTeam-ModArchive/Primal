@@ -1,8 +1,8 @@
-package net.pufferlab.primal.world;
+package net.pufferlab.primal.world.scheduling;
 
 import net.pufferlab.primal.utils.ItemUtils;
 
-public enum Tasks {
+public enum Task {
 
     fuel,
     process,
@@ -27,27 +27,27 @@ public enum Tasks {
 
     boolean serialize;
 
-    Tasks() {
+    Task() {
         this.serialize = true;
     }
 
-    Tasks(boolean serialize) {
+    Task(boolean serialize) {
         this.serialize = serialize;
     }
 
-    public static Tasks getTask(int ordinal) {
+    public static Task getTask(int ordinal) {
         return values()[ordinal];
     }
 
-    public static int getID(Tasks task) {
+    public static int getID(Task task) {
         return task.ordinal();
     }
 
-    public static String getCapitalizedName(Tasks task) {
+    public static String getCapitalizedName(Task task) {
         return ItemUtils.getCapitalizedName(task.name());
     }
 
-    public static boolean shouldSerialize(Tasks task) {
+    public static boolean shouldSerialize(Task task) {
         return task.serialize;
     }
 

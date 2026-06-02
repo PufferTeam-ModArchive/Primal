@@ -5,8 +5,8 @@ import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.network.NetworkMotion;
 import net.pufferlab.primal.utils.BlockUtils;
-import net.pufferlab.primal.world.ScheduleManager;
-import net.pufferlab.primal.world.Tasks;
+import net.pufferlab.primal.world.scheduling.ScheduleManager;
+import net.pufferlab.primal.world.scheduling.Task;
 
 public abstract class TileEntityMotionInventory extends TileEntityInventory implements IMotion, IScheduledTile {
 
@@ -16,13 +16,13 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
     boolean hasOffset;
 
     public ScheduleManager manager = new ScheduleManager(
-        Tasks.network,
-        Tasks.networkSpread,
-        Tasks.removal,
-        Tasks.generator,
-        Tasks.generatorLate,
-        Tasks.flow,
-        Tasks.wind);
+        Task.network,
+        Task.networkSpread,
+        Task.removal,
+        Task.generator,
+        Task.generatorLate,
+        Task.flow,
+        Task.wind);
 
     public TileEntityMotionInventory(int slots) {
         super(slots);
@@ -69,16 +69,16 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
     }
 
     @Override
-    public void onScheduleTask(Tasks task, long taskTime) {
+    public void onScheduleTask(Task task, long taskTime) {
         IScheduledTile.super.onScheduleTask(task, taskTime);
 
-        if (task == Tasks.network) {
+        if (task == Task.network) {
             NetworkMotion.sendUpdate(this);
         }
-        if (task == Tasks.networkSpread) {
+        if (task == Task.networkSpread) {
             NetworkMotion.sendSpreadUpdate(this);
         }
-        if (task == Tasks.removal) {
+        if (task == Task.removal) {
             this.worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
         }
     }
@@ -110,7 +110,7 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
 
     @Override
     public void scheduleUpdate() {
-        addSchedule(0, Tasks.network);
+        addSchedule(0, Task.network);
     }
 
     @Override
@@ -120,12 +120,12 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
 
     @Override
     public void scheduleSpreadUpdate() {
-        addSchedule(0, Tasks.networkSpread);
+        addSchedule(0, Task.networkSpread);
     }
 
     @Override
     public void scheduleRemoval() {
-        addSchedule(0, Tasks.removal);
+        addSchedule(0, Task.removal);
     }
 
     @Override

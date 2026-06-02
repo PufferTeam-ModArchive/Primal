@@ -1,4 +1,4 @@
-package net.pufferlab.primal.world;
+package net.pufferlab.primal.world.scheduling;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -13,7 +13,7 @@ public class ScheduleManager {
 
     public ScheduleManager() {}
 
-    public ScheduleManager(Tasks... tasksID) {
+    public ScheduleManager(Task... tasksID) {
         this.tasks = new TaskInfo[tasksID.length];
         for (int i = 0; i < tasksID.length; i++) {
             tasks[i] = new TaskInfo(tasksID[i]);
@@ -30,8 +30,8 @@ public class ScheduleManager {
         }
     }
 
-    public TaskInfo get(Tasks task) {
-        return this.tasksMap.get(Tasks.getID(task));
+    public TaskInfo get(Task task) {
+        return this.tasksMap.get(Task.getID(task));
     }
 
     public void readFromNBT(NBTTagCompound tag) {
@@ -48,8 +48,8 @@ public class ScheduleManager {
         }
     }
 
-    public boolean hasSchedule(Tasks task) {
-        return hasSchedule(Tasks.getID(task));
+    public boolean hasSchedule(Task task) {
+        return hasSchedule(Task.getID(task));
     }
 
     public boolean hasSchedule(int type) {
@@ -59,7 +59,7 @@ public class ScheduleManager {
         return false;
     }
 
-    public boolean hasSentUpdate(World world, int x, int y, int z, Tasks type) {
+    public boolean hasSentUpdate(World world, int x, int y, int z, Task type) {
         TaskInfo task = get(type);
         if (task == null) {
             return SchedulerData.hasScheduledTask(world, x, y, z, type);
@@ -67,43 +67,43 @@ public class ScheduleManager {
         return task.hasSentUpdate();
     }
 
-    public void addUpdate(Tasks type, World world, int inTime) {
+    public void addUpdate(Task type, World world, int inTime) {
         TaskInfo task = get(type);
         if (task != null) {
             task.addUpdate(world, inTime);
         }
     }
 
-    public void addUpdate(Tasks type, World world, long currentTime, int inTime) {
+    public void addUpdate(Task type, World world, long currentTime, int inTime) {
         TaskInfo task = get(type);
         if (task != null) {
             task.addUpdate(world, currentTime, inTime);
         }
     }
 
-    public void removeUpdate(Tasks type, World world) {
+    public void removeUpdate(Task type, World world) {
         TaskInfo task = get(type);
         if (task != null) {
             task.removeUpdate(world);
         }
     }
 
-    public void onUpdate(Tasks type, World world) {
+    public void onUpdate(Task type, World world) {
         TaskInfo task = get(type);
         if (task != null) {
             task.onUpdate(world);
         }
     }
 
-    public long getTimeScheduled(Tasks type) {
+    public long getTimeScheduled(Task type) {
         return get(type).getTimeScheduled();
     }
 
-    public long getTimeSent(Tasks type) {
+    public long getTimeSent(Task type) {
         return get(type).getTimeSent();
     }
 
-    public int getTime(Tasks type) {
+    public int getTime(Task type) {
         return get(type).getTime();
     }
 }

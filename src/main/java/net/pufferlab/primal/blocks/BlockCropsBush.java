@@ -20,7 +20,7 @@ import net.pufferlab.primal.tileentities.TileEntityFarmland;
 import net.pufferlab.primal.utils.CropType;
 import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.GlobalTickingData;
-import net.pufferlab.primal.world.Tasks;
+import net.pufferlab.primal.world.scheduling.Task;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -45,7 +45,7 @@ public class BlockCropsBush extends BlockCrops implements IPrimalBlock, ISchedul
     public void updateTick(World worldIn, int x, int y, int z, Random random) {
         this.checkAndDropBlock(worldIn, x, y, z);
 
-        if (!hasSchedule(worldIn, x, y, z, Tasks.growth)) {
+        if (!hasSchedule(worldIn, x, y, z, Task.growth)) {
             updateGrowth(worldIn, x, y, z, worldIn.rand, GlobalTickingData.getTickTime(worldIn));
         }
     }
@@ -67,7 +67,7 @@ public class BlockCropsBush extends BlockCrops implements IPrimalBlock, ISchedul
             }
             int ticksToGrow = this.cropType.getGrowthTicks(rand);
             int updateTick = (int) (((float) ticksToGrow) / growthSpeed);
-            addSchedule(worldIn, x, y, z, currentTime, updateTick, Tasks.growth);
+            addSchedule(worldIn, x, y, z, currentTime, updateTick, Task.growth);
         }
     }
 
@@ -75,7 +75,7 @@ public class BlockCropsBush extends BlockCrops implements IPrimalBlock, ISchedul
     public void onBlockAdded(World worldIn, int x, int y, int z) {
         super.onBlockAdded(worldIn, x, y, z);
 
-        if (!hasSchedule(worldIn, x, y, z, Tasks.growth)) {
+        if (!hasSchedule(worldIn, x, y, z, Task.growth)) {
             updateGrowth(worldIn, x, y, z, worldIn.rand, GlobalTickingData.getTickTime(worldIn));
         }
     }
@@ -85,10 +85,10 @@ public class BlockCropsBush extends BlockCrops implements IPrimalBlock, ISchedul
     }
 
     @Override
-    public void onScheduleTask(World world, int x, int y, int z, Tasks task, long taskTime) {
+    public void onScheduleTask(World world, int x, int y, int z, Task task, long taskTime) {
         IScheduledBlock.super.onScheduleTask(world, x, y, z, task, taskTime);
 
-        if (task == Tasks.growth) {
+        if (task == Task.growth) {
             grow(world, x, y, z, taskTime);
         }
     }

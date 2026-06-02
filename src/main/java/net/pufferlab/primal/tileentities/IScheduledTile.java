@@ -1,9 +1,9 @@
 package net.pufferlab.primal.tileentities;
 
 import net.minecraft.world.World;
-import net.pufferlab.primal.world.ScheduleManager;
-import net.pufferlab.primal.world.SchedulerData;
-import net.pufferlab.primal.world.Tasks;
+import net.pufferlab.primal.world.scheduling.ScheduleManager;
+import net.pufferlab.primal.world.scheduling.SchedulerData;
+import net.pufferlab.primal.world.scheduling.Task;
 
 public interface IScheduledTile extends ITile {
 
@@ -11,7 +11,7 @@ public interface IScheduledTile extends ITile {
         return null;
     }
 
-    default void onSchedule(World world, int x, int y, int z, Tasks type, int id, long taskTime) {
+    default void onSchedule(World world, int x, int y, int z, Task type, int id, long taskTime) {
         ScheduleManager manager = getManager();
         if (manager != null) {
             manager.onUpdate(type, world);
@@ -20,11 +20,11 @@ public interface IScheduledTile extends ITile {
         mark();
     }
 
-    default void onScheduleTask(Tasks task, long taskTime) {
+    default void onScheduleTask(Task task, long taskTime) {
 
     }
 
-    default void addSchedule(World world, int x, int y, int z, int inTime, Tasks type) {
+    default void addSchedule(World world, int x, int y, int z, int inTime, Task type) {
         ScheduleManager manager = getManager();
         if (manager != null) {
             if (manager.hasSentUpdate(world, x, y, z, type)) return;
@@ -35,7 +35,7 @@ public interface IScheduledTile extends ITile {
         mark();
     }
 
-    default void addSchedule(World world, int x, int y, int z, long timeCurrent, int inTime, Tasks type) {
+    default void addSchedule(World world, int x, int y, int z, long timeCurrent, int inTime, Task type) {
         ScheduleManager manager = getManager();
         if (manager != null) {
             if (manager.hasSentUpdate(world, x, y, z, type)) return;
@@ -46,11 +46,11 @@ public interface IScheduledTile extends ITile {
         mark();
     }
 
-    default void addSchedule(int inTime, Tasks type) {
+    default void addSchedule(int inTime, Task type) {
         addSchedule(getWorld(), getX(), getY(), getZ(), inTime, type);
     }
 
-    default void addSchedule(long timeSent, int inTime, Tasks type) {
+    default void addSchedule(long timeSent, int inTime, Task type) {
         addSchedule(getWorld(), getX(), getY(), getZ(), timeSent, inTime, type);
     }
 
@@ -59,7 +59,7 @@ public interface IScheduledTile extends ITile {
         mark();
     }
 
-    default void removeSchedule(World world, int x, int y, int z, Tasks type) {
+    default void removeSchedule(World world, int x, int y, int z, Task type) {
         ScheduleManager manager = getManager();
         if (manager != null) {
             if (!manager.hasSentUpdate(world, x, y, z, type)) return;
@@ -74,7 +74,7 @@ public interface IScheduledTile extends ITile {
         removeSchedule(getWorld(), getX(), getY(), getZ());
     }
 
-    default void removeSchedule(Tasks type) {
+    default void removeSchedule(Task type) {
         removeSchedule(getWorld(), getX(), getY(), getZ(), type);
     }
 

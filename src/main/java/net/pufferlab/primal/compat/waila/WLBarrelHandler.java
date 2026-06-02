@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 import net.pufferlab.primal.recipes.BarrelRecipe;
 import net.pufferlab.primal.tileentities.TileEntityBarrel;
 import net.pufferlab.primal.utils.TextUtils;
-import net.pufferlab.primal.world.Tasks;
+import net.pufferlab.primal.world.scheduling.Task;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -31,7 +31,7 @@ public class WLBarrelHandler implements IWailaDataProvider {
                 boolean isOpen = tag.getBoolean("isOpen");
                 currenttip.add(TextUtils.getStateTooltip(isOpen, "Open", "Sealed"));
                 boolean canProcess = tag.getBoolean("canProcess");
-                long nextUpdate = tef.manager.getTimeScheduled(Tasks.process);
+                long nextUpdate = tef.manager.getTimeScheduled(Task.process);
                 if (canProcess) {
                     BarrelRecipe recipe = BarrelRecipe.getRecipe(tef.getInventoryStack(slotInput), tef.getFluidStack());
                     if (recipe != null) {
@@ -39,7 +39,7 @@ public class WLBarrelHandler implements IWailaDataProvider {
                         String inputName = TextUtils
                             .getDisplayName(tef.getInventoryStack(slotInput), tef.getFluidStack());
                         currenttip.add("Making " + outputName);
-                        int timeToProcess = tef.manager.getTime(Tasks.process);
+                        int timeToProcess = tef.manager.getTime(Task.process);
                         if (timeToProcess > 0) {
                             currenttip.add(
                                 TextUtils.getRecipeTooltip(
