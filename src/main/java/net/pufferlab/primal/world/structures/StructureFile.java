@@ -125,7 +125,7 @@ public class StructureFile {
         for (NBTTagCompound nbt : nbtCache.values()) {
             file.addBlockInfo(nbt);
         }
-        nbtCache.clear()
+        nbtCache.clear();
     }
 
     public static NBTTagCompound getBlockHash(Block block, int meta, NBTTagCompound tag) {
