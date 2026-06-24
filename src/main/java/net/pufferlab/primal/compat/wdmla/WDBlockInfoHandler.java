@@ -26,7 +26,7 @@ public class WDBlockInfoHandler implements IBlockComponentProvider {
         EntityPlayer player = accessor.getPlayer();
         PlayerData data = PlayerData.get(player);
 
-        if (data.blockInfoDebug) {
+        if (data.getBlockInfoDebug()) {
             Block block = accessor.getBlock();
             String name = BlockUtils.getName(block);
             int meta = accessor.getMetadata();
@@ -57,7 +57,7 @@ public class WDBlockInfoHandler implements IBlockComponentProvider {
                     int metaMaterial = nbt.getShort("materialMeta2");
                     tooltip.child(new TextComponent("Material2: " + metaMaterial));
                 }
-                if (data.temperatureDebug) {
+                if (data.getTemperatureDebug()) {
                     if (nbt.hasKey(HeatUtils.tagTemperature)) {
                         tooltip.child(
                             new TextComponent(

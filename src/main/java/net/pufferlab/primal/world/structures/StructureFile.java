@@ -1,5 +1,6 @@
 package net.pufferlab.primal.world.structures;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -12,11 +13,17 @@ import net.pufferlab.primal.utils.*;
 public class StructureFile {
 
     public String name;
+    public File file;
     public Set<NBTTagCompound> list;
     public NBTTagCompound currentNBT;
 
     public StructureFile(String name) {
         this.name = name;
+        try {
+            this.file = IOUtils.createStructureFile(this.name, "nbt");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         this.list = new HashSet<>();
     }
 
@@ -38,28 +45,29 @@ public class StructureFile {
     public void saveFile() {
         if (currentNBT == null) {
             currentNBT = getNBT();
-            try {
-                IOUtils.writeNBTFile(IOUtils.createStructureFile(this.name, "nbt"), currentNBT);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            IOUtils.writeNBTFile(file, currentNBT);
         }
     }
 
     public NBTTagCompound loadFile() {
         if (currentNBT == null) {
-            try {
-                currentNBT = IOUtils.readNBTFile(IOUtils.createStructureFile(this.name, "nbt"));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            currentNBT = IOUtils.readNBTFile(file);
         }
         return currentNBT;
     }
 
-    public static void saveStructure(String name, int x1, int y1, int z1, int x2, int y2, int z2, World world) {
-        StructureFile file = new StructureFile(name);
+    public static Map<String, StructureFile> cachedStructure = new HashMap<>();
 
+    public static void putStructureFile(String name) {
+        cachedStructure.put(name, new StructureFile(name));
+    }
+
+    public static void saveStructure(String name, int x1, int y1, int z1, int x2, int y2, int z2, World world) {
+        saveStructure(new StructureFile(name), x1, y1, z1, x2, y2, z2, world);
+        putStructureFile(name);
+    }
+
+    public static void saveStructure(StructureFile file, int x1, int y1, int z1, int x2, int y2, int z2, World world) {
         int minX = Math.min(x1, x2);
         int minY = Math.min(y1, y2);
         int minZ = Math.min(z1, z2);
@@ -82,7 +90,7 @@ public class StructureFile {
                         nbt = new NBTTagCompound();
                         te.writeToNBT(nbt);
                     }
-                    NBTTagCompound blockInfo = getBlockHash(block, meta, nbt);
+                    NBTTagCompound blockInfo = getBlockInfo(block, meta, nbt);
                     addBlockCoord(blockInfo, x - middleX, y - middleY, z - middleZ);
                 }
             }
@@ -92,15 +100,31 @@ public class StructureFile {
         file.saveFile();
     }
 
+    public static StructureFile getStructureFile(String name) {
+        StructureFile file = cachedStructure.get(name);
+        if (file == null) {
+            file = new StructureFile(name);
+            cachedStructure.put(name, file);
+        }
+        return file;
+    }
+
     public static void loadStructure(String name, int x, int y, int z, World world) {
-        StructureFile file = new StructureFile(name);
+        StructureFile file = getStructureFile(name);
+        loadStructure(file, x, y, z, world);
+    }
+
+    public static void loadStructure(StructureFile file, int x, int y, int z, World world) {
         NBTTagCompound tag = file.loadFile();
         NBTTagList blocks = tag.getTagList("blocks", NBTType.TagCompound);
         for (int i = 0; i < blocks.tagCount(); i++) {
             NBTTagCompound blockInfo = blocks.getCompoundTagAt(i);
             Block block = BlockUtils.getBlockFromName(blockInfo.getString("block"));
             int meta = blockInfo.getInteger("meta");
-            NBTTagCompound nbt = blockInfo.getCompoundTag("nbt");
+            NBTTagCompound nbt = null;
+            if (blockInfo.hasKey("nbt")) {
+                nbt = blockInfo.getCompoundTag("nbt");
+            }
             byte[] coords = blockInfo.getByteArray("coords");
             for (int j = 0; j < coords.length; j += 3) {
                 int x0 = x + coords[j];
@@ -120,7 +144,7 @@ public class StructureFile {
         nbtCache.clear();
     }
 
-    public static NBTTagCompound getBlockHash(Block block, int meta, NBTTagCompound tag) {
+    public static NBTTagCompound getBlockInfo(Block block, int meta, NBTTagCompound tag) {
         NBTTagCompound nbt = new NBTTagCompound();
         nbt.setString("block", BlockUtils.getName(block));
         nbt.setInteger("meta", meta);

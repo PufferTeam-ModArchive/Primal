@@ -1,14 +1,16 @@
 package net.pufferlab.primal.commands;
 
-import java.util.List;
-
 import net.minecraft.command.ICommandSender;
-import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 public class CommandTickTime extends CommandSub {
 
     public static String[] arguments = new String[] { "", "add" };
+
+    @Override
+    public String[] getSubArgs() {
+        return arguments;
+    }
 
     @Override
     public void handleCommand(ICommandSender sender, String[] args) {
@@ -19,11 +21,6 @@ public class CommandTickTime extends CommandSub {
             }
         }
         sendChatMessage(sender, "TickTime: " + GlobalTickingData.getTickTime(sender.getEntityWorld()));
-    }
-
-    @Override
-    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args) {
-        return args.length == 1 ? Utils.asList(arguments) : null;
     }
 
     @Override

@@ -6,6 +6,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
@@ -13,6 +14,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.pufferlab.primal.blocks.BoundsType;
 import net.pufferlab.primal.blocks.IPrimalBlock;
 import net.pufferlab.primal.client.utils.ModelBound;
+import net.pufferlab.primal.entities.player.PlayerData;
 import net.pufferlab.primal.utils.Utils;
 
 import org.joml.Vector3f;
@@ -27,6 +29,7 @@ public class RenderBounds {
     }
 
     private boolean handleRenderingImpl(EntityPlayer player, MovingObjectPosition mop, float partialTicks) {
+        drawStructureSelectionBox(player, 0, partialTicks);
         Block block = player.worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
         if (block instanceof IPrimalBlock block2) {
             drawSelectionBox(player, mop, 0, partialTicks);
@@ -35,6 +38,32 @@ public class RenderBounds {
             }
         }
         return true;
+    }
+
+    public void drawStructureSelectionBox(EntityPlayer player, int index, float partialTicks) {
+        PlayerData data = PlayerData.get(player);
+        if (data.hasValidSelection()) {
+            GL11.glEnable(GL11.GL_BLEND);
+            OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+            GL11.glColor4f(0.0F, 0.0F, 0.0F, 0.4F);
+            GL11.glLineWidth(4.0F);
+            GL11.glDisable(GL11.GL_TEXTURE_2D);
+            GL11.glDepthMask(false);
+            float f1 = 0.002F;
+
+            double d0 = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double) partialTicks;
+            double d1 = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double) partialTicks;
+            double d2 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double) partialTicks;
+            AxisAlignedBB structureBB = data.getSelectionBB();
+            RenderGlobal.drawOutlinedBoundingBox(
+                structureBB.expand((double) f1, (double) f1, (double) f1)
+                    .getOffsetBoundingBox(-d0, -d1, -d2),
+                -1);
+
+            GL11.glDepthMask(true);
+            GL11.glEnable(GL11.GL_TEXTURE_2D);
+            GL11.glDisable(GL11.GL_BLEND);
+        }
     }
 
     public void drawSelectionBox(EntityPlayer player, MovingObjectPosition mop, int index, float partialTicks) {

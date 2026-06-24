@@ -46,20 +46,4 @@ public class PositionUtils {
 
         return (int) (packed << (64 - bz - bzs) >> (64 - bz));
     }
-
-    public static int packCoord2(int x, int y, int z) {
-        return ((x + 256) & 0x3FF) << 20 | ((y + 256) & 0x3FF) << 10 | ((z + 256) & 0x3FF);
-    }
-
-    public static int unpackX2(int packed) {
-        return ((packed >>> 20) & 0x3FF) - 256;
-    }
-
-    public static int unpackY2(int packed) {
-        return ((packed >>> 10) & 0x3FF) - 256;
-    }
-
-    public static int unpackZ2(int packed) {
-        return (packed & 0x3FF) - 256;
-    }
 }

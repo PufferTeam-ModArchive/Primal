@@ -1,7 +1,5 @@
 package net.pufferlab.primal.commands;
 
-import java.util.List;
-
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,15 +17,19 @@ public class CommandHeat extends CommandSub {
     public static String[] arguments = new String[] { "", "debug" };
 
     @Override
+    public String[] getSubArgs() {
+        return arguments;
+    }
+
+    @Override
     public void handleCommand(ICommandSender sender, String[] args) {
         EntityPlayer player = CommandBase.getCommandSenderAsPlayer(sender);
         if (args.length == 1) {
             if (args[0].equals("debug")) {
                 PlayerData data = PlayerData.get(player);
-                boolean state = !data.temperatureDebug;
+                boolean state = !data.getTemperatureDebug();
                 data.setTemperatureDebug(state);
                 sender.addChatMessage(new ChatComponentText(TextUtils.getStateTooltip(state, "Enabled", "Disabled")));
-                Primal.proxy.packet.sendPlayerData(player, data);
             }
         }
         ItemStack stack = player.getHeldItem();
@@ -53,11 +55,6 @@ public class CommandHeat extends CommandSub {
             Utils.translate(
                 "heat." + Primal.MODID + ".debug.max-temperature.desc",
                 HeatUtils.getMaxTemperatureFromNBT(tag)));
-    }
-
-    @Override
-    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args) {
-        return args.length == 1 ? Utils.asList(arguments) : null;
     }
 
     @Override

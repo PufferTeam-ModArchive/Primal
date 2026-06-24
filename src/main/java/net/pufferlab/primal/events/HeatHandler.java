@@ -77,7 +77,7 @@ public class HeatHandler implements IEventHandler {
                         }
                     }
                     PlayerData data = PlayerData.get(event.entityPlayer);
-                    if (data.temperatureDebug) {
+                    if (data.getTemperatureDebug()) {
                         event.toolTip.add("  ");
                         event.toolTip.add(Utils.translate("heat." + Primal.MODID + ".debug.info.desc"));
                         event.toolTip.add(

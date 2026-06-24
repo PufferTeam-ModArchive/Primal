@@ -48,7 +48,7 @@ public class InventoryHandler implements IEventHandler {
     @SubscribeEvent
     public void playerInteractEventHandler(PlayerInteractEvent event) {
         PlayerData data = PlayerData.get(event.entityPlayer);
-        if (data.blockInfoDebug) {
+        if (data.getBlockInfoDebug()) {
 
         }
     }

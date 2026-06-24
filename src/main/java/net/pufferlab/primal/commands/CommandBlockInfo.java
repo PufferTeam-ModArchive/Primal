@@ -6,7 +6,6 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
-import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.entities.player.PlayerData;
 import net.pufferlab.primal.utils.TextUtils;
 import net.pufferlab.primal.utils.Utils;
@@ -21,10 +20,9 @@ public class CommandBlockInfo extends CommandSub {
         if (args.length == 1) {
             if (args[0].equals("debug")) {
                 PlayerData data = PlayerData.get(player);
-                boolean state = !data.blockInfoDebug;
+                boolean state = !data.getBlockInfoDebug();
                 data.setBlockInfoDebug(state);
                 sender.addChatMessage(new ChatComponentText(TextUtils.getStateTooltip(state, "Enabled", "Disabled")));
-                Primal.proxy.packet.sendPlayerData(player, data);
             }
         }
     }
