@@ -1,15 +1,28 @@
 package net.pufferlab.primal.utils;
 
+import java.util.UUID;
+
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraft.world.gen.ChunkProviderFlat;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
+import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.common.util.FakePlayerFactory;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.world.scheduling.ChunkPlacerData;
+
+import com.mojang.authlib.GameProfile;
 
 public class WorldUtils {
 
@@ -107,4 +120,56 @@ public class WorldUtils {
             .getName()
             .equals("com.rwtema.extrautils.worldgen.Underdark.ChunkProviderUnderdark");
     }
+
+    public static FakePlayer fakePlayer;
+    public static GameProfile gameProfile = new GameProfile(
+        UUID.fromString("8E3D7A12-5F9C-4B6E-A1D8-72F4C0B9E35A"),
+        "[" + Primal.MODNAME + "FakePlayer]");
+
+    public static FakePlayer getFakePlayer(World world) {
+        if (fakePlayer == null) {
+            if (world instanceof WorldServer worldServer) {
+                fakePlayer = FakePlayerFactory.get(worldServer, gameProfile);
+            }
+        }
+        return fakePlayer;
+    }
+
+    public static int coordX = 29_000_000;
+    public static int coordY = 0;
+    public static int coordZ = 29_000_000;
+
+    // WIP
+    public static void setBlockFromFakePlayer(FakePlayer player, World world, Block block, int meta, int side,
+        NBTTagCompound nbt) {
+        Item item = Item.getItemFromBlock(block);
+        if (item instanceof ItemBlock itemBlock) {
+            int x = BlockUtils.getBlockXR(side, coordX);
+            int y = BlockUtils.getBlockYR(side, coordY);
+            int z = BlockUtils.getBlockXR(side, coordZ);
+            world.setBlock(x, y, z, Blocks.stone, 0, 2);
+            player.inventory.currentItem = 0;
+            player.setPosition(x, y, z);
+            player.inventory.setInventorySlotContents(0, new ItemStack(itemBlock, itemBlock.getItemStackLimit(), meta));
+            ItemStack heldItem = player.getHeldItem();
+            heldItem.tryPlaceItemIntoWorld(fakePlayer, world, x, y, z, side, 0.5F, 0.5F, 0.5F);
+
+            int x1 = BlockUtils.getBlockX(side, coordX);
+            int y1 = BlockUtils.getBlockY(side, coordY);
+            int z1 = BlockUtils.getBlockX(side, coordZ);
+            TileEntity te = world.getTileEntity(x1, y1, z1);
+            if (te != null) {
+                NBTTagCompound nbtCopy;
+                if (nbt == null) {
+                    nbtCopy = new NBTTagCompound();
+                } else {
+                    nbtCopy = (NBTTagCompound) nbt.copy();
+                }
+                nbtCopy.removeTag("facingMeta");
+                nbtCopy.removeTag("axisMeta");
+                te.readFromNBT(nbtCopy);
+            }
+        }
+    }
+
 }

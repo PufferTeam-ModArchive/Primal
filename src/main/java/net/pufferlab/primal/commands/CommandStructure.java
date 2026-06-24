@@ -28,13 +28,17 @@ public class CommandStructure extends CommandSub {
                 if (args[0].equals("load")) {
                     if (args.length > 1) {
                         String structureName = args[1];
+                        int facing = 0;
+                        if (args.length > 2) {
+                            facing = Integer.parseInt(args[2]);
+                        }
 
                         ChunkCoordinates coords = sender.getPlayerCoordinates();
                         int x = coords.posX;
                         int y = coords.posY;
                         int z = coords.posZ;
 
-                        StructureFile.loadStructure(structureName, x, y, z, world);
+                        StructureFile.loadStructure(structureName, x, y, z, world, facing);
                         sendChatMessage(sender, "Loaded structure " + structureName + " from structure folder");
                     }
                 }

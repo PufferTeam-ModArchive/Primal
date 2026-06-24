@@ -1,6 +1,7 @@
 package net.pufferlab.primal.tileentities;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.pufferlab.primal.utils.Utils;
 
 public class TileEntityMetaFacing extends TileEntityPrimal {
 
@@ -71,6 +72,22 @@ public class TileEntityMetaFacing extends TileEntityPrimal {
         }
         if (hasAxis()) {
             this.axisMeta = tag.getByte("axisMeta");
+        }
+    }
+
+    public void rotateY() {
+        int meta = this.facingMeta + 1;
+        this.facingMeta = Utils.clamp(0, 3, meta) + 1;
+    }
+
+    public void rotateAxisY() {
+        if (axisMeta > 0) {
+            if (axisMeta == 1) {
+                axisMeta = 2;
+            }
+            if (axisMeta == 2) {
+                axisMeta = 1;
+            }
         }
     }
 

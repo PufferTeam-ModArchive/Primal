@@ -8,7 +8,11 @@ import net.minecraft.block.Block;
 import net.minecraft.nbt.*;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.utils.*;
+
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 public class StructureFile {
 
@@ -42,11 +46,15 @@ public class StructureFile {
         return nbt;
     }
 
+    public void setNBT(NBTTagCompound tag) {
+        currentNBT = tag;
+    }
+
     public void saveFile() {
         if (currentNBT == null) {
             currentNBT = getNBT();
-            IOUtils.writeNBTFile(file, currentNBT);
         }
+        IOUtils.writeNBTFile(file, currentNBT);
     }
 
     public NBTTagCompound loadFile() {
@@ -97,6 +105,7 @@ public class StructureFile {
         }
 
         syncNBT(file);
+        rotateStructure(file, world);
         file.saveFile();
     }
 
@@ -109,14 +118,19 @@ public class StructureFile {
         return file;
     }
 
-    public static void loadStructure(String name, int x, int y, int z, World world) {
+    public static void loadStructure(String name, int x, int y, int z, World world, int facing) {
         StructureFile file = getStructureFile(name);
-        loadStructure(file, x, y, z, world);
+        loadStructure(file, x, y, z, world, facing);
     }
 
-    public static void loadStructure(StructureFile file, int x, int y, int z, World world) {
+    public static void loadStructure(StructureFile file, int x, int y, int z, World world, int facing) {
         NBTTagCompound tag = file.loadFile();
-        NBTTagList blocks = tag.getTagList("blocks", NBTType.TagCompound);
+        NBTTagList blocks;
+        if (facing == 0) {
+            blocks = tag.getTagList("blocks", NBTType.TagCompound);
+        } else {
+            blocks = tag.getTagList("blocks_" + facing, NBTType.TagCompound);
+        }
         for (int i = 0; i < blocks.tagCount(); i++) {
             NBTTagCompound blockInfo = blocks.getCompoundTagAt(i);
             Block block = BlockUtils.getBlockFromName(blockInfo.getString("block"));
@@ -133,6 +147,110 @@ public class StructureFile {
                 WorldUtils.setBlockStructure(world, x0, y0, z0, block, meta, nbt);
             }
         }
+    }
+
+    public static Matrix4f matrix = new Matrix4f();
+
+    public static final float[] rotationAngle = { (float) -(Math.PI / 2), (float) -(Math.PI) + 0.000001F,
+        (float) -((2 * Math.PI) / 3) };
+
+    public static void rotateStructure(StructureFile file, World world) {
+        NBTTagCompound tag = file.getNBT();
+        NBTTagList blocks = tag.getTagList("blocks", NBTType.TagCompound);
+        NBTTagList[] blocksRotated = new NBTTagList[3];
+        for (int i = 0; i < 3; i++) {
+            blocksRotated[i] = new NBTTagList();
+        }
+        for (int i = 0; i < blocks.tagCount(); i++) {
+            NBTTagCompound blockInfo = blocks.getCompoundTagAt(i);
+            byte[] coords = blockInfo.getByteArray("coords");
+            byte[][] coordsRotated = new byte[3][coords.length];
+            for (int j = 0; j < coords.length; j += 3) {
+                int x0 = coords[j];
+                int y0 = coords[j + 1];
+                int z0 = coords[j + 2];
+                Vector3f coord = new Vector3f(x0, y0, z0);
+                for (int k = 0; k < 3; k++) {
+                    coord.set(x0, y0, z0);
+                    matrix.identity();
+                    int p = k;
+                    if (k == 2) {
+                        p = 1;
+                    }
+                    if (k == 1) {
+                        p = 2;
+                    }
+                    for (int l = 0; l < (p + 1); l++) {
+                        matrix.rotateY(-(float) Math.PI / 2);
+                        matrix.transformPosition(coord);
+                        int x = Utils.floor(coord.x);
+                        int y = Utils.floor(coord.y);
+                        int z = Utils.floor(coord.z);
+                        coord.set(x, y, z);
+                    }
+                    coordsRotated[k][j] = (byte) Utils.floor(coord.x);
+                    coordsRotated[k][j + 1] = (byte) Utils.floor(coord.y);
+                    coordsRotated[k][j + 2] = (byte) Utils.floor(coord.z);
+                }
+            }
+            for (int k = 0; k < 3; k++) {
+                NBTTagCompound rotatedBlockInfo = rotateBlockInfo(world, blockInfo, coordsRotated[k], k + 1);
+                blocksRotated[k].appendTag(rotatedBlockInfo);
+            }
+        }
+        for (int k = 0; k < 3; k++) {
+            tag.setTag("blocks_" + (k + 1), blocksRotated[k]);
+        }
+        file.setNBT(tag);
+    }
+
+    public static int coordX = 1;
+    public static int coordY = 1;
+    public static int coordZ = 1;
+
+    public static NBTTagCompound rotateBlockInfo(World world, NBTTagCompound blockInfo0, byte[] newCoords,
+        int rotation) {
+        NBTTagCompound blockInfo = (NBTTagCompound) blockInfo0.copy();
+        Block block = BlockUtils.getBlockFromName(blockInfo.getString("block"));
+        int meta = blockInfo.getInteger("meta");
+        NBTTagCompound nbt = null;
+        if (blockInfo.hasKey("nbt")) {
+            nbt = blockInfo.getCompoundTag("nbt");
+        }
+        world.setBlock(coordX, coordY, coordZ, block, meta, 2);
+        TileEntity te = world.getTileEntity(coordX, coordY, coordZ);
+        if (te != null) {
+            if (nbt != null) {
+                NBTTagCompound nbt2 = (NBTTagCompound) nbt.copy();
+                nbt2.setInteger("x", coordX);
+                nbt2.setInteger("y", coordY);
+                nbt2.setInteger("z", coordZ);
+                te.readFromNBT(nbt2);
+                te.markDirty();
+            }
+        }
+
+        for (int i = 0; i < rotation; i++) {
+            block.rotateBlock(world, coordX, coordY, coordZ, ForgeDirection.UP);
+        }
+
+        blockInfo.setInteger("meta", world.getBlockMetadata(coordX, coordY, coordZ));
+        te = world.getTileEntity(coordX, coordY, coordZ);
+        if (te != null) {
+            NBTTagCompound newTag = new NBTTagCompound();
+            te.writeToNBT(newTag);
+            newTag.removeTag("x");
+            newTag.removeTag("y");
+            newTag.removeTag("z");
+            newTag.removeTag("xCached");
+            newTag.removeTag("yCached");
+            newTag.removeTag("zCached");
+            blockInfo.setTag("nbt", newTag);
+        }
+
+        blockInfo.setByteArray("coords", newCoords);
+
+        return blockInfo;
     }
 
     public static final Map<String, NBTTagCompound> nbtCache = new HashMap<>();

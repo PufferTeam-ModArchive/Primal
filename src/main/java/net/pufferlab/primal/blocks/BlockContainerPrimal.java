@@ -86,10 +86,10 @@ public abstract class BlockContainerPrimal extends BlockContainer implements IPr
     public boolean rotateBlock(World worldObj, int x, int y, int z, ForgeDirection axis) {
         TileEntity te = worldObj.getTileEntity(x, y, z);
         if (te instanceof TileEntityMetaFacing tef) {
-            int meta = BlockUtils.getFacingFromDirection(axis);
-            int axisMeta = BlockUtils.getAxis(axis);
-            tef.setFacingMeta(meta);
-            tef.setAxisMeta(axisMeta);
+            if (axis == ForgeDirection.UP || axis == ForgeDirection.DOWN) {
+                tef.rotateY();
+                tef.rotateAxisY();
+            }
             return true;
         }
         this.onNeighborBlockChange(worldObj, x, y, z, this);
