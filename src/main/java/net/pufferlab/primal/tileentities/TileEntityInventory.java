@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.pufferlab.primal.Constants;
+import net.pufferlab.primal.utils.NBTType;
 import net.pufferlab.primal.utils.Utils;
 
 public class TileEntityInventory extends TileEntityMetaFacing implements IInventory, ISidedInventory {
@@ -48,7 +48,7 @@ public class TileEntityInventory extends TileEntityMetaFacing implements IInvent
     }
 
     public void readFromNBTInventory(NBTTagCompound compound) {
-        NBTTagList tagList = compound.getTagList("Items", Constants.tagCompound);
+        NBTTagList tagList = compound.getTagList("Items", NBTType.TagCompound);
         this.inventory = new ItemStack[getSize()];
         for (int i = 0; i < tagList.tagCount(); i++) {
             NBTTagCompound tag = tagList.getCompoundTagAt(i);

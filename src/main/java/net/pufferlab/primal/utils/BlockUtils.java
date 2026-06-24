@@ -1,5 +1,8 @@
 package net.pufferlab.primal.utils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.material.Material;
@@ -12,6 +15,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.blocks.*;
+
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class BlockUtils {
 
@@ -87,6 +92,17 @@ public class BlockUtils {
     public static String getName(Block block) {
         String mod = getBlockRegistry().getNameForObject(block);
         return mod;
+    }
+
+    public static Map<String, Block> blockMap = new HashMap<>();
+
+    public static Block getBlockFromName(String name) {
+        Block block = blockMap.get(name);
+        if (block == null) {
+            String[] blockSplit = name.split(":");
+            block = GameRegistry.findBlock(blockSplit[0], blockSplit[1]);
+        }
+        return block;
     }
 
     public static boolean hasSolidWallsTop(World world, int x, int y, int z) {

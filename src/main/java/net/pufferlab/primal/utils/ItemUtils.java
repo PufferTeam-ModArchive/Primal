@@ -384,7 +384,7 @@ public class ItemUtils {
     }
 
     public static ItemStack[] getItemStackListFromNBT(NBTTagCompound compound) {
-        NBTTagList tagList = compound.getTagList("Items", Constants.tagCompound);
+        NBTTagList tagList = compound.getTagList("Items", NBTType.TagCompound);
         ItemStack[] inventory = new ItemStack[tagList.tagCount()];
         for (int i = 0; i < tagList.tagCount(); i++) {
             NBTTagCompound tag = tagList.getCompoundTagAt(i);

@@ -8,8 +8,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
-import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.utils.NBTType;
 import net.pufferlab.primal.utils.PositionMap;
 
 public class ChunkPlacerData extends WorldSavedData {
@@ -48,7 +48,7 @@ public class ChunkPlacerData extends WorldSavedData {
     }
 
     public void readFromNBT(NBTTagCompound nbt, String name, List<BlockHolder> queue, PositionMap<BlockHolder> map) {
-        NBTTagList list = nbt.getTagList(name, Constants.tagCompound);
+        NBTTagList list = nbt.getTagList(name, NBTType.TagCompound);
 
         for (int i = 0; i < list.tagCount(); i++) {
             NBTTagCompound tag = list.getCompoundTagAt(i);

@@ -114,4 +114,8 @@ public class Primal {
         registry.setupCommands();
         profiler.endProfile("ServerStarting");
     }
+
+    public static void debugLog(String string) {
+        Primal.LOG.debug(string);
+    }
 }

@@ -1,9 +1,6 @@
 package net.pufferlab.primal.utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
@@ -14,8 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.launchwrapper.Launch;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.pufferlab.primal.Primal;
 
@@ -26,7 +24,14 @@ import io.netty.buffer.ByteBuf;
 public class IOUtils {
 
     public static File getResourceDir() {
-        File rpDir = new File(Minecraft.getMinecraft().mcDataDir, "resourcepacks");
+        File rpDir = new File(Launch.minecraftHome, "resourcepacks");
+
+        if (!rpDir.exists()) rpDir.mkdirs();
+        return rpDir;
+    }
+
+    public static File getStructureDir() {
+        File rpDir = new File(Launch.minecraftHome, "structures");
 
         if (!rpDir.exists()) rpDir.mkdirs();
         return rpDir;
@@ -41,6 +46,10 @@ public class IOUtils {
 
     public static File createResourceFile(String name, String extension) throws IOException {
         return new File(getResourceDir(), name + "." + extension);
+    }
+
+    public static File createStructureFile(String name, String extension) throws IOException {
+        return new File(getStructureDir(), name + "." + extension);
     }
 
     public static File createConfigFile(String name) {
@@ -63,7 +72,7 @@ public class IOUtils {
         File temp = IOUtils.createNamedTempFile(name, extension);
 
         try (InputStream in = Primal.class.getResourceAsStream(resourceStream)) {
-            Files.copy(in, temp.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            copyInputStream(in, temp);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -81,6 +90,26 @@ public class IOUtils {
 
     public static void copyFile(File from, File to) throws IOException {
         FileUtils.copyFile(from, to);
+    }
+
+    public static void copyInputStream(InputStream in, File file) throws IOException {
+        Files.copy(in, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+    }
+
+    public static void writeNBTFile(File file, NBTTagCompound nbt) {
+        try {
+            CompressedStreamTools.writeCompressed(nbt, new FileOutputStream(file));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static NBTTagCompound readNBTFile(File file) {
+        try {
+            return CompressedStreamTools.readCompressed(new FileInputStream(file));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void downloadFile(String urlTxt, String extension, File out) throws IOException {

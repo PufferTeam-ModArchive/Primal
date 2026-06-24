@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.command.ICommandSender;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.*;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
@@ -45,6 +46,24 @@ public class TextUtils {
 
         return builder.toString()
             .trim();
+    }
+
+    public static String nbtToJson(NBTTagCompound nbt) {
+        try {
+            String str = nbt.toString();
+            return str;
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static NBTTagCompound jsonToNbt(String nbt) {
+        try {
+            NBTTagCompound loaded = (NBTTagCompound) JsonToNBT.func_150315_a(nbt);
+            return loaded;
+        } catch (NBTException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static void appendRecipeElement(StringBuilder builder, Object obj) {

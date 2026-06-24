@@ -683,6 +683,7 @@ public class Registry {
         registerCommand(new CommandHeat());
         registerCommand(new CommandBlockInfo());
         registerCommand(new CommandSchedule());
+        registerCommand(new CommandStructure());
         registerCommand(new CommandClearBlocks());
         registerCommand(new CommandStrata());
         registerCommand(new CommandVein());

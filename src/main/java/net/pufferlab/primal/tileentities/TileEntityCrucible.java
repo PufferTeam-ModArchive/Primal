@@ -8,13 +8,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Config;
-import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.recipes.AlloyingRecipe;
 import net.pufferlab.primal.recipes.MeltingRecipe;
 import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.ItemUtils;
+import net.pufferlab.primal.utils.NBTType;
 import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.GlobalTickingData;
 import net.pufferlab.primal.world.HeatInfo;
@@ -114,7 +114,7 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     }
 
     public void readFromNBTFluidInventory(NBTTagCompound compound) {
-        NBTTagList tagList = compound.getTagList("Fluids", Constants.tagCompound);
+        NBTTagList tagList = compound.getTagList("Fluids", NBTType.TagCompound);
         this.fluidInventory = new FluidStack[tagList.tagCount()];
         for (int i = 0; i < tagList.tagCount(); i++) {
             NBTTagCompound tag = tagList.getCompoundTagAt(i);
