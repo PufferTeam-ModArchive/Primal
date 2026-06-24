@@ -51,18 +51,22 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
     public void writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
 
-        compound.setInteger("xCached", this.cachedX);
-        compound.setInteger("yCached", this.cachedY);
-        compound.setInteger("zCached", this.cachedZ);
+        if (shouldCacheCoords()) {
+            compound.setInteger("xCached", this.cachedX);
+            compound.setInteger("yCached", this.cachedY);
+            compound.setInteger("zCached", this.cachedZ);
+        }
     }
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
 
-        this.cachedX = compound.getInteger("xCached");
-        this.cachedY = compound.getInteger("yCached");
-        this.cachedZ = compound.getInteger("zCached");
+        if (shouldCacheCoords()) {
+            this.cachedX = compound.getInteger("xCached");
+            this.cachedY = compound.getInteger("yCached");
+            this.cachedZ = compound.getInteger("zCached");
+        }
     }
 
     public void writeToNBTPacket(NBTTagCompound tag) {}
@@ -117,17 +121,23 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
     public void markDirty() {
         super.markDirty();
 
-        if (this.xCoord != this.cachedX || this.yCoord != this.cachedY || this.zCoord != this.cachedZ) {
-            onCoordChange(this.cachedX, this.cachedY, this.cachedZ);
-            this.cachedX = this.xCoord;
-            this.cachedY = this.yCoord;
-            this.cachedZ = this.zCoord;
+        if (shouldCacheCoords()) {
+            if (this.xCoord != this.cachedX || this.yCoord != this.cachedY || this.zCoord != this.cachedZ) {
+                onCoordChange(this.cachedX, this.cachedY, this.cachedZ);
+                this.cachedX = this.xCoord;
+                this.cachedY = this.yCoord;
+                this.cachedZ = this.zCoord;
+            }
         }
     }
 
     @Override
     public boolean shouldBatchUpdate() {
         return false;
+    }
+
+    public boolean shouldCacheCoords() {
+        return true;
     }
 
     public void init() {}
