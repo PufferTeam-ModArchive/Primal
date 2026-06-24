@@ -1,6 +1,7 @@
 package net.pufferlab.primal.utils;
 
 import net.minecraft.block.Block;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
@@ -45,8 +46,12 @@ public class WorldUtils {
         return WorldUtils.getChunkBlockMetadata(storage, x2, y, z2);
     }
 
+    public static void setBlockStructure(World world, int x, int y, int z, Block block, int meta, NBTTagCompound nbt) {
+        ChunkPlacerData.addBlock(world, x, y, z, block, meta, nbt);
+    }
+
     public static void setBlockWorldgen(World world, int x, int y, int z, Block block, int meta) {
-        ChunkPlacerData.addBlock(world, x, y, z, block, meta);
+        ChunkPlacerData.addBlockFast(world, x, y, z, block, meta);
     }
 
     public static void setBlock(World world, int x, int y, int z, Block block, int meta) {

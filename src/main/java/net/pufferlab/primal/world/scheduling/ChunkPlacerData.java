@@ -60,12 +60,31 @@ public class ChunkPlacerData extends WorldSavedData {
         }
     }
 
-    public static void addBlock(World world, int x, int y, int z, Block block, int meta) {
+    public static void addBlock(World world, int x, int y, int z, Block block, int meta, NBTTagCompound nbt,
+        boolean fastPlace) {
         ChunkPlacerData placer = get(world);
-        BlockHolder blockHolder = new BlockHolder(x, y, z, block, meta);
-        placer.list.add(blockHolder);
-        placer.map.put(blockHolder.chunkX, blockHolder.chunkZ, blockHolder);
-        placer.markDirty();
+        BlockHolder blockHolder;
+        if (nbt != null) {
+            blockHolder = new BlockHolder(x, y, z, block, meta, nbt);
+        } else {
+            blockHolder = new BlockHolder(x, y, z, block, meta);
+            blockHolder.setFastPlace(fastPlace);
+        }
+        if (world.blockExists(x, y, z)) {
+            blockHolder.place(world);
+        } else {
+            placer.list.add(blockHolder);
+            placer.map.put(blockHolder.chunkX, blockHolder.chunkZ, blockHolder);
+            placer.markDirty();
+        }
+    }
+
+    public static void addBlock(World world, int x, int y, int z, Block block, int meta, NBTTagCompound nbt) {
+        addBlock(world, x, y, z, block, meta, nbt, false);
+    }
+
+    public static void addBlockFast(World world, int x, int y, int z, Block block, int meta) {
+        addBlock(world, x, y, z, block, meta, null, true);
     }
 
     public static void tickPlacement(World world, int chunkX, int chunkZ) {

@@ -106,15 +106,7 @@ public class StructureFile {
                 int x0 = x + coords[j];
                 int y0 = y + coords[j + 1];
                 int z0 = z + coords[j + 2];
-                world.setBlock(x0, y0, z0, block, meta, 2);
-                TileEntity te = world.getTileEntity(x0, y0, z0);
-                if (te != null) {
-                    nbt.setInteger("x", x0);
-                    nbt.setInteger("y", y0);
-                    nbt.setInteger("z", z0);
-                    te.readFromNBT(nbt);
-                    te.markDirty();
-                }
+                WorldUtils.setBlockStructure(world, x0, y0, z0, block, meta, nbt);
             }
         }
     }
