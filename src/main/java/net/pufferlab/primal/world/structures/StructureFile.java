@@ -151,9 +151,6 @@ public class StructureFile {
 
     public static Matrix4f matrix = new Matrix4f();
 
-    public static final float[] rotationAngle = { (float) -(Math.PI / 2), (float) -(Math.PI) + 0.000001F,
-        (float) -((2 * Math.PI) / 3) };
-
     public static void rotateStructure(StructureFile file, World world) {
         NBTTagCompound tag = file.getNBT();
         NBTTagList blocks = tag.getTagList("blocks", NBTType.TagCompound);
@@ -210,6 +207,13 @@ public class StructureFile {
 
     public static NBTTagCompound rotateBlockInfo(World world, NBTTagCompound blockInfo0, byte[] newCoords,
         int rotation) {
+        while (world.getBlock(coordX, coordY, coordZ)
+            .hasTileEntity(world.getBlockMetadata(coordX, coordY, coordZ))) {
+            coordX++;
+        }
+        Block blockBackup = world.getBlock(coordX, coordY, coordZ);
+        int metaBackup = world.getBlockMetadata(coordX, coordY, coordZ);
+
         NBTTagCompound blockInfo = (NBTTagCompound) blockInfo0.copy();
         Block block = BlockUtils.getBlockFromName(blockInfo.getString("block"));
         int meta = blockInfo.getInteger("meta");
@@ -249,6 +253,8 @@ public class StructureFile {
         }
 
         blockInfo.setByteArray("coords", newCoords);
+
+        world.setBlock(coordX, coordY, coordZ, blockBackup, metaBackup, 2);
 
         return blockInfo;
     }
