@@ -118,10 +118,7 @@ public class TileEntityAxle extends TileEntityMotion {
 
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
-        if (this.hasGearPos || this.hasGearNeg) {
-            return AxisAlignedBB.getBoundingBox(xCoord - 1, yCoord - 1, zCoord - 1, xCoord + 1, yCoord + 1, zCoord + 1);
-        }
-        return super.getRenderBoundingBox();
+        return AxisAlignedBB.getBoundingBox(xCoord - 1, yCoord - 1, zCoord - 1, xCoord + 1, yCoord + 1, zCoord + 1);
     }
 
     @Override

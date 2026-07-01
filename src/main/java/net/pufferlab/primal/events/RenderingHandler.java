@@ -8,7 +8,7 @@ import net.pufferlab.primal.client.renderer.RenderBounds;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class RenderingHandler {
+public class RenderingHandler implements IEventHandler {
 
     @SubscribeEvent
     public void renderPlayer(RenderPlayerEvent.Specials.Pre event) {

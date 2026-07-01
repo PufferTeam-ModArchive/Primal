@@ -1,8 +1,8 @@
 package net.pufferlab.primal;
 
+import net.minecraft.launchwrapper.Launch;
 import net.pufferlab.primal.scripts.ScriptRegistry;
 import net.pufferlab.primal.utils.Profiler;
-import net.pufferlab.primal.utils.Utils;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -80,7 +80,7 @@ public class Primal {
         registry.setupHeatables();
         registry.setupModCompat();
 
-        if (debugMode && Utils.isDev()) {
+        if (debugMode && isDevEnv()) {
             registry.setupDebug();
         }
 
@@ -113,6 +113,10 @@ public class Primal {
         registry.setupServer();
         registry.setupCommands();
         profiler.endProfile("ServerStarting");
+    }
+
+    public static boolean isDevEnv() {
+        return (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
     }
 
     public static void debugLog(String string) {

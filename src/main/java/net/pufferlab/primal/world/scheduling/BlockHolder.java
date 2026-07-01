@@ -30,7 +30,7 @@ public class BlockHolder {
 
     public BlockHolder(int x, int y, int z, Block block, int meta, NBTTagCompound nbt) {
         this(x, y, z, block, meta);
-        this.nbt = nbt;
+        this.nbt = (NBTTagCompound) nbt.copy();
         this.fastPlace = false;
     }
 

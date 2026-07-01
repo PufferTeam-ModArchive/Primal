@@ -1,7 +1,9 @@
 package net.pufferlab.primal.tileentities;
 
+import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.pufferlab.primal.Config;
+import net.pufferlab.primal.blocks.BlockCropsBush;
 import net.pufferlab.primal.network.NetworkMoisture;
 import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.scheduling.ScheduleManager;
@@ -120,6 +122,14 @@ public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTi
             nutrientAmount = this.phosphorus;
         }
         return -0.0001644F * (nutrientAmount * nutrientAmount) + 0.02582F * nutrientAmount + 0.10F;
+    }
+
+    public char getCropNutrient() {
+        Block block = getWorld().getBlock(xCoord, yCoord + 1, zCoord);
+        if (block instanceof BlockCropsBush crop) {
+            return crop.cropType.nutrient;
+        }
+        return '0';
     }
 
     public void consumeNutrient(char nutrientType, float consume) {

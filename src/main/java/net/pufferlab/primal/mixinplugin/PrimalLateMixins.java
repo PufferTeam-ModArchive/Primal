@@ -52,6 +52,11 @@ public class PrimalLateMixins implements ILateMixinLoader {
                 mixins.add("hodgepodge.MixinTileEntityDescriptionBatcher");
             }
         }
+        if (Primal.isDevEnv()) {
+            if (Mods.wdmla.isLoaded(loadedMods)) {
+                mixins.add("wdmla.WDMlaFix");
+            }
+        }
         return mixins;
     }
 }

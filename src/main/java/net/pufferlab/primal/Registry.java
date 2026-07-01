@@ -660,6 +660,7 @@ public class Registry {
         registerEvent(new HeatHandler());
         registerEvent(new FoodHandler());
         registerEvent(new PlayerHandler());
+        registerEvent(new WorldHandler());
 
         if (Utils.isClient()) {
             registerEvent(new RenderingHandler());
@@ -756,8 +757,7 @@ public class Registry {
 
     public void setupModCompat() {
         ((ItemBucketCeramicModded) ceramic_bucket_modded).registerModdedLiquids();
-        PrimalEarlyGenerator.strataGen.initBlockList();
-        PrimalEarlyGenerator.soilGen.initBlockList();
+        PrimalEarlyGenerator.initBlockList();
         CutUtils.registerItems();
         Constants.wheat_crop.setCropItem(Items.wheat, 0)
             .setCropSeedItem(Items.wheat_seeds, 0)
@@ -819,11 +819,14 @@ public class Registry {
         }
     }
 
+    public static final PrimalEarlyGenerator earlyGen = new PrimalEarlyGenerator();
+    public static final PrimalLateGenerator lateGen = new PrimalLateGenerator();
+    public static final PrimalDecorator decorator = new PrimalDecorator();
+
     public void setupWorldGen() {
-        registerWorld(new PrimalEarlyGenerator(), 10000);
-        registerWorld(new PrimalLateGenerator(), 20000);
-        registerWorld(new PrimalDecorator(), 30000);
-        registerWorld(new PrimalFinalGenerator(), Integer.MAX_VALUE - 1);
+        registerWorld(earlyGen, 10000);
+        registerWorld(lateGen, 20000);
+        registerWorld(decorator, 30000);
     }
 
     public void register(Item item, String name) {

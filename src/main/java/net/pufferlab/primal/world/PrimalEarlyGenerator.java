@@ -32,4 +32,9 @@ public class PrimalEarlyGenerator implements IWorldGenerator {
         }
         chunk.generateSkylightMap();
     }
+
+    public static void initBlockList() {
+        strataGen.initBlockList();
+        soilGen.initBlockList();
+    }
 }

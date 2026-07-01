@@ -4,7 +4,6 @@ import java.util.*;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.*;
-import net.minecraft.launchwrapper.Launch;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
@@ -521,10 +520,6 @@ public final class Utils {
         return FMLCommonHandler.instance()
             .getSide()
             .isClient();
-    }
-
-    public static boolean isDev() {
-        return (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
     }
 
 }
