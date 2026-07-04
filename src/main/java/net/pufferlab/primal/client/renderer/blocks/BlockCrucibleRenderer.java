@@ -10,6 +10,7 @@ import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.blocks.BlockForge;
 import net.pufferlab.primal.client.models.ModelFluid;
 import net.pufferlab.primal.tileentities.TileEntityCrucible;
+import net.pufferlab.primal.tileentities.TileEntityForge;
 
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 
@@ -31,11 +32,14 @@ public class BlockCrucibleRenderer extends BlockPrimalRenderer {
         if (te instanceof TileEntityCrucible tef) {
             Block blockBelow = tef.getWorldObj()
                 .getBlock(tef.xCoord, tef.yCoord - 1, tef.zCoord);
-            int blockBelowMeta = tef.getWorldObj()
-                .getBlockMetadata(tef.xCoord, tef.yCoord - 1, tef.zCoord);
+            TileEntity te0 = tef.getWorldObj().getTileEntity(tef.xCoord, tef.yCoord - 1, tef.zCoord);
+            int fuelStages = 0;
+            if(te0 instanceof TileEntityForge tef2) {
+                fuelStages = tef2.getCurrentFuelStages();
+            }
             float offsetY = 0.0F;
             if (blockBelow instanceof BlockForge) {
-                offsetY = 0.125F + 0.0625F * (4 - blockBelowMeta);
+                offsetY = 0.125F + 0.0625F * (4 - fuelStages);
             }
             FluidStack stack = tef.getFluidStack();
             float height = tef.getFillLevel(0.0625F, 0.4360F);
