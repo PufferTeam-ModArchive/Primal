@@ -22,6 +22,9 @@ tile.primal.bloomery.name=Bloomery
 tile.primal.quern.name=Quern
 tile.primal.rope_ladder.name=Rope Ladder
 item.primal.knapping_icon.name=Knapping
+tile.primal.fire_bricks.name=Fire Bricks
+item.primal.raw_iron_bloom.name=Raw Iron Bloom
+item.primal.refined_iron_bloom.name=Refined Iron Bloom
 
 tile.primal.iron_anvil.name=Iron Anvil
 tile.primal.copper_anvil.name=Copper Anvil

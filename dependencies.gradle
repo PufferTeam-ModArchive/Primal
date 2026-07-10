@@ -56,5 +56,4 @@ dependencies {
     compileOnly("com.github.GTNewHorizons:ForbiddenMagic:0.9.7-GTNH:dev") {transitive = false}
 
     runtimeOnlyNonPublishable("com.github.GTNewHorizons:worldedit-gtnh:v0.0.8:dev") { transitive = false }
-    runtimeOnlyNonPublishable("com.github.GTNewHorizons:BugTorch:1.2.14-GTNH:dev") { transitive = false }
 }
