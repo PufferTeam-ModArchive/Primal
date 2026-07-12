@@ -120,6 +120,6 @@ public class Primal {
     }
 
     public static void debugLog(String string) {
-        Primal.LOG.debug(string);
+        Primal.LOG.info(string);
     }
 }

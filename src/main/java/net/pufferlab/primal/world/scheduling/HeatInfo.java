@@ -1,8 +1,9 @@
-package net.pufferlab.primal.world;
+package net.pufferlab.primal.world.scheduling;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.pufferlab.primal.utils.HeatUtils;
+import net.pufferlab.primal.world.GlobalTickingData;
 
 public class HeatInfo {
 

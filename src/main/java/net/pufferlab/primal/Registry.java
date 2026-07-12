@@ -94,6 +94,7 @@ public class Registry {
     public static final Block generator;
     public static final Block waterwheel;
     public static final Block windmill;
+    public static final Block moving_block;
     public static final Item ore;
     public static final Item small_ore;
     public static final Item coal;
@@ -242,6 +243,8 @@ public class Registry {
         generator = new BlockGenerator();
         waterwheel = new BlockWaterwheel();
         windmill = new BlockWindmill();
+
+        moving_block = new BlockMoving();
 
         bricks = new BlockBricks(Constants.brickItems, "bricks");
         thatch = new BlockThatch();
@@ -416,6 +419,7 @@ public class Registry {
         register(generator, "generator");
         register(waterwheel, "waterwheel");
         register(windmill, "windmill");
+        register(moving_block, "moving_block");
 
         setupFluids();
 
@@ -531,6 +535,7 @@ public class Registry {
         register(TileEntityFarmland.class, "farmland");
         register(TileEntityCut.class, "cut_block");
         register(TileEntityCutDouble.class, "double_cut_block");
+        register(TileEntityMoving.class, "moving_block");
     }
 
     public static final Block[] oreBlocks = new Block[Constants.oreTypes.length];
@@ -688,6 +693,7 @@ public class Registry {
         registerCommand(new CommandClearBlocks());
         registerCommand(new CommandStrata());
         registerCommand(new CommandVein());
+        registerCommand(new CommandMovingBlock());
     }
 
     public void setupConfig() {

@@ -1,7 +1,7 @@
 package net.pufferlab.primal.tileentities;
 
 import net.pufferlab.primal.world.GlobalTickingData;
-import net.pufferlab.primal.world.HeatInfo;
+import net.pufferlab.primal.world.scheduling.HeatInfo;
 
 public interface IHeatable extends ITile {
 

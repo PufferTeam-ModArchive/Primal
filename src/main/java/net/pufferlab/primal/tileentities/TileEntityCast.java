@@ -10,7 +10,7 @@ import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.recipes.CastingRecipe;
 import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.ItemUtils;
-import net.pufferlab.primal.world.HeatInfo;
+import net.pufferlab.primal.world.scheduling.HeatInfo;
 import net.pufferlab.primal.world.scheduling.ScheduleManager;
 import net.pufferlab.primal.world.scheduling.Task;
 

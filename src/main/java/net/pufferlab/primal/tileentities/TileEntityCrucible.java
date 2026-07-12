@@ -17,7 +17,7 @@ import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.NBTType;
 import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.GlobalTickingData;
-import net.pufferlab.primal.world.HeatInfo;
+import net.pufferlab.primal.world.scheduling.HeatInfo;
 import net.pufferlab.primal.world.scheduling.ScheduleManager;
 import net.pufferlab.primal.world.scheduling.Task;
 

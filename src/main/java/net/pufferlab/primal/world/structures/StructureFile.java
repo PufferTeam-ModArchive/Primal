@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.utils.*;
 
+import net.pufferlab.primal.world.VirtualBlock;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
@@ -201,18 +202,10 @@ public class StructureFile {
         file.setNBT(tag);
     }
 
-    public static int coordX = 1;
-    public static int coordY = 1;
-    public static int coordZ = 1;
+    public static VirtualBlock virtualBlock = new VirtualBlock().setTemp();
 
     public static NBTTagCompound rotateBlockInfo(World world, NBTTagCompound blockInfo0, byte[] newCoords,
         int rotation) {
-        while (world.getBlock(coordX, coordY, coordZ)
-            .hasTileEntity(world.getBlockMetadata(coordX, coordY, coordZ))) {
-            coordX++;
-        }
-        Block blockBackup = world.getBlock(coordX, coordY, coordZ);
-        int metaBackup = world.getBlockMetadata(coordX, coordY, coordZ);
 
         NBTTagCompound blockInfo = (NBTTagCompound) blockInfo0.copy();
         Block block = BlockUtils.getBlockFromName(blockInfo.getString("block"));
@@ -221,25 +214,15 @@ public class StructureFile {
         if (blockInfo.hasKey("nbt")) {
             nbt = blockInfo.getCompoundTag("nbt");
         }
-        world.setBlock(coordX, coordY, coordZ, block, meta, 2);
-        TileEntity te = world.getTileEntity(coordX, coordY, coordZ);
-        if (te != null) {
-            if (nbt != null) {
-                NBTTagCompound nbt2 = (NBTTagCompound) nbt.copy();
-                nbt2.setInteger("x", coordX);
-                nbt2.setInteger("y", coordY);
-                nbt2.setInteger("z", coordZ);
-                te.readFromNBT(nbt2);
-                te.markDirty();
-            }
-        }
+
+        virtualBlock.placeBlock(world, block, meta, nbt);
 
         for (int i = 0; i < rotation; i++) {
-            block.rotateBlock(world, coordX, coordY, coordZ, ForgeDirection.UP);
+            virtualBlock.rotateBlock(world, ForgeDirection.UP);
         }
 
-        blockInfo.setInteger("meta", world.getBlockMetadata(coordX, coordY, coordZ));
-        te = world.getTileEntity(coordX, coordY, coordZ);
+        blockInfo.setInteger("meta", virtualBlock.getBlockMetadata(world));
+        TileEntity te = virtualBlock.getTileEntity(world);
         if (te != null) {
             NBTTagCompound newTag = new NBTTagCompound();
             te.writeToNBT(newTag);
@@ -254,7 +237,7 @@ public class StructureFile {
 
         blockInfo.setByteArray("coords", newCoords);
 
-        world.setBlock(coordX, coordY, coordZ, blockBackup, metaBackup, 2);
+        virtualBlock.restoreBlock(world);
 
         return blockInfo;
     }

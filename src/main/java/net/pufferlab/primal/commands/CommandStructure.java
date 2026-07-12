@@ -91,6 +91,11 @@ public class CommandStructure extends CommandSub {
     }
 
     @Override
+    public int getRequiredPermissionLevel() {
+        return 3;
+    }
+
+    @Override
     public String getCommandName() {
         return "structure";
     }

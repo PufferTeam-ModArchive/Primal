@@ -6,7 +6,7 @@ import net.pufferlab.primal.Config;
 import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.Utils;
-import net.pufferlab.primal.world.HeatInfo;
+import net.pufferlab.primal.world.scheduling.HeatInfo;
 import net.pufferlab.primal.world.scheduling.ScheduleManager;
 import net.pufferlab.primal.world.scheduling.Task;
 
