@@ -24,13 +24,15 @@ public class ChunkAllocator extends WorldSavedData {
     int lastZ;
     public int[] chunkCoords;
 
-    public static int startXZ = 10_000_000;
+    public static int startX = 10_000_000;
+    public static int startY = 240;
+    public static int startZ = 10_000_000;
 
     public ChunkAllocator(String name) {
         super(name);
-        lastX = 10_000_000;
-        lastY = 240;
-        lastZ = 10_000_000;
+        lastX = startX;
+        lastY = startY;
+        lastZ = startZ;
     }
 
     @Override
@@ -70,7 +72,7 @@ public class ChunkAllocator extends WorldSavedData {
 
     public VirtualBlock allocateLocalNewVirtualBlock(World world) {
         if (world.isRemote) return null;
-        if (lastY < 240) {
+        if (lastY < startY) {
             lastY += 16;
         } else {
             lastY = 0;
@@ -78,7 +80,7 @@ public class ChunkAllocator extends WorldSavedData {
             if (lastX < 30_000_000) {
                 lastX += 16;
             } else {
-                lastX = 10_000_000;
+                lastX = startX;
                 lastZ += 16;
             }
         }

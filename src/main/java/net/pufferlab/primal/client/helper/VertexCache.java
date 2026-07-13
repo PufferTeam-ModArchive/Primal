@@ -95,8 +95,11 @@ public class VertexCache {
                 // TODO: Use a VBO (might be weird to do)
                 tess.setNormal(nX, nY, nZ);
                 tess.setColorOpaque_F(r, g, b);
+                tess.addTranslation((float) (x + offsetX0), (float) (y + offsetY0), (float) (z + offsetZ0));
 
-                tess.addVertexWithUV(vX + x + offsetX0, vY + y + offsetY0, vZ + z + offsetZ0, u, v);
+                tess.addVertexWithUV(vX, vY, vZ, u, v);
+
+                tess.addTranslation((float) -(x + offsetX0), (float) -(y + offsetY0), (float) -(z + offsetZ0));
             }
         }
     }

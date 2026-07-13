@@ -221,6 +221,9 @@ public class ModelTESS {
 
     public long lastTime;
 
+    public static int maxX = 1_000_000;
+    public static int maxZ = 1_000_000;
+
     public void renderBlockJOML(RenderBlocks renderblocks, Tessellator tess, Block block, ModelRenderer renderer,
         float scale, int x, int y, int z, double offsetX, double offsetY, double offsetZ, int index) {
         lastTime = System.nanoTime();
@@ -233,10 +236,13 @@ public class ModelTESS {
         }
         tess.setBrightness(block.getMixedBrightnessForBlock(renderblocks.blockAccess, x, y, z));
         int i1 = block.colorMultiplier(renderblocks.blockAccess, x, y, z);
-        if (renderer.renderJOMLCached(tess, icon, x, y, z, offsetX, offsetY, offsetZ)) {
-            return;
+        // The cache looks fucked up at high coords
+        // TODO: fix
+        if (x < maxX && z < maxZ) {
+            if (renderer.renderJOMLCached(tess, icon, x, y, z, offsetX, offsetY, offsetZ)) {
+                return;
+            }
         }
-
         matrix.identity();
         VertexCache cache = renderer.getCache(icon);
         renderer.renderJOML(scale, matrix, i1, x, y, z, offsetX, offsetY, offsetZ, icon, cache);
