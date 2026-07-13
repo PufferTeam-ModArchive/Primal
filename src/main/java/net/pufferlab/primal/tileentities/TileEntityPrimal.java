@@ -69,6 +69,10 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
         }
     }
 
+    public void updateServer() {
+
+    }
+
     public void writeToNBTPacket(NBTTagCompound tag) {}
 
     public void readFromNBTPacket(NBTTagCompound tag) {}

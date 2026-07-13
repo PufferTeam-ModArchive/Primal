@@ -37,7 +37,7 @@ public class BlockSlabVerticalRenderer extends BlockPrimalRenderer {
         RenderBlocks renderer) {
         TileEntity te = world.getTileEntity(x, y, z);
         int meta = world.getBlockMetadata(x, y, z);
-        if (renderBreaking) {
+        if (isRenderingBreaking()) {
             if (block instanceof IPrimalBlock block2) {
                 List<AxisAlignedBB> list = block2.getBounds(player.worldObj, x, y, z, player, BoundsType.rendered);
                 if (list != null) {

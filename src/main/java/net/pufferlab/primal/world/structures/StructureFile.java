@@ -10,8 +10,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.utils.*;
-
 import net.pufferlab.primal.world.VirtualBlock;
+
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
@@ -202,7 +202,7 @@ public class StructureFile {
         file.setNBT(tag);
     }
 
-    public static VirtualBlock virtualBlock = new VirtualBlock().setTemp();
+    public static VirtualBlock virtualBlock = new VirtualBlock(0, 0, 0);
 
     public static NBTTagCompound rotateBlockInfo(World world, NBTTagCompound blockInfo0, byte[] newCoords,
         int rotation) {
@@ -236,8 +236,6 @@ public class StructureFile {
         }
 
         blockInfo.setByteArray("coords", newCoords);
-
-        virtualBlock.restoreBlock(world);
 
         return blockInfo;
     }

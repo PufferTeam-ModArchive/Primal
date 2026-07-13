@@ -628,6 +628,7 @@ public class Registry {
         registerPacket(PacketKnappingClick.class, Side.SERVER);
         registerPacket(PacketPitKilnPlace.class, Side.SERVER);
         registerPacket(PacketAxlePlace.class, Side.SERVER);
+        registerPacket(PacketChunkClient.class, Side.SERVER);
         registerPacket(PacketSpeedButton.class, Side.SERVER);
         registerPacket(PacketAnvilPlan.class, Side.SERVER);
         registerPacket(PacketAnvilWork.class, Side.SERVER);
@@ -637,7 +638,7 @@ public class Registry {
         registerPacket(PacketSwingArm.class, Side.CLIENT);
         registerPacket(PacketFireStarter.class, Side.CLIENT);
         registerPacket(PacketSpeedUpdate.class, Side.CLIENT);
-        registerPacket(PacketCrucibleUpdate.class, Side.CLIENT);
+        registerPacket(PacketTileUpdate.class, Side.CLIENT);
         registerPacket(PacketWorldTime.class, Side.CLIENT);
         registerPacket(PacketPlayerData.class, Side.CLIENT);
         registerPacket(PacketEffect.class, Side.CLIENT);

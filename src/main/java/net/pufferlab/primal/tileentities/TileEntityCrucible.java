@@ -208,6 +208,11 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
         this.lastResult = calculateMeltContent();
     }
 
+    @Override
+    public void updateServer() {
+        updateMeltCache();
+    }
+
     public FluidStack calculateMeltContent() {
         fluidInventoryTemp = new FluidStack[0];
         FluidStack lastFluid = null;
@@ -280,7 +285,7 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
 
         if (task == Task.inventory) {
             float modifier = 1.0F;
-            Primal.proxy.packet.sendCruciblePacket(this);
+            Primal.proxy.packet.sendTileSignalPacket(this);
             updateHeatInventory(modifier, this.getTemperature());
         }
 

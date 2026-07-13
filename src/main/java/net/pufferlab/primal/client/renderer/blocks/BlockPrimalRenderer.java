@@ -35,6 +35,10 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
     public static EntityPlayer player;
     public static boolean renderBreaking = false;
 
+    public boolean isRenderingBreaking() {
+        return renderBreaking;
+    }
+
     @Override
     public int getRenderId() {
         if (this.renderID == 0) {

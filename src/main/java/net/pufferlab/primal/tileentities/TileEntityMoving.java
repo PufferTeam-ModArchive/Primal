@@ -1,67 +1,84 @@
 package net.pufferlab.primal.tileentities;
 
-import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
+import net.minecraft.util.AxisAlignedBB;
+import net.pufferlab.primal.world.ChunkAllocator;
 import net.pufferlab.primal.world.VirtualBlock;
 
 public class TileEntityMoving extends TileEntityPrimal {
-    public Block block;
-    public int meta;
-    public NBTTagCompound nbt;
+
     public VirtualBlock virtualBlock = new VirtualBlock();
 
-    public TileEntityMoving() {
-    }
+    public TileEntityMoving() {}
 
-    public void syncBlock(World worldIn, int x, int y, int z) {
-        Block block = worldIn.getBlock(x, y - 1, z);
-        int meta = worldIn.getBlockMetadata(x, y - 1, z);
-        TileEntity te = worldIn.getTileEntity(x, y - 1, z);
-        NBTTagCompound tagCompound = null;
-        if(te != null) {
-            tagCompound = new NBTTagCompound();
-            te.writeToNBT(tagCompound);
-            tagCompound.removeTag("x");
-            tagCompound.removeTag("y");
-            tagCompound.removeTag("z");
-            tagCompound.removeTag("xCached");
-            tagCompound.removeTag("yCached");
-            tagCompound.removeTag("zCached");
+    public int targetX;
+    public int targetY;
+    public int targetZ;
+
+    public void init() {
+        if (!worldObj.isRemote) {
+            virtualBlock = ChunkAllocator.allocateNewVirtualBlock(worldObj);
+            targetX = virtualBlock.coordX;
+            targetY = virtualBlock.coordY;
+            targetZ = virtualBlock.coordZ;
+
+            virtualBlock.placeBlock(getWorld(), Blocks.dirt, 0, null);
+            updateTEState();
         }
-        setBlock(block, meta, tagCompound);
     }
 
-    public void setBlock(Block block, int meta, NBTTagCompound nbt) {
-        this.block = block;
-        this.meta = meta;
-        this.nbt = nbt;
-    }
+    public void createContraption() {
 
-    public void place(World world) {
-        virtualBlock.placeBlock(world, block, meta, nbt);
-    }
-
-    public void restore(World world) {
-        virtualBlock.restoreBlock(world);
     }
 
     @Override
     public void writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
 
-        compound.setInteger("block", Block.getIdFromBlock(block));
-        compound.setInteger("meta", meta);
-        compound.setTag("nbt", nbt);
+        compound.setInteger("xTarget", this.targetX);
+        compound.setInteger("yTarget", this.targetY);
+        compound.setInteger("zTarget", this.targetZ);
+    }
+
+    @Override
+    public void writeToNBTPacket(NBTTagCompound tag) {
+        super.writeToNBTPacket(tag);
+
+        tag.setInteger("xTarget", this.targetX);
+        tag.setInteger("yTarget", this.targetY);
+        tag.setInteger("zTarget", this.targetZ);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
 
-        block = Block.getBlockById(compound.getInteger("block"));
-        meta = compound.getInteger("meta");
-        nbt = compound.getCompoundTag("nbt");
+        this.targetX = compound.getInteger("xTarget");
+        this.targetY = compound.getInteger("yTarget");
+        this.targetZ = compound.getInteger("zTarget");
+
+        this.virtualBlock = new VirtualBlock(targetX, targetY, targetZ);
+    }
+
+    @Override
+    public void readFromNBTPacket(NBTTagCompound tag) {
+        super.readFromNBTPacket(tag);
+
+        this.targetX = tag.getInteger("xTarget");
+        this.targetY = tag.getInteger("yTarget");
+        this.targetZ = tag.getInteger("zTarget");
+
+        this.virtualBlock = new VirtualBlock(targetX, targetY, targetZ);
+    }
+
+    @Override
+    public double getMaxRenderDistanceSquared() {
+        return Double.MAX_VALUE;
+    }
+
+    @Override
+    public AxisAlignedBB getRenderBoundingBox() {
+        return INFINITE_EXTENT_AABB;
     }
 }

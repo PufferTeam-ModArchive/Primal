@@ -3,6 +3,7 @@ package net.pufferlab.primal;
 import net.minecraft.launchwrapper.Launch;
 import net.pufferlab.primal.scripts.ScriptRegistry;
 import net.pufferlab.primal.utils.Profiler;
+import net.pufferlab.primal.world.ChunkLoadingCallback;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -87,6 +88,7 @@ public class Primal {
         proxy.setupRenders();
 
         registry.setupEvents();
+        ChunkLoadingCallback.registerCallback();
         profiler.endProfile("Initialization");
     }
 

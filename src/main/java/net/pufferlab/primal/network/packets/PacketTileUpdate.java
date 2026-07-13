@@ -3,20 +3,20 @@ package net.pufferlab.primal.network.packets;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.tileentities.TileEntityCrucible;
+import net.pufferlab.primal.tileentities.TileEntityPrimal;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 
-public class PacketCrucibleUpdate implements IMessage, IMessageHandler<PacketCrucibleUpdate, IMessage> {
+public class PacketTileUpdate implements IMessage, IMessageHandler<PacketTileUpdate, IMessage> {
 
     private int x, y, z;
 
-    public PacketCrucibleUpdate() {}
+    public PacketTileUpdate() {}
 
-    public PacketCrucibleUpdate(TileEntityCrucible tile) {
+    public PacketTileUpdate(TileEntityPrimal tile) {
         this.x = tile.getX();
         this.y = tile.getY();
         this.z = tile.getZ();
@@ -37,13 +37,13 @@ public class PacketCrucibleUpdate implements IMessage, IMessageHandler<PacketCru
     }
 
     @Override
-    public IMessage onMessage(PacketCrucibleUpdate message, MessageContext ctx) {
+    public IMessage onMessage(PacketTileUpdate message, MessageContext ctx) {
         World world = Primal.proxy.getWorld(ctx);
         if (world == null) return null;
 
         TileEntity tile = world.getTileEntity(message.x, message.y, message.z);
-        if (tile instanceof TileEntityCrucible tef) {
-            tef.updateMeltCache();
+        if (tile instanceof TileEntityPrimal tef) {
+            tef.updateServer();
         }
         return null;
     }

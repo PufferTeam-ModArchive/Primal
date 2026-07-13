@@ -36,7 +36,7 @@ public class BlockSlabRenderer extends BlockPrimalRenderer {
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
         TileEntity te = world.getTileEntity(x, y, z);
-        if (renderBreaking) {
+        if (isRenderingBreaking()) {
             if (block instanceof IPrimalBlock block2) {
                 List<AxisAlignedBB> list = block2.getBounds(player.worldObj, x, y, z, player, BoundsType.rendered);
                 if (list != null) {

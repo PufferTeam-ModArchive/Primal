@@ -5,11 +5,15 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.network.play.server.S21PacketChunkData;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraft.world.chunk.Chunk;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.ICutBlock;
 import net.pufferlab.primal.entities.player.PlayerData;
@@ -118,8 +122,42 @@ public class NetworkPacket {
         }
     }
 
-    public void sendCruciblePacket(TileEntityCrucible te) {
-        Primal.proxy.sendPacketToClient(new PacketCrucibleUpdate(te));
+    public void sendTileSignalPacket(TileEntityPrimal te) {
+        Primal.proxy.sendPacketToClient(new PacketTileUpdate(te));
+    }
+
+    public void loadClientChunk(World world, int chunkX, int chunkZ) {
+        for (EntityPlayerMP player : MinecraftServer.getServer()
+            .getConfigurationManager().playerEntityList) {
+            loadClientChunk(world, chunkX, chunkZ, player);
+        }
+
+    }
+
+    public void loadClientChunk(World world, int chunkX, int chunkZ, EntityPlayerMP playerMP) {
+        if (world instanceof WorldServer worldServer) {
+            worldServer.getPlayerManager()
+                .getOrCreateChunkWatcher(chunkX, chunkZ, true)
+                .addPlayer(playerMP);
+        }
+    }
+
+    public void sendChunk(World world, int chunkX, int chunkZ) {
+        for (EntityPlayerMP player : MinecraftServer.getServer()
+            .getConfigurationManager().playerEntityList) {
+            if (world instanceof WorldServer worldServer) {
+                sendChunk(player, worldServer, chunkX, chunkZ);
+            }
+        }
+
+    }
+
+    public void sendChunk(EntityPlayerMP player, WorldServer world, int chunkX, int chunkZ) {
+        Chunk chunk = world.getChunkFromChunkCoords(chunkX, chunkZ);
+
+        S21PacketChunkData packet = new S21PacketChunkData(chunk, true, 0xFFFF);
+
+        player.playerNetServerHandler.sendPacket(packet);
     }
 
     public void playAuxFX(World world, int x, int y, int z, Block block, int meta) {
