@@ -43,14 +43,20 @@ public class VirtualBlock {
                     Block block = world.getBlock(x, y, z);
                     if (block.getMaterial() == Material.air || block == Registry.moving_block) continue;
                     int meta = world.getBlockMetadata(x, y, z);
+                    NBTTagCompound tag = null;
+                    TileEntity te = world.getTileEntity(x, y, z);
+                    if (te != null) {
+                        tag = new NBTTagCompound();
+                        te.writeToNBT(tag);
+                    }
                     placeBlock(
                         world,
-                        coordX + (x - (minX + 1)),
+                        coordX + (x - (minX)),
                         coordY + (y - (minY)),
                         coordZ + (z - (minZ + 1)),
                         block,
                         meta,
-                        null);
+                        tag);
 
                     world.setBlockToAir(x, y, z);
                 }
@@ -80,8 +86,9 @@ public class VirtualBlock {
         Primal.debugLog("Placed Block at" + x + ":" + y + ":" + z);
     }
 
-    public void renderISBRH(World world, int x, int y, int z, RenderBlocks renderBlocks, float partialTicks) {
-        RenderProjection.instance.renderISBRH(world, coordX, coordY, coordZ, x, y, z, renderBlocks, partialTicks);
+    public void renderISBRH(World world, int x, int y, int z, RenderBlocks renderBlocks, float partialTicks,
+        TileEntity te) {
+        RenderProjection.instance.renderISBRH(world, coordX, coordY, coordZ, x, y, z, renderBlocks, partialTicks, te);
     }
 
     public void renderTESR(World world, int x, int y, int z, float partialTicks) {

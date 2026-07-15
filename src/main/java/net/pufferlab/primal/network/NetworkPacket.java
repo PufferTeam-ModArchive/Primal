@@ -16,9 +16,11 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.ICutBlock;
+import net.pufferlab.primal.client.renderer.RenderBounds;
 import net.pufferlab.primal.entities.player.PlayerData;
 import net.pufferlab.primal.network.packets.*;
 import net.pufferlab.primal.tileentities.*;
+import net.pufferlab.primal.utils.BoundingBox;
 import net.pufferlab.primal.utils.Utils;
 
 public class NetworkPacket {
@@ -98,6 +100,13 @@ public class NetworkPacket {
         }
     }
 
+    public void sendMovingRotationPacket(IMoving te) {
+        if (!te.getWorld().isRemote) {
+            Primal.proxy.sendPacketToClient(new PacketRotationUpdate(te));
+            te.mark();
+        }
+    }
+
     public void sendPlayerData(EntityPlayer player, PlayerData data) {
         if (!player.worldObj.isRemote) {
             Primal.proxy.sendPacketToClient(new PacketPlayerData(player, data));
@@ -161,12 +170,12 @@ public class NetworkPacket {
     }
 
     public void playAuxFX(World world, int x, int y, int z, Block block, int meta) {
-        Primal.proxy.playPacketToClientNear(new PacketEffect(x, y, z, block, meta), world, x, y, z);
+        Primal.proxy.sendPacketToClientNear(new PacketEffect(x, y, z, block, meta), world, x, y, z);
     }
 
     public void playAuxFX(World world, int x, int y, int z, Block block, int meta, int side,
         AxisAlignedBB boundingBox) {
-        Primal.proxy.playPacketToClientNear(
+        Primal.proxy.sendPacketToClientNear(
             new PacketEffect(x, y, z, block, meta, side, Utils.asList(boundingBox)),
             world,
             x,
@@ -174,9 +183,19 @@ public class NetworkPacket {
             z);
     }
 
+    public void sendDebugAABB(int id, AxisAlignedBB bb) {
+        RenderBounds.setTemporaryAABB(id, bb);
+        Primal.proxy.sendPacketToClient(new PacketBoundingBoxDebug(id, bb));
+    }
+
+    public void sendDebugBB(int id, BoundingBox bb) {
+        RenderBounds.setTemporaryBB(id, bb);
+        Primal.proxy.sendPacketToClient(new PacketBoundingBoxDebug(id, bb));
+    }
+
     public void playAuxFX(World world, int x, int y, int z, Block block, int meta, int side,
         List<AxisAlignedBB> boundingBox) {
-        Primal.proxy.playPacketToClientNear(new PacketEffect(x, y, z, block, meta, side, boundingBox), world, x, y, z);
+        Primal.proxy.sendPacketToClientNear(new PacketEffect(x, y, z, block, meta, side, boundingBox), world, x, y, z);
     }
 
     public void sendBlockPlacement(int x, int y, int z, int side, EntityPlayer player, float hitX, float hitY,

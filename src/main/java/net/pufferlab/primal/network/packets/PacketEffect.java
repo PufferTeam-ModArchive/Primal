@@ -53,7 +53,7 @@ public class PacketEffect implements IMessage, IMessageHandler<PacketEffect, IMe
         side = buf.readInt();
         bounded = buf.readBoolean();
         if (bounded) {
-            bounds = IOUtils.readBBList(buf);
+            bounds = IOUtils.readAABBList(buf);
         }
     }
 
@@ -67,7 +67,7 @@ public class PacketEffect implements IMessage, IMessageHandler<PacketEffect, IMe
         buf.writeInt(side);
         buf.writeBoolean(bounded);
         if (bounded) {
-            IOUtils.writeBBList(buf, bounds);
+            IOUtils.writeAABBList(buf, bounds);
         }
     }
 

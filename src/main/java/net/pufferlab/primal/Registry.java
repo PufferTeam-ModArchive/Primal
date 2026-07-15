@@ -641,6 +641,8 @@ public class Registry {
         registerPacket(PacketTileUpdate.class, Side.CLIENT);
         registerPacket(PacketWorldTime.class, Side.CLIENT);
         registerPacket(PacketPlayerData.class, Side.CLIENT);
+        registerPacket(PacketBoundingBoxDebug.class, Side.CLIENT);
+        registerPacket(PacketRotationUpdate.class, Side.CLIENT);
         registerPacket(PacketEffect.class, Side.CLIENT);
     }
 

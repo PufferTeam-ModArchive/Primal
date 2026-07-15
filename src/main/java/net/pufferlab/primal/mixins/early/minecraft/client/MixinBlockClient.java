@@ -16,8 +16,9 @@ public class MixinBlockClient {
     @Inject(method = "getMixedBrightnessForBlock", at = @At("HEAD"), cancellable = true)
     private void primal$getMixedBrightnessForBlock(IBlockAccess world, int x, int y, int z,
         CallbackInfoReturnable<Integer> cir) {
-        if (redirect && x != tempX && y != tempY && z != tempZ) {
-            cir.setReturnValue(tempBlock.getMixedBrightnessForBlock(world, tempX, tempY, tempZ));
+        if (redirect && x > 10_000_000 && x != tempX && y != tempY && z != tempZ) {
+            cir.setReturnValue(
+                Math.min(tempBlock.getMixedBrightnessForBlock(world, tempX, tempY, tempZ), Integer.MAX_VALUE));
         }
     }
 }

@@ -5,9 +5,11 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.init.Blocks;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.network.packets.PacketChunkClient;
+import net.pufferlab.primal.tileentities.IMoving;
 
 import org.lwjgl.opengl.GL11;
 
@@ -24,7 +26,7 @@ public class RenderProjection {
     int count;
 
     public void renderISBRH(World world, int coordX, int coordY, int coordZ, int x, int y, int z,
-        RenderBlocks renderBlocks, float partialTicks) {
+        RenderBlocks renderBlocks, float partialTicks, TileEntity te) {
 
         Tessellator tess = Tessellator.instance;
         GL11.glPushMatrix();
@@ -35,12 +37,28 @@ public class RenderProjection {
             x - coordX - RenderManager.renderPosX,
             y - coordY - RenderManager.renderPosY,
             z - coordZ - RenderManager.renderPosZ);
-        float angle = RenderMotion.getInterpolatedRotationDeg(1.0F, 0.0F, partialTicks);
         double difX = x - RenderManager.renderPosX;
         double difY = y - RenderManager.renderPosY;
         double difZ = z - RenderManager.renderPosZ;
         GL11.glTranslated(difX + 0.5F, difY + 0.5F, difZ + 0.5F);
-        GL11.glRotatef(angle, 0.0F, 1.0F, 0.0F);
+
+        if (te instanceof IMoving tef) {
+            float rotation = tef.getMovingAngle();
+            float speed = tef.getMovingSpeed();
+            float angle = rotation;
+            if (speed > 0) {
+                angle = rotation + (partialTicks * speed);
+            }
+            int axis = tef.getMovingAxis();
+            if (axis == 0) {
+                GL11.glRotatef(angle, 0.0F, 1.0F, 0.0F);
+            } else if (axis == 1) {
+                GL11.glRotatef(angle, 0.0F, 0.0F, 1.0F);
+            } else if (axis == 2) {
+                GL11.glRotatef(angle, 1.0F, 0.0F, 0.0F);
+            }
+        }
+
         GL11.glTranslated(-difX - 0.5F, -difY - 0.5F, -difZ - 0.5F);
         int chunkX = coordX >> 4;
         int chunkZ = coordZ >> 4;

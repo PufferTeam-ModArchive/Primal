@@ -159,24 +159,24 @@ public class IOUtils {
         return new String(bytes, StandardCharsets.UTF_8);
     }
 
-    public static void writeBBList(ByteBuf buf, List<AxisAlignedBB> list) {
+    public static void writeAABBList(ByteBuf buf, List<AxisAlignedBB> list) {
         buf.writeInt(list.size());
         for (AxisAlignedBB bb : list) {
-            writeBB(buf, bb);
+            writeAABB(buf, bb);
         }
     }
 
-    public static List<AxisAlignedBB> readBBList(ByteBuf buf) {
+    public static List<AxisAlignedBB> readAABBList(ByteBuf buf) {
         int length = buf.readInt();
         List<AxisAlignedBB> list = new ArrayList<>(length);
         for (int i = 0; i < length; i++) {
-            AxisAlignedBB bb = readBB(buf);
+            AxisAlignedBB bb = readAABB(buf);
             list.add(bb);
         }
         return list;
     }
 
-    public static void writeBB(ByteBuf buf, AxisAlignedBB bb) {
+    public static void writeAABB(ByteBuf buf, AxisAlignedBB bb) {
         buf.writeFloat((float) bb.minX);
         buf.writeFloat((float) bb.minY);
         buf.writeFloat((float) bb.minZ);
@@ -185,7 +185,19 @@ public class IOUtils {
         buf.writeFloat((float) bb.maxZ);
     }
 
-    public static AxisAlignedBB readBB(ByteBuf buf) {
+    public static void writeBB(ByteBuf buf, BoundingBox bb) {
+        buf.writeFloat((float) bb.minX);
+        buf.writeFloat((float) bb.minY);
+        buf.writeFloat((float) bb.minZ);
+        buf.writeFloat((float) bb.maxX);
+        buf.writeFloat((float) bb.maxY);
+        buf.writeFloat((float) bb.maxZ);
+        buf.writeFloat(bb.rotation.x);
+        buf.writeFloat(bb.rotation.y);
+        buf.writeFloat(bb.rotation.z);
+    }
+
+    public static AxisAlignedBB readAABB(ByteBuf buf) {
         double minX = buf.readFloat();
         double minY = buf.readFloat();
         double minZ = buf.readFloat();
@@ -193,5 +205,20 @@ public class IOUtils {
         double maxY = buf.readFloat();
         double maxZ = buf.readFloat();
         return AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
+    }
+
+    public static BoundingBox readBB(ByteBuf buf) {
+        double minX = buf.readFloat();
+        double minY = buf.readFloat();
+        double minZ = buf.readFloat();
+        double maxX = buf.readFloat();
+        double maxY = buf.readFloat();
+        double maxZ = buf.readFloat();
+        float rotX = buf.readFloat();
+        float rotY = buf.readFloat();
+        float rotZ = buf.readFloat();
+        BoundingBox bb = BoundingBox.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
+        bb.setRotation(rotX, rotY, rotZ);
+        return bb;
     }
 }

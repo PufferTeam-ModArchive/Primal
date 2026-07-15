@@ -1,6 +1,7 @@
 package net.pufferlab.primal.client.utils;
 
 import net.minecraft.util.AxisAlignedBB;
+import net.pufferlab.primal.utils.CollideUtils;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -23,7 +24,7 @@ public class ModelBound {
 
     public ModelBound transform(Matrix4f matrix) {
 
-        Vector3f[] corners = getCorners();
+        Vector3f[] corners = CollideUtils.getCorners(minVec, maxVec);
 
         float minX = Float.POSITIVE_INFINITY;
         float minY = Float.POSITIVE_INFINITY;
@@ -47,23 +48,6 @@ public class ModelBound {
         }
 
         return new ModelBound(minX, minY, minZ, maxX, maxY, maxZ);
-    }
-
-    public Vector3f[] getCorners() {
-        return new Vector3f[] {
-
-            // Bottom
-            new Vector3f(minVec.x, minVec.y, minVec.z), // 0
-            new Vector3f(maxVec.x, minVec.y, minVec.z), // 1
-            new Vector3f(maxVec.x, minVec.y, maxVec.z), // 2
-            new Vector3f(minVec.x, minVec.y, maxVec.z), // 3
-
-            // Top
-            new Vector3f(minVec.x, maxVec.y, minVec.z), // 4
-            new Vector3f(maxVec.x, maxVec.y, minVec.z), // 5
-            new Vector3f(maxVec.x, maxVec.y, maxVec.z), // 6
-            new Vector3f(minVec.x, maxVec.y, maxVec.z) // 7
-        };
     }
 
     public AxisAlignedBB getAxisAlignedBB() {

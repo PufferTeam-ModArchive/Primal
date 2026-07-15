@@ -30,7 +30,7 @@ public class BlockMoving extends BlockContainerPrimal {
         float subY, float subZ) {
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (te instanceof TileEntityMoving tef) {
-            tef.virtualBlock.copy(worldIn, x - 1, y, z - 1, x + 1, y + 2, z + 1);
+            tef.scheduledAction = 0;
         }
         return true;
     }

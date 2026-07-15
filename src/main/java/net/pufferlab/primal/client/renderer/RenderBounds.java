@@ -13,12 +13,16 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.pufferlab.primal.blocks.BoundsType;
 import net.pufferlab.primal.blocks.IPrimalBlock;
-import net.pufferlab.primal.client.utils.ModelBound;
 import net.pufferlab.primal.entities.player.PlayerData;
-import net.pufferlab.primal.utils.Utils;
+import net.pufferlab.primal.utils.BoundingBox;
+import net.pufferlab.primal.utils.CollideUtils;
+import net.pufferlab.primal.utils.Line;
 
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
+
+import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
 
 public class RenderBounds {
 
@@ -40,30 +44,62 @@ public class RenderBounds {
         return true;
     }
 
+    private static final TIntObjectMap<AxisAlignedBB> aabbMap = new TIntObjectHashMap<>();
+    private static final TIntObjectMap<BoundingBox> bbMap = new TIntObjectHashMap<>();
+
+    public static void setTemporaryAABB(int id, AxisAlignedBB bb) {
+        aabbMap.put(id, bb);
+    }
+
+    public static void setTemporaryBB(int id, BoundingBox bb) {
+        bbMap.put(id, bb);
+    }
+
     public void drawStructureSelectionBox(EntityPlayer player, int index, float partialTicks) {
         PlayerData data = PlayerData.get(player);
-        if (data.hasValidSelection()) {
-            GL11.glEnable(GL11.GL_BLEND);
-            OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-            GL11.glColor4f(0.0F, 0.0F, 0.0F, 0.4F);
-            GL11.glLineWidth(4.0F);
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
-            GL11.glDepthMask(false);
-            float f1 = 0.002F;
+        GL11.glEnable(GL11.GL_BLEND);
+        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+        GL11.glColor4f(0.0F, 0.0F, 0.0F, 0.4F);
+        GL11.glLineWidth(4.0F);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDepthMask(false);
+        float f1 = 0.002F;
 
-            double d0 = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double) partialTicks;
-            double d1 = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double) partialTicks;
-            double d2 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double) partialTicks;
+        double d0 = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double) partialTicks;
+        double d1 = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double) partialTicks;
+        double d2 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double) partialTicks;
+        if (data.hasValidSelection()) {
             AxisAlignedBB structureBB = data.getSelectionBB();
             RenderGlobal.drawOutlinedBoundingBox(
                 structureBB.expand((double) f1, (double) f1, (double) f1)
                     .getOffsetBoundingBox(-d0, -d1, -d2),
                 -1);
-
-            GL11.glDepthMask(true);
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
-            GL11.glDisable(GL11.GL_BLEND);
         }
+
+        if (!aabbMap.isEmpty()) {
+            for (AxisAlignedBB bb : aabbMap.valueCollection()) {
+                RenderGlobal.drawOutlinedBoundingBox(
+                    bb.expand((double) f1, (double) f1, (double) f1)
+                        .getOffsetBoundingBox(-d0, -d1, -d2),
+                    -1);
+            }
+        }
+        if (!bbMap.isEmpty()) {
+            for (BoundingBox bb : bbMap.valueCollection()) {
+                BoundingBox bb2 = bb.expand((double) f1, (double) f1, (double) f1)
+                    .getOffsetBoundingBox(-d0, -d1, -d2);
+                drawOutlinedRotatedBoundingBox(bb2, -1);
+            }
+        }
+
+        GL11.glDepthMask(true);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
+    }
+
+    public static void drawOutlinedRotatedBoundingBox(BoundingBox bb, int index) {
+        List<Line> lines = CollideUtils.getRotatedLines(bb);
+        renderLines(lines);
     }
 
     public void drawSelectionBox(EntityPlayer player, MovingObjectPosition mop, int index, float partialTicks) {
@@ -96,7 +132,7 @@ public class RenderBounds {
                     }
                 }
 
-                List<Line> lines = getLines(boxProcessed);
+                List<Line> lines = CollideUtils.getCleanedLines(boxProcessed);
                 renderLines(lines);
             }
 
@@ -133,98 +169,4 @@ public class RenderBounds {
         tess.addVertex(v.x, v.y, v.z);
     }
 
-    public static class Line {
-
-        Vector3f a;
-        Vector3f b;
-        public static double range = 0.02D;
-
-        public Line(Vector3f a, Vector3f b) {
-            this.a = a;
-            this.b = b;
-        }
-
-        public boolean isClose(Line line) {
-
-            boolean direct = Utils.roughlyEquals(this.a.x, line.a.x, range)
-                && Utils.roughlyEquals(this.a.y, line.a.y, range)
-                && Utils.roughlyEquals(this.a.z, line.a.z, range)
-                &&
-
-                Utils.roughlyEquals(this.b.x, line.b.x, range)
-                && Utils.roughlyEquals(this.b.y, line.b.y, range)
-                && Utils.roughlyEquals(this.b.z, line.b.z, range);
-
-            if (direct) return true;
-
-            boolean reversed = Utils.roughlyEquals(this.a.x, line.b.x, range)
-                && Utils.roughlyEquals(this.a.y, line.b.y, range)
-                && Utils.roughlyEquals(this.a.z, line.b.z, range)
-                &&
-
-                Utils.roughlyEquals(this.b.x, line.a.x, range)
-                && Utils.roughlyEquals(this.b.y, line.a.y, range)
-                && Utils.roughlyEquals(this.b.z, line.a.z, range);
-
-            return reversed;
-        }
-    }
-
-    public static List<Line> getLines(List<AxisAlignedBB> axisAlignedBBS) {
-        List<Line> lines = new ArrayList<>();
-        for (AxisAlignedBB axisAlignedBB : axisAlignedBBS) {
-            processLines(lines, new ModelBound(axisAlignedBB).getCorners());
-        }
-        cleanLines(lines);
-        return lines;
-    }
-
-    public static void processLines(List<Line> lines, Vector3f[] v) {
-        // Bottom face
-        putLine(lines, v[0], v[1]);
-        putLine(lines, v[1], v[2]);
-        putLine(lines, v[2], v[3]);
-        putLine(lines, v[3], v[0]);
-
-        // Top face
-        putLine(lines, v[4], v[5]);
-        putLine(lines, v[5], v[6]);
-        putLine(lines, v[6], v[7]);
-        putLine(lines, v[7], v[4]);
-
-        // Vertical edges
-        putLine(lines, v[0], v[4]);
-        putLine(lines, v[1], v[5]);
-        putLine(lines, v[2], v[6]);
-        putLine(lines, v[3], v[7]);
-    }
-
-    public static void putLine(List<Line> lines, Vector3f a, Vector3f b) {
-        lines.add(new Line(new Vector3f(a), new Vector3f(b)));
-    }
-
-    public static void cleanLines(List<Line> lines) {
-        List<Line> copy = new ArrayList<>(lines);
-        lines.clear();
-
-        for (int i = 0; i < copy.size(); i++) {
-            Line a = copy.get(i);
-
-            boolean hasDuplicate = false;
-
-            for (int j = 0; j < copy.size(); j++) {
-                if (i == j) continue;
-
-                if (a.isClose(copy.get(j))) {
-                    hasDuplicate = true;
-                    break;
-                }
-            }
-
-            // only keep lines that have NO duplicates at all
-            if (!hasDuplicate) {
-                lines.add(a);
-            }
-        }
-    }
 }

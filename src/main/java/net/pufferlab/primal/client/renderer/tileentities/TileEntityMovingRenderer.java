@@ -20,7 +20,7 @@ public class TileEntityMovingRenderer extends TileEntityPrimalRenderer {
                 RenderHelper.disableStandardItemLighting();
                 GL11.glEnable(GL11.GL_BLEND);
                 GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                GL11.glDisable(GL11.GL_CULL_FACE);
+                // GL11.glDisable(GL11.GL_CULL_FACE);
 
                 if (Minecraft.isAmbientOcclusionEnabled()) {
                     GL11.glShadeModel(GL11.GL_SMOOTH);
@@ -34,7 +34,7 @@ public class TileEntityMovingRenderer extends TileEntityPrimalRenderer {
                 int yi = tef.yCoord;
                 int zi = tef.zCoord;
 
-                tef.virtualBlock.renderISBRH(tef.getWorld(), xi, yi, zi, renderBlocks, partialTicks);
+                tef.virtualBlock.renderISBRH(tef.getWorld(), xi, yi, zi, renderBlocks, partialTicks, p_147500_1_);
                 // tef.virtualBlock.renderTESR(tef.getWorld(), xi, yi, zi, partialTicks);
                 RenderHelper.enableStandardItemLighting();
             }

@@ -245,7 +245,7 @@ public class CommonProxy implements IGuiHandler {
         Primal.network.sendToDimension(object, world.provider.dimensionId);
     }
 
-    public <T extends IMessage> void playPacketToClientNear(T object, World world, int x, int y, int z) {
+    public <T extends IMessage> void sendPacketToClientNear(T object, World world, int x, int y, int z) {
         Primal.network
             .sendToAllAround(object, new NetworkRegistry.TargetPoint(world.provider.dimensionId, x, y, z, 64.0D));
     }
