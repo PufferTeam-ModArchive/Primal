@@ -11,6 +11,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldType;
 import net.pufferlab.primal.client.renderer.blocks.*;
 import net.pufferlab.primal.inventory.*;
 import net.pufferlab.primal.network.NetworkPacket;
@@ -18,6 +19,7 @@ import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.tileentities.TileEntityAnvil;
 import net.pufferlab.primal.tileentities.TileEntityCrucible;
 import net.pufferlab.primal.tileentities.TileEntityLargeVessel;
+import net.pufferlab.primal.world.gen.WorldTypePrimal;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -98,6 +100,12 @@ public class CommonProxy implements IGuiHandler {
         register(generatorGui);
         register(anvilWorkGui);
         register(anvilPlanGui);
+    }
+
+    public WorldType worldTypePrimal;
+
+    public void setupWorldType() {
+        worldTypePrimal = new WorldTypePrimal();
     }
 
     public <T extends ContainerPrimal> void register(T object) {

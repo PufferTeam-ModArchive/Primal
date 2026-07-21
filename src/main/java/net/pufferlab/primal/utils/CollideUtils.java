@@ -121,7 +121,7 @@ public class CollideUtils {
         };
     }
 
-    //THIS IS SHIT COPY PASTED CODE (PROBABLY DOESNT WORK)
+    // THIS IS SHIT COPY PASTED CODE (PROBABLY DOESNT WORK)
     public static Vector3f find(Vector3f[] cornersA, Vector3f[] cornersB) {
         Vector3f[] axesA = getAxes(cornersA);
         Vector3f[] axesB = getAxes(cornersB);

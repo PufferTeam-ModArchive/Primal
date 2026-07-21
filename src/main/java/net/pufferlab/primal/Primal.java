@@ -72,6 +72,7 @@ public class Primal {
     public void init(FMLInitializationEvent event) {
         profiler.startProfile("Initialization");
         proxy.init(event);
+        proxy.setupWorldType();
 
         registry.setupConfig();
         registry.setupPackets();
