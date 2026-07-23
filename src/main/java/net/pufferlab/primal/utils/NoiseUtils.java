@@ -30,7 +30,7 @@ public class NoiseUtils {
         return pts[pts.length - 1][1];
     }
 
-    public static float lerpNormalize(float min, float max, float delta) {
+    public static float lerpNormalize(float delta, float min, float max) {
         float deltaNormalized = normalize(delta);
         return lerp(deltaNormalized, min, max);
     }

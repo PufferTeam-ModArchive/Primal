@@ -1,59 +1,52 @@
 package net.pufferlab.primal.world.noise;
 
+import org.joml.Vector2f;
+
 public class Noise {
 
-    FastNoiseLite fastNoiseLite;
-    int octaveAmount;
+    public FastNoiseLite fastNoiseLite;
 
-    static {
-        generateOctave(10);
-    }
-
-    public Noise(long seed, float scale, int octaveAmount) {
+    public Noise(long seed) {
         FastNoiseLite noise = new FastNoiseLite(Long.hashCode(seed));
-        noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
-        float defaultScale = 0.01F;
-        noise.SetFrequency(defaultScale * scale);
-        this.octaveAmount = octaveAmount;
         this.fastNoiseLite = noise;
     }
 
-    public static float[][] octaves;
+    public Noise setNoise(FastNoiseLite.NoiseType noiseType, float scale) {
+        fastNoiseLite.SetNoiseType(noiseType);
+        fastNoiseLite.SetFrequency(scale);
+        return this;
+    }
 
-    public static void generateOctave(int amount) {
-        float[][] octave = new float[amount][];
-        for (int i = 0; i < amount; i++) {
-            float pow = (float) Math.pow(2, i);
-            octave[i] = new float[] { (1 / pow), pow, pow };
-        }
-        octaves = octave;
+    public Noise setFractal(FastNoiseLite.FractalType fractalType, int octaves, float lacunarity, float gain,
+        float weightedStrength) {
+        fastNoiseLite.SetFractalType(fractalType);
+        fastNoiseLite.SetFractalOctaves(octaves);
+        fastNoiseLite.SetFractalLacunarity(lacunarity);
+        fastNoiseLite.SetFractalGain(gain);
+        fastNoiseLite.SetFractalWeightedStrength(weightedStrength);
+        return this;
+    }
+
+    public Noise setDomainWarp(FastNoiseLite.DomainWarpType domainWarpType, float amplitude) {
+        fastNoiseLite.SetDomainWarpType(domainWarpType);
+        fastNoiseLite.SetDomainWarpAmp(amplitude);
+        return this;
     }
 
     public float getNoise(float x, float z) {
         return fastNoiseLite.GetNoise(x, z);
     }
 
-    public float getOctaveNoise(float x, float z) {
-        float value = 0.0F;
-        float valueAdd = 0.0F;
-        for (int i = 0; i < octaveAmount; i++) {
-            float[] octave = octaves[i];
-            float a = octave[0];
-            float b = octave[1];
-            float c = octave[2];
-            value += a * getNoise(x * b, z * c);
-            valueAdd += a;
-        }
-        value = value / valueAdd;
-        return value;
-    }
-
     FastNoiseLite.Vector2 vector2 = new FastNoiseLite.Vector2(0.0F, 0.0F);
+    Vector2f vector = new Vector2f();
 
-    public FastNoiseLite.Vector2 getDomainWarp(float x, float z) {
+    public Vector2f getDomainWarp(float x, float z) {
         vector2.x = x;
         vector2.y = z;
         fastNoiseLite.DomainWarp(vector2);
-        return vector2;
+
+        vector.x = vector2.x;
+        vector.y = vector2.y;
+        return vector;
     }
 }
