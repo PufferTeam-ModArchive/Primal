@@ -26,7 +26,7 @@ public class WorldGenTerrain {
         if (seed != lastSeed) {
             lastSeed = seed;
             terrainNoise = new Noise(seed).setNoise(NoiseType.OpenSimplex2S, 0.01F)
-                .setFractal(FractalType.FBm, 3, 2.0F, 0.5F, 0.0F);
+                .setFractal(FractalType.FBm, 3, 2.4F, 0.5F, 0.630F);
             detailNoise = new Noise(seed + 10).setNoise(NoiseType.Perlin, 0.004F);
             detailSmallNoise = new Noise(seed + 20).setNoise(NoiseType.Perlin, 0.05F)
                 .setFractal(FractalType.FBm, 3, 2.0F, 0.5F, 0.0F);
