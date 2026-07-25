@@ -7,8 +7,7 @@ public class Noise {
     public FastNoiseLite fastNoiseLite;
 
     public Noise(long seed) {
-        FastNoiseLite noise = new FastNoiseLite(Long.hashCode(seed));
-        this.fastNoiseLite = noise;
+        this.fastNoiseLite = new FastNoiseLite(Long.hashCode(seed));
     }
 
     public Noise setNoise(FastNoiseLite.NoiseType noiseType, float scale) {

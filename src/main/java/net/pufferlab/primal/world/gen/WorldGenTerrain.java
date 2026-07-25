@@ -13,8 +13,10 @@ import net.pufferlab.primal.world.noise.Noise;
 public class WorldGenTerrain {
 
     public Noise terrainNoise;
+    public Noise hillNoise;
     public Noise detailNoise;
     public Noise detailSmallNoise;
+    public Noise continentNoise;
 
     public WorldGenTerrain() {
 
@@ -26,11 +28,14 @@ public class WorldGenTerrain {
         if (seed != lastSeed) {
             lastSeed = seed;
             terrainNoise = new Noise(seed).setNoise(NoiseType.OpenSimplex2S, 0.01F)
-                .setFractal(FractalType.FBm, 3, 2.4F, 0.5F, 0.630F);
+                .setFractal(FractalType.FBm, 3, 2.4F, 0.5F, 0.630F)
+                .setDomainWarp(DomainWarpType.OpenSimplex2, 10.0F);
+            hillNoise = new Noise(seed + 4).setNoise(NoiseType.OpenSimplex2S, 0.006F)
+                .setFractal(FractalType.FBm, 3, 2.4F, 0.5F, 0.230F);
             detailNoise = new Noise(seed + 10).setNoise(NoiseType.Perlin, 0.004F);
             detailSmallNoise = new Noise(seed + 20).setNoise(NoiseType.Perlin, 0.05F)
                 .setFractal(FractalType.FBm, 3, 2.0F, 0.5F, 0.0F);
-
+            continentNoise = new Noise(seed + 102).setNoise(NoiseType.OpenSimplex2, 0.002F);
         }
     }
 
@@ -42,12 +47,17 @@ public class WorldGenTerrain {
 
                 float terrainValue = NoiseUtils.normalize(terrainNoise.getNoise(worldX, worldZ));
                 float detailValue = NoiseUtils.normalize(detailNoise.getNoise(worldX, worldZ));
+                float hillValue = NoiseUtils.normalize(hillNoise.getNoise(worldX, worldZ));
                 float detailSmallValue = detailSmallNoise.getNoise(worldX, worldZ);
+                float continentValue = NoiseUtils.normalize(continentNoise.getNoise(worldX, worldZ));
 
                 float height = 100.0F;
 
-                height += detailSmallValue * 2.0F;
-                height += terrainValue * detailValue * 80.0F;
+                height -= NoiseUtils.fastpow(continentValue, 6) * 30.0F;
+                height += (NoiseUtils.fastpow(hillValue, 5) + 0.1F) * 65.0F;
+
+                height += detailSmallValue * 3.0F;
+                height += terrainValue * NoiseUtils.fastpow(detailValue, 2) * 80.0F;
 
                 for (int y = 0; y <= Constants.maxHeight; y++) {
 
@@ -57,7 +67,7 @@ public class WorldGenTerrain {
                     if (y < height) {
                         WorldUtils.setChunkBlock(array, x, y, z, Blocks.stone, 0);
                     } else {
-                        if (y < 105) {
+                        if (y < 100) {
                             WorldUtils.setChunkBlock(array, x, y, z, Blocks.water, 0);
                         }
                     }
@@ -65,5 +75,6 @@ public class WorldGenTerrain {
                 }
             }
         }
+        chunk.isModified = true;
     }
 }

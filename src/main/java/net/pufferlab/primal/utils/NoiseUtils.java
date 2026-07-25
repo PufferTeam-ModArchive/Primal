@@ -6,6 +6,20 @@ public class NoiseUtils {
         return start + delta * (end - start);
     }
 
+    public static float fastpow(float base, int exp) {
+        float result = 1.0F;
+
+        while (exp > 0) {
+            if ((exp & 1) != 0) {
+                result *= base;
+            }
+            base *= base;
+            exp >>= 1;
+        }
+
+        return result;
+    }
+
     public static float smoothstep(float x, float edge0, float edge1) {
         x = Math.max(0.0F, Math.min(1.0F, (x - edge0) / (edge1 - edge0)));
         return x * x * (3.0F - 2.0F * x);
