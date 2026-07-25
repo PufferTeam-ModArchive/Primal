@@ -1,14 +1,11 @@
 package net.pufferlab.primal.commands;
 
-import java.util.List;
-
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.pufferlab.primal.entities.player.PlayerData;
 import net.pufferlab.primal.utils.TextUtils;
-import net.pufferlab.primal.utils.Utils;
 
 public class CommandBlockInfo extends CommandSub {
 
@@ -28,8 +25,8 @@ public class CommandBlockInfo extends CommandSub {
     }
 
     @Override
-    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args) {
-        return args.length == 1 ? Utils.asList(arguments) : null;
+    public String[] getSubArgs() {
+        return arguments;
     }
 
     @Override

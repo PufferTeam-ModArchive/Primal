@@ -1,4 +1,4 @@
-package net.pufferlab.primal.world.gen;
+package net.pufferlab.primal.world.terrafirma;
 
 import java.util.List;
 import java.util.Random;
@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.pufferlab.primal.world.gen.WorldGenTerrain;
 
 public class ChunkProviderPrimal implements IChunkProvider {
 
@@ -69,7 +70,7 @@ public class ChunkProviderPrimal implements IChunkProvider {
 
     @Override
     public String makeString() {
-        return "PrimalChunk";
+        return "PrimalChunkGenerator";
     }
 
     @Override

@@ -12,6 +12,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.WorldType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fluids.*;
@@ -29,6 +30,7 @@ import net.pufferlab.primal.recipes.AnvilAction;
 import net.pufferlab.primal.tileentities.*;
 import net.pufferlab.primal.utils.*;
 import net.pufferlab.primal.world.*;
+import net.pufferlab.primal.world.terrafirma.WorldTypePrimal;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IWorldGenerator;
@@ -832,7 +834,11 @@ public class Registry {
     public static final PrimalLateGenerator lateGen = new PrimalLateGenerator();
     public static final PrimalDecorator decorator = new PrimalDecorator();
 
+    public static WorldType worldTypePrimal;
+
     public void setupWorldGen() {
+        worldTypePrimal = new WorldTypePrimal();
+
         registerWorld(earlyGen, 10000);
         registerWorld(lateGen, 20000);
         registerWorld(decorator, 30000);
