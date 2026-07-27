@@ -8,7 +8,7 @@ import net.pufferlab.primal.blocks.BlockLogThin;
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 
 @ThreadSafeISBRH(perThread = false)
-public class BlockThinLogRenderer extends BlockPrimalRenderer {
+public class BlockLogThinRenderer extends BlockPrimalRenderer {
 
     @Override
     public void renderInventoryBlock(Block block0, int metadata, int modelId, RenderBlocks renderer) {

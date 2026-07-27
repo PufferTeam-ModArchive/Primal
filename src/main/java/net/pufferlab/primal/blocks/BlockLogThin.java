@@ -47,6 +47,11 @@ public class BlockLogThin extends Block implements IPrimalBlock, IMetaBlock {
     }
 
     @Override
+    public boolean renderDefaultBounds() {
+        return false;
+    }
+
+    @Override
     public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list) {
         for (int i = 0; i < 16; i++) {
             list.add(new ItemStack(item, 1, i));

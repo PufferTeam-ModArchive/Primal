@@ -49,7 +49,7 @@ public class ClientProxy extends CommonProxy {
         wallRenderer = new BlockWallRenderer();
         pressurePlateRenderer = new BlockPressurePlateRenderer();
         buttonRenderer = new BlockButtonRenderer();
-        thinLogRenderer = new BlockThinLogRenderer();
+        thinLogRenderer = new BlockLogThinRenderer();
         ropeLadderRenderer = new BlockRopeLadderRenderer();
         grassRenderer = new BlockGrassRenderer();
         pathRenderer = new BlockPathRenderer();
