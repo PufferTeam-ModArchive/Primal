@@ -42,7 +42,7 @@ public class BlockSlabVerticalRenderer extends BlockPrimalRenderer {
                 List<AxisAlignedBB> list = block2.getBounds(player.worldObj, x, y, z, player, BoundsType.rendered);
                 if (list != null) {
                     for (AxisAlignedBB bb : list) {
-                        setRenderBounds(renderer, bb);
+                        expandRenderBounds(renderer, bb);
                     }
                     renderer.renderStandardBlock(block, x, y, z);
                     return true;

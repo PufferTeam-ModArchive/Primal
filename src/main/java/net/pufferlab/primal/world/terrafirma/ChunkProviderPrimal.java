@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.pufferlab.primal.world.gen.WorldGenTerrain;
+import net.pufferlab.primal.world.terrafirma.gen.WorldGenTerrain;
 
 public class ChunkProviderPrimal implements IChunkProvider {
 

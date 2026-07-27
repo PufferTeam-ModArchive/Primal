@@ -41,7 +41,7 @@ public class Constants {
     // Types
     public static final int rockModel = 0;
     public static final int itemModel = 1;
-    public static final String[] woodTypes = { "oak", "spruce", "birch", "jungle", "acacia", "dark_oak" };
+    public static final String[] vanillaWoodTypes = { "oak", "spruce", "birch", "jungle", "acacia", "dark_oak" };
     public static final String[] colorTypes = { "white", "orange", "magenta", "light_blue", "yellow",
         "lime", "pink", "gray", "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black" };
     public static final String[] shellTypes = { "scallop", "conch" };
@@ -246,6 +246,9 @@ public class Constants {
     public static final CropType[] crops = {wheat_crop, oat_crop, barley_crop, rye_crop, flax_crop, jute_crop, cotton_crop, sugar_canes_crop, onion_crop, tomatoes_crop, cabbages_crop, carrots_crop, potatoes_crop, garlic_crop, corn_crop};
     public static final CropType[] berries = {blueberry_crop, strawberry_crop, blackberry_crop};
     public static final FoodType[] foodTypesAll = Utils.combineArrays(CropType.getFoodTypes(berries), CropType.getFoodTypes(crops), flourItems, doughItems, breadItems);
+
+    public static final WoodType oak = new WoodType("oak");
+    public static final WoodType[] woodTypesAll = {oak};
 
     // Misc
     public static final String[] chimneyTypes       = { "brick" };

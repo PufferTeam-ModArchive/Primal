@@ -45,6 +45,7 @@ public class CommonProxy implements IGuiHandler {
     protected BlockPressurePlateRenderer pressurePlateRenderer;
     protected BlockButtonRenderer buttonRenderer;
     protected BlockRopeLadderRenderer ropeLadderRenderer;
+    protected BlockThinLogRenderer thinLogRenderer;
     protected BlockGrassRenderer grassRenderer;
     protected BlockPathRenderer pathRenderer;
     protected BlockOreRenderer oreRenderer;
@@ -303,6 +304,10 @@ public class CommonProxy implements IGuiHandler {
 
     public BlockButtonRenderer getButtonRenderer() {
         return buttonRenderer;
+    }
+
+    public BlockThinLogRenderer getThinLogRenderer() {
+        return thinLogRenderer;
     }
 
     public BlockRopeLadderRenderer getRopeLadderRenderer() {

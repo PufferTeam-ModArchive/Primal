@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.server.MinecraftServer;
 import net.pufferlab.primal.utils.TextUtils;
 
 public abstract class CommandSub extends CommandBase implements ISubCommand {
@@ -25,6 +26,11 @@ public abstract class CommandSub extends CommandBase implements ISubCommand {
             return super.addTabCompletionOptions(sender, args);
         }
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, subArgs) : null;
+    }
+
+    protected String[] getPlayers() {
+        return MinecraftServer.getServer()
+            .getAllUsernames();
     }
 
     public String[] getSubArgs() {

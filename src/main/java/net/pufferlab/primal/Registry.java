@@ -275,7 +275,7 @@ public class Registry {
         hide = new ItemMeta(Constants.hideItems, "hide");
         wood = new ItemMeta(Constants.woodItems, "wood");
         glowstone = new ItemMeta(Constants.glowstoneItems, "glowstone");
-        bark = new ItemMeta(Constants.woodTypes, "bark").setHasSuffix();
+        bark = new ItemMeta(Constants.vanillaWoodTypes, "bark").setHasSuffix();
         flint = new ItemMeta(Constants.flintItems, "flint");
         shell = new ItemMeta(Constants.shellTypes, "shell");
         powder = new ItemMeta(Constants.powderItems, "powder").setHasSuffix();
@@ -377,6 +377,8 @@ public class Registry {
         register(stone_wall, "stone_wall");
         register(stone_pressure_plate, "stone_pressure_plate");
         register(stone_button, "stone_button");
+
+        setupWoods();
 
         register(gravel, "gravel");
         register(sand, "sand");
@@ -592,6 +594,24 @@ public class Registry {
         }
     }
 
+    public static final Block[] logBlocks = new Block[Constants.woodTypesAll.length];
+    public static final Block[] thinLogBlocks = new Block[Constants.woodTypesAll.length];
+
+    public void setupWoods() {
+        for (int i = 0; i < Constants.woodTypesAll.length; i++) {
+            WoodType wood = Constants.woodTypesAll[i];
+            Block block = new BlockLogLarge(wood);
+            register(block, wood.name + "_log");
+            logBlocks[i] = block;
+        }
+        for (int i = 0; i < Constants.woodTypesAll.length; i++) {
+            WoodType wood = Constants.woodTypesAll[i];
+            Block block = new BlockLogThin(wood);
+            register(block, wood.name + "_thin_log");
+            thinLogBlocks[i] = block;
+        }
+    }
+
     public static final Block[] fluidsBlocks = new Block[Constants.fluidsTypes.length];
     public static final Fluid[] fluidsObjects = new Fluid[Constants.fluidsTypes.length];
 
@@ -698,7 +718,7 @@ public class Registry {
         registerCommand(new CommandClearBlocks());
         registerCommand(new CommandStrata());
         registerCommand(new CommandVein());
-        registerCommand(new CommandMovingBlock());
+        registerCommand(new CommandPlayer());
     }
 
     public void setupConfig() {

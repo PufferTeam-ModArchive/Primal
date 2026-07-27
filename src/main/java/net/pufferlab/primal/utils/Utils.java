@@ -131,6 +131,18 @@ public final class Utils {
         return false;
     }
 
+    public static boolean containsSequence(String[] array, String targetString) {
+        if (targetString == null || array == null) {
+            return false;
+        }
+        for (String element : array) {
+            if (targetString.contains(element)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static boolean contains(String[] array, String targetString) {
         if (targetString == null || array == null) {
             return false;

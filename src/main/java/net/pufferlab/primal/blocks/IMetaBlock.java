@@ -15,4 +15,8 @@ public interface IMetaBlock {
     default boolean registerOre() {
         return false;
     };
+
+    default boolean wrapElements() {
+        return false;
+    }
 }

@@ -4,11 +4,23 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.WorldChunkManager;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.pufferlab.primal.Primal;
 
 public class WorldTypePrimal extends WorldType {
 
     public WorldTypePrimal() {
-        super("primal");
+        super("terrafirma");
+        setNotificationData();
+    }
+
+    @Override
+    public String getTranslateName() {
+        return "generator." + Primal.MODID + "." + this.getWorldTypeName() + ".name";
+    }
+
+    @Override
+    public String func_151359_c() {
+        return "generator." + Primal.MODID + "." + this.getWorldTypeName() + ".info";
     }
 
     @Override

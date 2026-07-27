@@ -11,7 +11,6 @@ import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.utils.ItemUtils;
 
@@ -81,11 +80,6 @@ public class CommandModGive extends CommandSub {
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args) {
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, this.getPlayers())
             : (args.length == 2 ? getListOfStringsFromIterableMatchingLastWord(args, ItemUtils.getModItems()) : null);
-    }
-
-    protected String[] getPlayers() {
-        return MinecraftServer.getServer()
-            .getAllUsernames();
     }
 
     /**

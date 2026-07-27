@@ -1,6 +1,6 @@
-package net.pufferlab.primal.world.gen;
+package net.pufferlab.primal.world.terrafirma.gen;
 
-import static net.pufferlab.primal.world.noise.FastNoiseLite.*;
+import static net.pufferlab.primal.world.noise.Noise.*;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.world.chunk.Chunk;

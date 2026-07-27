@@ -61,7 +61,7 @@ public class BlockOreRenderer extends BlockPrimalRenderer {
             return true;
         } else if (worldPass == 1) {
             block0.setPass(2);
-            setRenderBounds(renderer);
+            expandRenderBounds(renderer);
             renderStandardBlockNoColor(renderer, block, x, y, z);
             restoreRenderBounds(renderer);
             block0.setPass(0);

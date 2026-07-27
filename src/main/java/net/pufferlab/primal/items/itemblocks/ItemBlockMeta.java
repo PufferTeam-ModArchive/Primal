@@ -31,14 +31,22 @@ public class ItemBlockMeta extends ItemBlockPrimal implements IMetaItem {
 
     @Override
     public String getUnlocalizedName(ItemStack stack) {
-        if (stack.getItemDamage() >= elements.length
-            || Utils.contains(elementsBlacklist, elements[stack.getItemDamage()])) {
+        int meta = stack.getItemDamage();
+        if (blockC.wrapElements()) {
+            meta = meta & 3;
+            if (this.hasSuffix) {
+                return "tile." + Primal.MODID + "." + elements[meta] + "_" + name;
+            } else {
+                return "tile." + Primal.MODID + "." + elements[meta];
+            }
+        }
+        if (stack.getItemDamage() >= elements.length || Utils.contains(elementsBlacklist, elements[meta])) {
             return "tile." + Primal.MODID + ".error";
         }
         if (this.hasSuffix) {
-            return "tile." + Primal.MODID + "." + elements[stack.getItemDamage()] + "_" + name;
+            return "tile." + Primal.MODID + "." + elements[meta] + "_" + name;
         } else {
-            return "tile." + Primal.MODID + "." + elements[stack.getItemDamage()];
+            return "tile." + Primal.MODID + "." + elements[meta];
         }
     }
 

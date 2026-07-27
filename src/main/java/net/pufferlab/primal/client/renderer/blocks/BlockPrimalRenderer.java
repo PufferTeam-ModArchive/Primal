@@ -280,11 +280,11 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
     double previousRenderMinZ;
     double previousRenderMaxZ;
 
-    public void setRenderBounds(RenderBlocks renderBlocks, AxisAlignedBB bb) {
+    public void expandRenderBounds(RenderBlocks renderBlocks, AxisAlignedBB bb) {
         renderBlocks.setRenderBounds(bb.minX, bb.minY, bb.minZ, bb.maxX, bb.maxY, bb.maxZ);
     }
 
-    public void setRenderBounds(RenderBlocks renderBlocks) {
+    public void expandRenderBounds(RenderBlocks renderBlocks) {
         if (!renderBlocks.lockBlockBounds) {
             previousRenderMinX = renderBlocks.renderMinX;
             previousRenderMaxX = renderBlocks.renderMaxX;

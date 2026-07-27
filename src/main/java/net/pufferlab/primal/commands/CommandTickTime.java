@@ -30,6 +30,6 @@ public class CommandTickTime extends CommandSub {
 
     @Override
     public int getRequiredPermissionLevel() {
-        return 0;
+        return 2;
     }
 }

@@ -4,21 +4,78 @@ import org.joml.Vector2f;
 
 public class Noise {
 
-    public FastNoiseLite fastNoiseLite;
+    private final FastNoiseLite fastNoiseLite;
+
+    public enum NoiseType {
+
+        OpenSimplex2(FastNoiseLite.NoiseType.OpenSimplex2),
+        OpenSimplex2S(FastNoiseLite.NoiseType.OpenSimplex2S),
+        Cellular(FastNoiseLite.NoiseType.Cellular),
+        Perlin(FastNoiseLite.NoiseType.Perlin),
+        ValueCubic(FastNoiseLite.NoiseType.ValueCubic),
+        Value(FastNoiseLite.NoiseType.Value);
+
+        private final FastNoiseLite.NoiseType noiseType;
+
+        NoiseType(FastNoiseLite.NoiseType noiseType) {
+            this.noiseType = noiseType;
+        }
+
+        public FastNoiseLite.NoiseType getFNL() {
+            return noiseType;
+        }
+    };
+
+    public enum FractalType {
+
+        None(FastNoiseLite.FractalType.None),
+        FBm(FastNoiseLite.FractalType.FBm),
+        Ridged(FastNoiseLite.FractalType.Ridged),
+        PingPong(FastNoiseLite.FractalType.PingPong),
+        DomainWarpProgressive(FastNoiseLite.FractalType.DomainWarpProgressive),
+        DomainWarpIndependent(FastNoiseLite.FractalType.DomainWarpIndependent);
+
+        private final FastNoiseLite.FractalType fractalType;
+
+        FractalType(FastNoiseLite.FractalType fractalType) {
+            this.fractalType = fractalType;
+        }
+
+        public FastNoiseLite.FractalType getFNL() {
+            return fractalType;
+        }
+    };
+
+    public enum DomainWarpType {
+
+        OpenSimplex2(FastNoiseLite.DomainWarpType.OpenSimplex2),
+        OpenSimplex2Reduced(FastNoiseLite.DomainWarpType.OpenSimplex2Reduced),
+        BasicGrid(FastNoiseLite.DomainWarpType.BasicGrid);
+
+        private final FastNoiseLite.DomainWarpType domainWarpType;
+
+        DomainWarpType(FastNoiseLite.DomainWarpType domainWarpType) {
+            this.domainWarpType = domainWarpType;
+        }
+
+        public FastNoiseLite.DomainWarpType getFNL() {
+            return domainWarpType;
+        }
+    };
 
     public Noise(long seed) {
         this.fastNoiseLite = new FastNoiseLite(Long.hashCode(seed));
     }
 
-    public Noise setNoise(FastNoiseLite.NoiseType noiseType, float scale) {
-        fastNoiseLite.SetNoiseType(noiseType);
+    public Noise setNoise(NoiseType noiseType, float scale) {
+        fastNoiseLite.SetNoiseType(noiseType.getFNL());
         fastNoiseLite.SetFrequency(scale);
         return this;
     }
 
-    public Noise setFractal(FastNoiseLite.FractalType fractalType, int octaves, float lacunarity, float gain,
+    public Noise setFractal(FractalType fractalType, int octaves, float lacunarity, float gain,
         float weightedStrength) {
-        fastNoiseLite.SetFractalType(fractalType);
+        fastNoiseLite.SetFractalType(fractalType.getFNL());
         fastNoiseLite.SetFractalOctaves(octaves);
         fastNoiseLite.SetFractalLacunarity(lacunarity);
         fastNoiseLite.SetFractalGain(gain);
@@ -26,8 +83,8 @@ public class Noise {
         return this;
     }
 
-    public Noise setDomainWarp(FastNoiseLite.DomainWarpType domainWarpType, float amplitude) {
-        fastNoiseLite.SetDomainWarpType(domainWarpType);
+    public Noise setDomainWarp(DomainWarpType domainWarpType, float amplitude) {
+        fastNoiseLite.SetDomainWarpType(domainWarpType.getFNL());
         fastNoiseLite.SetDomainWarpAmp(amplitude);
         return this;
     }
