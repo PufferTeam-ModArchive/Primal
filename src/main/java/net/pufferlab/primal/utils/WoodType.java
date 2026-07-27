@@ -26,12 +26,16 @@ public class WoodType {
     }
 
     public String getActualTextureName(boolean stripped) {
+        String name = this.name;
         if (stripped) {
             if (Utils.contains(Constants.vanillaWoodTypes, name)) {
                 return "minecraft:stripped_" + name + "_log";
             }
             return Primal.MODID + ":stripped_" + name + "_log";
         } else {
+            if (name.equals("dark_oak")) {
+                name = "big_oak";
+            }
             if (Utils.contains(Constants.vanillaWoodTypes, name)) {
                 return "minecraft:log_" + name;
             }
