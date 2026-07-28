@@ -23,7 +23,6 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.items.itemblocks.ItemBlockCutButton;
 import net.pufferlab.primal.tileentities.TileEntityCut;
-import net.pufferlab.primal.utils.CutUtils;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
@@ -40,13 +39,13 @@ public class BlockCutButton extends BlockButton implements ITileEntityProvider, 
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        return CutUtils.getIcon(side, meta);
+        return getMaterialIcon(side, meta);
     }
 
     @Override
     public IIcon getIcon(IBlockAccess worldIn, int x, int y, int z, int side) {
         int materialMeta = getMaterialMeta(worldIn, x, y, z);
-        return CutUtils.getIcon(side, materialMeta);
+        return getMaterialIcon(side, materialMeta);
     }
 
     @Override
@@ -60,7 +59,7 @@ public class BlockCutButton extends BlockButton implements ITileEntityProvider, 
     }
 
     public String func_150002_b(int id) {
-        return CutUtils.getUnlocalizedName(id) + "_button";
+        return getMaterialUnlocalizedName(id) + "_button";
     }
 
     @Override
@@ -102,6 +101,14 @@ public class BlockCutButton extends BlockButton implements ITileEntityProvider, 
                 flag = true;
             }
 
+            if (!worldIn.isSideSolid(x, y - 1, z, UP) && l == 5) {
+                flag = true;
+            }
+
+            if (!worldIn.isSideSolid(x, y + 1, z, DOWN) && l == 0) {
+                flag = true;
+            }
+
             if (flag) {
                 dropBlockAsItem(worldIn, x, y, z, new ItemStack(this, 1, getDamageValue(worldIn, x, y, z)));
                 worldIn.setBlockToAir(x, y, z);
@@ -111,9 +118,7 @@ public class BlockCutButton extends BlockButton implements ITileEntityProvider, 
 
     @Override
     public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
-        for (int i = 0; i < CutUtils.getSize(); i++) {
-            list.add(new ItemStack(this, 0, i));
-        }
+        getMaterialSubBlocks(itemIn, tab, list);
     }
 
     @Override

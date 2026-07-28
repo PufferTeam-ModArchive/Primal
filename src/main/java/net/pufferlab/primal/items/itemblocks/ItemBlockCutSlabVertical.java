@@ -8,20 +8,22 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.BlockCutSlabVertical;
+import net.pufferlab.primal.blocks.ICutBlock;
 import net.pufferlab.primal.items.IMetaItem;
 import net.pufferlab.primal.items.IPrimalItem;
 import net.pufferlab.primal.utils.BlockUtils;
-import net.pufferlab.primal.utils.CutUtils;
 
 public class ItemBlockCutSlabVertical extends ItemBlock implements IMetaItem, IPrimalItem {
 
     private final boolean isFull;
+    public ICutBlock cutBlock;
     private final BlockCutSlabVertical slabBlock;
     private final BlockCutSlabVertical fullBlock;
 
     public ItemBlockCutSlabVertical(Block block, BlockCutSlabVertical blockSlab, BlockCutSlabVertical blockFullSlab,
         Boolean isFull) {
         super(block);
+        this.cutBlock = (ICutBlock) block;
         this.slabBlock = (BlockCutSlabVertical) blockSlab;
         this.fullBlock = (BlockCutSlabVertical) blockFullSlab;
         this.isFull = isFull;
@@ -191,12 +193,12 @@ public class ItemBlockCutSlabVertical extends ItemBlock implements IMetaItem, IP
 
     @Override
     public IIcon getIconFromDamage(int id) {
-        return CutUtils.getIcon(2, id);
+        return cutBlock.getMaterialIcon(2, id);
     }
 
     @Override
     public String[] getElements() {
-        return CutUtils.getBlockNames();
+        return cutBlock.getMaterialNames();
     }
 
     @Override

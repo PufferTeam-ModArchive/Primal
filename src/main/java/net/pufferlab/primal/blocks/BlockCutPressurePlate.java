@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockPressurePlate;
 import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -21,14 +22,13 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.items.itemblocks.ItemBlockCutPressurePlate;
 import net.pufferlab.primal.tileentities.TileEntityCut;
-import net.pufferlab.primal.utils.CutUtils;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 public class BlockCutPressurePlate extends BlockPressurePlate implements ITileEntityProvider, IPrimalBlock, ICutBlock {
 
     public BlockCutPressurePlate(Block block) {
-        super("stone", block.getMaterial(), BlockPressurePlate.Sensitivity.mobs);
+        super("stone", block.getMaterial(), getSensitivity(block));
         this.setHardness(block.blockHardness);
         this.setResistance(block.blockResistance / 3.0F);
         this.setStepSound(block.stepSound);
@@ -36,15 +36,22 @@ public class BlockCutPressurePlate extends BlockPressurePlate implements ITileEn
         this.useNeighborBrightness = true;
     }
 
+    public static BlockPressurePlate.Sensitivity getSensitivity(Block block) {
+        if (block.getMaterial() == Material.rock) {
+            return BlockPressurePlate.Sensitivity.mobs;
+        }
+        return BlockPressurePlate.Sensitivity.everything;
+    }
+
     @Override
     public IIcon getIcon(int side, int meta) {
-        return CutUtils.getIcon(side, meta);
+        return getMaterialIcon(side, meta);
     }
 
     @Override
     public IIcon getIcon(IBlockAccess worldIn, int x, int y, int z, int side) {
         int materialMeta = getMaterialMeta(worldIn, x, y, z);
-        return CutUtils.getIcon(side, materialMeta);
+        return getMaterialIcon(side, materialMeta);
     }
 
     @Override
@@ -58,14 +65,12 @@ public class BlockCutPressurePlate extends BlockPressurePlate implements ITileEn
     }
 
     public String func_150002_b(int id) {
-        return CutUtils.getUnlocalizedName(id) + "_pressure_plate";
+        return getMaterialUnlocalizedName(id) + "_pressure_plate";
     }
 
     @Override
     public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
-        for (int i = 0; i < CutUtils.getSize(); i++) {
-            list.add(new ItemStack(this, 0, i));
-        }
+        getMaterialSubBlocks(itemIn, tab, list);
     }
 
     @Override

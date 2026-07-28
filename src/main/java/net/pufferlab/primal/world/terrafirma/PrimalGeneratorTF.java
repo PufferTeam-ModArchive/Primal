@@ -30,7 +30,6 @@ public class PrimalGeneratorTF {
         if (Config.strataStoneTypes.getBoolean() && Config.strataWorldGenTF.getBoolean()) {
             this.worldGenStrata.genStrata(chunk);
         }
-
     }
 
     public void populate(Chunk chunk, Random randomChunk) {

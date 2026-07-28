@@ -25,7 +25,6 @@ import net.pufferlab.primal.items.itemblocks.ItemBlockCutSlabVertical;
 import net.pufferlab.primal.tileentities.TileEntityCut;
 import net.pufferlab.primal.tileentities.TileEntityCutDouble;
 import net.pufferlab.primal.utils.BlockUtils;
-import net.pufferlab.primal.utils.CutUtils;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
@@ -50,7 +49,7 @@ public class BlockCutSlabVertical extends BlockSlabVertical implements ITileEnti
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        return CutUtils.getIcon(side, meta);
+        return getMaterialIcon(side, meta);
     }
 
     @Override
@@ -59,10 +58,10 @@ public class BlockCutSlabVertical extends BlockSlabVertical implements ITileEnti
         if (field_150004_a && (meta == 2 || meta == 3)) {
             if (side == 0 || side == 2 || side == 4) {
                 int materialMeta = getMaterialMeta(worldIn, x, y, z);
-                return CutUtils.getIcon(side, materialMeta);
+                return getMaterialIcon(side, materialMeta);
             } else {
                 int materialMeta2 = getMaterialMeta2(worldIn, x, y, z);
-                return CutUtils.getIcon(side, materialMeta2);
+                return getMaterialIcon(side, materialMeta2);
             }
         } else {
             if (this.field_150004_a && (meta & 8) != 0) {
@@ -70,7 +69,7 @@ public class BlockCutSlabVertical extends BlockSlabVertical implements ITileEnti
             }
 
             int materialMeta = getMaterialMeta(worldIn, x, y, z);
-            return CutUtils.getIcon(side, materialMeta);
+            return getMaterialIcon(side, materialMeta);
         }
     }
 
@@ -121,15 +120,13 @@ public class BlockCutSlabVertical extends BlockSlabVertical implements ITileEnti
     }
 
     public String func_150002_b(int id) {
-        return CutUtils.getUnlocalizedName(id) + "_slab";
+        return getMaterialUnlocalizedName(id) + "_slab";
     }
 
     @Override
     public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
         if (field_150004_a) return;
-        for (int i = 0; i < CutUtils.getSize(); i++) {
-            list.add(new ItemStack(this, 0, i));
-        }
+        getMaterialSubBlocks(itemIn, tab, list);
     }
 
     @Override

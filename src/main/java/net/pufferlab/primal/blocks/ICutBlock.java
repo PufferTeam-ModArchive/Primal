@@ -1,12 +1,38 @@
 package net.pufferlab.primal.blocks;
 
+import java.util.List;
+
+import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.pufferlab.primal.tileentities.TileEntityCut;
 import net.pufferlab.primal.tileentities.TileEntityCutDouble;
+import net.pufferlab.primal.utils.CutUtils;
 
 public interface ICutBlock {
+
+    default void getMaterialSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+        if (this instanceof Block thiz) {
+            CutUtils.getSubBlocks(thiz, list);
+        }
+    }
+
+    default String[] getMaterialNames() {
+        return CutUtils.getBlockNames();
+    }
+
+    default String getMaterialUnlocalizedName(int id) {
+        return CutUtils.getUnlocalizedName(id);
+    }
+
+    default IIcon getMaterialIcon(int side, int meta) {
+        return CutUtils.getIcon(side, meta);
+    }
 
     default int getMaterialMeta(IBlockAccess world, int x, int y, int z) {
         TileEntity te = world.getTileEntity(x, y, z);

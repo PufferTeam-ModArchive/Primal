@@ -60,16 +60,20 @@ public class WorldGenTerrainTF {
                 height += detailSmallValue * 3.0F;
                 height += terrainValue * NoiseUtils.fastpow(detailValue, 2) * 80.0F;
 
-                for (int y = 0; y <= Constants.maxHeight; y++) {
+                for (int y = Constants.minHeight; y <= Constants.maxHeight; y++) {
 
                     ExtendedBlockStorage array = WorldUtils.getStorage(chunk, y);
                     if (array == null) continue;
 
-                    if (y < height) {
-                        WorldUtils.setChunkBlock(array, x, y, z, Blocks.stone, 0);
+                    if (y == Constants.minHeight) {
+                        WorldUtils.setChunkBlock(array, x, y, z, Blocks.bedrock, 0);
                     } else {
-                        if (y < Config.seaLevelTF.getInt()) {
-                            WorldUtils.setChunkBlock(array, x, y, z, Blocks.water, 0);
+                        if (y < height) {
+                            WorldUtils.setChunkBlock(array, x, y, z, Blocks.stone, 0);
+                        } else {
+                            if (y < Config.seaLevelTF.getInt()) {
+                                WorldUtils.setChunkBlock(array, x, y, z, Blocks.water, 0);
+                            }
                         }
                     }
 

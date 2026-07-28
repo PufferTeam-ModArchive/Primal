@@ -163,7 +163,7 @@ public class StoneType implements IPrimalType {
         }
 
         public void genLayerCache(boolean isTerraFirma, StoneType[] stoneTypes) {
-            for (int i = Constants.minHeight; i < Constants.maxHeight; i++) {
+            for (int i = Constants.minHeight; i <= Constants.maxHeight; i++) {
                 List<StoneType> cacheStone = new ArrayList<>(stoneTypes.length);
 
                 for (StoneType stone : stoneTypes) {

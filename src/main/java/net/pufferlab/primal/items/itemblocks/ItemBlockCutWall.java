@@ -8,14 +8,17 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.BlockCutWall;
+import net.pufferlab.primal.blocks.ICutBlock;
 import net.pufferlab.primal.items.IMetaItem;
 import net.pufferlab.primal.items.IPrimalItem;
-import net.pufferlab.primal.utils.CutUtils;
 
 public class ItemBlockCutWall extends ItemBlock implements IMetaItem, IPrimalItem {
 
+    public ICutBlock cutBlock;
+
     public ItemBlockCutWall(Block block) {
         super(block);
+        this.cutBlock = (ICutBlock) block;
         this.setHasSubtypes(true);
         this.setMaxDamage(0);
     }
@@ -59,12 +62,12 @@ public class ItemBlockCutWall extends ItemBlock implements IMetaItem, IPrimalIte
 
     @Override
     public IIcon getIconFromDamage(int id) {
-        return CutUtils.getIcon(2, id);
+        return cutBlock.getMaterialIcon(2, id);
     }
 
     @Override
     public String[] getElements() {
-        return CutUtils.getBlockNames();
+        return cutBlock.getMaterialNames();
     }
 
     @Override

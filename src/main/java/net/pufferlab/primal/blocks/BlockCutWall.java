@@ -20,7 +20,6 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.items.itemblocks.ItemBlockCutWall;
 import net.pufferlab.primal.tileentities.TileEntityCut;
-import net.pufferlab.primal.utils.CutUtils;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -37,24 +36,22 @@ public class BlockCutWall extends BlockWall implements ITileEntityProvider, IPri
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
-        return CutUtils.getIcon(side, meta);
+        return getMaterialIcon(side, meta);
     }
 
     public String func_150002_b(int id) {
-        return CutUtils.getUnlocalizedName(id) + "_wall";
+        return getMaterialUnlocalizedName(id) + "_wall";
     }
 
     @Override
     public IIcon getIcon(IBlockAccess worldIn, int x, int y, int z, int side) {
         int materialMeta = getMaterialMeta(worldIn, x, y, z);
-        return CutUtils.getIcon(side, materialMeta);
+        return getMaterialIcon(side, materialMeta);
     }
 
     @Override
     public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
-        for (int i = 0; i < CutUtils.getSize(); i++) {
-            list.add(new ItemStack(this, 0, i));
-        }
+        getMaterialSubBlocks(itemIn, tab, list);
     }
 
     @Override

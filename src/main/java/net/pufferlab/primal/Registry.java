@@ -942,6 +942,6 @@ public class Registry {
     }
 
     public void registerCut(Block block) {
-        CutUtils.registerBlock(block);
+        CutUtils.registerStoneBlock(block);
     }
 }
