@@ -24,14 +24,16 @@ public class BlockGeneratorRenderer extends BlockPrimalRenderer {
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
         Tessellator tess = Tessellator.instance;
+        boolean flag = false;
         TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileEntityMotion tef) {
             int axis = tef.axisMeta;
             modelGenerator.setAxis(axis);
             modelGenerator.render(renderer, tess, block, x, y, z, 0.0F, 0.5F, 0.0F, iconGenerator);
+            flag = true;
         }
 
-        return true;
+        return flag;
     }
 
     @Override

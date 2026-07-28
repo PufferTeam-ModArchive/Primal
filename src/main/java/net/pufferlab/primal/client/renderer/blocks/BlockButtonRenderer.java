@@ -23,13 +23,13 @@ public class BlockButtonRenderer extends BlockPrimalRenderer {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
+        boolean flag = false;
         TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileEntityCut tef) {
             block.setBlockBoundsBasedOnState(world, x, y, z);
-            renderer.renderStandardBlock(block, x, y, z);
-            return true;
+            flag = renderer.renderStandardBlock(block, x, y, z);
         }
-        return false;
+        return flag;
     }
 
     @Override

@@ -1,11 +1,17 @@
 package net.pufferlab.primal;
 
 import java.io.File;
-import java.util.Random;
+import java.util.*;
 
 import net.minecraftforge.common.config.Configuration;
-import net.pufferlab.primal.utils.ConfigUtils;
+import net.pufferlab.primal.recipes.AnvilAction;
 import net.pufferlab.primal.utils.IOUtils;
+import net.pufferlab.primal.utils.IPrimalType;
+
+import gnu.trove.map.TObjectFloatMap;
+import gnu.trove.map.TObjectIntMap;
+import gnu.trove.map.hash.TObjectFloatHashMap;
+import gnu.trove.map.hash.TObjectIntHashMap;
 
 public enum Config {
 
@@ -62,7 +68,7 @@ public enum Config {
         "Whether to make vanilla torches require glowstone to balance the lit torches"),
 
     // Food
-    foodValues(Module.farming, ConfigUtils.getDefaultFood(Constants.foodTypesAll),
+    foodValues(Module.farming, new ValueIntFloat(Constants.foodTypesAll, Value.Type.food),
         "All of the corresponding food values and how much food they give when eating, the first argument argument is hunger, and second is saturation"),
     foodBaseGrowth(Module.farming, 1500,
         "The base amount of ticks it takes to grow one stage (depends on how much stages a plant has"),
@@ -85,9 +91,13 @@ public enum Config {
     metalPriorityOverride(Module.metalworking,
         new String[] { "ingotIron=minecraft:iron_ingot", "ingotGold=minecraft:gold_ingot" },
         "Override so certain ore dictionary give specific materials"),
-    metalMelting(Module.metalworking, ConfigUtils.getDefaultMetalMelting(Constants.metalTypesAll),
+    metalMelting(Module.metalworking, new ValueInt(Constants.metalTypesAll, Value.Type.melting),
         "The melting temperature for the correspond metals."),
-    metalLiquids(Module.metalworking, ConfigUtils.getDefaultMetalFluid(Constants.metalTypesAll),
+    metalForging(Module.metalworking, new ValueInt(Constants.metalTypesAll, Value.Type.forging),
+        "The forging temperature for the correspond metals."),
+    metalWelding(Module.metalworking, new ValueInt(Constants.metalTypesAll, Value.Type.welding),
+        "The welding temperature for the correspond metals."),
+    metalLiquids(Module.metalworking, new ValueString(Constants.metalTypesAll, Value.Type.fluid),
         "The liquids that will be used for the corresponding metals"),
     metalHighTierCasting(Module.metalworking, false,
         "Whether to enable high tier metals being able to be casted in a mold."),
@@ -99,7 +109,7 @@ public enum Config {
     metalNuggetValue(Module.metalworking, 16, "The value that one nugget of metal should give."),
 
     // Forging
-    anvilActionStep(Module.metalworking$forging, ConfigUtils.getDefaultAnvilStep(),
+    anvilActionStep(Module.metalworking$forging, new ValueInt(AnvilAction.values()),
         "The step value that the anvil action will take when clicked."),
     anvilLineRange(Module.metalworking$forging, 1,
         "The range that you need to be to the recipe line to complete an anvil recipe."),
@@ -119,34 +129,45 @@ public enum Config {
     windmillRange(Module.mechanical_power, 60, 0, 256,
         "The range around the ideal height in which the windmill will operate."),
 
-    // WorldGen
-    rockWorldGen(Module.world$generation, true, "Whether to enable loose rocks generating in the world."),
-    shellWorldGen(Module.world$generation, true, "Whether to enable loose shell generating bear beaches."),
-
-    // Strata
-    worldLayerExtending(Module.world, false,
-        "[EXPERIMENTAL] Extends the height of the world, making the surface generate higher"),
+    // General
     minimumYHeight(Module.world, 0,
         "The minimum Y value that the mod features will spawn. (Do not put lower than 0 without Cubic Chunks)"),
     maximumYHeight(Module.world, 256,
         "The maximum Y value that the mod features will spawn. (Do not put higher than 256 without Cubic Chunks)"),
     strataStoneTypes(Module.world, true, "Put to false if you want to disable all of the stone types of the mod."),
-    strataBiomeSpecific(Module.world$generation, true,
-        "Put to false if you don't want biome-specific stones (ex. Desert will have sandstone, BOP Volcanos have basalt) etc.."),
-    strataWorldGen(Module.world$generation, true, "Whether to enable the generation of the strata stone types"),
-    strataStoneHeightRange(Module.world$generation, ConfigUtils.getDefaultStrataHeight(Constants.stoneTypes),
-        "The corresponding min/max Y Value that the strata stones will be able to spawn."),
     soilTypes(Module.world, true, "Put to false if you want to disable all of the soil types of the mod."),
-    soilWorldGen(Module.world$generation, true, "Whether to enable the generation of the soil types"),
-    enableVanillaOres(Module.world$generation, false, "Put to true if you want the vanilla ores back"),
     oreVeins(Module.world, true, "Whether to enable large ore veins"),
-    oreVeinsWorldGen(Module.world$generation, true, "Whether to enable the generation of the ore types"),
-    oreVeinsHeightRange(Module.world$generation, ConfigUtils.getDefaultVeinHeight(Constants.veinTypesAll),
+
+    // WorldGen
+    worldLayerExtending(Module.world$default, false,
+        "[EXPERIMENTAL] Extends the height of the world, making the surface generate higher"),
+    strataBiomeSpecific(Module.world$default, true,
+        "Put to false if you don't want biome-specific stones (ex. Desert will have sandstone, BOP Volcanos have basalt) etc.."),
+    strataWorldGen(Module.world$default, true, "Whether to enable the generation of the strata stone types"),
+    strataStoneHeightRange(Module.world$default, new Range(Constants.stoneTypes, Value.Type.height),
+        "The corresponding min/max Y Value that the strata stones will be able to spawn."),
+    soilWorldGen(Module.world$default, true, "Whether to enable the generation of the soil types"),
+    enableVanillaOres(Module.world$default, false, "Put to true if you want the vanilla ores back"),
+    oreVeinsWorldGen(Module.world$default, true, "Whether to enable the generation of the ore types"),
+    oreVeinsHeightRange(Module.world$default, new Range(Constants.veinTypesAll, Value.Type.height),
         "The corresponding min/max Y Value that the ores will be able to spawn."),
-    oreVeinsSizeRange(Module.world$generation, ConfigUtils.getDefaultSize(Constants.veinTypesAll),
+    oreVeinsSizeRange(Module.world$default, new Range(Constants.veinTypesAll, Value.Type.size),
         "The corresponding min/max size values that the ore veins will randomly generate between these values."),
-    oreVeinsRarity(Module.world$generation, ConfigUtils.getDefaultVeinRarity(Constants.veinTypesAll),
+    oreVeinsRarity(Module.world$default, new ValueFloat(Constants.veinTypesAll, Value.Type.rarity),
         "The correspond rarity that the vein will spawn every chunk"),
+    rockWorldGen(Module.world$default, true, "Whether to enable loose rocks generating in the world."),
+    shellWorldGen(Module.world$default, true, "Whether to enable loose shell generating bear beaches."),
+
+    // TerraFirma
+    seaLevelTF(Module.world$terrafirma, 100,
+        "The sea level of the world, below this Y value, the world will be filled with water"),
+    strataWorldGenTF(Module.world$terrafirma, true, "Whether to enable the generation of the strata stone types"),
+    strataStoneHeightRangeTF(Module.world$terrafirma, new Range(Constants.stoneTypes, Value.Type.heightTF),
+        "The corresponding min/max Y Value that the strata stones will be able to spawn."),
+    soilWorldGenTF(Module.world$terrafirma, true, "Whether to enable the generation of the soil types"),
+    oreVeinsWorldGenTF(Module.world$terrafirma, true, "Whether to enable the generation of the ore types"),
+    oreVeinsHeightRangeTF(Module.world$terrafirma, new Range(Constants.veinTypesAll, Value.Type.heightTF),
+        "The corresponding min/max Y Value that the ores will be able to spawn."),
 
     // Mixins
     wearableRenderer(Module.fixes, true,
@@ -166,6 +187,7 @@ public enum Config {
     public boolean isInt;
     public boolean isFloat;
     public boolean isStringList;
+    public boolean isVarValue;
     public final String name;
     public final String category;
     public final String comment;
@@ -182,6 +204,7 @@ public enum Config {
     float fMaxValue;
     String[] slValue;
     String[] slDefault;
+    Value value;
 
     Config(Module category, boolean defaultValue, String comment) {
         this.isBoolean = true;
@@ -237,6 +260,23 @@ public enum Config {
         this.comment = comment;
         this.slDefault = defaultList;
         this.slValue = slDefault;
+    }
+
+    Config(Module category, Value configValue, String comment) {
+        this.isStringList = true;
+        this.isVarValue = true;
+        this.name = this.name();
+        this.category = category.name;
+        setConfigValue(configValue);
+        this.comment = comment;
+    }
+
+    public void setConfigValue(Value value) {
+        this.value = value;
+        this.value.setConfig(this);
+        String[] str = value.getDefault();
+        this.slDefault = str;
+        this.slValue = str;
     }
 
     public boolean getBoolean() {
@@ -330,6 +370,15 @@ public enum Config {
         }
     }
 
+    public static void updateConfiguration() {
+        for (Config config : Config.values()) {
+            if (config.isVarValue) {
+                config.value.genMap();
+                config.value.updateValues();
+            }
+        }
+    }
+
     public static enum Module {
 
         early_game(true,
@@ -342,7 +391,8 @@ public enum Config {
         mechanical_power(true,
             "Includes all of the mechanical power machinery, such as windmill, waterwheel and anything that moves."),
         world(true, "Includes all of the world stuff from the mod."),
-        world$generation(true, "All options related to world generation"),
+        world$default(true, "All options for default worldgen types (BOP/Vanilla)"),
+        world$terrafirma(true, "All options for the custom worldgen type Terrafirma"),
         fixes(true, "Includes all vanilla and mod fixes");
 
         public String name;
@@ -362,5 +412,353 @@ public enum Config {
         public boolean isEnabled() {
             return enabled;
         }
+    }
+
+    public static class Value {
+
+        private Config config;
+        private Type index;
+        private final IPrimalType[] types;
+
+        public Value(IPrimalType[] types) {
+            this(types, Type.none);
+        }
+
+        public Value(IPrimalType[] types, Type index) {
+            this.types = types;
+            this.index = index;
+        }
+
+        public Type getIndex() {
+            return index;
+        }
+
+        public void setConfig(Config config) {
+            this.config = config;
+        }
+
+        public Config getConfig() {
+            return config;
+        }
+
+        public IPrimalType[] getTypes() {
+            return types;
+        }
+
+        public void genMap() {}
+
+        public void updateValues() {}
+
+        public String[] getDefault() {
+            return null;
+        }
+
+        public enum Type {
+            none,
+            height,
+            heightTF,
+            size,
+            rarity,
+            fluid,
+            food,
+            melting,
+            forging,
+            welding,
+        }
+    }
+
+    public static class Range extends Value {
+
+        private final TObjectIntMap<String> minMap = new TObjectIntHashMap<>();
+        private final TObjectIntMap<String> maxMap = new TObjectIntHashMap<>();
+
+        public Range(IPrimalType[] types) {
+            super(types);
+        }
+
+        public Range(IPrimalType[] types, Type index) {
+            super(types, index);
+        }
+
+        public String[] getDefault() {
+            IPrimalType[] types = getTypes();
+            Type index = getIndex();
+            String[] list = new String[types.length];
+            for (int i = 0; i < types.length; i++) {
+                list[i] = types[i].getName() + "=" + types[i].getMinInt(index) + "-" + types[i].getMaxInt(index);
+            }
+            return list;
+        }
+
+        public void updateValues() {
+            Type index = getIndex();
+            for (IPrimalType type : getTypes()) {
+                String name = type.getName();
+                if (hasValidRange(name)) {
+                    type.setMinInt(index, minMap.get(name));
+                    type.setMaxInt(index, maxMap.get(name));
+                }
+            }
+        }
+
+        public void genMap() {
+            Config config = getConfig();
+            String[] priorityOverride = config.getStringList();
+            try {
+                for (String s : priorityOverride) {
+                    String[] spl = s.split("=");
+                    if (spl.length == 2) {
+                        String ore = spl[0];
+                        String[] hs = spl[1].split("-");
+                        int min = Integer.parseInt(hs[0]);
+                        int max = Integer.parseInt(hs[1]);
+                        minMap.put(ore, min);
+                        maxMap.put(ore, max);
+                    }
+                }
+            } catch (Exception e) {
+                throwInvalidConfig(config);
+            }
+        }
+
+        public boolean hasValidRange(String string) {
+            return minMap.containsKey(string) && maxMap.containsKey(string);
+        }
+    }
+
+    public static class ValueInt extends Value {
+
+        private final TObjectIntMap<String> valueMap = new TObjectIntHashMap<>();
+
+        public ValueInt(IPrimalType[] types, Type type) {
+            super(types, type);
+        }
+
+        public ValueInt(IPrimalType[] types) {
+            super(types);
+        }
+
+        public String[] getDefault() {
+            IPrimalType[] types = getTypes();
+            Type index = getIndex();
+            String[] list = new String[types.length];
+            for (int i = 0; i < list.length; i++) {
+                list[i] = types[i].getName() + "=" + types[i].getInt(index);
+            }
+            return list;
+        }
+
+        public void updateValues() {
+            Type index = getIndex();
+            for (IPrimalType type : getTypes()) {
+                String name = type.getName();
+                if (hasValidValue(name)) {
+                    type.setInt(index, valueMap.get(name));
+                }
+            }
+        }
+
+        public void genMap() {
+            Config config = getConfig();
+            String[] priorityOverride = config.getStringList();
+            try {
+                for (String s : priorityOverride) {
+                    String[] spl = s.split("=");
+                    if (spl.length == 2) {
+                        String ore = spl[0];
+
+                        int temp = Integer.parseInt(spl[1]);
+                        valueMap.put(ore, temp);
+                    }
+                }
+            } catch (Exception e) {
+                throwInvalidConfig(config);
+            }
+        }
+
+        public boolean hasValidValue(String string) {
+            return valueMap.containsKey(string);
+        }
+    }
+
+    public static class ValueFloat extends Value {
+
+        private final TObjectFloatMap<String> valueMap = new TObjectFloatHashMap<>();
+
+        public ValueFloat(IPrimalType[] types, Type index) {
+            super(types, index);
+        }
+
+        public ValueFloat(IPrimalType[] types) {
+            super(types);
+        }
+
+        public String[] getDefault() {
+            IPrimalType[] types = getTypes();
+            Type index = getIndex();
+            String[] list = new String[types.length];
+            for (int i = 0; i < list.length; i++) {
+                list[i] = types[i].getName() + "=" + types[i].getFloat(index);
+            }
+            return list;
+        }
+
+        public void updateValues() {
+            Type index = getIndex();
+            for (IPrimalType type : getTypes()) {
+                String name = type.getName();
+                if (hasValidValue(name)) {
+                    type.setFloat(index, valueMap.get(name));
+                }
+            }
+        }
+
+        public void genMap() {
+            Config config = getConfig();
+            String[] priorityOverride = config.getStringList();
+            try {
+                for (String s : priorityOverride) {
+                    String[] spl = s.split("=");
+                    if (spl.length == 2) {
+                        String ore = spl[0];
+
+                        float temp = Float.parseFloat(spl[1]);
+                        valueMap.put(ore, temp);
+                    }
+                }
+            } catch (Exception e) {
+                throwInvalidConfig(config);
+            }
+        }
+
+        public boolean hasValidValue(String string) {
+            return valueMap.containsKey(string);
+        }
+    }
+
+    public static class ValueString extends Value {
+
+        private final Map<String, String> valueMap = new HashMap<>();
+
+        public ValueString(IPrimalType[] types, Type type) {
+            super(types, type);
+        }
+
+        public ValueString(IPrimalType[] types) {
+            super(types);
+        }
+
+        public String[] getDefault() {
+            IPrimalType[] types = getTypes();
+            Type index = getIndex();
+            String[] list = new String[types.length];
+            for (int i = 0; i < list.length; i++) {
+                list[i] = types[i].getName() + "=" + types[i].getString(index);
+            }
+            return list;
+        }
+
+        public void updateValues() {
+            Type index = getIndex();
+            for (IPrimalType type : getTypes()) {
+                String name = type.getName();
+                if (hasValidValue(name)) {
+                    type.setString(index, valueMap.get(name));
+                }
+            }
+        }
+
+        public void genMap() {
+            Config config = getConfig();
+            String[] priorityOverride = config.getStringList();
+            try {
+                for (String s : priorityOverride) {
+                    String[] spl = s.split("=");
+                    if (spl.length == 2) {
+                        String ore = spl[0];
+
+                        String temp = spl[1];
+                        valueMap.put(ore, temp);
+                    }
+                }
+            } catch (Exception e) {
+                throwInvalidConfig(config);
+            }
+        }
+
+        public boolean hasValidValue(String string) {
+            return valueMap.containsKey(string);
+        }
+    }
+
+    public static class ValueIntFloat extends Value {
+
+        private final TObjectIntMap<String> valueMap = new TObjectIntHashMap<>();
+        private final TObjectFloatMap<String> value2Map = new TObjectFloatHashMap<>();
+
+        public ValueIntFloat(IPrimalType[] types, Type type) {
+            super(types, type);
+        }
+
+        public ValueIntFloat(IPrimalType[] types) {
+            super(types);
+        }
+
+        public String[] getDefault() {
+            Type index = getIndex();
+            IPrimalType[] types = getTypes();
+            List<String> list = new ArrayList<>();
+            for (int i = 0; i < types.length; i++) {
+                if (types[i].getInt(index) > 0 && types[i].getFloat(index) > 0.0F) {
+                    list.add(types[i].getName() + "=" + types[i].getInt(index) + "," + types[i].getFloat(index));
+                }
+            }
+            return list.toArray(new String[0]);
+        }
+
+        public void updateValues() {
+            Type index = getIndex();
+            for (IPrimalType type : getTypes()) {
+                String name = type.getName();
+                if (hasValidValue(name)) {
+                    type.setInt(index, valueMap.get(name));
+                    type.setFloat(index, value2Map.get(name));
+                }
+            }
+        }
+
+        public void genMap() {
+            Config config = getConfig();
+            String[] priorityOverride = config.getStringList();
+            try {
+                for (String s : priorityOverride) {
+                    String[] spl = s.split("=");
+                    if (spl.length == 2) {
+                        String ore = spl[0];
+                        String[] hs = spl[1].split(",");
+
+                        int primary = Integer.parseInt(hs[0]);
+                        float secondary = Float.parseFloat(hs[1]);
+                        valueMap.put(ore, primary);
+                        value2Map.put(ore, secondary);
+                    }
+                }
+            } catch (Exception e) {
+                throwInvalidConfig(config);
+            }
+        }
+
+        public boolean hasValidValue(String string) {
+            return valueMap.containsKey(string) && value2Map.containsKey(string);
+        }
+    }
+
+    public static void throwInvalidConfig(Config config) {
+        throw new IllegalStateException(
+            "Config [" + config.name
+                + "] in "
+                + Primal.MODID
+                + ".cfg is malformed."
+                + "\n Delete the entry or fix it so it correctly apply in-game.");
     }
 }

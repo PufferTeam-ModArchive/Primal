@@ -3,7 +3,7 @@ package net.pufferlab.primal.utils;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 
-public class WoodType {
+public class WoodType implements IPrimalType {
 
     public String name;
     public String[] types;
@@ -15,6 +15,11 @@ public class WoodType {
             "stripped_" + this.name + "_wood" };
         this.thinTypes = new String[] { this.name + "_thin_log", "stripped_" + this.name + "_thin_log",
             this.name + "_thin_wood", "stripped_" + this.name + "_thin_wood" };
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     public String getSideTexture(boolean stripped) {

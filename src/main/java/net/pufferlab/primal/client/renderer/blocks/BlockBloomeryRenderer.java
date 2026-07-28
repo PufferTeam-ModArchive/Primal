@@ -23,6 +23,7 @@ public class BlockBloomeryRenderer extends BlockPrimalRenderer {
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
         Tessellator tess = Tessellator.instance;
+        boolean flag = false;
         TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileEntityBloomery tef) {
             int metadata = tef.getCurrentFuelStages();
@@ -32,8 +33,9 @@ public class BlockBloomeryRenderer extends BlockPrimalRenderer {
             }
             modelBloomery.setFacing(tef.facingMeta);
             modelBloomery.render(renderer, tess, block, x, y, z, iconBloomery);
+            flag = true;
         }
-        return true;
+        return flag;
     }
 
     @Override

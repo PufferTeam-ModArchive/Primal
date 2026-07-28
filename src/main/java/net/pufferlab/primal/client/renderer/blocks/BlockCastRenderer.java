@@ -32,7 +32,7 @@ public class BlockCastRenderer extends BlockPrimalRenderer {
         RenderBlocks renderer) {
         // spotless:off
         Tessellator tess = Tessellator.instance;
-        dumpVertices(tess, x, y, z);
+        boolean flag = false;
         TileEntity te = world.getTileEntity(x, y, z);
         int renderPass = getWorldRenderPass();
         if (te instanceof TileEntityCast tef) {
@@ -40,14 +40,16 @@ public class BlockCastRenderer extends BlockPrimalRenderer {
             float height = tef.getFillLevel(0.0625F, 0.125F);
             if (renderPass == 1) {
                 modelFluid.render(renderer, tess, x, y, z, stack, 0.1875F, 0.0625F, 0.1875F, 0.8125F, height, 0.8125F, false, false);
+                flag = true;
             } else if (renderPass == 0) {
                 modelMold.render(renderer, tess, block, x, y, z, iconMold);
 
                 modelItem.bb_main.rotateAngleX = (float) Math.PI / 2;
                 modelItem.renderItem(renderer, tess, block, x, y, z, -0.425D, 0.0822D, -0.425D, tef.castIndex + 100, 0.85F);
+                flag = true;
             }
         }
-        return true;
+        return flag;
         // spotless:on
     }
 

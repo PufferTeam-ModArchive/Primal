@@ -2,8 +2,9 @@ package net.pufferlab.primal.utils;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
+import net.pufferlab.primal.Config;
 
-public class FoodType {
+public class FoodType implements IPrimalType {
 
     public Item foodItem;
     public int foodMeta;
@@ -63,6 +64,41 @@ public class FoodType {
     public FoodType hasNoFoodItem() {
         this.hasFoodItem = false;
         return this;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public int getInt(Config.Value.Type index) {
+        if (index == Config.Value.Type.food) {
+            return hunger;
+        }
+        return 0;
+    }
+
+    @Override
+    public float getFloat(Config.Value.Type index) {
+        if (index == Config.Value.Type.food) {
+            return saturation;
+        }
+        return 0.0F;
+    }
+
+    @Override
+    public void setInt(Config.Value.Type index, int primary) {
+        if (index == Config.Value.Type.food) {
+            this.hunger = primary;
+        }
+    }
+
+    @Override
+    public void setFloat(Config.Value.Type index, float primary) {
+        if (index == Config.Value.Type.food) {
+            this.saturation = primary;
+        }
     }
 
     public void updateFoodValues() {

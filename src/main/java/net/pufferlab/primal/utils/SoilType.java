@@ -6,12 +6,17 @@ import java.util.Map;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.pufferlab.primal.Constants;
 
-public class SoilType {
+public class SoilType implements IPrimalType {
 
     public String name;
 
     public SoilType(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     public static String[] getNames(SoilType[] stones) {

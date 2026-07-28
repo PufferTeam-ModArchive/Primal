@@ -24,15 +24,16 @@ public class BlockAxleRenderer extends BlockPrimalRenderer {
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
         Tessellator tess = Tessellator.instance;
-        dumpVertices(tess, x, y, z);
+        boolean flag = false;
         TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileEntityAxle tef) {
             if (tef.hasBracket) {
                 modelBracket.setFacingFromAxis(tef.facingMeta, tef.axisMeta);
                 modelBracket.render(renderer, tess, block, x, y, z, iconAxle);
+                flag = true;
             }
         }
-        return true;
+        return flag;
     }
 
     @Override

@@ -11,20 +11,24 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.pufferlab.primal.world.terrafirma.gen.WorldGenTerrain;
+import net.pufferlab.primal.world.scheduling.ChunkPlacerData;
 
-public class ChunkProviderPrimal implements IChunkProvider {
+public class ChunkProviderTF implements IChunkProvider {
 
-    Random rand;
+    Random randomChunk;
+    Random random;
+
     private World worldObj;
 
-    public WorldGenTerrain worldGenTerrain;
+    public PrimalGeneratorTF generatorTF;
 
-    public ChunkProviderPrimal(World world) {
+    public ChunkProviderTF(World world) {
         this.worldObj = world;
-        this.rand = new Random();
-        this.worldGenTerrain = new WorldGenTerrain();
-        this.worldGenTerrain.initNoiseSeed(world.getSeed());
+        this.random = new Random();
+        this.randomChunk = new Random();
+        this.generatorTF = new PrimalGeneratorTF();
+        this.generatorTF.initGenerators(worldObj);
+        this.random.setSeed(world.getSeed());
     }
 
     @Override
@@ -34,11 +38,14 @@ public class ChunkProviderPrimal implements IChunkProvider {
 
     @Override
     public Chunk provideChunk(int p_73154_1_, int p_73154_2_) {
-        this.rand.setSeed((long) p_73154_1_ * 341873128712L + (long) p_73154_2_ * 132897987541L);
+        this.randomChunk.setSeed((long) p_73154_1_ * 341873128712L + (long) p_73154_2_ * 132897987541L);
         Block[] ablock = new Block[65536];
         byte[] abyte = new byte[65536];
         Chunk chunk = new Chunk(this.worldObj, ablock, abyte, p_73154_1_, p_73154_2_);
-        this.worldGenTerrain.genTerrain(chunk);
+        this.generatorTF.generate(chunk, randomChunk);
+        chunk.setChunkModified();
+
+        ChunkPlacerData.tickPlacement(chunk.worldObj, chunk.xPosition, chunk.zPosition);
         chunk.generateSkylightMap();
         return chunk;
     }
@@ -50,7 +57,12 @@ public class ChunkProviderPrimal implements IChunkProvider {
 
     @Override
     public void populate(IChunkProvider p_73153_1_, int p_73153_2_, int p_73153_3_) {
+        Chunk chunk = worldObj.getChunkFromChunkCoords(p_73153_2_, p_73153_3_);
 
+        this.randomChunk.setSeed((long) p_73153_2_ * 341873128712L + (long) p_73153_3_ * 132897987541L);
+
+        this.generatorTF.populate(chunk, randomChunk);
+        chunk.setChunkModified();
     }
 
     @Override

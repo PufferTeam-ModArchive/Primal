@@ -26,11 +26,10 @@ import net.pufferlab.primal.events.*;
 import net.pufferlab.primal.inventory.CreativeTabsPrimal;
 import net.pufferlab.primal.items.*;
 import net.pufferlab.primal.network.packets.*;
-import net.pufferlab.primal.recipes.AnvilAction;
 import net.pufferlab.primal.tileentities.*;
 import net.pufferlab.primal.utils.*;
 import net.pufferlab.primal.world.*;
-import net.pufferlab.primal.world.terrafirma.WorldTypePrimal;
+import net.pufferlab.primal.world.terrafirma.WorldTypeTF;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IWorldGenerator;
@@ -601,13 +600,13 @@ public class Registry {
         for (int i = 0; i < Constants.woodTypesAll.length; i++) {
             WoodType wood = Constants.woodTypesAll[i];
             Block block = new BlockLogLarge(wood);
-            register(block, wood.name + "_log");
+            register(block, wood.getName() + "_log");
             logBlocks[i] = block;
         }
         for (int i = 0; i < Constants.woodTypesAll.length; i++) {
             WoodType wood = Constants.woodTypesAll[i];
             Block block = new BlockLogThin(wood);
-            register(block, wood.name + "_thin_log");
+            register(block, wood.getName() + "_thin_log");
             thinLogBlocks[i] = block;
         }
     }
@@ -722,68 +721,12 @@ public class Registry {
     }
 
     public void setupConfig() {
-        ConfigUtils.initConfigMap();
+        Config.updateConfiguration();
 
         Constants.minHeight = Config.minimumYHeight.getInt();
         Constants.maxHeight = Config.maximumYHeight.getInt();
 
-        for (MetalType type : Constants.metalTypesAll) {
-            Fluid fluid = ConfigUtils.getMetalFluid(type);
-            if (fluid != null) {
-                type.setFluid(fluid);
-            } else {
-                type.setFluid(FluidRegistry.getFluid(type.fluidName));
-            }
-            if (ConfigUtils.hasMetalMelting(type)) {
-                int temp = ConfigUtils.getMetalMelting(type);
-                if (temp > 0) {
-                    type.setMeltingTemperature(temp);
-                }
-            }
-        }
-        MetalType.setFluids(Constants.metalTypesAll);
-
-        for (StoneType type : Constants.stoneTypes) {
-            if (ConfigUtils.hasStrataHeight(type)) {
-                int min = ConfigUtils.getStrataHeightMin(type);
-                int max = ConfigUtils.getStrataHeightMax(type);
-                type.setHeight(min, max);
-            }
-        }
-
-        for (VeinType type : Constants.veinTypesAll) {
-            if (ConfigUtils.hasVeinHeight(type)) {
-                int min = ConfigUtils.getVeinHeightMin(type);
-                int max = ConfigUtils.getVeinHeightMax(type);
-                type.setHeight(min, max);
-            }
-            if (ConfigUtils.hasVeinSize(type)) {
-                int minSize = ConfigUtils.getVeinSizeMin(type);
-                int maxSize = ConfigUtils.getVeinSizeMax(type);
-                type.setSize(minSize, maxSize);
-            }
-            if (ConfigUtils.hasVeinRarity(type)) {
-                float rarity = ConfigUtils.getVeinRarity(type);
-                type.setRarity(rarity);
-            }
-        }
-
         StoneType.genLayerCache(Constants.stoneTypes);
-
-        for (AnvilAction action : AnvilAction.values()) {
-            if (ConfigUtils.hasAnvilStep(action)) {
-                int step = ConfigUtils.getAnvilStep(action);
-                action.setStep(step);
-            }
-        }
-
-        for (FoodType type : Constants.foodTypesAll) {
-            if (ConfigUtils.hasFoodValue(type)) {
-                int hunger = ConfigUtils.getHunger(type);
-                float saturation = ConfigUtils.getSaturation(type);
-                type.setFoodValues(hunger, saturation);
-            }
-        }
     }
 
     public void setupModCompat() {
@@ -854,10 +797,10 @@ public class Registry {
     public static final PrimalLateGenerator lateGen = new PrimalLateGenerator();
     public static final PrimalDecorator decorator = new PrimalDecorator();
 
-    public static WorldType worldTypePrimal;
+    public static WorldType worldTypeTF;
 
     public void setupWorldGen() {
-        worldTypePrimal = new WorldTypePrimal();
+        worldTypeTF = new WorldTypeTF();
 
         registerWorld(earlyGen, 10000);
         registerWorld(lateGen, 20000);
@@ -878,11 +821,11 @@ public class Registry {
         if (block instanceof IPrimalBlock block2) {
             if (block2.canRegister()) {
                 if (block2.getItemBlockClass() == null) hasItemBlock = false;
-                GameRegistry.registerBlock(
-                    block.setCreativeTab(block2.getCreativeTab()),
-                    block2.getItemBlockClass(),
-                    name,
-                    objects);
+                CreativeTabs tab = block2.getCreativeTab();
+                if (block2.hideBlock()) {
+                    tab = null;
+                }
+                GameRegistry.registerBlock(block.setCreativeTab(tab), block2.getItemBlockClass(), name, objects);
             } else {
                 hasItemBlock = false;
             }
@@ -910,13 +853,23 @@ public class Registry {
     }
 
     public void registerModItem(Item item, String name) {
+        boolean isHidden = false;
+        Block block = Block.getBlockFromItem(item);
+        if (block instanceof IPrimalBlock block2) {
+            if (block2.hideBlock()) {
+                isHidden = true;
+            }
+        }
         if (item instanceof IPrimalItem item3) {
             if (item3.hideItem()) {
-                ItemUtils.registerItemHideFilter(Primal.MODID + ":" + name);
+                isHidden = true;
             }
             if ((item instanceof ItemBlock)) {
                 if (!item3.canRegister()) return;
             }
+        }
+        if (isHidden) {
+            ItemUtils.registerItemHideFilter(new ItemStack(item, 1, Constants.wildcard));
         }
         if (item instanceof IMetaItem item2) {
             if (item2.registerModItem()) {

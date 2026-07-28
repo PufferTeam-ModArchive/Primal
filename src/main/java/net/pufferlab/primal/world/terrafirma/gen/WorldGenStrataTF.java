@@ -1,11 +1,10 @@
-package net.pufferlab.primal.world.gen;
+package net.pufferlab.primal.world.terrafirma.gen;
 
 import java.util.*;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
-import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
@@ -14,12 +13,10 @@ import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Mods;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.utils.StoneType;
-import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.utils.WorldUtils;
+import net.pufferlab.primal.world.gen.WorldGenStrata;
 
-import biomesoplenty.api.content.BOPCBiomes;
-
-public class WorldGenStrata {
+public class WorldGenStrataTF extends WorldGenStrata {
 
     private final Set<Block> blockList = new HashSet<>();
     private final List<Block> stoneList = new ArrayList<>();
@@ -29,9 +26,6 @@ public class WorldGenStrata {
     private boolean init = false;
     private final Map<Block, Block> blockReplacement = new HashMap<>();
 
-    private final Map<Block, List<BiomeGenBase>> stoneTypeBiomeMap = new HashMap<>();
-    private final Map<Block, StoneType> stoneTypeMap = new HashMap<>();
-
     private final NoiseGeneratorPerlin[] noiseLayerGen = new NoiseGeneratorPerlin[5];
     private final double[] noiseLayer = new double[5];
     private final int[] offsetY = new int[5];
@@ -40,7 +34,7 @@ public class WorldGenStrata {
     private final double[] noiseBiome = new double[5];
     private final int[] offsetB = new int[5];
 
-    public WorldGenStrata() {}
+    public WorldGenStrataTF() {}
 
     public long lastSeed;
 
@@ -103,22 +97,12 @@ public class WorldGenStrata {
                 Block rocks = Mods.bop.getModBlock("rocks");
                 stoneList.add(volcanicStone);
                 stoneList.add(rocks);
-
-                // Volcano are with basalt
-                BiomeGenBase biomeVolcano = BOPCBiomes.volcano;
-                stoneTypeBiomeMap.put(volcanicStone, Utils.asList(biomeVolcano));
-                stoneTypeMap.put(volcanicStone, Constants.basalt);
             }
-            // Desert Sandstone
-            BiomeGenBase[] desert = new BiomeGenBase[] { BiomeGenBase.desert, BiomeGenBase.desertHills };
+
             Block sandstone = Blocks.sandstone;
             Block sand = Blocks.sand;
             stoneList.add(sandstone);
             sandList.add(sand);
-            stoneTypeBiomeMap.put(sandstone, Utils.asList(desert));
-            stoneTypeMap.put(sandstone, Constants.sandstone);
-            stoneTypeBiomeMap.put(sand, Utils.asList(desert));
-            stoneTypeMap.put(sand, Constants.sandstone);
 
             blockList.add(Registry.ground_rock);
             blockReplacement.put(Registry.ground_rock, Registry.ground_rock);
@@ -173,15 +157,15 @@ public class WorldGenStrata {
                     if (blockList.contains(currentBlock)) {
                         Block nextBlock = blockReplacement.get(currentBlock);
                         int layerMeta = 0;
-                        if ((adjustedY + offsetY[0]) < 20) {
+                        if ((adjustedY + offsetY[0]) < 20 * Constants.heightMultiplier) {
                             layerMeta = 0;
-                        } else if ((adjustedY + offsetY[1]) < 40) {
+                        } else if ((adjustedY + offsetY[1]) < 40 * Constants.heightMultiplier) {
                             layerMeta = 1;
-                        } else if ((adjustedY - offsetY[2]) < 60) {
+                        } else if ((adjustedY - offsetY[2]) < 60 * Constants.heightMultiplier) {
                             layerMeta = 2;
-                        } else if ((adjustedY + offsetY[3]) < 90) {
+                        } else if ((adjustedY + offsetY[3]) < 90 * Constants.heightMultiplier) {
                             layerMeta = 3;
-                        } else if ((adjustedY - offsetY[4]) < 110) {
+                        } else if ((adjustedY - offsetY[4]) < 110 * Constants.heightMultiplier) {
                             layerMeta = 4;
                         }
                         StoneType type = StoneType.pickOneStoneType(
@@ -189,21 +173,6 @@ public class WorldGenStrata {
                             (int) (adjustedY + offsetY[layerMeta]),
                             offsetB[layerMeta]);
                         // Biome Specific
-                        if (Config.strataBiomeSpecific.getBoolean()) {
-                            if (layerMeta == 3 || layerMeta == 4) {
-                                if (stoneTypeMap.containsKey(currentBlock)) {
-                                    if (stoneTypeBiomeMap.containsKey(currentBlock)) {
-                                        List<BiomeGenBase> neededBiome = stoneTypeBiomeMap.get(currentBlock);
-                                        BiomeGenBase biome = WorldUtils.getBiome(chunk, x, z);
-                                        if (neededBiome.contains(biome)) {
-                                            type = stoneTypeMap.get(currentBlock);
-                                        }
-                                    } else {
-                                        type = stoneTypeMap.get(currentBlock);
-                                    }
-                                }
-                            }
-                        }
                         int meta = StoneType.getMeta(Constants.stoneTypes, type);
 
                         WorldUtils.setChunkBlock(array, x, y, z, nextBlock, meta);

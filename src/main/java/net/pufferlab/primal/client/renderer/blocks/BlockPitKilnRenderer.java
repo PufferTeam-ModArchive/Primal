@@ -23,6 +23,7 @@ public class BlockPitKilnRenderer extends BlockPrimalRenderer {
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
         int meta = world.getBlockMetadata(x, y, z);
+        boolean flag = false;
         if (meta == 0) {
             renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
         }
@@ -41,9 +42,9 @@ public class BlockPitKilnRenderer extends BlockPrimalRenderer {
             renderer.renderStandardBlock(block, x, y, z);
             renderer.setRenderBounds(0.0F, 0.625F, 0.0F, cut, 1.0F, 1.0F);
         }
-        renderer.renderStandardBlock(block, x, y, z);
+        flag = renderer.renderStandardBlock(block, x, y, z);
 
-        return false;
+        return flag;
     }
 
     @Override

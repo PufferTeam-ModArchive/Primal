@@ -18,6 +18,8 @@ import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.tileentities.TileEntityAnvil;
 import net.pufferlab.primal.tileentities.TileEntityCrucible;
 import net.pufferlab.primal.tileentities.TileEntityLargeVessel;
+import net.pufferlab.primal.utils.IdentifierMap;
+import net.pufferlab.primal.world.ChunkLoadingCallback;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -28,10 +30,6 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
-import gnu.trove.map.TIntObjectMap;
-import gnu.trove.map.TObjectIntMap;
-import gnu.trove.map.hash.TIntObjectHashMap;
-import gnu.trove.map.hash.TObjectIntHashMap;
 
 public class CommonProxy implements IGuiHandler {
 
@@ -78,12 +76,9 @@ public class CommonProxy implements IGuiHandler {
     public ContainerAnvilWork anvilWorkGui;
     public ContainerAnvilPlan anvilPlanGui;
 
-    private int nextGuiID;
-
     public void preInit(FMLPreInitializationEvent event) {}
 
-    private final TIntObjectMap<ContainerPrimal> guiMap = new TIntObjectHashMap<>();
-    private final TObjectIntMap<Class<? extends ContainerPrimal>> guiIdMap = new TObjectIntHashMap<>();
+    private final IdentifierMap<ContainerPrimal> guiMap = new IdentifierMap<>();
 
     public void setupGUIs() {
         NetworkRegistry.INSTANCE.registerGuiHandler(Primal.instance, Primal.proxy);
@@ -102,22 +97,26 @@ public class CommonProxy implements IGuiHandler {
     }
 
     public <T extends ContainerPrimal> void register(T object) {
-        int id = getNextGuiID();
-        guiIdMap.put(object.getClass(), id);
-        guiMap.put(id, object);
+        guiMap.putObject(object, getNextGuiID());
     }
+
+    private int nextGuiID;
 
     public int getNextGuiID() {
         return nextGuiID++;
     }
 
     public int getLastGuiID() {
-        return nextGuiID + 1;
+        return nextGuiID + 10;
     }
 
     public void setupRenders() {}
 
     public void setupResources() {}
+
+    public void setupChunkLoading() {
+        ChunkLoadingCallback.registerCallback();
+    }
 
     public void init(FMLInitializationEvent event) {}
 
@@ -151,14 +150,14 @@ public class CommonProxy implements IGuiHandler {
     }
 
     public ContainerPrimal getGui(int id) {
-        return guiMap.get(id);
+        return guiMap.getObject(id);
     }
 
-    public int getGuiId(ContainerPrimal container) {
-        return guiIdMap.get(container.getClass());
+    public <T extends ContainerPrimal> int getGuiId(T container) {
+        return guiMap.getID(container);
     }
 
-    public int getRenderId(BlockPrimalRenderer container) {
+    public <T extends BlockPrimalRenderer> int getRenderId(T container) {
         return 0;
     }
 

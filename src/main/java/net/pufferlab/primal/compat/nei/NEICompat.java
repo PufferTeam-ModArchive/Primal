@@ -5,6 +5,7 @@ import static net.pufferlab.primal.utils.ItemUtils.getModItem;
 
 import java.awt.*;
 
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Mods;
@@ -35,8 +36,11 @@ public class NEICompat implements IConfigureNEI {
     }
 
     public void loadHandlersGTNH() {
-        for (String filter : ItemUtils.getItemHideFilter()) {
+        for (String filter : ItemUtils.getHideFilter()) {
             API.hideItem(filter);
+        }
+        for (ItemStack stack : ItemUtils.getItemHideFilter()) {
+            API.hideItem(stack);
         }
         loadGTNHIMC();
     }

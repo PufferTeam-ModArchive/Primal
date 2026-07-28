@@ -23,19 +23,19 @@ public class BlockCropsRenderer extends BlockPrimalRenderer {
         }
 
         if (renderType == Constants.crossedModel) {
-            renderBlockCropsSimple(renderer, block, x, y, z, 1.0F);
+            return renderBlockCropsSimple(renderer, block, x, y, z, 1.0F);
         }
         if (renderType == Constants.crossedModel32) {
-            renderBlockCropsSimple(renderer, block, x, y, z, 2.0F);
+            return renderBlockCropsSimple(renderer, block, x, y, z, 2.0F);
         }
         if (renderType == Constants.cropModel) {
-            renderer.renderBlockCrops(block, x, y, z);
+            return renderer.renderBlockCrops(block, x, y, z);
         }
         if (renderType == Constants.cropModel32) {
-            renderBlockCrops(renderer, block, x, y, z, 2.0F);
+            return renderBlockCrops(renderer, block, x, y, z, 2.0F);
         }
 
-        return true;
+        return false;
     }
 
     @Override

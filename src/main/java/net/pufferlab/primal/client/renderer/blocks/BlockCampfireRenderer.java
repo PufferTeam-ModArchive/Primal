@@ -28,6 +28,7 @@ public class BlockCampfireRenderer extends BlockPrimalRenderer {
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
         Tessellator tess = Tessellator.instance;
+        boolean flag = false;
         modelKindling.kindling.isHidden = true;
         modelCampfire.log1.isHidden = true;
         modelCampfire.log2.isHidden = true;
@@ -76,10 +77,11 @@ public class BlockCampfireRenderer extends BlockPrimalRenderer {
                     }
                     modelCampfireSpit.render(renderer, tess, block, x, y, z, iconCampfireSpit);
                 }
+                flag = true;
             }
         }
 
-        return true;
+        return flag;
     }
 
     @Override

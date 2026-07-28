@@ -41,22 +41,23 @@ public class BlockGrassRenderer extends BlockPrimalRenderer {
         Material material = world.getBlock(x, y + 1, z)
             .getMaterial();
         IPrimalBlock block0 = (IPrimalBlock) block;
+        boolean flag = false;
 
         block0.setInventory(false);
         block0.setPass(0);
-        renderStandardBlockNoColor(renderer, block, x, y, z);
+        flag = renderStandardBlockNoColor(renderer, block, x, y, z);
 
         block0.setPass(1);
         if (material != Material.craftedSnow && material != Material.snow) {
-            renderer.renderStandardBlock(block, x, y, z);
+            flag = renderer.renderStandardBlock(block, x, y, z);
         } else {
-            renderStandardBlockNoColor(renderer, block, x, y, z);
+            flag = renderStandardBlockNoColor(renderer, block, x, y, z);
         }
         block0.setPass(0);
 
         // Better Foliage
         block0.setPass(1);
-        return true;
+        return flag;
     }
 
     @Override

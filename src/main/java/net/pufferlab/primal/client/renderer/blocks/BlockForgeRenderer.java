@@ -26,6 +26,7 @@ public class BlockForgeRenderer extends BlockPrimalRenderer {
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
         Tessellator tess = Tessellator.instance;
+        boolean flag = false;
         TileEntity te = world.getTileEntity(x, y, z);
         int renderPass = getWorldRenderPass();
         if (te instanceof TileEntityForge tef) {
@@ -36,9 +37,10 @@ public class BlockForgeRenderer extends BlockPrimalRenderer {
                     renderer.renderStandardBlock(block, x, y, z);
                 }
                 modelForge.render(renderer, tess, block, x, y, z, iconForge);
+                flag = true;
             }
         }
-        return true;
+        return flag;
     }
 
     @Override

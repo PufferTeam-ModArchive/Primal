@@ -37,17 +37,18 @@ public class BlockPathRenderer extends BlockPrimalRenderer {
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
         IPrimalBlock block0 = (IPrimalBlock) block;
+        boolean flag = false;
 
         renderer.setRenderBounds(0.0D, 0.0D, 0.0D, 1.0D, 0.9375D, 1.0D);
 
         block0.setInventory(false);
         block0.setPass(0);
-        renderStandardBlockNoColor(renderer, block, x, y, z);
+        flag = renderStandardBlockNoColor(renderer, block, x, y, z);
 
         block0.setPass(1);
-        renderStandardBlockNoColor(renderer, block, x, y, z);
+        flag = renderStandardBlockNoColor(renderer, block, x, y, z);
         block0.setPass(0);
-        return true;
+        return flag;
     }
 
     @Override

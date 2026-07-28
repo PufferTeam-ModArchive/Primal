@@ -8,7 +8,7 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemSeeds;
 import net.pufferlab.primal.Config;
 
-public class CropType {
+public class CropType implements IPrimalType {
 
     public String name;
     public String cropName;
@@ -42,6 +42,11 @@ public class CropType {
         this.nutrientConsumption = nutrient;
         this.growthMultiplier = growthMultiplier;
         this.cropRenderType = cropRenderType;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     public int getGrowthTicks(Random random) {

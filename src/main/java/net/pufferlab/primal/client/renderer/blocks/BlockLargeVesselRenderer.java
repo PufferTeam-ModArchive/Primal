@@ -29,7 +29,7 @@ public class BlockLargeVesselRenderer extends BlockPrimalRenderer {
         RenderBlocks renderer) {
         // spotless:off
         Tessellator tess = Tessellator.instance;
-        dumpVertices(tess, x, y, z);
+        boolean flag = false;
         TileEntity te = world.getTileEntity(x, y, z);
         int renderPass = getWorldRenderPass();
         if (te instanceof TileEntityLargeVessel tef) {
@@ -57,11 +57,13 @@ public class BlockLargeVesselRenderer extends BlockPrimalRenderer {
                     0.8125F - o,
                     false,
                     false);
+                flag = true;
             } else if (renderPass == 0) {
                 modelLargeVessel.render(renderer, tess, block, x, y, z, iconLargeVessel);
+                flag = true;
             }
         }
-        return true;
+        return flag;
         // spotless:off
     }
 

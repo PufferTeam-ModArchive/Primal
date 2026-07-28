@@ -6,6 +6,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.pufferlab.primal.Config;
+import net.pufferlab.primal.utils.WorldUtils;
 import net.pufferlab.primal.world.gen.WorldGenSoil;
 import net.pufferlab.primal.world.gen.WorldGenStrata;
 
@@ -21,16 +22,18 @@ public class PrimalEarlyGenerator implements IWorldGenerator {
         IChunkProvider chunkProvider) {
         Chunk chunk = world.getChunkFromChunkCoords(chunkX, chunkZ);
 
-        if (Config.strataStoneTypes.getBoolean() && Config.strataWorldGen.getBoolean()) {
-            strataGen.initNoiseSeed(world.getSeed());
-            strataGen.genStrata(chunk);
-        }
+        if (!WorldUtils.isTerraFirma(world)) {
+            if (Config.strataStoneTypes.getBoolean() && Config.strataWorldGen.getBoolean()) {
+                strataGen.initNoiseSeed(world.getSeed());
+                strataGen.genStrata(chunk);
+            }
 
-        if (Config.soilTypes.getBoolean() && Config.soilWorldGen.getBoolean()) {
-            soilGen.initNoiseSeed(world.getSeed());
-            soilGen.genSoil(chunk);
+            if (Config.soilTypes.getBoolean() && Config.soilWorldGen.getBoolean()) {
+                soilGen.initNoiseSeed(world.getSeed());
+                soilGen.genSoil(chunk);
+            }
+            chunk.generateSkylightMap();
         }
-        chunk.generateSkylightMap();
     }
 
     public static void initBlockList() {

@@ -6,9 +6,9 @@ import net.minecraft.world.biome.WorldChunkManager;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.pufferlab.primal.Primal;
 
-public class WorldTypePrimal extends WorldType {
+public class WorldTypeTF extends WorldType {
 
-    public WorldTypePrimal() {
+    public WorldTypeTF() {
         super("terrafirma");
         setNotificationData();
     }
@@ -25,12 +25,12 @@ public class WorldTypePrimal extends WorldType {
 
     @Override
     public WorldChunkManager getChunkManager(World world) {
-        return new ChunkManagerPrimal();
+        return new ChunkManagerTF();
     }
 
     @Override
     public IChunkProvider getChunkGenerator(World world, String generatorOptions) {
-        return new ChunkProviderPrimal(world);
+        return new ChunkProviderTF(world);
     }
 
     @Override

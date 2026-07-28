@@ -144,10 +144,15 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
 
     @Override
     public CreativeTabs getCreativeTab() {
-        if (field_150004_a) {
-            return null;
-        }
         return Registry.creativeTabWorld;
+    }
+
+    @Override
+    public boolean hideBlock() {
+        if (field_150004_a) {
+            return true;
+        }
+        return false;
     }
 
     @Override

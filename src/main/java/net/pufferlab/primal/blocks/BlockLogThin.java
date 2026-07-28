@@ -23,7 +23,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.items.itemblocks.ItemBlockMeta;
-import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.WoodType;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -39,7 +38,7 @@ public class BlockLogThin extends Block implements IPrimalBlock, IMetaBlock {
 
     public BlockLogThin(WoodType wood) {
         super(Material.wood);
-        this.name = wood.name;
+        this.name = wood.getName();
         this.wood = wood;
         this.field_150168_M = wood.types;
         this.names = wood.thinTypes;
@@ -276,49 +275,13 @@ public class BlockLogThin extends Block implements IPrimalBlock, IMetaBlock {
 
     @Override
     public MovingObjectPosition collisionRayTrace(World worldIn, int x, int y, int z, Vec3 startVec, Vec3 endVec) {
-        List<AxisAlignedBB> bounds;
-        this.setBlockBoundsBasedOnState(worldIn, x, y, z);
-        bounds = getBounds(worldIn, x, y, z, null, BoundsType.rayTraced);
-        if (bounds != null && !bounds.isEmpty()) {
-            for (AxisAlignedBB bb : bounds) {
-                MovingObjectPosition mop = BlockUtils.collisionRayTrace(bb, worldIn, x, y, z, startVec, endVec);
-                if (mop != null) {
-                    return mop;
-                }
-            }
-        }
-        return BlockUtils.collisionRayTrace(
-            AxisAlignedBB.getBoundingBox(this.minX, this.minY, this.minZ, this.maxX, this.maxY, this.maxZ),
-            worldIn,
-            x,
-            y,
-            z,
-            startVec,
-            endVec);
+        return customCollisionRayTrace(worldIn, x, y, z, startVec, endVec);
     }
 
     @Override
     public void addCollisionBoxesToList(World worldIn, int x, int y, int z, AxisAlignedBB mask,
         List<AxisAlignedBB> list, Entity collider) {
-        this.setBlockBoundsBasedOnState(worldIn, x, y, z);
-        List<AxisAlignedBB> bounds;
-        bounds = getBounds(worldIn, x, y, z, null, BoundsType.collision);
-        if (bounds != null && !bounds.isEmpty()) {
-            for (AxisAlignedBB bb : bounds) {
-                bb = bb.copy()
-                    .offset(x, y, z);
-                if (mask.intersectsWith(bb)) {
-                    list.add(bb);
-                }
-            }
-        }
-        if (collideDefaultBounds()) {
-            AxisAlignedBB axisalignedbb1 = this.getCollisionBoundingBoxFromPool(worldIn, x, y, z);
-
-            if (axisalignedbb1 != null && mask.intersectsWith(axisalignedbb1)) {
-                list.add(axisalignedbb1);
-            }
-        }
+        addCustomCollisionBoxesToList(worldIn, x, y, z, mask, list, collider);
     }
 
     @Override

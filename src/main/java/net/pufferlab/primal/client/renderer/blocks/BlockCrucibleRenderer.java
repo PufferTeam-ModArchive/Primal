@@ -28,6 +28,7 @@ public class BlockCrucibleRenderer extends BlockPrimalRenderer {
         // spotless:off
         Tessellator tess = Tessellator.instance;
         TileEntity te = world.getTileEntity(x, y, z);
+        boolean flag = false;
         int renderPass = getWorldRenderPass();
         if (te instanceof TileEntityCrucible tef) {
             Block blockBelow = tef.getWorldObj()
@@ -47,11 +48,11 @@ public class BlockCrucibleRenderer extends BlockPrimalRenderer {
             if (renderPass == 1) {
                 modelFluid.setFacingOffset(0.0F, -offsetY, 0.0F);
                 modelFluid.render(renderer, tess, x, y, z, stack, 0.1875F + o, 0.0625F, 0.1875F + o, 0.8125F - o, height, 0.8125F - o, false, false);
-                return true;
+                flag = true;
             }
         }
         // spotless:on
-        return false;
+        return flag;
     }
 
     @Override

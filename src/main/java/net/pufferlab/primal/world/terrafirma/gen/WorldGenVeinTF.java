@@ -1,6 +1,6 @@
-package net.pufferlab.primal.world.gen;
+package net.pufferlab.primal.world.terrafirma.gen;
 
-import java.util.*;
+import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
@@ -10,11 +10,13 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.utils.StoneType;
 import net.pufferlab.primal.utils.VeinType;
-import net.pufferlab.primal.world.gen.feature.WorldGenGroundOre;
+import net.pufferlab.primal.world.gen.VeinMath;
+import net.pufferlab.primal.world.gen.WorldGenVein;
+import net.pufferlab.primal.world.terrafirma.gen.feature.WorldGenGroundOreTF;
 
-public class WorldGenVein {
+public class WorldGenVeinTF extends WorldGenVein {
 
-    public static final WorldGenGroundOre genIndicator = new WorldGenGroundOre(Registry.ground_ore);
+    public static final WorldGenGroundOreTF genIndicator = new WorldGenGroundOreTF();
     public long lastSeed;
 
     public void initNoiseSeed(long seed) {
@@ -39,8 +41,9 @@ public class WorldGenVein {
                     if (type != null) {
                         if (vein.isValidStone(type)) {
                             int deep = Math.abs(maxY - y);
+                            int oreMeta = vein.oreType.oreMeta;
                             if (vein.getChanceIndicator(rand) && deep < 15) {
-                                genIndicator.generate(world, rand, x, y, z);
+                                genIndicator.generate(world, rand, x, y, z, Registry.ground_ore, oreMeta);
                             }
                             VeinMath.ovalImperfect(world, rand, x, y, z, vein);
                         }

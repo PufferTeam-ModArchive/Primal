@@ -22,7 +22,7 @@ public class BlockLogLarge extends BlockLog implements IMetaBlock, IPrimalBlock 
     public String[] field_150168_M;
 
     public BlockLogLarge(WoodType wood) {
-        this.name = wood.name;
+        this.name = wood.getName();
         this.wood = wood;
         this.field_150168_M = wood.types;
     }

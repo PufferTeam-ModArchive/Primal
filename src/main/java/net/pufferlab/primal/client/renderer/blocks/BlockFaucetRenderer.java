@@ -33,7 +33,7 @@ public class BlockFaucetRenderer extends BlockPrimalRenderer {
         RenderBlocks renderer) {
         // spotless:off
         Tessellator tess = Tessellator.instance;
-        dumpVertices(tess, x, y, z);
+        boolean flag = false;
         int renderPass = getWorldRenderPass();
         TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileEntityFaucet tef) {
@@ -68,13 +68,15 @@ public class BlockFaucetRenderer extends BlockPrimalRenderer {
             modelFluid.setFacing(meta);
             if (renderPass == 1 && tef.isOpen == true && tef.getInputTile() != null && tef.getExtractTile() != null) {
                 modelFluid.render(renderer, tess, x, y, z, stack, 0.375, -0.8F * tef.flowLevel, 0.375, 0.625, 0.125F, 0.625, true, true);
+                flag = true;
             }
             if (renderPass == 0) {
                 modelFaucet.render(renderer, tess, block, x, y, z, iconFaucet);
                 modelValve.render(renderer, tess, block, x, y, z, iconValve);
+                flag = true;
             }
         }
-        return true;
+        return flag;
         // spotless:on
     }
 

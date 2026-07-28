@@ -11,7 +11,7 @@ import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 
-public class MetalType {
+public class MetalType implements IPrimalType {
 
     public Item.ToolMaterial toolMaterial;
     public ItemArmor.ArmorMaterial armorMaterial;
@@ -45,6 +45,68 @@ public class MetalType {
         this.level = level;
     }
 
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String getString(Config.Value.Type index) {
+        if (index == Config.Value.Type.fluid) {
+            return fluidName;
+        }
+        return null;
+    }
+
+    @Override
+    public void setString(Config.Value.Type index, String string) {
+        if (index == Config.Value.Type.fluid) {
+            Fluid fluid = ItemUtils.getStaticFluid(string);
+            if (fluid != null) {
+                this.fluid = fluid;
+                this.fluidStack = new FluidStack(this.fluid, 1);
+                this.ingotFluid = new FluidStack(this.fluid, Config.metalIngotValue.getInt());
+                if (Config.metalVanillaToolValue.getBoolean()) {
+                    this.doubleToolFluid = new FluidStack(this.fluid, Config.metalIngotValue.getInt() * 2);
+                    this.tripleToolFluid = new FluidStack(this.fluid, Config.metalIngotValue.getInt() * 3);
+                } else {
+                    this.doubleToolFluid = this.ingotFluid;
+                    this.tripleToolFluid = this.ingotFluid;
+                }
+                this.nuggetFluid = new FluidStack(this.fluid, Config.metalNuggetValue.getInt());
+                this.oreFluid = new FluidStack(this.fluid, Config.metalOreValue.getInt());
+                this.smallOreFluid = new FluidStack(this.fluid, Config.metalSmallOreValue.getInt());
+            }
+        }
+    }
+
+    @Override
+    public int getInt(Config.Value.Type index) {
+        if (index == Config.Value.Type.melting) {
+            return this.meltingTemperature;
+        }
+        if (index == Config.Value.Type.forging) {
+            return this.forgingTemperature;
+        }
+        if (index == Config.Value.Type.welding) {
+            return this.weldingTemperature;
+        }
+        return 0;
+    }
+
+    @Override
+    public void setInt(Config.Value.Type index, int primary) {
+        if (index == Config.Value.Type.melting) {
+            this.meltingTemperature = primary;
+        }
+        if (index == Config.Value.Type.forging) {
+            this.forgingTemperature = primary;
+        }
+        if (index == Config.Value.Type.welding) {
+            this.weldingTemperature = primary;
+        }
+    }
+
     public String getTranslatedName() {
         return Utils.translate(this.langKey);
     }
@@ -75,23 +137,6 @@ public class MetalType {
     public MetalType setArmorMaterial(ItemArmor.ArmorMaterial armorMaterial) {
         this.armorMaterial = armorMaterial;
         return this;
-    }
-
-    public static void setFluids(MetalType[] metals) {
-        for (int i = 0; i < metals.length; i++) {
-            metals[i].fluidStack = new FluidStack(metals[i].fluid, 1);
-            metals[i].ingotFluid = new FluidStack(metals[i].fluid, Config.metalIngotValue.getInt());
-            if (Config.metalVanillaToolValue.getBoolean()) {
-                metals[i].doubleToolFluid = new FluidStack(metals[i].fluid, Config.metalIngotValue.getInt() * 2);
-                metals[i].tripleToolFluid = new FluidStack(metals[i].fluid, Config.metalIngotValue.getInt() * 3);
-            } else {
-                metals[i].doubleToolFluid = metals[i].ingotFluid;
-                metals[i].tripleToolFluid = metals[i].ingotFluid;
-            }
-            metals[i].nuggetFluid = new FluidStack(metals[i].fluid, Config.metalNuggetValue.getInt());
-            metals[i].oreFluid = new FluidStack(metals[i].fluid, Config.metalOreValue.getInt());
-            metals[i].smallOreFluid = new FluidStack(metals[i].fluid, Config.metalSmallOreValue.getInt());
-        }
     }
 
     public static Map<Fluid, MetalType> fluidMap;

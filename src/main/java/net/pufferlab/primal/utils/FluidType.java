@@ -3,7 +3,7 @@ package net.pufferlab.primal.utils;
 import net.minecraft.block.Block;
 import net.minecraftforge.fluids.Fluid;
 
-public class FluidType {
+public class FluidType implements IPrimalType {
 
     public boolean existingFluid;
     public String name;
@@ -38,6 +38,11 @@ public class FluidType {
         this.density = 1000;
         this.viscosity = 1000;
         this.existingFluid = existingFluid;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     public FluidType setBlock(Block block) {

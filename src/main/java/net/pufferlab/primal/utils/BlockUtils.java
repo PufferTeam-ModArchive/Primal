@@ -1,13 +1,16 @@
 package net.pufferlab.primal.utils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.world.IBlockAccess;
@@ -264,6 +267,16 @@ public class BlockUtils {
         return ItemDummy.instance.getMovingObjectPositionFromPlayerPublic(worldIn, playerIn, useLiquids);
     }
 
+    public static class ItemDummy extends Item {
+
+        public static ItemDummy instance = new ItemDummy();
+
+        public MovingObjectPosition getMovingObjectPositionFromPlayerPublic(World worldIn, EntityPlayer player,
+            boolean useLiquids) {
+            return getMovingObjectPositionFromPlayer(worldIn, player, useLiquids);
+        }
+    }
+
     public static MovingObjectPosition collisionRayTrace(AxisAlignedBB bound, World worldIn, int x, int y, int z,
         Vec3 startVec, Vec3 endVec) {
         startVec = startVec.addVector((double) (-x), (double) (-y), (double) (-z));
@@ -384,6 +397,63 @@ public class BlockUtils {
             : point.xCoord >= bound.minX && point.xCoord <= bound.maxX
                 && point.yCoord >= bound.minY
                 && point.yCoord <= bound.maxY;
+    }
+
+    public static MovingObjectPosition customCollisionRayTrace(Block thiz, World worldIn, int x, int y, int z,
+        Vec3 startVec, Vec3 endVec) {
+        if (thiz instanceof IPrimalBlock iblock) {
+            List<AxisAlignedBB> bounds;
+            thiz.setBlockBoundsBasedOnState(worldIn, x, y, z);
+            bounds = iblock.getBounds(worldIn, x, y, z, null, BoundsType.rayTraced);
+            if (bounds != null && !bounds.isEmpty()) {
+                for (AxisAlignedBB bb : bounds) {
+                    MovingObjectPosition mop = BlockUtils.collisionRayTrace(bb, worldIn, x, y, z, startVec, endVec);
+                    if (mop != null) {
+                        return mop;
+                    }
+                }
+            }
+            return BlockUtils.collisionRayTrace(
+                AxisAlignedBB.getBoundingBox(
+                    thiz.getBlockBoundsMinX(),
+                    thiz.getBlockBoundsMinY(),
+                    thiz.getBlockBoundsMinZ(),
+                    thiz.getBlockBoundsMaxX(),
+                    thiz.getBlockBoundsMaxY(),
+                    thiz.getBlockBoundsMaxZ()),
+                worldIn,
+                x,
+                y,
+                z,
+                startVec,
+                endVec);
+        }
+        return null;
+    }
+
+    public static void addCustomCollisionBoxesToList(Block thiz, World worldIn, int x, int y, int z, AxisAlignedBB mask,
+        List<AxisAlignedBB> list, Entity collider) {
+        if (thiz instanceof IPrimalBlock iblock) {
+            thiz.setBlockBoundsBasedOnState(worldIn, x, y, z);
+            List<AxisAlignedBB> bounds;
+            bounds = iblock.getBounds(worldIn, x, y, z, null, BoundsType.collision);
+            if (bounds != null && !bounds.isEmpty()) {
+                for (AxisAlignedBB bb : bounds) {
+                    bb = bb.copy()
+                        .offset(x, y, z);
+                    if (mask.intersectsWith(bb)) {
+                        list.add(bb);
+                    }
+                }
+            }
+            if (iblock.collideDefaultBounds()) {
+                AxisAlignedBB axisalignedbb1 = thiz.getCollisionBoundingBoxFromPool(worldIn, x, y, z);
+
+                if (axisalignedbb1 != null && mask.intersectsWith(axisalignedbb1)) {
+                    list.add(axisalignedbb1);
+                }
+            }
+        }
     }
 
     public static int getDirectionXZYaw(int yaw) {

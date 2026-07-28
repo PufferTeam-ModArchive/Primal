@@ -29,17 +29,16 @@ import net.pufferlab.primal.inventory.*;
 import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.tileentities.*;
 import net.pufferlab.primal.utils.HeatUtils;
+import net.pufferlab.primal.utils.IdentifierMap;
 import net.pufferlab.primal.utils.Utils;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import gnu.trove.map.TObjectIntMap;
-import gnu.trove.map.hash.TObjectIntHashMap;
 
 public class ClientProxy extends CommonProxy {
 
-    private final TObjectIntMap<Class<? extends BlockPrimalRenderer>> renderIdMap = new TObjectIntHashMap<>();
+    private final IdentifierMap<BlockPrimalRenderer> renderMap = new IdentifierMap<>();
 
     @Override
     public void setupRenders() {
@@ -172,7 +171,7 @@ public class ClientProxy extends CommonProxy {
     }
 
     public <T extends BlockPrimalRenderer> void register(T object) {
-        renderIdMap.put(object.getClass(), getNextId());
+        renderMap.putObject(object, getNextId());
         RenderingRegistry.registerBlockHandler(object);
     }
 
@@ -193,8 +192,8 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public int getRenderId(BlockPrimalRenderer container) {
-        return this.renderIdMap.get(container.getClass());
+    public <T extends BlockPrimalRenderer> int getRenderId(T container) {
+        return this.renderMap.getID(container);
     }
 
     @Override

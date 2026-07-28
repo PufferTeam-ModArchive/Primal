@@ -44,6 +44,7 @@ public class BlockOreRenderer extends BlockPrimalRenderer {
         RenderBlocks renderer) {
         IPrimalBlock block0 = (IPrimalBlock) block;
         boolean isEmissive = block0.isEmissive();
+        boolean flag = false;
 
         int worldPass = getWorldRenderPass();
         block0.setInventory(false);
@@ -58,17 +59,17 @@ public class BlockOreRenderer extends BlockPrimalRenderer {
                 renderStandardBlockNoColor(renderer, block, x, y, z);
             }
             block0.setPass(0);
-            return true;
+            flag = true;
         } else if (worldPass == 1) {
             block0.setPass(2);
             expandRenderBounds(renderer);
             renderStandardBlockNoColor(renderer, block, x, y, z);
             restoreRenderBounds(renderer);
             block0.setPass(0);
-            return true;
+            flag = true;
         }
 
-        return false;
+        return flag;
     }
 
     @Override

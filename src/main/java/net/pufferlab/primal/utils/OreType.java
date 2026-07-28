@@ -7,7 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.pufferlab.primal.Primal;
 
-public class OreType {
+public class OreType implements IPrimalType {
 
     public MetalType metalType;
     public String name;
@@ -33,6 +33,11 @@ public class OreType {
         this.name = name;
         this.miningLevel = level;
         this.color = color;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     public OreType setOreItem(Item item, int meta) {

@@ -13,6 +13,7 @@ public class Constants {
     public static final String gray  = "§7";
     public static final String reset = "§r";
 
+    public static float heightMultiplier = 110f / 70f;
     public static int minHeight = 0;
     public static int maxHeight = 255;
 

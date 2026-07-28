@@ -30,6 +30,7 @@ public class BlockGroundcoverRenderer extends BlockPrimalRenderer {
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
         Tessellator tess = Tessellator.instance;
+        boolean flag = false;
         Random rand = Utils.getSeededRandom(random, x, y, z);
 
         int meta = world.getBlockMetadata(x, y, z);
@@ -54,6 +55,7 @@ public class BlockGroundcoverRenderer extends BlockPrimalRenderer {
                     modelRock.setFacing(rotation);
                     modelRock.render(renderer, tess, block, x, y, z, ox, 0.0F, oz, meta);
                 }
+                flag = true;
             }
             if (type == Constants.itemModel) {
                 modelItem.setFacingOffset(-0.25F, 0.0F, -0.25F);
@@ -61,10 +63,11 @@ public class BlockGroundcoverRenderer extends BlockPrimalRenderer {
                 modelItem.bb_main.rotateAngleY = modelItem.bb_main.rotateAngleY + o2;
                 modelItem.bb_main.rotateAngleX = (float) Math.PI / 2;
                 modelItem.renderItem(renderer, tess, block, x, y, z, ox, 0.0F, ox, meta, 0.5F + o2);
+                flag = true;
             }
         }
 
-        return true;
+        return flag;
     }
 
     @Override

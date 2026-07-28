@@ -60,4 +60,9 @@ public class BlockMoving extends BlockContainerPrimal {
     public boolean isSideSolid(IBlockAccess world, int x, int y, int z, ForgeDirection side) {
         return false;
     }
+
+    @Override
+    public boolean hideBlock() {
+        return true;
+    }
 }

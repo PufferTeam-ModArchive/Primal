@@ -8,12 +8,12 @@ import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.WorldChunkManager;
 
-public class ChunkManagerPrimal extends WorldChunkManager {
+public class ChunkManagerTF extends WorldChunkManager {
 
     private BiomeGenBase biomeGenerator;
     private float rainfall;
 
-    public ChunkManagerPrimal() {
+    public ChunkManagerTF() {
         this.biomeGenerator = BiomeGenBase.plains;
         this.rainfall = 0.5F;
     }

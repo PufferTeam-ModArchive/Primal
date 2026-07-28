@@ -31,7 +31,7 @@ public class BlockBarrelRenderer extends BlockPrimalRenderer {
         RenderBlocks renderer) {
         // spotless:off
         Tessellator tess = Tessellator.instance;
-        dumpVertices(tess, x, y, z);
+        boolean flag = false;
         TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileEntityBarrel tef) {
             int renderPass = getWorldRenderPass();
@@ -58,6 +58,7 @@ public class BlockBarrelRenderer extends BlockPrimalRenderer {
             if (renderPass == 1 && !tef.isFloorBarrel) {
                 modelFluid.render(renderer, tess, x, y, z, stack, 0.125F + o, 0.1875F, 0.125F + o, 0.875F - o, height, 0.875F - o, false, false);
                 modelFluid.render(renderer, tess, x, y, z, stackOutput, 0.125F + o, 0.1875F, 0.125F + o, 0.875F - o, heightOutput, 0.875F - o, false, false);
+                flag = true;
             } else if (renderPass == 0) {
                 Block blockAbove = world.getBlock(x, y + 1, z);
                 if (blockAbove instanceof BlockBarrel) {
@@ -67,9 +68,10 @@ public class BlockBarrelRenderer extends BlockPrimalRenderer {
                     renderer.setOverrideBlockTexture(null);
                 }
                 modelBarrel.render(renderer, tess, block, x, y, z, iconBarrel);
+                flag = true;
             }
         }
-        return true;
+        return flag;
         // spotless:on
     }
 

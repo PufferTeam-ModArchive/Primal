@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.world.World;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 
@@ -12,12 +14,14 @@ import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
 
-public class StoneType {
+public class StoneType implements IPrimalType {
 
     public StoneCategory category;
     public String name;
     int minHeight;
     int maxHeight;
+    int minHeightTF;
+    int maxHeightTF;
     int weight;
 
     public StoneType(StoneCategory category, String name) {
@@ -29,12 +33,67 @@ public class StoneType {
         this(category, name);
         this.minHeight = minHeight;
         this.maxHeight = maxHeight;
+        this.minHeightTF = Utils.floor(minHeight * Constants.heightMultiplier);
+        this.maxHeightTF = Utils.floor(maxHeight * Constants.heightMultiplier);
         this.weight = weight;
     }
 
-    public boolean canGenerate(int height) {
-        if (height < maxHeight && height > minHeight) {
-            return true;
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public int getMinInt(Config.Value.Type index) {
+        if (index == Config.Value.Type.height) {
+            return minHeight;
+        }
+        if (index == Config.Value.Type.heightTF) {
+            return minHeightTF;
+        }
+        return 0;
+    }
+
+    @Override
+    public int getMaxInt(Config.Value.Type index) {
+        if (index == Config.Value.Type.height) {
+            return maxHeight;
+        }
+        if (index == Config.Value.Type.heightTF) {
+            return maxHeightTF;
+        }
+        return 0;
+    }
+
+    @Override
+    public void setMinInt(Config.Value.Type index, int min) {
+        if (index == Config.Value.Type.height) {
+            this.minHeight = min;
+        }
+        if (index == Config.Value.Type.heightTF) {
+            this.minHeightTF = min;
+        }
+    }
+
+    @Override
+    public void setMaxInt(Config.Value.Type index, int max) {
+        if (index == Config.Value.Type.height) {
+            this.maxHeight = max;
+        }
+        if (index == Config.Value.Type.heightTF) {
+            this.maxHeightTF = max;
+        }
+    }
+
+    public boolean inRange(boolean isTerraFirma, int height) {
+        if (isTerraFirma) {
+            if (height < maxHeightTF && height > minHeightTF) {
+                return true;
+            }
+        } else {
+            if (height < maxHeight && height > minHeight) {
+                return true;
+            }
         }
         return false;
     }
@@ -44,12 +103,6 @@ public class StoneType {
             return true;
         }
         return false;
-    }
-
-    public StoneType setHeight(int min, int max) {
-        this.minHeight = min;
-        this.maxHeight = max;
-        return this;
     }
 
     public static String[] getNames(StoneType[] stones) {
@@ -68,41 +121,60 @@ public class StoneType {
         return names;
     }
 
-    public static StoneType pickOneStoneType(int height, int index) {
-        StoneType current = pickRaw(height, index);
-        StoneType below = pickRaw(height - 1, index);
-        StoneType above = pickRaw(height + 1, index);
-
-        if (current != below && current != above) {
-            return below;
+    public static StoneType pickOneStoneType(World world, int height, int index) {
+        if (WorldUtils.isTerraFirma(world)) {
+            return cacheTF.pickOneStoneType(height, index);
+        } else {
+            return cache.pickOneStoneType(height, index);
         }
-
-        return current;
     }
 
-    public static final TIntObjectMap<StoneType[]> stoneLayerCache = new TIntObjectHashMap<>();
-
-    private static StoneType pickRaw(int height, int index) {
-        StoneType[] cache = stoneLayerCache.get(height);
-
-        if (cache == null || cache.length == 0) return Constants.dacite;
-
-        int indexM = Math.floorMod(index, cache.length);
-        return cache[indexM];
-    }
+    public static final LayerCache cache = new LayerCache();
+    public static final LayerCache cacheTF = new LayerCache();
 
     public static void genLayerCache(StoneType[] stoneTypes) {
-        for (int i = Constants.minHeight; i < Constants.maxHeight; i++) {
-            List<StoneType> cacheStone = new ArrayList<>(stoneTypes.length);
+        cache.genLayerCache(false, stoneTypes);
+        cacheTF.genLayerCache(true, stoneTypes);
+    }
 
-            for (StoneType stone : stoneTypes) {
-                if (stone.canGenerate(i)) {
-                    cacheStone.add(stone);
-                }
+    public static class LayerCache {
+
+        public final TIntObjectMap<StoneType[]> stoneLayerCache = new TIntObjectHashMap<>();
+
+        public StoneType pickOneStoneType(int height, int index) {
+            StoneType current = pickRaw(height, index);
+            StoneType below = pickRaw(height - 1, index);
+            StoneType above = pickRaw(height + 1, index);
+
+            if (current != below && current != above) {
+                return below;
             }
 
-            if (!cacheStone.isEmpty()) {
-                stoneLayerCache.put(i, cacheStone.toArray(new StoneType[0]));
+            return current;
+        }
+
+        private StoneType pickRaw(int height, int index) {
+            StoneType[] cache = stoneLayerCache.get(height);
+
+            if (cache == null || cache.length == 0) return Constants.dacite;
+
+            int indexM = Math.floorMod(index, cache.length);
+            return cache[indexM];
+        }
+
+        public void genLayerCache(boolean isTerraFirma, StoneType[] stoneTypes) {
+            for (int i = Constants.minHeight; i < Constants.maxHeight; i++) {
+                List<StoneType> cacheStone = new ArrayList<>(stoneTypes.length);
+
+                for (StoneType stone : stoneTypes) {
+                    if (stone.inRange(isTerraFirma, i)) {
+                        cacheStone.add(stone);
+                    }
+                }
+
+                if (!cacheStone.isEmpty()) {
+                    stoneLayerCache.put(i, cacheStone.toArray(new StoneType[0]));
+                }
             }
         }
     }

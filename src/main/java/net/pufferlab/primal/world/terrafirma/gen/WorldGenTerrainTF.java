@@ -5,12 +5,13 @@ import static net.pufferlab.primal.world.noise.Noise.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.utils.NoiseUtils;
 import net.pufferlab.primal.utils.WorldUtils;
 import net.pufferlab.primal.world.noise.Noise;
 
-public class WorldGenTerrain {
+public class WorldGenTerrainTF {
 
     public Noise terrainNoise;
     public Noise hillNoise;
@@ -18,7 +19,7 @@ public class WorldGenTerrain {
     public Noise detailSmallNoise;
     public Noise continentNoise;
 
-    public WorldGenTerrain() {
+    public WorldGenTerrainTF() {
 
     }
 
@@ -67,7 +68,7 @@ public class WorldGenTerrain {
                     if (y < height) {
                         WorldUtils.setChunkBlock(array, x, y, z, Blocks.stone, 0);
                     } else {
-                        if (y < 100) {
+                        if (y < Config.seaLevelTF.getInt()) {
                             WorldUtils.setChunkBlock(array, x, y, z, Blocks.water, 0);
                         }
                     }
@@ -75,6 +76,5 @@ public class WorldGenTerrain {
                 }
             }
         }
-        chunk.isModified = true;
     }
 }

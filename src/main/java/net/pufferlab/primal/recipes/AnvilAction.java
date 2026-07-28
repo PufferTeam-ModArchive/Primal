@@ -1,10 +1,12 @@
 package net.pufferlab.primal.recipes;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.utils.IPrimalType;
 import net.pufferlab.primal.utils.Utils;
 
-public enum AnvilAction {
+public enum AnvilAction implements IPrimalType {
 
     hitLight(0, "light_hit", -3),
     hitMedium(1, "medium_hit", -6),
@@ -84,5 +86,20 @@ public enum AnvilAction {
     @Override
     public String toString() {
         return "AnvilAction{" + "id=" + id + ", step=" + step + ", name='" + name + '\'' + '}';
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public int getInt(Config.Value.Type index) {
+        return step;
+    }
+
+    @Override
+    public void setInt(Config.Value.Type id, int primary) {
+        this.step = primary;
     }
 }

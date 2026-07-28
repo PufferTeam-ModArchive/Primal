@@ -37,6 +37,7 @@ public class BlockOvenRenderer extends BlockPrimalRenderer {
         modelCampfire.log4.isHidden = true;
         modelCampfire.rocks.isHidden = true;
         TileEntity te = world.getTileEntity(x, y, z);
+        boolean flag = false;
         if (te instanceof TileEntityOven tef) {
             int meta = tef.getCurrentFuelStages();
             if (meta >= 1) {
@@ -63,10 +64,11 @@ public class BlockOvenRenderer extends BlockPrimalRenderer {
                 }
                 modelOven.setFacing(tef.facingMeta);
                 modelOven.render(renderer, tess, block, x, y, z, iconOven);
+                flag = true;
             }
         }
 
-        return true;
+        return flag;
     }
 
     @Override

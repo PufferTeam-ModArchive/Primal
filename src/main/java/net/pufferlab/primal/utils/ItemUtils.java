@@ -31,7 +31,8 @@ public class ItemUtils {
     private static final Map<String, FluidStack> fluidCache = new HashMap<>();
     private static final Map<String, ItemStack> modItemCache = new HashMap<>();
     private static final Map<String, ItemStack> oreDictCache = new HashMap<>();
-    private static final List<String> itemHideFilter = new ArrayList<>();
+    private static final List<String> hideFilter = new ArrayList<>();
+    private static final List<ItemStack> itemHideFilter = new ArrayList<>();
     public static Map<String, String> metalTypes = new HashMap<>();
     private static List<String> modItemNames;
     private static Map<String, Integer> priorityMap;
@@ -59,6 +60,10 @@ public class ItemUtils {
             Primal.LOG.error("Tried to get invalid ItemStack from :{}:{}:{}:{}.", mod, item, meta, meta);
         }
         return null;
+    }
+
+    public static Fluid getStaticFluid(String fluid) {
+        return FluidRegistry.getFluid(fluid);
     }
 
     public static FluidStack getFluid(String fluid, int number) {
@@ -106,11 +111,19 @@ public class ItemUtils {
         oreDictCache.put(name, stack);
     }
 
-    public static void registerItemHideFilter(String string) {
+    public static void registerHideFilter(String string) {
+        hideFilter.add(string);
+    }
+
+    public static void registerItemHideFilter(ItemStack string) {
         itemHideFilter.add(string);
     }
 
-    public static List<String> getItemHideFilter() {
+    public static List<String> getHideFilter() {
+        return hideFilter;
+    }
+
+    public static List<ItemStack> getItemHideFilter() {
         return itemHideFilter;
     }
 
