@@ -10,6 +10,7 @@ import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.utils.NoiseUtils;
 import net.pufferlab.primal.utils.WorldUtils;
 import net.pufferlab.primal.world.noise.Noise;
+import net.pufferlab.primal.world.terrafirma.ChunkDataTF;
 
 public class WorldGenTerrainTF {
 
@@ -59,6 +60,9 @@ public class WorldGenTerrainTF {
 
                 height -= NoiseUtils.fastpow(continentValue, 6) * 30.0F;
                 height += (hillSampledValue + 0.1F) * 65.0F;
+
+                ChunkDataTF data = ChunkDataTF.get(chunk);
+                data.rockness[x][z] = hillValue;
 
                 height += detailSmallValue * 3.0F;
                 height += terrainValue * NoiseUtils.fastpow(detailValue, 2) * 80.0F;

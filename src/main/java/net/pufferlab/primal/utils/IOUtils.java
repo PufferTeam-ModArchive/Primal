@@ -68,14 +68,20 @@ public class IOUtils {
         return new File(System.getProperty("java.io.tmpdir"), name + "." + extension);
     }
 
+    public static InputStream createStream(String resourceStream) {
+        return Primal.class.getResourceAsStream(resourceStream);
+    }
+
     public static File createResourceStreamFile(String resourceStream, String name, String extension) {
         File temp = IOUtils.createNamedTempFile(name, extension);
 
-        try (InputStream in = Primal.class.getResourceAsStream(resourceStream)) {
-            copyInputStream(in, temp);
+        try {
+            InputStream stream = createStream(resourceStream);
+            copyInputStream(stream, temp);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
         return temp;
     }
 
@@ -104,9 +110,21 @@ public class IOUtils {
         }
     }
 
+    public static NBTTagCompound readNBTFile(InputStream stream) {
+        try {
+            return CompressedStreamTools.readCompressed(stream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static NBTTagCompound readNBTFile(String stream) {
+        return readNBTFile(IOUtils.createStream(stream));
+    }
+
     public static NBTTagCompound readNBTFile(File file) {
         try {
-            return CompressedStreamTools.readCompressed(new FileInputStream(file));
+            return readNBTFile(new FileInputStream(file));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

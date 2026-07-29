@@ -6,9 +6,7 @@ import java.util.*;
 
 import net.minecraft.block.Block;
 import net.minecraft.nbt.*;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.utils.*;
 import net.pufferlab.primal.world.VirtualBlock;
 
@@ -23,11 +21,17 @@ public class StructureFile {
     public NBTTagCompound currentNBT;
 
     public StructureFile(String name) {
+        this(name, true);
+    }
+
+    public StructureFile(String name, boolean hasFile) {
         this.name = name;
-        try {
-            this.file = IOUtils.createStructureFile(this.name, "nbt");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (hasFile) {
+            try {
+                this.file = IOUtils.createStructureFile(this.name, "nbt");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
         this.list = new HashSet<>();
     }
@@ -60,7 +64,11 @@ public class StructureFile {
 
     public NBTTagCompound loadFile() {
         if (currentNBT == null) {
-            currentNBT = IOUtils.readNBTFile(file);
+            if (file != null) {
+                currentNBT = IOUtils.readNBTFile(file);
+            } else {
+                currentNBT = IOUtils.readNBTFile("/data/" + this.name + ".nbt");
+            }
         }
         return currentNBT;
     }
@@ -93,13 +101,8 @@ public class StructureFile {
                 for (int z = minZ; z <= maxZ; z++) {
                     Block block = world.getBlock(x, y, z);
                     int meta = world.getBlockMetadata(x, y, z);
-                    TileEntity te = world.getTileEntity(x, y, z);
-                    NBTTagCompound nbt = null;
-                    if (te != null) {
-                        nbt = new NBTTagCompound();
-                        te.writeToNBT(nbt);
-                    }
-                    NBTTagCompound blockInfo = getBlockInfo(block, meta, nbt);
+                    NBTTagCompound teData = WorldUtils.getTileEntityNBT(world, x, y, z, block, meta);
+                    NBTTagCompound blockInfo = getBlockInfo(block, meta, teData);
                     addBlockCoord(blockInfo, x - middleX, y - middleY, z - middleZ);
                 }
             }
@@ -218,20 +221,14 @@ public class StructureFile {
         virtualBlock.placeBlock(world, block, meta, nbt);
 
         for (int i = 0; i < rotation; i++) {
-            virtualBlock.rotateBlock(world, ForgeDirection.UP);
+            virtualBlock.rotateBlock(world);
         }
 
-        blockInfo.setInteger("meta", virtualBlock.getBlockMetadata(world));
-        TileEntity te = virtualBlock.getTileEntity(world);
-        if (te != null) {
-            NBTTagCompound newTag = new NBTTagCompound();
-            te.writeToNBT(newTag);
-            newTag.removeTag("x");
-            newTag.removeTag("y");
-            newTag.removeTag("z");
-            newTag.removeTag("xCached");
-            newTag.removeTag("yCached");
-            newTag.removeTag("zCached");
+        int newMeta = virtualBlock.getBlockMetadata(world);
+        blockInfo.setInteger("meta", newMeta);
+
+        NBTTagCompound newTag = virtualBlock.getTileEntityNBT(world);
+        if (newTag != null) {
             blockInfo.setTag("nbt", newTag);
         }
 
@@ -254,14 +251,9 @@ public class StructureFile {
         nbt.setString("block", BlockUtils.getName(block));
         nbt.setInteger("meta", meta);
         if (tag != null) {
-            tag.removeTag("x");
-            tag.removeTag("y");
-            tag.removeTag("z");
-            tag.removeTag("xCached");
-            tag.removeTag("yCached");
-            tag.removeTag("zCached");
             nbt.setTag("nbt", tag);
         }
+
         String string = nbt.toString();
         NBTTagCompound nbtOld = nbtCache.get(string);
         if (nbtOld != null) {

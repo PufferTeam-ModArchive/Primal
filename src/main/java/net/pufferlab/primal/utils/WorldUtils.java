@@ -2,6 +2,7 @@ package net.pufferlab.primal.utils;
 
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
@@ -18,8 +19,20 @@ public class WorldUtils {
         return array.getBlockByExtId(x, y & 15, z);
     }
 
+    public static Block getChunkBlock(Chunk chunk, int x, int y, int z) {
+        ExtendedBlockStorage storage = WorldUtils.getStorage(chunk, y);
+        if (storage == null) return null;
+        return getChunkBlock(storage, x, y, z);
+    }
+
     public static int getChunkBlockMetadata(ExtendedBlockStorage array, int x, int y, int z) {
         return array.getExtBlockMetadata(x, y & 15, z);
+    }
+
+    public static int getChunkBlockMetadata(Chunk chunk, int x, int y, int z) {
+        ExtendedBlockStorage storage = WorldUtils.getStorage(chunk, y);
+        if (storage == null) return 0;
+        return getChunkBlockMetadata(storage, x, y, z);
     }
 
     public static void setChunkBlock(ExtendedBlockStorage array, int x, int y, int z, Block block, int meta) {
@@ -27,24 +40,24 @@ public class WorldUtils {
         array.setExtBlockMetadata(x, y & 15, z, meta & 15);
     }
 
+    public static void setChunkBlock(Chunk chunk, int x, int y, int z, Block block, int meta) {
+        ExtendedBlockStorage storage = WorldUtils.getStorage(chunk, y);
+        if (storage == null) return;
+        setChunkBlock(storage, x, y, z, block, meta);
+    }
+
     public static Block getBlock(World world, int x, int y, int z) {
         Chunk chunk = world.getChunkFromChunkCoords(x >> 4, z >> 4);
         int x2 = x & 15;
         int z2 = z & 15;
-        ExtendedBlockStorage storage = WorldUtils.getStorage(chunk, y);
-        if (storage == null) return null;
-
-        return WorldUtils.getChunkBlock(storage, x2, y, z2);
+        return WorldUtils.getChunkBlock(chunk, x2, y, z2);
     }
 
     public static int getBlockMetadata(World world, int x, int y, int z) {
         Chunk chunk = world.getChunkFromChunkCoords(x >> 4, z >> 4);
         int x2 = x & 15;
         int z2 = z & 15;
-        ExtendedBlockStorage storage = WorldUtils.getStorage(chunk, y);
-        if (storage == null) return 0;
-
-        return WorldUtils.getChunkBlockMetadata(storage, x2, y, z2);
+        return getChunkBlockMetadata(chunk, x2, y, z2);
     }
 
     public static void setBlockStructure(World world, int x, int y, int z, Block block, int meta, NBTTagCompound nbt) {
@@ -59,10 +72,40 @@ public class WorldUtils {
         Chunk chunk = world.getChunkFromChunkCoords(x >> 4, z >> 4);
         int x2 = x & 15;
         int z2 = z & 15;
-        ExtendedBlockStorage storage = WorldUtils.getStorage(chunk, y);
-        if (storage == null) return;
 
-        WorldUtils.setChunkBlock(storage, x2, y, z2, block, meta);
+        WorldUtils.setChunkBlock(chunk, x2, y, z2, block, meta);
+    }
+
+    public static void setTileEntityNBT(World world, int x, int y, int z, Block block, int meta, NBTTagCompound nbt) {
+        if (block.hasTileEntity(meta)) {
+            TileEntity te = world.getTileEntity(x, y, z);
+            if (te != null) {
+                nbt.setInteger("x", x);
+                nbt.setInteger("y", y);
+                nbt.setInteger("z", z);
+                te.readFromNBT(nbt);
+                te.markDirty();
+            }
+        }
+    }
+
+    public static NBTTagCompound getTileEntityNBT(World world, int x, int y, int z, Block block, int meta) {
+        if (block.hasTileEntity(meta)) {
+            TileEntity te = world.getTileEntity(x, y, z);
+            if (te != null) {
+                NBTTagCompound tag = new NBTTagCompound();
+                te.writeToNBT(tag);
+
+                tag.removeTag("x");
+                tag.removeTag("y");
+                tag.removeTag("z");
+                tag.removeTag("xCached");
+                tag.removeTag("yCached");
+                tag.removeTag("zCached");
+                return tag;
+            }
+        }
+        return null;
     }
 
     public static ExtendedBlockStorage getStorage(Chunk chunk, int y) {

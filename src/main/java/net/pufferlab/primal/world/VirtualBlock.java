@@ -12,6 +12,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.client.renderer.RenderProjection;
+import net.pufferlab.primal.utils.WorldUtils;
 
 import org.lwjgl.opengl.GL11;
 
@@ -71,19 +72,28 @@ public class VirtualBlock {
     public void placeBlock(World world, int x, int y, int z, Block block, int meta, NBTTagCompound nbt) {
         world.getBlock(x, y, z);
         world.setBlock(x, y, z, block, meta, 2);
-        TileEntity te = world.getTileEntity(x, y, z);
-        if (te != null) {
-            if (nbt != null) {
-                NBTTagCompound nbt2 = (NBTTagCompound) nbt.copy();
-                nbt2.setInteger("x", x);
-                nbt2.setInteger("y", y);
-                nbt2.setInteger("z", z);
-                te.readFromNBT(nbt2);
-                te.markDirty();
-            }
-        }
+        WorldUtils.setTileEntityNBT(world, x, y, z, block, meta, nbt);
 
         Primal.debugLog("Placed Block at" + x + ":" + y + ":" + z);
+    }
+
+    public Block getBlock(World world) {
+        return world.getBlock(coordX, coordY, coordZ);
+    }
+
+    public int getBlockMetadata(World world) {
+        return world.getBlockMetadata(coordX, coordY, coordZ);
+    }
+
+    public void rotateBlock(World world) {
+        Block block = getBlock(world);
+        block.rotateBlock(world, coordX, coordY, coordZ, ForgeDirection.UP);
+    }
+
+    public NBTTagCompound getTileEntityNBT(World world) {
+        Block block = getBlock(world);
+        int meta = getBlockMetadata(world);
+        return WorldUtils.getTileEntityNBT(world, coordX, coordY, coordZ, block, meta);
     }
 
     public void renderISBRH(World world, int x, int y, int z, RenderBlocks renderBlocks, float partialTicks,
@@ -104,23 +114,6 @@ public class VirtualBlock {
             GL11.glPopMatrix();
         }
 
-    }
-
-    public void rotateBlock(World world, ForgeDirection direction) {
-        Block block = world.getBlock(coordX, coordY, coordZ);
-        block.rotateBlock(world, coordX, coordY, coordZ, direction);
-    }
-
-    public Block getBlock(World world) {
-        return world.getBlock(coordX, coordY, coordZ);
-    }
-
-    public int getBlockMetadata(World world) {
-        return world.getBlockMetadata(coordX, coordY, coordZ);
-    }
-
-    public TileEntity getTileEntity(World world) {
-        return world.getTileEntity(coordX, coordY, coordZ);
     }
 
     public void writeToNBT(NBTTagCompound compound) {

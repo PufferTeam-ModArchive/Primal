@@ -689,7 +689,7 @@ public class Registry {
         registerEvent(new HeatHandler());
         registerEvent(new FoodHandler());
         registerEvent(new PlayerHandler());
-        registerEvent(new WorldHandler());
+        registerEvent(new WorldChunkHandler());
 
         if (Utils.isClient()) {
             registerEvent(new RenderingHandler());

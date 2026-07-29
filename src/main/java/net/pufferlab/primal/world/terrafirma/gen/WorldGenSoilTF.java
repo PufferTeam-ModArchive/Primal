@@ -8,13 +8,12 @@ import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.utils.*;
 import net.pufferlab.primal.world.noise.Noise;
+import net.pufferlab.primal.world.terrafirma.ChunkDataTF;
 
 public class WorldGenSoilTF {
 
     public Noise rainfallNoise;
     public Noise depthNoise;
-
-    public Noise hillNoise;
 
     public WorldGenSoilTF() {
 
@@ -28,8 +27,6 @@ public class WorldGenSoilTF {
             rainfallNoise = new Noise(seed + 314).setNoise(Noise.NoiseType.OpenSimplex2S, 0.006F)
                 .setFractal(Noise.FractalType.FBm, 3, 2.0F, 0.440F, 0.0F);
             depthNoise = new Noise(seed + 294).setNoise(Noise.NoiseType.Perlin, 0.005F);
-            hillNoise = new Noise(seed + 4).setNoise(Noise.NoiseType.OpenSimplex2S, 0.006F)
-                .setFractal(Noise.FractalType.FBm, 3, 2.4F, 0.5F, 0.230F);
         }
     }
 
@@ -42,9 +39,13 @@ public class WorldGenSoilTF {
 
                 float rainfallValue = NoiseUtils.normalize(rainfallNoise.getNoise(worldX, worldZ));
                 float depthValue = NoiseUtils.normalize(depthNoise.getNoise(worldX, worldZ));
-                float elevationValue = NoiseUtils.normalize(hillNoise.getNoise(worldX, worldZ));
 
-                int depthBlocks = Utils.floor(depthValue * ((1 - elevationValue) + 0.1F) * 5.0F);
+                ChunkDataTF data = ChunkDataTF.get(chunk);
+
+                data.rainfall[x][z] = rainfallValue;
+                float elevationValue = data.rockness[x][z];
+
+                int depthBlocks = Utils.floor(depthValue * ((1 - elevationValue) + 0.15F) * 5.0F);
 
                 for (int i = 0; i < depthBlocks; i++) {
                     int y = topY - 1 - i;

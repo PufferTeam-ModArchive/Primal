@@ -11,6 +11,7 @@ import net.minecraft.world.WorldSavedData;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.utils.NBTType;
 import net.pufferlab.primal.utils.PositionMap;
+import net.pufferlab.primal.utils.WorldUtils;
 
 public class ChunkPlacerData extends WorldSavedData {
 
@@ -63,19 +64,29 @@ public class ChunkPlacerData extends WorldSavedData {
     public static void addBlock(World world, int x, int y, int z, Block block, int meta, NBTTagCompound nbt,
         boolean fastPlace) {
         ChunkPlacerData placer = get(world);
-        BlockHolder blockHolder;
-        if (nbt != null) {
-            blockHolder = new BlockHolder(x, y, z, block, meta, nbt);
-        } else {
-            blockHolder = new BlockHolder(x, y, z, block, meta);
-            blockHolder.setFastPlace(fastPlace);
-        }
         if (world.blockExists(x, y, z)) {
-            blockHolder.place(world);
+            placeBlock(world, x, y, z, block, meta, nbt, fastPlace);
         } else {
+            BlockHolder blockHolder;
+            if (nbt != null) {
+                blockHolder = new BlockHolder(x, y, z, block, meta, nbt);
+            } else {
+                blockHolder = new BlockHolder(x, y, z, block, meta);
+                blockHolder.setFastPlace(fastPlace);
+            }
             placer.list.add(blockHolder);
             placer.map.put(blockHolder.chunkX, blockHolder.chunkZ, blockHolder);
             placer.markDirty();
+        }
+    }
+
+    public static void placeBlock(World world, int x, int y, int z, Block block, int meta, NBTTagCompound nbt,
+        boolean fastPlace) {
+        if (fastPlace) {
+            WorldUtils.setBlock(world, x, y, z, block, meta);
+        } else {
+            world.setBlock(x, y, z, block, meta, 2);
+            WorldUtils.setTileEntityNBT(world, x, y, z, block, meta, nbt);
         }
     }
 

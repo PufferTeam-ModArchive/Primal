@@ -2,9 +2,7 @@ package net.pufferlab.primal.world.scheduling;
 
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.pufferlab.primal.utils.WorldUtils;
 
 public class BlockHolder {
 
@@ -75,21 +73,7 @@ public class BlockHolder {
 
     public boolean place(World world) {
         if (this.invalid()) return false;
-        if (this.fastPlace) {
-            WorldUtils.setBlock(world, this.x, this.y, this.z, this.block, this.meta);
-        } else {
-            world.setBlock(this.x, this.y, this.z, this.block, this.meta, 2);
-            if (this.block.hasTileEntity(this.meta)) {
-                TileEntity te = world.getTileEntity(this.x, this.y, this.z);
-                if (te != null) {
-                    this.nbt.setInteger("x", this.x);
-                    this.nbt.setInteger("y", this.y);
-                    this.nbt.setInteger("z", this.z);
-                    te.readFromNBT(this.nbt);
-                    te.markDirty();
-                }
-            }
-        }
+        ChunkPlacerData.placeBlock(world, this.x, this.y, this.z, this.block, this.meta, this.nbt, this.fastPlace);
         return true;
     }
 
