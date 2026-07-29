@@ -43,6 +43,7 @@ public class BlockLogThin extends Block implements IPrimalBlock, IMetaBlock {
         this.field_150168_M = wood.types;
         this.names = wood.thinTypes;
         this.setStepSound(Block.soundTypeWood);
+        this.setHardness(2.0F);
         this.setBlockBounds(0.5f, 0.5f, 0.5f, 0.51f, 0.51f, 0.51f);
     }
 
@@ -272,6 +273,11 @@ public class BlockLogThin extends Block implements IPrimalBlock, IMetaBlock {
             }
         }
         return list;
+    }
+
+    @Override
+    public int damageDropped(int meta) {
+        return meta;
     }
 
     @Override

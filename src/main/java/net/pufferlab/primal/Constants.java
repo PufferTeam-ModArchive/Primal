@@ -167,12 +167,12 @@ public class Constants {
     public static final VeinType[] veinTypesAll     = Utils.combineArrays(veinTypes, tcVeinTypes);
 
     // Soil Types
-    public static final SoilType loamy      = new SoilType("loamy");
-    public static final SoilType silty_loam = new SoilType("silty_loam");
-    public static final SoilType silty      = new SoilType("silty");
-    public static final SoilType sandy      = new SoilType("sandy");
-    public static final SoilType sandy_loam = new SoilType("sandy_loam");
-    public static final SoilType peaty      = new SoilType("peaty");
+    public static final SoilType peaty      = new SoilType("peaty", 1.00F, 0.60F);
+    public static final SoilType silty      = new SoilType("silty", 0.85F, 0.80F);
+    public static final SoilType silty_loam = new SoilType("silty_loam", 0.70F, 0.90F);
+    public static final SoilType loamy      = new SoilType("loamy", 0.55F, 0.95F);
+    public static final SoilType sandy_loam = new SoilType("sandy_loam", 0.35F, 0.70F);
+    public static final SoilType sandy      = new SoilType("sandy", 0.15F, 0.40F);
 
     public static final SoilType[] soilTypes = { loamy, silty_loam, silty, sandy, sandy_loam, peaty };
 

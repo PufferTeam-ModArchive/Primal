@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.pufferlab.primal.Config;
+import net.pufferlab.primal.world.terrafirma.gen.WorldGenSoilTF;
 import net.pufferlab.primal.world.terrafirma.gen.WorldGenStrataTF;
 import net.pufferlab.primal.world.terrafirma.gen.WorldGenTerrainTF;
 import net.pufferlab.primal.world.terrafirma.gen.WorldGenVeinTF;
@@ -14,19 +15,30 @@ public class PrimalGeneratorTF {
     public WorldGenStrataTF worldGenStrata;
     public WorldGenVeinTF worldGenVein;
     public WorldGenTerrainTF worldGenTerrain;
+    public WorldGenSoilTF worldGenSoil;
 
     public void initGenerators(World world) {
+        long seed = world.getSeed();
         this.worldGenTerrain = new WorldGenTerrainTF();
         this.worldGenStrata = new WorldGenStrataTF();
         this.worldGenVein = new WorldGenVeinTF();
-        this.worldGenTerrain.initNoiseSeed(world.getSeed());
-        this.worldGenStrata.initNoiseSeed(world.getSeed());
+        this.worldGenSoil = new WorldGenSoilTF();
+        this.worldGenTerrain.initNoiseSeed(seed);
+        this.worldGenStrata.initNoiseSeed(seed);
         this.worldGenStrata.initBlockList();
-        this.worldGenVein.initNoiseSeed(world.getSeed());
+        this.worldGenVein.initNoiseSeed(seed);
+        this.worldGenSoil.initNoiseSeed(seed);
+    }
+
+    public void earlyGenerate(Chunk chunk, Random randomChunk) {
+        this.worldGenTerrain.genTerrain(chunk);
     }
 
     public void generate(Chunk chunk, Random randomChunk) {
-        this.worldGenTerrain.genTerrain(chunk);
+        if (Config.soilTypes.getBoolean()) {
+            this.worldGenSoil.genSoil(chunk);
+        }
+
         if (Config.strataStoneTypes.getBoolean() && Config.strataWorldGenTF.getBoolean()) {
             this.worldGenStrata.genStrata(chunk);
         }

@@ -464,6 +464,8 @@ public enum Config {
             melting,
             forging,
             welding,
+            humidity,
+            humidityTF
         }
     }
 

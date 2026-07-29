@@ -81,7 +81,9 @@ public class WorldGenSoil {
                     if (blockList.contains(currentBlock)) {
                         Block nextBlock = blockReplacement.get(currentBlock);
 
-                        SoilType type = SoilType.pickOneSoilType(WorldUtils.getBiome(chunk, x, z), x, y, z);
+                        float humidity = WorldUtils.getBiome(chunk, x, z)
+                            .getFloatRainfall();
+                        SoilType type = SoilType.pickOneSoilType(chunk.worldObj, humidity);
                         int meta = SoilType.getMeta(Constants.soilTypes, type);
 
                         WorldUtils.setChunkBlock(array, x, y, z, nextBlock, meta);

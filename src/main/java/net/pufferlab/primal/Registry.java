@@ -727,6 +727,7 @@ public class Registry {
         Constants.maxHeight = Config.maximumYHeight.getInt();
 
         StoneType.genLayerCache(Constants.stoneTypes);
+        SoilType.genHumidityCache(Constants.soilTypes);
     }
 
     public void setupModCompat() {
