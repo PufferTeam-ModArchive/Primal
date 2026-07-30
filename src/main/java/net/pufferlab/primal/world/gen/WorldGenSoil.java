@@ -5,6 +5,7 @@ import java.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
@@ -81,12 +82,15 @@ public class WorldGenSoil {
                     if (blockList.contains(currentBlock)) {
                         Block nextBlock = blockReplacement.get(currentBlock);
 
-                        float humidity = WorldUtils.getBiome(chunk, x, z)
-                            .getFloatRainfall();
-                        SoilType type = SoilType.pickOneSoilType(chunk.worldObj, humidity);
-                        int meta = SoilType.getMeta(Constants.soilTypes, type);
+                        BiomeGenBase biome = WorldUtils.getBiome(chunk, x, z);
+                        if (biome != null) {
+                            float humidity = biome.getFloatRainfall();
+                            SoilType type = SoilType.pickOneSoilType(chunk.worldObj, humidity);
+                            int meta = SoilType.getMeta(Constants.soilTypes, type);
 
-                        WorldUtils.setChunkBlock(array, x, y, z, nextBlock, meta);
+                            WorldUtils.setChunkBlock(array, x, y, z, nextBlock, meta);
+                        }
+
                     }
                 }
             }

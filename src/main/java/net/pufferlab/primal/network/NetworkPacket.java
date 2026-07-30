@@ -183,6 +183,14 @@ public class NetworkPacket {
             z);
     }
 
+    public void sendChunkData(Chunk chunk) {
+        sendChunkData(chunk.worldObj, chunk.xPosition, chunk.zPosition);
+    }
+
+    public void sendChunkData(World world, int x, int z) {
+        Primal.proxy.sendPacketToClientInDimension(world, new PacketChunkData(world, x, z));
+    }
+
     public void sendDebugAABB(int id, AxisAlignedBB bb) {
         RenderBounds.setTemporaryAABB(id, bb);
         Primal.proxy.sendPacketToClient(new PacketBoundingBoxDebug(id, bb));

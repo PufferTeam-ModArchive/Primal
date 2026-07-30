@@ -44,8 +44,13 @@ public class RenderBounds {
         return true;
     }
 
+    private static final List<AxisAlignedBB> aabbList = new ArrayList<>();
     private static final TIntObjectMap<AxisAlignedBB> aabbMap = new TIntObjectHashMap<>();
     private static final TIntObjectMap<BoundingBox> bbMap = new TIntObjectHashMap<>();
+
+    public static void addTemporaryAABB(AxisAlignedBB bb) {
+        aabbList.add(bb);
+    }
 
     public static void setTemporaryAABB(int id, AxisAlignedBB bb) {
         aabbMap.put(id, bb);
@@ -74,6 +79,15 @@ public class RenderBounds {
                 structureBB.expand((double) f1, (double) f1, (double) f1)
                     .getOffsetBoundingBox(-d0, -d1, -d2),
                 -1);
+        }
+
+        if (!aabbList.isEmpty()) {
+            for (AxisAlignedBB bb : aabbList) {
+                RenderGlobal.drawOutlinedBoundingBox(
+                    bb.expand((double) f1, (double) f1, (double) f1)
+                        .getOffsetBoundingBox(-d0, -d1, -d2),
+                    -1);
+            }
         }
 
         if (!aabbMap.isEmpty()) {

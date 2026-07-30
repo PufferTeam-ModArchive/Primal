@@ -8,8 +8,11 @@ import java.util.Map;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.utils.IOUtils;
 import net.pufferlab.primal.utils.NBTType;
 import net.pufferlab.primal.world.terrafirma.ChunkDataTF;
+
+import io.netty.buffer.ByteBuf;
 
 public class ChunkDataStorage {
 
@@ -20,16 +23,20 @@ public class ChunkDataStorage {
 
     public static final Map<String, Class<? extends ChunkSavedData>> worldClassMap = new HashMap<>();
 
-    public int x;
-    public int z;
-
-    static {
-        worldClassMap.put(ChunkDataTF.name, ChunkDataTF.class);
-    }
+    public final int x;
+    public final int z;
 
     public ChunkDataStorage(int x, int z) {
         this.x = x;
         this.z = z;
+    }
+
+    static {
+        ChunkDataStorage.registerClass(ChunkDataTF.name, ChunkDataTF.class);
+    }
+
+    public static void registerClass(String name, Class cls) {
+        worldClassMap.put(name, cls);
     }
 
     public void readFromNBT(NBTTagCompound nbt) {
@@ -38,12 +45,16 @@ public class ChunkDataStorage {
             NBTTagCompound tag = tagList.getCompoundTagAt(i);
             if (tag != null) {
                 String name = tag.getString("name");
-                NBTTagCompound chunkNBT = tag.getCompoundTag("nbt");
+                NBTTagCompound chunkNBT = tag.getCompoundTag("data");
                 try {
-                    Class cls = worldClassMap.get(name);
+                    Class<? extends ChunkSavedData> cls = worldClassMap.get(name);
 
-                    ChunkSavedData savedData = (ChunkSavedData) cls.getConstructor(new Class[] { String.class })
-                        .newInstance(new Object[] { name });
+                    if (cls == null) {
+                        throw new RuntimeException("Unknown ChunkSavedData: " + name);
+                    }
+
+                    ChunkSavedData savedData = cls.getConstructor(String.class)
+                        .newInstance(name);
 
                     savedData.readFromNBT(chunkNBT);
 
@@ -55,6 +66,35 @@ public class ChunkDataStorage {
             }
         }
     };
+
+    public void readFromBuffer(ByteBuf buf) {
+        loadedDataList.clear();
+        loadedDataMap.clear();
+
+        int count = buf.readInt();
+
+        for (int i = 0; i < count; i++) {
+            String name = IOUtils.readString(buf);
+
+            try {
+                Class<? extends ChunkSavedData> cls = worldClassMap.get(name);
+
+                if (cls == null) {
+                    throw new RuntimeException("Unknown ChunkSavedData: " + name);
+                }
+
+                ChunkSavedData savedData = cls.getConstructor(String.class)
+                    .newInstance(name);
+
+                savedData.readFromBuffer(buf);
+
+                loadedDataMap.put(name, savedData);
+                loadedDataList.add(savedData);
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to instantiate " + name, e);
+            }
+        }
+    }
 
     public ChunkSavedData loadData(String str) {
         return loadedDataMap.get(str);
@@ -81,9 +121,18 @@ public class ChunkDataStorage {
 
             NBTTagCompound chunkNBT = new NBTTagCompound();
             chunkData.writeToNBT(chunkNBT);
-            tag.setTag("nbt", chunkNBT);
+            tag.setTag("data", chunkNBT);
             tagList.appendTag(tag);
         }
         nbt.setTag(chunkDataName, tagList);
-    };
+    }
+
+    public void writeToBuffer(ByteBuf buf) {
+        buf.writeInt(loadedDataList.size());
+
+        for (ChunkSavedData data : loadedDataList) {
+            IOUtils.writeString(buf, data.mapName);
+            data.writeToBuffer(buf);
+        }
+    }
 }

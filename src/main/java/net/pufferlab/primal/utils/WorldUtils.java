@@ -2,6 +2,7 @@ package net.pufferlab.primal.utils;
 
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -157,6 +158,11 @@ public class WorldUtils {
             return true;
         }
         return false;
+    }
+
+    public static World getWorld(int dimensionId) {
+        return MinecraftServer.getServer()
+            .worldServerForDimension(dimensionId);
     }
 
     /*

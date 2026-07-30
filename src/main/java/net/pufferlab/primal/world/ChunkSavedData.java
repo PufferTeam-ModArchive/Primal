@@ -2,6 +2,8 @@ package net.pufferlab.primal.world;
 
 import net.minecraft.nbt.NBTTagCompound;
 
+import io.netty.buffer.ByteBuf;
+
 public abstract class ChunkSavedData {
 
     public final String mapName;
@@ -27,4 +29,11 @@ public abstract class ChunkSavedData {
         return this.dirty;
     }
 
+    public void writeToBuffer(ByteBuf buf) {
+
+    }
+
+    public void readFromBuffer(ByteBuf buf) {
+
+    }
 }

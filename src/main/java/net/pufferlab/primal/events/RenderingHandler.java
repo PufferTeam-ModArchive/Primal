@@ -1,11 +1,15 @@
 package net.pufferlab.primal.events;
 
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.pufferlab.primal.Config;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.renderer.RenderAccessory;
 import net.pufferlab.primal.client.renderer.RenderBounds;
+import net.pufferlab.primal.client.renderer.RenderDebug;
 
+import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class RenderingHandler implements IEventHandler {
@@ -23,6 +27,11 @@ public class RenderingHandler implements IEventHandler {
         if (!state) {
             event.setCanceled(true);
         }
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public void onRenderOverlay(RenderGameOverlayEvent.Text event) {
+        RenderDebug.handleDebug(Primal.proxy.getClientPlayer(), event.left);
     }
 
 }

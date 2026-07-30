@@ -1,7 +1,6 @@
 package net.pufferlab.primal.world.terrafirma.gen;
 
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.pufferlab.primal.Constants;
@@ -24,7 +23,7 @@ public class WorldGenSoilTF {
     public void initNoiseSeed(long seed) {
         if (seed != lastSeed) {
             lastSeed = seed;
-            rainfallNoise = new Noise(seed + 314).setNoise(Noise.NoiseType.OpenSimplex2S, 0.006F)
+            rainfallNoise = new Noise(seed + 314).setNoise(Noise.NoiseType.OpenSimplex2S, 0.0005F)
                 .setFractal(Noise.FractalType.FBm, 3, 2.0F, 0.440F, 0.0F);
             depthNoise = new Noise(seed + 294).setNoise(Noise.NoiseType.Perlin, 0.005F);
         }
@@ -45,7 +44,7 @@ public class WorldGenSoilTF {
                 data.rainfall[x][z] = rainfallValue;
                 float elevationValue = data.rockness[x][z];
 
-                int depthBlocks = Utils.floor(depthValue * ((1 - elevationValue) + 0.15F) * 5.0F);
+                int depthBlocks = Utils.floor(depthValue * ((1 - elevationValue) + 0.15F) * 6.0F);
 
                 for (int i = 0; i < depthBlocks; i++) {
                     int y = topY - 1 - i;
@@ -66,20 +65,6 @@ public class WorldGenSoilTF {
 
                         WorldUtils.setChunkBlock(storage, x, y, z, block, meta);
                     }
-                }
-
-                ExtendedBlockStorage storage = WorldUtils.getStorage(chunk, topY);
-
-                if (storage == null) continue;
-
-                Block blockReplacing = WorldUtils.getChunkBlock(storage, x, topY, z);
-
-                if (BlockUtils.isWaterBlock(blockReplacing)) {
-                    int j = topY;
-                    while (BlockUtils.isWaterBlock(WorldUtils.getChunkBlock(storage, x, j, z))) {
-                        j--;
-                    }
-                    WorldUtils.setChunkBlock(storage, x, j, z, Blocks.gravel, 0);
                 }
 
             }

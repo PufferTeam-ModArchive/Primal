@@ -24,7 +24,7 @@ public class Noise {
         public FastNoiseLite.NoiseType getFNL() {
             return noiseType;
         }
-    };
+    }
 
     public enum FractalType {
 
@@ -44,7 +44,7 @@ public class Noise {
         public FastNoiseLite.FractalType getFNL() {
             return fractalType;
         }
-    };
+    }
 
     public enum DomainWarpType {
 
@@ -61,7 +61,7 @@ public class Noise {
         public FastNoiseLite.DomainWarpType getFNL() {
             return domainWarpType;
         }
-    };
+    }
 
     public Noise(long seed) {
         this.fastNoiseLite = new FastNoiseLite(Long.hashCode(seed));

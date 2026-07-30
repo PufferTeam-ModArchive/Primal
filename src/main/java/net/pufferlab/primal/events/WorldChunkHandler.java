@@ -4,6 +4,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.event.world.ChunkDataEvent;
+import net.minecraftforge.event.world.ChunkEvent;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.world.ChunkDataManager;
 import net.pufferlab.primal.world.scheduling.ChunkPlacerData;
 
@@ -20,19 +22,32 @@ public class WorldChunkHandler implements IEventHandler {
     }
 
     @SubscribeEvent
-    public void onChunkLoad(ChunkDataEvent.Load event) {
+    public void onChunkDataLoad(ChunkDataEvent.Load event) {
         NBTTagCompound data = event.getData();
 
-        ChunkDataManager manager = ChunkDataManager.getChunkDataManager(event.world);
+        ChunkDataManager manager = ChunkDataManager.getDataManager(event.world);
         manager.readFromNBT(data, event.getChunk());
+    }
+
+    @SubscribeEvent
+    public void onChunkLoad(ChunkEvent.Load event) {
+        Primal.proxy.packet.sendChunkData(event.getChunk());
     }
 
     @SubscribeEvent
     public void onChunkSave(ChunkDataEvent.Save event) {
         NBTTagCompound data = event.getData();
 
-        ChunkDataManager manager = ChunkDataManager.getChunkDataManager(event.world);
+        ChunkDataManager manager = ChunkDataManager.getDataManager(event.world);
         manager.writeToNBT(data, event.getChunk());
+
+        manager.remove(event.getChunk());
+    }
+
+    @SubscribeEvent
+    public void onChunkUnload(ChunkEvent.Unload event) {
+        ChunkDataManager manager = ChunkDataManager.getClientDataManager();
+        manager.remove(event.getChunk());
     }
 
 }

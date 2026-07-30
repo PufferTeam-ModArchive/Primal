@@ -170,11 +170,27 @@ public class IOUtils {
         buf.writeBytes(bytes); // then write bytes
     }
 
+    public static void writeIntArray(ByteBuf buf, int[] array) {
+        buf.writeInt(array.length);
+        for (int i = 0; i < array.length; i++) {
+            buf.writeInt(array[i]);
+        }
+    }
+
     public static String readString(ByteBuf buf) {
         int length = buf.readInt(); // first read length
         byte[] bytes = new byte[length];
         buf.readBytes(bytes); // then read bytes
         return new String(bytes, StandardCharsets.UTF_8);
+    }
+
+    public static int[] readIntArray(ByteBuf buf) {
+        int length = buf.readInt();
+        int[] array = new int[length];
+        for (int i = 0; i < array.length; i++) {
+            array[i] = buf.readInt();
+        }
+        return array;
     }
 
     public static void writeAABBList(ByteBuf buf, List<AxisAlignedBB> list) {

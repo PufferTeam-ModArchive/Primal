@@ -165,6 +165,8 @@ public enum Config {
     strataStoneHeightRangeTF(Module.world$terrafirma, new Range(Constants.stoneTypes, Value.Type.heightTF),
         "The corresponding min/max Y Value that the strata stones will be able to spawn."),
     soilWorldGenTF(Module.world$terrafirma, true, "Whether to enable the generation of the soil types"),
+    soilHumidityRangeTF(Module.world$terrafirma, new ValueFloat(Constants.soilTypes, Value.Type.humidityTF),
+        "The humidity value of the different soil types, it will determine where they spawn."),
     oreVeinsWorldGenTF(Module.world$terrafirma, true, "Whether to enable the generation of the ore types"),
     oreVeinsHeightRangeTF(Module.world$terrafirma, new Range(Constants.veinTypesAll, Value.Type.heightTF),
         "The corresponding min/max Y Value that the ores will be able to spawn."),

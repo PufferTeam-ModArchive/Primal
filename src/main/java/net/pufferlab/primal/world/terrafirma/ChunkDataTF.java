@@ -3,9 +3,12 @@ package net.pufferlab.primal.world.terrafirma;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.chunk.Chunk;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.utils.IOUtils;
 import net.pufferlab.primal.world.ChunkDataManager;
 import net.pufferlab.primal.world.ChunkDataStorage;
 import net.pufferlab.primal.world.ChunkSavedData;
+
+import io.netty.buffer.ByteBuf;
 
 public class ChunkDataTF extends ChunkSavedData {
 
@@ -28,12 +31,30 @@ public class ChunkDataTF extends ChunkSavedData {
     }
 
     @Override
+    public void readFromBuffer(ByteBuf buf) {
+        int[] rocknessInt = IOUtils.readIntArray(buf);
+        this.rockness = getFloatArray(rocknessInt);
+
+        int[] rainfallInt = IOUtils.readIntArray(buf);
+        this.rainfall = getFloatArray(rainfallInt);
+    }
+
+    @Override
     public void writeToNBT(NBTTagCompound nbt) {
         int[] rocknessInt = getIntArray(rockness);
         nbt.setIntArray("rockness", rocknessInt);
 
         int[] rainfallInt = getIntArray(rainfall);
         nbt.setIntArray("rainfall", rainfallInt);
+    }
+
+    @Override
+    public void writeToBuffer(ByteBuf buf) {
+        int[] rocknessInt = getIntArray(rockness);
+        IOUtils.writeIntArray(buf, rocknessInt);
+
+        int[] rainfallInt = getIntArray(rainfall);
+        IOUtils.writeIntArray(buf, rainfallInt);
     }
 
     public int[] getIntArray(float[][] array) {
@@ -60,8 +81,16 @@ public class ChunkDataTF extends ChunkSavedData {
         return floatArray;
     }
 
+    public static ChunkDataTF getClient(int x, int z) {
+        ChunkDataManager manager = ChunkDataManager.getClientDataManager();
+
+        ChunkDataStorage storage = manager.get(x, z);
+
+        return get(storage);
+    }
+
     public static ChunkDataTF get(Chunk chunk) {
-        ChunkDataManager manager = ChunkDataManager.getChunkDataManager(chunk.worldObj);
+        ChunkDataManager manager = ChunkDataManager.getDataManager(chunk.worldObj);
 
         ChunkDataStorage storage = manager.get(chunk);
         return get(storage);
