@@ -84,7 +84,7 @@ public class WorldGenSoil {
 
                         BiomeGenBase biome = WorldUtils.getBiome(chunk, x, z);
                         if (biome != null) {
-                            float humidity = biome.getFloatRainfall();
+                            float humidity = biome.rainfall;
                             SoilType type = SoilType.pickOneSoilType(chunk.worldObj, humidity);
                             int meta = SoilType.getMeta(Constants.soilTypes, type);
 
