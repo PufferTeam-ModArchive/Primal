@@ -30,18 +30,19 @@ public class WorldChunkHandler implements IEventHandler {
     }
 
     @SubscribeEvent
-    public void onChunkLoad(ChunkEvent.Load event) {
-        Primal.proxy.packet.sendChunkData(event.getChunk());
-    }
-
-    @SubscribeEvent
-    public void onChunkSave(ChunkDataEvent.Save event) {
+    public void onChunkDataSave(ChunkDataEvent.Save event) {
         NBTTagCompound data = event.getData();
 
         ChunkDataManager manager = ChunkDataManager.getDataManager(event.world);
         manager.writeToNBT(data, event.getChunk());
 
-        manager.remove(event.getChunk());
+        // Might sometimes forgot to save some chunks (i guess)
+        // manager.remove(event.getChunk());
+    }
+
+    @SubscribeEvent
+    public void onChunkLoad(ChunkEvent.Load event) {
+        Primal.proxy.packet.sendChunkData(event.getChunk());
     }
 
     @SubscribeEvent
