@@ -214,6 +214,11 @@ public class BlockLogThin extends Block implements IPrimalBlock, IMetaBlock {
     }
 
     @Override
+    public int getStateID() {
+        return 3;
+    }
+
+    @Override
     public List<AxisAlignedBB> getBounds(World world, int x, int y, int z, EntityPlayer player, BoundsType bounds) {
         int connectFlags = this.calcConnectionFlags(world, x, y, z);
         float margin = this.getMargin(world.getBlockMetadata(x, y, z));

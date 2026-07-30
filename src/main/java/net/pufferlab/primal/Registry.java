@@ -209,6 +209,8 @@ public class Registry {
         vertical_stone_slab = new BlockCutSlabVertical(stone, false);
         double_vertical_stone_slab = new BlockCutSlabVertical(stone, true);
 
+        bark = new ItemWood(Constants.woodTypesAll, "bark").setHasSuffix();
+
         gravel = new BlockStoneGravel(Constants.stoneTypes, "gravel");
         sand = new BlockStoneSand(Constants.stoneTypes, "sand");
         dirt = new BlockSoilDirt(Constants.soilTypes, "dirt");
@@ -274,7 +276,6 @@ public class Registry {
         hide = new ItemMeta(Constants.hideItems, "hide");
         wood = new ItemMeta(Constants.woodItems, "wood");
         glowstone = new ItemMeta(Constants.glowstoneItems, "glowstone");
-        bark = new ItemMeta(Constants.vanillaWoodTypes, "bark").setHasSuffix();
         flint = new ItemMeta(Constants.flintItems, "flint");
         shell = new ItemMeta(Constants.shellTypes, "shell");
         powder = new ItemMeta(Constants.powderItems, "powder").setHasSuffix();
@@ -426,6 +427,8 @@ public class Registry {
 
         setupFluids();
 
+        register(bark, "bark");
+
         register(ore, "ore");
         register(small_ore, "small_ore");
         register(coal, "coal");
@@ -439,7 +442,6 @@ public class Registry {
         register(hide, "hide");
         register(wood, "wood");
         register(glowstone, "glowstone");
-        register(bark, "bark");
         register(berry, "berry");
         register(crop, "crop");
         register(crop_food, "crop_food");
@@ -600,13 +602,13 @@ public class Registry {
         for (int i = 0; i < Constants.woodTypesAll.length; i++) {
             WoodType wood = Constants.woodTypesAll[i];
             Block block = new BlockLogLarge(wood);
-            register(block, wood.getName() + "_log");
+            register(block, wood.name + "_log");
             logBlocks[i] = block;
         }
         for (int i = 0; i < Constants.woodTypesAll.length; i++) {
             WoodType wood = Constants.woodTypesAll[i];
             Block block = new BlockLogThin(wood);
-            register(block, wood.getName() + "_thin_log");
+            register(block, wood.name + "_thin_log");
             thinLogBlocks[i] = block;
         }
     }
@@ -748,6 +750,12 @@ public class Registry {
         Constants.diamond.setOreItem(Items.diamond, 0);
         Constants.emerald.setOreItem(Items.emerald, 0);
         Constants.lapis_lazuli.setOreItem(Items.dye, 4);
+        Constants.oak.setLogItem(Blocks.log, 0);
+        Constants.spruce.setLogItem(Blocks.log, 1);
+        Constants.birch.setLogItem(Blocks.log, 2);
+        Constants.jungle.setLogItem(Blocks.log, 3);
+        Constants.acacia.setLogItem(Blocks.log2, 0);
+        Constants.dark_oak.setLogItem(Blocks.log2, 1);
         if (Mods.tc.isLoaded()) {
             Item shardItem = Mods.tc.getModItem("ItemShard");
             Constants.aer.setOreItem(shardItem, 0);

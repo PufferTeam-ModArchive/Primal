@@ -172,6 +172,7 @@ public enum Config {
         "The corresponding min/max Y Value that the ores will be able to spawn."),
 
     // Mixins
+    simplifyDebugMenu(Module.fixes, true, "Remove useless info from the debug (F3) menu"),
     wearableRenderer(Module.fixes, true,
         "Enable the mixins for the wearable renderer (used for clothes), disable if you use a mod that causes shit to break"),
     hpBatcherDisabler(Module.fixes, true, "Prevents hodgepodge to slow down packet for the mod tile entities"),

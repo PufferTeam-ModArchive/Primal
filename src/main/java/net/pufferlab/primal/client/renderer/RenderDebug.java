@@ -4,6 +4,8 @@ import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
+import net.pufferlab.primal.Config;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.terrafirma.ChunkDataTF;
 
@@ -22,11 +24,11 @@ public class RenderDebug {
         }
     }
 
-    public static void handleDebug(EntityPlayer player, List<String> list) {
-        instance.handleDebugImpl(player, list);
+    public static void handleDebugMenuText(EntityPlayer player, List<String> left, List<String> right) {
+        instance.handleDebugDebugMenuTextImpl(player, left, right);
     }
 
-    public void handleDebugImpl(EntityPlayer player, List<String> list) {
+    public void handleDebugDebugMenuTextImpl(EntityPlayer player, List<String> left, List<String> right) {
         int x = Utils.floor(player.posX);
         int z = Utils.floor(player.posZ);
         int chunkX = x >> 4;
@@ -39,8 +41,37 @@ public class RenderDebug {
         float rockness = manager.rockness[localX][localZ];
         float rainfall = manager.rainfall[localX][localZ];
 
-        list.add("[Primal] ChunkDataTF");
-        list.add("rockness: " + rockness + ", rainfall: " + rainfall);
+        if(Primal.proxy.hasDebugMenu()) {
+            if(Config.simplifyDebugMenu.getBoolean()) {
+                left.removeIf(s -> {
+                    if (s == null) return false;
+                    return s.startsWith("[ChunkGen]") || s.startsWith("DynLights");
+                });
+                right.removeIf(s -> {
+                    if (s == null) return false;
+                    return s.startsWith("Minecraft Forge") || s.startsWith("FML")
+                        || s.startsWith("MCP")
+                        || s.startsWith("animationsMode")
+                        || s.startsWith("LWJGL")
+                        || s.contains("Angelica")
+                        || s.startsWith("Viewport")
+                        || s.startsWith("G:")
+                        || s.startsWith("Transfer Queue")
+                        || s.startsWith("Chunk Queues")
+                        || s.startsWith("solid")
+                        || s.startsWith("cutout_mipped")
+                        || s.startsWith("translucent")
+                        || s.startsWith("Sorting")
+                        || s.startsWith("Chunk Workers")
+                        || s.startsWith("MT Queue")
+                        || s.startsWith("FFP")
+                        || s.startsWith("Stream")
+                        || s.startsWith("Dynamic Light");
+                });
+            }
+            left.add("[Primal] ChunkDataTF");
+            left.add("rockiness: " + rockness + ", rainfall: " + rainfall);
+        }
     }
 
 }

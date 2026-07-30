@@ -5,7 +5,7 @@ import net.pufferlab.primal.blocks.IPrimalBlock;
 public class RenderState {
 
     private static final ThreadLocal<RenderState> state = ThreadLocal.withInitial(RenderState::new);
-    private static final int amount = 3;
+    private static final int amount = 4;
 
     boolean[] isInventory = new boolean[amount];
     int[] renderPass = new int[amount];

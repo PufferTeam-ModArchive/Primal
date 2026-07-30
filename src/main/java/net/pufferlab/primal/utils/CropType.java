@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemSeeds;
+import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Config;
 
 public class CropType implements IPrimalType {
@@ -61,10 +62,18 @@ public class CropType implements IPrimalType {
         return this;
     }
 
+    public ItemStack getCropItem() {
+        return new ItemStack(this.cropItem, 1, this.cropMeta);
+    }
+
     public CropType setCropSeedItem(Item item, int meta) {
         this.seedItem = item;
         this.seedMeta = meta;
         return this;
+    }
+
+    public ItemStack getSeedItem() {
+        return new ItemStack(this.seedItem, 1, this.seedMeta);
     }
 
     public CropType updateFoodValues() {
@@ -110,35 +119,5 @@ public class CropType implements IPrimalType {
     public CropType hasNoCropFood() {
         this.hasCropFood = false;
         return this;
-    }
-
-    public static String[] getCropsFoodBlacklistNames(CropType[] cropTypes) {
-        String[] foods = new String[cropTypes.length];
-        for (int i = 0; i < cropTypes.length; i++) {
-            if (!cropTypes[i].hasCropItem || !cropTypes[i].hasCropFood) {
-                foods[i] = cropTypes[i].name;
-            }
-        }
-        return foods;
-    }
-
-    public static String[] getCropsBlacklistNames(CropType[] cropTypes) {
-        String[] foods = new String[cropTypes.length];
-        for (int i = 0; i < cropTypes.length; i++) {
-            if (!cropTypes[i].hasCropItem || cropTypes[i].hasCropFood) {
-                foods[i] = cropTypes[i].name;
-            }
-        }
-        return foods;
-    }
-
-    public static String[] getSeedsBlacklistNames(CropType[] cropTypes) {
-        String[] foods = new String[cropTypes.length];
-        for (int i = 0; i < cropTypes.length; i++) {
-            if (!cropTypes[i].hasSeedItem) {
-                foods[i] = cropTypes[i].name;
-            }
-        }
-        return foods;
     }
 }

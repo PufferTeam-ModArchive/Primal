@@ -31,7 +31,7 @@ public class RenderingHandler implements IEventHandler {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onRenderOverlay(RenderGameOverlayEvent.Text event) {
-        RenderDebug.handleDebug(Primal.proxy.getClientPlayer(), event.left);
+        RenderDebug.handleDebugMenuText(Primal.proxy.getClientPlayer(), event.left, event.right);
     }
 
 }

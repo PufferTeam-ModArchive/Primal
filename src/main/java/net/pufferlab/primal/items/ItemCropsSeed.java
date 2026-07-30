@@ -1,7 +1,11 @@
 package net.pufferlab.primal.items;
 
+import java.util.List;
+
 import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
@@ -19,11 +23,26 @@ public class ItemCropsSeed extends ItemMeta implements IPlantable {
     public ItemCropsSeed(CropType[] cropType, String name) {
         super(CropType.getNames(cropType), name);
         this.cropType = cropType;
+        String[] blacklistedNames = new String[cropType.length];
         for (int i = 0; i < cropType.length; i++) {
             cropType[i].setCropSeedItem(this, i);
+            if (!cropType[i].hasSeedItem) {
+                blacklistedNames[i] = cropType[i].name;
+            }
         }
-        this.setBlacklist(CropType.getSeedsBlacklistNames(cropType));
+        this.setBlacklist(blacklistedNames);
         this.setHasSuffix();
+    }
+
+    @Override
+    public void getSubItems(Item item, CreativeTabs creativeTabs, List<ItemStack> list) {
+        for (int i = 0; i < cropType.length; i++) {
+            CropType crop = cropType[i];
+            if (!crop.hasSeedItem) {
+                list.add(crop.getSeedItem());
+            }
+        }
+        super.getSubItems(item, creativeTabs, list);
     }
 
     @Override

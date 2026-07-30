@@ -226,6 +226,10 @@ public class CommonProxy implements IGuiHandler {
 
     public void playClientSound(TileEntity te) {}
 
+    public boolean hasDebugMenu() {
+        return false;
+    }
+
     public void renderSFX(World world, int x, int y, int z, Block block, int meta) {
         world.playAuxSFX(2001, x, y, z, Block.getIdFromBlock(block) + (meta << 12));
     }

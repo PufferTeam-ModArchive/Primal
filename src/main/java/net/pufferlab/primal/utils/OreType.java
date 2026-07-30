@@ -5,6 +5,7 @@ import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Primal;
 
 public class OreType implements IPrimalType {
@@ -46,18 +47,13 @@ public class OreType implements IPrimalType {
         return this;
     }
 
+    public ItemStack getOreItem() {
+        return new ItemStack(this.oreItem, 1, this.oreMeta);
+    }
+
     public OreType hasNoGem() {
         this.hasGem = false;
         return this;
-    }
-
-    public static String[] getBlacklistNames(OreType[] stones) {
-        String[] names = new String[stones.length];
-        for (int i = 0; i < stones.length; i++) {
-            if (stones[i].hasGem) continue;
-            names[i] = stones[i].name;
-        }
-        return names;
     }
 
     public static String[] getNames(OreType[] stones) {

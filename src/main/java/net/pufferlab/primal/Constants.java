@@ -248,8 +248,13 @@ public class Constants {
     public static final CropType[] berries = {blueberry_crop, strawberry_crop, blackberry_crop};
     public static final FoodType[] foodTypesAll = Utils.combineArrays(CropType.getFoodTypes(berries), CropType.getFoodTypes(crops), flourItems, doughItems, breadItems);
 
-    public static final WoodType oak = new WoodType("oak");
-    public static final WoodType[] woodTypesAll = {oak};
+    public static final WoodType oak = new WoodType("oak").hasNoLog();
+    public static final WoodType spruce = new WoodType("spruce").hasNoLog();
+    public static final WoodType birch = new WoodType("birch").hasNoLog();
+    public static final WoodType jungle = new WoodType("jungle").hasNoLog();
+    public static final WoodType acacia = new WoodType("acacia").hasNoLog();
+    public static final WoodType dark_oak = new WoodType("dark_oak").hasNoLog();
+    public static final WoodType[] woodTypesAll = {oak, spruce, birch, jungle, acacia, dark_oak};
 
     // Misc
     public static final String[] chimneyTypes       = { "brick" };

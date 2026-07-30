@@ -257,6 +257,11 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
+    public boolean hasDebugMenu() {
+        return Minecraft.getMinecraft().gameSettings.showDebugInfo;
+    }
+
+    @Override
     public void renderFX(EntityFX entityFX) {
         Minecraft.getMinecraft().effectRenderer.addEffect(entityFX);
     }

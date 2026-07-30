@@ -19,13 +19,14 @@ public class ItemBerryFood extends ItemMetaFood implements IPlantable {
     public ItemBerryFood(CropType[] cropType, String name) {
         super(CropType.getFoodTypes(cropType), name);
         this.cropType = cropType;
+        String[] blacklistedNames = new String[cropType.length];
         for (int i = 0; i < cropType.length; i++) {
             if (cropType[i].hasCropFood) {
                 cropType[i].setCropItem(this, i);
                 cropType[i].setCropSeedItem(this, i);
             }
         }
-        this.setBlacklist(CropType.getCropsFoodBlacklistNames(cropType));
+        this.setBlacklist(blacklistedNames);
     }
 
     @Override
