@@ -5,7 +5,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.blocks.BlockCropsBush;
 import net.pufferlab.primal.network.NetworkMoisture;
-import net.pufferlab.primal.utils.Utils;
+import net.pufferlab.primal.utils.Mth;
 import net.pufferlab.primal.world.scheduling.ScheduleManager;
 import net.pufferlab.primal.world.scheduling.Task;
 
@@ -85,23 +85,23 @@ public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTi
     }
 
     public void setMoisture(float moisture) {
-        this.moisture = Utils.clamp(0, 1, moisture);
+        this.moisture = Mth.clamp(moisture, 0, 1);
         updateTEState();
     }
 
     public void setNutrients(float potassium, float nitrogen, float phosphorus) {
-        this.potassium = Utils.clamp(0, 1, potassium);
-        this.nitrogen = Utils.clamp(0, 1, nitrogen);
-        this.phosphorus = Utils.clamp(0, 1, phosphorus);
+        this.potassium = Mth.clamp(potassium, 0, 1);
+        this.nitrogen = Mth.clamp(nitrogen, 0, 1);
+        this.phosphorus = Mth.clamp(phosphorus, 0, 1);
         updateTEState();
     }
 
     public void replenishNutrients() {
         float rate = Config.farmlandReplenishmentRate.getFloat();
         setNutrients(
-            Utils.clamp(0.0F, 0.5F, this.potassium + (rate)),
-            Utils.clamp(0.0F, 0.5F, this.nitrogen + (rate)),
-            Utils.clamp(0.0F, 0.5F, this.phosphorus + (rate)));
+            Mth.clamp(this.potassium + (rate), 0.0F, 0.5F),
+            Mth.clamp(this.nitrogen + (rate), 0.0F, 0.5F),
+            Mth.clamp(this.phosphorus + (rate), 0.0F, 0.5F));
     }
 
     public float getGrowthSpeed(char nutrient) {

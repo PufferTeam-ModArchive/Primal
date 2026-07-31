@@ -148,7 +148,7 @@ public class WorldUtils {
 
         double scaled = n01 * (double) number;
 
-        int choice = Utils.floor(scaled);
+        int choice = Mth.floor(scaled);
         return Math.min(number - 1, Math.max(0, choice));
     }
 

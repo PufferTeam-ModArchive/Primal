@@ -50,7 +50,7 @@ public class WorldGenVegetationTF {
                             if (x % 4 == 0 && z % 4 == 0) {
                                 if (rand.nextFloat() > vegetation) {
                                     int num = rand.nextInt(2) + 1;
-                                    //This is really temporary, it just spawns oak tree
+                                    // This is really temporary, it just spawns oak tree
                                     StructureFile.loadStructure(
                                         "oak_tree_" + num,
                                         worldX,

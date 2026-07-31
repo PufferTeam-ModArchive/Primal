@@ -102,7 +102,7 @@ public class TextUtils {
 
     public static String getRecipeTooltip(String name, int timePassed, int timeToProcess, String suffix) {
         float percentagePassed = (float) timePassed / (float) timeToProcess;
-        int percentage = Utils.floor((percentagePassed) * 100);
+        int percentage = Mth.floor((percentagePassed) * 100);
         return Constants.gray + name + ": " + percentage + "% " + suffix;
     }
 

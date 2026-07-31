@@ -524,26 +524,6 @@ public final class Utils {
         return null;
     }
 
-    public static int floor(double value) {
-        return (int) Math.floor(value);
-    }
-
-    public static int clamp(int min, int max, int value) {
-        return Math.max(min, Math.min(value, max));
-    }
-
-    public static float clamp(int min, int max, float value) {
-        return Math.max(min, Math.min(value, max));
-    }
-
-    public static float clamp(float min, float max, float value) {
-        return Math.max(min, Math.min(value, max));
-    }
-
-    public static int pow(int value) {
-        return (value * value);
-    }
-
     public static String translate(String key) {
         return StatCollector.translateToLocal(key);
     }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+import net.pufferlab.primal.utils.Mth;
 import net.pufferlab.primal.utils.Utils;
 
 public class AlloyingRecipe {
@@ -122,7 +123,7 @@ public class AlloyingRecipe {
             if (stack != null) {
                 int min = minPercentage[j];
                 int max = maxPercentage[j];
-                int cMin = Utils.floor(((float) stack.amount / (float) totalAmount) * 100F);
+                int cMin = Mth.floor(((float) stack.amount / (float) totalAmount) * 100F);
                 if (cMin > max || cMin < min) {
                     valid = false;
                 }

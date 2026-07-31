@@ -12,10 +12,7 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.recipes.AlloyingRecipe;
 import net.pufferlab.primal.recipes.MeltingRecipe;
-import net.pufferlab.primal.utils.HeatUtils;
-import net.pufferlab.primal.utils.ItemUtils;
-import net.pufferlab.primal.utils.NBTType;
-import net.pufferlab.primal.utils.Utils;
+import net.pufferlab.primal.utils.*;
 import net.pufferlab.primal.world.GlobalTickingData;
 import net.pufferlab.primal.world.scheduling.HeatInfo;
 import net.pufferlab.primal.world.scheduling.ScheduleManager;
@@ -259,7 +256,7 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
     public void updateCrucibleHeat() {
         TileEntity teBelow = this.worldObj.getTileEntity(this.xCoord, this.yCoord - 1, this.zCoord);
         if (teBelow instanceof IHeatable heat) {
-            setMaxTemperature(Utils.clamp(0, heat.getMaxTemperature(), heat.getTemperature() + 10));
+            setMaxTemperature(Mth.clamp(heat.getTemperature() + 10, 0, heat.getMaxTemperature()));
             if (heat.isFired()) {
                 setTemperatureMultiplier(1.0F);
             } else {

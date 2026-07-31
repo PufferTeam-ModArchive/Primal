@@ -243,14 +243,14 @@ public class StructureFile {
                     for (int l = 0; l < (p + 1); l++) {
                         matrix.rotateY(-(float) Math.PI / 2);
                         matrix.transformPosition(coord);
-                        int x = Utils.floor(coord.x);
-                        int y = Utils.floor(coord.y);
-                        int z = Utils.floor(coord.z);
+                        int x = Mth.floor(coord.x);
+                        int y = Mth.floor(coord.y);
+                        int z = Mth.floor(coord.z);
                         coord.set(x, y, z);
                     }
-                    coordsRotated[k][j] = (byte) Utils.floor(coord.x);
-                    coordsRotated[k][j + 1] = (byte) Utils.floor(coord.y);
-                    coordsRotated[k][j + 2] = (byte) Utils.floor(coord.z);
+                    coordsRotated[k][j] = (byte) Mth.floor(coord.x);
+                    coordsRotated[k][j + 1] = (byte) Mth.floor(coord.y);
+                    coordsRotated[k][j + 2] = (byte) Mth.floor(coord.z);
                 }
             }
             for (int k = 0; k < 3; k++) {

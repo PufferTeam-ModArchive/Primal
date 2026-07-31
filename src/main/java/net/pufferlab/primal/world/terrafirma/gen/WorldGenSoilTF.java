@@ -6,14 +6,15 @@ import net.minecraft.world.chunk.Chunk;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.utils.*;
-import net.pufferlab.primal.world.noise.Noise;
+import net.pufferlab.primal.world.noise.Noise2D;
+import net.pufferlab.primal.world.noise.OpenSimplex2D;
 import net.pufferlab.primal.world.terrafirma.BiomesTF;
 import net.pufferlab.primal.world.terrafirma.ChunkDataTF;
 
 public class WorldGenSoilTF {
 
-    public Noise rainfallNoise;
-    public Noise vegetationNoise;
+    public Noise2D rainfallNoise;
+    public Noise2D vegetationNoise;
 
     public WorldGenSoilTF() {
 
@@ -24,10 +25,12 @@ public class WorldGenSoilTF {
     public void initNoiseSeed(long seed) {
         if (seed != lastSeed) {
             lastSeed = seed;
-            rainfallNoise = new Noise(seed + 314).setNoise(Noise.NoiseType.OpenSimplex2S, 0.0005F)
-                .setFractal(Noise.FractalType.FBm, 3, 2.0F, 0.440F, 0.0F);
-            vegetationNoise = new Noise(seed + 234).setNoise(Noise.NoiseType.OpenSimplex2S, 0.001F)
-                .setFractal(Noise.FractalType.FBm, 3, 2.0F, 0.440F, 0.0F);
+            rainfallNoise = new OpenSimplex2D(seed + 314).spread(0.0005F)
+                .octaves(3)
+                .normalize();
+            vegetationNoise = new OpenSimplex2D(seed + 234).spread(0.001F)
+                .octaves(3)
+                .normalize();
         }
     }
 
@@ -37,17 +40,17 @@ public class WorldGenSoilTF {
                 int worldX = (chunk.xPosition << 4) + x;
                 int worldZ = (chunk.zPosition << 4) + z;
 
-                float rainfallValue = NoiseUtils.normalize(rainfallNoise.getNoise(worldX, worldZ));
-                float vegetationValue = NoiseUtils.normalize(vegetationNoise.getNoise(worldX, worldZ));
+                float rainfall = rainfallNoise.noise(worldX, worldZ);
+                float vegetation = vegetationNoise.noise(worldX, worldZ);
 
                 ChunkDataTF data = ChunkDataTF.get(chunk);
                 int topY = data.getHeight(x, z);
 
-                data.setRainfall(x, z, rainfallValue);
-                data.setVegetation(x, z, vegetationValue);
+                data.setRainfall(x, z, rainfall);
+                data.setVegetation(x, z, vegetation);
                 float elevationValue = data.getRockiness(x, z);
 
-                int depthBlocks = Utils.floor(((1 - elevationValue)) * 5.0F);
+                int depthBlocks = Mth.floor(((1 - elevationValue)) * 5.0F);
 
                 for (int i = 0; i < depthBlocks; i++) {
                     int y = topY - 1 - i;
@@ -56,10 +59,10 @@ public class WorldGenSoilTF {
                     if (i == 0) {
                         block = Registry.grass;
                     }
-                    if (vegetationValue < 0.3F) {
+                    if (vegetation < 0.3F) {
                         block = Registry.dirt;
                     }
-                    if (rainfallValue < 0.3F) {
+                    if (rainfall < 0.3F) {
                         block = Blocks.sand;
                     }
                     if (elevationValue > 0.65F) {
@@ -72,7 +75,7 @@ public class WorldGenSoilTF {
 
                     Block blockReplacing = WorldUtils.getChunkBlock(chunk, x, y, z);
                     if (BlockUtils.isNaturalStone(blockReplacing)) {
-                        SoilType soil = SoilType.pickOneSoilType(chunk.worldObj, rainfallValue);
+                        SoilType soil = SoilType.pickOneSoilType(chunk.worldObj, rainfall);
                         int meta = SoilType.getMeta(Constants.soilTypes, soil);
 
                         WorldUtils.setChunkBlock(chunk, x, y, z, block, meta);

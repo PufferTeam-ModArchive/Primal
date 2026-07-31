@@ -33,8 +33,8 @@ public class StoneType implements IPrimalType {
         this(category, name);
         this.minHeight = minHeight;
         this.maxHeight = maxHeight;
-        this.minHeightTF = Utils.floor(minHeight * Constants.heightMultiplier);
-        this.maxHeightTF = Utils.floor(maxHeight * Constants.heightMultiplier);
+        this.minHeightTF = Mth.floor(minHeight * Constants.heightMultiplier);
+        this.maxHeightTF = Mth.floor(maxHeight * Constants.heightMultiplier);
         this.weight = weight;
     }
 

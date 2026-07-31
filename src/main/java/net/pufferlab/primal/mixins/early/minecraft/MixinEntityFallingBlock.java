@@ -15,7 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.utils.Utils;
+import net.pufferlab.primal.utils.Mth;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -36,9 +36,9 @@ public abstract class MixinEntityFallingBlock extends Entity {
 
     @Override
     public EntityItem entityDropItem(ItemStack itemStackIn, float offsetY) {
-        int x = Utils.floor(this.posX);
-        int y = Utils.floor(this.posY);
-        int z = Utils.floor(this.posZ);
+        int x = Mth.floor(this.posX);
+        int y = Mth.floor(this.posY);
+        int z = Mth.floor(this.posZ);
 
         placeBlock(x, y, z);
         return null;

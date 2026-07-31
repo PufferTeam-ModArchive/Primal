@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.utils.Utils;
+import net.pufferlab.primal.utils.Mth;
 import net.pufferlab.primal.world.terrafirma.ChunkDataTF;
 
 public class RenderDebug {
@@ -29,8 +29,8 @@ public class RenderDebug {
     }
 
     public void handleDebugDebugMenuTextImpl(EntityPlayer player, List<String> left, List<String> right) {
-        int x = Utils.floor(player.posX);
-        int z = Utils.floor(player.posZ);
+        int x = Mth.floor(player.posX);
+        int z = Mth.floor(player.posZ);
         int chunkX = x >> 4;
         int chunkZ = z >> 4;
         int localX = x & 15;

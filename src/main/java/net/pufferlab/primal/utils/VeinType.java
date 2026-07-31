@@ -32,8 +32,8 @@ public class VeinType implements IPrimalType {
         this.rarity = rarity;
         this.maxHeight = maxY;
         this.minHeight = minY;
-        this.minHeightTF = Utils.floor(minHeight * Constants.heightMultiplier);
-        this.maxHeightTF = Utils.floor(maxHeight * Constants.heightMultiplier);
+        this.minHeightTF = Mth.floor(minHeight * Constants.heightMultiplier);
+        this.maxHeightTF = Mth.floor(maxHeight * Constants.heightMultiplier);
         this.stoneTypes = stoneTypes;
     }
 

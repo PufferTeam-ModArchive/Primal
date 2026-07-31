@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.world.World;
 import net.pufferlab.primal.blocks.IPrimalBlock;
+import net.pufferlab.primal.utils.Mth;
 import net.pufferlab.primal.utils.Utils;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,9 +27,9 @@ public abstract class MixinEntityDiggingFX {
         int meta, int side, CallbackInfo ci) {
         if (block instanceof IPrimalBlock block2) {
             if (block2.useWorldIcon()) {
-                int x2 = Utils.floor(x);
-                int y2 = Utils.floor(y);
-                int z2 = Utils.floor(z);
+                int x2 = Mth.floor(x);
+                int y2 = Mth.floor(y);
+                int z2 = Mth.floor(z);
                 double x3 = (x - x2);
                 double y3 = (y - y2);
                 double z3 = (z - z2);

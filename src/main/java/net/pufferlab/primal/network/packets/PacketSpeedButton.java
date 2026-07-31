@@ -4,7 +4,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.tileentities.TileEntityGenerator;
-import net.pufferlab.primal.utils.Utils;
+import net.pufferlab.primal.utils.Mth;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -57,7 +57,7 @@ public class PacketSpeedButton implements IMessage, IMessageHandler<PacketSpeedB
             modifier2 = -1.0F;
         }
         if (te instanceof TileEntityGenerator tef) {
-            float newSpeed = Utils.clamp(-50, 50, tef.getGeneratedSpeed() + (modifier * modifier2));
+            float newSpeed = Mth.clamp(tef.getGeneratedSpeed() + (modifier * modifier2), -50, 50);
             tef.scheduleGeneratorUpdate(newSpeed);
         }
         return null;

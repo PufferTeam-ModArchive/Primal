@@ -1,7 +1,7 @@
 package net.pufferlab.primal.tileentities;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.pufferlab.primal.utils.Utils;
+import net.pufferlab.primal.utils.Mth;
 
 public class TileEntityMetaFacing extends TileEntityPrimal {
 
@@ -77,7 +77,7 @@ public class TileEntityMetaFacing extends TileEntityPrimal {
 
     public void rotateY() {
         int meta = this.facingMeta + 1;
-        this.facingMeta = Utils.clamp(0, 3, meta) + 1;
+        this.facingMeta = Mth.clamp(meta, 0, 3) + 1;
     }
 
     public void rotateAxisY() {

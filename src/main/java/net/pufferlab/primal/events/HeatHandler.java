@@ -17,10 +17,7 @@ import net.pufferlab.primal.*;
 import net.pufferlab.primal.entities.player.PlayerData;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.tileentities.IHeatable;
-import net.pufferlab.primal.utils.FluidUtils;
-import net.pufferlab.primal.utils.HeatUtils;
-import net.pufferlab.primal.utils.MetalType;
-import net.pufferlab.primal.utils.Utils;
+import net.pufferlab.primal.utils.*;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 import cpw.mods.fml.common.eventhandler.Event;
@@ -163,7 +160,7 @@ public class HeatHandler implements IEventHandler {
 
             IHeatableItem impl = HeatUtils.getImpl(stack);
             if (impl != null) {
-                Block block = event.world.getBlock(Utils.floor(ei.posX), Utils.floor(ei.posY), Utils.floor(ei.posZ));
+                Block block = event.world.getBlock(Mth.floor(ei.posX), Mth.floor(ei.posY), Mth.floor(ei.posZ));
                 if (block.getMaterial() == Material.water) {
                     impl.updateHeat(stack, event.world, -5.0F);
                 } else {

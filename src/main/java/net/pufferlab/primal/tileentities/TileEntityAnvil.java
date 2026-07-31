@@ -152,7 +152,7 @@ public class TileEntityAnvil extends TileEntityInventory {
 
     public void moveLine(AnvilAction action) {
         int move = action.step;
-        this.workLine = Utils.clamp(0, 140, this.workLine + move);
+        this.workLine = Mth.clamp(this.workLine + move, 0, 140);
     }
 
     public AnvilRecipe getRecipe() {
