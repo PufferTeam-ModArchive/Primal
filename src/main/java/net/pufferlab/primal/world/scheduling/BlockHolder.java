@@ -28,7 +28,9 @@ public class BlockHolder {
 
     public BlockHolder(int x, int y, int z, Block block, int meta, NBTTagCompound nbt) {
         this(x, y, z, block, meta);
-        this.nbt = (NBTTagCompound) nbt.copy();
+        if (nbt != null) {
+            this.nbt = (NBTTagCompound) nbt.copy();
+        }
         this.fastPlace = false;
     }
 
@@ -69,6 +71,20 @@ public class BlockHolder {
 
     public void invalidate() {
         this.invalid = true;
+    }
+
+    public boolean place(World world, int xOffset, int yOffset, int zOffset) {
+        if (this.invalid()) return false;
+        ChunkPlacerData.placeBlock(
+            world,
+            this.x + xOffset,
+            this.y + yOffset,
+            this.z + zOffset,
+            this.block,
+            this.meta,
+            this.nbt,
+            this.fastPlace);
+        return true;
     }
 
     public boolean place(World world) {

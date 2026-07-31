@@ -64,7 +64,9 @@ public class ChunkPlacerData extends WorldSavedData {
     public static void addBlock(World world, int x, int y, int z, Block block, int meta, NBTTagCompound nbt,
         boolean fastPlace) {
         ChunkPlacerData placer = get(world);
-        if (world.blockExists(x, y, z)) {
+        int chunkX = x << 4;
+        int chunkZ = z << 4;
+        if (WorldUtils.isChunkLoaded(world, chunkX, chunkZ)) {
             placeBlock(world, x, y, z, block, meta, nbt, fastPlace);
         } else {
             BlockHolder blockHolder;

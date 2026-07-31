@@ -32,6 +32,10 @@ public class PositionUtils {
         return ((long) x & cm) | (((long) z & cm) << czs);
     }
 
+    public static int pack4BitsCoord(int x, int z) {
+        return (z << 4) | x;
+    }
+
     public static int unpackX(long packed) {
 
         return (int) (packed << (64 - bx - bxs) >> (64 - bx));

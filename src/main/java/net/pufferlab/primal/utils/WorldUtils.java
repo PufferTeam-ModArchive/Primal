@@ -4,12 +4,14 @@ import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraft.world.gen.ChunkProviderFlat;
+import net.minecraft.world.gen.ChunkProviderServer;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
 import net.pufferlab.primal.world.scheduling.ChunkPlacerData;
 import net.pufferlab.primal.world.terrafirma.WorldTypeTF;
@@ -67,6 +69,15 @@ public class WorldUtils {
 
     public static void setBlockWorldgen(World world, int x, int y, int z, Block block, int meta) {
         ChunkPlacerData.addBlockFast(world, x, y, z, block, meta);
+    }
+
+    public static boolean isChunkLoaded(World world, int x, int z) {
+        IChunkProvider provider = world.getChunkProvider();
+        if (provider instanceof ChunkProviderServer server) {
+            long k = ChunkCoordIntPair.chunkXZ2Int(x, z);
+            return !server.loadingChunks.contains(k);
+        }
+        return false;
     }
 
     public static void setBlock(World world, int x, int y, int z, Block block, int meta) {

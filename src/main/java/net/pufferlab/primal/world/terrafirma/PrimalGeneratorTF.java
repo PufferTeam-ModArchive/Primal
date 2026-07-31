@@ -5,10 +5,7 @@ import java.util.Random;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.pufferlab.primal.Config;
-import net.pufferlab.primal.world.terrafirma.gen.WorldGenSoilTF;
-import net.pufferlab.primal.world.terrafirma.gen.WorldGenStrataTF;
-import net.pufferlab.primal.world.terrafirma.gen.WorldGenTerrainTF;
-import net.pufferlab.primal.world.terrafirma.gen.WorldGenVeinTF;
+import net.pufferlab.primal.world.terrafirma.gen.*;
 
 public class PrimalGeneratorTF {
 
@@ -16,6 +13,7 @@ public class PrimalGeneratorTF {
     public WorldGenVeinTF worldGenVein;
     public WorldGenTerrainTF worldGenTerrain;
     public WorldGenSoilTF worldGenSoil;
+    public WorldGenVegetationTF worldGenVegetation;
 
     public void initGenerators(World world) {
         long seed = world.getSeed();
@@ -23,11 +21,13 @@ public class PrimalGeneratorTF {
         this.worldGenStrata = new WorldGenStrataTF();
         this.worldGenVein = new WorldGenVeinTF();
         this.worldGenSoil = new WorldGenSoilTF();
+        this.worldGenVegetation = new WorldGenVegetationTF();
         this.worldGenTerrain.initNoiseSeed(seed);
         this.worldGenStrata.initNoiseSeed(seed);
         this.worldGenStrata.initBlockList();
         this.worldGenVein.initNoiseSeed(seed);
         this.worldGenSoil.initNoiseSeed(seed);
+        this.worldGenVegetation.initNoiseSeed(seed);
     }
 
     public void earlyGenerate(Chunk chunk, Random randomChunk) {
@@ -48,5 +48,6 @@ public class PrimalGeneratorTF {
         if (Config.oreVeins.getBoolean() && Config.oreVeinsWorldGenTF.getBoolean()) {
             this.worldGenVein.genVein(chunk, randomChunk);
         }
+        this.worldGenVegetation.genVegetation(chunk, randomChunk);
     }
 }

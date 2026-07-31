@@ -44,8 +44,6 @@ public class ChunkProviderTF implements IChunkProvider {
         Chunk chunk = new Chunk(this.worldObj, ablock, abyte, p_73154_1_, p_73154_2_);
 
         this.generatorTF.earlyGenerate(chunk, randomChunk);
-        chunk.generateSkylightMap();
-
         this.generatorTF.generate(chunk, randomChunk);
 
         ChunkPlacerData.tickPlacement(chunk.worldObj, chunk.xPosition, chunk.zPosition);

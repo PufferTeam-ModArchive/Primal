@@ -38,11 +38,12 @@ public class RenderDebug {
 
         ChunkDataTF manager = ChunkDataTF.getClient(chunkX, chunkZ);
 
-        float rockness = manager.rockness[localX][localZ];
-        float rainfall = manager.rainfall[localX][localZ];
+        float rockness = manager.getRockiness(localX, localZ);
+        float rainfall = manager.getRainfall(localX, localZ);
+        float vegetation = manager.getVegetation(localX, localZ);
 
-        if(Primal.proxy.hasDebugMenu()) {
-            if(Config.simplifyDebugMenu.getBoolean()) {
+        if (Primal.proxy.hasDebugMenu()) {
+            if (Config.simplifyDebugMenu.getBoolean()) {
                 left.removeIf(s -> {
                     if (s == null) return false;
                     return s.startsWith("[ChunkGen]") || s.startsWith("DynLights");
@@ -71,6 +72,7 @@ public class RenderDebug {
             }
             left.add("[Primal] ChunkDataTF");
             left.add("rockiness: " + rockness + ", rainfall: " + rainfall);
+            left.add("vegetation: " + vegetation);
         }
     }
 

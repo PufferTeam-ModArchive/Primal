@@ -438,6 +438,30 @@ public final class Utils {
         return result;
     }
 
+    public static byte[] getByteArray(int[] floatArray) {
+        byte[] intArray = new byte[floatArray.length];
+        for (int i = 0; i < floatArray.length; i++) {
+            intArray[i] = (byte) floatArray[i];
+        }
+        return intArray;
+    }
+
+    public static float[] getFloatArray(int[] array) {
+        float[] floatArray = new float[array.length];
+        for (int i = 0; i < array.length; i++) {
+            floatArray[i] = Float.intBitsToFloat(array[i]);
+        }
+        return floatArray;
+    }
+
+    public static int[] getIntArray(float[] floatArray) {
+        int[] intArray = new int[floatArray.length];
+        for (int i = 0; i < floatArray.length; i++) {
+            intArray[i] = Float.floatToIntBits(floatArray[i]);
+        }
+        return intArray;
+    }
+
     public static int getRandomInRange(Random random, int min, int max) {
         if (min > max) {
             int tmp = min;

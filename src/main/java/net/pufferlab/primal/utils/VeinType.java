@@ -120,13 +120,6 @@ public class VeinType implements IPrimalType {
         return this;
     }
 
-    public boolean canGenerate(int height) {
-        if (height < maxHeight && height > minHeight) {
-            return true;
-        }
-        return false;
-    }
-
     public boolean isValidStone(StoneType stone) {
         return Utils.contains(stoneTypes, stone);
     }

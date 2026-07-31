@@ -48,7 +48,9 @@ public class WorldChunkHandler implements IEventHandler {
     @SubscribeEvent
     public void onChunkUnload(ChunkEvent.Unload event) {
         ChunkDataManager manager = ChunkDataManager.getClientDataManager();
-        manager.remove(event.getChunk());
+
+        // Causes crashes because
+        // manager.remove(event.getChunk());
     }
 
 }
