@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.utils.NBTType;
-import net.pufferlab.primal.utils.PositionMap;
+import net.pufferlab.primal.utils.PosMap;
 import net.pufferlab.primal.utils.WorldUtils;
 
 public class ChunkPlacerData extends WorldSavedData {
@@ -23,7 +23,7 @@ public class ChunkPlacerData extends WorldSavedData {
     }
 
     public List<BlockHolder> list = new ArrayList<>();
-    public PositionMap<BlockHolder> map = new PositionMap<>();
+    public PosMap.Multi<BlockHolder> map = new PosMap.Multi<>();
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
@@ -35,7 +35,7 @@ public class ChunkPlacerData extends WorldSavedData {
         writeToNBT(tag, nameBlocks, list, map);
     }
 
-    public void writeToNBT(NBTTagCompound nbt, String name, List<BlockHolder> queue, PositionMap<BlockHolder> map) {
+    public void writeToNBT(NBTTagCompound nbt, String name, List<BlockHolder> queue, PosMap.Multi<BlockHolder> map) {
         NBTTagList list = new NBTTagList();
 
         for (BlockHolder task : queue) {
@@ -48,7 +48,7 @@ public class ChunkPlacerData extends WorldSavedData {
         nbt.setTag(name, list);
     }
 
-    public void readFromNBT(NBTTagCompound nbt, String name, List<BlockHolder> queue, PositionMap<BlockHolder> map) {
+    public void readFromNBT(NBTTagCompound nbt, String name, List<BlockHolder> queue, PosMap.Multi<BlockHolder> map) {
         NBTTagList list = nbt.getTagList(name, NBTType.TagCompound);
 
         for (int i = 0; i < list.tagCount(); i++) {

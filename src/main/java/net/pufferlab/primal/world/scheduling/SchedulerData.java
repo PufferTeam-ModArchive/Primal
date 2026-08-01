@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.utils.NBTType;
-import net.pufferlab.primal.utils.PositionMap;
+import net.pufferlab.primal.utils.PosMap;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 public class SchedulerData extends WorldSavedData {
@@ -20,7 +20,7 @@ public class SchedulerData extends WorldSavedData {
 
     public PriorityQueue<ScheduledTask> queue = new PriorityQueue<>();
     public PriorityQueue<ScheduledTask> queueWait = new PriorityQueue<>();
-    public PositionMap<ScheduledTask> taskMap = new PositionMap<>();
+    public PosMap.Multi<ScheduledTask> taskMap = new PosMap.Multi<>();
 
     public SchedulerData(String p_i2141_1_) {
         super(name);
@@ -57,7 +57,7 @@ public class SchedulerData extends WorldSavedData {
     }
 
     public void writeToNBT(NBTTagCompound nbt, String name, PriorityQueue<ScheduledTask> queue,
-        PositionMap<ScheduledTask> map) {
+        PosMap.Multi<ScheduledTask> map) {
         NBTTagList list = new NBTTagList();
 
         for (ScheduledTask task : queue) {
@@ -71,7 +71,7 @@ public class SchedulerData extends WorldSavedData {
     }
 
     public void readFromNBT(NBTTagCompound nbt, String name, PriorityQueue<ScheduledTask> queue,
-        PositionMap<ScheduledTask> map) {
+        PosMap.Multi<ScheduledTask> map) {
         NBTTagList list = nbt.getTagList(name, NBTType.TagCompound);
 
         for (int i = 0; i < list.tagCount(); i++) {

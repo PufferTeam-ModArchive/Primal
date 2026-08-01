@@ -7,7 +7,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.utils.PositionUtils;
+import net.pufferlab.primal.utils.HashUtils;
 
 import io.netty.buffer.ByteBuf;
 
@@ -82,13 +82,13 @@ public class PlayerData implements IExtendedEntityProperties {
         if (cachedBB == null || coordChanged) {
             coordChanged = false;
             long packedCoord1 = getSelectPos1();
-            int x1 = PositionUtils.unpackX(packedCoord1);
-            int y1 = PositionUtils.unpackY(packedCoord1);
-            int z1 = PositionUtils.unpackZ(packedCoord1);
+            int x1 = HashUtils.unpackX(packedCoord1);
+            int y1 = HashUtils.unpackY(packedCoord1);
+            int z1 = HashUtils.unpackZ(packedCoord1);
             long packedCoord2 = getSelectPos2();
-            int x2 = PositionUtils.unpackX(packedCoord2);
-            int y2 = PositionUtils.unpackY(packedCoord2);
-            int z2 = PositionUtils.unpackZ(packedCoord2);
+            int x2 = HashUtils.unpackX(packedCoord2);
+            int y2 = HashUtils.unpackY(packedCoord2);
+            int z2 = HashUtils.unpackZ(packedCoord2);
             int minX = Math.min(x1, x2);
             int minY = Math.min(y1, y2);
             int minZ = Math.min(z1, z2);

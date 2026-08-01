@@ -14,24 +14,22 @@ public class IdentifierMap<T> {
     public IdentifierMap() {}
 
     public void putObject(T obj, int id) {
-        String str = obj.getClass()
+        String name = obj.getClass()
             .getName();
-        putName(str, id);
+        if (obj instanceof String string) {
+            name = string;
+        }
+        nameToID.put(name, id);
+        idToName.put(id, name);
         idToObject.put(id, obj);
     }
 
-    public void putName(String name, int id) {
-        nameToID.put(name, id);
-        idToName.put(id, name);
-    }
-
-    public int getID(Object name) {
-        return getID(
-            name.getClass()
-                .getName());
-    }
-
-    public int getID(String name) {
+    public int getID(Object obj) {
+        String name = obj.getClass()
+            .getName();
+        if (obj instanceof String string) {
+            name = string;
+        }
         return nameToID.get(name);
     }
 

@@ -3,12 +3,10 @@ package net.pufferlab.primal.world;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
-import net.pufferlab.primal.utils.PositionUtils;
+import net.pufferlab.primal.utils.PosMap;
 
 import gnu.trove.map.TIntObjectMap;
-import gnu.trove.map.TLongObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
-import gnu.trove.map.hash.TLongObjectHashMap;
 import io.netty.buffer.ByteBuf;
 
 public class ChunkDataManager {
@@ -18,7 +16,7 @@ public class ChunkDataManager {
 
     public static final TIntObjectMap<ChunkDataManager> chunkDataManagerMap = new TIntObjectHashMap<>();
 
-    public final TLongObjectMap<ChunkDataStorage> chunkDataStorage = new TLongObjectHashMap<>();
+    public final PosMap.Single<ChunkDataStorage> chunkDataStorage = new PosMap.Single<>();
 
     public ChunkDataManager() {}
 
@@ -48,18 +46,16 @@ public class ChunkDataManager {
     }
 
     public ChunkDataStorage get(int x, int z) {
-        long coord = PositionUtils.packChunkCoord(x, z);
-        ChunkDataStorage storage = chunkDataStorage.get(coord);
+        ChunkDataStorage storage = chunkDataStorage.get(x, z);
         if (storage == null) {
             storage = new ChunkDataStorage(x, z);
-            chunkDataStorage.put(coord, storage);
+            chunkDataStorage.put(x, z, storage);
         }
         return storage;
     }
 
     public ChunkDataStorage remove(int x, int z) {
-        long coord = PositionUtils.packChunkCoord(x, z);
-        return chunkDataStorage.remove(coord);
+        return chunkDataStorage.remove(x, z);
     }
 
     public void readFromNBT(NBTTagCompound nbt, Chunk chunk) {
@@ -69,8 +65,7 @@ public class ChunkDataManager {
     public void readFromNBT(NBTTagCompound nbt, int x, int z) {
         ChunkDataStorage storage = new ChunkDataStorage(x, z);
         storage.readFromNBT(nbt);
-        long coord = PositionUtils.packChunkCoord(x, z);
-        chunkDataStorage.put(coord, storage);
+        chunkDataStorage.put(x, z, storage);
     }
 
     public void writeToNBT(NBTTagCompound nbt, Chunk chunk) {
@@ -78,8 +73,7 @@ public class ChunkDataManager {
     }
 
     public void writeToNBT(NBTTagCompound nbt, int x, int z) {
-        long coord = PositionUtils.packChunkCoord(x, z);
-        ChunkDataStorage storage = chunkDataStorage.get(coord);
+        ChunkDataStorage storage = chunkDataStorage.get(x, z);
         if (storage != null) {
             storage.writeToNBT(nbt);
         }
@@ -93,13 +87,11 @@ public class ChunkDataManager {
         ChunkDataStorage storage = new ChunkDataStorage(x, z);
         storage.readFromBuffer(buf);
 
-        long coord = PositionUtils.packChunkCoord(x, z);
-        chunkDataStorage.put(coord, storage);
+        chunkDataStorage.put(x, z, storage);
     }
 
     public void writeToBuffer(ByteBuf buf, int x, int z) {
-        long coord = PositionUtils.packChunkCoord(x, z);
-        ChunkDataStorage storage = chunkDataStorage.get(coord);
+        ChunkDataStorage storage = chunkDataStorage.get(x, z);
 
         if (storage != null) {
             buf.writeBoolean(true);

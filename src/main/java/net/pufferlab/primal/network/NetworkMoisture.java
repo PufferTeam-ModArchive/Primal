@@ -9,7 +9,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.tileentities.ITile;
 import net.pufferlab.primal.tileentities.TileEntityFarmland;
 import net.pufferlab.primal.utils.BlockUtils;
-import net.pufferlab.primal.utils.PositionUtils;
+import net.pufferlab.primal.utils.HashUtils;
 
 import gnu.trove.list.TLongList;
 import gnu.trove.list.array.TLongArrayList;
@@ -44,8 +44,8 @@ public class NetworkMoisture {
     }
 
     private static float getMoisture(ITile tef, long coord) {
-        int waterX = PositionUtils.unpackX(coord);
-        int waterZ = PositionUtils.unpackZ(coord);
+        int waterX = HashUtils.unpackX(coord);
+        int waterZ = HashUtils.unpackZ(coord);
 
         int dx = Math.abs(tef.getX() - waterX);
         int dz = Math.abs(tef.getZ() - waterZ);
@@ -76,7 +76,7 @@ public class NetworkMoisture {
                 Block block = te.getWorld()
                     .getBlock(offsetX, offsetY, offsetZ);
                 if (BlockUtils.isWaterBlock(block)) {
-                    long coord = PositionUtils.packCoord(offsetX, offsetY, offsetZ);
+                    long coord = HashUtils.packCoord(offsetX, offsetY, offsetZ);
                     if (!this.waterBlocks.contains(coord)) {
                         this.waterBlocks.add(coord);
                     }

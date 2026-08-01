@@ -7,7 +7,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.pufferlab.primal.entities.player.PlayerData;
 import net.pufferlab.primal.utils.BlockUtils;
-import net.pufferlab.primal.utils.PositionUtils;
+import net.pufferlab.primal.utils.HashUtils;
 import net.pufferlab.primal.world.structures.StructureFile;
 
 public class CommandStructure extends CommandSub {
@@ -47,13 +47,13 @@ public class CommandStructure extends CommandSub {
                         String structureName = args[1];
                         if (data.hasValidSelection()) {
                             long packedCoord1 = data.getSelectPos1();
-                            int x1 = PositionUtils.unpackX(packedCoord1);
-                            int y1 = PositionUtils.unpackY(packedCoord1);
-                            int z1 = PositionUtils.unpackZ(packedCoord1);
+                            int x1 = HashUtils.unpackX(packedCoord1);
+                            int y1 = HashUtils.unpackY(packedCoord1);
+                            int z1 = HashUtils.unpackZ(packedCoord1);
                             long packedCoord2 = data.getSelectPos2();
-                            int x2 = PositionUtils.unpackX(packedCoord2);
-                            int y2 = PositionUtils.unpackY(packedCoord2);
-                            int z2 = PositionUtils.unpackZ(packedCoord2);
+                            int x2 = HashUtils.unpackX(packedCoord2);
+                            int y2 = HashUtils.unpackY(packedCoord2);
+                            int z2 = HashUtils.unpackZ(packedCoord2);
 
                             StructureFile.saveStructure(structureName, x1, y1, z1, x2, y2, z2, world);
                             sendChatMessage(sender, "Saved structure " + structureName + " in structure folder");
@@ -70,7 +70,7 @@ public class CommandStructure extends CommandSub {
                         int blockX = mop.blockX;
                         int blockY = mop.blockY;
                         int blockZ = mop.blockZ;
-                        long packedCoord = PositionUtils.packCoord(blockX, blockY, blockZ);
+                        long packedCoord = HashUtils.packCoord(blockX, blockY, blockZ);
                         if (args[0].equals("pos1")) {
                             data.setSelectPos1(packedCoord);
                             sendChatMessage(

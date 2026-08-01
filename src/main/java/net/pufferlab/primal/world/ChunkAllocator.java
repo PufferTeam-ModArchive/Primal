@@ -12,7 +12,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.utils.PositionUtils;
+import net.pufferlab.primal.utils.HashUtils;
 import net.pufferlab.primal.utils.WorldUtils;
 
 public class ChunkAllocator extends WorldSavedData {
@@ -39,16 +39,16 @@ public class ChunkAllocator extends WorldSavedData {
     public void readFromNBT(NBTTagCompound nbt) {
         if (nbt.hasKey("lastKey")) {
             long coords = nbt.getLong("lastKey");
-            lastX = PositionUtils.unpackX(coords);
-            lastY = PositionUtils.unpackY(coords);
-            lastZ = PositionUtils.unpackZ(coords);
+            lastX = HashUtils.unpackX(coords);
+            lastY = HashUtils.unpackY(coords);
+            lastZ = HashUtils.unpackZ(coords);
         }
         chunkCoords = nbt.getIntArray("chunkCoords");
     }
 
     @Override
     public void writeToNBT(NBTTagCompound nbt) {
-        long coords = PositionUtils.packCoord(lastX, lastY, lastZ);
+        long coords = HashUtils.packCoord(lastX, lastY, lastZ);
         nbt.setLong("lastKey", coords);
         nbt.setIntArray("chunkCoords", chunkCoords);
     }
