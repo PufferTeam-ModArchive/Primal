@@ -750,12 +750,14 @@ public class Registry {
         Constants.diamond.setOreItem(Items.diamond, 0);
         Constants.emerald.setOreItem(Items.emerald, 0);
         Constants.lapis_lazuli.setOreItem(Items.dye, 4);
-        Constants.oak.setLogItem(Blocks.log, 0);
-        Constants.spruce.setLogItem(Blocks.log, 1);
-        Constants.birch.setLogItem(Blocks.log, 2);
-        Constants.jungle.setLogItem(Blocks.log, 3);
-        Constants.acacia.setLogItem(Blocks.log2, 0);
-        Constants.dark_oak.setLogItem(Blocks.log2, 1);
+        Constants.oak.setLogBlock(Blocks.log, 0);
+        Constants.spruce.setLogBlock(Blocks.log, 1);
+        Constants.birch.setLogBlock(Blocks.log, 2);
+        Constants.jungle.setLogBlock(Blocks.log, 3);
+        Constants.acacia.setLogBlock(Blocks.log2, 0);
+        Constants.dark_oak.setLogBlock(Blocks.log2, 1);
+        Constants.grass.setPlantItem(Blocks.tallgrass, 1);
+        Constants.tall_grass.setDoublePlantItem(Blocks.double_plant, 2, Blocks.double_plant, 11);
         if (Mods.tc.isLoaded()) {
             Item shardItem = Mods.tc.getModItem("ItemShard");
             Constants.aer.setOreItem(shardItem, 0);

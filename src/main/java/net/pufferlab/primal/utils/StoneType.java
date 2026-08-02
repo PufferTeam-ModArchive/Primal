@@ -10,9 +10,7 @@ import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 
 import gnu.trove.map.TIntObjectMap;
-import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
-import gnu.trove.map.hash.TObjectIntHashMap;
 
 public class StoneType implements IPrimalType {
 
@@ -129,12 +127,22 @@ public class StoneType implements IPrimalType {
         }
     }
 
+    public int blockMeta;
+
+    public static int getMeta(StoneType type) {
+        return type.blockMeta;
+    }
+
     public static final LayerCache cache = new LayerCache();
     public static final LayerCache cacheTF = new LayerCache();
 
     public static void genLayerCache(StoneType[] stoneTypes) {
         cache.genLayerCache(false, stoneTypes);
         cacheTF.genLayerCache(true, stoneTypes);
+
+        for (int i = 0; i < stoneTypes.length; i++) {
+            stoneTypes[i].blockMeta = i;
+        }
     }
 
     public static class LayerCache {
@@ -177,21 +185,6 @@ public class StoneType implements IPrimalType {
                 }
             }
         }
-    }
-
-    public static TObjectIntMap<StoneType> metaList;
-
-    public static int getMeta(StoneType[] stoneTypes, StoneType type) {
-        if (metaList == null) {
-            metaList = new TObjectIntHashMap<>();
-            for (int i = 0; i < stoneTypes.length; i++) {
-                metaList.put(stoneTypes[i], i);
-            }
-        }
-        if (metaList.containsKey(type)) {
-            return metaList.get(type);
-        }
-        return 0;
     }
 
     public static final TIntObjectMap<StoneType> typeMap = new TIntObjectHashMap<>();

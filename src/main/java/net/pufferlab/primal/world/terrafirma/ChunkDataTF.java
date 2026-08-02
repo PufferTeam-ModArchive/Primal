@@ -1,16 +1,17 @@
 package net.pufferlab.primal.world.terrafirma;
 
-import static net.pufferlab.primal.utils.HashUtils.pack4BitsCoord;
 import static net.pufferlab.primal.utils.Utils.getFloatArray;
 import static net.pufferlab.primal.utils.Utils.getIntArray;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.utils.IOUtils;
-import net.pufferlab.primal.world.ChunkDataManager;
-import net.pufferlab.primal.world.ChunkDataStorage;
-import net.pufferlab.primal.world.ChunkSavedData;
+import net.pufferlab.primal.world.storage.ChunkDataManager;
+import net.pufferlab.primal.world.storage.ChunkDataStorage;
+import net.pufferlab.primal.world.storage.ChunkSavedData;
+import net.pufferlab.primal.world.terrafirma.gen.region.data.ChunkNoiseData;
 
 import io.netty.buffer.ByteBuf;
 
@@ -18,111 +19,109 @@ public class ChunkDataTF extends ChunkSavedData {
 
     public static final String name = Primal.MODID + "ChunkDataTF";
 
-    public int[] biomes = new int[256];
-    public int[] heightmap = new int[256];
-    public float[] rockness = new float[256];
-    public float[] rainfall = new float[256];
-    public float[] vegetation = new float[256];
+    public ChunkNoiseData noiseData = new ChunkNoiseData(0, 0);
 
-    public float[] debug = new float[256];
+    public void syncData(ChunkNoiseData noiseData) {
+        this.noiseData = noiseData;
+    }
 
     public ChunkDataTF(String p_i2141_1_) {
         super(name);
     }
 
     public BiomesTF getBiome(int x, int z) {
-        return BiomesTF.getBiome(biomes[pack4BitsCoord(x, z)]);
+        return noiseData.getBiome(x, z);
     }
 
     public void setBiome(int x, int z, BiomesTF biome) {
-        biomes[pack4BitsCoord(x, z)] = BiomesTF.getID(biome);
+        noiseData.setBiome(x, z, biome);
     }
 
     public int getHeight(int x, int z) {
-        return heightmap[pack4BitsCoord(x, z)];
+        return noiseData.getHeight(x, z);
     }
 
     public void setHeight(int x, int z, int value) {
-        heightmap[pack4BitsCoord(x, z)] = value;
+        noiseData.setHeight(x, z, value);
     }
 
     public float getRockiness(int x, int z) {
-        return rockness[pack4BitsCoord(x, z)];
+        return noiseData.getRockiness(x, z);
     }
 
     public void setRockiness(int x, int z, float value) {
-        this.rockness[pack4BitsCoord(x, z)] = value;
+        noiseData.setRockiness(x, z, value);
     }
 
     public float getRainfall(int x, int z) {
-        return rainfall[pack4BitsCoord(x, z)];
+        return noiseData.getRainfall(x, z);
     }
 
     public void setRainfall(int x, int z, float value) {
-        this.rainfall[pack4BitsCoord(x, z)] = value;
+        noiseData.setRainfall(x, z, value);
     }
 
     public float getVegetation(int x, int z) {
-        return vegetation[pack4BitsCoord(x, z)];
+        return noiseData.getVegetation(x, z);
     }
 
     public void setVegetation(int x, int z, float value) {
-        this.vegetation[pack4BitsCoord(x, z)] = value;
+        noiseData.setVegetation(x, z, value);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
-        this.heightmap = nbt.getIntArray("terrain_height");
+        noiseData.heightmap = nbt.getIntArray("terrain_height");
 
-        this.biomes = nbt.getIntArray("biomes");
+        noiseData.biomes = nbt.getIntArray("biomes");
 
         int[] rocknessInt = nbt.getIntArray("rockiness");
-        this.rockness = getFloatArray(rocknessInt);
+        noiseData.rockness = getFloatArray(rocknessInt);
 
         int[] rainfallInt = nbt.getIntArray("rainfall");
-        this.rainfall = getFloatArray(rainfallInt);
+        noiseData.rainfall = getFloatArray(rainfallInt);
 
         int[] vegetationInt = nbt.getIntArray("vegetation");
-        this.vegetation = getFloatArray(vegetationInt);
+        noiseData.vegetation = getFloatArray(vegetationInt);
     }
 
     @Override
     public void readFromBuffer(ByteBuf buf) {
         int[] rocknessInt = IOUtils.readIntArray(buf);
-        this.rockness = getFloatArray(rocknessInt);
+        noiseData.rockness = getFloatArray(rocknessInt);
 
         int[] rainfallInt = IOUtils.readIntArray(buf);
-        this.rainfall = getFloatArray(rainfallInt);
+        noiseData.rainfall = getFloatArray(rainfallInt);
 
         int[] vegetationInt = IOUtils.readIntArray(buf);
-        this.vegetation = getFloatArray(vegetationInt);
+        noiseData.vegetation = getFloatArray(vegetationInt);
     }
 
     @Override
     public void writeToNBT(NBTTagCompound nbt) {
-        nbt.setIntArray("terrain_height", heightmap);
+        nbt.setIntArray("terrain_height", noiseData.heightmap);
 
-        nbt.setIntArray("biomes", this.biomes);
+        nbt.setIntArray("biomes", noiseData.biomes);
 
-        int[] rocknessInt = getIntArray(rockness);
+        int[] rocknessInt = getIntArray(noiseData.rockness);
         nbt.setIntArray("rockiness", rocknessInt);
 
-        int[] rainfallInt = getIntArray(rainfall);
+        int[] rainfallInt = getIntArray(noiseData.rainfall);
         nbt.setIntArray("rainfall", rainfallInt);
 
-        int[] vegetationInt = getIntArray(vegetation);
+        int[] vegetationInt = getIntArray(noiseData.vegetation);
         nbt.setIntArray("vegetation", vegetationInt);
     }
 
     @Override
     public void writeToBuffer(ByteBuf buf) {
-        int[] rocknessInt = getIntArray(rockness);
+        int[] rocknessInt = getIntArray(noiseData.rockness);
         IOUtils.writeIntArray(buf, rocknessInt);
 
-        int[] rainfallInt = getIntArray(rainfall);
+        int[] rainfallInt = getIntArray(noiseData.rainfall);
         IOUtils.writeIntArray(buf, rainfallInt);
 
-        int[] vegetationInt = getIntArray(vegetation);
+        int[] vegetationInt = getIntArray(noiseData.vegetation);
         IOUtils.writeIntArray(buf, vegetationInt);
     }
 
@@ -131,6 +130,13 @@ public class ChunkDataTF extends ChunkSavedData {
 
         ChunkDataStorage storage = manager.get(x, z);
 
+        return get(storage);
+    }
+
+    public static ChunkDataTF get(World world, int x, int z) {
+        ChunkDataManager manager = ChunkDataManager.getDataManager(world);
+
+        ChunkDataStorage storage = manager.get(x, z);
         return get(storage);
     }
 

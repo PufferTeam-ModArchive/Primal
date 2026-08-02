@@ -3,7 +3,7 @@ package net.pufferlab.primal.network.packets;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.renderer.RenderDebug;
-import net.pufferlab.primal.world.ChunkDataManager;
+import net.pufferlab.primal.world.storage.ChunkDataManager;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;

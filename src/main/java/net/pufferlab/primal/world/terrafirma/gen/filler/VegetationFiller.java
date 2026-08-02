@@ -1,0 +1,78 @@
+package net.pufferlab.primal.world.terrafirma.gen.filler;
+
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.world.World;
+import net.pufferlab.primal.Constants;
+import net.pufferlab.primal.utils.BlockUtils;
+import net.pufferlab.primal.utils.PlantType;
+import net.pufferlab.primal.world.structures.StructureFile;
+import net.pufferlab.primal.world.terrafirma.gen.region.data.ChunkBlockData;
+import net.pufferlab.primal.world.terrafirma.gen.region.data.ChunkNoiseData;
+
+public class VegetationFiller {
+
+    public World world;
+
+    public VegetationFiller(World world) {
+        this.world = world;
+    }
+
+    public void genVegetation(ChunkBlockData data, ChunkNoiseData dataNoise, int chunkX, int chunkZ) {
+        for (int x = 0; x < 16; x++) {
+            for (int z = 0; z < 16; z++) {
+                int worldX = (chunkX << 4) + x;
+                int worldZ = (chunkZ << 4) + z;
+
+                int y = dataNoise.getHeight(x, z);
+
+                Block block = data.getBlock(x, y - 1, z);
+                if (block != Blocks.air) {
+                    float vegetation = dataNoise.getVegetation(x, z);
+
+                    Block blockBelow = data.getBlock(x, y - 1, z);
+                    if (BlockUtils.isGrassBlock(blockBelow)) {
+                        if (vegetation > 0.3F) {
+                            if (data.random.nextFloat() > 0.5F) {
+                                placePlant(data, x, y, z, Constants.grass);
+                            }
+                        }
+                        if (vegetation > 0.5F) {
+                            if (data.random.nextFloat() > 0.9F) {
+                                placePlant(data, x, y, z, Constants.tall_grass);
+                            }
+                        }
+                        if (vegetation > 0.6F) {
+                            // Only try 4 times
+                            if (x % 4 == 0 && z % 4 == 0) {
+                                if (data.random.nextFloat() > vegetation) {
+                                    int num = data.random.nextInt(2) + 1;
+                                    // This is really temporary, it just spawns oak tree
+                                    StructureFile.loadStructure(
+                                        "oak_tree_" + num,
+                                        worldX,
+                                        y,
+                                        worldZ,
+                                        world,
+                                        data.random.nextInt(4),
+                                        StructureFile.LoadingPosition.ground);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void placePlant(ChunkBlockData data, int x, int y, int z, PlantType plant) {
+        Block block1 = plant.plantBlock;
+        int meta1 = plant.plantMeta;
+        data.setBlock(x, y, z, block1, meta1);
+        if (plant.doublePlant) {
+            Block block2 = plant.plantBlock2;
+            int meta2 = plant.plantMeta2;
+            data.setBlock(x, y + 1, z, block2, meta2);
+        }
+    }
+}

@@ -119,6 +119,10 @@ public class Primal {
         return (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
     }
 
+    public static void debugLog(Object object) {
+        Primal.LOG.info(object);
+    }
+
     public static void debugLog(String string) {
         Primal.LOG.info(string);
     }

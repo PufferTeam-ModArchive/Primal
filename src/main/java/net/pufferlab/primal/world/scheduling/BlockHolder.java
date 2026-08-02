@@ -16,6 +16,20 @@ public class BlockHolder {
         readFromNBT(tag);
     }
 
+    public BlockHolder(BlockHolder blockHolder, int offsetX, int offsetY, int offsetZ) {
+        this.x = blockHolder.x + offsetX;
+        this.y = blockHolder.y + offsetY;
+        this.z = blockHolder.z + offsetZ;
+        this.chunkX = x >> 4;
+        this.chunkZ = z >> 4;
+        this.block = blockHolder.block;
+        this.meta = blockHolder.meta;
+        if (blockHolder.nbt != null) {
+            this.nbt = (NBTTagCompound) blockHolder.nbt.copy();
+        }
+        this.fastPlace = blockHolder.fastPlace;
+    }
+
     public BlockHolder(int x, int y, int z, Block block, int meta) {
         this.x = x;
         this.y = y;

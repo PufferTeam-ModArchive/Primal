@@ -1,4 +1,4 @@
-package net.pufferlab.primal.world;
+package net.pufferlab.primal.world.storage;
 
 import java.util.ArrayList;
 import java.util.HashMap;

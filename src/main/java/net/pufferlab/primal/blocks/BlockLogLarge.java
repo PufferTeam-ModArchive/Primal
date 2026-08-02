@@ -26,10 +26,10 @@ public class BlockLogLarge extends BlockLog implements IMetaBlock, IPrimalBlock 
         this.name = wood.getName();
         this.wood = wood;
         this.field_150168_M = wood.types;
-        this.wood.setLogItem(this, 0);
-        this.wood.setStrippedLogItem(this, 1);
-        this.wood.setWoodItem(this, 2);
-        this.wood.setStrippedWoodItem(this, 3);
+        this.wood.setLogBlock(this, 0);
+        this.wood.setStrippedLogBlock(this, 1);
+        this.wood.setWoodBlock(this, 2);
+        this.wood.setStrippedWoodBlock(this, 3);
         String[] blacklist = new String[4];
         if (!this.wood.hasLog) {
             blacklist[0] = wood.types[0];
@@ -44,7 +44,7 @@ public class BlockLogLarge extends BlockLog implements IMetaBlock, IPrimalBlock 
     public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
         for (int i = 0; i < 4; i++) {
             if (!this.wood.hasLog && i == 0) {
-                list.add(this.wood.getLogItem());
+                list.add(this.wood.getLogBlock());
             } else {
                 list.add(new ItemStack(itemIn, 1, i));
             }

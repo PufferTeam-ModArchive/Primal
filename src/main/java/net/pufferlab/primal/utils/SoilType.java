@@ -64,19 +64,10 @@ public class SoilType implements IPrimalType {
         }
     }
 
-    public static Map<SoilType, Integer> metaList;
+    public int blockMeta;
 
-    public static int getMeta(SoilType[] stoneTypes, SoilType type) {
-        if (metaList == null) {
-            metaList = new HashMap<>();
-            for (int i = 0; i < stoneTypes.length; i++) {
-                metaList.put(stoneTypes[i], i);
-            }
-        }
-        if (metaList.containsKey(type)) {
-            return metaList.get(type);
-        }
-        return 0;
+    public static int getMeta(SoilType type) {
+        return type.blockMeta;
     }
 
     public static SoilType pickOneSoilType(World world, float humidity) {
@@ -93,6 +84,10 @@ public class SoilType implements IPrimalType {
     public static void genHumidityCache(SoilType[] soilTypes) {
         cache.genHumidityCache(false, soilTypes);
         cacheTF.genHumidityCache(true, soilTypes);
+
+        for (int i = 0; i < soilTypes.length; i++) {
+            soilTypes[i].blockMeta = i;
+        }
     }
 
     public static class HumidityCache {

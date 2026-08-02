@@ -1,7 +1,6 @@
 package net.pufferlab.primal.world.terrafirma;
 
 import java.util.List;
-import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.EnumCreatureType;
@@ -11,24 +10,18 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.pufferlab.primal.world.scheduling.ChunkPlacerData;
+import net.pufferlab.primal.world.terrafirma.gen.region.RegionProvider;
+import net.pufferlab.primal.world.terrafirma.gen.region.data.ChunkBlockData;
 
 public class ChunkProviderTF implements IChunkProvider {
 
-    Random randomChunk;
-    Random random;
-
     private World worldObj;
 
-    public PrimalGeneratorTF generatorTF;
+    public RegionProvider regionProvider;
 
     public ChunkProviderTF(World world) {
         this.worldObj = world;
-        this.random = new Random();
-        this.randomChunk = new Random();
-        this.generatorTF = new PrimalGeneratorTF();
-        this.generatorTF.initGenerators(worldObj);
-        this.random.setSeed(world.getSeed());
+        this.regionProvider = new RegionProvider();
     }
 
     @Override
@@ -38,15 +31,20 @@ public class ChunkProviderTF implements IChunkProvider {
 
     @Override
     public Chunk provideChunk(int p_73154_1_, int p_73154_2_) {
-        this.randomChunk.setSeed((long) p_73154_1_ * 341873128712L + (long) p_73154_2_ * 132897987541L);
-        Block[] ablock = new Block[65536];
-        byte[] abyte = new byte[65536];
+        this.regionProvider.tickTasks(worldObj);
+
+        this.regionProvider.generateRegion(worldObj, p_73154_1_, p_73154_2_);
+
+        ChunkBlockData data = this.regionProvider.getChunkBlockData(p_73154_1_, p_73154_2_);
+        if (data == null) {
+            data = new ChunkBlockData(worldObj.getSeed(), p_73154_1_, p_73154_2_);
+        }
+
+        Block[] ablock = data.blocks;
+        byte[] abyte = data.metas;
+
         Chunk chunk = new Chunk(this.worldObj, ablock, abyte, p_73154_1_, p_73154_2_);
 
-        this.generatorTF.earlyGenerate(chunk, randomChunk);
-        this.generatorTF.generate(chunk, randomChunk);
-
-        ChunkPlacerData.tickPlacement(chunk.worldObj, chunk.xPosition, chunk.zPosition);
         chunk.generateSkylightMap();
         return chunk;
     }
@@ -60,9 +58,8 @@ public class ChunkProviderTF implements IChunkProvider {
     public void populate(IChunkProvider p_73153_1_, int p_73153_2_, int p_73153_3_) {
         Chunk chunk = worldObj.getChunkFromChunkCoords(p_73153_2_, p_73153_3_);
 
-        this.randomChunk.setSeed((long) p_73153_2_ * 341873128712L + (long) p_73153_3_ * 132897987541L);
+        this.regionProvider.tickPendingBlocks(worldObj, p_73153_2_, p_73153_3_);
 
-        this.generatorTF.populate(chunk, randomChunk);
         chunk.setChunkModified();
     }
 

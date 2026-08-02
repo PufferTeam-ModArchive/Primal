@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 import net.pufferlab.primal.utils.*;
 import net.pufferlab.primal.world.VirtualBlock;
 import net.pufferlab.primal.world.scheduling.BlockHolder;
+import net.pufferlab.primal.world.scheduling.ChunkPlacerData;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -56,10 +57,11 @@ public class StructureFile {
     }
 
     public void placeCachedBlocks(World world, int x, int y, int z, int facing) {
+        ChunkPlacerData data = ChunkPlacerData.get(world);
         for (int i = 0; i < this.blocks[facing].size(); i++) {
             BlockHolder holder = this.blocks[facing].get(i);
             if (holder != null) {
-                holder.place(world, x, y, z);
+                data.addBlockHolder(new BlockHolder(holder, x, y, z));
             }
         }
     }

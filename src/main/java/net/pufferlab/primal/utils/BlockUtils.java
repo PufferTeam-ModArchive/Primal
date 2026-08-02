@@ -612,6 +612,11 @@ public class BlockUtils {
             || isSandBlock(block);
     }
 
+    public static boolean isOreBlock(Block block) {
+        if (block instanceof BlockStoneOre) return true;
+        return false;
+    }
+
     public static boolean isNaturalStone(Block block) {
         if (block == null) return false;
         if (block == Registry.stone) return true;

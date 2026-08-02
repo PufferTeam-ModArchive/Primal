@@ -6,8 +6,8 @@ import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.event.world.ChunkDataEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.world.ChunkDataManager;
 import net.pufferlab.primal.world.scheduling.ChunkPlacerData;
+import net.pufferlab.primal.world.storage.ChunkDataManager;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 

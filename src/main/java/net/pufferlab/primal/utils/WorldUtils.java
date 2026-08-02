@@ -1,6 +1,7 @@
 package net.pufferlab.primal.utils;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
@@ -174,6 +175,32 @@ public class WorldUtils {
     public static World getWorld(int dimensionId) {
         return MinecraftServer.getServer()
             .worldServerForDimension(dimensionId);
+    }
+
+    public static void setBulkChunkBlock(Chunk chunk, Block[] blocks, byte[] metas) {
+        int k = blocks.length / 256;
+        boolean flag = !chunk.worldObj.provider.hasNoSky;
+
+        ExtendedBlockStorage[] storageArrays = chunk.getBlockStorageArray();
+        for (int l = 0; l < 16; ++l) {
+            for (int i1 = 0; i1 < 16; ++i1) {
+                for (int j1 = 0; j1 < k; ++j1) {
+                    int k1 = l * k * 16 | i1 * k | j1;
+                    Block block = blocks[k1];
+
+                    if (block != null && block != Blocks.air) {
+                        int l1 = j1 >> 4;
+
+                        if (storageArrays[l1] == null) {
+                            storageArrays[l1] = new ExtendedBlockStorage(l1 << 4, flag);
+                        }
+
+                        storageArrays[l1].func_150818_a(l, j1 & 15, i1, block);
+                        storageArrays[l1].setExtBlockMetadata(l, j1 & 15, i1, metas[k1]);
+                    }
+                }
+            }
+        }
     }
 
     /*

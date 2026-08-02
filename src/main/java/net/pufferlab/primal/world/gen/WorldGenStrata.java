@@ -204,7 +204,7 @@ public class WorldGenStrata {
                                 }
                             }
                         }
-                        int meta = StoneType.getMeta(Constants.stoneTypes, type);
+                        int meta = StoneType.getMeta(type);
 
                         WorldUtils.setChunkBlock(array, x, y, z, nextBlock, meta);
                     }

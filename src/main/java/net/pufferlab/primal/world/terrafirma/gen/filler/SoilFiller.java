@@ -1,0 +1,70 @@
+package net.pufferlab.primal.world.terrafirma.gen.filler;
+
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.world.World;
+import net.pufferlab.primal.Registry;
+import net.pufferlab.primal.utils.BlockUtils;
+import net.pufferlab.primal.utils.Mth;
+import net.pufferlab.primal.utils.SoilType;
+import net.pufferlab.primal.world.terrafirma.BiomesTF;
+import net.pufferlab.primal.world.terrafirma.gen.region.data.ChunkBlockData;
+import net.pufferlab.primal.world.terrafirma.gen.region.data.ChunkNoiseData;
+
+public class SoilFiller {
+
+    public World world;
+
+    public SoilFiller(World world) {
+        this.world = world;
+    }
+
+    public void genSoil(ChunkBlockData data, ChunkNoiseData dataNoise, int chunkX, int chunkZ) {
+        for (int x = 0; x < 16; x++) {
+            for (int z = 0; z < 16; z++) {
+                int worldX = (chunkX << 4) + x;
+                int worldZ = (chunkZ << 4) + z;
+
+                float rainfall = dataNoise.getRainfall(x, z);
+                float vegetation = dataNoise.getVegetation(x, z);
+
+                int topY = dataNoise.getHeight(x, z);
+
+                float elevationValue = dataNoise.getRockiness(x, z);
+
+                int depthBlocks = Mth.floor(((1 - elevationValue)) * 5.0F);
+
+                for (int i = 0; i < depthBlocks; i++) {
+                    int y = topY - 1 - i;
+
+                    Block block = Registry.dirt;
+                    if (i == 0) {
+                        block = Registry.grass;
+                    }
+                    if (vegetation < 0.3F) {
+                        block = Registry.dirt;
+                    }
+                    if (rainfall < 0.3F) {
+                        block = Blocks.sand;
+                    }
+                    if (elevationValue > 0.65F) {
+                        block = Blocks.gravel;
+                    }
+
+                    if (dataNoise.getBiome(x, z) == BiomesTF.ocean) {
+                        block = Blocks.gravel;
+                    }
+
+                    Block blockReplacing = data.getBlock(x, y, z);
+                    if (BlockUtils.isNaturalStone(blockReplacing)) {
+                        SoilType soil = SoilType.pickOneSoilType(world, rainfall);
+                        int meta = SoilType.getMeta(soil);
+
+                        data.setBlock(x, y, z, block, meta);
+                    }
+                }
+
+            }
+        }
+    }
+}

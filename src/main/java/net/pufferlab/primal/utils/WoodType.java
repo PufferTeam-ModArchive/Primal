@@ -42,37 +42,37 @@ public class WoodType implements IPrimalType {
         return this;
     }
 
-    public WoodType setLogItem(Block log, int meta) {
+    public WoodType setLogBlock(Block log, int meta) {
         this.log = log;
         this.logMeta = meta;
         return this;
     }
 
-    public WoodType setStrippedLogItem(Block log, int meta) {
+    public WoodType setStrippedLogBlock(Block log, int meta) {
         this.strippedLog = log;
         this.strippedLogMeta = meta;
         return this;
     }
 
-    public WoodType setWoodItem(Block log, int meta) {
+    public WoodType setWoodBlock(Block log, int meta) {
         this.wood = log;
         this.woodMeta = meta;
         return this;
     }
 
-    public WoodType setStrippedWoodItem(Block log, int meta) {
+    public WoodType setStrippedWoodBlock(Block log, int meta) {
         this.strippedWood = log;
         this.strippedWoodMeta = meta;
         return this;
     }
 
-    public WoodType setBarkItem(Item item, int meta) {
+    public WoodType setBarkBlock(Item item, int meta) {
         this.bark = item;
         this.barkMeta = meta;
         return this;
     }
 
-    public ItemStack getLogItem() {
+    public ItemStack getLogBlock() {
         return new ItemStack(this.log, 1, this.logMeta);
     }
 

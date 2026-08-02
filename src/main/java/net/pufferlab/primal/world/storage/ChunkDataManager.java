@@ -1,4 +1,4 @@
-package net.pufferlab.primal.world;
+package net.pufferlab.primal.world.storage;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;

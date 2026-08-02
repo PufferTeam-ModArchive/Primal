@@ -1295,3 +1295,63 @@ tile.primal.shale_lignite_coal.name=Shale Lignite Coal
 tile.primal.chalk_lignite_coal.name=Chalk Lignite Coal
 tile.primal.slate_lignite_coal.name=Slate Lignite Coal
 tile.primal.schist_lignite_coal.name=Schist Lignite Coal
+
+tile.primal.oak_log.name=Oak Log
+tile.primal.stripped_oak_log.name=Stripped Oak Log
+tile.primal.oak_wood.name=Oak Wood
+tile.primal.stripped_oak_wood.name=Stripped Oak Log
+
+tile.primal.oak_thin_log.name=Oak Thin Log
+tile.primal.stripped_oak_thin_log.name=Stripped Oak Thin Log
+tile.primal.oak_thin_wood.name=Oak Thin Wood
+tile.primal.stripped_oak_thin_wood.name=Stripped Oak Thin Log
+
+tile.primal.spruce_log.name=Spruce Log
+tile.primal.stripped_spruce_log.name=Stripped Spruce Log
+tile.primal.spruce_wood.name=Spruce Wood
+tile.primal.stripped_spruce_wood.name=Stripped Spruce Log
+
+tile.primal.spruce_thin_log.name=Spruce Thin Log
+tile.primal.stripped_spruce_thin_log.name=Stripped Spruce Thin Log
+tile.primal.spruce_thin_wood.name=Spruce Thin Wood
+tile.primal.stripped_spruce_thin_wood.name=Stripped Spruce Thin Log
+
+tile.primal.birch_log.name=Birch Log
+tile.primal.stripped_birch_log.name=Stripped Birch Log
+tile.primal.birch_wood.name=Birch Wood
+tile.primal.stripped_birch_wood.name=Stripped Birch Log
+
+tile.primal.birch_thin_log.name=Birch Thin Log
+tile.primal.stripped_birch_thin_log.name=Stripped Birch Thin Log
+tile.primal.birch_thin_wood.name=Birch Thin Wood
+tile.primal.stripped_birch_thin_wood.name=Stripped Birch Thin Log
+
+tile.primal.dark_oak_log.name=Dark Oak Log
+tile.primal.stripped_dark_oak_log.name=Stripped Dark Oak Log
+tile.primal.dark_oak_wood.name=Dark Oak Wood
+tile.primal.stripped_dark_oak_wood.name=Stripped Dark Oak Log
+
+tile.primal.dark_oak_thin_log.name=Dark Oak Thin Log
+tile.primal.stripped_dark_oak_thin_log.name=Stripped Dark Oak Thin Log
+tile.primal.dark_oak_thin_wood.name=Dark Oak Thin Wood
+tile.primal.stripped_dark_oak_thin_wood.name=Stripped Dark Oak Thin Log
+
+tile.primal.acacia_log.name=Acacia Log
+tile.primal.stripped_acacia_log.name=Stripped Acacia Log
+tile.primal.acacia_wood.name=Acacia Wood
+tile.primal.stripped_acacia_wood.name=Stripped Acacia Log
+
+tile.primal.acacia_thin_log.name=Acacia Thin Log
+tile.primal.stripped_acacia_thin_log.name=Stripped Acacia Thin Log
+tile.primal.acacia_thin_wood.name=Acacia Thin Wood
+tile.primal.stripped_acacia_thin_wood.name=Stripped Acacia Thin Log
+
+tile.primal.jungle_log.name=Jungle Log
+tile.primal.stripped_jungle_log.name=Stripped Jungle Log
+tile.primal.jungle_wood.name=Jungle Wood
+tile.primal.stripped_jungle_wood.name=Stripped Jungle Log
+
+tile.primal.jungle_thin_log.name=Jungle Thin Log
+tile.primal.stripped_jungle_thin_log.name=Stripped Jungle Thin Log
+tile.primal.jungle_thin_wood.name=Jungle Thin Wood
+tile.primal.stripped_jungle_thin_wood.name=Stripped Jungle Thin Log

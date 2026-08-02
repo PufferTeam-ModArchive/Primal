@@ -38,8 +38,26 @@ public class HashUtils {
         return ((long) x & cm) | (((long) z & cm) << czs);
     }
 
+    public static long packChunkCoord(long worldSeed, int x, int z) {
+        long packed = packChunkCoord(x, z);
+
+        long seed = worldSeed ^ packed;
+
+        seed ^= seed >>> 33;
+        seed *= 0xff51afd7ed558ccdL;
+        seed ^= seed >>> 33;
+        seed *= 0xc4ceb9fe1a85ec53L;
+        seed ^= seed >>> 33;
+
+        return seed;
+    }
+
     public static int pack4BitsCoord(int x, int z) {
         return (z << 4) | x;
+    }
+
+    public static int packChunkBlockCoord(int x, int y, int z) {
+        return (x << 12) | (z << 8) | y;
     }
 
     public static int unpackX(long packed) {
