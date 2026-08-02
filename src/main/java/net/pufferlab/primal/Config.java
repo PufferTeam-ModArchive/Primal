@@ -159,6 +159,7 @@ public enum Config {
     shellWorldGen(Module.world$default, true, "Whether to enable loose shell generating bear beaches."),
 
     // TerraFirma
+    useAllThreadsTF(Module.world$terrafirma, false, "Uses all threads possible for worldgen."),
     seaLevelTF(Module.world$terrafirma, 100,
         "The sea level of the world, below this Y value, the world will be filled with water"),
     strataWorldGenTF(Module.world$terrafirma, true, "Whether to enable the generation of the strata stone types"),

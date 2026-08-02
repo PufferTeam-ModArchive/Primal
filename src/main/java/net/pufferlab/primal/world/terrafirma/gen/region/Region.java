@@ -7,6 +7,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import net.minecraft.world.World;
+import net.pufferlab.primal.Config;
+import net.pufferlab.primal.utils.Mth;
 import net.pufferlab.primal.world.terrafirma.gen.region.data.ChunkBlockData;
 import net.pufferlab.primal.world.terrafirma.gen.region.data.ChunkNoiseData;
 
@@ -46,10 +48,17 @@ public class Region {
         return (regionCoord * Region.regionSize) + (Region.regionSize - 1);
     }
 
-    public void generateRegionNoiseMaps() {
-        ExecutorService executor = Executors.newFixedThreadPool(
-            Runtime.getRuntime()
-                .availableProcessors());
+    public static int getThreadAmount() {
+        int threadAmount = Runtime.getRuntime()
+            .availableProcessors();
+        if (Config.useAllThreadsTF.getBoolean()) {
+            return threadAmount;
+        }
+        return Mth.clamp(threadAmount / 4, 1, 8);
+    }
+
+    public void generateAsync() {
+        ExecutorService executor = Executors.newFixedThreadPool(getThreadAmount());
 
         try {
             List<CompletableFuture<?>> futures = new ArrayList<>();

@@ -35,7 +35,7 @@ public class RegionProvider {
         if (region == null) {
             region = new Region(this, world, regionX, regionZ);
             regionMap.put(regionX, regionZ, region);
-            region.generateRegionNoiseMaps();
+            region.generateAsync();
         }
     }
 
