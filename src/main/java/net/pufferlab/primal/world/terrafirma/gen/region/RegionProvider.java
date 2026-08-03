@@ -10,7 +10,6 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.utils.Mth;
 import net.pufferlab.primal.utils.PosMap;
-import net.pufferlab.primal.utils.WorldUtils;
 import net.pufferlab.primal.world.scheduling.ChunkPlacerData;
 import net.pufferlab.primal.world.terrafirma.ChunkDataTF;
 import net.pufferlab.primal.world.terrafirma.gen.region.data.ChunkBlockData;
@@ -86,7 +85,7 @@ public class RegionProvider {
         if (provider.chunkExists(chunkX, chunkZ)) {
             Chunk chunk = provider.provideChunk(chunkX, chunkZ);
 
-            WorldUtils.setBulkChunkBlock(chunk, data.blocks, data.metas);
+            data.placeToChunk(chunk);
         } else {
             chunkBlockMap.put(data.chunkX, data.chunkZ, data);
         }

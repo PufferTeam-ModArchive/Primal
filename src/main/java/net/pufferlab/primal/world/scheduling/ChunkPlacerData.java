@@ -21,7 +21,7 @@ public class ChunkPlacerData extends WorldSavedData {
         super(name);
     }
 
-    public ConcurrentMap<Long, ChunkData> chunkDataMap = new ConcurrentHashMap<>();
+    public ConcurrentMap<Long, ChunkBlockHolder> chunkDataMap = new ConcurrentHashMap<>();
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
@@ -33,10 +33,10 @@ public class ChunkPlacerData extends WorldSavedData {
         writeToNBT(tag, nameBlocks, chunkDataMap);
     }
 
-    public void writeToNBT(NBTTagCompound nbt, String name, ConcurrentMap<Long, ChunkData> chunkDataMap) {
+    public void writeToNBT(NBTTagCompound nbt, String name, ConcurrentMap<Long, ChunkBlockHolder> chunkDataMap) {
         NBTTagList list = new NBTTagList();
 
-        for (ChunkData data : chunkDataMap.values()) {
+        for (ChunkBlockHolder data : chunkDataMap.values()) {
             NBTTagCompound tag = new NBTTagCompound();
             data.writeToNBT(tag);
             list.appendTag(tag);
@@ -45,12 +45,12 @@ public class ChunkPlacerData extends WorldSavedData {
         nbt.setTag(name, list);
     }
 
-    public void readFromNBT(NBTTagCompound nbt, String name, ConcurrentMap<Long, ChunkData> chunkDataMap) {
+    public void readFromNBT(NBTTagCompound nbt, String name, ConcurrentMap<Long, ChunkBlockHolder> chunkDataMap) {
         NBTTagList list = nbt.getTagList(name, NBTType.TagCompound);
 
         for (int i = 0; i < list.tagCount(); i++) {
             NBTTagCompound tag = list.getCompoundTagAt(i);
-            ChunkData data = new ChunkData(0, 0);
+            ChunkBlockHolder data = new ChunkBlockHolder(0, 0);
             data.readFromNBT(tag);
             long coord = HashUtils.packChunkCoord(data.chunkX, data.chunkZ);
             chunkDataMap.put(coord, data);
@@ -65,7 +65,7 @@ public class ChunkPlacerData extends WorldSavedData {
         int chunkZ = z >> 4;
 
         long coord = HashUtils.packChunkCoord(chunkX, chunkZ);
-        ChunkData data = placer.chunkDataMap.computeIfAbsent(coord, c -> new ChunkData(chunkX, chunkZ));
+        ChunkBlockHolder data = placer.chunkDataMap.computeIfAbsent(coord, c -> new ChunkBlockHolder(chunkX, chunkZ));
         if (nbt == null) {
             data.setBlock(x & 15, y, z & 15, block, meta);
         } else {
@@ -103,29 +103,18 @@ public class ChunkPlacerData extends WorldSavedData {
         ChunkPlacerData placer = get(world);
 
         long coord = HashUtils.packChunkCoord(chunkX, chunkZ);
-        ChunkData data = placer.chunkDataMap.remove(coord);
+        ChunkBlockHolder data = placer.chunkDataMap.remove(coord);
         Chunk chunk = world.getChunkFromChunkCoords(chunkX, chunkZ);
         if (data != null) {
-            WorldUtils.setReplaceBulkChunkBlock(chunk, data.blocks, data.metas);
-            if (data.nbt != null) {
-                for (int i = 0; i < data.nbt.length; i++) {
-                    NBTTagCompound tagNBT = data.nbt[i];
-
-                    if (tagNBT != null) {
-                        int x = HashUtils.unpackChunkBlockX(i) + (chunkX << 4);
-                        int y = HashUtils.unpackChunkBlockY(i);
-                        int z = HashUtils.unpackChunkBlockZ(i) + (chunkZ << 4);
-                        WorldUtils.setTileEntityNBT(world, x, y, z, tagNBT);
-                    }
-                }
-            }
+            data.placeToChunk(chunk);
+            data.placeTileEntity(chunk);
             if (data.updateSkylight) {
                 chunk.generateSkylightMap();
                 chunk.resetRelightChecks();
             }
             data.blocks = null;
             data.metas = null;
-            data.nbt = null;
+            data.tags = null;
         }
     }
 

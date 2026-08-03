@@ -130,9 +130,9 @@ public enum Config {
         "The range around the ideal height in which the windmill will operate."),
 
     // General
-    minimumYHeight(Module.world, 0,
+    minWorldHeight(Module.world, 0,
         "The minimum Y value that the mod features will spawn. (Do not put lower than 0 without Cubic Chunks)"),
-    maximumYHeight(Module.world, 256,
+    maxWorldHeight(Module.world, 255,
         "The maximum Y value that the mod features will spawn. (Do not put higher than 256 without Cubic Chunks)"),
     strataStoneTypes(Module.world, true, "Put to false if you want to disable all of the stone types of the mod."),
     soilTypes(Module.world, true, "Put to false if you want to disable all of the soil types of the mod."),

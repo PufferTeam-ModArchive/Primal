@@ -52,7 +52,7 @@ public class StrataLayers {
                     noiseBiome[i] = noise1;
                 }
 
-                for (int y = 0; y <= Constants.maxHeight; y++) {
+                for (int y = Constants.minHeight; y <= Constants.maxHeight; y++) {
                     for (int i = 0; i < noiseBiomeGen.length; i++) {
                         double div = (double) y / 200;
                         offsetB[i] = WorldUtils.getPerlinValue(noiseBiome[i] + div, 10);

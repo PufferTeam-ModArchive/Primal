@@ -726,8 +726,8 @@ public class Registry {
     public void setupConfig() {
         Config.updateConfiguration();
 
-        Constants.minHeight = Config.minimumYHeight.getInt();
-        Constants.maxHeight = Config.maximumYHeight.getInt();
+        Constants.minHeight = Config.minWorldHeight.getInt();
+        Constants.maxHeight = Config.maxWorldHeight.getInt();
 
         StoneType.genLayerCache(Constants.stoneTypes);
         SoilType.genHumidityCache(Constants.soilTypes);

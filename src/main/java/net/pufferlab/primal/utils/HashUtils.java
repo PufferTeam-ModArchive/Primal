@@ -52,24 +52,24 @@ public class HashUtils {
         return seed;
     }
 
-    public static int pack4BitsCoord(int x, int z) {
+    public static int pack2DCoord(int x, int z) {
         return (z << 4) | x;
     }
 
-    public static int packChunkBlockCoord(int x, int y, int z) {
-        return (x << 12) | (z << 8) | y;
+    public static int pack3DCoord(int x, int y, int z) {
+        return (x & 15) | ((y & 15) << 4) | ((z & 15) << 8);
     }
 
-    public static int unpackChunkBlockX(int packed) {
-        return (packed >> 12) & 0xF;
+    public static int unpack3DX(int packed) {
+        return packed & 15;
     }
 
-    public static int unpackChunkBlockZ(int packed) {
-        return (packed >> 8) & 0xF;
+    public static int unpack3DY(int packed) {
+        return (packed >>> 4) & 15;
     }
 
-    public static int unpackChunkBlockY(int packed) {
-        return packed & 0xFF;
+    public static int unpack3DZ(int packed) {
+        return (packed >>> 8) & 15;
     }
 
     public static int unpackX(long packed) {

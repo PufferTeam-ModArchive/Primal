@@ -36,14 +36,14 @@ public class ChunkProviderTF implements IChunkProvider {
         this.regionProvider.generateRegion(worldObj, p_73154_1_, p_73154_2_);
 
         ChunkBlockData data = this.regionProvider.getChunkBlockData(p_73154_1_, p_73154_2_);
-        if (data == null) {
-            data = new ChunkBlockData(worldObj.getSeed(), p_73154_1_, p_73154_2_);
-        }
-
-        Block[] ablock = data.blocks;
-        byte[] abyte = data.metas;
+        Block[] ablock = new Block[65536];
+        byte[] abyte = new byte[65536];
 
         Chunk chunk = new Chunk(this.worldObj, ablock, abyte, p_73154_1_, p_73154_2_);
+
+        if (data != null) {
+            data.placeToChunk(chunk);
+        }
 
         chunk.generateSkylightMap();
         return chunk;
