@@ -57,11 +57,11 @@ public class StructureFile {
     }
 
     public void placeCachedBlocks(World world, int x, int y, int z, int facing) {
-        ChunkPlacerData data = ChunkPlacerData.get(world);
         for (int i = 0; i < this.blocks[facing].size(); i++) {
             BlockHolder holder = this.blocks[facing].get(i);
             if (holder != null) {
-                data.addBlockHolder(new BlockHolder(holder, x, y, z));
+                ChunkPlacerData
+                    .addBlock(world, holder.x + x, holder.y + y, holder.z + z, holder.block, holder.meta, holder.nbt);
             }
         }
     }

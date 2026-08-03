@@ -18,6 +18,18 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 public interface IPrimalBlock {
 
+    default boolean shouldReplace() {
+        return false;
+    }
+
+    default boolean skipBlock(Block block, int meta) {
+        return false;
+    }
+
+    default int getBlockMetaToPlace(Block block, int meta) {
+        return -1;
+    }
+
     default List<AxisAlignedBB> getBounds(World world, int x, int y, int z, EntityPlayer player, BoundsType bounds) {
         return null;
     }

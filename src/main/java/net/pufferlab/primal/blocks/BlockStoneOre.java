@@ -3,6 +3,7 @@ package net.pufferlab.primal.blocks;
 import java.util.ArrayList;
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -10,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Registry;
+import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.OreType;
 import net.pufferlab.primal.utils.StoneType;
 
@@ -58,6 +60,27 @@ public class BlockStoneOre extends BlockMetaOre {
             }
         }
         return ret;
+    }
+
+    @Override
+    public boolean shouldReplace() {
+        return true;
+    }
+
+    @Override
+    public int getBlockMetaToPlace(Block block, int meta) {
+        if (BlockUtils.isNaturalStone(block)) {
+            return meta;
+        }
+        return -1;
+    }
+
+    @Override
+    public boolean skipBlock(Block block, int meta) {
+        if (BlockUtils.isNaturalStone(block)) {
+            return false;
+        }
+        return true;
     }
 
     @Override

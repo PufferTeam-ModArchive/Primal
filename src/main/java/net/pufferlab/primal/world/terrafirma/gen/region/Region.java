@@ -3,19 +3,17 @@ package net.pufferlab.primal.world.terrafirma.gen.region;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import net.minecraft.world.World;
-import net.pufferlab.primal.Config;
-import net.pufferlab.primal.utils.Mth;
 import net.pufferlab.primal.world.terrafirma.gen.region.data.ChunkBlockData;
 import net.pufferlab.primal.world.terrafirma.gen.region.data.ChunkNoiseData;
 
 public class Region {
 
     public World world;
-    public static int regionSize = 8;
+    public static int regionSize = 4;
 
     // Minimum chunk coordinate
     public int minX;
@@ -48,44 +46,36 @@ public class Region {
         return (regionCoord * Region.regionSize) + (Region.regionSize - 1);
     }
 
-    public static int getThreadAmount() {
-        int threadAmount = Runtime.getRuntime()
-            .availableProcessors();
-        if (Config.useAllThreadsTF.getBoolean()) {
-            return threadAmount;
-        }
-        return Mth.clamp(threadAmount / 4, 1, 8);
-    }
+    public void generateAsync(ExecutorService executor) {
+        List<CompletableFuture<?>> futures = new ArrayList<>();
+        ConcurrentLinkedQueue<ChunkBlockData> noise = new ConcurrentLinkedQueue<>();
+        for (int cx = minX; cx <= maxX; cx++) {
+            for (int cz = minZ; cz <= maxZ; cz++) {
+                final int x = cx;
+                final int z = cz;
 
-    public void generateAsync() {
-        ExecutorService executor = Executors.newFixedThreadPool(getThreadAmount());
-
-        try {
-            List<CompletableFuture<?>> futures = new ArrayList<>();
-            for (int cx = minX; cx <= maxX; cx++) {
-                for (int cz = minZ; cz <= maxZ; cz++) {
-                    final int x = cx;
-                    final int z = cz;
-
-                    futures.add(
-                        CompletableFuture.supplyAsync(() -> generateChunk(x, z), executor)
-                            .thenApply(data -> {
-                                provider.addNoiseData(data);
-                                return data;
-                            })
-                            .thenApply(data -> generateBlockChunk(data, data.chunkX, data.chunkZ))
-                            .thenAccept(data -> { provider.addBlockData(data); }));
-                }
+                futures.add(
+                    CompletableFuture.supplyAsync(() -> generateChunk(x, z), executor)
+                        .thenApply(data -> {
+                            provider.addNoiseData(data);
+                            return data;
+                        })
+                        .thenApply(data -> generateBlockChunk(data, data.chunkX, data.chunkZ))
+                        .thenAccept(data -> {
+                            provider.addBlockData(data);
+                            noise.add(data);
+                        }));
             }
-
-            CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
-                .join();
-
-            provider.tickTasks(world);
-        } finally {
-            executor.shutdown();
         }
 
+        // Wait for all of the tasks to be done
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
+            .join();
+
+        for (ChunkBlockData chunkBlockData : noise) {
+            provider.chunkBlockMap.remove(chunkBlockData.chunkX, chunkBlockData.chunkZ);
+        }
+        provider.tickTasks(world);
     }
 
     public ChunkNoiseData generateChunk(int x, int z) {

@@ -1,19 +1,16 @@
 package net.pufferlab.primal.world.scheduling;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
+import net.minecraft.world.chunk.Chunk;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.utils.BlockUtils;
-import net.pufferlab.primal.utils.NBTType;
-import net.pufferlab.primal.utils.PosMap;
-import net.pufferlab.primal.utils.WorldUtils;
+import net.pufferlab.primal.utils.*;
 
 public class ChunkPlacerData extends WorldSavedData {
 
@@ -24,65 +21,59 @@ public class ChunkPlacerData extends WorldSavedData {
         super(name);
     }
 
-    public List<BlockHolder> list = new ArrayList<>();
-    public PosMap.Multi<BlockHolder> map = new PosMap.Multi<>();
-    public ConcurrentLinkedQueue<BlockHolder> queue = new ConcurrentLinkedQueue<>();
+    public ConcurrentMap<Long, ChunkData> chunkDataMap = new ConcurrentHashMap<>();
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
-        readFromNBT(tag, nameBlocks, list, map, queue);
+        readFromNBT(tag, nameBlocks, chunkDataMap);
     }
 
     @Override
     public void writeToNBT(NBTTagCompound tag) {
-        writeToNBT(tag, nameBlocks, list, map, queue);
+        writeToNBT(tag, nameBlocks, chunkDataMap);
     }
 
-    public void writeToNBT(NBTTagCompound nbt, String name, List<BlockHolder> queue, PosMap.Multi<BlockHolder> map,
-        ConcurrentLinkedQueue<BlockHolder> concurrentQueue) {
+    public void writeToNBT(NBTTagCompound nbt, String name, ConcurrentMap<Long, ChunkData> chunkDataMap) {
         NBTTagList list = new NBTTagList();
 
-        for (BlockHolder task : queue) {
-            if (task.invalid()) continue;
+        for (ChunkData data : chunkDataMap.values()) {
             NBTTagCompound tag = new NBTTagCompound();
-            task.writeToNBT(tag);
-            list.appendTag(tag);
-        }
-        for (BlockHolder task : concurrentQueue) {
-            if (task.invalid()) continue;
-            NBTTagCompound tag = new NBTTagCompound();
-            task.writeToNBT(tag);
+            data.writeToNBT(tag);
             list.appendTag(tag);
         }
 
         nbt.setTag(name, list);
     }
 
-    public void readFromNBT(NBTTagCompound nbt, String name, List<BlockHolder> queue, PosMap.Multi<BlockHolder> map,
-        ConcurrentLinkedQueue<BlockHolder> concurrentQueue) {
+    public void readFromNBT(NBTTagCompound nbt, String name, ConcurrentMap<Long, ChunkData> chunkDataMap) {
         NBTTagList list = nbt.getTagList(name, NBTType.TagCompound);
 
         for (int i = 0; i < list.tagCount(); i++) {
             NBTTagCompound tag = list.getCompoundTagAt(i);
-            BlockHolder task = new BlockHolder(tag);
-            queue.add(task);
-            if (map != null) {
-                map.put(task.chunkX, task.chunkZ, task);
-            }
+            ChunkData data = new ChunkData(0, 0);
+            data.readFromNBT(tag);
+            long coord = HashUtils.packChunkCoord(data.chunkX, data.chunkZ);
+            chunkDataMap.put(coord, data);
         }
     }
 
     public static void addBlock(World world, int x, int y, int z, Block block, int meta, NBTTagCompound nbt,
         boolean fastPlace) {
         ChunkPlacerData placer = get(world);
-        BlockHolder blockHolder;
-        if (nbt != null) {
-            blockHolder = new BlockHolder(x, y, z, block, meta, nbt);
+
+        int chunkX = x >> 4;
+        int chunkZ = z >> 4;
+
+        long coord = HashUtils.packChunkCoord(chunkX, chunkZ);
+        ChunkData data = placer.chunkDataMap.computeIfAbsent(coord, c -> new ChunkData(chunkX, chunkZ));
+        if (nbt == null) {
+            data.setBlock(x & 15, y, z & 15, block, meta);
         } else {
-            blockHolder = new BlockHolder(x, y, z, block, meta);
-            blockHolder.setFastPlace(fastPlace);
+            data.setBlock(x & 15, y, z & 15, block, meta, nbt);
         }
-        placer.addBlockHolder(blockHolder);
+        if (!fastPlace) {
+            data.updateSkylight = true;
+        }
     }
 
     public static void placeBlock(World world, int x, int y, int z, Block block, int meta, NBTTagCompound nbt,
@@ -108,33 +99,34 @@ public class ChunkPlacerData extends WorldSavedData {
         addBlock(world, x, y, z, block, meta, null, true);
     }
 
-    public void addBlockHolder(BlockHolder blockHolder) {
-        this.queue.add(blockHolder);
-    }
-
-    public void tickQueue() {
-        BlockHolder blockHolder;
-        while ((blockHolder = this.queue.poll()) != null) {
-            this.list.add(blockHolder);
-            this.map.put(blockHolder.chunkX, blockHolder.chunkZ, blockHolder);
-            this.markDirty();
-        }
-    }
-
-    public synchronized static void tickPlacement(World world, int chunkX, int chunkZ) {
+    public static void tickPlacement(World world, int chunkX, int chunkZ) {
         ChunkPlacerData placer = get(world);
-        placer.tickQueue();
 
-        List<BlockHolder> blockHolder = placer.map.get(chunkX, chunkZ);
-        if (blockHolder == null) return;
-        for (BlockHolder block : blockHolder) {
-            boolean executed = block.place(world);
-            if (executed) {
-                block.invalidate();
+        long coord = HashUtils.packChunkCoord(chunkX, chunkZ);
+        ChunkData data = placer.chunkDataMap.remove(coord);
+        Chunk chunk = world.getChunkFromChunkCoords(chunkX, chunkZ);
+        if (data != null) {
+            WorldUtils.setReplaceBulkChunkBlock(chunk, data.blocks, data.metas);
+            if (data.nbt != null) {
+                for (int i = 0; i < data.nbt.length; i++) {
+                    NBTTagCompound tagNBT = data.nbt[i];
+
+                    if (tagNBT != null) {
+                        int x = HashUtils.unpackChunkBlockX(i) + (chunkX << 4);
+                        int y = HashUtils.unpackChunkBlockY(i);
+                        int z = HashUtils.unpackChunkBlockZ(i) + (chunkZ << 4);
+                        WorldUtils.setTileEntityNBT(world, x, y, z, tagNBT);
+                    }
+                }
             }
+            if (data.updateSkylight) {
+                chunk.generateSkylightMap();
+                chunk.resetRelightChecks();
+            }
+            data.blocks = null;
+            data.metas = null;
+            data.nbt = null;
         }
-        blockHolder.removeIf(BlockHolder::invalid);
-        placer.markDirty();
     }
 
     public static ChunkPlacerData get(World world) {

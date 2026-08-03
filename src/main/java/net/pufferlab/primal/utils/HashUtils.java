@@ -60,6 +60,18 @@ public class HashUtils {
         return (x << 12) | (z << 8) | y;
     }
 
+    public static int unpackChunkBlockX(int packed) {
+        return (packed >> 12) & 0xF;
+    }
+
+    public static int unpackChunkBlockZ(int packed) {
+        return (packed >> 8) & 0xF;
+    }
+
+    public static int unpackChunkBlockY(int packed) {
+        return packed & 0xFF;
+    }
+
     public static int unpackX(long packed) {
 
         return (int) (packed << (64 - bx - bxs) >> (64 - bx));

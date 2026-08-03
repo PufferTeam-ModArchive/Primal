@@ -37,6 +37,10 @@ public class PosMap {
         public T remove(int x, int z) {
             return map.remove(HashUtils.packChunkCoord(x, z));
         }
+
+        public void clear() {
+            map.clear();
+        }
     }
 
     public static class Multi<T> {

@@ -14,6 +14,7 @@ import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraft.world.gen.ChunkProviderFlat;
 import net.minecraft.world.gen.ChunkProviderServer;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
+import net.pufferlab.primal.blocks.IPrimalBlock;
 import net.pufferlab.primal.world.scheduling.ChunkPlacerData;
 import net.pufferlab.primal.world.terrafirma.WorldTypeTF;
 
@@ -87,6 +88,17 @@ public class WorldUtils {
         int z2 = z & 15;
 
         WorldUtils.setChunkBlock(chunk, x2, y, z2, block, meta);
+    }
+
+    public static void setTileEntityNBT(World world, int x, int y, int z, NBTTagCompound nbt) {
+        TileEntity te = world.getTileEntity(x, y, z);
+        if (te != null) {
+            nbt.setInteger("x", x);
+            nbt.setInteger("y", y);
+            nbt.setInteger("z", z);
+            te.readFromNBT(nbt);
+            te.markDirty();
+        }
     }
 
     public static void setTileEntityNBT(World world, int x, int y, int z, Block block, int meta, NBTTagCompound nbt) {
@@ -201,6 +213,44 @@ public class WorldUtils {
                 }
             }
         }
+        chunk.setChunkModified();
+    }
+
+    public static void setReplaceBulkChunkBlock(Chunk chunk, Block[] blocks, byte[] metas) {
+        int k = blocks.length / 256;
+        boolean flag = !chunk.worldObj.provider.hasNoSky;
+
+        ExtendedBlockStorage[] storageArrays = chunk.getBlockStorageArray();
+        for (int l = 0; l < 16; ++l) {
+            for (int i1 = 0; i1 < 16; ++i1) {
+                for (int j1 = 0; j1 < k; ++j1) {
+                    int k1 = l * k * 16 | i1 * k | j1;
+                    Block block = blocks[k1];
+                    int meta = metas[k1];
+
+                    if (block != null && block != Blocks.air) {
+                        int l1 = j1 >> 4;
+
+                        if (storageArrays[l1] == null) {
+                            storageArrays[l1] = new ExtendedBlockStorage(l1 << 4, flag);
+                        }
+
+                        if (block instanceof IPrimalBlock block1) {
+                            if (block1.shouldReplace()) {
+                                Block blockBefore = storageArrays[l1].getBlockByExtId(l, j1 & 15, i1);
+                                int metaBefore = storageArrays[l1].getExtBlockMetadata(l, j1 & 15, i1);
+                                if (block1.skipBlock(blockBefore, metaBefore)) continue;
+                                meta = block1.getBlockMetaToPlace(blockBefore, metaBefore);
+                            }
+                        }
+
+                        storageArrays[l1].func_150818_a(l, j1 & 15, i1, block);
+                        storageArrays[l1].setExtBlockMetadata(l, j1 & 15, i1, meta);
+                    }
+                }
+            }
+        }
+        chunk.setChunkModified();
     }
 
     /*

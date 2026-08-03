@@ -6,11 +6,11 @@ import net.minecraft.world.World;
 
 public class BlockHolder {
 
-    int x, y, z, meta;
+    public int x, y, z, meta;
     int chunkX, chunkZ;
     boolean invalid, fastPlace;
-    Block block;
-    NBTTagCompound nbt;
+    public Block block;
+    public NBTTagCompound nbt;
 
     public BlockHolder(NBTTagCompound tag) {
         readFromNBT(tag);
