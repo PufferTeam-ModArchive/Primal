@@ -4,8 +4,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Constants;
-import net.pufferlab.primal.world.terrafirma.gen.region.data.ChunkBlockData;
-import net.pufferlab.primal.world.terrafirma.gen.region.data.ChunkNoiseData;
+import net.pufferlab.primal.world.terrafirma.ChunkBlockData;
+import net.pufferlab.primal.world.terrafirma.ChunkNoiseData;
 
 public class TerrainFiller {
 

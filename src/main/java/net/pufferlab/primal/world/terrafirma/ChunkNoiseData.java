@@ -1,8 +1,6 @@
-package net.pufferlab.primal.world.terrafirma.gen.region.data;
+package net.pufferlab.primal.world.terrafirma;
 
 import static net.pufferlab.primal.utils.HashUtils.pack2DCoord;
-
-import net.pufferlab.primal.world.terrafirma.BiomesTF;
 
 public class ChunkNoiseData {
 

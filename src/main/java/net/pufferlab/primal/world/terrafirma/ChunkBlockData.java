@@ -1,4 +1,4 @@
-package net.pufferlab.primal.world.terrafirma.gen.region.data;
+package net.pufferlab.primal.world.terrafirma;
 
 import java.util.Random;
 

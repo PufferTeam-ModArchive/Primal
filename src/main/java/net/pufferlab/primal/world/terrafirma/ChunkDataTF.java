@@ -11,7 +11,6 @@ import net.pufferlab.primal.utils.IOUtils;
 import net.pufferlab.primal.world.storage.ChunkDataManager;
 import net.pufferlab.primal.world.storage.ChunkDataStorage;
 import net.pufferlab.primal.world.storage.ChunkSavedData;
-import net.pufferlab.primal.world.terrafirma.gen.region.data.ChunkNoiseData;
 
 import io.netty.buffer.ByteBuf;
 

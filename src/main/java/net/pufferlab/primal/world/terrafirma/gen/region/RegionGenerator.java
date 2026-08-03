@@ -1,11 +1,11 @@
 package net.pufferlab.primal.world.terrafirma.gen.region;
 
 import net.minecraft.world.World;
+import net.pufferlab.primal.world.terrafirma.ChunkBlockData;
+import net.pufferlab.primal.world.terrafirma.ChunkNoiseData;
 import net.pufferlab.primal.world.terrafirma.gen.filler.*;
 import net.pufferlab.primal.world.terrafirma.gen.noise.NoiseLayer;
 import net.pufferlab.primal.world.terrafirma.gen.noise.NoiseTerrain;
-import net.pufferlab.primal.world.terrafirma.gen.region.data.ChunkBlockData;
-import net.pufferlab.primal.world.terrafirma.gen.region.data.ChunkNoiseData;
 
 public class RegionGenerator {
 

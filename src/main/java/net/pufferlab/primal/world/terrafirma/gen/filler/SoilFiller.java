@@ -8,8 +8,8 @@ import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.Mth;
 import net.pufferlab.primal.utils.SoilType;
 import net.pufferlab.primal.world.terrafirma.BiomesTF;
-import net.pufferlab.primal.world.terrafirma.gen.region.data.ChunkBlockData;
-import net.pufferlab.primal.world.terrafirma.gen.region.data.ChunkNoiseData;
+import net.pufferlab.primal.world.terrafirma.ChunkBlockData;
+import net.pufferlab.primal.world.terrafirma.ChunkNoiseData;
 
 public class SoilFiller {
 

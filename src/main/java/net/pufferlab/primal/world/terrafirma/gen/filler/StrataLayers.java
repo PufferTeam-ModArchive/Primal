@@ -10,8 +10,8 @@ import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.utils.StoneType;
 import net.pufferlab.primal.utils.WorldUtils;
-import net.pufferlab.primal.world.terrafirma.gen.region.data.ChunkBlockData;
-import net.pufferlab.primal.world.terrafirma.gen.region.data.ChunkNoiseData;
+import net.pufferlab.primal.world.terrafirma.ChunkBlockData;
+import net.pufferlab.primal.world.terrafirma.ChunkNoiseData;
 
 public class StrataLayers {
 

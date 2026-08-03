@@ -7,8 +7,8 @@ import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.PlantType;
 import net.pufferlab.primal.world.structures.StructureFile;
-import net.pufferlab.primal.world.terrafirma.gen.region.data.ChunkBlockData;
-import net.pufferlab.primal.world.terrafirma.gen.region.data.ChunkNoiseData;
+import net.pufferlab.primal.world.terrafirma.ChunkBlockData;
+import net.pufferlab.primal.world.terrafirma.ChunkNoiseData;
 
 public class VegetationFiller {
 

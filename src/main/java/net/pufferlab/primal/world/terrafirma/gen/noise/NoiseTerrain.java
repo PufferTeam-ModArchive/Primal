@@ -7,7 +7,7 @@ import net.pufferlab.primal.world.noise.Noise2D;
 import net.pufferlab.primal.world.noise.OpenSimplex2D;
 import net.pufferlab.primal.world.noise.Perlin2D;
 import net.pufferlab.primal.world.terrafirma.BiomesTF;
-import net.pufferlab.primal.world.terrafirma.gen.region.data.ChunkNoiseData;
+import net.pufferlab.primal.world.terrafirma.ChunkNoiseData;
 
 public class NoiseTerrain {
 

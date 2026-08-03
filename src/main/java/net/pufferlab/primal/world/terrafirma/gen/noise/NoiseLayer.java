@@ -3,7 +3,7 @@ package net.pufferlab.primal.world.terrafirma.gen.noise;
 import net.minecraft.world.World;
 import net.pufferlab.primal.world.noise.Noise2D;
 import net.pufferlab.primal.world.noise.OpenSimplex2D;
-import net.pufferlab.primal.world.terrafirma.gen.region.data.ChunkNoiseData;
+import net.pufferlab.primal.world.terrafirma.ChunkNoiseData;
 
 public class NoiseLayer {
 

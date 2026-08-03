@@ -11,9 +11,9 @@ import net.pufferlab.primal.Config;
 import net.pufferlab.primal.utils.Mth;
 import net.pufferlab.primal.utils.PosMap;
 import net.pufferlab.primal.world.scheduling.ChunkPlacerData;
+import net.pufferlab.primal.world.terrafirma.ChunkBlockData;
 import net.pufferlab.primal.world.terrafirma.ChunkDataTF;
-import net.pufferlab.primal.world.terrafirma.gen.region.data.ChunkBlockData;
-import net.pufferlab.primal.world.terrafirma.gen.region.data.ChunkNoiseData;
+import net.pufferlab.primal.world.terrafirma.ChunkNoiseData;
 
 public class RegionProvider {
 

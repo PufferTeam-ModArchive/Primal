@@ -1,8 +1,5 @@
 package net.pufferlab.primal.world.scheduling;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -21,7 +18,7 @@ public class ChunkPlacerData extends WorldSavedData {
         super(name);
     }
 
-    public ConcurrentMap<Long, ChunkBlockHolder> chunkDataMap = new ConcurrentHashMap<>();
+    public PosMap.ConcurrentSingle<ChunkBlockHolder> chunkDataMap = new PosMap.ConcurrentSingle<>();
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
@@ -33,7 +30,7 @@ public class ChunkPlacerData extends WorldSavedData {
         writeToNBT(tag, nameBlocks, chunkDataMap);
     }
 
-    public void writeToNBT(NBTTagCompound nbt, String name, ConcurrentMap<Long, ChunkBlockHolder> chunkDataMap) {
+    public void writeToNBT(NBTTagCompound nbt, String name, PosMap.ConcurrentSingle<ChunkBlockHolder> chunkDataMap) {
         NBTTagList list = new NBTTagList();
 
         for (ChunkBlockHolder data : chunkDataMap.values()) {
@@ -45,15 +42,14 @@ public class ChunkPlacerData extends WorldSavedData {
         nbt.setTag(name, list);
     }
 
-    public void readFromNBT(NBTTagCompound nbt, String name, ConcurrentMap<Long, ChunkBlockHolder> chunkDataMap) {
+    public void readFromNBT(NBTTagCompound nbt, String name, PosMap.ConcurrentSingle<ChunkBlockHolder> chunkDataMap) {
         NBTTagList list = nbt.getTagList(name, NBTType.TagCompound);
 
         for (int i = 0; i < list.tagCount(); i++) {
             NBTTagCompound tag = list.getCompoundTagAt(i);
             ChunkBlockHolder data = new ChunkBlockHolder(0, 0);
             data.readFromNBT(tag);
-            long coord = HashUtils.packChunkCoord(data.chunkX, data.chunkZ);
-            chunkDataMap.put(coord, data);
+            chunkDataMap.put(data.chunkX, data.chunkZ, data);
         }
     }
 
@@ -64,8 +60,8 @@ public class ChunkPlacerData extends WorldSavedData {
         int chunkX = x >> 4;
         int chunkZ = z >> 4;
 
-        long coord = HashUtils.packChunkCoord(chunkX, chunkZ);
-        ChunkBlockHolder data = placer.chunkDataMap.computeIfAbsent(coord, c -> new ChunkBlockHolder(chunkX, chunkZ));
+        ChunkBlockHolder data = placer.chunkDataMap
+            .computeIfAbsent(chunkX, chunkZ, c -> new ChunkBlockHolder(chunkX, chunkZ));
         if (nbt == null) {
             data.setBlock(x & 15, y, z & 15, block, meta);
         } else {
@@ -102,8 +98,7 @@ public class ChunkPlacerData extends WorldSavedData {
     public static void tickPlacement(World world, int chunkX, int chunkZ) {
         ChunkPlacerData placer = get(world);
 
-        long coord = HashUtils.packChunkCoord(chunkX, chunkZ);
-        ChunkBlockHolder data = placer.chunkDataMap.remove(coord);
+        ChunkBlockHolder data = placer.chunkDataMap.remove(chunkX, chunkZ);
         Chunk chunk = world.getChunkFromChunkCoords(chunkX, chunkZ);
         if (data != null) {
             data.placeToChunk(chunk);
