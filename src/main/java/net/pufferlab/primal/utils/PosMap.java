@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
+import gnu.trove.iterator.TLongObjectIterator;
 import gnu.trove.map.TLongObjectMap;
 import gnu.trove.map.hash.TLongObjectHashMap;
 
@@ -91,6 +93,18 @@ public class PosMap {
 
         public void clear() {
             map.clear();
+        }
+
+        public void removeIf(Predicate<? super T> filter) {
+            TLongObjectIterator<T> it = map.iterator();
+
+            while (it.hasNext()) {
+                it.advance();
+
+                if (filter.test(it.value())) {
+                    it.remove();
+                }
+            }
         }
     }
 

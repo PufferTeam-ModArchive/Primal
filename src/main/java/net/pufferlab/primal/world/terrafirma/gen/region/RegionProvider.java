@@ -1,8 +1,8 @@
 package net.pufferlab.primal.world.terrafirma.gen.region;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.*;
 
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -26,6 +26,15 @@ public class RegionProvider {
 
     public ExecutorService executor;
 
+    private static final long cleaningTimeTICK = 20 * 10;
+    private static final long cleaningBlockTimeMS = 60_000;
+    public static List<RegionProvider> providerList = new ArrayList<>();
+    public static boolean cachedExecutor = false;
+
+    public RegionProvider() {
+        providerList.add(this);
+    }
+
     public static int getThreadAmount() {
         int threadAmount = Runtime.getRuntime()
             .availableProcessors();
@@ -39,7 +48,17 @@ public class RegionProvider {
         int regionX = Region.getRegionCoord(chunkX);
         int regionZ = Region.getRegionCoord(chunkZ);
         if (executor == null) {
-            executor = Executors.newFixedThreadPool(getThreadAmount());
+            if (cachedExecutor) {
+                executor = Executors.newFixedThreadPool(getThreadAmount());
+            } else {
+                // This is Executors.newCachedThreadPool(); but with less threads
+                executor = new ThreadPoolExecutor(
+                    getThreadAmount(),
+                    getThreadAmount(),
+                    60L,
+                    TimeUnit.SECONDS,
+                    new SynchronousQueue<Runnable>());
+            }
         }
 
         Region region = regionMap.get(regionX, regionZ);
@@ -56,6 +75,20 @@ public class RegionProvider {
 
     public void addBlockData(ChunkBlockData data) {
         completedBlock.add(data);
+    }
+
+    public static int cleanupTicks;
+
+    public static void cleanAllTasks() {
+        cleanupTicks++;
+
+        if (cleanupTicks > cleaningTimeTICK) {
+            for (int i = 0; i < providerList.size(); i++) {
+                RegionProvider provider = providerList.get(i);
+                provider.cleanupPendingBlocks();
+                cleanupTicks = 0;
+            }
+        }
     }
 
     public void tickTasks(World world) {
@@ -87,8 +120,16 @@ public class RegionProvider {
 
             data.placeToChunk(chunk);
         } else {
+            data.createdTime = System.currentTimeMillis();
             chunkBlockMap.put(data.chunkX, data.chunkZ, data);
         }
+    }
+
+    public void cleanupPendingBlocks() {
+        long now = System.currentTimeMillis();
+        chunkBlockMap.removeIf(data -> { return (now - data.createdTime) > cleaningBlockTimeMS; });
+
+        regionMap.removeIf(data -> { return data.hasGenerated; });
     }
 
 }

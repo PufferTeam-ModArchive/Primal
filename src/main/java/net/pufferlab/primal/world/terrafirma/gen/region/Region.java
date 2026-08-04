@@ -25,6 +25,8 @@ public class Region {
     public RegionProvider provider;
     public RegionGenerator regionGenerator;
 
+    public volatile boolean hasGenerated = false;
+
     public Region(RegionProvider provider, World world, int regionX, int regionZ) {
         this.provider = provider;
         this.world = world;
@@ -75,6 +77,7 @@ public class Region {
         for (ChunkBlockData chunkBlockData : noise) {
             provider.chunkBlockMap.remove(chunkBlockData.chunkX, chunkBlockData.chunkZ);
         }
+        this.hasGenerated = true;
         provider.tickTasks(world);
     }
 

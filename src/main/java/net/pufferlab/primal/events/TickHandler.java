@@ -7,6 +7,7 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.helper.ClientTickHolder;
 import net.pufferlab.primal.world.GlobalTickingData;
 import net.pufferlab.primal.world.scheduling.SchedulerData;
+import net.pufferlab.primal.world.terrafirma.gen.region.RegionProvider;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -23,6 +24,7 @@ public class TickHandler implements IEventHandler {
     public void onTick(TickEvent.WorldTickEvent event) {
         tick(event);
         tickTasks(event);
+        tickRegionProvider();
     }
 
     private synchronized void tick(TickEvent.WorldTickEvent event) {
@@ -41,6 +43,10 @@ public class TickHandler implements IEventHandler {
             SchedulerData.tickTasks(GlobalTickingData.getTickTime(event.world), event.world);
             SchedulerData.tickWaitingTasks(event.world);
         }
+    }
+
+    public void tickRegionProvider() {
+        RegionProvider.cleanAllTasks();
     }
 
     @SubscribeEvent
