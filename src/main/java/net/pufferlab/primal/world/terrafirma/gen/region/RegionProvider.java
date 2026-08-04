@@ -29,7 +29,7 @@ public class RegionProvider {
     private static final long cleaningTimeTICK = 20 * 10;
     private static final long cleaningBlockTimeMS = 60_000;
     public static List<RegionProvider> providerList = new ArrayList<>();
-    public static boolean cachedExecutor = false;
+    public static boolean cachedExecutor = true;
 
     public RegionProvider() {
         providerList.add(this);
@@ -52,12 +52,7 @@ public class RegionProvider {
                 executor = Executors.newFixedThreadPool(getThreadAmount());
             } else {
                 // This is Executors.newCachedThreadPool(); but with less threads
-                executor = new ThreadPoolExecutor(
-                    getThreadAmount(),
-                    getThreadAmount(),
-                    60L,
-                    TimeUnit.SECONDS,
-                    new SynchronousQueue<Runnable>());
+                executor = Executors.newCachedThreadPool();
             }
         }
 
