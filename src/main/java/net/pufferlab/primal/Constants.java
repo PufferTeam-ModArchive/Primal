@@ -16,6 +16,7 @@ public class Constants {
     public static float heightMultiplier = 110f / 70f;
     public static int minHeight = 0;
     public static int maxHeight = 255;
+    public static int sections = 16;
 
     public static final short lightNone = 0x000;
     public static final short lightFire = 0xEC0;

@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.pufferlab.primal.Constants;
@@ -14,16 +15,20 @@ import net.pufferlab.primal.utils.WorldUtils;
 
 public class ChunkBlockStorage {
 
-    public Block[][] blocks = new Block[16][];
-    public int[][] metas = new int[16][];
-    public NBTTagCompound[][] tags = new NBTTagCompound[16][];
+    public int sections = Constants.sections;
+    public int minHeight = Constants.minHeight;
+    public int maxHeight = Constants.maxHeight;
+
+    public Block[][] blocks = new Block[sections][];
+    public int[][] metas = new int[sections][];
+    public NBTTagCompound[][] tags = new NBTTagCompound[sections][];
 
     public void setBlock(int x, int y, int z, Block block, int meta) {
         int yIndex = y >> 4;
         int index = HashUtils.pack3DCoord(x, y & 15, z);
 
         if (x < 0 || x >= 16) return;
-        if (y < Constants.minHeight || y > Constants.maxHeight) return;
+        if (y < minHeight || y > maxHeight) return;
         if (z < 0 || z >= 16) return;
 
         if (blocks[yIndex] == null) {
@@ -41,7 +46,7 @@ public class ChunkBlockStorage {
         int index = HashUtils.pack3DCoord(x, y & 15, z);
 
         if (x < 0 || x >= 16) return;
-        if (y < Constants.minHeight || y > Constants.maxHeight) return;
+        if (y < minHeight || y > maxHeight) return;
         if (z < 0 || z >= 16) return;
 
         if (blocks[yIndex] == null) {
@@ -63,7 +68,7 @@ public class ChunkBlockStorage {
         int index = HashUtils.pack3DCoord(x, y & 15, z);
 
         if (x < 0 || x >= 16) return Blocks.air;
-        if (y < Constants.minHeight || y > Constants.maxHeight) return Blocks.air;
+        if (y < minHeight || y > maxHeight) return Blocks.air;
         if (z < 0 || z >= 16) return Blocks.air;
 
         if (blocks[yIndex] == null) return Blocks.air;
@@ -76,7 +81,7 @@ public class ChunkBlockStorage {
         int index = HashUtils.pack3DCoord(x, y & 15, z);
 
         if (x < 0 || x >= 16) return 0;
-        if (y < Constants.minHeight || y > Constants.maxHeight) return 0;
+        if (y < minHeight || y > maxHeight) return 0;
         if (z < 0 || z >= 16) return 0;
 
         if (metas[yIndex] == null) return 0;
@@ -129,7 +134,7 @@ public class ChunkBlockStorage {
         boolean flag = !chunk.worldObj.provider.hasNoSky;
         ExtendedBlockStorage[] storageArrays = chunk.getBlockStorageArray();
 
-        for (int yIndex = 0; yIndex < 16; yIndex++) {
+        for (int yIndex = 0; yIndex < blocks.length; yIndex++) {
             if (blocks[yIndex] == null || metas[yIndex] == null) {
                 continue;
             }
@@ -157,15 +162,26 @@ public class ChunkBlockStorage {
                     Block existingBlock = storage.getBlockByExtId(x, y, z);
                     int existingMeta = storage.getExtBlockMetadata(x, y, z);
 
-                    if (primalBlock.skipBlock(existingBlock, existingMeta)) {
+                    if (primalBlock.skipReplace(existingBlock, existingMeta)) {
                         continue;
                     }
 
-                    meta = primalBlock.getBlockMetaToPlace(existingBlock, existingMeta);
+                    block = primalBlock.blockToReplace(existingBlock, existingMeta);
+                    meta = primalBlock.metaToReplace(existingBlock, existingMeta);
                 }
 
                 storage.func_150818_a(x, y, z, block);
                 storage.setExtBlockMetadata(x, y, z, meta);
+
+                if (block.hasTileEntity(meta)) {
+                    TileEntity tileentity;
+                    tileentity = chunk.func_150806_e(x, (yIndex << 4) + y, z);
+
+                    if (tileentity != null) {
+                        tileentity.updateContainingBlockInfo();
+                        tileentity.blockMetadata = meta;
+                    }
+                }
             }
         }
 
@@ -176,7 +192,7 @@ public class ChunkBlockStorage {
         int blockX = chunk.xPosition << 4;
         int blockZ = chunk.zPosition << 4;
 
-        for (int yIndex = 0; yIndex < 16; yIndex++) {
+        for (int yIndex = 0; yIndex < tags.length; yIndex++) {
             if (tags[yIndex] == null) {
                 continue;
             }

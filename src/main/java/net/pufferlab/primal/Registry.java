@@ -427,8 +427,6 @@ public class Registry {
 
         setupFluids();
 
-        register(bark, "bark");
-
         register(ore, "ore");
         register(small_ore, "small_ore");
         register(coal, "coal");
@@ -436,6 +434,7 @@ public class Registry {
         register(gem_powder, "gem_powder");
         register(rock, "rock");
         register(brick, "brick");
+        register(bark, "bark");
 
         register(icons, "icon");
         register(straw, "straw");
@@ -728,6 +727,9 @@ public class Registry {
 
         Constants.minHeight = Config.minWorldHeight.getInt();
         Constants.maxHeight = Config.maxWorldHeight.getInt();
+        if (Constants.minHeight != 0 && Constants.maxHeight != 255) {
+            Constants.sections = (Constants.maxHeight - Constants.minHeight + 15) >> 4;
+        }
 
         StoneType.genLayerCache(Constants.stoneTypes);
         SoilType.genHumidityCache(Constants.soilTypes);
@@ -812,7 +814,9 @@ public class Registry {
     public static WorldType worldTypeTF;
 
     public void setupWorldGen() {
-        worldTypeTF = new WorldTypeTF();
+        if (Config.strataStoneTypes.getBoolean() && Config.soilTypes.getBoolean() && Config.oreVeins.getBoolean()) {
+            worldTypeTF = new WorldTypeTF();
+        }
 
         registerWorld(earlyGen, 10000);
         registerWorld(lateGen, 20000);

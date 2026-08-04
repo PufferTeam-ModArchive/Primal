@@ -1,6 +1,7 @@
 package net.pufferlab.primal.world.scheduling;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.chunk.Chunk;
 import net.pufferlab.primal.world.ChunkBlockStorage;
 
 public class ChunkBlockHolder extends ChunkBlockStorage {
@@ -24,5 +25,14 @@ public class ChunkBlockHolder extends ChunkBlockStorage {
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
         updateSkylight = compound.getBoolean("updateSkylight");
+    }
+
+    @Override
+    public void placeToChunk(Chunk chunk) {
+        super.placeToChunk(chunk);
+        if (updateSkylight) {
+            chunk.generateSkylightMap();
+            chunk.resetRelightChecks();
+        }
     }
 }

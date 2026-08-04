@@ -12,7 +12,10 @@ public class NoiseLayer {
 
     public Noise2D rainfallNoise;
     public Noise2D vegetationNoise;
+    public Noise2D forestnessNoise;
     public Noise2D rockinessNoise;
+
+    public Noise2D detailNoise;
 
     public NoiseLayer(World world) {
         this.world = world;
@@ -20,7 +23,11 @@ public class NoiseLayer {
 
         long rainfallSeed = seed + 314;
         long vegetationSeed = seed + 234;
-        long rockynessSeed = seed + 4;
+        long forestnessSeed = seed + 144;
+        long rockinessSeed = seed + 4;
+
+        long detailSeed = seed + 2415;
+        long detailSmallSeed = seed + 2417;
 
         rainfallNoise = new OpenSimplex2D(rainfallSeed).spread(0.0005F)
             .octaves(3)
@@ -30,9 +37,20 @@ public class NoiseLayer {
             .octaves(3)
             .normalize();
 
-        rockinessNoise = new OpenSimplex2D(rockynessSeed).spread(0.006F)
+        forestnessNoise = new OpenSimplex2D(forestnessSeed).spread(0.001F)
             .octaves(3)
             .normalize();
+
+        rockinessNoise = new OpenSimplex2D(rockinessSeed).spread(0.006F)
+            .octaves(3)
+            .normalize();
+
+        detailNoise = new OpenSimplex2D(detailSeed).spread(0.01F)
+            .octaves(3)
+            .add(
+                new OpenSimplex2D(detailSmallSeed).spread(0.1F)
+                    .octaves(3)
+                    .map(x -> x * 0.25F));
     }
 
     public void genNoiseLayers(ChunkNoiseData data, int chunkX, int chunkZ) {
@@ -44,10 +62,16 @@ public class NoiseLayer {
                 float rainfall = rainfallNoise.noise(worldX, worldZ);
                 float vegetation = vegetationNoise.noise(worldX, worldZ);
                 float rockiness = rockinessNoise.noise(worldX, worldZ);
+                float forestness = forestnessNoise.noise(worldX, worldZ);
+
+                float detail = detailNoise.noise(worldX, worldZ);
 
                 data.setRainfall(x, z, rainfall);
                 data.setVegetation(x, z, vegetation);
                 data.setRockiness(x, z, rockiness);
+                data.setForestness(x, z, forestness);
+
+                data.setDetail(x, z, detail);
             }
         }
     }

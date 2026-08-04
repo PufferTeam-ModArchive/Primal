@@ -68,6 +68,14 @@ public class ChunkDataTF extends ChunkSavedData {
         noiseData.setVegetation(x, z, value);
     }
 
+    public float getForestness(int x, int z) {
+        return noiseData.getForestness(x, z);
+    }
+
+    public void setForestness(int x, int z, float value) {
+        noiseData.setForestness(x, z, value);
+    }
+
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
         noiseData.heightmap = nbt.getIntArray("terrain_height");
@@ -75,7 +83,7 @@ public class ChunkDataTF extends ChunkSavedData {
         noiseData.biomes = nbt.getIntArray("biomes");
 
         int[] rocknessInt = nbt.getIntArray("rockiness");
-        noiseData.rockness = getFloatArray(rocknessInt);
+        noiseData.rockiness = getFloatArray(rocknessInt);
 
         int[] rainfallInt = nbt.getIntArray("rainfall");
         noiseData.rainfall = getFloatArray(rainfallInt);
@@ -87,7 +95,7 @@ public class ChunkDataTF extends ChunkSavedData {
     @Override
     public void readFromBuffer(ByteBuf buf) {
         int[] rocknessInt = IOUtils.readIntArray(buf);
-        noiseData.rockness = getFloatArray(rocknessInt);
+        noiseData.rockiness = getFloatArray(rocknessInt);
 
         int[] rainfallInt = IOUtils.readIntArray(buf);
         noiseData.rainfall = getFloatArray(rainfallInt);
@@ -102,7 +110,7 @@ public class ChunkDataTF extends ChunkSavedData {
 
         nbt.setIntArray("biomes", noiseData.biomes);
 
-        int[] rocknessInt = getIntArray(noiseData.rockness);
+        int[] rocknessInt = getIntArray(noiseData.rockiness);
         nbt.setIntArray("rockiness", rocknessInt);
 
         int[] rainfallInt = getIntArray(noiseData.rainfall);
@@ -114,7 +122,7 @@ public class ChunkDataTF extends ChunkSavedData {
 
     @Override
     public void writeToBuffer(ByteBuf buf) {
-        int[] rocknessInt = getIntArray(noiseData.rockness);
+        int[] rocknessInt = getIntArray(noiseData.rockiness);
         IOUtils.writeIntArray(buf, rocknessInt);
 
         int[] rainfallInt = getIntArray(noiseData.rainfall);

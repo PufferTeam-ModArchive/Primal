@@ -13,7 +13,6 @@ public class NoiseTerrain {
 
     public Noise2D terrainNoise;
     public Noise2D hillNoise;
-    public Noise2D detailNoise;
     public Noise2D detailSmallNoise;
     public Noise2D continentNoise;
 
@@ -26,11 +25,11 @@ public class NoiseTerrain {
 
         terrainNoise = new OpenSimplex2D(seed).spread(0.01F)
             .octaves(3)
+            .product(
+                new Perlin2D(seed + 10).spread(0.004F)
+                    .normalize()
+                    .map(x -> { return NoiseUtils.fastpow(x, 2); }))
             .normalize();
-
-        detailNoise = new Perlin2D(seed + 10).spread(0.004F)
-            .normalize()
-            .map(x -> { return NoiseUtils.fastpow(x, 2); });
 
         hillNoise = new OpenSimplex2D(seed + 4).spread(0.006F)
             .octaves(3)
@@ -59,9 +58,8 @@ public class NoiseTerrain {
                 height += detailSmallNoise.noise(worldX, worldZ) * 3.0F;
 
                 float terrain = terrainNoise.noise(worldX, worldZ);
-                float detail = detailNoise.noise(worldX, worldZ);
 
-                height += terrain * detail * 80.0F;
+                height += terrain * 80.0F;
 
                 data.setHeight(x, z, (int) height);
                 if (height < Config.seaLevelTF.getInt()) {

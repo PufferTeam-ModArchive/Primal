@@ -3,26 +3,19 @@ package net.pufferlab.primal.utils;
 public class HashUtils {
 
     public static final int bx = 26; // 26 bits [-33,554,432 to 33,554,432]
-    public static final long xm = (1L << bx) - 1L;
     public static final int by = 12; // 12 bits [-2048 to 2048]
-    public static final long ym = (1L << by) - 1L;
     public static final int bz = 26; // 26 bits [-33,554,432 to 33,554,432]
+
+    public static final long xm = (1L << bx) - 1L;
+    public static final long ym = (1L << by) - 1L;
     public static final long zm = (1L << bz) - 1L;
+
     public static final int bxs = bz + by;
     public static final int bys = bz;
     public static final int bzs = 0;
+
     public static final long cm = 0xFFFFFFFFL;
     public static final int czs = 32;
-
-    private static final float totalRange = 4.0f * (float) Math.PI;
-    private static final int totalBuckets = 128;
-
-    // Precompute the multiplier to avoid division at runtime
-    private static final float floatScale = totalBuckets / totalRange;
-
-    public static int angleHashCode(float value) {
-        return (int) (value * floatScale);
-    }
 
     public static long packCoord(int x, int y, int z) {
 
@@ -52,6 +45,22 @@ public class HashUtils {
         return seed;
     }
 
+    public static int unpackX(long packed) {
+
+        return (int) (packed << (64 - bx - bxs) >> (64 - bx));
+    }
+
+    public static int unpackY(long packed) {
+
+        return (int) (packed << (64 - by - bys) >> (64 - by));
+    }
+
+    public static int unpackZ(long packed) {
+
+        return (int) (packed << (64 - bz - bzs) >> (64 - bz));
+    }
+
+    // Index Based Hashes
     public static int pack2DCoord(int x, int z) {
         return (z << 4) | x;
     }
@@ -72,18 +81,13 @@ public class HashUtils {
         return (packed >>> 8) & 15;
     }
 
-    public static int unpackX(long packed) {
+    // Float Hashes
+    private static final float totalRange = 4.0f * (float) Math.PI;
+    private static final int totalBuckets = 128;
 
-        return (int) (packed << (64 - bx - bxs) >> (64 - bx));
-    }
+    private static final float floatScale = totalBuckets / totalRange;
 
-    public static int unpackY(long packed) {
-
-        return (int) (packed << (64 - by - bys) >> (64 - by));
-    }
-
-    public static int unpackZ(long packed) {
-
-        return (int) (packed << (64 - bz - bzs) >> (64 - bz));
+    public static int angleHashCode(float value) {
+        return (int) (value * floatScale);
     }
 }

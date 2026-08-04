@@ -14,9 +14,11 @@ import net.pufferlab.primal.world.terrafirma.ChunkNoiseData;
 public class SoilFiller {
 
     public World world;
+    public long seed;
 
     public SoilFiller(World world) {
         this.world = world;
+        this.seed = world.getSeed();
     }
 
     public void genSoil(ChunkBlockData data, ChunkNoiseData dataNoise, int chunkX, int chunkZ) {
@@ -25,12 +27,14 @@ public class SoilFiller {
                 int worldX = (chunkX << 4) + x;
                 int worldZ = (chunkZ << 4) + z;
 
-                float rainfall = dataNoise.getRainfall(x, z);
-                float vegetation = dataNoise.getVegetation(x, z);
+                float detail = dataNoise.getDetail(x, z);
+
+                float rainfall = dataNoise.getRainfall(x, z) + (detail * 0.02F);
+                float vegetation = dataNoise.getVegetation(x, z) + (detail * 0.02F);
 
                 int topY = dataNoise.getHeight(x, z);
 
-                float elevationValue = dataNoise.getRockiness(x, z);
+                float elevationValue = dataNoise.getRockiness(x, z) + (detail * 0.02F);
 
                 int depthBlocks = Mth.floor(((1 - elevationValue)) * 5.0F);
 

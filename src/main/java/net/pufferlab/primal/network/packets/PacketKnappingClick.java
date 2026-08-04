@@ -35,8 +35,8 @@ public class PacketKnappingClick implements IMessage, IMessageHandler<PacketKnap
     @Override
     public IMessage onMessage(PacketKnappingClick msg, MessageContext ctx) {
         final EntityPlayer player = Primal.proxy.getPlayer(ctx);
-        if (player.openContainer instanceof ContainerKnapping) {
-            ((ContainerKnapping) player.openContainer).clickedOnSlot(msg.x, msg.y);
+        if (player.openContainer instanceof ContainerKnapping container) {
+            container.clickedOnSlot(msg.x, msg.y);
         }
         return null;
     }

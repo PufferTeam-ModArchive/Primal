@@ -15,9 +15,12 @@ public class ChunkNoiseData {
     public int[] heightmap = new int[256];
     public int[] biomes = new int[256];
 
-    public float[] rockness = new float[256];
+    public float[] rockiness = new float[256];
     public float[] rainfall = new float[256];
     public float[] vegetation = new float[256];
+    public float[] forestness = new float[256];
+
+    public float[] detail = new float[256];
 
     public BiomesTF getBiome(int x, int z) {
         return BiomesTF.getBiome(biomes[pack2DCoord(x, z)]);
@@ -36,11 +39,11 @@ public class ChunkNoiseData {
     }
 
     public float getRockiness(int x, int z) {
-        return rockness[pack2DCoord(x, z)];
+        return rockiness[pack2DCoord(x, z)];
     }
 
     public void setRockiness(int x, int z, float value) {
-        this.rockness[pack2DCoord(x, z)] = value;
+        this.rockiness[pack2DCoord(x, z)] = value;
     }
 
     public float getRainfall(int x, int z) {
@@ -57,5 +60,23 @@ public class ChunkNoiseData {
 
     public void setVegetation(int x, int z, float value) {
         this.vegetation[pack2DCoord(x, z)] = value;
+    }
+
+    public float getForestness(int x, int z) {
+        return forestness[pack2DCoord(x, z)];
+    }
+
+    public void setForestness(int x, int z, float value) {
+        this.forestness[pack2DCoord(x, z)] = value;
+    }
+
+    // Not important
+
+    public float getDetail(int x, int z) {
+        return detail[pack2DCoord(x, z)];
+    }
+
+    public void setDetail(int x, int z, float value) {
+        this.detail[pack2DCoord(x, z)] = value;
     }
 }

@@ -103,10 +103,6 @@ public class ChunkPlacerData extends WorldSavedData {
         if (data != null) {
             data.placeToChunk(chunk);
             data.placeTileEntity(chunk);
-            if (data.updateSkylight) {
-                chunk.generateSkylightMap();
-                chunk.resetRelightChecks();
-            }
             data.blocks = null;
             data.metas = null;
             data.tags = null;

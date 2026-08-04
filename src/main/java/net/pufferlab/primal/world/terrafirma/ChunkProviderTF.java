@@ -24,21 +24,22 @@ public class ChunkProviderTF implements IChunkProvider {
     }
 
     @Override
-    public boolean chunkExists(int p_73149_1_, int p_73149_2_) {
+    public boolean chunkExists(int chunkX, int chunkZ) {
         return true;
     }
 
     @Override
-    public Chunk provideChunk(int p_73154_1_, int p_73154_2_) {
+    public Chunk provideChunk(int chunkX, int chunkZ) {
         this.regionProvider.tickTasks(worldObj);
 
-        this.regionProvider.generateRegion(worldObj, p_73154_1_, p_73154_2_);
+        this.regionProvider.generateRegion(worldObj, chunkX, chunkZ);
 
-        ChunkBlockData data = this.regionProvider.getChunkBlockData(p_73154_1_, p_73154_2_);
+        ChunkBlockData data = this.regionProvider.getChunkBlockData(chunkX, chunkZ);
+
         Block[] ablock = new Block[65536];
         byte[] abyte = new byte[65536];
 
-        Chunk chunk = new Chunk(this.worldObj, ablock, abyte, p_73154_1_, p_73154_2_);
+        Chunk chunk = new Chunk(this.worldObj, ablock, abyte, chunkX, chunkZ);
 
         if (data != null) {
             data.placeToChunk(chunk);
@@ -49,15 +50,15 @@ public class ChunkProviderTF implements IChunkProvider {
     }
 
     @Override
-    public Chunk loadChunk(int p_73158_1_, int p_73158_2_) {
-        return this.provideChunk(p_73158_1_, p_73158_2_);
+    public Chunk loadChunk(int chunkX, int chunkZ) {
+        return this.provideChunk(chunkX, chunkZ);
     }
 
     @Override
-    public void populate(IChunkProvider p_73153_1_, int p_73153_2_, int p_73153_3_) {
-        Chunk chunk = worldObj.getChunkFromChunkCoords(p_73153_2_, p_73153_3_);
+    public void populate(IChunkProvider provider, int chunkX, int chunkZ) {
+        Chunk chunk = worldObj.getChunkFromChunkCoords(chunkX, chunkZ);
 
-        this.regionProvider.tickPendingBlocks(worldObj, p_73153_2_, p_73153_3_);
+        this.regionProvider.tickPendingBlocks(worldObj, chunkX, chunkZ);
 
         chunk.setChunkModified();
     }

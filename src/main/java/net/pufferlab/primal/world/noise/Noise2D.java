@@ -48,6 +48,10 @@ public interface Noise2D {
         return (x, y) -> Math.abs(Noise2D.this.noise(x, y));
     }
 
+    default Noise2D warped(float amplitude) {
+        throw new UnsupportedOperationException();
+    }
+
     /**
      * Creates "terraces" by taking the nearest level and rounding
      * Input must be in range [-1, 1]
@@ -161,7 +165,7 @@ public interface Noise2D {
     /**
      * Product of two noises - lazily evaluates the second if the first evaluates to zero.
      */
-    default Noise2D lazyProduct(Noise2D other) {
+    default Noise2D product(Noise2D other) {
         return (x, y) -> {
             final float value = Noise2D.this.noise(x, y);
             return value == 0 ? 0 : value * other.noise(x, y);

@@ -68,7 +68,7 @@ public class BlockStoneOre extends BlockMetaOre {
     }
 
     @Override
-    public int getBlockMetaToPlace(Block block, int meta) {
+    public int metaToReplace(Block block, int meta) {
         if (BlockUtils.isNaturalStone(block)) {
             return meta;
         }
@@ -76,7 +76,7 @@ public class BlockStoneOre extends BlockMetaOre {
     }
 
     @Override
-    public boolean skipBlock(Block block, int meta) {
+    public boolean skipReplace(Block block, int meta) {
         if (BlockUtils.isNaturalStone(block)) {
             return false;
         }

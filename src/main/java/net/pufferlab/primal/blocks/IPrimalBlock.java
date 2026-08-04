@@ -22,12 +22,16 @@ public interface IPrimalBlock {
         return false;
     }
 
-    default boolean skipBlock(Block block, int meta) {
+    default boolean skipReplace(Block block, int meta) {
         return false;
     }
 
-    default int getBlockMetaToPlace(Block block, int meta) {
+    default int metaToReplace(Block block, int meta) {
         return -1;
+    }
+
+    default Block blockToReplace(Block block, int meta) {
+        return (Block) this;
     }
 
     default List<AxisAlignedBB> getBounds(World world, int x, int y, int z, EntityPlayer player, BoundsType bounds) {

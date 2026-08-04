@@ -28,7 +28,10 @@ public class VegetationFiller {
 
                 Block block = data.getBlock(x, y - 1, z);
                 if (block != Blocks.air) {
-                    float vegetation = dataNoise.getVegetation(x, z);
+                    float detail = dataNoise.getDetail(x, z);
+
+                    float vegetation = dataNoise.getVegetation(x, z) + (detail * 0.02F);
+                    float forestness = dataNoise.getForestness(x, z) + (detail * 0.02F);
 
                     Block blockBelow = data.getBlock(x, y - 1, z);
                     if (BlockUtils.isGrassBlock(blockBelow)) {
@@ -42,7 +45,7 @@ public class VegetationFiller {
                                 placePlant(data, x, y, z, Constants.tall_grass);
                             }
                         }
-                        if (vegetation > 0.6F) {
+                        if (forestness > 0.6F) {
                             // Only try 4 times
                             if (x % 4 == 0 && z % 4 == 0) {
                                 if (data.random.nextFloat() > vegetation) {
