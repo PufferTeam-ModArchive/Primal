@@ -18,12 +18,16 @@ public class ChunkBlockHolder extends ChunkBlockStorage {
     @Override
     public void writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
+        compound.setInteger("chunkX", chunkX);
+        compound.setInteger("chunkZ", chunkZ);
         compound.setBoolean("updateSkylight", updateSkylight);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
+        chunkX = compound.getInteger("chunkX");
+        chunkZ = compound.getInteger("chunkZ");
         updateSkylight = compound.getBoolean("updateSkylight");
     }
 
