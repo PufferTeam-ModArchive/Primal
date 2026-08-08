@@ -1296,6 +1296,9 @@ tile.primal.chalk_lignite_coal.name=Chalk Lignite Coal
 tile.primal.slate_lignite_coal.name=Slate Lignite Coal
 tile.primal.schist_lignite_coal.name=Schist Lignite Coal
 
+tile.primal.dry_grass.name=Dry Grass
+tile.primal.snowy_grass.name=Snowy Grass
+
 tile.primal.oak_log.name=Oak Log
 tile.primal.stripped_oak_log.name=Stripped Oak Log
 tile.primal.oak_wood.name=Oak Wood

@@ -1,9 +1,9 @@
 package net.pufferlab.primal.client.renderer.blocks;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;
+import net.pufferlab.primal.blocks.BlockMetaGrass;
 import net.pufferlab.primal.blocks.IPrimalBlock;
 
 import org.lwjgl.opengl.GL11;
@@ -38,9 +38,12 @@ public class BlockGrassRenderer extends BlockPrimalRenderer {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
-        Material material = world.getBlock(x, y + 1, z)
-            .getMaterial();
+
         IPrimalBlock block0 = (IPrimalBlock) block;
+        boolean snowyAbove = false;
+        if (block instanceof BlockMetaGrass grass) {
+            snowyAbove = grass.isSnowy(world, x, y, z);
+        }
         boolean flag = false;
 
         block0.setInventory(false);
@@ -48,10 +51,10 @@ public class BlockGrassRenderer extends BlockPrimalRenderer {
         flag = renderStandardBlockNoColor(renderer, block, x, y, z);
 
         block0.setPass(1);
-        if (material != Material.craftedSnow && material != Material.snow) {
-            flag = renderer.renderStandardBlock(block, x, y, z);
-        } else {
+        if (snowyAbove) {
             flag = renderStandardBlockNoColor(renderer, block, x, y, z);
+        } else {
+            flag = renderer.renderStandardBlock(block, x, y, z);
         }
         block0.setPass(0);
 

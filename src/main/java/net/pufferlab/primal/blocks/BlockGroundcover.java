@@ -37,7 +37,7 @@ public class BlockGroundcover extends BlockMeta {
     }
 
     @Override
-    public int getRenderShape() {
+    public int getRenderShape(int meta) {
         return groundcoverShape;
     }
 

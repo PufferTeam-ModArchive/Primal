@@ -87,8 +87,12 @@ public interface IPrimalBlock {
         return 0;
     }
 
-    default int getRenderShape() {
+    default int getRenderShape(int meta) {
         return 0;
+    }
+
+    default boolean isSnowlogged(int meta) {
+        return false;
     }
 
     default int getStateID() {

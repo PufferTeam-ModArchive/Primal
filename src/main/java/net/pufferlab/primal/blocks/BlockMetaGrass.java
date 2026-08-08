@@ -118,12 +118,27 @@ public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlo
             } else if (side == 0) {
                 return this.empty;
             } else {
-                Material material = worldIn.getBlock(x, y + 1, z)
-                    .getMaterial();
-                return material != Material.snow && material != Material.craftedSnow ? this.grassSideOverlay
-                    : this.grassSideSnowed;
+                boolean isSnowy = isSnowy(worldIn, x, y, z);
+                if (isSnowy) {
+                    return this.grassSideSnowed;
+                }
+                return this.grassSideOverlay;
             }
         }
+    }
+
+    public boolean isSnowy(IBlockAccess world, int x, int y, int z) {
+        Block blockAbove = world.getBlock(x, y + 1, z);
+        int metaAbove = world.getBlockMetadata(x, y + 1, z);
+        Material material = blockAbove.getMaterial();
+        boolean snowyAbove = false;
+        if (blockAbove instanceof IPrimalBlock blockAbove0) {
+            snowyAbove = blockAbove0.isSnowlogged(metaAbove);
+        }
+        if (material == Material.craftedSnow || material == Material.snow) {
+            snowyAbove = true;
+        }
+        return snowyAbove;
     }
 
     @Override

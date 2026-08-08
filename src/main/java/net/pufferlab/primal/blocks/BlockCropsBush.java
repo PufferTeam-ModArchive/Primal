@@ -160,7 +160,7 @@ public class BlockCropsBush extends BlockCrops implements IPrimalBlock, ISchedul
     }
 
     @Override
-    public int getRenderShape() {
+    public int getRenderShape(int meta) {
         return this.cropType.cropRenderType;
     }
 

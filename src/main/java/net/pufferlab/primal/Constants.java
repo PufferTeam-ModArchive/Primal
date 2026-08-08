@@ -129,7 +129,7 @@ public class Constants {
     public static final OreType sapphire = new OreType("sapphire", 2);
     public static final OreType topaz = new OreType("topaz", 2);
     public static final OreType amber = new OreType("amber", 2);
-    public static final OreType[] gemOreTypes      = {diamond, emerald, amethyst, lapis_lazuli, opal, ruby, sapphire, topaz, amber};
+    public static final OreType[] gemOreTypes      = {diamond, emerald, lapis_lazuli, amethyst, opal, ruby, sapphire, topaz, amber};
 
     //Mod Compat
     public static final int aerColor = 0xFFFF7E;
@@ -177,20 +177,47 @@ public class Constants {
 
     public static final SoilType[] soilTypes = { loamy, silty_loam, silty, sandy, sandy_loam, peaty };
 
-    public static final PlantType grass = new PlantType("grass");
-    public static final PlantType tall_grass = new PlantType("tall_grass");
-    public static final PlantType fern = new PlantType("fern");
-    public static final PlantType large_fern = new PlantType("large_fern");
-    public static final PlantType dead_bush = new PlantType("dead_bush");
-
-    public static final PlantType[] plantTypesAll = { grass, tall_grass, fern, large_fern };
-
-    // Food
+    //Plants
     public static final int crossedModel = 0;
     public static final int crossedModel32 = 2;
     public static final int cropModel = 1;
     public static final int cropModel32 = 3;
 
+    public static final PlantType grass = new PlantType("grass");
+    public static final PlantType tall_grass = new PlantType("tall_grass");
+    public static final PlantType dead_bush = new PlantType("dead_bush", true, false, crossedModel);
+
+    public static final PlantType[] plantTypesAll = { grass, tall_grass };
+
+    public static final PlantType dry_grass = new PlantType("dry_grass", true, false, crossedModel);
+    public static final PlantType snowy_grass = new PlantType("snowy_grass", true, true, crossedModel);
+
+    public static final PlantType[] plantType1 = { dry_grass, snowy_grass };
+
+    public static final PlantType dandelion     = new PlantType("dandelion",     false, false, 0.02F, 0.35F, 0.65F, 0.40F, 0.70F);
+
+    public static final PlantType poppy         = new PlantType("poppy",         false, false, 0.02F, 0.35F, 0.70F, 0.30F, 0.65F);
+    public static final PlantType blue_orchid   = new PlantType("blue_orchid",   false, false, 0.015F, 0.55F, 0.85F, 0.65F, 1.00F);
+    public static final PlantType allium        = new PlantType("allium",        false, false, 0.012F, 0.40F, 0.70F, 0.30F, 0.60F);
+    public static final PlantType azure_bluet   = new PlantType("azure_bluet",   false, false, 0.02F, 0.35F, 0.65F, 0.40F, 0.75F);
+
+    public static final PlantType red_tulip     = new PlantType("red_tulip",     false, false, 0.012F, 0.35F, 0.65F, 0.30F, 0.65F);
+    public static final PlantType orange_tulip  = new PlantType("orange_tulip",  false, false, 0.012F, 0.35F, 0.65F, 0.30F, 0.65F);
+    public static final PlantType white_tulip   = new PlantType("white_tulip",   false, false, 0.012F, 0.35F, 0.65F, 0.30F, 0.65F);
+    public static final PlantType pink_tulip    = new PlantType("pink_tulip",    false, false, 0.012F, 0.35F, 0.65F, 0.30F, 0.65F);
+
+    public static final PlantType oxeye_daisy   = new PlantType("oxeye_daisy",   false, false, 0.02F, 0.30F, 0.65F, 0.35F, 0.70F);
+
+    public static final PlantType lilac         = new PlantType("lilac",         false, false, 0.008F, 0.30F, 0.70F, 0.40F, 0.75F);
+    public static final PlantType fern          = new PlantType("fern",          false, false, 0.025F, 0.25F, 0.65F, 0.60F, 1.00F);
+    public static final PlantType large_fern    = new PlantType("large_fern",    false, false, 0.012F, 0.20F, 0.65F, 0.65F, 1.00F);
+
+    public static final PlantType rose_bush     = new PlantType("rose_bush",     false, false, 0.008F, 0.40F, 0.75F, 0.35F, 0.70F);
+    public static final PlantType peony         = new PlantType("peony",         false, false, 0.008F, 0.35F, 0.70F, 0.45F, 0.80F);
+    public static final PlantType sunflower     = new PlantType("sunflower",     false, false, 0.006F, 0.55F, 0.90F, 0.25F, 0.60F);
+    public static final PlantType[] plantTypeSpawnable = {dandelion, poppy, blue_orchid, allium, azure_bluet, red_tulip, orange_tulip, white_tulip, pink_tulip, oxeye_daisy, lilac, fern, large_fern, rose_bush, peony, sunflower};
+
+    // Food
     public static final FoodType blueberry = new FoodType("blueberry", 1, 0.6F);
     public static final FoodType strawberry = new FoodType("strawberry", 1, 0.6F);
     public static final FoodType blackberry = new FoodType("blackberry", 1, 0.6F);

@@ -2,6 +2,7 @@ package net.pufferlab.primal.client.renderer.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.IBlockAccess;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.blocks.IPrimalBlock;
@@ -18,8 +19,18 @@ public class BlockCropsRenderer extends BlockPrimalRenderer {
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
         int renderType = 0;
+        boolean isSnowlogged = false;
         if (block instanceof IPrimalBlock block2) {
-            renderType = block2.getRenderShape();
+            int meta = world.getBlockMetadata(x, y, z);
+            renderType = block2.getRenderShape(meta);
+            isSnowlogged = block2.isSnowlogged(meta);
+        }
+
+        if (isSnowlogged) {
+            renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
+            renderer.setOverrideBlockTexture(Blocks.snow.getIcon(0, 0));
+            renderer.renderStandardBlock(block, x, y, z);
+            renderer.setOverrideBlockTexture(null);
         }
 
         if (renderType == Constants.crossedModel) {

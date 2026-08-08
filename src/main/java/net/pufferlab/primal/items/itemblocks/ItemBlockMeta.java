@@ -2,6 +2,7 @@ package net.pufferlab.primal.items.itemblocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.IMetaBlock;
 import net.pufferlab.primal.items.IMetaItem;
@@ -48,6 +49,11 @@ public class ItemBlockMeta extends ItemBlockPrimal implements IMetaItem {
         } else {
             return "tile." + Primal.MODID + "." + elements[meta];
         }
+    }
+
+    @Override
+    public IIcon getIconFromDamage(int meta) {
+        return this.field_150939_a.getIcon(0, meta);
     }
 
     @Override

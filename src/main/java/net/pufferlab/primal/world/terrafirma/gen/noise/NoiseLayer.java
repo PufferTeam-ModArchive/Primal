@@ -30,11 +30,11 @@ public class NoiseLayer {
         long detailSeed = seed + 2415;
         long detailSmallSeed = seed + 2417;
 
-        temperatureNoise = new OpenSimplex2D(temperatureSeed).spread(0.0005F)
+        temperatureNoise = new OpenSimplex2D(temperatureSeed).spread(0.001F)
             .octaves(3)
             .normalize();
 
-        rainfallNoise = new OpenSimplex2D(rainfallSeed).spread(0.0005F)
+        rainfallNoise = new OpenSimplex2D(rainfallSeed).spread(0.001F)
             .octaves(3)
             .normalize();
 

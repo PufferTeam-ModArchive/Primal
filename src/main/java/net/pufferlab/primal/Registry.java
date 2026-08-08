@@ -67,6 +67,7 @@ public class Registry {
     public static final Block dirt;
     public static final Block farmland;
     public static final Block path;
+    public static final Block plant;
     public static final Block grass;
     public static final Block mycelium;
     public static final Block block;
@@ -209,7 +210,7 @@ public class Registry {
         vertical_stone_slab = new BlockCutSlabVertical(stone, false);
         double_vertical_stone_slab = new BlockCutSlabVertical(stone, true);
 
-        bark = new ItemWood(Constants.woodTypesAll, "bark").setHasSuffix();
+        plant = new BlockPlantBush(Constants.plantType1, "plant");
 
         gravel = new BlockStoneGravel(Constants.stoneTypes, "gravel");
         sand = new BlockStoneSand(Constants.stoneTypes, "sand");
@@ -258,6 +259,8 @@ public class Registry {
         rope_ladder = new BlockRopeLadder();
 
         chimney = new BlockChimney();
+
+        bark = new ItemWood(Constants.woodTypesAll, "bark").setHasSuffix();
 
         rock = new ItemRock(Constants.stoneTypes, "rock");
         ((BlockGroundcover) ground_rock).setItem(rock);
@@ -377,6 +380,8 @@ public class Registry {
         register(stone_wall, "stone_wall");
         register(stone_pressure_plate, "stone_pressure_plate");
         register(stone_button, "stone_button");
+
+        register(plant, "plant");
 
         setupWoods();
 
@@ -762,6 +767,20 @@ public class Registry {
         Constants.tall_grass.setDoublePlantItem(Blocks.double_plant, 2, Blocks.double_plant, 11);
         Constants.fern.setPlantItem(Blocks.tallgrass, 2);
         Constants.large_fern.setDoublePlantItem(Blocks.double_plant, 3, Blocks.double_plant, 11);
+        Constants.lilac.setDoublePlantItem(Blocks.double_plant, 1, Blocks.double_plant, 11);
+        Constants.rose_bush.setDoublePlantItem(Blocks.double_plant, 4, Blocks.double_plant, 11);
+        Constants.peony.setDoublePlantItem(Blocks.double_plant, 5, Blocks.double_plant, 11);
+        Constants.sunflower.setDoublePlantItem(Blocks.double_plant, 0, Blocks.double_plant, 11);
+        Constants.dandelion.setPlantItem(Blocks.yellow_flower, 0);
+        Constants.poppy.setPlantItem(Blocks.red_flower, 0);
+        Constants.blue_orchid.setPlantItem(Blocks.red_flower, 1);
+        Constants.allium.setPlantItem(Blocks.red_flower, 2);
+        Constants.azure_bluet.setPlantItem(Blocks.red_flower, 3);
+        Constants.red_tulip.setPlantItem(Blocks.red_flower, 4);
+        Constants.orange_tulip.setPlantItem(Blocks.red_flower, 5);
+        Constants.white_tulip.setPlantItem(Blocks.red_flower, 6);
+        Constants.pink_tulip.setPlantItem(Blocks.red_flower, 7);
+        Constants.oxeye_daisy.setPlantItem(Blocks.red_flower, 8);
         Constants.dead_bush.setPlantItem(Blocks.deadbush, 0);
         if (Mods.tc.isLoaded()) {
             Item shardItem = Mods.tc.getModItem("ItemShard");

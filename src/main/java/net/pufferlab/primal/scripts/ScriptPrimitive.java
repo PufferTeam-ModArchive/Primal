@@ -174,6 +174,7 @@ public class ScriptPrimitive implements IScript {
         addQuernRecipe(getModItem("barley_flour", 1), getModItem("barley", 1));
         addQuernRecipe(getModItem("rye_flour", 1), getModItem("rye", 1));
         addQuernRecipe(getModItem("lime_powder", 1), "limeAny");
+        addQuernRecipe(getItem("minecraft:dye:15:3"), getItem("minecraft:bone:0:1"));
     }
 
     public void addTanningRecipes() {

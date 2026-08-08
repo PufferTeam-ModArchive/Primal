@@ -46,7 +46,7 @@ public class BlockGroundcoverRenderer extends BlockPrimalRenderer {
 
         if (block instanceof BlockGroundcover block2) {
             meta = getValidMeta(block2, meta);
-            int type = block2.getRenderShape();
+            int type = block2.getRenderShape(meta);
             if (type == Constants.rockModel) {
                 if (modelType > 3) {
                     modelRock2.setFacing(rotation);
