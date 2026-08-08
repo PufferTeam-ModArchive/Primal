@@ -25,7 +25,7 @@ public class WorldTypeTF extends WorldType {
 
     @Override
     public WorldChunkManager getChunkManager(World world) {
-        return new ChunkManagerTF();
+        return new ChunkManagerTF(world);
     }
 
     @Override

@@ -25,8 +25,9 @@ public class CommandBlockInfo extends CommandSub {
     }
 
     @Override
-    public String[] getSubArgs() {
-        return arguments;
+    public String[] getSubArgs(String[] args) {
+        if (args.length == 1) return arguments;
+        return null;
     }
 
     @Override

@@ -1,11 +1,16 @@
 package net.pufferlab.primal.compat.nei;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.pufferlab.primal.Mods;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.utils.ItemUtils;
 
+import codechicken.nei.NEIClientConfig;
+import codechicken.nei.recipe.TemplateRecipeHandler;
 import cpw.mods.fml.common.event.FMLInterModComms;
 
 public class IMCSenderGTNH {
@@ -46,7 +51,34 @@ public class IMCSenderGTNH {
         FMLInterModComms.sendMessage(Mods.nei.MODID, "registerCatalystInfo", aNBT);
     }
 
+    public static void sendCatalyst(Class<?> aName, ItemStack aStack) {
+        String name = getOverlayIdentifier(aName);
+        sendCatalyst(name, aStack);
+    }
+
     public static void sendCatalyst(String aName, ItemStack aStack) {
         sendCatalyst(aName, aStack, 0);
+    }
+
+    public static void sendOrder(Class<?> aName, int order) {
+        String name = getOverlayIdentifier(aName);
+        NEIClientConfig.handlerOrdering.put(name, order);
+    }
+
+    public static final Map<Class<?>, String> overlayMap = new HashMap<>();
+
+    public static String getOverlayIdentifier(Class<?> aName) {
+        String overlayName = overlayMap.get(aName);
+        if (overlayName == null) {
+            try {
+                TemplateRecipeHandler t = (TemplateRecipeHandler) aName.getConstructor()
+                    .newInstance();
+                overlayName = t.getOverlayIdentifier();
+                overlayMap.put(aName, overlayName);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return overlayName;
     }
 }

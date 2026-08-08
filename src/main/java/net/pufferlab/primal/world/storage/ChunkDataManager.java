@@ -25,6 +25,7 @@ public class ChunkDataManager {
     }
 
     public static ChunkDataManager getDataManager(World world) {
+        if (world.isRemote) return getClientDataManager();
         return getDataManager(world.provider.dimensionId);
     }
 

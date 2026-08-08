@@ -23,7 +23,6 @@ public class Region {
     public int maxZ;
 
     public RegionProvider provider;
-    public RegionGenerator regionGenerator;
 
     public volatile boolean hasGenerated = false;
 
@@ -36,7 +35,6 @@ public class Region {
 
         this.maxX = this.minX + regionSize - 1;
         this.maxZ = this.minZ + regionSize - 1;
-        this.regionGenerator = new RegionGenerator(world, this, provider);
     }
 
     public static int getRegionCoord(int chunkX) {
@@ -83,7 +81,7 @@ public class Region {
 
     public ChunkNoiseData generateChunk(int x, int z) {
         ChunkNoiseData noiseData = new ChunkNoiseData(x, z);
-        regionGenerator.genNoise(noiseData, x, z);
+        this.provider.generator.genNoise(noiseData, x, z);
 
         return noiseData;
     }
@@ -91,7 +89,7 @@ public class Region {
     public ChunkBlockData generateBlockChunk(ChunkNoiseData noiseData, int x, int z) {
         ChunkBlockData blockData = new ChunkBlockData(world.getSeed(), x, z);
 
-        regionGenerator.genBlocks(blockData, noiseData, x, z);
+        this.provider.generator.genBlocks(blockData, noiseData, x, z);
         return blockData;
     }
 }

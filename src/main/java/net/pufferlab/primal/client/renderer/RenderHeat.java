@@ -8,8 +8,8 @@ import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.client.models.ModelPrimal;
+import net.pufferlab.primal.utils.HashUtils;
 import net.pufferlab.primal.utils.HeatUtils;
-import net.pufferlab.primal.utils.Utils;
 
 import org.lwjgl.opengl.GL11;
 
@@ -31,7 +31,7 @@ public class RenderHeat {
     public static int getHeatingColor(float temperature) {
         int level = HeatUtils.getHeatingLevel((int) temperature);
         if (level == 0) {
-            return Utils.getRGB(255, 255, 255);
+            return HashUtils.getRGB(255, 255, 255);
         }
         float minTemp = 0f;
         float maxTemp = 1200f;
@@ -46,15 +46,15 @@ public class RenderHeat {
         int g = (int) (stops[idx][1] + localT * (stops[idx + 1][1] - stops[idx][1]));
         int b = (int) (stops[idx][2] + localT * (stops[idx + 1][2] - stops[idx][2]));
 
-        return Utils.getRGB(r, g, b);
+        return HashUtils.getRGB(r, g, b);
     }
 
     public void renderHeat(ModelPrimal model, int temperature) {
         int color = getHeatingColor(temperature);
         float intensity = getIntensity(temperature);
-        float r = Utils.getR(color);
-        float g = Utils.getG(color);
-        float b = Utils.getB(color);
+        float r = HashUtils.getR(color);
+        float g = HashUtils.getG(color);
+        float b = HashUtils.getB(color);
 
         GL11.glColor4f(1f, 1f, 1f, 1f);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -101,9 +101,9 @@ public class RenderHeat {
 
         int color = getHeatingColor(temperature);
         float intensity = getIntensity(temperature);
-        float r = Utils.getR(color);
-        float g = Utils.getG(color);
-        float b = Utils.getB(color);
+        float r = HashUtils.getR(color);
+        float g = HashUtils.getG(color);
+        float b = HashUtils.getB(color);
 
         GL11.glPushMatrix();
         GL11.glColor4f(1f, 1f, 1f, 1f);

@@ -15,6 +15,7 @@ public class ChunkNoiseData {
     public int[] heightmap = new int[256];
     public int[] biomes = new int[256];
 
+    public float[] temperature = new float[256];
     public float[] rockiness = new float[256];
     public float[] rainfall = new float[256];
     public float[] vegetation = new float[256];
@@ -52,6 +53,14 @@ public class ChunkNoiseData {
 
     public void setRainfall(int x, int z, float value) {
         this.rainfall[pack2DCoord(x, z)] = value;
+    }
+
+    public float getTemperature(int x, int z) {
+        return temperature[pack2DCoord(x, z)];
+    }
+
+    public void setTemperature(int x, int z, float value) {
+        this.temperature[pack2DCoord(x, z)] = value;
     }
 
     public float getVegetation(int x, int z) {

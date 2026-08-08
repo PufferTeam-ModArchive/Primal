@@ -15,8 +15,9 @@ public class CommandStructure extends CommandSub {
     public static String[] arguments = new String[] { "", "save", "load", "pos1", "pos2" };
 
     @Override
-    public String[] getSubArgs() {
-        return arguments;
+    public String[] getSubArgs(String[] args) {
+        if (args.length == 1) return arguments;
+        return null;
     }
 
     @Override

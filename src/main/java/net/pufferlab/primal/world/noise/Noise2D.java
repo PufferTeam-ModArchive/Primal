@@ -1,7 +1,6 @@
 package net.pufferlab.primal.world.noise;
 
 import net.pufferlab.primal.utils.Mth;
-import net.pufferlab.primal.utils.NoiseUtils;
 
 public interface Noise2D {
 
@@ -97,7 +96,7 @@ public interface Noise2D {
     }
 
     default Noise2D normalize() {
-        return (x, y) -> NoiseUtils.normalize(Noise2D.this.noise(x, y));
+        return (x, y) -> Mth.normalize(Noise2D.this.noise(x, y));
     }
 
     default Noise2D affine(float scale, float shift) {

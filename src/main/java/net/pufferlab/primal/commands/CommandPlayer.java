@@ -1,7 +1,5 @@
 package net.pufferlab.primal.commands;
 
-import java.util.List;
-
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -12,8 +10,10 @@ public class CommandPlayer extends CommandSub {
     public static String[] arguments = new String[] { "", "fly_speed", "walk_speed", "invulnerable" };
 
     @Override
-    public String[] getSubArgs() {
-        return arguments;
+    public String[] getSubArgs(String[] args) {
+        if (args.length == 1) return this.getPlayers();
+        if (args.length == 2) return arguments;
+        return null;
     }
 
     @Override
@@ -38,11 +38,6 @@ public class CommandPlayer extends CommandSub {
             }
 
         }
-    }
-
-    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args) {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, this.getPlayers())
-            : (args.length == 2 ? getListOfStringsMatchingLastWord(args, getSubArgs()) : null);
     }
 
     @Override

@@ -318,26 +318,6 @@ public final class Utils {
         return -1;
     }
 
-    public static int getRGB(int r, int g, int b) {
-        return (r << 16) | (g << 8) | b;
-    }
-
-    public static float getR(int color) {
-        return ((color >> 16) & 0xFF) / 255f;
-    }
-
-    public static float getG(int color) {
-        return ((color >> 8) & 0xFF) / 255f;
-    }
-
-    public static float getB(int color) {
-        return (color & 0xFF) / 255f;
-    }
-
-    public static float getA(int color) {
-        return ((color >> 24) & 0xFF) / 255f;
-    }
-
     public static int[] combineArrays(int[] a, int[] b) {
         int[] result = new int[a.length + b.length];
         System.arraycopy(a, 0, result, 0, a.length);

@@ -181,7 +181,7 @@ public class Constants {
     public static final PlantType tall_grass = new PlantType("tall_grass");
     public static final PlantType fern = new PlantType("fern");
     public static final PlantType large_fern = new PlantType("large_fern");
-
+    public static final PlantType dead_bush = new PlantType("dead_bush");
 
     public static final PlantType[] plantTypesAll = { grass, tall_grass, fern, large_fern };
 

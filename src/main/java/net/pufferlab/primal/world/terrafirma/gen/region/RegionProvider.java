@@ -17,6 +17,9 @@ import net.pufferlab.primal.world.terrafirma.ChunkNoiseData;
 
 public class RegionProvider {
 
+    public World world;
+    public RegionGenerator generator;
+
     public PosMap.Single<Region> regionMap = new PosMap.Single<>();
 
     public PosMap.Single<ChunkBlockData> chunkBlockMap = new PosMap.Single<>();
@@ -31,8 +34,10 @@ public class RegionProvider {
     public static List<RegionProvider> providerList = new ArrayList<>();
     public static boolean limitedExecutor = false;
 
-    public RegionProvider() {
+    public RegionProvider(World world) {
+        this.world = world;
         providerList.add(this);
+        this.generator = new RegionGenerator(world, this);
     }
 
     public static int getThreadAmount() {

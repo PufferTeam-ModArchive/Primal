@@ -9,7 +9,6 @@ import net.pufferlab.primal.world.terrafirma.gen.noise.NoiseTerrain;
 
 public class RegionGenerator {
 
-    public Region region;
     public RegionProvider regionProvider;
 
     public NoiseLayer noiseLayer;
@@ -21,7 +20,7 @@ public class RegionGenerator {
     public VegetationFiller vegetationFiller;
     public VeinFiller veinFiller;
 
-    public RegionGenerator(World world, Region region, RegionProvider regionProvider) {
+    public RegionGenerator(World world, RegionProvider regionProvider) {
         noiseLayer = new NoiseLayer(world);
         noiseTerrain = new NoiseTerrain(world);
         terrainFiller = new TerrainFiller(world);
@@ -30,7 +29,6 @@ public class RegionGenerator {
         veinFiller = new VeinFiller(world);
         vegetationFiller = new VegetationFiller(world);
 
-        this.region = region;
         this.regionProvider = regionProvider;
     }
 

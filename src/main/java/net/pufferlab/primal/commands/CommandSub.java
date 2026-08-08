@@ -21,11 +21,11 @@ public abstract class CommandSub extends CommandBase implements ISubCommand {
 
     @Override
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args) {
-        String[] subArgs = getSubArgs();
+        String[] subArgs = getSubArgs(args);
         if (subArgs == null) {
             return super.addTabCompletionOptions(sender, args);
         }
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, subArgs) : null;
+        return getListOfStringsMatchingLastWord(args, subArgs);
     }
 
     protected String[] getPlayers() {
@@ -33,7 +33,7 @@ public abstract class CommandSub extends CommandBase implements ISubCommand {
             .getAllUsernames();
     }
 
-    public String[] getSubArgs() {
+    public String[] getSubArgs(String[] args) {
         return null;
     }
 }

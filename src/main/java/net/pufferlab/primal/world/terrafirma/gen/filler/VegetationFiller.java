@@ -1,5 +1,7 @@
 package net.pufferlab.primal.world.terrafirma.gen.filler;
 
+import static net.pufferlab.primal.world.terrafirma.gen.noise.NoiseSplines.*;
+
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
@@ -41,25 +43,24 @@ public class VegetationFiller {
                             }
                         }
                         if (vegetation > 0.5F) {
-                            if (data.random.nextFloat() > 0.9F) {
+                            if (data.random.nextFloat() < 0.1F) {
                                 placePlant(data, x, y, z, Constants.tall_grass);
                             }
                         }
-                        if (forestness > 0.6F) {
-                            // Only try 4 times
-                            if (x % 4 == 0 && z % 4 == 0) {
-                                if (data.random.nextFloat() > vegetation) {
-                                    int num = data.random.nextInt(2) + 1;
-                                    // This is really temporary, it just spawns oak tree
-                                    StructureFile.loadStructure(
-                                        "oak_tree_" + num,
-                                        worldX,
-                                        y,
-                                        worldZ,
-                                        world,
-                                        data.random.nextInt(4),
-                                        StructureFile.LoadingPosition.ground);
-                                }
+
+                        if (data.random.nextInt(50) == 0) {
+                            if (data.random.nextFloat() < forestSpline.sample(forestness)) {
+                                int num = data.random.nextInt(2) + 1;
+                                int facing = data.random.nextInt(4);
+
+                                StructureFile.loadStructure(
+                                    "oak_tree_" + num,
+                                    worldX,
+                                    y,
+                                    worldZ,
+                                    world,
+                                    facing,
+                                    StructureFile.LoadingPosition.ground);
                             }
                         }
                     }

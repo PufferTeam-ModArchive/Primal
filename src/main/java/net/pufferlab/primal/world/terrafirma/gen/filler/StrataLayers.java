@@ -16,19 +16,19 @@ import net.pufferlab.primal.world.terrafirma.ChunkNoiseData;
 public class StrataLayers {
 
     public World world;
+    public long seed;
 
     private final NoiseGeneratorPerlin[] noiseLayerGen = new NoiseGeneratorPerlin[5];
-
     private final NoiseGeneratorPerlin[] noiseBiomeGen = new NoiseGeneratorPerlin[5];
 
     public StrataLayers(World world) {
         this.world = world;
-        long seed = world.getSeed();
+        this.seed = world.getSeed();
         for (int i = 0; i < noiseLayerGen.length; i++) {
-            this.noiseLayerGen[i] = new NoiseGeneratorPerlin(new Random(seed + (i * 200L)), 2);
+            noiseLayerGen[i] = new NoiseGeneratorPerlin(new Random(seed + (i * 200L)), 2);
         }
         for (int i = 0; i < noiseBiomeGen.length; i++) {
-            this.noiseBiomeGen[i] = new NoiseGeneratorPerlin(new Random(seed + (i * 100L)), 2);
+            noiseBiomeGen[i] = new NoiseGeneratorPerlin(new Random(seed + (i * 100L)), 2);
         }
     }
 

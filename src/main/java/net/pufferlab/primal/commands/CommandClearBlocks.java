@@ -9,6 +9,14 @@ import net.pufferlab.primal.blocks.BlockMetaOre;
 
 public class CommandClearBlocks extends CommandSub {
 
+    public static String[] arguments = { "", "chunk" };
+
+    @Override
+    public String[] getSubArgs(String[] args) {
+        if (args.length == 1) return arguments;
+        return super.getSubArgs(args);
+    }
+
     @Override
     public void handleCommand(ICommandSender sender, String[] args) {
         World world = sender.getEntityWorld();

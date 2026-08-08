@@ -76,27 +76,40 @@ public class NEICompat implements IConfigureNEI {
         sendHandler(NEIAlloyingHandler.class, getModItem("crucible", 1), 4, 166, 65);
         sendHandler(NEICastingHandler.class, getModItem("ingot_mold", 1), 4, 166, 65);
         sendHandler(NEIAnvilHandler.class, getModItem("iron_anvil", 1), 4, 166, 65);
-        sendCatalyst(Primal.MODID + ".chopping_log", getModItem("chopping_log", 1));
-        sendCatalyst(Primal.MODID + ".barrel", getModItem("barrel", 1));
-        sendCatalyst(Primal.MODID + ".campfire", getModItem("campfire", 1));
-        sendCatalyst(Primal.MODID + ".campfire", getModItem("oven", 1));
-        sendCatalyst(Primal.MODID + ".pit_kiln", getModItem("pit_kiln", 1));
-        sendCatalyst(Primal.MODID + ".tanning", getModItem("tanning_frame", 1));
-        sendCatalyst(Primal.MODID + ".quern", getModItem("quern", 1));
-        sendCatalyst(Primal.MODID + ".quern", getModItem("handstone", 1));
-        sendCatalyst(Primal.MODID + ".melting", getModItem("crucible", 1));
+
+        sendCatalyst(NEIChoppingLogHandler.class, getModItem("chopping_log", 1));
+        sendCatalyst(NEIBarrelHandler.class, getModItem("barrel", 1));
+        sendCatalyst(NEICampfireHandler.class, getModItem("campfire", 1));
+        sendCatalyst(NEICampfireHandler.class, getModItem("oven", 1));
+        sendCatalyst(NEIPitKilnHandler.class, getModItem("pit_kiln", 1));
+        sendCatalyst(NEITanningHandler.class, getModItem("tanning_frame", 1));
+        sendCatalyst(NEIQuernHandler.class, getModItem("quern", 1));
+        sendCatalyst(NEIQuernHandler.class, getModItem("handstone", 1));
+        sendCatalyst(NEIMeltingHandler.class, getModItem("crucible", 1));
         for (MetalType metal : Constants.anvilMetalTypes) {
-            sendCatalyst(Primal.MODID + ".anvil", getModItem(metal.name + "_anvil", 1));
+            sendCatalyst(NEIAnvilHandler.class, getModItem(metal.name + "_anvil", 1));
         }
+
+        sendOrder(NEIChoppingLogHandler.class, 1);
+        sendOrder(NEIKnappingHandler.class, 1);
+        sendOrder(NEIPitKilnHandler.class, 1);
+        sendOrder(NEIBarrelHandler.class, 1);
+        sendOrder(NEICampfireHandler.class, 1);
+        sendOrder(NEIAlloyingHandler.class, 1);
+        sendOrder(NEIAnvilHandler.class, 1);
+        sendOrder(NEICastingHandler.class, 1);
+        sendOrder(NEIMeltingHandler.class, 1);
+        sendOrder(NEIQuernHandler.class, 1);
+        sendOrder(NEITanningHandler.class, 1);
     }
 
-    public static boolean isHovering(PositionedStack stack, GuiRecipe gui, int recipeId) {
+    public static boolean isHovering(PositionedStack stack, GuiRecipe<?> gui, int recipeId) {
         if (stack == null) return false;
 
         return isHovering(stack.relx, stack.rely, gui, recipeId);
     }
 
-    public static boolean isHovering(int relX, int relY, GuiRecipe gui, int recipeId) {
+    public static boolean isHovering(int relX, int relY, GuiRecipe<?> gui, int recipeId) {
         Point mouse = GuiDraw.getMousePosition();
         Point offset = gui.getRecipePosition(recipeId);
 

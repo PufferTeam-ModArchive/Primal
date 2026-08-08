@@ -8,6 +8,10 @@ import com.gtnewhorizons.wdmla.WDMla;
 @Mixin(WDMla.class)
 public class WDMlaFix {
 
+    /**
+     * @author JBT
+     * @reason This fixes crashes in dev environment and stupid ass development tooltips
+     **/
     @Overwrite(remap = false)
     public static boolean isDevEnv() {
         return false;

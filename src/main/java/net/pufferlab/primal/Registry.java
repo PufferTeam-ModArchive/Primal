@@ -760,6 +760,9 @@ public class Registry {
         Constants.dark_oak.setLogBlock(Blocks.log2, 1);
         Constants.grass.setPlantItem(Blocks.tallgrass, 1);
         Constants.tall_grass.setDoublePlantItem(Blocks.double_plant, 2, Blocks.double_plant, 11);
+        Constants.fern.setPlantItem(Blocks.tallgrass, 2);
+        Constants.large_fern.setDoublePlantItem(Blocks.double_plant, 3, Blocks.double_plant, 11);
+        Constants.dead_bush.setPlantItem(Blocks.deadbush, 0);
         if (Mods.tc.isLoaded()) {
             Item shardItem = Mods.tc.getModItem("ItemShard");
             Constants.aer.setOreItem(shardItem, 0);

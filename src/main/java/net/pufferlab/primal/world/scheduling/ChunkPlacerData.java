@@ -1,5 +1,8 @@
 package net.pufferlab.primal.world.scheduling;
 
+import java.util.Map;
+import java.util.WeakHashMap;
+
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -109,15 +112,25 @@ public class ChunkPlacerData extends WorldSavedData {
         }
     }
 
+    private static final Map<World, ChunkPlacerData> CACHE = new WeakHashMap<>();
+
     public static ChunkPlacerData get(World world) {
-        ChunkPlacerData data = (ChunkPlacerData) world.loadItemData(ChunkPlacerData.class, name);
+        synchronized (CACHE) {
+            ChunkPlacerData data = CACHE.get(world);
 
-        if (data == null) {
-            data = new ChunkPlacerData(name);
-            world.setItemData(name, data);
+            if (data == null) {
+                data = (ChunkPlacerData) world.loadItemData(ChunkPlacerData.class, name);
+
+                if (data == null) {
+                    data = new ChunkPlacerData(name);
+                    world.setItemData(name, data);
+                }
+
+                CACHE.put(world, data);
+            }
+
+            return data;
         }
-
-        return data;
     }
 
 }

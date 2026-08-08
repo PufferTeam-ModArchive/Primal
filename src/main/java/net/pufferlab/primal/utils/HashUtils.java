@@ -90,4 +90,24 @@ public class HashUtils {
     public static int angleHashCode(float value) {
         return (int) (value * floatScale);
     }
+
+    public static int getRGB(int r, int g, int b) {
+        return (r << 16) | (g << 8) | b;
+    }
+
+    public static float getR(int color) {
+        return ((color >> 16) & 0xFF) / 255f;
+    }
+
+    public static float getG(int color) {
+        return ((color >> 8) & 0xFF) / 255f;
+    }
+
+    public static float getB(int color) {
+        return (color & 0xFF) / 255f;
+    }
+
+    public static float getA(int color) {
+        return ((color >> 24) & 0xFF) / 255f;
+    }
 }

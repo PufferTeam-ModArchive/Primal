@@ -1,6 +1,7 @@
 package net.pufferlab.primal.world;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -168,6 +169,14 @@ public class ChunkBlockStorage {
 
                     block = primalBlock.blockToReplace(existingBlock, existingMeta);
                     meta = primalBlock.metaToReplace(existingBlock, existingMeta);
+                }
+                if (block.getMaterial()
+                    .isReplaceable() || block.getMaterial() == Material.plants) {
+                    Block existingBlock = storage.getBlockByExtId(x, y, z);
+                    if (!existingBlock.getMaterial()
+                        .isReplaceable()) {
+                        continue;
+                    }
                 }
 
                 storage.func_150818_a(x, y, z, block);

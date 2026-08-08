@@ -20,7 +20,7 @@ public class ChunkProviderTF implements IChunkProvider {
 
     public ChunkProviderTF(World world) {
         this.worldObj = world;
-        this.regionProvider = new RegionProvider();
+        this.regionProvider = new RegionProvider(world);
     }
 
     @Override

@@ -1,8 +1,10 @@
 package net.pufferlab.primal.world.terrafirma.gen.noise;
 
+import static net.pufferlab.primal.world.terrafirma.gen.noise.NoiseSplines.*;
+
 import net.minecraft.world.World;
 import net.pufferlab.primal.Config;
-import net.pufferlab.primal.utils.NoiseUtils;
+import net.pufferlab.primal.utils.Mth;
 import net.pufferlab.primal.world.noise.Noise2D;
 import net.pufferlab.primal.world.noise.OpenSimplex2D;
 import net.pufferlab.primal.world.noise.Perlin2D;
@@ -11,36 +13,45 @@ import net.pufferlab.primal.world.terrafirma.ChunkNoiseData;
 
 public class NoiseTerrain {
 
+    public long seed;
+
     public Noise2D terrainNoise;
     public Noise2D hillNoise;
-    public Noise2D detailSmallNoise;
-    public Noise2D continentNoise;
+    public Noise2D detailNoise;
 
-    public static float[][] hillSpline = { { 0.1F, 0.00001F }, { 0.2F, 0.00032F }, { 0.3F, 0.00243F },
-        { 0.4F, 0.01024F }, { 0.5F, 0.03125F }, { 0.6F, 0.07776F }, { 0.65F, 0.116029F }, { 0.7F, 0.16807F },
-        { 0.75F, 0.237305F }, { 0.8F, 0.32768F }, { 0.85F, 0.47715F }, { 0.9F, 0.531441F }, { 1.0F, 0.7F }, };
+    public Noise2D continentalnessNoise;
+    public Noise2D erosionNoise;
+    public Noise2D peaksvalleysNoise;
 
     public NoiseTerrain(World world) {
-        long seed = world.getSeed();
+        this.seed = world.getSeed();
 
         terrainNoise = new OpenSimplex2D(seed).spread(0.01F)
             .octaves(3)
             .product(
                 new Perlin2D(seed + 10).spread(0.004F)
                     .normalize()
-                    .map(x -> { return NoiseUtils.fastpow(x, 2); }))
+                    .map(x -> { return Mth.fastpow(x, 2); }))
             .normalize();
 
         hillNoise = new OpenSimplex2D(seed + 4).spread(0.006F)
             .octaves(3)
             .normalize();
 
-        continentNoise = new OpenSimplex2D(seed + 12).spread(0.002F)
-            .normalize()
-            .map(x -> { return NoiseUtils.fastpow(x, 6); });
-
-        detailSmallNoise = new Perlin2D(seed + 20).spread(0.05F)
+        detailNoise = new Perlin2D(seed + 20).spread(0.05F)
             .octaves(3);
+
+        continentalnessNoise = new OpenSimplex2D(seed + 100).spread(0.002F)
+            .octaves(3)
+            .normalize();
+
+        erosionNoise = new OpenSimplex2D(seed + 200).spread(0.004F)
+            .octaves(3)
+            .normalize();
+
+        peaksvalleysNoise = new OpenSimplex2D(seed + 300).spread(0.008F)
+            .octaves(3)
+            .normalize();
     }
 
     public void genTerrain(ChunkNoiseData data, int chunkX, int chunkZ) {
@@ -49,20 +60,29 @@ public class NoiseTerrain {
                 int worldX = (chunkX << 4) + x;
                 int worldZ = (chunkZ << 4) + z;
 
-                float height = 100.0F;
+                float value = 105.0F;
 
-                height -= continentNoise.noise(worldX, worldZ) * 30.0F;
-                float hill = hillNoise.noise(worldX, worldZ);
-                height += (NoiseUtils.sample(hillSpline, hill) + 0.1F) * 65.0F;
+                float continentValue = continentalnessSpline.sample(continentalnessNoise.noise(worldX, worldZ));
 
-                height += detailSmallNoise.noise(worldX, worldZ) * 3.0F;
+                float erosionValue = erosionSpline.sample(erosionNoise.noise(worldX, worldZ));
+
+                float peaksValue = peaksvalleysSpline.sample(peaksvalleysNoise.noise(worldX, worldZ));
 
                 float terrain = terrainNoise.noise(worldX, worldZ);
 
-                height += terrain * 80.0F;
+                float hill = (hillSpline.sample(hillNoise.noise(worldX, worldZ)) + 0.1F);
 
-                data.setHeight(x, z, (int) height);
-                if (height < Config.seaLevelTF.getInt()) {
+                float detail = detailNoise.noise(worldX, worldZ);
+
+                value -= continentValue * 45.0F;
+                value -= erosionValue * 20.0F;
+                value += peaksValue * 40.0F;
+                value += terrain * 30.0F;
+                value += hill * 65.0F;
+                value += detail * 3.0F;
+
+                data.setHeight(x, z, (int) value);
+                if (value < Config.seaLevelTF.getInt()) {
                     data.setBiome(x, z, BiomesTF.ocean);
                 }
             }

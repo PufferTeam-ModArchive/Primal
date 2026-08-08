@@ -60,6 +60,14 @@ public class ChunkDataTF extends ChunkSavedData {
         noiseData.setRainfall(x, z, value);
     }
 
+    public float getTemperature(int x, int z) {
+        return noiseData.getTemperature(x, z);
+    }
+
+    public void setTemperature(int x, int z, float value) {
+        noiseData.setTemperature(x, z, value);
+    }
+
     public float getVegetation(int x, int z) {
         return noiseData.getVegetation(x, z);
     }
@@ -88,6 +96,9 @@ public class ChunkDataTF extends ChunkSavedData {
         int[] rainfallInt = nbt.getIntArray("rainfall");
         noiseData.rainfall = getFloatArray(rainfallInt);
 
+        int[] temperatureInt = nbt.getIntArray("temperature");
+        noiseData.temperature = getFloatArray(temperatureInt);
+
         int[] vegetationInt = nbt.getIntArray("vegetation");
         noiseData.vegetation = getFloatArray(vegetationInt);
     }
@@ -99,6 +110,9 @@ public class ChunkDataTF extends ChunkSavedData {
 
         int[] rainfallInt = IOUtils.readIntArray(buf);
         noiseData.rainfall = getFloatArray(rainfallInt);
+
+        int[] temperatureInt = IOUtils.readIntArray(buf);
+        noiseData.temperature = getFloatArray(temperatureInt);
 
         int[] vegetationInt = IOUtils.readIntArray(buf);
         noiseData.vegetation = getFloatArray(vegetationInt);
@@ -116,6 +130,9 @@ public class ChunkDataTF extends ChunkSavedData {
         int[] rainfallInt = getIntArray(noiseData.rainfall);
         nbt.setIntArray("rainfall", rainfallInt);
 
+        int[] temperatureInt = getIntArray(noiseData.temperature);
+        nbt.setIntArray("temperature", temperatureInt);
+
         int[] vegetationInt = getIntArray(noiseData.vegetation);
         nbt.setIntArray("vegetation", vegetationInt);
     }
@@ -127,6 +144,9 @@ public class ChunkDataTF extends ChunkSavedData {
 
         int[] rainfallInt = getIntArray(noiseData.rainfall);
         IOUtils.writeIntArray(buf, rainfallInt);
+
+        int[] temperatureInt = getIntArray(noiseData.temperature);
+        IOUtils.writeIntArray(buf, temperatureInt);
 
         int[] vegetationInt = getIntArray(noiseData.vegetation);
         IOUtils.writeIntArray(buf, vegetationInt);

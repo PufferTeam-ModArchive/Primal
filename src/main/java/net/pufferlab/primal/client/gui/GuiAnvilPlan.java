@@ -11,7 +11,7 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.inventory.ContainerAnvilPlan;
 import net.pufferlab.primal.inventory.SlotPlan;
 import net.pufferlab.primal.tileentities.TileEntityAnvil;
-import net.pufferlab.primal.utils.Utils;
+import net.pufferlab.primal.utils.HashUtils;
 
 public class GuiAnvilPlan extends GuiContainerPrimal {
 
@@ -68,8 +68,11 @@ public class GuiAnvilPlan extends GuiContainerPrimal {
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         String s = I18n.format("gui." + Primal.MODID + ".anvil.plans.name");
-        this.fontRendererObj
-            .drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 4, Utils.getRGB(255, 255, 255));
+        this.fontRendererObj.drawString(
+            s,
+            this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2,
+            4,
+            HashUtils.getRGB(255, 255, 255));
     }
 
     @Override

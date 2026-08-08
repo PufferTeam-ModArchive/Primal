@@ -12,7 +12,7 @@ import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.fluids.Fluid;
 import net.pufferlab.primal.items.ItemBucketMeta;
-import net.pufferlab.primal.utils.Utils;
+import net.pufferlab.primal.utils.HashUtils;
 
 import org.lwjgl.opengl.GL11;
 
@@ -87,9 +87,9 @@ public class RenderContainer {
             return;
         }
 
-        float r = Utils.getR(color);
-        float g = Utils.getG(color);
-        float b = Utils.getB(color);
+        float r = HashUtils.getR(color);
+        float g = HashUtils.getG(color);
+        float b = HashUtils.getB(color);
         GL11.glColor4f(r, g, b, 1.0F);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
