@@ -4,6 +4,8 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import net.pufferlab.primal.world.terrafirma.gen.noise.NoiseSplines;
+
 public class SplinePreview extends JPanel {
 
     public int minX = 10;
@@ -62,7 +64,8 @@ public class SplinePreview extends JPanel {
     }
 
     public static void main(String[] args) {
-        // render(spline);
+        Spline spline = NoiseSplines.continentalnessSpline;
+        render(spline);
     }
 
     public static void render(Spline spline) {

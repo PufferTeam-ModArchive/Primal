@@ -366,6 +366,9 @@ public enum Config {
                     .getStringList(config.name, config.category, config.slDefault, config.comment);
             }
         }
+        for (Module module : Module.values()) {
+            configuration.setCategoryComment(module.name, module.comment);
+        }
         if (configuration.hasChanged()) {
             configuration.save();
         }

@@ -16,7 +16,7 @@ import cpw.mods.fml.client.config.IConfigElement;
 public class GuiConfigPrimal extends GuiConfig {
 
     public GuiConfigPrimal(GuiScreen parent) {
-        super(parent, getConfigElements(), Primal.MODID, false, true, Primal.MODID + ".cfg");
+        super(parent, getConfigElements(), Primal.MODID, false, false, Primal.MODID + ".cfg");
     }
 
     @SuppressWarnings("rawtypes")
@@ -28,7 +28,6 @@ public class GuiConfigPrimal extends GuiConfig {
             if (module.isMainModule) {
                 String name = module.name;
                 ConfigCategory category = cfg.getCategory(name);
-                category.setComment(module.comment);
                 config.add(new ConfigElement(category));
             }
         }
