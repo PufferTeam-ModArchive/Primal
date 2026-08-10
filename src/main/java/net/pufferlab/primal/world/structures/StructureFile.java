@@ -106,7 +106,7 @@ public class StructureFile {
             if (file != null) {
                 currentNBT = IOUtils.readNBTFile(file);
             } else {
-                currentNBT = IOUtils.readNBTFile("/data/" + this.name + ".nbt");
+                currentNBT = IOUtils.readNBTFile("/data/structures/" + this.name + ".nbt");
             }
             this.name = currentNBT.getString("name");
             this.height = currentNBT.getInteger("height");

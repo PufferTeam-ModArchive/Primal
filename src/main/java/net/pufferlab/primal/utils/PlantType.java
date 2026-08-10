@@ -46,7 +46,7 @@ public class PlantType implements IPrimalType {
     }
 
     public boolean getChance(Random random) {
-        if (random.nextFloat() < this.rarity * 10) {
+        if (random.nextFloat() < this.rarity) {
             return true;
         }
         return false;

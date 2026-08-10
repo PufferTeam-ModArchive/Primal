@@ -56,7 +56,7 @@ public class SoilFiller {
                     if (rainfall < 0.3F && temperature < 0.4F) {
                         blockTop = Blocks.snow_layer;
                     }
-                    if (elevationValue > 0.65F) {
+                    if (elevationValue > 0.65F + (detail * 0.05F)) {
                         block = Blocks.gravel;
                     }
 

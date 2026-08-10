@@ -16,6 +16,7 @@ public class NoiseTerrain {
     public long seed;
 
     public Noise2D terrainNoise;
+    public Noise2D mountainous;
     public Noise2D hillNoise;
     public Noise2D detailNoise;
 
@@ -34,24 +35,28 @@ public class NoiseTerrain {
                     .map(x -> { return Mth.fastpow(x, 2); }))
             .normalize();
 
-        hillNoise = new OpenSimplex2D(seed + 4).spread(0.006F)
+        hillNoise = new OpenSimplex2D(seed + 4).spread(0.004F)
             .octaves(3)
-            .normalize();
+            .normalize()
+            .map(hillSpline::sample);
 
         detailNoise = new Perlin2D(seed + 20).spread(0.05F)
             .octaves(3);
 
         continentalnessNoise = new OpenSimplex2D(seed + 100).spread(0.002F)
             .octaves(3)
-            .normalize();
+            .normalize()
+            .map(continentalnessSpline::sample);
 
         erosionNoise = new OpenSimplex2D(seed + 200).spread(0.004F)
             .octaves(3)
-            .normalize();
+            .normalize()
+            .map(erosionSpline::sample);
 
         peaksvalleysNoise = new OpenSimplex2D(seed + 300).spread(0.008F)
             .octaves(3)
-            .normalize();
+            .normalize()
+            .map(peaksvalleysSpline::sample);
     }
 
     public void genTerrain(ChunkNoiseData data, int chunkX, int chunkZ) {
@@ -60,17 +65,17 @@ public class NoiseTerrain {
                 int worldX = (chunkX << 4) + x;
                 int worldZ = (chunkZ << 4) + z;
 
-                float value = 105.0F;
+                float value = 110.0F;
 
-                float continentValue = continentalnessSpline.sample(continentalnessNoise.noise(worldX, worldZ));
+                float continentValue = continentalnessNoise.noise(worldX, worldZ);
 
-                float erosionValue = erosionSpline.sample(erosionNoise.noise(worldX, worldZ));
+                float erosionValue = erosionNoise.noise(worldX, worldZ);
 
-                float peaksValue = peaksvalleysSpline.sample(peaksvalleysNoise.noise(worldX, worldZ));
+                float peaksValue = peaksvalleysNoise.noise(worldX, worldZ);
 
                 float terrain = terrainNoise.noise(worldX, worldZ);
 
-                float hill = (hillSpline.sample(hillNoise.noise(worldX, worldZ)) + 0.1F);
+                float hill = hillNoise.noise(worldX, worldZ);
 
                 float detail = detailNoise.noise(worldX, worldZ);
 
@@ -78,7 +83,7 @@ public class NoiseTerrain {
                 value -= erosionValue * 20.0F;
                 value += peaksValue * 40.0F;
                 value += terrain * 30.0F;
-                value += hill * 65.0F;
+                value += hill * 75.0F;
                 value += detail * 3.0F;
 
                 data.setHeight(x, z, (int) value);

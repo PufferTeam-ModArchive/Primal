@@ -120,15 +120,15 @@ public class Constants {
     public static final OreType lignite_coal        = new OreType("lignite_coal", 0);
     public static final OreType[] coalOreTypes      = {anthracite_coal, bituminous_coal, lignite_coal};
 
-    public static final OreType diamond = new OreType("diamond", 2).hasNoGem();
-    public static final OreType emerald = new OreType("emerald", 2).hasNoGem();
-    public static final OreType amethyst = new OreType("amethyst", 2);
-    public static final OreType lapis_lazuli = new OreType("lapis_lazuli", 2).hasNoGem();
-    public static final OreType opal = new OreType("opal", 2);
-    public static final OreType ruby = new OreType("ruby", 2);
-    public static final OreType sapphire = new OreType("sapphire", 2);
-    public static final OreType topaz = new OreType("topaz", 2);
-    public static final OreType amber = new OreType("amber", 2);
+    public static final OreType diamond =           new OreType("diamond", 2).hasNoGem();
+    public static final OreType emerald =           new OreType("emerald", 2).hasNoGem();
+    public static final OreType amethyst =          new OreType("amethyst", 2);
+    public static final OreType lapis_lazuli =      new OreType("lapis_lazuli", 2).hasNoGem();
+    public static final OreType opal =              new OreType("opal", 2);
+    public static final OreType ruby =              new OreType("ruby", 2);
+    public static final OreType sapphire =          new OreType("sapphire", 2);
+    public static final OreType topaz =             new OreType("topaz", 2);
+    public static final OreType amber =             new OreType("amber", 2);
     public static final OreType[] gemOreTypes      = {diamond, emerald, lapis_lazuli, amethyst, opal, ruby, sapphire, topaz, amber};
 
     //Mod Compat
@@ -194,102 +194,102 @@ public class Constants {
 
     public static final PlantType[] plantType1 = { dry_grass, snowy_grass };
 
-    public static final PlantType dandelion     = new PlantType("dandelion",     false, false, 0.02F, 0.35F, 0.65F, 0.40F, 0.70F);
+    public static final PlantType dandelion     = new PlantType("dandelion",     false, false, 0.2F, 0.35F, 0.65F, 0.40F, 0.70F);
 
-    public static final PlantType poppy         = new PlantType("poppy",         false, false, 0.02F, 0.35F, 0.70F, 0.30F, 0.65F);
-    public static final PlantType blue_orchid   = new PlantType("blue_orchid",   false, false, 0.015F, 0.55F, 0.85F, 0.65F, 1.00F);
-    public static final PlantType allium        = new PlantType("allium",        false, false, 0.012F, 0.40F, 0.70F, 0.30F, 0.60F);
-    public static final PlantType azure_bluet   = new PlantType("azure_bluet",   false, false, 0.02F, 0.35F, 0.65F, 0.40F, 0.75F);
+    public static final PlantType poppy         = new PlantType("poppy",         false, false, 0.2F, 0.35F, 0.70F, 0.30F, 0.65F);
+    public static final PlantType blue_orchid   = new PlantType("blue_orchid",   false, false, 0.15F, 0.55F, 0.85F, 0.65F, 1.00F);
+    public static final PlantType allium        = new PlantType("allium",        false, false, 0.12F, 0.40F, 0.70F, 0.30F, 0.60F);
+    public static final PlantType azure_bluet   = new PlantType("azure_bluet",   false, false, 0.2F, 0.35F, 0.65F, 0.40F, 0.75F);
 
-    public static final PlantType red_tulip     = new PlantType("red_tulip",     false, false, 0.012F, 0.35F, 0.65F, 0.30F, 0.65F);
-    public static final PlantType orange_tulip  = new PlantType("orange_tulip",  false, false, 0.012F, 0.35F, 0.65F, 0.30F, 0.65F);
-    public static final PlantType white_tulip   = new PlantType("white_tulip",   false, false, 0.012F, 0.35F, 0.65F, 0.30F, 0.65F);
-    public static final PlantType pink_tulip    = new PlantType("pink_tulip",    false, false, 0.012F, 0.35F, 0.65F, 0.30F, 0.65F);
+    public static final PlantType red_tulip     = new PlantType("red_tulip",     false, false, 0.12F, 0.35F, 0.65F, 0.30F, 0.65F);
+    public static final PlantType orange_tulip  = new PlantType("orange_tulip",  false, false, 0.12F, 0.35F, 0.65F, 0.30F, 0.65F);
+    public static final PlantType white_tulip   = new PlantType("white_tulip",   false, false, 0.12F, 0.35F, 0.65F, 0.30F, 0.65F);
+    public static final PlantType pink_tulip    = new PlantType("pink_tulip",    false, false, 0.12F, 0.35F, 0.65F, 0.30F, 0.65F);
 
-    public static final PlantType oxeye_daisy   = new PlantType("oxeye_daisy",   false, false, 0.02F, 0.30F, 0.65F, 0.35F, 0.70F);
+    public static final PlantType oxeye_daisy   = new PlantType("oxeye_daisy",   false, false, 0.2F, 0.30F, 0.65F, 0.35F, 0.70F);
 
-    public static final PlantType lilac         = new PlantType("lilac",         false, false, 0.008F, 0.30F, 0.70F, 0.40F, 0.75F);
-    public static final PlantType fern          = new PlantType("fern",          false, false, 0.025F, 0.25F, 0.65F, 0.60F, 1.00F);
-    public static final PlantType large_fern    = new PlantType("large_fern",    false, false, 0.012F, 0.20F, 0.65F, 0.65F, 1.00F);
+    public static final PlantType lilac         = new PlantType("lilac",         false, false, 0.08F, 0.30F, 0.70F, 0.40F, 0.75F);
+    public static final PlantType fern          = new PlantType("fern",          false, false, 0.25F, 0.25F, 0.65F, 0.60F, 1.00F);
+    public static final PlantType large_fern    = new PlantType("large_fern",    false, false, 0.12F, 0.20F, 0.65F, 0.65F, 1.00F);
 
-    public static final PlantType rose_bush     = new PlantType("rose_bush",     false, false, 0.008F, 0.40F, 0.75F, 0.35F, 0.70F);
-    public static final PlantType peony         = new PlantType("peony",         false, false, 0.008F, 0.35F, 0.70F, 0.45F, 0.80F);
-    public static final PlantType sunflower     = new PlantType("sunflower",     false, false, 0.006F, 0.55F, 0.90F, 0.25F, 0.60F);
+    public static final PlantType rose_bush     = new PlantType("rose_bush",     false, false, 0.08F, 0.40F, 0.75F, 0.35F, 0.70F);
+    public static final PlantType peony         = new PlantType("peony",         false, false, 0.08F, 0.35F, 0.70F, 0.45F, 0.80F);
+    public static final PlantType sunflower     = new PlantType("sunflower",     false, false, 0.06F, 0.55F, 0.90F, 0.25F, 0.60F);
     public static final PlantType[] plantTypeSpawnable = {dandelion, poppy, blue_orchid, allium, azure_bluet, red_tulip, orange_tulip, white_tulip, pink_tulip, oxeye_daisy, lilac, fern, large_fern, rose_bush, peony, sunflower};
 
     // Food
-    public static final FoodType blueberry = new FoodType("blueberry", 1, 0.6F);
-    public static final FoodType strawberry = new FoodType("strawberry", 1, 0.6F);
-    public static final FoodType blackberry = new FoodType("blackberry", 1, 0.6F);
-    public static final FoodType onion = new FoodType("onion", 2, 0.6F);
-    public static final FoodType tomato = new FoodType("tomato", 2, 0.6F);
-    public static final FoodType cabbage = new FoodType("cabbage", 2, 0.6F);
-    public static final FoodType carrot = new FoodType("carrot", 2, 0.6F);
-    public static final FoodType potato = new FoodType("potato", 2, 0.6F);
-    public static final FoodType garlic = new FoodType("garlic", 2, 0.6F);
-    public static final FoodType corn = new FoodType("corn", 2, 0.6F);
+    public static final FoodType blueberry =    new FoodType("blueberry", 1, 0.6F);
+    public static final FoodType strawberry =   new FoodType("strawberry", 1, 0.6F);
+    public static final FoodType blackberry =   new FoodType("blackberry", 1, 0.6F);
+    public static final FoodType onion =        new FoodType("onion", 2, 0.6F);
+    public static final FoodType tomato =       new FoodType("tomato", 2, 0.6F);
+    public static final FoodType cabbage =      new FoodType("cabbage", 2, 0.6F);
+    public static final FoodType carrot =       new FoodType("carrot", 2, 0.6F);
+    public static final FoodType potato =       new FoodType("potato", 2, 0.6F);
+    public static final FoodType garlic =       new FoodType("garlic", 2, 0.6F);
+    public static final FoodType corn =         new FoodType("corn", 2, 0.6F);
 
-    public static final FoodType wheat = new FoodType("wheat");
-    public static final FoodType oat = new FoodType("oat");
-    public static final FoodType barley = new FoodType("barley");
-    public static final FoodType rye = new FoodType("rye");
-    public static final FoodType flax = new FoodType("flax");
-    public static final FoodType jute = new FoodType("jute");
-    public static final FoodType cotton = new FoodType("cotton");
-    public static final FoodType sugar_cane = new FoodType("sugarcane");
+    public static final FoodType wheat =        new FoodType("wheat");
+    public static final FoodType oat =          new FoodType("oat");
+    public static final FoodType barley =       new FoodType("barley");
+    public static final FoodType rye =          new FoodType("rye");
+    public static final FoodType flax =         new FoodType("flax");
+    public static final FoodType jute =         new FoodType("jute");
+    public static final FoodType cotton =       new FoodType("cotton");
+    public static final FoodType sugar_cane =   new FoodType("sugarcane");
 
-    public static final FoodType wheat_flour = new FoodType("wheat_flour", 1, 0.5F, false, null, effectHunger, 20, 1.0F);
-    public static final FoodType oat_flour = new FoodType("oat_flour", 1, 0.5F, false, null, effectHunger, 20, 1.0F);
+    public static final FoodType wheat_flour =  new FoodType("wheat_flour", 1, 0.5F, false, null, effectHunger, 20, 1.0F);
+    public static final FoodType oat_flour =    new FoodType("oat_flour", 1, 0.5F, false, null, effectHunger, 20, 1.0F);
     public static final FoodType barley_flour = new FoodType("barley_flour", 1, 0.5F, false, null, effectHunger, 20, 1.0F);
-    public static final FoodType rye_flour = new FoodType("rye_flour", 1, 0.5F, false, null, effectHunger, 20, 1.0F);
+    public static final FoodType rye_flour =    new FoodType("rye_flour", 1, 0.5F, false, null, effectHunger, 20, 1.0F);
 
-    public static final FoodType wheat_dough = new FoodType("wheat_dough", 1, 0.5F, false, null, effectHunger, 20, 1.0F);
-    public static final FoodType oat_dough = new FoodType("oat_dough", 1, 0.5F, false, null, effectHunger, 20, 1.0F);
+    public static final FoodType wheat_dough =  new FoodType("wheat_dough", 1, 0.5F, false, null, effectHunger, 20, 1.0F);
+    public static final FoodType oat_dough =    new FoodType("oat_dough", 1, 0.5F, false, null, effectHunger, 20, 1.0F);
     public static final FoodType barley_dough = new FoodType("barley_dough", 1, 0.5F, false, null, effectHunger, 20, 1.0F);
-    public static final FoodType rye_dough = new FoodType("rye_dough", 1, 0.5F, false, null, effectHunger, 20, 1.0F);
+    public static final FoodType rye_dough =    new FoodType("rye_dough", 1, 0.5F, false, null, effectHunger, 20, 1.0F);
 
-    public static final FoodType wheat_bread = new FoodType("wheat_bread", 5, 0.6F).hasNoFoodItem();
-    public static final FoodType oat_bread = new FoodType("oat_bread", 5, 0.6F);
+    public static final FoodType wheat_bread =  new FoodType("wheat_bread", 5, 0.6F).hasNoFoodItem();
+    public static final FoodType oat_bread =    new FoodType("oat_bread", 5, 0.6F);
     public static final FoodType barley_bread = new FoodType("barley_bread", 5, 0.6F);
-    public static final FoodType rye_bread = new FoodType("rye_bread", 5, 0.6F);
+    public static final FoodType rye_bread =    new FoodType("rye_bread", 5, 0.6F);
     public static final FoodType[] flourItems       = {wheat_flour, oat_flour, barley_flour, rye_flour};
     public static final FoodType[] doughItems       = {wheat_dough, oat_dough, barley_dough, rye_dough };
     public static final FoodType[] breadItems       = {wheat_bread, oat_bread, barley_bread, rye_bread};
-    public static final CropType blueberry_crop = new CropType(blueberry, "blueberry", 2, 3, 6, 'N', 0.15f, 1.20f, crossedModel);
-    public static final CropType strawberry_crop = new CropType(strawberry, "strawberry", 2, 3, 6, 'P', 0.35f, 1.20f, crossedModel);
-    public static final CropType blackberry_crop = new CropType(blackberry, "blackberry", 2, 3, 6, 'P', 0.35f, 1.20f, crossedModel);
+    public static final CropType blueberry_crop =   new CropType(blueberry, "blueberry", 2, 3, 6, 'N', 0.15f, 1.20f, crossedModel);
+    public static final CropType strawberry_crop =  new CropType(strawberry, "strawberry", 2, 3, 6, 'P', 0.35f, 1.20f, crossedModel);
+    public static final CropType blackberry_crop =  new CropType(blackberry, "blackberry", 2, 3, 6, 'P', 0.35f, 1.20f, crossedModel);
 
-    public static final CropType onion_crop = new CropType(onion, "onion", 7, 1, 3, 'P', 0.35f, 1.85f, crossedModel);
-    public static final CropType tomatoes_crop = new CropType(tomato, "tomatoes", 8, 1, 3, 'P', 0.35f, 1.85f, crossedModel32);
-    public static final CropType cabbages_crop = new CropType(cabbage, "cabbages", 6, 1, 3, 'N', 0.40f, 1.50f, crossedModel);
+    public static final CropType onion_crop =       new CropType(onion, "onion", 7, 1, 3, 'P', 0.35f, 1.85f, crossedModel);
+    public static final CropType tomatoes_crop =    new CropType(tomato, "tomatoes", 8, 1, 3, 'P', 0.35f, 1.85f, crossedModel32);
+    public static final CropType cabbages_crop =    new CropType(cabbage, "cabbages", 6, 1, 3, 'N', 0.40f, 1.50f, crossedModel);
 
-    public static final CropType carrots_crop = new CropType(carrot, "carrots", 5, 1, 3, 'K', 0.40f, 1.20f, cropModel).hasNoCropItem();
-    public static final CropType potatoes_crop = new CropType(potato, "potatoes", 7, 1, 3, 'K', 0.50f, 1.20f, cropModel).hasNoCropItem();
-    public static final CropType garlic_crop = new CropType(garlic, "garlic", 5, 1, 3, 'P', 0.35f, 1.20f, crossedModel);
+    public static final CropType carrots_crop =     new CropType(carrot, "carrots", 5, 1, 3, 'K', 0.40f, 1.20f, cropModel).hasNoCropItem();
+    public static final CropType potatoes_crop =    new CropType(potato, "potatoes", 7, 1, 3, 'K', 0.50f, 1.20f, cropModel).hasNoCropItem();
+    public static final CropType garlic_crop =      new CropType(garlic, "garlic", 5, 1, 3, 'P', 0.35f, 1.20f, crossedModel);
 
-    public static final CropType corn_crop = new CropType(corn, "corn", 5, 1, 3, 'N', 0.40f, 1.25f, cropModel32);
+    public static final CropType corn_crop =        new CropType(corn, "corn", 5, 1, 3, 'N', 0.40f, 1.25f, cropModel32);
 
-    public static final CropType wheat_crop = new CropType(wheat, "wheat", 8, 1, 3, 'N', 0.40f, 2.00f, cropModel).hasNoCropFood().hasNoCropItem().hasNoSeedItem();
-    public static final CropType oat_crop = new CropType(oat, "oat", 8, 1, 3, 'N', 0.40f, 2.00f, cropModel).hasNoCropFood();
-    public static final CropType barley_crop = new CropType(barley, "barley", 8, 1, 3, 'N', 0.40f, 2.00f, cropModel).hasNoCropFood();
-    public static final CropType rye_crop = new CropType(rye, "rye", 8, 1, 3, 'N', 0.40f, 2.00f, cropModel).hasNoCropFood();
+    public static final CropType wheat_crop =       new CropType(wheat, "wheat", 8, 1, 3, 'N', 0.40f, 2.00f, cropModel).hasNoCropFood().hasNoCropItem().hasNoSeedItem();
+    public static final CropType oat_crop =         new CropType(oat, "oat", 8, 1, 3, 'N', 0.40f, 2.00f, cropModel).hasNoCropFood();
+    public static final CropType barley_crop =      new CropType(barley, "barley", 8, 1, 3, 'N', 0.40f, 2.00f, cropModel).hasNoCropFood();
+    public static final CropType rye_crop =         new CropType(rye, "rye", 8, 1, 3, 'N', 0.40f, 2.00f, cropModel).hasNoCropFood();
 
-    public static final CropType flax_crop = new CropType(flax, "flax", 6, 1, 3, 'K', 0.50f, 2.00f, cropModel32).hasNoCropFood();
-    public static final CropType jute_crop = new CropType(jute, "jute", 6, 1, 3, 'P', 0.45f, 2.50f, cropModel32).hasNoCropFood();
-    public static final CropType cotton_crop = new CropType(cotton, "cotton", 6, 1, 3, 'P', 0.20f, 2.20f, crossedModel32).hasNoCropFood();
+    public static final CropType flax_crop =        new CropType(flax, "flax", 6, 1, 3, 'K', 0.50f, 2.00f, cropModel32).hasNoCropFood();
+    public static final CropType jute_crop =        new CropType(jute, "jute", 6, 1, 3, 'P', 0.45f, 2.50f, cropModel32).hasNoCropFood();
+    public static final CropType cotton_crop =      new CropType(cotton, "cotton", 6, 1, 3, 'P', 0.20f, 2.20f, crossedModel32).hasNoCropFood();
 
     public static final CropType sugar_canes_crop = new CropType(sugar_cane, "sugarcanes", 8, 1, 3, 'K', 0.50f, 2.25f, crossedModel32).hasNoCropFood();
 
-    public static final CropType[] crops = {wheat_crop, oat_crop, barley_crop, rye_crop, flax_crop, jute_crop, cotton_crop, sugar_canes_crop, onion_crop, tomatoes_crop, cabbages_crop, carrots_crop, potatoes_crop, garlic_crop, corn_crop};
-    public static final CropType[] berries = {blueberry_crop, strawberry_crop, blackberry_crop};
-    public static final FoodType[] foodTypesAll = Utils.combineArrays(CropType.getFoodTypes(berries), CropType.getFoodTypes(crops), flourItems, doughItems, breadItems);
+    public static final CropType[] crops =          {wheat_crop, oat_crop, barley_crop, rye_crop, flax_crop, jute_crop, cotton_crop, sugar_canes_crop, onion_crop, tomatoes_crop, cabbages_crop, carrots_crop, potatoes_crop, garlic_crop, corn_crop};
+    public static final CropType[] berries =        {blueberry_crop, strawberry_crop, blackberry_crop};
+    public static final FoodType[] foodTypesAll =   Utils.combineArrays(CropType.getFoodTypes(berries), CropType.getFoodTypes(crops), flourItems, doughItems, breadItems);
 
-    public static final WoodType oak = new WoodType("oak").hasNoLog();
-    public static final WoodType spruce = new WoodType("spruce").hasNoLog();
-    public static final WoodType birch = new WoodType("birch").hasNoLog();
-    public static final WoodType jungle = new WoodType("jungle").hasNoLog();
-    public static final WoodType acacia = new WoodType("acacia").hasNoLog();
-    public static final WoodType dark_oak = new WoodType("dark_oak").hasNoLog();
+    public static final WoodType oak =              new WoodType("oak").hasNoLog();
+    public static final WoodType spruce =           new WoodType("spruce").hasNoLog();
+    public static final WoodType birch =            new WoodType("birch").hasNoLog();
+    public static final WoodType jungle =           new WoodType("jungle").hasNoLog();
+    public static final WoodType acacia =           new WoodType("acacia").hasNoLog();
+    public static final WoodType dark_oak =         new WoodType("dark_oak").hasNoLog();
     public static final WoodType[] woodTypesAll = {oak, spruce, birch, jungle, acacia, dark_oak};
 
     // Misc

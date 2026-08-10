@@ -35,7 +35,7 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
     public static EntityPlayer player;
     public static boolean renderBreaking = false;
 
-    public boolean isRenderingBreaking() {
+    public static boolean isRenderingBreaking() {
         return renderBreaking;
     }
 

@@ -63,8 +63,7 @@ public class NoiseSplines {
         forestSpline = new Spline();
         forestSpline.addPoint(0.0F, 0.0F);
         forestSpline.addPoint(0.6F, 0.0F);
-        forestSpline.addPoint(0.7F, 0.3F);
-        forestSpline.addPoint(0.8F, 0.5F);
-        forestSpline.addPoint(1.0F, 0.8F);
+        forestSpline.addPoint(0.7F, 0.6F);
+        forestSpline.addPoint(1.0F, 1.0F);
     }
 }

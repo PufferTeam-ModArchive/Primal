@@ -22,6 +22,15 @@ public abstract class MixinBlockDoublePlant implements IPrimalBlock {
         return this.getIcon(side, meta);
     }
 
+    // For Production
+    public IIcon func_149673_e(IBlockAccess worldIn, int x, int y, int z, int side) {
+        int meta = worldIn.getBlockMetadata(x, y, z);
+        if (meta >= 8) {
+            meta = worldIn.getBlockMetadata(x, y - 1, z);
+        }
+        return this.getIcon(side, meta);
+    }
+
     @Override
     public boolean useWorldIcon() {
         return true;
