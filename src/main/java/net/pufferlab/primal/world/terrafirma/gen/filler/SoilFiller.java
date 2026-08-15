@@ -35,9 +35,10 @@ public class SoilFiller {
 
                 int topY = dataNoise.getHeight(x, z);
 
-                float elevationValue = dataNoise.getRockiness(x, z) + (detail * 0.02F);
+                int steepness = dataNoise.getSteepness(x, z);
+                float steepnessFloat = (Math.max(0.0F, steepness / 3.5F));
 
-                int depthBlocks = Mth.floor(((1 - elevationValue)) * 5.0F);
+                int depthBlocks = Mth.floor((1 - steepnessFloat) * 3.0F);
 
                 Block block = Registry.dirt;
                 Block blockTop = null;
@@ -56,7 +57,7 @@ public class SoilFiller {
                     if (rainfall < 0.3F && temperature < 0.4F) {
                         blockTop = Blocks.snow_layer;
                     }
-                    if (elevationValue > 0.65F + (detail * 0.05F)) {
+                    if (steepnessFloat > 0.57F && depthBlocks == 1) {
                         block = Blocks.gravel;
                     }
 

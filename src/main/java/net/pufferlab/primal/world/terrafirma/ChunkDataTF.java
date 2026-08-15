@@ -44,12 +44,12 @@ public class ChunkDataTF extends ChunkSavedData {
         noiseData.setHeight(x, z, value);
     }
 
-    public float getRockiness(int x, int z) {
-        return noiseData.getRockiness(x, z);
+    public int getSteepness(int x, int z) {
+        return noiseData.getSteepness(x, z);
     }
 
-    public void setRockiness(int x, int z, float value) {
-        noiseData.setRockiness(x, z, value);
+    public void setSteepness(int x, int z, int value) {
+        noiseData.setSteepness(x, z, value);
     }
 
     public float getRainfall(int x, int z) {
@@ -90,8 +90,7 @@ public class ChunkDataTF extends ChunkSavedData {
 
         noiseData.biomes = nbt.getIntArray("biomes");
 
-        int[] rocknessInt = nbt.getIntArray("rockiness");
-        noiseData.rockiness = getFloatArray(rocknessInt);
+        noiseData.steepness = nbt.getIntArray("steepness");
 
         int[] rainfallInt = nbt.getIntArray("rainfall");
         noiseData.rainfall = getFloatArray(rainfallInt);
@@ -105,9 +104,6 @@ public class ChunkDataTF extends ChunkSavedData {
 
     @Override
     public void readFromBuffer(ByteBuf buf) {
-        int[] rocknessInt = IOUtils.readIntArray(buf);
-        noiseData.rockiness = getFloatArray(rocknessInt);
-
         int[] rainfallInt = IOUtils.readIntArray(buf);
         noiseData.rainfall = getFloatArray(rainfallInt);
 
@@ -124,8 +120,7 @@ public class ChunkDataTF extends ChunkSavedData {
 
         nbt.setIntArray("biomes", noiseData.biomes);
 
-        int[] rocknessInt = getIntArray(noiseData.rockiness);
-        nbt.setIntArray("rockiness", rocknessInt);
+        nbt.setIntArray("steepness", noiseData.steepness);
 
         int[] rainfallInt = getIntArray(noiseData.rainfall);
         nbt.setIntArray("rainfall", rainfallInt);
@@ -139,9 +134,6 @@ public class ChunkDataTF extends ChunkSavedData {
 
     @Override
     public void writeToBuffer(ByteBuf buf) {
-        int[] rocknessInt = getIntArray(noiseData.rockiness);
-        IOUtils.writeIntArray(buf, rocknessInt);
-
         int[] rainfallInt = getIntArray(noiseData.rainfall);
         IOUtils.writeIntArray(buf, rainfallInt);
 

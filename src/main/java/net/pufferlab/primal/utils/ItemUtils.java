@@ -390,6 +390,20 @@ public class ItemUtils {
         return null;
     }
 
+    public static List<ItemStack> getOres(String oreDict) {
+        return OreDictionary.getOres(oreDict);
+    }
+
+    public static List<String> getOres(ItemStack stack) {
+        int[] oreIDS = OreDictionary.getOreIDs(stack);
+        List<String> list = new ArrayList<>();
+        for (int oreID : oreIDS) {
+            String name = OreDictionary.getOreName(oreID);
+            list.add(name);
+        }
+        return list;
+    }
+
     public static boolean isValidMetal(ItemStack item) {
         String metal = getMetalType(item);
         if (metal == null) return false;

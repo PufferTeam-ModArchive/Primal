@@ -4,7 +4,7 @@ import java.util.*;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.oredict.OreDictionary;
+import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.TextUtils;
 import net.pufferlab.primal.utils.Utils;
 
@@ -36,7 +36,7 @@ public class BarrelRecipe {
     public static void addRecipe(ItemStack output, FluidStack outputLiquid, String input, FluidStack inputLiquid,
         int processingTime) {
         recipeList.add(
-            new BarrelRecipe(output, outputLiquid, OreDictionary.getOres(input), inputLiquid, processingTime)
+            new BarrelRecipe(output, outputLiquid, ItemUtils.getOres(input), inputLiquid, processingTime)
                 .setRecipeID(output, outputLiquid, input, inputLiquid));
     }
 

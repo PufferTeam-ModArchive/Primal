@@ -718,11 +718,11 @@ public class Registry {
         registerCommand(new CommandTickTime());
         registerCommand(new CommandModGive());
         registerCommand(new CommandHeat());
+        registerCommand(new CommandHand());
         registerCommand(new CommandBlockInfo());
         registerCommand(new CommandSchedule());
         registerCommand(new CommandStructure());
         registerCommand(new CommandClearBlocks());
-        registerCommand(new CommandStrata());
         registerCommand(new CommandVein());
         registerCommand(new CommandPlayer());
     }

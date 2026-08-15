@@ -53,7 +53,7 @@ nei.recipe.primal.melting.name=Melting
 nei.recipe.primal.pit_kiln.name=Pit Kiln
 nei.recipe.primal.quern.name=Quern
 nei.recipe.primal.tanning.name=Tanning
-nei.recipe.primal.anvil.name=Anvil
+nei.recipe.primal.anvil.name=Forging
 
 gui.primal.anvil.plans.name=Anvil Plans
 gui.primal.anvil.hit.name=Hit

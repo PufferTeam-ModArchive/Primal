@@ -39,7 +39,6 @@ public class RenderDebug {
         ChunkDataTF manager = ChunkDataTF.getClient(chunkX, chunkZ);
 
         float temperature = manager.getTemperature(localX, localZ);
-        float rockness = manager.getRockiness(localX, localZ);
         float rainfall = manager.getRainfall(localX, localZ);
         float vegetation = manager.getVegetation(localX, localZ);
 
@@ -73,7 +72,7 @@ public class RenderDebug {
             }
             left.add("[Primal] ChunkDataTF");
             left.add("temperature: " + temperature);
-            left.add("rockiness: " + rockness + ", rainfall: " + rainfall);
+            left.add("rainfall: " + rainfall);
             left.add("vegetation: " + vegetation);
         }
     }

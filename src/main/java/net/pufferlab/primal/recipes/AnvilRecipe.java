@@ -3,8 +3,8 @@ package net.pufferlab.primal.recipes;
 import java.util.*;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.Config;
+import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.TextUtils;
 import net.pufferlab.primal.utils.Utils;
 
@@ -18,7 +18,7 @@ public class AnvilRecipe {
     }
 
     public static void addRecipe(ItemStack output, String input, Object... objects) {
-        recipeList.add(new AnvilRecipe(output, OreDictionary.getOres(input), objects).setRecipeID(output, input));
+        recipeList.add(new AnvilRecipe(output, ItemUtils.getOres(input), objects).setRecipeID(output, input));
     }
 
     public static AnvilRecipe getRecipe(ItemStack inputItem, AnvilAction... actions) {

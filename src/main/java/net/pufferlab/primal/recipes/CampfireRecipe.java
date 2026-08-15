@@ -6,8 +6,8 @@ import java.util.Map;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.Registry;
+import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.Utils;
 
 public class CampfireRecipe {
@@ -21,7 +21,7 @@ public class CampfireRecipe {
     }
 
     public static void addRecipe(ItemStack output, String input) {
-        recipeMap.put(OreDictionary.getOres(input), output);
+        recipeMap.put(ItemUtils.getOres(input), output);
     }
 
     public static void addRecipe(ItemStack output, ItemStack input) {

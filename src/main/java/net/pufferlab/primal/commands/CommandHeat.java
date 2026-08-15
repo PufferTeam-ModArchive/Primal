@@ -31,6 +31,7 @@ public class CommandHeat extends CommandSub {
                 boolean state = !data.getTemperatureDebug();
                 data.setTemperatureDebug(state);
                 sender.addChatMessage(new ChatComponentText(TextUtils.getStateTooltip(state, "Enabled", "Disabled")));
+                return;
             }
         }
         ItemStack stack = player.getHeldItem();

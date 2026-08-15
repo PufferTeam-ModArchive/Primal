@@ -14,7 +14,6 @@ public class NoiseLayer {
     public Noise2D rainfallNoise;
     public Noise2D vegetationNoise;
     public Noise2D forestnessNoise;
-    public Noise2D rockinessNoise;
     public Noise2D detailNoise;
 
     public NoiseLayer(World world) {
@@ -46,10 +45,6 @@ public class NoiseLayer {
             .octaves(3)
             .normalize();
 
-        rockinessNoise = new OpenSimplex2D(rockinessSeed).spread(0.006F)
-            .octaves(3)
-            .normalize();
-
         detailNoise = new OpenSimplex2D(detailSeed).spread(0.01F)
             .octaves(3)
             .add(
@@ -67,7 +62,6 @@ public class NoiseLayer {
                 float temperature = temperatureNoise.noise(worldX, worldZ);
                 float rainfall = rainfallNoise.noise(worldX, worldZ);
                 float vegetation = vegetationNoise.noise(worldX, worldZ);
-                float rockiness = rockinessNoise.noise(worldX, worldZ);
                 float forestness = forestnessNoise.noise(worldX, worldZ);
 
                 float detail = detailNoise.noise(worldX, worldZ);
@@ -75,7 +69,6 @@ public class NoiseLayer {
                 data.setTemperature(x, z, temperature);
                 data.setRainfall(x, z, rainfall);
                 data.setVegetation(x, z, vegetation);
-                data.setRockiness(x, z, rockiness);
                 data.setForestness(x, z, forestness);
 
                 data.setDetail(x, z, detail);

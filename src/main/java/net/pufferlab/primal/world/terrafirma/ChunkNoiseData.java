@@ -13,10 +13,11 @@ public class ChunkNoiseData {
     }
 
     public int[] heightmap = new int[256];
+    public int[] heightmapExtra = new int[68];
     public int[] biomes = new int[256];
+    public int[] steepness = new int[256];
 
     public float[] temperature = new float[256];
-    public float[] rockiness = new float[256];
     public float[] rainfall = new float[256];
     public float[] vegetation = new float[256];
     public float[] forestness = new float[256];
@@ -32,19 +33,29 @@ public class ChunkNoiseData {
     }
 
     public int getHeight(int x, int z) {
-        return heightmap[pack2DCoord(x, z)];
+        int index = getBorderIndex(x, z);
+        if(index < 0) {
+            return heightmap[pack2DCoord(x, z)];
+        } else {
+            return heightmapExtra[index];
+        }
     }
 
     public void setHeight(int x, int z, int value) {
-        heightmap[pack2DCoord(x, z)] = value;
+        int index = getBorderIndex(x, z);
+        if(index < 0) {
+            heightmap[pack2DCoord(x, z)] = value;
+        } else {
+            heightmapExtra[index] = value;
+        }
     }
 
-    public float getRockiness(int x, int z) {
-        return rockiness[pack2DCoord(x, z)];
+    public int getSteepness(int x, int z) {
+        return steepness[pack2DCoord(x, z)];
     }
 
-    public void setRockiness(int x, int z, float value) {
-        this.rockiness[pack2DCoord(x, z)] = value;
+    public void setSteepness(int x, int z, int value) {
+        this.steepness[pack2DCoord(x, z)] = value;
     }
 
     public float getRainfall(int x, int z) {
@@ -87,5 +98,25 @@ public class ChunkNoiseData {
 
     public void setDetail(int x, int z, float value) {
         this.detail[pack2DCoord(x, z)] = value;
+    }
+
+    public int getBorderIndex(int x, int z) {
+        if (z == -1) {
+            return x + 1;
+        }
+
+        if (z == 16) {
+            return 18 + x + 1;
+        }
+
+        if (x == -1) {
+            return 36 + z;
+        }
+
+        if (x == 16) {
+            return 52 + z;
+        }
+
+        return -1;
     }
 }

@@ -16,7 +16,6 @@ public class NoiseTerrain {
     public long seed;
 
     public Noise2D terrainNoise;
-    public Noise2D mountainous;
     public Noise2D hillNoise;
     public Noise2D detailNoise;
 
@@ -60,8 +59,8 @@ public class NoiseTerrain {
     }
 
     public void genTerrain(ChunkNoiseData data, int chunkX, int chunkZ) {
-        for (int x = 0; x < 16; x++) {
-            for (int z = 0; z < 16; z++) {
+        for (int x = -1; x < 17; x++) {
+            for (int z = -1; z < 17; z++) {
                 int worldX = (chunkX << 4) + x;
                 int worldZ = (chunkZ << 4) + z;
 
@@ -87,9 +86,31 @@ public class NoiseTerrain {
                 value += detail * 3.0F;
 
                 data.setHeight(x, z, (int) value);
-                if (value < Config.seaLevelTF.getInt()) {
-                    data.setBiome(x, z, BiomesTF.ocean);
+                if(x >= 0 && z >= 0 && x < 16 && z < 16) {
+                    if (value < Config.seaLevelTF.getInt()) {
+                        data.setBiome(x, z, BiomesTF.ocean);
+                    }
                 }
+            }
+        }
+        for (int x = 0; x < 16; x++) {
+            for (int z = 0; z < 16; z++) {
+                int center = data.getHeight(x, z);
+                int maxDifference = 0;
+
+                for (int dz = -1; dz <= 1; dz++) {
+                    for (int dx = -1; dx <= 1; dx++) {
+                        if (dx == 0 && dz == 0) continue;
+
+                        int height = data.getHeight(x + dx, z + dz);
+                        maxDifference = Math.max(
+                            maxDifference,
+                            Math.abs(center - height)
+                        );
+                    }
+                }
+
+                data.setSteepness(x, z, maxDifference);
             }
         }
     }

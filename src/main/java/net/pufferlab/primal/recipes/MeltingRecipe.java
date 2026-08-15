@@ -5,7 +5,7 @@ import java.util.List;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.oredict.OreDictionary;
+import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.Utils;
 
 public class MeltingRecipe {
@@ -17,7 +17,7 @@ public class MeltingRecipe {
     }
 
     public static void addRecipe(FluidStack output, String input) {
-        recipeList.add(new MeltingRecipe(output, OreDictionary.getOres(input)));
+        recipeList.add(new MeltingRecipe(output, ItemUtils.getOres(input)));
     }
 
     public static void removeRecipe(FluidStack output) {
