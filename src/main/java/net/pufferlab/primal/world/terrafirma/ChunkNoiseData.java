@@ -34,7 +34,7 @@ public class ChunkNoiseData {
 
     public int getHeight(int x, int z) {
         int index = getBorderIndex(x, z);
-        if(index < 0) {
+        if (index < 0) {
             return heightmap[pack2DCoord(x, z)];
         } else {
             return heightmapExtra[index];
@@ -43,7 +43,7 @@ public class ChunkNoiseData {
 
     public void setHeight(int x, int z, int value) {
         int index = getBorderIndex(x, z);
-        if(index < 0) {
+        if (index < 0) {
             heightmap[pack2DCoord(x, z)] = value;
         } else {
             heightmapExtra[index] = value;

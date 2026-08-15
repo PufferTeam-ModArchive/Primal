@@ -86,7 +86,7 @@ public class NoiseTerrain {
                 value += detail * 3.0F;
 
                 data.setHeight(x, z, (int) value);
-                if(x >= 0 && z >= 0 && x < 16 && z < 16) {
+                if (x >= 0 && z >= 0 && x < 16 && z < 16) {
                     if (value < Config.seaLevelTF.getInt()) {
                         data.setBiome(x, z, BiomesTF.ocean);
                     }
@@ -103,10 +103,7 @@ public class NoiseTerrain {
                         if (dx == 0 && dz == 0) continue;
 
                         int height = data.getHeight(x + dx, z + dz);
-                        maxDifference = Math.max(
-                            maxDifference,
-                            Math.abs(center - height)
-                        );
+                        maxDifference = Math.max(maxDifference, Math.abs(center - height));
                     }
                 }
 
