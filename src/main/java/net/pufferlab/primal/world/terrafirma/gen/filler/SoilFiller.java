@@ -49,9 +49,6 @@ public class SoilFiller {
                     if (i == 0) {
                         block = Registry.grass;
                     }
-                    if (vegetation < 0.3F) {
-                        block = Registry.dirt;
-                    }
                     if (rainfall < 0.3F && temperature > 0.6F) {
                         block = Blocks.sand;
                     }
@@ -81,7 +78,11 @@ public class SoilFiller {
                     }
                 }
                 if (blockTop != null) {
-                    data.setBlock(x, topY, z, blockTop, 0);
+                    int y = topY;
+                    while (data.getBlock(x, y, z) == Blocks.air) {
+                        y--;
+                    }
+                    data.setBlock(x, y, z, blockTop, 0);
                 }
             }
         }
