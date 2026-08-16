@@ -1,5 +1,6 @@
 package net.pufferlab.primal.scripts;
 
+import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.*;
 import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.utils.ItemUtils;
@@ -15,6 +16,9 @@ public class ScriptPrimitive implements IScript {
     public void runModCompatEarly() {
         if (Mods.efr.isLoaded()) {
             addEFROredicts();
+        }
+        if (Mods.bop.isLoaded()) {
+            addBOPOredicts();
         }
     }
 
@@ -75,6 +79,27 @@ public class ScriptPrimitive implements IScript {
         addOreDict("blockColoredHardenedClay", getItem("minecraft:stained_hardened_clay:*:1"));
         addOreDict("blockColoredHardenedClay", getItem("minecraft:hardened_clay:*:1"));
         addOreDict("blockColoredCarpet", getItem("minecraft:carpet:*:1"));
+
+        addOreDict("itemYellow", getItem("minecraft:yellow_flower:0:1"));
+        addOreDict("itemDoubleYellow", getItem("minecraft:double_plant:0:1"));
+
+        addOreDict("itemRed", getItem("minecraft:red_flower:0:1"));
+        addOreDict("itemRed", getItem("minecraft:red_flower:4:1"));
+        addOreDict("itemDoubleRed", getItem("minecraft:double_plant:4:1"));
+
+        addOreDict("itemLightBlue", getItem("minecraft:red_flower:1:1"));
+
+        addOreDict("itemMagenta", getItem("minecraft:red_flower:2:1"));
+        addOreDict("itemDoubleMagenta", getItem("minecraft:double_plant:1:1"));
+
+        addOreDict("itemLightGray", getItem("minecraft:red_flower:3:1"));
+        addOreDict("itemLightGray", getItem("minecraft:red_flower:6:1"));
+        addOreDict("itemLightGray", getItem("minecraft:red_flower:8:1"));
+
+        addOreDict("itemOrange", getItem("minecraft:red_flower:5:1"));
+
+        addOreDict("itemPink", getItem("minecraft:red_flower:7:1"));
+        addOreDict("itemDoublePink", getItem("minecraft:double_plant:5:1"));
     }
 
     public void addEFROredicts() {
@@ -86,6 +111,27 @@ public class ScriptPrimitive implements IScript {
             addOreDict("blockColoredBed", getModItem("bed", color, 1));
         }
         addOreDict("rabbitHide", getItem(Mods.efr.MODID, "rabbit_hide", wildcard, 1));
+
+        addOreDict("itemRed", getItem(Mods.efr.MODID, "rose", 0, 1));
+        addOreDict("itemRed", getItem(Mods.efr.MODID, "beetroot", 0, 1));
+        addOreDict("itemPink", getItem(Mods.efr.MODID, "pink_petals", 0, 1));
+    }
+
+    public void addBOPOredicts() {
+        addOreDict("itemRed", getItem(Mods.bop.MODID, "flowers2", 8, 1));
+        addOreDict("itemPurple", getItem(Mods.bop.MODID, "flowers", 8, 1));
+        addOreDict("itemPurple", getItem(Mods.bop.MODID, "flowers2", 3, 1));
+        addOreDict("itemCyan", getItem(Mods.bop.MODID, "flowers", 1, 1));
+        addOreDict("itemLightGray", getItem(Mods.bop.MODID, "flowers", 15, 1));
+        addOreDict("itemPink", getItem(Mods.bop.MODID, "flowers", 6, 1));
+        addOreDict("itemPink", getItem(Mods.bop.MODID, "flowers2", 0, 1));
+        addOreDict("itemLime", getItem(Mods.bop.MODID, "mushrooms", 3, 1));
+        addOreDict("itemYellow", getItem(Mods.bop.MODID, "flowers2", 4, 1));
+        addOreDict("itemLightBlue", getItem(Mods.bop.MODID, "flowers", 4, 1));
+        addOreDict("itemLightBlue", getItem(Mods.bop.MODID, "flowers2", 7, 1));
+        addOreDict("itemMagenta", getItem(Mods.bop.MODID, "flowers", 7, 1));
+        addOreDict("itemOrange", getItem(Mods.bop.MODID, "flowers", 5, 1));
+        addOreDict("itemOrange", getItem(Mods.bop.MODID, "flowers2", 2, 1));
     }
 
     public void addCraftingRecipes() {
@@ -175,6 +221,17 @@ public class ScriptPrimitive implements IScript {
         addQuernRecipe(getModItem("rye_flour", 1), getModItem("rye", 1));
         addQuernRecipe(getModItem("lime_powder", 1), "limeAny");
         addQuernRecipe(getItem("minecraft:dye:15:3"), getItem("minecraft:bone:0:1"));
+
+        for (String color : Constants.colorTypes) {
+            ItemStack dye = getOreDictItem(getOreDictionaryName("dye", color), 1);
+            ItemStack dyeDouble = getOreDictItem(getOreDictionaryName("dye", color), 2);
+
+            String oreDict = getOreDictionaryName("item", color);
+            addQuernRecipe(dye, oreDict);
+
+            String oreDictDouble = getOreDictionaryName("itemDouble", color);
+            addQuernRecipe(dyeDouble, oreDictDouble);
+        }
     }
 
     public void addTanningRecipes() {

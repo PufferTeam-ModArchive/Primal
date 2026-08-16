@@ -7,7 +7,7 @@ import net.pufferlab.primal.Primal;
 
 public class CommandPlayer extends CommandSub {
 
-    public static String[] arguments = new String[] { "", "fly_speed", "walk_speed", "invulnerable" };
+    public static String[] arguments = { "", "fly_speed", "walk_speed", "invulnerable" };
 
     @Override
     public String[] getSubArgs(String[] args) {

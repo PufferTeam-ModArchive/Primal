@@ -24,7 +24,6 @@ public class NoiseLayer {
         long rainfallSeed = seed + 314;
         long vegetationSeed = seed + 234;
         long forestnessSeed = seed + 144;
-        long rockinessSeed = seed + 4;
 
         long detailSeed = seed + 2415;
         long detailSmallSeed = seed + 2417;

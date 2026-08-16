@@ -5,7 +5,7 @@ import net.pufferlab.primal.world.GlobalTickingData;
 
 public class CommandTickTime extends CommandSub {
 
-    public static String[] arguments = new String[] { "", "add" };
+    public static String[] arguments = { "", "add" };
 
     @Override
     public String[] getSubArgs(String[] args) {

@@ -26,17 +26,13 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ItemUtils {
 
-    public static final Map<Integer, ItemStack> cacheIS = new HashMap<>();
     private static final Map<String, ItemStack> itemCache = new HashMap<>();
     private static final Map<String, FluidStack> fluidCache = new HashMap<>();
     private static final Map<String, ItemStack> modItemCache = new HashMap<>();
     private static final Map<String, ItemStack> oreDictCache = new HashMap<>();
     private static final List<String> hideFilter = new ArrayList<>();
     private static final List<ItemStack> itemHideFilter = new ArrayList<>();
-    public static Map<String, String> metalTypes = new HashMap<>();
     private static List<String> modItemNames;
-    private static Map<String, Integer> priorityMap;
-    private static Map<String, ItemStack> priorityMapOverride;
 
     public static ItemStack getItem(String mod, String item) {
         return getItem(mod, item, 0, 1);
@@ -155,6 +151,16 @@ public class ItemUtils {
         return null;
     }
 
+    public static String getModItemName(ItemStack stack) {
+        for (Map.Entry<String, ItemStack> entry : modItemCache.entrySet()) {
+            ItemStack tempStack = entry.getValue();
+            if (Utils.equalsStack(tempStack, stack)) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
     public static ItemStack getModItem(String type, String name, int number) {
         boolean hasColor = Utils.contains(Constants.colorTypes, name);
         int color = Utils.getIndex(Constants.colorTypes, name);
@@ -237,6 +243,9 @@ public class ItemUtils {
         Primal.LOG.error("Tried to get invalid OreDict ItemStack from {}:{}.", name, number);
         return null;
     }
+
+    private static Map<String, Integer> priorityMap;
+    private static Map<String, ItemStack> priorityMapOverride;
 
     public static ItemStack getOreDictItem(String oreDict) {
         if (priorityMap == null) {
@@ -366,6 +375,8 @@ public class ItemUtils {
             || itemStack.getItem() == Item.getItemFromBlock(Registry.lit_torch)) return true;
         return false;
     }
+
+    public static Map<String, String> metalTypes = new HashMap<>();
 
     public static String getMetalType(ItemStack item) {
         if (item == null) return null;

@@ -1,16 +1,12 @@
 package net.pufferlab.primal.scripts;
 
-import java.util.ArrayList;
-import java.util.List;
+import static net.pufferlab.primal.recipes.RecipesHelper.*;
 
-import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Config;
+import net.pufferlab.primal.Mods;
 import net.pufferlab.primal.recipes.RecipesHelper;
 
 public class ScriptRemove implements IScript {
-
-    public static final List<ItemStack> remove = new ArrayList<>();
-    public static final List<ItemStack> removeSmelting = new ArrayList<>();
 
     public static final String[] itemsToRemove = new String[] { "minecraft:flower_pot", "minecraft:leather",
         "minecraft:leather_helmet", "minecraft:leather_chestplate", "minecraft:leather_leggings",
@@ -23,22 +19,28 @@ public class ScriptRemove implements IScript {
         "minecraft:hardened_clay:1:*" };
 
     public void runEarly() {
-        updateList();
+        updateRemoval();
+        if (Mods.efr.isLoaded()) {
+            updateEFRRemoval();
+        }
+        if (Mods.bop.isLoaded()) {
+            updateBOPRemoval();
+        }
         removeRecipes();
     }
 
-    public void updateList() {
+    public void updateRemoval() {
         if (Config.torchRebalance.getBoolean()) {
-            remove.add(getItem("minecraft:torch:0:1"));
+            removeRecipe(getItem("minecraft:torch:0:1"));
         }
 
         for (String s : itemsToRemove) {
-            remove.add(getItem(s));
+            removeRecipe(getItem(s));
         }
 
         if (Config.vanillaToolsRemovalMode.getInt() == 1) {
             for (String s : toolsToRemove) {
-                remove.add(getItem(s));
+                removeRecipe(getItem(s));
             }
         }
         for (String s : toolsToRemove) {
@@ -46,12 +48,54 @@ public class ScriptRemove implements IScript {
         }
 
         for (String s : itemsToRemoveSmelting) {
-            removeSmelting.add(getItem(s));
+            removeSmeltingRecipe(getItem(s));
         }
+
+        removeShapelessRecipe(getItem("minecraft:dye:11:1"), getItem("minecraft:yellow_flower:0:1"));
+        removeShapelessRecipe(getItem("minecraft:dye:1:1"), getItem("minecraft:red_flower:0:1"));
+        removeShapelessRecipe(getItem("minecraft:dye:1:1"), getItem("minecraft:red_flower:4:1"));
+        removeShapelessRecipe(getItem("minecraft:dye:1:2"), getItem("minecraft:double_plant:4:1"));
+        removeShapelessRecipe(getItem("minecraft:dye:12:2"), getItem("minecraft:red_flower:1:1"));
+        removeShapelessRecipe(getItem("minecraft:dye:13:2"), getItem("minecraft:red_flower:2:1"));
+        removeShapelessRecipe(getItem("minecraft:dye:7:2"), getItem("minecraft:red_flower:3:1"));
+        removeShapelessRecipe(getItem("minecraft:dye:1:2"), getItem("minecraft:red_flower:4:1"));
+        removeShapelessRecipe(getItem("minecraft:dye:14:2"), getItem("minecraft:red_flower:5:1"));
+        removeShapelessRecipe(getItem("minecraft:dye:7:2"), getItem("minecraft:red_flower:6:1"));
+        removeShapelessRecipe(getItem("minecraft:dye:9:2"), getItem("minecraft:red_flower:7:1"));
+        removeShapelessRecipe(getItem("minecraft:dye:7:2"), getItem("minecraft:red_flower:8:1"));
+
+        removeShapelessRecipe(getItem("minecraft:dye:11:2"), getItem("minecraft:double_plant:0:1"));
+        removeShapelessRecipe(getItem("minecraft:dye:13:2"), getItem("minecraft:double_plant:1:1"));
+        removeShapelessRecipe(getItem("minecraft:dye:1:2"), getItem("minecraft:double_plant:4:1"));
+        removeShapelessRecipe(getItem("minecraft:dye:9:2"), getItem("minecraft:double_plant:5:1"));
+    }
+
+    public void updateEFRRemoval() {
+        removeShapelessRecipe(getItem("minecraft:dye:1:1"), getItem(Mods.efr.MODID, "rose", 0, 1));
+        removeShapelessRecipe(getItem("minecraft:dye:1:1"), getItem(Mods.efr.MODID, "beetroot", 0, 1));
+        removeShapelessRecipe(getItem("minecraft:dye:9:1"), getItem(Mods.efr.MODID, "pink_petals", 0, 1));
+    }
+
+    public void updateBOPRemoval() {
+        removeShapelessRecipe(getItem("minecraft:dye:1:1"), getItem(Mods.bop.MODID, "flowers2", 8, 1));
+        removeShapelessRecipe(getItem("minecraft:dye:5:1"), getItem(Mods.bop.MODID, "flowers", 8, 1));
+        removeShapelessRecipe(getItem("minecraft:dye:5:1"), getItem(Mods.bop.MODID, "flowers2", 3, 1));
+        removeShapelessRecipe(getItem("minecraft:dye:6:1"), getItem(Mods.bop.MODID, "flowers", 1, 1));
+        removeShapelessRecipe(getItem("minecraft:dye:7:1"), getItem(Mods.bop.MODID, "flowers", 15, 1));
+        removeShapelessRecipe(getItem("minecraft:dye:9:1"), getItem(Mods.bop.MODID, "flowers", 6, 1));
+        removeShapelessRecipe(getItem("minecraft:dye:9:1"), getItem(Mods.bop.MODID, "flowers2", 0, 1));
+        removeShapelessRecipe(getItem("minecraft:dye:10:1"), getItem(Mods.bop.MODID, "mushrooms", 3, 1));
+        removeShapelessRecipe(getItem("minecraft:dye:11:1"), getItem(Mods.bop.MODID, "flowers2", 4, 1));
+        removeShapelessRecipe(getItem("minecraft:dye:12:1"), getItem(Mods.bop.MODID, "flowers", 4, 1));
+        removeShapelessRecipe(getItem("minecraft:dye:12:1"), getItem(Mods.bop.MODID, "flowers2", 7, 1));
+        removeShapelessRecipe(getItem("minecraft:dye:13:1"), getItem(Mods.bop.MODID, "flowers", 7, 1));
+        removeShapelessRecipe(getItem("minecraft:dye:14:1"), getItem(Mods.bop.MODID, "flowers", 5, 1));
+        removeShapelessRecipe(getItem("minecraft:dye:14:1"), getItem(Mods.bop.MODID, "flowers2", 2, 1));
     }
 
     public void removeRecipes() {
-        RecipesHelper.removeRecipe(remove);
-        RecipesHelper.removeFurnaceSmelting(removeSmelting);
+        RecipesHelper.removeRecipes();
+        RecipesHelper.removeSmeltingRecipes();
+        RecipesHelper.removeSpecialRecipes();
     }
 }

@@ -9,7 +9,7 @@ import net.pufferlab.primal.utils.TextUtils;
 
 public class CommandBlockInfo extends CommandSub {
 
-    public static String[] arguments = new String[] { "", "debug" };
+    public static String[] arguments = { "", "debug" };
 
     @Override
     public void handleCommand(ICommandSender sender, String[] args) {

@@ -62,7 +62,7 @@ public interface IScript {
     }
 
     default void addQuernRecipe(ItemStack output, String input) {
-        if (output != null && input != null) {
+        if (output != null && (input != null && ItemUtils.isValidOreDict(input))) {
             QuernRecipe.addRecipe(output, input);
         }
     }
@@ -74,7 +74,7 @@ public interface IScript {
     }
 
     default void addChoppingLogRecipe(ItemStack output, String input) {
-        if (output != null && input != null) {
+        if (output != null && (input != null && ItemUtils.isValidOreDict(input))) {
             ChoppingLogRecipe.addRecipe(output, input);
         }
     }

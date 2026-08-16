@@ -2,7 +2,6 @@ package net.pufferlab.primal.events;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeavesBase;
-import net.minecraft.block.BlockTallGrass;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
@@ -203,16 +202,13 @@ public class ToolHandler implements IEventHandler {
                 }
             }
 
-            if (event.block instanceof BlockTallGrass) {
-                if (heldItem != null) {
-                    if (ItemUtils.isKnifeTool(heldItem)) {
-                        heldItem.damageItem(1, event.harvester);
-                        if (event.world.rand.nextInt(3) == 0) {
-                            event.drops.add(
-                                ItemUtils.getModItem("straw", 1)
-                                    .copy());
-                        }
-                    }
+            if (BlockUtils.isBushBlock(event.block)) {
+                if (ItemUtils.isKnifeTool(heldItem)) {
+                    heldItem.damageItem(1, event.harvester);
+                    event.drops.clear();
+                    event.drops.add(
+                        ItemUtils.getModItem("straw", 1)
+                            .copy());
                 }
             }
         }

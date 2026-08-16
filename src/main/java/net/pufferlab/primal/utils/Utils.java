@@ -252,13 +252,15 @@ public final class Utils {
         return containsOreDict(getOrReuseItemStack(block, meta), oreDict);
     }
 
+    public static final Map<Integer, ItemStack> cacheIS = new HashMap<>();
+
     public static ItemStack getOrReuseItemStack(Block block, int meta) {
         int key = getBlockKey(block, meta);
-        if (ItemUtils.cacheIS.containsKey(key)) {
-            return ItemUtils.cacheIS.get(key);
+        if (cacheIS.containsKey(key)) {
+            return cacheIS.get(key);
         }
         ItemStack b = new ItemStack(block, 1, meta);
-        ItemUtils.cacheIS.put(key, b);
+        cacheIS.put(key, b);
         return b;
     }
 

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockBush;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -642,6 +643,11 @@ public class BlockUtils {
         if (block == null) return false;
         if (block instanceof BlockMetaGrass) return true;
         if (block == Blocks.grass) return true;
+        return false;
+    }
+
+    public static boolean isBushBlock(Block block) {
+        if (block instanceof BlockBush) return true;
         return false;
     }
 

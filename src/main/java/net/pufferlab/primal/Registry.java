@@ -718,7 +718,7 @@ public class Registry {
         registerCommand(new CommandTickTime());
         registerCommand(new CommandModGive());
         registerCommand(new CommandHeat());
-        registerCommand(new CommandHand());
+        registerCommand(new CommandItemInfo());
         registerCommand(new CommandBlockInfo());
         registerCommand(new CommandSchedule());
         registerCommand(new CommandStructure());

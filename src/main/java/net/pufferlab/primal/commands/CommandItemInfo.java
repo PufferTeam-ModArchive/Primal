@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.pufferlab.primal.utils.ItemUtils;
 
-public class CommandHand extends CommandSub {
+public class CommandItemInfo extends CommandSub {
 
     public static String[] arguments = new String[] { "", "" };
 
@@ -30,6 +30,12 @@ public class CommandHand extends CommandSub {
                 }
                 sendChatMessage(sender, EnumChatFormatting.WHITE + "Item in hand:");
                 sendChatMessage(sender, EnumChatFormatting.GRAY + "-" + EnumChatFormatting.GREEN + "'" + name + "'");
+                String modName = ItemUtils.getModItemName(stack);
+                if (modName != null) {
+                    sendChatMessage(
+                        sender,
+                        EnumChatFormatting.GRAY + "-" + EnumChatFormatting.DARK_GREEN + "'" + modName + "'");
+                }
                 if (nbt != null) {
                     sendChatMessage(sender, EnumChatFormatting.GRAY + "-" + EnumChatFormatting.AQUA + nbt);
                 }
@@ -45,7 +51,7 @@ public class CommandHand extends CommandSub {
 
     @Override
     public String getCommandName() {
-        return "hand";
+        return "iteminfo";
     }
 
     public boolean isUsernameIndex(String[] args, int index) {

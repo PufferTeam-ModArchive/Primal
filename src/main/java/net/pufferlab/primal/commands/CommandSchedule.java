@@ -7,7 +7,7 @@ import net.pufferlab.primal.world.scheduling.SchedulerData;
 
 public class CommandSchedule extends CommandSub {
 
-    public static String[] arguments = new String[] { "", "list", "waitlist" };
+    public static String[] arguments = { "", "list", "waitlist" };
 
     @Override
     public String[] getSubArgs(String[] args) {
