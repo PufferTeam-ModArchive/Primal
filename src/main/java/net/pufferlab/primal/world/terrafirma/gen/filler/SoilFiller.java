@@ -36,7 +36,7 @@ public class SoilFiller {
                 int topY = dataNoise.getHeight(x, z);
 
                 int steepness = dataNoise.getSteepness(x, z);
-                float steepnessFloat = (Math.max(0.0F, steepness / 3.5F));
+                float steepnessFloat = (Math.max(0.0F, steepness / 4F));
 
                 int depthBlocks = Mth.floor((1 - steepnessFloat) * 3.0F);
 
@@ -57,8 +57,8 @@ public class SoilFiller {
                     if (rainfall < 0.3F && temperature < 0.4F) {
                         blockTop = Blocks.snow_layer;
                     }
-                    if (steepnessFloat > 0.57F && depthBlocks == 1) {
-                        block = Blocks.gravel;
+                    if (depthBlocks == 1) {
+                        block = Blocks.air;
                     }
 
                     if (dataNoise.getBiome(x, z) == BiomesTF.ocean) {
