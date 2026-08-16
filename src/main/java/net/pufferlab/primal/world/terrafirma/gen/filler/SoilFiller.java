@@ -3,6 +3,7 @@ package net.pufferlab.primal.world.terrafirma.gen.filler;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.Mth;
@@ -57,8 +58,10 @@ public class SoilFiller {
                     if (rainfall < 0.3F && temperature < 0.4F) {
                         blockTop = Blocks.snow_layer;
                     }
-                    if (depthBlocks == 1) {
-                        block = Blocks.air;
+                    if (y >= Config.seaLevelTF.getInt()) {
+                        if (depthBlocks == 1) {
+                            block = Blocks.air;
+                        }
                     }
 
                     if (dataNoise.getBiome(x, z) == BiomesTF.ocean) {
