@@ -7,7 +7,6 @@ import net.minecraft.item.crafting.*;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.pufferlab.primal.inventory.InventoryCraftingHolder;
-import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.Utils;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -84,9 +83,8 @@ public class RecipesHelper {
         for (int i = 0; i < objects.length; i++) {
             if (objects[i] instanceof ItemStack) {
                 stacks[i] = (ItemStack) objects[i];
-            } else if (objects[i] instanceof String str) {
-                stacks[i] = ItemUtils.getOres(str)
-                    .get(0);
+            } else if (objects[i] instanceof List<?>list) {
+                stacks[i] = (ItemStack) list.get(0);
             }
         }
         inventories.add(new InventoryCraftingHolder(output, stacks));
@@ -99,9 +97,8 @@ public class RecipesHelper {
         for (int i = 0; i < objects.size(); i++) {
             if (objects.get(i) instanceof ItemStack) {
                 stacks[i] = (ItemStack) objects.get(i);
-            } else if (objects.get(i) instanceof String str) {
-                stacks[i] = ItemUtils.getOres(str)
-                    .get(0);
+            } else if (objects.get(i) instanceof List<?>list) {
+                stacks[i] = (ItemStack) list.get(0);
             }
         }
         inventories.add(new InventoryCraftingHolder(output, stacks));
