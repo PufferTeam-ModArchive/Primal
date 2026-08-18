@@ -3,6 +3,7 @@ package net.pufferlab.primal.blocks;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -81,6 +82,14 @@ public class BlockPlantBush extends BlockMetaBush {
                 worldIn.setBlockToAir(x, y, z);
             }
         }
+    }
+
+    @Override
+    public boolean shouldSideBeRendered(IBlockAccess worldIn, int x, int y, int z, int side) {
+        Material material = worldIn.getBlock(x, y, z)
+            .getMaterial();
+        return material == this.blockMaterial || material == Material.water ? false
+            : (side == 1 ? true : super.shouldSideBeRendered(worldIn, x, y, z, side));
     }
 
     @Override

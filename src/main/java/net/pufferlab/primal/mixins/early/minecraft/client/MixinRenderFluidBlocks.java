@@ -1,6 +1,7 @@
 package net.pufferlab.primal.mixins.early.minecraft.client;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;
 import net.pufferlab.primal.blocks.IPrimalBlock;
@@ -30,6 +31,32 @@ public abstract class MixinRenderFluidBlocks {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/block/material/Material;isSolid()Z"))
     private boolean redirect$getLiquidHeight$primal(boolean original) {
         return true;
+    }
+
+    @ModifyExpressionValue(
+        method = "getLiquidHeight",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/IBlockAccess;getBlockMetadata(III)I"))
+    private int redirectMeta$getLiquidHeight$primal(int original, int x, int y, int z, Material material) {
+        return getFluidMeta$primal(original, this.blockAccess, x, y, z);
+    }
+
+    @ModifyExpressionValue(
+        method = "getLiquidHeight",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/IBlockAccess;getBlock(III)Lnet/minecraft/block/Block;"))
+    private Block redirectBlock$getLiquidHeight$primal(Block original, int x, int y, int z, Material material) {
+        return getFluidBlock$primal(original, this.blockAccess, x, y, z);
+    }
+
+    @Unique
+    private static Block getFluidBlock$primal(Block original, IBlockAccess world, int x, int y, int z) {
+        if (original instanceof IPrimalBlock primalBlock) {
+            if (primalBlock.isWaterlogged(world, x, y, z)) {
+                return primalBlock.getWaterloggedBlock(world, x, y, z);
+            }
+        }
+        return original;
     }
 
     @Unique
