@@ -23,7 +23,7 @@ public abstract class MixinEntityDiggingFX {
     private int side;
 
     @Inject(method = "<init>(Lnet/minecraft/world/World;DDDDDDLnet/minecraft/block/Block;II)V", at = @At("RETURN"))
-    private void onInit(World world, double x, double y, double z, double mx, double my, double mz, Block block,
+    private void onInit$primal(World world, double x, double y, double z, double mx, double my, double mz, Block block,
         int meta, int side, CallbackInfo ci) {
         if (block instanceof IPrimalBlock block2) {
             if (block2.useWorldIcon()) {

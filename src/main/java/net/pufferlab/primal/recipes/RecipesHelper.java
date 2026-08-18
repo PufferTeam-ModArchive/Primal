@@ -111,7 +111,7 @@ public class RecipesHelper {
         recipes.removeIf(r -> {
             try {
                 for (InventoryCraftingHolder inventoryCraftingHolder : inventories) {
-                    if (Utils.equalsStack(r.getRecipeOutput(), inventoryCraftingHolder.input)
+                    if (Utils.equalsStack(r.getRecipeOutput(), inventoryCraftingHolder.output)
                         && r.matches(inventoryCraftingHolder, null)) {
                         return true;
                     }

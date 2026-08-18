@@ -1,6 +1,6 @@
 package net.pufferlab.primal.world;
 
-public class ChunkProviderCustom {
+public class HeightExtender {
 
     private static int seaLevel = 105;
     private static double factor;

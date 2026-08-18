@@ -6,11 +6,14 @@ import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.client.utils.RenderState;
 import net.pufferlab.primal.utils.BlockUtils;
 
@@ -93,6 +96,34 @@ public interface IPrimalBlock {
 
     default boolean isSnowlogged(int meta) {
         return false;
+    }
+
+    default boolean isWaterlogged(IBlockAccess world, int x, int y, int z) {
+        int meta = world.getBlockMetadata(x, y, z);
+        if (isWaterlogged(meta)) {
+            for (ForgeDirection direction : BlockUtils.sideDirections) {
+                int x2 = x + direction.offsetX;
+                int y2 = y + direction.offsetY;
+                int z2 = z + direction.offsetZ;
+                Block block = world.getBlock(x2, y2, z2);
+                if (block == Blocks.water || block == Blocks.flowing_water) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    default boolean isWaterlogged(int meta) {
+        return false;
+    }
+
+    default Block getWaterloggedBlock(IBlockAccess world, int x, int y, int z) {
+        return Blocks.flowing_water;
+    }
+
+    default int getWaterloggedMeta(IBlockAccess world, int x, int y, int z) {
+        return 0;
     }
 
     default int getStateID() {

@@ -177,6 +177,8 @@ public enum Config {
     particleFix(Module.fixes, true,
         "Fixes particles to match the block it's being broken, required for some blocks to have correct looking particles"),
     plantFix(Module.fixes, true, "Fixes some vanilla logic not applying to the mod grass"),
+    waterloggingFix(Module.fixes, true,
+        "Fixes some water details to make some waterlogged blocks render and function properly"),
     dragonAPIPlantFix(Module.fixes, true,
         "This enables the mixins to DragonAPI to make it recognize the mod dirt, and avoid plants popping off."),
     bopPlantFix(Module.fixes, true,

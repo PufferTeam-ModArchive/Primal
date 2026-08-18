@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class MixinMinecraft {
 
     @Inject(method = "isAmbientOcclusionEnabled", at = @At("HEAD"), cancellable = true)
-    private static void primal$isAmbientOcclusionEnabled(CallbackInfoReturnable<Boolean> cir) {
+    private static void isAmbientOcclusionEnabled$primal(CallbackInfoReturnable<Boolean> cir) {
         if (redirect) {
             cir.setReturnValue(false);
         }

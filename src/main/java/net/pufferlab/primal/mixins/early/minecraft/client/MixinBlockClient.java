@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class MixinBlockClient {
 
     @Inject(method = "getMixedBrightnessForBlock", at = @At("HEAD"), cancellable = true)
-    private void primal$getMixedBrightnessForBlock(IBlockAccess world, int x, int y, int z,
+    private void getMixedBrightnessForBlock$primal(IBlockAccess world, int x, int y, int z,
         CallbackInfoReturnable<Integer> cir) {
         if (redirect && x > 10_000_000 && x != tempX && y != tempY && z != tempZ) {
             cir.setReturnValue(

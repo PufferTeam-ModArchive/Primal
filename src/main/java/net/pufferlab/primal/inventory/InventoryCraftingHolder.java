@@ -5,12 +5,12 @@ import net.minecraft.item.ItemStack;
 
 public class InventoryCraftingHolder extends InventoryCrafting {
 
-    public ItemStack input;
+    public ItemStack output;
 
-    public InventoryCraftingHolder(ItemStack input, ItemStack[] stackList) {
+    public InventoryCraftingHolder(ItemStack output, ItemStack[] stackList) {
         super(null, 3, 3);
         this.stackList = stackList;
-        this.input = input;
+        this.output = output;
     }
 
     @Override

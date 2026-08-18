@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -56,6 +57,40 @@ public class BlockPlantBush extends BlockMetaBush {
     }
 
     @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, int x, int y, int z) {
+        int meta = worldIn.getBlockMetadata(x, y, z);
+        super.setBlockBoundsBasedOnState(worldIn, x, y, z);
+    }
+
+    @Override
+    public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z) {
+        if (isWaterlogged(world, x, y, z)) {
+            return world.setBlock(x, y, z, Blocks.water, 0, 2);
+        } else {
+            return super.removedByPlayer(world, player, x, y, z);
+        }
+    }
+
+    @Override
+    protected void checkAndDropBlock(World worldIn, int x, int y, int z) {
+        if (!this.canBlockStay(worldIn, x, y, z)) {
+            this.dropBlockAsItem(worldIn, x, y, z, worldIn.getBlockMetadata(x, y, z), 0);
+            if (isWaterlogged(worldIn, x, y, z)) {
+                worldIn.setBlock(x, y, z, Blocks.water, 0, 2);
+            } else {
+                worldIn.setBlockToAir(x, y, z);
+            }
+        }
+    }
+
+    @Override
+    public boolean isWaterlogged(int meta) {
+        if (meta >= plantTypes.length) return false;
+        if (plantTypes[meta].isWater) return true;
+        return false;
+    }
+
+    @Override
     public List<AxisAlignedBB> getBounds(World world, int x, int y, int z, EntityPlayer player, BoundsType bounds) {
         int meta = world.getBlockMetadata(x, y, z);
         boolean snowy = isSnowlogged(meta);
@@ -64,6 +99,16 @@ public class BlockPlantBush extends BlockMetaBush {
             list.add(AxisAlignedBB.getBoundingBox(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F));
         }
         return list;
+    }
+
+    @Override
+    public int getRenderBlockPass() {
+        return 1;
+    }
+
+    @Override
+    public boolean canRenderInPass(int pass) {
+        return true;
     }
 
     @Override

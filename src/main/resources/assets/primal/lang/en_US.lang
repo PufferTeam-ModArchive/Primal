@@ -1298,6 +1298,9 @@ tile.primal.schist_lignite_coal.name=Schist Lignite Coal
 
 tile.primal.dry_grass.name=Dry Grass
 tile.primal.snowy_grass.name=Snowy Grass
+tile.primal.cattails.name=Cattails
+tile.primal.seaweed.name=Seaweed
+tile.primal.pondweed.name=Pondweed
 
 tile.primal.oak_log.name=Oak Log
 tile.primal.stripped_oak_log.name=Stripped Oak Log

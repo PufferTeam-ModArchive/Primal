@@ -9,6 +9,7 @@ public class PlantType implements IPrimalType {
 
     public boolean isDesertic;
     public boolean isSnowy;
+    public boolean isWater;
     public String name;
     public boolean doublePlant = false;
     public Block plantBlock;
@@ -28,16 +29,17 @@ public class PlantType implements IPrimalType {
         this.name = name;
     }
 
-    public PlantType(String name, boolean isDesertic, boolean isSnowy, int modelType) {
+    public PlantType(String name, int plantType, int modelType) {
         this(name);
-        this.isDesertic = isDesertic;
-        this.isSnowy = isSnowy;
+        this.isDesertic = plantType == Constants.desertic;
+        this.isSnowy = plantType == Constants.snowy;
+        this.isWater = plantType == Constants.wet;
         this.modelType = modelType;
     }
 
-    public PlantType(String name, boolean isDesertic, boolean isSnowy, float rarity, float minRainfall,
-        float maxRainfall, float minTemperature, float maxTemperature) {
-        this(name, isDesertic, isSnowy, Constants.crossedModel);
+    public PlantType(String name, int plantType, float rarity, float minRainfall, float maxRainfall,
+        float minTemperature, float maxTemperature) {
+        this(name, plantType, Constants.crossedModel);
         this.rarity = rarity;
         this.minRainfall = minRainfall;
         this.maxRainfall = maxRainfall;

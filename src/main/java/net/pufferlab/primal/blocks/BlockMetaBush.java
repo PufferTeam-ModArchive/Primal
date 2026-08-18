@@ -3,6 +3,7 @@ package net.pufferlab.primal.blocks;
 import java.util.List;
 
 import net.minecraft.block.BlockBush;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -33,6 +34,7 @@ public class BlockMetaBush extends BlockBush implements IPrimalBlock, IMetaBlock
     public boolean isItemTexture;
 
     public BlockMetaBush(String[] materials, String type, String[] blacklist) {
+        super(Material.plants);
         elements = materials;
         name = type;
         elementsBlacklist = blacklist;
