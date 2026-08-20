@@ -7,9 +7,10 @@ import net.pufferlab.primal.Constants;
 
 public class PlantType implements IPrimalType {
 
+    public boolean isGrassy;
     public boolean isDesertic;
     public boolean isSnowy;
-    public boolean isWater;
+    public boolean isAquatic;
     public String name;
     public boolean doublePlant = false;
     public Block plantBlock;
@@ -31,20 +32,26 @@ public class PlantType implements IPrimalType {
 
     public PlantType(String name, int plantType, int modelType) {
         this(name);
+        this.isGrassy = plantType == Constants.grassy;
         this.isDesertic = plantType == Constants.desertic;
         this.isSnowy = plantType == Constants.snowy;
-        this.isWater = plantType == Constants.wet;
+        this.isAquatic = plantType == Constants.aquatic;
         this.modelType = modelType;
     }
 
-    public PlantType(String name, int plantType, float rarity, float minRainfall, float maxRainfall,
+    public PlantType(String name, int plantType, int modelType, float rarity, float minRainfall, float maxRainfall,
         float minTemperature, float maxTemperature) {
-        this(name, plantType, Constants.crossedModel);
+        this(name, plantType, modelType);
         this.rarity = rarity;
         this.minRainfall = minRainfall;
         this.maxRainfall = maxRainfall;
         this.minTemperature = minTemperature;
         this.maxTemperature = maxTemperature;
+    }
+
+    public PlantType(String name, int plantType, float rarity, float minRainfall, float maxRainfall,
+        float minTemperature, float maxTemperature) {
+        this(name, plantType, Constants.crossedModel, rarity, minRainfall, maxRainfall, minTemperature, maxTemperature);
     }
 
     public boolean getChance(Random random) {

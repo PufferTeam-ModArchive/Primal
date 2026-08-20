@@ -1,7 +1,6 @@
 package net.pufferlab.primal.mixins.early.minecraft.client;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;
 import net.pufferlab.primal.blocks.IPrimalBlock;
@@ -10,6 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
@@ -33,20 +33,24 @@ public abstract class MixinRenderFluidBlocks {
         return true;
     }
 
-    @ModifyExpressionValue(
+    @Redirect(
         method = "getLiquidHeight",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/IBlockAccess;getBlockMetadata(III)I"))
-    private int redirectMeta$getLiquidHeight$primal(int original, int x, int y, int z, Material material) {
-        return getFluidMeta$primal(original, this.blockAccess, x, y, z);
+    private int redirectMeta$getLiquidHeight$primal(IBlockAccess world, int x, int y, int z) {
+        int meta = world.getBlockMetadata(x, y, z);
+
+        return getFluidMeta$primal(meta, this.blockAccess, x, y, z);
     }
 
-    @ModifyExpressionValue(
+    @Redirect(
         method = "getLiquidHeight",
         at = @At(
             value = "INVOKE",
             target = "Lnet/minecraft/world/IBlockAccess;getBlock(III)Lnet/minecraft/block/Block;"))
-    private Block redirectBlock$getLiquidHeight$primal(Block original, int x, int y, int z, Material material) {
-        return getFluidBlock$primal(original, this.blockAccess, x, y, z);
+    private Block redirectBlock$getLiquidHeight$primal(IBlockAccess world, int x, int y, int z) {
+        Block block = world.getBlock(x, y, z);
+
+        return getFluidBlock$primal(block, this.blockAccess, x, y, z);
     }
 
     @Unique

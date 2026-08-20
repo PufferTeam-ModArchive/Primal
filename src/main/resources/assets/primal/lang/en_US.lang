@@ -1301,6 +1301,8 @@ tile.primal.snowy_grass.name=Snowy Grass
 tile.primal.cattails.name=Cattails
 tile.primal.seaweed.name=Seaweed
 tile.primal.pondweed.name=Pondweed
+tile.primal.golden_rod.name=Golden Rod
+tile.primal.calendula.name=Calendula
 
 tile.primal.oak_log.name=Oak Log
 tile.primal.stripped_oak_log.name=Stripped Oak Log

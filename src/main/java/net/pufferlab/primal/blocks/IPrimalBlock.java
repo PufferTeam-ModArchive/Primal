@@ -13,7 +13,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.client.utils.RenderState;
 import net.pufferlab.primal.utils.BlockUtils;
 
@@ -100,18 +99,7 @@ public interface IPrimalBlock {
 
     default boolean isWaterlogged(IBlockAccess world, int x, int y, int z) {
         int meta = world.getBlockMetadata(x, y, z);
-        if (isWaterlogged(meta)) {
-            for (ForgeDirection direction : BlockUtils.sideDirections) {
-                int x2 = x + direction.offsetX;
-                int y2 = y + direction.offsetY;
-                int z2 = z + direction.offsetZ;
-                Block block = world.getBlock(x2, y2, z2);
-                if (block == Blocks.water || block == Blocks.flowing_water) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return isWaterlogged(meta);
     }
 
     default boolean isWaterlogged(int meta) {

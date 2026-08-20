@@ -3,16 +3,19 @@ package net.pufferlab.primal.blocks;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Registry;
+import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.PlantType;
 
 public class BlockPlantBush extends BlockMetaBush {
@@ -58,6 +61,70 @@ public class BlockPlantBush extends BlockMetaBush {
     }
 
     @Override
+    public boolean canReplace(World worldIn, int x, int y, int z, int side, ItemStack itemIn) {
+        return this.canPlaceBlockOnSide(worldIn, x, y, z, side, itemIn);
+    }
+
+    public boolean canPlaceBlockOnSide(World worldIn, int x, int y, int z, int side, ItemStack stack) {
+        return this.canPlaceBlockAt(worldIn, x, y, z, stack.getItemDamage());
+    }
+
+    public boolean canPlaceBlockAt(World worldIn, int x, int y, int z, int plantMeta) {
+        return canBlockStay(worldIn, x, y, z, plantMeta);
+    }
+
+    @Override
+    public boolean canBlockStay(World worldIn, int x, int y, int z) {
+        Block block = worldIn.getBlock(x, y - 1, z);
+        int meta = worldIn.getBlockMetadata(x, y - 1, z);
+        Block blockReplaced = worldIn.getBlock(x, y, z);
+        int metaReplaced = worldIn.getBlockMetadata(x, y, z);
+        return canPlantGrowOn(block, meta, blockReplaced, metaReplaced, metaReplaced);
+    }
+
+    public boolean canBlockStay(World worldIn, int x, int y, int z, int metaPlant) {
+        Block block = worldIn.getBlock(x, y - 1, z);
+        int meta = worldIn.getBlockMetadata(x, y - 1, z);
+        Block blockReplaced = worldIn.getBlock(x, y, z);
+        int metaReplaced = worldIn.getBlockMetadata(x, y, z);
+        if (!blockReplaced.isReplaceable(worldIn, x, y, z)) return false;
+        return canPlantGrowOn(block, meta, blockReplaced, metaReplaced, metaPlant);
+    }
+
+    public boolean canPlantGrowOn(Block ground, int meta, Block blockReplaced, int metaReplaced, int metaPlant) {
+        if (metaPlant >= plantTypes.length) return false;
+        if (isWaterlogged(metaPlant)) {
+            if (blockReplaced != this) {
+                if (!(BlockUtils.isWaterBlock(blockReplaced) && metaReplaced == 0)) {
+                    return false;
+                }
+            }
+        }
+        if (plantTypes[metaPlant].isGrassy) {
+            if (BlockUtils.isGrassBlock(ground) || BlockUtils.isDirtBlock(ground)
+                || BlockUtils.isFarmlandBlock(ground)) {
+                return true;
+            }
+        }
+        if (plantTypes[metaPlant].isSnowy) {
+            if (BlockUtils.isGrassBlock(ground) || BlockUtils.isDirtBlock(ground)) {
+                return true;
+            }
+        }
+        if (plantTypes[metaPlant].isDesertic) {
+            if (BlockUtils.isSandBlock(ground)) {
+                return true;
+            }
+        }
+        if (plantTypes[metaPlant].isAquatic) {
+            if (BlockUtils.isGrassBlock(ground) || BlockUtils.isDirtBlock(ground) || BlockUtils.isGravelBlock(ground)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public void setBlockBoundsBasedOnState(IBlockAccess worldIn, int x, int y, int z) {
         int meta = worldIn.getBlockMetadata(x, y, z);
         super.setBlockBoundsBasedOnState(worldIn, x, y, z);
@@ -88,14 +155,16 @@ public class BlockPlantBush extends BlockMetaBush {
     public boolean shouldSideBeRendered(IBlockAccess worldIn, int x, int y, int z, int side) {
         Material material = worldIn.getBlock(x, y, z)
             .getMaterial();
-        return material == this.blockMaterial || material == Material.water ? false
+        int meta = worldIn.getBlockMetadata(x, y, z);
+        if (meta >= plantTypes.length) return false;
+        return (plantTypes[meta].isAquatic && (material == this.blockMaterial || material == Material.water)) ? false
             : (side == 1 ? true : super.shouldSideBeRendered(worldIn, x, y, z, side));
     }
 
     @Override
     public boolean isWaterlogged(int meta) {
         if (meta >= plantTypes.length) return false;
-        if (plantTypes[meta].isWater) return true;
+        if (plantTypes[meta].isAquatic) return true;
         return false;
     }
 

@@ -186,7 +186,7 @@ public class Constants {
     public static final int grassy = 0;
     public static final int desertic = 1;
     public static final int snowy = 2;
-    public static final int wet = 3;
+    public static final int aquatic = 3;
 
     public static final PlantType grass = new PlantType("grass");
     public static final PlantType tall_grass = new PlantType("tall_grass");
@@ -196,11 +196,12 @@ public class Constants {
 
     public static final PlantType dry_grass = new PlantType("dry_grass", desertic, crossedModel);
     public static final PlantType snowy_grass = new PlantType("snowy_grass", snowy, crossedModel);
-    public static final PlantType cattails = new PlantType("cattails", wet, crossedModel32);
-    public static final PlantType seaweed = new PlantType("seaweed", wet, cropModel);
-    public static final PlantType pondweed = new PlantType("pondweed", wet, cropModel);
-
-    public static final PlantType[] plantType1 = { dry_grass, snowy_grass, cattails, seaweed, pondweed };
+    public static final PlantType cattails = new PlantType("cattails", aquatic, crossedModel32);
+    public static final PlantType seaweed = new PlantType("seaweed", aquatic, cropModel);
+    public static final PlantType pondweed = new PlantType("pondweed", aquatic, cropModel);
+    public static final PlantType golden_rod    = new PlantType("golden_rod",     grassy, crossedModel,0.06F, 0.55F, 0.90F, 0.25F, 0.60F);
+    public static final PlantType calendula     = new PlantType("calendula",      grassy, crossedModel,0.08F, 0.35F, 0.65F, 0.40F, 0.75F);
+    public static final PlantType[] plantType1 = { dry_grass, snowy_grass, cattails, seaweed, pondweed, golden_rod, calendula };
 
     public static final PlantType dandelion     = new PlantType("dandelion",     grassy, 0.2F, 0.35F, 0.65F, 0.40F, 0.70F);
 
@@ -223,7 +224,8 @@ public class Constants {
     public static final PlantType rose_bush     = new PlantType("rose_bush",     grassy, 0.08F, 0.40F, 0.75F, 0.35F, 0.70F);
     public static final PlantType peony         = new PlantType("peony",         grassy, 0.08F, 0.35F, 0.70F, 0.45F, 0.80F);
     public static final PlantType sunflower     = new PlantType("sunflower",     grassy, 0.06F, 0.55F, 0.90F, 0.25F, 0.60F);
-    public static final PlantType[] plantTypeSpawnable = {dandelion, poppy, blue_orchid, allium, azure_bluet, red_tulip, orange_tulip, white_tulip, pink_tulip, oxeye_daisy, lilac, fern, large_fern, rose_bush, peony, sunflower};
+
+    public static final PlantType[] plantTypeSpawnable = {dandelion, poppy, blue_orchid, allium, azure_bluet, red_tulip, orange_tulip, white_tulip, pink_tulip, oxeye_daisy, lilac, fern, large_fern, rose_bush, peony, sunflower, golden_rod, calendula};
 
     // Food
     public static final FoodType blueberry =    new FoodType("blueberry", 1, 0.6F);
