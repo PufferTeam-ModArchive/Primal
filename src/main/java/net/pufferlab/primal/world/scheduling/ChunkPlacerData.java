@@ -8,6 +8,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.IChunkProvider;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.utils.*;
 
@@ -74,21 +75,6 @@ public class ChunkPlacerData extends WorldSavedData {
         }
     }
 
-    public static void placeBlock(World world, int x, int y, int z, Block block, int meta, NBTTagCompound nbt,
-        boolean fastPlace) {
-        if (BlockUtils.isOreBlock(block)) {
-            Block blockBefore = world.getBlock(x, y, z);
-            if (!BlockUtils.isNaturalStone(blockBefore)) return;
-            meta = world.getBlockMetadata(x, y, z);
-        }
-        if (fastPlace) {
-            WorldUtils.setBlock(world, x, y, z, block, meta);
-        } else {
-            world.setBlock(x, y, z, block, meta, 2);
-            WorldUtils.setTileEntityNBT(world, x, y, z, block, meta, nbt);
-        }
-    }
-
     public static void addBlock(World world, int x, int y, int z, Block block, int meta, NBTTagCompound nbt) {
         addBlock(world, x, y, z, block, meta, nbt, false);
     }
@@ -100,15 +86,24 @@ public class ChunkPlacerData extends WorldSavedData {
     public static void tickPlacement(World world, int chunkX, int chunkZ) {
         ChunkPlacerData placer = get(world);
 
-        ChunkBlockHolder data = placer.chunkDataMap.remove(chunkX, chunkZ);
-        Chunk chunk = world.getChunkFromChunkCoords(chunkX, chunkZ);
-        if (data != null) {
-            data.placeToChunk(chunk);
-            data.placeTileEntity(chunk);
-            data.blocks = null;
-            data.metas = null;
-            data.tags = null;
+        for (int x = -1; x <= 1; x++) {
+            for (int z = -1; z <= 1; z++) {
+                IChunkProvider provider = world.getChunkProvider();
+
+                if (provider.chunkExists(chunkX + x, chunkZ + z)) {
+                    ChunkBlockHolder data = placer.chunkDataMap.remove(chunkX + x, chunkZ + z);
+                    if (data != null) {
+                        Chunk chunk = world.getChunkFromChunkCoords(chunkX + x, chunkZ + z);
+                        data.placeToChunk(chunk);
+                        data.placeTileEntity(chunk);
+                        data.invalidate();
+                    }
+                }
+
+            }
         }
+
+        Primal.proxy.packet.sendChunkUpdate(world);
     }
 
     private static final ConcurrentHashMap<World, ChunkPlacerData> cache = new ConcurrentHashMap<>();

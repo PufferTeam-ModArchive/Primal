@@ -1,6 +1,7 @@
 package net.pufferlab.primal.world.terrafirma.gen.filler;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Config;
@@ -77,12 +78,12 @@ public class SoilFiller implements IBlockLayer {
                         }
                         data.setBlock(x, y, z, block, meta);
                     }
+                    if (block.getMaterial() == Material.air) {
+                        dataNoise.setHeight(x, z, dataNoise.getHeight(x, z) - 1);
+                    }
                 }
                 if (blockTop != null) {
-                    int y = topY;
-                    while (data.getBlock(x, y, z) == Blocks.air) {
-                        y--;
-                    }
+                    int y = dataNoise.getHeight(x, z);
                     data.setBlock(x, y, z, blockTop, 0);
                 }
             }

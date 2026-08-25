@@ -89,21 +89,11 @@ public class BlockHolder {
 
     public boolean place(World world, int xOffset, int yOffset, int zOffset) {
         if (this.invalid()) return false;
-        ChunkPlacerData.placeBlock(
-            world,
-            this.x + xOffset,
-            this.y + yOffset,
-            this.z + zOffset,
-            this.block,
-            this.meta,
-            this.nbt,
-            this.fastPlace);
         return true;
     }
 
     public boolean place(World world) {
         if (this.invalid()) return false;
-        ChunkPlacerData.placeBlock(world, this.x, this.y, this.z, this.block, this.meta, this.nbt, this.fastPlace);
         return true;
     }
 

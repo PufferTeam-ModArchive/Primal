@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.server.S21PacketChunkData;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.management.PlayerManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -216,8 +217,11 @@ public class NetworkPacket {
 
     public void sendChunkUpdate(World world) {
         if (world instanceof WorldServer worldServer) {
-            worldServer.getPlayerManager()
-                .updatePlayerInstances();
+            PlayerManager playerManager = worldServer.getPlayerManager();
+
+            if (playerManager != null) {
+                playerManager.updatePlayerInstances();
+            }
         }
     }
 }

@@ -19,8 +19,8 @@ public class VegetationFiller implements IBlockLayer {
     static {
         forestSpline = new Spline();
         forestSpline.addPoint(0.0F, 0.0F);
-        forestSpline.addPoint(0.6F, 0.0F);
-        forestSpline.addPoint(0.7F, 0.6F);
+        forestSpline.addPoint(0.5F, 0.0F);
+        forestSpline.addPoint(0.6F, 0.8F);
         forestSpline.addPoint(1.0F, 1.0F);
     }
 
@@ -81,7 +81,7 @@ public class VegetationFiller implements IBlockLayer {
                                 int num = data.random.nextInt(2) + 1;
                                 int facing = data.random.nextInt(4);
 
-                                if (temperature < 0.4F) {
+                                if (temperature < 0.45F) {
                                     StructureFile.loadStructure(
                                         "spruce_tree_1",
                                         worldX,

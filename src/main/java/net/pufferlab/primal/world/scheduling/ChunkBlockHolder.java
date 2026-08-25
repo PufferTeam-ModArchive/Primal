@@ -6,6 +6,7 @@ import net.pufferlab.primal.world.ChunkBlockStorage;
 
 public class ChunkBlockHolder extends ChunkBlockStorage {
 
+    public boolean invalid;
     public boolean updateSkylight;
     public int chunkX;
     public int chunkZ;
@@ -38,5 +39,13 @@ public class ChunkBlockHolder extends ChunkBlockStorage {
             chunk.generateSkylightMap();
             chunk.resetRelightChecks();
         }
+    }
+
+    public void invalidate() {
+        this.invalid = true;
+    }
+
+    public boolean invalid() {
+        return this.invalid;
     }
 }
