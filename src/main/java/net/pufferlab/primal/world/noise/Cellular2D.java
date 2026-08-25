@@ -1,19 +1,19 @@
 package net.pufferlab.primal.world.noise;
 
-public class OpenSimplex2D implements Noise2D {
+public class Cellular2D implements Noise2D {
 
     final FastNoiseLite fnl;
     private float frequency;
     private float midpoint, amplitude;
 
-    public OpenSimplex2D(long seed) {
+    public Cellular2D(long seed) {
         this(Long.hashCode(seed));
     }
 
-    public OpenSimplex2D(int seed) {
+    public Cellular2D(int seed) {
         fnl = new FastNoiseLite(seed);
         fnl.SetFrequency(1f);
-        fnl.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2S);
+        fnl.SetNoiseType(FastNoiseLite.NoiseType.Cellular);
         fnl.SetFractalOctaves(1);
 
         frequency = 1;
@@ -27,26 +27,41 @@ public class OpenSimplex2D implements Noise2D {
     }
 
     @Override
-    public OpenSimplex2D octaves(int octaves) {
+    public Cellular2D octaves(int octaves) {
         fnl.SetFractalOctaves(octaves);
         fnl.SetFractalType(FastNoiseLite.FractalType.FBm);
         return this;
     }
 
     @Override
-    public OpenSimplex2D spread(float scaleFactor) {
+    public Cellular2D spread(float scaleFactor) {
         frequency *= scaleFactor;
         fnl.SetFrequency(frequency);
         return this;
     }
 
+    public Cellular2D cellvalue() {
+        fnl.SetCellularReturnType(FastNoiseLite.CellularReturnType.CellValue);
+        return this;
+    }
+
+    public Cellular2D cellhybrid() {
+        fnl.SetCellularDistanceFunction(FastNoiseLite.CellularDistanceFunction.Hybrid);
+        return this;
+    }
+
+    public Cellular2D celljitter(float jitter) {
+        fnl.SetCellularJitter(jitter);
+        return this;
+    }
+
     @Override
-    public OpenSimplex2D scaled(float min, float max) {
+    public Cellular2D scaled(float min, float max) {
         return scaled(-1, 1, min, max);
     }
 
     @Override
-    public OpenSimplex2D scaled(float oldMin, float oldMax, float min, float max) {
+    public Cellular2D scaled(float oldMin, float oldMax, float min, float max) {
         assert oldMin == -1 && oldMax == 1;
         midpoint = (max + min) / 2;
         amplitude = (max - min) / 2;

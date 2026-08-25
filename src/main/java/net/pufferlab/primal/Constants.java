@@ -201,7 +201,8 @@ public class Constants {
     public static final PlantType pondweed = new PlantType("pondweed", aquatic, cropModel);
     public static final PlantType golden_rod    = new PlantType("golden_rod",     grassy, crossedModel,0.06F, 0.55F, 0.90F, 0.25F, 0.60F);
     public static final PlantType calendula     = new PlantType("calendula",      grassy, crossedModel,0.08F, 0.35F, 0.65F, 0.40F, 0.75F);
-    public static final PlantType[] plantType1 = { dry_grass, snowy_grass, cattails, seaweed, pondweed, golden_rod, calendula };
+    public static final PlantType[] plantType1 = { dry_grass, snowy_grass, cattails, seaweed, pondweed };
+    public static final PlantType[] flowerType1 = { golden_rod, calendula };
 
     public static final PlantType dandelion     = new PlantType("dandelion",     grassy, 0.2F, 0.35F, 0.65F, 0.40F, 0.70F);
 

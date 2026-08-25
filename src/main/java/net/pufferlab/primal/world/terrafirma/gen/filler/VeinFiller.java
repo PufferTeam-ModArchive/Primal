@@ -11,11 +11,10 @@ import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.utils.StoneType;
 import net.pufferlab.primal.utils.VeinType;
 import net.pufferlab.primal.utils.WorldUtils;
-import net.pufferlab.primal.world.gen.WorldGenVein;
 import net.pufferlab.primal.world.terrafirma.ChunkBlockData;
 import net.pufferlab.primal.world.terrafirma.ChunkNoiseData;
 
-public class VeinFiller extends WorldGenVein {
+public class VeinFiller implements IBlockLayer {
 
     public World world;
 
@@ -24,7 +23,8 @@ public class VeinFiller extends WorldGenVein {
         Primal.registry.setupServer();
     }
 
-    public void genVein(ChunkBlockData data, ChunkNoiseData dataNoise, int chunkX, int chunkZ) {
+    @Override
+    public void generate(ChunkBlockData data, ChunkNoiseData dataNoise, int chunkX, int chunkZ) {
         for (VeinType vein : Constants.veinTypesAll) {
             if (vein.oreType.oreBlock != null) {
                 int x = data.random.nextInt(16);

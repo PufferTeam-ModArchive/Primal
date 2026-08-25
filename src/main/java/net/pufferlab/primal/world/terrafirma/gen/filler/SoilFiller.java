@@ -12,7 +12,7 @@ import net.pufferlab.primal.world.terrafirma.BiomesTF;
 import net.pufferlab.primal.world.terrafirma.ChunkBlockData;
 import net.pufferlab.primal.world.terrafirma.ChunkNoiseData;
 
-public class SoilFiller {
+public class SoilFiller implements IBlockLayer {
 
     public World world;
     public long seed;
@@ -22,7 +22,8 @@ public class SoilFiller {
         this.seed = world.getSeed();
     }
 
-    public void genSoil(ChunkBlockData data, ChunkNoiseData dataNoise, int chunkX, int chunkZ) {
+    @Override
+    public void generate(ChunkBlockData data, ChunkNoiseData dataNoise, int chunkX, int chunkZ) {
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
                 int worldX = (chunkX << 4) + x;
@@ -49,10 +50,10 @@ public class SoilFiller {
                     if (i == 0) {
                         block = Registry.grass;
                     }
-                    if (rainfall < 0.3F && temperature > 0.6F) {
+                    if (temperature > 0.7F) {
                         block = Blocks.sand;
                     }
-                    if (rainfall < 0.3F && temperature < 0.4F) {
+                    if (temperature < 0.3F) {
                         blockTop = Blocks.snow_layer;
                     }
                     if (y >= Config.seaLevelTF.getInt()) {

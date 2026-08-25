@@ -68,6 +68,7 @@ public class Registry {
     public static final Block farmland;
     public static final Block path;
     public static final Block plant;
+    public static final Block flower;
     public static final Block grass;
     public static final Block mycelium;
     public static final Block block;
@@ -211,6 +212,7 @@ public class Registry {
         double_vertical_stone_slab = new BlockCutSlabVertical(stone, true);
 
         plant = new BlockPlantBush(Constants.plantType1, "plant");
+        flower = new BlockPlantBush(Constants.flowerType1, "flower");
 
         gravel = new BlockStoneGravel(Constants.stoneTypes, "gravel");
         sand = new BlockStoneSand(Constants.stoneTypes, "sand");
@@ -382,6 +384,7 @@ public class Registry {
         register(stone_button, "stone_button");
 
         register(plant, "plant");
+        register(flower, "flower");
 
         setupWoods();
 

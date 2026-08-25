@@ -33,17 +33,17 @@ public class RegionGenerator {
     }
 
     public void genNoise(ChunkNoiseData data, int chunkX, int chunkZ) {
-        this.noiseLayer.genNoiseLayers(data, chunkX, chunkZ);
-        this.noiseTerrain.genTerrain(data, chunkX, chunkZ);
+        this.noiseLayer.generate(data, chunkX, chunkZ);
+        this.noiseTerrain.generate(data, chunkX, chunkZ);
     }
 
     public void genBlocks(ChunkBlockData data, ChunkNoiseData dataNoise, int chunkX, int chunkZ) {
-        this.terrainFiller.genTerrain(data, dataNoise, chunkX, chunkZ);
+        this.terrainFiller.generate(data, dataNoise, chunkX, chunkZ);
 
-        this.soilFiller.genSoil(data, dataNoise, chunkX, chunkZ);
-        this.strataLayers.genStrata(data, dataNoise, chunkX, chunkZ);
+        this.soilFiller.generate(data, dataNoise, chunkX, chunkZ);
+        this.strataLayers.generate(data, dataNoise, chunkX, chunkZ);
 
-        this.veinFiller.genVein(data, dataNoise, chunkX, chunkZ);
-        this.vegetationFiller.genVegetation(data, dataNoise, chunkX, chunkZ);
+        this.veinFiller.generate(data, dataNoise, chunkX, chunkZ);
+        this.vegetationFiller.generate(data, dataNoise, chunkX, chunkZ);
     }
 }

@@ -1,19 +1,28 @@
 package net.pufferlab.primal.world.terrafirma.gen.filler;
 
-import static net.pufferlab.primal.world.terrafirma.gen.noise.NoiseSplines.*;
-
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.PlantType;
+import net.pufferlab.primal.utils.Spline;
 import net.pufferlab.primal.utils.WorldUtils;
 import net.pufferlab.primal.world.structures.StructureFile;
 import net.pufferlab.primal.world.terrafirma.ChunkBlockData;
 import net.pufferlab.primal.world.terrafirma.ChunkNoiseData;
 
-public class VegetationFiller {
+public class VegetationFiller implements IBlockLayer {
+
+    public static final Spline forestSpline;
+
+    static {
+        forestSpline = new Spline();
+        forestSpline.addPoint(0.0F, 0.0F);
+        forestSpline.addPoint(0.6F, 0.0F);
+        forestSpline.addPoint(0.7F, 0.6F);
+        forestSpline.addPoint(1.0F, 1.0F);
+    }
 
     public World world;
 
@@ -21,7 +30,8 @@ public class VegetationFiller {
         this.world = world;
     }
 
-    public void genVegetation(ChunkBlockData data, ChunkNoiseData dataNoise, int chunkX, int chunkZ) {
+    @Override
+    public void generate(ChunkBlockData data, ChunkNoiseData dataNoise, int chunkX, int chunkZ) {
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
                 int worldX = (chunkX << 4) + x;
@@ -71,14 +81,25 @@ public class VegetationFiller {
                                 int num = data.random.nextInt(2) + 1;
                                 int facing = data.random.nextInt(4);
 
-                                StructureFile.loadStructure(
-                                    "oak_tree_" + num,
-                                    worldX,
-                                    y,
-                                    worldZ,
-                                    world,
-                                    facing,
-                                    StructureFile.LoadingPosition.ground);
+                                if (temperature < 0.4F) {
+                                    StructureFile.loadStructure(
+                                        "spruce_tree_1",
+                                        worldX,
+                                        y,
+                                        worldZ,
+                                        world,
+                                        facing,
+                                        StructureFile.LoadingPosition.ground);
+                                } else {
+                                    StructureFile.loadStructure(
+                                        "oak_tree_" + num,
+                                        worldX,
+                                        y,
+                                        worldZ,
+                                        world,
+                                        facing,
+                                        StructureFile.LoadingPosition.ground);
+                                }
                             }
                         }
                     }

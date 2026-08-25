@@ -35,11 +35,8 @@ public class StructureFile {
         this.name = name;
         try {
             this.file = IOUtils.createStructureFile(this.name, "nbt");
-            if (!this.file.exists()) {
-                this.file = null;
-            }
         } catch (IOException e) {
-            this.file = null;
+            e.printStackTrace();
         }
         this.list = new HashSet<>();
     }
@@ -103,7 +100,7 @@ public class StructureFile {
 
     public NBTTagCompound loadFile() {
         if (currentNBT == null) {
-            if (file != null) {
+            if (file.exists()) {
                 currentNBT = IOUtils.readNBTFile(file);
             } else {
                 currentNBT = IOUtils.readNBTFile("/data/structures/" + this.name + ".nbt");

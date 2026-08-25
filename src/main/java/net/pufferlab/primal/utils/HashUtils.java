@@ -34,13 +34,7 @@ public class HashUtils {
     public static long packChunkCoord(long worldSeed, int x, int z) {
         long packed = packChunkCoord(x, z);
 
-        long seed = worldSeed ^ packed;
-
-        seed ^= seed >>> 33;
-        seed *= 0xff51afd7ed558ccdL;
-        seed ^= seed >>> 33;
-        seed *= 0xc4ceb9fe1a85ec53L;
-        seed ^= seed >>> 33;
+        long seed = hashWorldSeed(worldSeed, packed);
 
         return seed;
     }
@@ -79,6 +73,38 @@ public class HashUtils {
 
     public static int unpack3DZ(int packed) {
         return (packed >>> 8) & 15;
+    }
+
+    public static long hashWorldSeed(long worldSeed, long packed) {
+        long seed = worldSeed ^ packed;
+
+        seed ^= seed >>> 33;
+        seed *= 0xff51afd7ed558ccdL;
+        seed ^= seed >>> 33;
+        seed *= 0xc4ceb9fe1a85ec53L;
+        seed ^= seed >>> 33;
+
+        return seed;
+    }
+
+    public static int hashWorldSeed(long worldSeed, int packed) {
+        long seed = worldSeed ^ (packed & 0xFFFFFFFFL);
+
+        seed ^= seed >>> 33;
+        seed *= 0xff51afd7ed558ccdL;
+        seed ^= seed >>> 33;
+        seed *= 0xc4ceb9fe1a85ec53L;
+        seed ^= seed >>> 33;
+
+        return Long.hashCode(seed);
+    }
+
+    public static int hashString(long worldSeed, String string) {
+        int hashCode = string.hashCode();
+
+        int seed = hashWorldSeed(worldSeed, hashCode);
+
+        return seed;
     }
 
     // Float Hashes

@@ -13,7 +13,7 @@ import net.pufferlab.primal.utils.WorldUtils;
 import net.pufferlab.primal.world.terrafirma.ChunkBlockData;
 import net.pufferlab.primal.world.terrafirma.ChunkNoiseData;
 
-public class StrataLayers {
+public class StrataLayers implements IBlockLayer {
 
     public World world;
     public long seed;
@@ -32,7 +32,8 @@ public class StrataLayers {
         }
     }
 
-    public void genStrata(ChunkBlockData data, ChunkNoiseData dataNoise, int chunkX, int chunkZ) {
+    @Override
+    public void generate(ChunkBlockData data, ChunkNoiseData dataNoise, int chunkX, int chunkZ) {
         double[] noiseLayer = new double[5];
         int[] offsetY = new int[5];
 

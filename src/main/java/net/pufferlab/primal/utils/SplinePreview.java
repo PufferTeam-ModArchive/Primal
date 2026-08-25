@@ -4,7 +4,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import net.pufferlab.primal.world.terrafirma.gen.noise.NoiseSplines;
+import net.pufferlab.primal.world.terrafirma.gen.noise.NoiseTerrain;
 
 public class SplinePreview extends JPanel {
 
@@ -64,7 +64,7 @@ public class SplinePreview extends JPanel {
     }
 
     public static void main(String[] args) {
-        Spline spline = NoiseSplines.continentalnessSpline;
+        Spline spline = NoiseTerrain.continentalnessSpline;
         render(spline);
     }
 

@@ -26,47 +26,6 @@ public interface Noise2D {
     }
 
     /**
-     * Creates ridged noise using absolute value
-     *
-     * @return a new noise function
-     */
-    default Noise2D ridged() {
-        return (x, y) -> {
-            float value = Noise2D.this.noise(x, y);
-            value = value < 0 ? -value : value;
-            return 1f - 2f * value;
-        };
-    }
-
-    /**
-     * Takes the absolute value of a noise function. Does not scale the result
-     *
-     * @return a new noise function
-     */
-    default Noise2D abs() {
-        return (x, y) -> Math.abs(Noise2D.this.noise(x, y));
-    }
-
-    default Noise2D warped(float amplitude) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Creates "terraces" by taking the nearest level and rounding
-     * Input must be in range [-1, 1]
-     *
-     * @param levels The number of levels to round to
-     * @return a new noise function
-     */
-    default Noise2D terraces(int levels) {
-        return (x, y) -> {
-            float value = 0.5f * Noise2D.this.noise(x, y) + 0.5f;
-            float rounded = (int) (value * levels); // In range [0, levels)
-            return (rounded * 2f) / levels - 1f;
-        };
-    }
-
-    /**
      * Spreads out the noise via the input parameters
      *
      * @param scaleFactor The scale for the input params

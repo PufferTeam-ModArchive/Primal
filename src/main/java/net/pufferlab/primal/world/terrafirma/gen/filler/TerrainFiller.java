@@ -7,13 +7,14 @@ import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.world.terrafirma.ChunkBlockData;
 import net.pufferlab.primal.world.terrafirma.ChunkNoiseData;
 
-public class TerrainFiller {
+public class TerrainFiller implements IBlockLayer {
 
     public TerrainFiller(World world) {
 
     }
 
-    public void genTerrain(ChunkBlockData data, ChunkNoiseData dataNoise, int chunkX, int chunkZ) {
+    @Override
+    public void generate(ChunkBlockData data, ChunkNoiseData dataNoise, int chunkX, int chunkZ) {
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
 

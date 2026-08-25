@@ -1,13 +1,14 @@
 package net.pufferlab.primal.world.terrafirma.gen.noise;
 
+import static net.pufferlab.primal.utils.HashUtils.hashString;
+
 import net.minecraft.world.World;
 import net.pufferlab.primal.world.noise.Noise2D;
 import net.pufferlab.primal.world.noise.OpenSimplex2D;
 import net.pufferlab.primal.world.terrafirma.ChunkNoiseData;
 
-public class NoiseLayer {
+public class NoiseLayer implements INoiseLayer {
 
-    public World world;
     public long seed;
 
     public Noise2D temperatureNoise;
@@ -17,16 +18,15 @@ public class NoiseLayer {
     public Noise2D detailNoise;
 
     public NoiseLayer(World world) {
-        this.world = world;
         this.seed = world.getSeed();
 
-        long temperatureSeed = seed + 200;
-        long rainfallSeed = seed + 314;
-        long vegetationSeed = seed + 234;
-        long forestnessSeed = seed + 144;
+        int temperatureSeed = hashString(seed, "temperature");
+        int rainfallSeed = hashString(seed, "rainfall");
+        int vegetationSeed = hashString(seed, "vegetation");
+        int forestnessSeed = hashString(seed, "forestness");
 
-        long detailSeed = seed + 2415;
-        long detailSmallSeed = seed + 2417;
+        int detailSeed = hashString(seed, "detail_jitter");
+        int detailSmallSeed = hashString(seed, "detail_small_jitter");
 
         temperatureNoise = new OpenSimplex2D(temperatureSeed).spread(0.001F)
             .octaves(3)
@@ -52,7 +52,8 @@ public class NoiseLayer {
                     .map(x -> x * 0.25F));
     }
 
-    public void genNoiseLayers(ChunkNoiseData data, int chunkX, int chunkZ) {
+    @Override
+    public void generate(ChunkNoiseData data, int chunkX, int chunkZ) {
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
                 int worldX = (chunkX << 4) + x;
