@@ -109,7 +109,7 @@ public class NetworkPacket {
     }
 
     public void sendPlayerData(EntityPlayer player, PlayerData data) {
-        if (!player.worldObj.isRemote) {
+        if (!player.worldObj.isRemote && data != null) {
             Primal.proxy.sendPacketToClient(new PacketPlayerData(player, data));
         }
     }

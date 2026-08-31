@@ -109,6 +109,7 @@ public class PlayerData implements IExtendedEntityProperties {
     }
 
     public static PlayerData get(EntityPlayer player) {
+        if (player == null) return null;
         return (PlayerData) player.getExtendedProperties(name);
     }
 

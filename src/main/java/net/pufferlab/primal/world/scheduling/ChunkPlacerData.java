@@ -102,8 +102,6 @@ public class ChunkPlacerData extends WorldSavedData {
 
             }
         }
-
-        Primal.proxy.packet.sendChunkUpdate(world);
     }
 
     private static final ConcurrentHashMap<World, ChunkPlacerData> cache = new ConcurrentHashMap<>();
