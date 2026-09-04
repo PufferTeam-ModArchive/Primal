@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.nbt.*;
 import net.minecraft.world.World;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.utils.*;
 import net.pufferlab.primal.world.VirtualBlock;
 import net.pufferlab.primal.world.scheduling.BlockHolder;
@@ -100,13 +101,17 @@ public class StructureFile {
 
     public NBTTagCompound loadFile() {
         if (currentNBT == null) {
-            if (file.exists()) {
-                currentNBT = IOUtils.readNBTFile(file);
-            } else {
-                currentNBT = IOUtils.readNBTFile("/data/structures/" + this.name + ".nbt");
+            try {
+                if (file.exists()) {
+                    currentNBT = IOUtils.readNBTFile(file);
+                } else {
+                    currentNBT = IOUtils.readNBTFile("/data/structures/" + this.name + ".nbt");
+                }
+                this.name = currentNBT.getString("name");
+                this.height = currentNBT.getInteger("height");
+            } catch (Exception e) {
+                Primal.LOG.error("Cannot load structure file");
             }
-            this.name = currentNBT.getString("name");
-            this.height = currentNBT.getInteger("height");
         }
         return currentNBT;
     }
