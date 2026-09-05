@@ -28,7 +28,7 @@ public class WDBlockInfoHandler implements IBlockComponentProvider {
 
         if (data.getBlockInfoDebug()) {
             Block block = accessor.getBlock();
-            String name = BlockUtils.getName(block);
+            String name = BlockUtils.getNameFromBlock(block);
             int meta = accessor.getMetadata();
             int renderID = block.getRenderType();
             tooltip.child(new TextComponent("ID: " + name));

@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -93,9 +94,21 @@ public class BlockUtils {
         return z;
     }
 
-    public static String getName(Block block) {
+    public static String getNameFromBlock(Block block) {
         String mod = getBlockRegistry().getNameForObject(block);
         return mod;
+    }
+
+    public static String getNameFromBlock(Block block, int meta) {
+        return getNameFromBlock(block) + "|" + meta;
+    }
+
+    public static String getNameFromBlock(Block block, int meta, NBTTagCompound nbt) {
+        String tagString = "";
+        if (nbt != null) {
+            tagString = "|" + nbt.toString();
+        }
+        return getNameFromBlock(block, meta) + tagString;
     }
 
     public static Map<String, Block> blockMap = new HashMap<>();

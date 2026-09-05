@@ -39,7 +39,14 @@ public class CommandStructure extends CommandSub {
                         int y = coords.posY;
                         int z = coords.posZ;
 
-                        StructureFile.loadStructure(structureName, x, y, z, world, facing);
+                        StructureFile.loadStructure(
+                            structureName,
+                            x,
+                            y,
+                            z,
+                            world,
+                            facing,
+                            StructureFile.LoadingPosition.command);
                         sendChatMessage(sender, "Loaded structure " + structureName + " from structure folder");
                     }
                 }

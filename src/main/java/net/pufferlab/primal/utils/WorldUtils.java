@@ -63,6 +63,11 @@ public class WorldUtils {
         return getChunkBlockMetadata(chunk, x2, y, z2);
     }
 
+    public static void setBlock(World world, int x, int y, int z, Block block, int meta, NBTTagCompound nbt) {
+        world.setBlock(x, y, z, block, meta, 2);
+        WorldUtils.setTileEntityNBT(world, x, y, z, block, meta, nbt);
+    }
+
     public static void setBlockStructure(World world, int x, int y, int z, Block block, int meta, NBTTagCompound nbt) {
         ChunkPlacerData.addBlock(world, x, y, z, block, meta, nbt);
     }

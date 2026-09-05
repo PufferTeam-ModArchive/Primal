@@ -3,6 +3,7 @@ package net.pufferlab.primal.world.scheduling;
 import java.util.concurrent.ConcurrentHashMap;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
@@ -81,6 +82,16 @@ public class ChunkPlacerData extends WorldSavedData {
 
     public static void addBlockFast(World world, int x, int y, int z, Block block, int meta) {
         addBlock(world, x, y, z, block, meta, null, true);
+    }
+
+    public static void tickPlacement(World world, Entity entity) {
+        int posX = Mth.floor(entity.posX);
+        int posZ = Mth.floor(entity.posZ);
+
+        int chunkX = posX >> 4;
+        int chunkZ = posZ >> 4;
+
+        tickPlacement(world, chunkX, chunkZ);
     }
 
     public static void tickPlacement(World world, int chunkX, int chunkZ) {

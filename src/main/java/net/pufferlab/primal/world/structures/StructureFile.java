@@ -10,27 +10,21 @@ import net.minecraft.nbt.*;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.utils.*;
-import net.pufferlab.primal.world.VirtualBlock;
-import net.pufferlab.primal.world.scheduling.BlockHolder;
-import net.pufferlab.primal.world.scheduling.ChunkPlacerData;
-
-import org.joml.Matrix4f;
-import org.joml.Vector3f;
 
 public class StructureFile {
 
     public enum LoadingPosition {
         normal,
+        command,
         ground
     }
 
+    public boolean hasLoaded = false;
     public String name;
     public File file;
     public int height;
-    public Set<NBTTagCompound> list;
-    public boolean[] hasCachedBlocks = new boolean[4];
-    public List<BlockHolder>[] blocks = new List[4];
-    public NBTTagCompound currentNBT;
+    public int version = 1;
+    public StructureRotated rotateStructure;
 
     public StructureFile(String name) {
         this.name = name;
@@ -39,33 +33,19 @@ public class StructureFile {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.list = new HashSet<>();
+        this.rotateStructure = new StructureRotated();
     }
 
-    public boolean hasCachedBlocks(int facing) {
-        return this.hasCachedBlocks[facing];
+    public StructureBlockList getList(int facing) {
+        return rotateStructure.getList(facing);
     }
 
-    public void addCachedBlock(BlockHolder block, int facing) {
-        if (this.blocks[facing] == null) {
-            this.blocks[facing] = new ArrayList<>();
-            this.hasCachedBlocks[facing] = true;
-        }
-        this.blocks[facing].add(block);
+    public void addBlockCoord(Block block, int meta, NBTTagCompound nbt, int x, int y, int z) {
+        rotateStructure.addBlockCoord(block, meta, nbt, x, y, z);
     }
 
-    public void placeCachedBlocks(World world, int x, int y, int z, int facing) {
-        for (int i = 0; i < this.blocks[facing].size(); i++) {
-            BlockHolder holder = this.blocks[facing].get(i);
-            if (holder != null) {
-                ChunkPlacerData
-                    .addBlock(world, holder.x + x, holder.y + y, holder.z + z, holder.block, holder.meta, holder.nbt);
-            }
-        }
-    }
-
-    public void addBlockInfo(NBTTagCompound tag) {
-        this.list.add(tag);
+    public void rotateStep(World world) {
+        rotateStructure.rotateStructure(world);
     }
 
     public int getStructureHeight() {
@@ -76,44 +56,63 @@ public class StructureFile {
         this.height = height;
     }
 
-    public NBTTagCompound getNBT() {
-        NBTTagCompound nbt = new NBTTagCompound();
+    public void writeToNBT(NBTTagCompound nbt) {
         nbt.setString("name", this.name);
         nbt.setInteger("height", this.height);
-        NBTTagList tagList = new NBTTagList();
-        for (NBTTagCompound tag : this.list) {
-            tagList.appendTag(tag);
-        }
-        nbt.setTag("blocks", tagList);
-        return nbt;
+        nbt.setInteger("version", this.version);
+        NBTTagCompound nbt2 = new NBTTagCompound();
+        this.rotateStructure.writeToNBT(nbt2);
+        nbt.setTag("blocks", nbt2);
     }
 
-    public void setNBT(NBTTagCompound tag) {
-        currentNBT = tag;
+    public void readFromNBT(NBTTagCompound nbt) {
+        this.name = nbt.getString("name");
+        this.height = nbt.getInteger("height");
+        this.version = nbt.getInteger("version");
+        if (this.version == 0) {
+            this.rotateStructure = new StructureRotated();
+            NBTTagList blocks = null;
+            for (int i = 0; i < 4; i++) {
+                if (i == 0) {
+                    blocks = nbt.getTagList("blocks", NBTType.TagCompound);
+                } else {
+                    blocks = nbt.getTagList("blocks_" + i, NBTType.TagCompound);
+                }
+                StructureBlockList blockList = new StructureBlockList();
+                blockList.readFromNBT(blocks);
+                this.rotateStructure.structureLists[i] = blockList;
+            }
+            Primal.LOG.warn("Using outdated structure format, consider updating by saving again.");
+        }
+        if (this.version == 1) {
+            NBTTagCompound nbt3 = nbt.getCompoundTag("blocks");
+            this.rotateStructure = new StructureRotated(nbt3);
+        }
     }
 
     public void saveFile() {
-        if (currentNBT == null) {
-            currentNBT = getNBT();
-        }
-        IOUtils.writeNBTFile(file, currentNBT);
+        NBTTagCompound nbt = new NBTTagCompound();
+        writeToNBT(nbt);
+        IOUtils.writeNBTFile(file, nbt);
     }
 
-    public NBTTagCompound loadFile() {
-        if (currentNBT == null) {
-            try {
-                if (file.exists()) {
-                    currentNBT = IOUtils.readNBTFile(file);
-                } else {
-                    currentNBT = IOUtils.readNBTFile("/data/structures/" + this.name + ".nbt");
-                }
-                this.name = currentNBT.getString("name");
-                this.height = currentNBT.getInteger("height");
-            } catch (Exception e) {
-                Primal.LOG.error("Cannot load structure file");
+    public void loadFile() {
+        if (this.hasLoaded) return;
+        NBTTagCompound nbt = null;
+        try {
+            if (file.exists()) {
+                nbt = IOUtils.readNBTFile(file);
+                Primal.LOG.warn("Loading from local structure folder");
+            } else {
+                nbt = IOUtils.readNBTFile("/data/structures/" + this.name + ".nbt");
             }
+        } catch (Exception e) {
+            Primal.LOG.error("Cannot load structure file");
         }
-        return currentNBT;
+        if (nbt != null) {
+            readFromNBT(nbt);
+            this.hasLoaded = true;
+        }
     }
 
     public static Map<String, StructureFile> cachedStructure = new HashMap<>();
@@ -148,14 +147,12 @@ public class StructureFile {
                     if (block.getMaterial() == Material.air) continue;
                     int meta = world.getBlockMetadata(x, y, z);
                     NBTTagCompound teData = WorldUtils.getTileEntityNBT(world, x, y, z, block, meta);
-                    NBTTagCompound blockInfo = getBlockInfo(block, meta, teData);
-                    addBlockCoord(blockInfo, x - middleX, y - middleY, z - middleZ);
+                    file.addBlockCoord(block, meta, teData, x - middleX, y - middleY, z - middleZ);
                 }
             }
         }
 
-        syncNBT(file);
-        rotateStructure(file, world);
+        file.rotateStep(world);
         file.saveFile();
     }
 
@@ -180,168 +177,36 @@ public class StructureFile {
 
     public static void loadStructure(StructureFile file, int x, int y, int z, World world, int facing,
         LoadingPosition loadingPosition) {
-        NBTTagCompound tag = file.loadFile();
-        NBTTagList blocks;
+        file.loadFile();
+        Primal.debugLog(file.rotateStructure.structureLists[0].toString());
 
         int height = file.getStructureHeight() / 2;
         int offsetY = 0;
         if (loadingPosition == LoadingPosition.ground) {
             offsetY = height;
         }
-        if (file.hasCachedBlocks(facing)) {
-            file.placeCachedBlocks(world, x, y + offsetY, z, facing);
-        } else {
-            if (facing == 0) {
-                blocks = tag.getTagList("blocks", NBTType.TagCompound);
-            } else {
-                blocks = tag.getTagList("blocks_" + facing, NBTType.TagCompound);
-            }
-            for (int i = 0; i < blocks.tagCount(); i++) {
-                NBTTagCompound blockInfo = blocks.getCompoundTagAt(i);
-                Block block = BlockUtils.getBlockFromName(blockInfo.getString("block"));
-                int meta = blockInfo.getInteger("meta");
-                NBTTagCompound nbt = null;
-                if (blockInfo.hasKey("nbt")) {
-                    nbt = blockInfo.getCompoundTag("nbt");
-                }
-                byte[] coords = blockInfo.getByteArray("coords");
-                for (int j = 0; j < coords.length; j += 3) {
-                    int x0 = coords[j];
-                    int y0 = coords[j + 1];
-                    int z0 = coords[j + 2];
-                    file.addCachedBlock(new BlockHolder(x0, y0, z0, block, meta, nbt), facing);
-                    WorldUtils.setBlockStructure(world, x0 + x, y0 + offsetY + y, z0 + z, block, meta, nbt);
-                }
-            }
-        }
-    }
 
-    public static Matrix4f matrix = new Matrix4f();
-
-    public static void rotateStructure(StructureFile file, World world) {
-        NBTTagCompound tag = file.getNBT();
-        NBTTagList blocks = tag.getTagList("blocks", NBTType.TagCompound);
-        NBTTagList[] blocksRotated = new NBTTagList[3];
-        for (int i = 0; i < 3; i++) {
-            blocksRotated[i] = new NBTTagList();
-        }
-        for (int i = 0; i < blocks.tagCount(); i++) {
-            NBTTagCompound blockInfo = blocks.getCompoundTagAt(i);
-            byte[] coords = blockInfo.getByteArray("coords");
-            byte[][] coordsRotated = new byte[3][coords.length];
+        StructureBlockList blockList = file.getList(facing);
+        for (StructureBlock block : blockList.blockMap.values()) {
+            byte[] coords = block.coords;
             for (int j = 0; j < coords.length; j += 3) {
                 int x0 = coords[j];
                 int y0 = coords[j + 1];
                 int z0 = coords[j + 2];
-                Vector3f coord = new Vector3f(x0, y0, z0);
-                for (int k = 0; k < 3; k++) {
-                    coord.set(x0, y0, z0);
-                    matrix.identity();
-                    int p = k;
-                    if (k == 2) {
-                        p = 1;
-                    }
-                    if (k == 1) {
-                        p = 2;
-                    }
-                    for (int l = 0; l < (p + 1); l++) {
-                        matrix.rotateY(-(float) Math.PI / 2);
-                        matrix.transformPosition(coord);
-                        int x = Mth.floor(coord.x);
-                        int y = Mth.floor(coord.y);
-                        int z = Mth.floor(coord.z);
-                        coord.set(x, y, z);
-                    }
-                    coordsRotated[k][j] = (byte) Mth.floor(coord.x);
-                    coordsRotated[k][j + 1] = (byte) Mth.floor(coord.y);
-                    coordsRotated[k][j + 2] = (byte) Mth.floor(coord.z);
+                if (loadingPosition == LoadingPosition.command) {
+                    WorldUtils
+                        .setBlock(world, x0 + x, y0 + offsetY + y, z0 + z, block.block, block.metadata, block.tag);
+                } else {
+                    WorldUtils.setBlockStructure(
+                        world,
+                        x0 + x,
+                        y0 + offsetY + y,
+                        z0 + z,
+                        block.block,
+                        block.metadata,
+                        block.tag);
                 }
             }
-            for (int k = 0; k < 3; k++) {
-                NBTTagCompound rotatedBlockInfo = rotateBlockInfo(world, blockInfo, coordsRotated[k], k + 1);
-                blocksRotated[k].appendTag(rotatedBlockInfo);
-            }
         }
-        for (int k = 0; k < 3; k++) {
-            tag.setTag("blocks_" + (k + 1), blocksRotated[k]);
-        }
-        file.setNBT(tag);
-    }
-
-    public static VirtualBlock virtualBlock = new VirtualBlock(0, 0, 0);
-
-    public static NBTTagCompound rotateBlockInfo(World world, NBTTagCompound blockInfo0, byte[] newCoords,
-        int rotation) {
-
-        NBTTagCompound blockInfo = (NBTTagCompound) blockInfo0.copy();
-        Block block = BlockUtils.getBlockFromName(blockInfo.getString("block"));
-        int meta = blockInfo.getInteger("meta");
-        NBTTagCompound nbt = null;
-        if (blockInfo.hasKey("nbt")) {
-            nbt = blockInfo.getCompoundTag("nbt");
-        }
-
-        virtualBlock.placeBlock(world, block, meta, nbt);
-
-        for (int i = 0; i < rotation; i++) {
-            virtualBlock.rotateBlock(world);
-        }
-
-        int newMeta = virtualBlock.getBlockMetadata(world);
-        blockInfo.setInteger("meta", newMeta);
-
-        NBTTagCompound newTag = virtualBlock.getTileEntityNBT(world);
-        if (newTag != null) {
-            blockInfo.setTag("nbt", newTag);
-        }
-
-        blockInfo.setByteArray("coords", newCoords);
-
-        return blockInfo;
-    }
-
-    public static final Map<String, NBTTagCompound> nbtCache = new HashMap<>();
-
-    public static void syncNBT(StructureFile file) {
-        for (NBTTagCompound nbt : nbtCache.values()) {
-            file.addBlockInfo(nbt);
-        }
-        nbtCache.clear();
-    }
-
-    public static NBTTagCompound getBlockInfo(Block block, int meta, NBTTagCompound tag) {
-        NBTTagCompound nbt = new NBTTagCompound();
-        nbt.setString("block", BlockUtils.getName(block));
-        nbt.setInteger("meta", meta);
-        if (tag != null) {
-            nbt.setTag("nbt", tag);
-        }
-
-        String string = nbt.toString();
-        NBTTagCompound nbtOld = nbtCache.get(string);
-        if (nbtOld != null) {
-            return nbtOld;
-        }
-        nbtCache.put(string, nbt);
-        return nbt;
-    }
-
-    public static void addBlockCoord(NBTTagCompound tag, int x, int y, int z) {
-        byte[] tagList;
-        if (tag.hasKey("coords")) {
-            tagList = tag.getByteArray("coords");
-        } else {
-            tagList = new byte[0];
-        }
-        tagList = appendXYZ(tagList, x, y, z);
-        tag.setByteArray("coords", tagList);
-    }
-
-    public static byte[] appendXYZ(byte[] array, int x, int y, int z) {
-        byte[] result = Arrays.copyOf(array, array.length + 3);
-        result[array.length] = (byte) x;
-        result[array.length + 1] = (byte) y;
-        result[array.length + 2] = (byte) z;
-        return result;
     }
 }

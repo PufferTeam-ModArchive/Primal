@@ -39,16 +39,15 @@ public class VegetationFiller implements IBlockLayer {
 
                 int y = dataNoise.getHeight(x, z);
 
-                Block block = data.getBlock(x, y - 1, z);
+                Block blockBelow = data.getBlock(x, y - 1, z);
                 Block blockReplacing = data.getBlock(x, y, z);
-                if (block != Blocks.air) {
+                if (blockBelow != Blocks.air) {
                     float detail = dataNoise.getDetail(x, z);
 
                     float temperature = dataNoise.getTemperature(x, z) + (detail * 0.03F);
                     float vegetation = dataNoise.getVegetation(x, z) + (detail * 0.02F);
                     float forestness = dataNoise.getForestness(x, z) + (detail * 0.02F);
 
-                    Block blockBelow = data.getBlock(x, y - 1, z);
                     if (BlockUtils.isSandBlock(blockBelow)) {
                         if (vegetation > 0.5F) {
                             if (data.random.nextFloat() < 0.05F) {
@@ -117,7 +116,8 @@ public class VegetationFiller implements IBlockLayer {
                     if (plant.canSpawn(rainfall, temperature)) {
                         int y = dataNoise.getHeight(x, z);
                         Block block = data.getBlock(x, y - 1, z);
-                        if (block != Blocks.air) {
+                        Block blockReplacing = data.getBlock(x, y, z);
+                        if (block != Blocks.air && blockReplacing == Blocks.air) {
                             boolean shouldSpawn = false;
                             if (plant.isDesertic) {
                                 shouldSpawn = BlockUtils.isSandBlock(block);
