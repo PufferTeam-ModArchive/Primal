@@ -17,4 +17,9 @@ public class ContainerGenerator extends ContainerPrimal {
     public boolean canInteractWith(EntityPlayer player) {
         return true;
     }
+
+    @Override
+    public String getIdentifier() {
+        return "generator";
+    }
 }

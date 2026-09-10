@@ -55,4 +55,9 @@ public class BlockPathRenderer extends BlockPrimalRenderer {
     public boolean shouldRender3DInInventory(int modelId) {
         return true;
     }
+
+    @Override
+    public String getIdentifier() {
+        return "path";
+    }
 }

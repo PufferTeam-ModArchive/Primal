@@ -14,23 +14,34 @@ public class IdentifierMap<T> {
     public IdentifierMap() {}
 
     public void putObject(T obj, int id) {
-        String name = obj.getClass()
-            .getName();
-        if (obj instanceof String string) {
-            name = string;
+        String name = getIdentifier(obj);
+        if (name != null) {
+            if (nameToID.containsKey(name)) {
+                throw new IllegalStateException("Cannot map '" + name + "' as it already has a identifier");
+            } else {
+                nameToID.put(name, id);
+                idToName.put(id, name);
+                idToObject.put(id, obj);
+            }
+        } else {
+            throw new IllegalStateException("Cannot add a null object");
         }
-        nameToID.put(name, id);
-        idToName.put(id, name);
-        idToObject.put(id, obj);
     }
 
     public int getID(Object obj) {
-        String name = obj.getClass()
-            .getName();
-        if (obj instanceof String string) {
-            name = string;
-        }
+        String name = getIdentifier(obj);
         return nameToID.get(name);
+    }
+
+    public static String getIdentifier(Object obj) {
+        if (obj instanceof String string) {
+            return string;
+        }
+        if (obj instanceof IIdentifiable string) {
+            return string.getIdentifier();
+        }
+        return obj.getClass()
+            .getName();
     }
 
     public String getName(int id) {

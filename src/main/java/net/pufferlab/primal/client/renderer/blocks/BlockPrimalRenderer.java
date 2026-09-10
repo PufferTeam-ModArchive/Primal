@@ -17,13 +17,14 @@ import net.minecraftforge.client.ForgeHooksClient;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.IMetaBlock;
 import net.pufferlab.primal.blocks.IPrimalBlock;
+import net.pufferlab.primal.utils.IIdentifiable;
 import net.pufferlab.primal.utils.Utils;
 
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
-public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandler {
+public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandler, IIdentifiable {
 
     private final Random randomLocal = new Random(91964521L);
 
@@ -45,6 +46,11 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
             this.renderID = Primal.proxy.getRenderId(this);
         }
         return this.renderID;
+    }
+
+    @Override
+    public String getIdentifierType() {
+        return "block_renderer";
     }
 
     public boolean hasAO() {

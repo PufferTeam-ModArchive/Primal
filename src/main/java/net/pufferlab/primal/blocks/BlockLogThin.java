@@ -321,11 +321,6 @@ public class BlockLogThin extends Block implements IPrimalBlock, IMetaBlock {
     }
 
     @Override
-    public int getRenderType() {
-        return getRenderId();
-    }
-
-    @Override
     public ISimpleBlockRenderingHandler getRenderer() {
         return Primal.proxy.getThinLogRenderer();
     }

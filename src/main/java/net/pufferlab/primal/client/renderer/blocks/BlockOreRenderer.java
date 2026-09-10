@@ -76,4 +76,9 @@ public class BlockOreRenderer extends BlockPrimalRenderer {
     public boolean shouldRender3DInInventory(int modelId) {
         return true;
     }
+
+    @Override
+    public String getIdentifier() {
+        return "ore";
+    }
 }

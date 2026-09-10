@@ -57,4 +57,9 @@ public class BlockCastRenderer extends BlockPrimalRenderer {
     public boolean shouldRender3DInInventory(int modelId) {
         return false;
     }
+
+    @Override
+    public String getIdentifier() {
+        return "cast";
+    }
 }

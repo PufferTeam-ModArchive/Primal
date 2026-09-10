@@ -145,11 +145,6 @@ public class BlockGroundcover extends BlockMeta {
     }
 
     @Override
-    public int getRenderType() {
-        return getRenderId();
-    }
-
-    @Override
     public Class<? extends ItemBlock> getItemBlockClass() {
         return null;
     }

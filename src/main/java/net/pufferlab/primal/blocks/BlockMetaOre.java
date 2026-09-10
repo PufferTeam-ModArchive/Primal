@@ -220,11 +220,6 @@ public class BlockMetaOre extends BlockStone implements IPrimalBlock, IMetaBlock
     }
 
     @Override
-    public int getRenderType() {
-        return getRenderId();
-    }
-
-    @Override
     public boolean canRenderInPass(int pass) {
         return true;
     }

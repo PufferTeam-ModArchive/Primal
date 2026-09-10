@@ -90,11 +90,6 @@ public class BlockCutStairs extends BlockStairs implements ITileEntityProvider, 
     }
 
     @Override
-    public int getRenderType() {
-        return getRenderId();
-    }
-
-    @Override
     public void onBlockHarvested(World worldIn, int x, int y, int z, int meta, EntityPlayer player) {
         if (player.capabilities.isCreativeMode) return;
         dropBlockAsItem(worldIn, x, y, z, new ItemStack(this, 1, getDamageValue(worldIn, x, y, z)));

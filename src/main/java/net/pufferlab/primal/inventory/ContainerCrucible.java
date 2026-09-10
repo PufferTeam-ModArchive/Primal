@@ -70,4 +70,9 @@ public class ContainerCrucible extends ContainerPrimal {
 
         return itemstack;
     }
+
+    @Override
+    public String getIdentifier() {
+        return "crucible";
+    }
 }

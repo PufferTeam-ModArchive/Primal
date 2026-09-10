@@ -117,11 +117,6 @@ public class BlockRopeLadder extends BlockLadder implements IPrimalBlock {
     }
 
     @Override
-    public int getRenderType() {
-        return getRenderId();
-    }
-
-    @Override
     public CreativeTabs getCreativeTab() {
         return Registry.creativeTab;
     }

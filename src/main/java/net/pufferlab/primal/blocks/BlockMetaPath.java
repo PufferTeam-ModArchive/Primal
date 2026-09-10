@@ -225,9 +225,4 @@ public class BlockMetaPath extends BlockDirt implements IPrimalBlock, IMetaBlock
     public ISimpleBlockRenderingHandler getRenderer() {
         return Primal.proxy.getPathRenderer();
     }
-
-    @Override
-    public int getRenderType() {
-        return getRenderId();
-    }
 }

@@ -125,11 +125,6 @@ public class BlockCutPressurePlate extends BlockPressurePlate implements ITileEn
     }
 
     @Override
-    public int getRenderType() {
-        return getRenderId();
-    }
-
-    @Override
     public boolean useWorldIcon() {
         return true;
     }

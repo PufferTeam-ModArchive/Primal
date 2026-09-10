@@ -56,4 +56,9 @@ public class BlockTanningRenderer extends BlockPrimalRenderer {
     public boolean shouldRender3DInInventory(int modelId) {
         return true;
     }
+
+    @Override
+    public String getIdentifier() {
+        return "tanning_frame";
+    }
 }

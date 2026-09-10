@@ -134,4 +134,9 @@ public class ContainerKnapping extends ContainerPrimal {
     public boolean canInteractWith(EntityPlayer player) {
         return true;
     }
+
+    @Override
+    public String getIdentifier() {
+        return "knapping";
+    }
 }

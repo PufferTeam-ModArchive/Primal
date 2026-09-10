@@ -42,4 +42,9 @@ public class BlockBloomeryRenderer extends BlockPrimalRenderer {
     public boolean shouldRender3DInInventory(int modelId) {
         return false;
     }
+
+    @Override
+    public String getIdentifier() {
+        return "bloomery";
+    }
 }

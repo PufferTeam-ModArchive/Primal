@@ -40,9 +40,4 @@ public abstract class BlockPrimal extends Block implements IPrimalBlock {
     public CreativeTabs getCreativeTab() {
         return Registry.creativeTab;
     }
-
-    @Override
-    public int getRenderType() {
-        return getRenderId();
-    }
 }

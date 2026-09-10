@@ -147,11 +147,6 @@ public class BlockMetaBush extends BlockBush implements IPrimalBlock, IMetaBlock
     }
 
     @Override
-    public int getRenderType() {
-        return getRenderId();
-    }
-
-    @Override
     public EnumPlantType getPlantType(IBlockAccess world, int x, int y, int z) {
         return EnumPlantType.Plains;
     }

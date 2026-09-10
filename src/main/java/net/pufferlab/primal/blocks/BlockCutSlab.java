@@ -168,11 +168,6 @@ public class BlockCutSlab extends BlockSlab implements ITileEntityProvider, IPri
     }
 
     @Override
-    public int getRenderType() {
-        return getRenderId();
-    }
-
-    @Override
     public boolean useWorldIcon() {
         return true;
     }

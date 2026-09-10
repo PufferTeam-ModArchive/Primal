@@ -73,4 +73,8 @@ public class ContainerLargeVessel extends ContainerPrimal {
         return itemstack;
     }
 
+    @Override
+    public String getIdentifier() {
+        return "large_vessel";
+    }
 }

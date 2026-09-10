@@ -30,6 +30,7 @@ public class PrimalEarlyMixins implements IFMLLoadingPlugin, IEarlyMixinLoader {
             .isClient();
         Config.setupEarlyConfig();
 
+        mixins.add("minecraft.client.MixinBlockRenderType");
         if (isClient) {
             if (Config.particleFix.getBoolean()) {
                 mixins.add("minecraft.client.MixinEntityDiggingFX");

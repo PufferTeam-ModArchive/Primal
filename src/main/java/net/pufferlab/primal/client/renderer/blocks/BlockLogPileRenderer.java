@@ -105,4 +105,9 @@ public class BlockLogPileRenderer extends BlockPrimalRenderer {
     public boolean shouldRender3DInInventory(int modelId) {
         return false;
     }
+
+    @Override
+    public String getIdentifier() {
+        return "log_pile";
+    }
 }

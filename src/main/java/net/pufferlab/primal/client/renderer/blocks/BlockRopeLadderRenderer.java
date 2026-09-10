@@ -41,4 +41,9 @@ public class BlockRopeLadderRenderer extends BlockPrimalRenderer {
     public boolean shouldRender3DInInventory(int modelId) {
         return false;
     }
+
+    @Override
+    public String getIdentifier() {
+        return "rope_ladder";
+    }
 }

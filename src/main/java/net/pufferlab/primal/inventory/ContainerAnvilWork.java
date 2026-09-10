@@ -17,4 +17,9 @@ public class ContainerAnvilWork extends ContainerPrimal {
     public boolean canInteractWith(EntityPlayer player) {
         return tileAnvil.isUseableByPlayer(player);
     }
+
+    @Override
+    public String getIdentifier() {
+        return "anvil_work";
+    }
 }

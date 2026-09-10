@@ -215,11 +215,6 @@ public class BlockCropsBush extends BlockCrops implements IPrimalBlock, ISchedul
     }
 
     @Override
-    public int getRenderType() {
-        return getRenderId();
-    }
-
-    @Override
     public Class<? extends ItemBlock> getItemBlockClass() {
         return null;
     }
