@@ -15,11 +15,13 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
     public ScheduleManager manager = new ScheduleManager(Task.fuel);
     public HeatInfo heat = new HeatInfo(1300);
 
+    public static int slotAsh = 8;
+
     public int timeUpdate;
     public int lastLevel;
 
     public TileEntityForge() {
-        super(8);
+        super(9);
     }
 
     @Override
@@ -98,7 +100,10 @@ public class TileEntityForge extends TileEntityInventory implements IHeatable, I
             removeFuel();
             if (i != -1) {
                 setInventorySlotContentsUpdate(i);
-                setInventorySlotContentsUpdate(i, ItemUtils.getModItem("ash", 1));
+                addItemInSlotUpdate(
+                    slotAsh,
+                    ItemUtils.getModItem("ash", 1)
+                        .copy());
             }
         }
         sendFuelUpdate();

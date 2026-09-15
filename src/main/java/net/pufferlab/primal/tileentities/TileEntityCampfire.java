@@ -130,7 +130,10 @@ public class TileEntityCampfire extends TileEntityInventory implements IHeatable
             removeFuel();
             if (i != -1) {
                 setInventorySlotContentsUpdate(i);
-                setInventorySlotContentsUpdate(i, ItemUtils.getModItem("ash", 1));
+                addItemInSlotUpdate(
+                    slotAsh,
+                    ItemUtils.getModItem("ash", 1)
+                        .copy());
             }
         }
         sendFuelUpdate();
