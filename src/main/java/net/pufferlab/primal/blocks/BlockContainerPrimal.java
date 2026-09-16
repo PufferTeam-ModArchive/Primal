@@ -212,4 +212,9 @@ public abstract class BlockContainerPrimal extends BlockContainer implements IPr
             world.spawnEntityInWorld((Entity) entityItem);
         }
     }
+
+    @Override
+    public int getRenderType() {
+        return getRenderId();
+    }
 }

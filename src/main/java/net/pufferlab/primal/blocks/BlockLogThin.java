@@ -326,6 +326,11 @@ public class BlockLogThin extends Block implements IPrimalBlock, IMetaBlock {
     }
 
     @Override
+    public int getRenderType() {
+        return getRenderId();
+    }
+
+    @Override
     public String[] getElements() {
         return names;
     }

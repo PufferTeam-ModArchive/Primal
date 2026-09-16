@@ -168,6 +168,11 @@ public class BlockCutSlabVertical extends BlockSlabVertical implements ITileEnti
     }
 
     @Override
+    public int getRenderType() {
+        return getRenderId();
+    }
+
+    @Override
     public boolean useWorldIcon() {
         return true;
     }

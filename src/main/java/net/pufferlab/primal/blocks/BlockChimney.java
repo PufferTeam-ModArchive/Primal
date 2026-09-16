@@ -24,6 +24,11 @@ public class BlockChimney extends BlockMeta {
     }
 
     @Override
+    public int getRenderType() {
+        return getRenderId();
+    }
+
+    @Override
     public boolean isOpaqueCube() {
         return false;
     }

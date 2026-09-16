@@ -152,6 +152,11 @@ public class BlockCutButton extends BlockButton implements ITileEntityProvider, 
     }
 
     @Override
+    public int getRenderType() {
+        return getRenderId();
+    }
+
+    @Override
     public boolean useWorldIcon() {
         return true;
     }

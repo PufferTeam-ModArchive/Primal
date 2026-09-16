@@ -84,6 +84,7 @@ public class RecipesHelper {
             if (objects[i] instanceof ItemStack) {
                 stacks[i] = (ItemStack) objects[i];
             } else if (objects[i] instanceof List<?>list) {
+                if (list.isEmpty()) continue;
                 stacks[i] = (ItemStack) list.get(0);
             }
         }
@@ -98,6 +99,7 @@ public class RecipesHelper {
             if (objects.get(i) instanceof ItemStack) {
                 stacks[i] = (ItemStack) objects.get(i);
             } else if (objects.get(i) instanceof List<?>list) {
+                if (list.isEmpty()) continue;
                 stacks[i] = (ItemStack) list.get(0);
             }
         }
