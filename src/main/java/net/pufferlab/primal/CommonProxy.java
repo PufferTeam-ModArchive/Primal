@@ -15,9 +15,6 @@ import net.pufferlab.primal.client.renderer.blocks.*;
 import net.pufferlab.primal.inventory.*;
 import net.pufferlab.primal.network.NetworkPacket;
 import net.pufferlab.primal.recipes.KnappingType;
-import net.pufferlab.primal.tileentities.TileEntityAnvil;
-import net.pufferlab.primal.tileentities.TileEntityCrucible;
-import net.pufferlab.primal.tileentities.TileEntityLargeVessel;
 import net.pufferlab.primal.utils.IdentifierMap;
 import net.pufferlab.primal.world.ChunkLoadingCallback;
 
@@ -70,24 +67,24 @@ public class CommonProxy implements IGuiHandler {
     protected BlockBloomeryRenderer bloomeryRenderer;
     protected BlockCropsRenderer cropsRenderer;
 
-    public ContainerLargeVessel largeVesselGui;
-    public ContainerCrucible crucibleGui;
-    public ContainerGenerator generatorGui;
-    public ContainerAnvilWork anvilWorkGui;
-    public ContainerAnvilPlan anvilPlanGui;
+    public InterfaceLargeVessel largeVesselGui;
+    public InterfaceCrucible crucibleGui;
+    public InterfaceGenerator generatorGui;
+    public InterfaceAnvilWork anvilWorkGui;
+    public InterfaceAnvilPlan anvilPlanGui;
 
     public void preInit(FMLPreInitializationEvent event) {}
 
-    private final IdentifierMap<ContainerPrimal> guiMap = new IdentifierMap<>();
+    private final IdentifierMap<InterfacePrimal> guiMap = new IdentifierMap<>();
 
     public void setupGUIs() {
         NetworkRegistry.INSTANCE.registerGuiHandler(Primal.instance, Primal.proxy);
 
-        largeVesselGui = new ContainerLargeVessel();
-        crucibleGui = new ContainerCrucible();
-        generatorGui = new ContainerGenerator();
-        anvilWorkGui = new ContainerAnvilWork();
-        anvilPlanGui = new ContainerAnvilPlan();
+        largeVesselGui = new InterfaceLargeVessel();
+        crucibleGui = new InterfaceCrucible();
+        generatorGui = new InterfaceGenerator();
+        anvilWorkGui = new InterfaceAnvilWork();
+        anvilPlanGui = new InterfaceAnvilPlan();
 
         register(largeVesselGui);
         register(crucibleGui);
@@ -96,7 +93,7 @@ public class CommonProxy implements IGuiHandler {
         register(anvilPlanGui);
     }
 
-    public <T extends ContainerPrimal> void register(T object) {
+    public <T extends InterfacePrimal> void register(T object) {
         guiMap.putObject(object, getNextGuiID());
     }
 
@@ -104,10 +101,6 @@ public class CommonProxy implements IGuiHandler {
 
     public int getNextGuiID() {
         return nextGuiID++;
-    }
-
-    public int getLastGuiID() {
-        return nextGuiID + 10;
     }
 
     public void setupRenders() {}
@@ -128,32 +121,15 @@ public class CommonProxy implements IGuiHandler {
 
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-        KnappingType knappingType = KnappingType.getHandler(ID);
-        if (knappingType != null) {
-            return new ContainerKnapping(knappingType, player.inventory);
-        }
-        ContainerPrimal gui = getGui(ID);
-        TileEntity te = world.getTileEntity(x, y, z);
-        if (gui instanceof ContainerLargeVessel && te instanceof TileEntityLargeVessel tef) {
-            return new ContainerLargeVessel(player.inventory, tef);
-        }
-        if (gui instanceof ContainerCrucible && te instanceof TileEntityCrucible tef) {
-            return new ContainerCrucible(player.inventory, tef);
-        }
-        if (gui instanceof ContainerAnvilWork && te instanceof TileEntityAnvil tef) {
-            return new ContainerAnvilWork(tef);
-        }
-        if (gui instanceof ContainerAnvilPlan && te instanceof TileEntityAnvil tef) {
-            return new ContainerAnvilPlan(player.inventory, tef);
-        }
-        return null;
+        InterfacePrimal gui = getGui(ID);
+        return gui.getNewContainer(player, world, x, y, z);
     }
 
-    public ContainerPrimal getGui(int id) {
+    public InterfacePrimal getGui(int id) {
         return guiMap.getObject(id);
     }
 
-    public <T extends ContainerPrimal> int getGuiId(T container) {
+    public <T extends InterfacePrimal> int getGuiId(T container) {
         return guiMap.getID(container);
     }
 
@@ -277,11 +253,10 @@ public class CommonProxy implements IGuiHandler {
     }
 
     public void openKnappingGui(KnappingType type, EntityPlayer player, World worldIn, int x, int y, int z) {
-        int containerId = KnappingType.getHandler(type);
-        player.openGui(Primal.instance, containerId, worldIn, x, y, z);
+        openPrimalGui(type.interfaceKnapping, player, worldIn, x, y, z);
     }
 
-    public void openPrimalGui(ContainerPrimal container, EntityPlayer player, World worldIn, int x, int y, int z) {
+    public void openPrimalGui(InterfacePrimal container, EntityPlayer player, World worldIn, int x, int y, int z) {
         player.openGui(Primal.instance, getGuiId(container), worldIn, x, y, z);
     }
 

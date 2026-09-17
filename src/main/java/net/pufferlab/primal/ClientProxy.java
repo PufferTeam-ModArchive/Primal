@@ -18,7 +18,6 @@ import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.pufferlab.primal.blocks.IPrimalBlock;
 import net.pufferlab.primal.client.audio.SoundQuernGrinding;
-import net.pufferlab.primal.client.gui.*;
 import net.pufferlab.primal.client.particle.EntityGrindingFX;
 import net.pufferlab.primal.client.renderer.RenderAccessory;
 import net.pufferlab.primal.client.renderer.blocks.*;
@@ -26,7 +25,6 @@ import net.pufferlab.primal.client.renderer.entities.*;
 import net.pufferlab.primal.client.renderer.items.*;
 import net.pufferlab.primal.client.renderer.tileentities.*;
 import net.pufferlab.primal.inventory.*;
-import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.tileentities.*;
 import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.IdentifierMap;
@@ -198,28 +196,8 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-        KnappingType knappingType = KnappingType.getHandler(ID);
-        if (knappingType != null) {
-            return new GuiKnapping(knappingType, player.inventory);
-        }
-        TileEntity te = world.getTileEntity(x, y, z);
-        ContainerPrimal gui = getGui(ID);
-        if (gui instanceof ContainerLargeVessel && te instanceof TileEntityLargeVessel tef) {
-            return new GuiLargeVessel(player.inventory, tef);
-        }
-        if (gui instanceof ContainerCrucible && te instanceof TileEntityCrucible tef) {
-            return new GuiCrucible(player.inventory, tef);
-        }
-        if (gui instanceof ContainerGenerator && te instanceof TileEntityGenerator tef) {
-            return new GuiGenerator(tef);
-        }
-        if (gui instanceof ContainerAnvilWork && te instanceof TileEntityAnvil tef) {
-            return new GuiAnvilWork(tef);
-        }
-        if (gui instanceof ContainerAnvilPlan && te instanceof TileEntityAnvil tef) {
-            return new GuiAnvilPlan(player.inventory, tef);
-        }
-        return null;
+        InterfacePrimal gui = getGui(ID);
+        return gui.getNewGui(player, world, x, y, z);
     }
 
     @Override

@@ -11,8 +11,6 @@ public class ContainerCrucible extends ContainerPrimal {
 
     public TileEntityCrucible tileCrucible;
 
-    public ContainerCrucible() {}
-
     public ContainerCrucible(IInventory inv, TileEntityCrucible te) {
         for (int j = 0; j < 5; ++j) {
             this.addSlotToContainer(new SlotCrucible(te, j, 44 + j * 18, 19));
@@ -69,10 +67,5 @@ public class ContainerCrucible extends ContainerPrimal {
         }
 
         return itemstack;
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "crucible";
     }
 }

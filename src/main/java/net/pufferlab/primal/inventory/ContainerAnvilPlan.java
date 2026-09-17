@@ -13,8 +13,6 @@ public class ContainerAnvilPlan extends ContainerPrimal {
     public TileEntityAnvil tileAnvil;
     public InventoryHolder inv;
 
-    public ContainerAnvilPlan() {}
-
     public ContainerAnvilPlan(InventoryPlayer playerInv, TileEntityAnvil te) {
         EntityPlayer player = playerInv.player;
         ItemStack stack = player.getHeldItem();
@@ -46,10 +44,5 @@ public class ContainerAnvilPlan extends ContainerPrimal {
     @Override
     public boolean canInteractWith(EntityPlayer player) {
         return tileAnvil.isUseableByPlayer(player);
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "anvil_plan";
     }
 }

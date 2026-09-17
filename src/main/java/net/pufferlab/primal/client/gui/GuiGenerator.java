@@ -1,6 +1,7 @@
 package net.pufferlab.primal.client.gui;
 
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.inventory.ContainerGenerator;
 import net.pufferlab.primal.tileentities.TileEntityGenerator;
@@ -15,8 +16,8 @@ public class GuiGenerator extends GuiContainerPrimal {
     public static final int removeButtonID = 1;
     TileEntityGenerator te;
 
-    public GuiGenerator(TileEntityGenerator te) {
-        super(new ContainerGenerator(te));
+    public GuiGenerator(InventoryPlayer playerInventory, TileEntityGenerator te) {
+        super(new ContainerGenerator(playerInventory, te));
         this.te = te;
     }
 

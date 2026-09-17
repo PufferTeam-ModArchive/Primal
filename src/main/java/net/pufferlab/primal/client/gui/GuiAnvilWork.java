@@ -1,6 +1,7 @@
 package net.pufferlab.primal.client.gui;
 
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.inventory.ContainerAnvilWork;
@@ -25,8 +26,8 @@ public class GuiAnvilWork extends GuiContainerPrimal {
     TileEntityAnvil te;
     boolean[] validSteps = new boolean[3];
 
-    public GuiAnvilWork(TileEntityAnvil te) {
-        super(new ContainerAnvilWork(te));
+    public GuiAnvilWork(InventoryPlayer playerInv, TileEntityAnvil te) {
+        super(new ContainerAnvilWork(playerInv, te));
         this.te = te;
     }
 

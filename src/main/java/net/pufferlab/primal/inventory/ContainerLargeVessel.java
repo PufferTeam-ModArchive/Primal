@@ -11,8 +11,6 @@ public class ContainerLargeVessel extends ContainerPrimal {
 
     public TileEntityLargeVessel tileLargeVessel;
 
-    public ContainerLargeVessel() {}
-
     public ContainerLargeVessel(IInventory inv, TileEntityLargeVessel te) {
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 3; ++j) {
@@ -71,10 +69,5 @@ public class ContainerLargeVessel extends ContainerPrimal {
         }
 
         return itemstack;
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "large_vessel";
     }
 }

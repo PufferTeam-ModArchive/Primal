@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.inventory.InterfaceKnapping;
 import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.Utils;
 
@@ -32,6 +33,7 @@ public class KnappingType {
     public final float pitch;
     public final ResourceLocation resourceLocation;
     public final boolean needsKnife;
+    public final InterfaceKnapping interfaceKnapping;
 
     public KnappingType(String name, ItemStack item, boolean needsKnife, String sound, float pitch) {
         this.id = nextId++;
@@ -42,6 +44,7 @@ public class KnappingType {
         this.sound = Primal.MODID + ":" + sound;
         this.pitch = pitch;
         this.resourceLocation = new ResourceLocation(Primal.MODID, "textures/gui/container/knapping_" + name + ".png");
+        this.interfaceKnapping = new InterfaceKnapping(this);
     }
 
     public boolean equals(KnappingType type) {
@@ -75,17 +78,6 @@ public class KnappingType {
             }
             return false;
         });
-    }
-
-    public static int getHandler(KnappingType type) {
-        return type.id + Primal.proxy.getLastGuiID();
-    }
-
-    public static KnappingType getHandler(int id) {
-        for (KnappingType t : values) {
-            if (t.id == (id - Primal.proxy.getLastGuiID())) return t;
-        }
-        return null;
     }
 
     public static KnappingType getType(ItemStack stack) {
