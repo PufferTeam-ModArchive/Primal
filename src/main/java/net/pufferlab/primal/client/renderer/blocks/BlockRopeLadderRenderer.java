@@ -12,13 +12,7 @@ import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 public class BlockRopeLadderRenderer extends BlockPrimalRenderer {
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
-
-    }
-
-    @Override
-    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
-        RenderBlocks renderer) {
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer) {
         Tessellator tess = Tessellator.instance;
         tess.setBrightness(block.getMixedBrightnessForBlock(world, x, y, z));
         tess.setColorOpaque_F(1.0F, 1.0F, 1.0F);

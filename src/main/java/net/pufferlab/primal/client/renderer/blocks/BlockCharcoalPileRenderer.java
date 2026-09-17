@@ -10,13 +10,7 @@ import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 public class BlockCharcoalPileRenderer extends BlockPrimalRenderer {
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
-
-    }
-
-    @Override
-    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
-        RenderBlocks renderer) {
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer) {
         int metadata = world.getBlockMetadata(x, y, z);
         metadata = getValidMeta(block, metadata);
         renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F + (0.125F * metadata), 1.0F);

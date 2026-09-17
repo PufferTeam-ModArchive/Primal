@@ -11,7 +11,7 @@ import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 public class BlockLogThinRenderer extends BlockPrimalRenderer {
 
     @Override
-    public void renderInventoryBlock(Block block0, int metadata, int modelId, RenderBlocks renderer) {
+    public void renderInventoryBlock(Block block0, int metadata, RenderBlocks renderer) {
         if (block0 instanceof BlockLogThin block) {
             float margin = block.getMargin(metadata);
             renderer.setRenderBounds(margin, 0, margin, 1 - margin, 1, 1 - margin);
@@ -20,8 +20,7 @@ public class BlockLogThinRenderer extends BlockPrimalRenderer {
     }
 
     @Override
-    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block0, int modelId,
-        RenderBlocks renderer) {
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block0, RenderBlocks renderer) {
         boolean flag = false;
         if (block0 instanceof BlockLogThin block) {
             float margin = block.getMargin(world.getBlockMetadata(x, y, z));

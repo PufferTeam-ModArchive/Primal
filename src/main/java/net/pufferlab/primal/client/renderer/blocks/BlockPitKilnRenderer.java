@@ -12,7 +12,7 @@ import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 public class BlockPitKilnRenderer extends BlockPrimalRenderer {
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
+    public void renderInventoryBlock(Block block, int metadata, RenderBlocks renderer) {
         GL11.glPushMatrix();
         renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
         renderStandardInvBlock(renderer, block, 8);
@@ -20,8 +20,7 @@ public class BlockPitKilnRenderer extends BlockPrimalRenderer {
     }
 
     @Override
-    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
-        RenderBlocks renderer) {
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer) {
         int meta = world.getBlockMetadata(x, y, z);
         boolean flag = false;
         if (meta == 0) {

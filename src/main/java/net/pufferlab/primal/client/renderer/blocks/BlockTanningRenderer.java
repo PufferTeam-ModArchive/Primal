@@ -23,7 +23,7 @@ public class BlockTanningRenderer extends BlockPrimalRenderer {
     private final ModelTanning modelTanning2 = new ModelTanning();
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
+    public void renderInventoryBlock(Block block, int metadata, RenderBlocks renderer) {
         GL11.glPushMatrix();
         GL11.glTranslatef(0.0F, -0.5F, 0.0F);
         modelTanningFrame2.strings.isHidden = true;
@@ -34,8 +34,7 @@ public class BlockTanningRenderer extends BlockPrimalRenderer {
     }
 
     @Override
-    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
-        RenderBlocks renderer) {
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer) {
         Tessellator tess = Tessellator.instance;
         TileEntityTanning tef = (TileEntityTanning) world.getTileEntity(x, y, z);
         modelTanningFrame.strings.isHidden = true;

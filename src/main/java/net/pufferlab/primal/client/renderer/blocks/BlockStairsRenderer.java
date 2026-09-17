@@ -13,7 +13,7 @@ import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 public class BlockStairsRenderer extends BlockPrimalRenderer {
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
+    public void renderInventoryBlock(Block block, int metadata, RenderBlocks renderer) {
         renderer.field_152631_f = true;
         renderer.setRenderBounds(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.5D);
         renderStandardInvBlock(renderer, block, metadata);
@@ -23,8 +23,7 @@ public class BlockStairsRenderer extends BlockPrimalRenderer {
     }
 
     @Override
-    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
-        RenderBlocks renderer) {
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer) {
         TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileEntityCut tef) {
             renderer.renderBlockStairs((BlockStairs) block, x, y, z);

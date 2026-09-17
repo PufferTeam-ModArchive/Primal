@@ -22,11 +22,7 @@ public class BlockLargeVesselRenderer extends BlockPrimalRenderer {
     private final ModelFluid modelFluid = new ModelFluid();
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {}
-
-    @Override
-    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
-        RenderBlocks renderer) {
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer) {
         // spotless:off
         Tessellator tess = Tessellator.instance;
         boolean flag = false;

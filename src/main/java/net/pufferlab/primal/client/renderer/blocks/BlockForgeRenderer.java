@@ -18,13 +18,7 @@ public class BlockForgeRenderer extends BlockPrimalRenderer {
     private final ModelForge modelForge = new ModelForge();
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
-
-    }
-
-    @Override
-    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
-        RenderBlocks renderer) {
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer) {
         Tessellator tess = Tessellator.instance;
         boolean flag = false;
         TileEntity te = world.getTileEntity(x, y, z);

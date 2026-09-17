@@ -13,11 +13,7 @@ import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 public class BlockCropsRenderer extends BlockPrimalRenderer {
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {}
-
-    @Override
-    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
-        RenderBlocks renderer) {
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer) {
         boolean flag = false;
         int renderType = 0;
         int renderPass = getWorldRenderPass();

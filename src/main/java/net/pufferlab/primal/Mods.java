@@ -17,6 +17,7 @@ public enum Mods {
     efr(ID.efr),
     nei(ID.nei),
     gtnhnei(ID.gtnhnei, ID.gtnhnei_class),
+    angelica(ID.angelica),
     bop(ID.bop),
     exbl(ID.exbl),
     wg(ID.wg),
@@ -37,6 +38,7 @@ public enum Mods {
         public static final String efr = "etfuturum";
         public static final String nei = "NotEnoughItems";
         public static final String gtnhnei = "NotEnoughItems";
+        public static final String angelica = "angelica";
         public static final String bop = "BiomesOPlenty";
         public static final String exbl = "ExtrabiomesXL";
         public static final String wg = "WitchingGadgets";

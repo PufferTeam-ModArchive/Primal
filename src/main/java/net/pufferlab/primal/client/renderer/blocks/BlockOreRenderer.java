@@ -13,7 +13,7 @@ import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 public class BlockOreRenderer extends BlockPrimalRenderer {
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
+    public void renderInventoryBlock(Block block, int metadata, RenderBlocks renderer) {
         GL11.glPushMatrix();
 
         IPrimalBlock block0 = (IPrimalBlock) block;
@@ -40,8 +40,7 @@ public class BlockOreRenderer extends BlockPrimalRenderer {
     }
 
     @Override
-    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
-        RenderBlocks renderer) {
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer) {
         IPrimalBlock block0 = (IPrimalBlock) block;
         boolean isEmissive = block0.isEmissive();
         boolean flag = false;

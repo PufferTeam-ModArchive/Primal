@@ -19,11 +19,7 @@ public class BlockPipeRenderer extends BlockPrimalRenderer {
     ModelPipe modelPipe = new ModelPipe();
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {}
-
-    @Override
-    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
-        RenderBlocks renderer) {
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer) {
         Tessellator tess = Tessellator.instance;
         int axis = -1;
         for (int i = 0; i < modelPipe.tube.length; i++) {

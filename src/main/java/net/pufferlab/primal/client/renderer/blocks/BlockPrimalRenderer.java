@@ -13,7 +13,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.ForgeHooksClient;
+import net.pufferlab.primal.Mods;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.IMetaBlock;
 import net.pufferlab.primal.blocks.IPrimalBlock;
@@ -46,6 +48,29 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
             this.renderID = Primal.proxy.getRenderId(this);
         }
         return this.renderID;
+    }
+
+    @Override
+    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
+        renderInventoryBlock(block, metadata, renderer);
+    }
+
+    @Override
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
+        RenderBlocks renderer) {
+        if (block.canRenderInPass(1) && !Mods.angelica.isLoaded()) {
+            Tessellator tess = Tessellator.instance;
+            for (int i = 0; i < 4; i++) {
+                tess.addVertex(x, y, z);
+            }
+        }
+        return renderWorldBlock(world, x, y, z, block, renderer);
+    }
+
+    public void renderInventoryBlock(Block block, int metadata, RenderBlocks renderer) {}
+
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer) {
+        return false;
     }
 
     @Override

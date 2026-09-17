@@ -12,7 +12,7 @@ import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 public class BlockChimneyRenderer extends BlockPrimalRenderer {
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
+    public void renderInventoryBlock(Block block, int metadata, RenderBlocks renderer) {
         float t = 0.1875F;
         metadata = getValidMeta(block, metadata);
         GL11.glPushMatrix();
@@ -28,8 +28,7 @@ public class BlockChimneyRenderer extends BlockPrimalRenderer {
     }
 
     @Override
-    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
-        RenderBlocks renderer) {
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer) {
         float t = 0.1875F;
         renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, t);
         renderer.renderStandardBlock(block, x, y, z);

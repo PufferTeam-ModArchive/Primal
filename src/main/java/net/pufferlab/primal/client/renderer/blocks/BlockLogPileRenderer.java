@@ -12,13 +12,7 @@ import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 public class BlockLogPileRenderer extends BlockPrimalRenderer {
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
-
-    }
-
-    @Override
-    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
-        RenderBlocks renderer) {
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer) {
         int metadata = world.getBlockMetadata(x, y, z);
         int next = (metadata) % 3;
         int layer = ((metadata + 1) / 3) % 3;
