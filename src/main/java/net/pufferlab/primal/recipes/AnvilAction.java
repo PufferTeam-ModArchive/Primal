@@ -17,10 +17,13 @@ public enum AnvilAction implements IPrimalType {
     upset(6, "upset", 13),
     shrink(7, "shrink", 16);
 
-    public int id;
+    public static AnvilAction[] values = values();
+
+    public final int id;
+    public final String name;
+    public final String langKey;
+
     public int step;
-    public String name;
-    public String langKey;
 
     AnvilAction(int id, String name, int step) {
         this.id = id;
@@ -30,9 +33,8 @@ public enum AnvilAction implements IPrimalType {
     }
 
     public static AnvilAction get(int id) {
-        if (id < 0) return null;
-        if (id < values().length) return values()[id];
-        return null;
+        if (id < 0 || id >= values.length) return null;
+        return values[id];
     }
 
     public static void writeToNBT(NBTTagCompound tag, AnvilAction[] actions) {

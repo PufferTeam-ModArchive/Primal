@@ -675,6 +675,7 @@ public class Registry {
         registerPacket(PacketChunkData.class, Side.CLIENT);
         registerPacket(PacketRotationUpdate.class, Side.CLIENT);
         registerPacket(PacketEffect.class, Side.CLIENT);
+        registerPacket(PacketClientCommand.class, Side.CLIENT);
     }
 
     public void setupEvents() {
@@ -701,11 +702,11 @@ public class Registry {
         registerEvent(new PlayerHandler());
         registerEvent(new WorldChunkHandler());
 
-        if (Utils.isClient()) {
+        if (Primal.isClient()) {
             registerEvent(new RenderingHandler());
         }
 
-        if (Mods.fm.isLoaded()) {
+        if (Mods.forbiddenmagic.isLoaded()) {
             registerEvent(new ForbiddenMagicHandler());
         }
     }
@@ -728,6 +729,7 @@ public class Registry {
         registerCommand(new CommandClearBlocks());
         registerCommand(new CommandVein());
         registerCommand(new CommandPlayer());
+        registerCommand(new CommandDump());
     }
 
     public void setupConfig() {
@@ -815,7 +817,7 @@ public class Registry {
     }
 
     public void setupMT() {
-        if (Mods.mt.isLoaded()) {
+        if (Mods.minetweaker.isLoaded()) {
             new MTCompat().loadConfig();
         }
     }
@@ -970,6 +972,7 @@ public class Registry {
             CommandPrimal.registerSubCommand(command2);
         } else {
             CommandHandler ch = Primal.proxy.getCommandHandler();
+            if (ch == null) return;
             ch.registerCommand(command);
         }
     }

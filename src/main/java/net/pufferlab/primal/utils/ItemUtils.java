@@ -288,11 +288,8 @@ public class ItemUtils {
 
     public static String getModId(ItemStack stack) {
         if (stack == null || stack.getItem() == null) return "unknown";
-        Item item = stack.getItem();
 
-        String mod = GameData.getItemRegistry()
-            .getNameForObject(item)
-            .split(":")[0];
+        String mod = getName(stack).split(":")[0];
         return mod;
     }
 

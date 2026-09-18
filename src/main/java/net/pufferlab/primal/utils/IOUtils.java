@@ -230,6 +230,13 @@ public class IOUtils {
         }
     }
 
+    public static void writeStringArray(ByteBuf buf, String[] array) {
+        buf.writeInt(array.length);
+        for (int i = 0; i < array.length; i++) {
+            IOUtils.writeString(buf, array[i]);
+        }
+    }
+
     public static String readString(ByteBuf buf) {
         int length = buf.readInt(); // first read length
         byte[] bytes = new byte[length];
@@ -242,6 +249,15 @@ public class IOUtils {
         int[] array = new int[length];
         for (int i = 0; i < array.length; i++) {
             array[i] = buf.readInt();
+        }
+        return array;
+    }
+
+    public static String[] readStringArray(ByteBuf buf) {
+        int length = buf.readInt();
+        String[] array = new String[length];
+        for (int i = 0; i < array.length; i++) {
+            array[i] = IOUtils.readString(buf);
         }
         return array;
     }

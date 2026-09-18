@@ -2,7 +2,6 @@ package net.pufferlab.primal.inventory;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.gui.GuiKnapping;
 import net.pufferlab.primal.recipes.KnappingType;
 
@@ -12,7 +11,6 @@ public class InterfaceKnapping extends InterfacePrimal {
 
     public InterfaceKnapping(KnappingType knappingType) {
         this.knappingType = knappingType;
-        Primal.proxy.register(this);
     }
 
     @Override

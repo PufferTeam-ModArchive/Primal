@@ -11,9 +11,12 @@ public enum AnvilOrder {
     secondLast(3, "second_last"),
     thirdLast(4, "third_last");
 
-    public int id;
-    public String name;
-    public String langKey;
+    public static AnvilOrder[] values = values();
+
+    public final int id;
+    public final String name;
+    public final String langKey;
+
     private static final int lastIndex = 0;
     private static final int secondLastIndex = 1;
     private static final int thirdLastIndex = 2;
@@ -51,9 +54,8 @@ public enum AnvilOrder {
     }
 
     public static AnvilOrder get(int id) {
-        if (id < 0) return null;
-        if (id < values().length) return values()[id];
-        return null;
+        if (id < 0 || id >= values.length) return null;
+        return values[id];
     }
 
     public String getTranslatedName() {

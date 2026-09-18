@@ -34,7 +34,7 @@ public class ItemArmorPrimitive extends ItemArmor implements IPrimalItem {
     }
 
     public static int getPrefix(ItemArmor.ArmorMaterial material) {
-        if (Utils.isClient()) {
+        if (Primal.isClient()) {
             if (armorMap.containsKey(material)) {
                 return armorMap.get(material);
             } else {

@@ -147,6 +147,7 @@ public class CommonProxy implements IGuiHandler {
     }
 
     public CommandHandler getCommandHandler() {
+        if (getServer() == null) return null;
         return (CommandHandler) getServer().getCommandManager();
     }
 

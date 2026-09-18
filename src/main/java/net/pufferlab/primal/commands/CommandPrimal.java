@@ -5,6 +5,7 @@ import java.util.*;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.utils.Utils;
 
 public class CommandPrimal extends CommandBase {
@@ -15,6 +16,21 @@ public class CommandPrimal extends CommandBase {
 
     public static void registerSubCommand(ISubCommand command) {
         CommandPrimal.commands.put(command.getCommandName(), command);
+    }
+
+    public static boolean isEmpty() {
+        return commands.isEmpty();
+    }
+
+    public static ISubCommand getSubCommand(String commandName) {
+        if (CommandPrimal.isEmpty()) {
+            Primal.registry.setupCommands();
+        }
+        return CommandPrimal.commands.get(commandName);
+    }
+
+    public static boolean hasSubCommand(String commandName) {
+        return CommandPrimal.commands.containsKey(commandName);
     }
 
     public static String getCommands() {
@@ -52,8 +68,8 @@ public class CommandPrimal extends CommandBase {
     public void processCommand(ICommandSender sender, String[] args) {
         boolean valid = false;
         if (args.length > 0) {
-            if (commands.containsKey(args[0])) {
-                ISubCommand command = commands.get(args[0]);
+            if (hasSubCommand(args[0])) {
+                ISubCommand command = getSubCommand(args[0]);
                 if (command.canHandleCommand(sender)) {
                     command.handleCommand(sender, Utils.removeFirst(args));
                     valid = true;
@@ -67,8 +83,8 @@ public class CommandPrimal extends CommandBase {
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args) {
         if (args.length > 0) {
-            if (commands.containsKey(args[0])) {
-                ISubCommand command = commands.get(args[0]);
+            if (hasSubCommand(args[0])) {
+                ISubCommand command = getSubCommand(args[0]);
                 if (command.canHandleCommand(sender)) {
                     return command.addTabCompletionOptions(sender, Utils.removeFirst(args));
                 }

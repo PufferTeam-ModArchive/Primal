@@ -7,6 +7,8 @@ public interface ISubCommand extends ICommand {
 
     public void handleCommand(ICommandSender sender, String[] args);
 
+    default void handleClientCommand(ICommandSender sender, String[] args) {}
+
     public boolean canHandleCommand(ICommandSender sender);
 
     default void processCommand(ICommandSender sender, String[] args) {}

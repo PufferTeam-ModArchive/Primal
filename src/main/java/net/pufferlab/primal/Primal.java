@@ -7,6 +7,7 @@ import net.pufferlab.primal.utils.Profiler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.*;
@@ -79,7 +80,7 @@ public class Primal {
         registry.setupHeatables();
         registry.setupModCompat();
 
-        if (debugMode && isDevEnv()) {
+        if (debugMode && Primal.isDevEnv()) {
             registry.setupDebug();
         }
 
@@ -117,6 +118,16 @@ public class Primal {
 
     public static boolean isDevEnv() {
         return (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
+    }
+
+    public static boolean isClient() {
+        return FMLCommonHandler.instance()
+            .getSide()
+            .isClient();
+    }
+
+    public static boolean isServer() {
+        return !isClient();
     }
 
     public static void debugLog(Object object) {

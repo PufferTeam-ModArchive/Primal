@@ -23,7 +23,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import squeek.applecore.api.food.FoodValues;
 import squeek.applecore.api.food.IEdible;
 
-@Optional.Interface(iface = "squeek.applecore.api.food.IEdible", modid = Mods.ID.appleCore)
+@Optional.Interface(iface = "squeek.applecore.api.food.IEdible", modid = Mods.ID.applecore)
 public class ItemMetaFood extends ItemFood implements IMetaItem, IPrimalItem, IEdible {
 
     protected FoodType[] elements;

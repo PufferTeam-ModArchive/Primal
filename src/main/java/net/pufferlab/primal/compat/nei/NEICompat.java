@@ -27,7 +27,7 @@ public class NEICompat implements IConfigureNEI {
 
     @Override
     public void loadConfig() {
-        if (Utils.isClient()) {
+        if (Primal.isClient()) {
             if (Mods.gtnhnei.isLoaded()) {
                 loadHandlersGTNH();
             }

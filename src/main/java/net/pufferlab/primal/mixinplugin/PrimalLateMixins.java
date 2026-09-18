@@ -47,7 +47,7 @@ public class PrimalLateMixins implements ILateMixinLoader {
                 mixins.add("exbl.MixinBlockCustomFlower");
             }
         }
-        if (Mods.hp.isLoaded(loadedMods)) {
+        if (Mods.hodgepodge.isLoaded(loadedMods)) {
             if (Config.hpBatcherDisabler.getBoolean()) {
                 mixins.add("hodgepodge.MixinTileEntityDescriptionBatcher");
             }

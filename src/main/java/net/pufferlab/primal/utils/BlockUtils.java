@@ -95,6 +95,23 @@ public class BlockUtils {
         return z;
     }
 
+    public static Block getBlockWithRenderID(int id) {
+        RegistryNamespaced registry = getBlockRegistry();
+        for (Object object : registry) {
+            if (object instanceof Block block) {
+                if (block.getRenderType() == id) {
+                    return block;
+                }
+            }
+        }
+        return null;
+    }
+
+    public static String getModId(Block block) {
+        String mod = getNameFromBlock(block).split(":")[0];
+        return mod;
+    }
+
     public static String getNameFromBlock(Block block) {
         if (block == null) return "null";
         String mod = getBlockRegistry().getNameForObject(block);

@@ -120,8 +120,8 @@ public class FluidUtils {
             }
         }
 
-        if (Mods.wg.isLoaded()) {
-            ItemStack capsule = ItemUtils.getItem(Mods.wg.MODID + ":item.WG_CrystalFlask:*:1");
+        if (Mods.witchinggadgets.isLoaded()) {
+            ItemStack capsule = ItemUtils.getItem(Mods.witchinggadgets.MODID + ":item.WG_CrystalFlask:*:1");
             if (Utils.equalsStack(filled, capsule)) {
                 capsule.stackTagCompound = null;
                 capsule.setItemDamage(0);

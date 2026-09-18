@@ -45,6 +45,9 @@ public class KnappingType {
         this.pitch = pitch;
         this.resourceLocation = new ResourceLocation(Primal.MODID, "textures/gui/container/knapping_" + name + ".png");
         this.interfaceKnapping = new InterfaceKnapping(this);
+        if (this.isValid()) {
+            Primal.proxy.register(this.interfaceKnapping);
+        }
     }
 
     public boolean equals(KnappingType type) {
@@ -60,15 +63,19 @@ public class KnappingType {
     }
 
     public static void addType(KnappingType type) {
-        boolean isDuplicate = false;
-        for (KnappingType t : values) {
-            if (Utils.equalsStack(t.item, type.item) || (t.name.equalsIgnoreCase(type.name))) {
-                isDuplicate = true;
-            }
-        }
-        if (!isDuplicate) {
+        if (type.isValid()) {
             values.add(type);
         }
+    }
+
+    public boolean isValid() {
+        if (values == null) return true;
+        for (KnappingType t : values) {
+            if (Utils.equalsStack(t.item, this.item) || (t.name.equalsIgnoreCase(this.name))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static void removeType(KnappingType type) {

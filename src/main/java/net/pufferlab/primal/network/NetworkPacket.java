@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
@@ -18,6 +19,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.ICutBlock;
 import net.pufferlab.primal.client.renderer.RenderBounds;
+import net.pufferlab.primal.commands.ISubCommand;
 import net.pufferlab.primal.entities.player.PlayerData;
 import net.pufferlab.primal.network.packets.*;
 import net.pufferlab.primal.tileentities.*;
@@ -213,6 +215,10 @@ public class NetworkPacket {
             Minecraft.getMinecraft().playerController.netClientHandler.addToSendQueue(
                 new C08PacketPlayerBlockPlacement(x, y, z, side, player.inventory.getCurrentItem(), hitX, hitY, hitZ));
         }
+    }
+
+    public void sendClientCommand(ISubCommand command, ICommandSender sender, String[] args) {
+        Primal.proxy.sendPacketToClient(new PacketClientCommand(command, sender, args));
     }
 
     public void sendChunkUpdate(World world) {

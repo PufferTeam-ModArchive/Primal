@@ -14,8 +14,6 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.world.GlobalTickingData;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-
 public final class Utils {
 
     public static long getWorldTime(int inTime) {
@@ -512,12 +510,6 @@ public final class Utils {
 
     public static String translate(String key, Object... params) {
         return StatCollector.translateToLocalFormatted(key, params);
-    }
-
-    public static boolean isClient() {
-        return FMLCommonHandler.instance()
-            .getSide()
-            .isClient();
     }
 
 }
