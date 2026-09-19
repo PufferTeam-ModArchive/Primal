@@ -1,9 +1,12 @@
 package net.pufferlab.primal.commands;
 
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Map;
 
+import net.minecraft.block.Block;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Mods;
@@ -17,7 +20,7 @@ import gnu.trove.list.array.TIntArrayList;
 
 public class CommandDump extends CommandSub {
 
-    public static String[] arguments = new String[] { "", "isbrh", "tesr" };
+    public static String[] arguments = new String[] { "", "isbrh", "te" };
 
     @Override
     public void handleCommand(ICommandSender sender, String[] args) {
@@ -26,6 +29,21 @@ public class CommandDump extends CommandSub {
         if (args.length == 1) {
             if (args[0].equals("isbrh")) {
                 Primal.proxy.packet.sendClientCommand(this, sender, args);
+            }
+            if (args[0].equals("te")) {
+                Map<?, ?> map = TileEntity.nameToClassMap;
+                for (Map.Entry<?, ?> entry : map.entrySet()) {
+                    String name = null;
+                    Class<?> cl = null;
+                    if (entry.getKey() instanceof String str) {
+                        name = str;
+                    }
+                    if (entry.getValue() instanceof Class<?>cl0) {
+                        cl = cl0;
+                    }
+                    if (cl == null) continue;
+                    sendChatMessage(sender, "Class: " + cl.getSimpleName() + " Name: " + name);
+                }
             }
         }
     }
@@ -47,8 +65,9 @@ public class CommandDump extends CommandSub {
                         Class<?> cl = entry.getValue()
                             .getClass();
                         String modName = Mods.getModIDFromClass(cl);
-                        if (modName == null) {
-                            modName = BlockUtils.getModId(BlockUtils.getBlockWithRenderID(entry.getKey()));
+                        List<Block> blocks = BlockUtils.getBlocksWithRenderID(entry.getKey());
+                        if (modName == null && !blocks.isEmpty()) {
+                            modName = BlockUtils.getModId(blocks.get(0));
                         }
                         sendChatMessage(
                             sender,
@@ -59,9 +78,7 @@ public class CommandDump extends CommandSub {
                             list.add(entry.getKey());
                         }
                     }
-                } catch (NoSuchFieldException e) {
-                    throw new RuntimeException(e);
-                } catch (IllegalAccessException e) {
+                } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
 

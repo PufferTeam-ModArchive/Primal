@@ -1,5 +1,6 @@
 package net.pufferlab.primal.utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,16 +96,17 @@ public class BlockUtils {
         return z;
     }
 
-    public static Block getBlockWithRenderID(int id) {
+    public static List<Block> getBlocksWithRenderID(int id) {
         RegistryNamespaced registry = getBlockRegistry();
+        List<Block> blocks = new ArrayList<>();
         for (Object object : registry) {
             if (object instanceof Block block) {
                 if (block.getRenderType() == id) {
-                    return block;
+                    blocks.add(block);
                 }
             }
         }
-        return null;
+        return blocks;
     }
 
     public static String getModId(Block block) {
