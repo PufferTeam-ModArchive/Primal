@@ -23,6 +23,7 @@ import org.apache.commons.io.FileUtils;
 import com.google.gson.*;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 
 public class IOUtils {
 
@@ -215,6 +216,20 @@ public class IOUtils {
             sb.append(String.format("%02x", b));
         }
         return sb.toString();
+    }
+
+    public static ByteBuf getBuffer() {
+        return Unpooled.buffer();
+    }
+
+    public static ByteBuf getBufferFromBytes(byte[] bytes) {
+        return Unpooled.wrappedBuffer(bytes);
+    }
+
+    public static byte[] getBytes(ByteBuf buf) {
+        byte[] bytes = new byte[buf.readableBytes()];
+        buf.getBytes(buf.readerIndex(), bytes);
+        return bytes;
     }
 
     public static void writeString(ByteBuf buf, String s) {

@@ -9,9 +9,12 @@ import net.pufferlab.primal.blocks.IScheduledBlock;
 import net.pufferlab.primal.tileentities.IScheduledTile;
 import net.pufferlab.primal.world.GlobalTickingData;
 
+import io.netty.buffer.ByteBuf;
+
 public class ScheduledTask implements Comparable<ScheduledTask> {
 
     long timeCurrent, timeScheduled;
+    int inTime;
     int x, y, z, id;
     Block block;
     Task task;
@@ -22,9 +25,14 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
         readFromNBT(tag);
     }
 
+    public ScheduledTask(ByteBuf buf) {
+        readFromBuffer(buf);
+    }
+
     public ScheduledTask(Task.Type type, long currentTime, int inTime) {
         this.taskType = type;
         this.timeCurrent = currentTime;
+        this.inTime = inTime;
         this.timeScheduled = currentTime + inTime;
     }
 
@@ -33,6 +41,7 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
         this.taskType = type;
         this.block = block;
         this.timeCurrent = currentTime;
+        this.inTime = inTime;
         this.timeScheduled = currentTime + inTime;
         this.x = x;
         this.y = y;
@@ -53,27 +62,61 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
     }
 
     public void writeToNBT(NBTTagCompound tag) {
-        tag.setByte("taskType", Task.Type.getID(this.taskType));
-        tag.setLong("timeSent", timeCurrent);
-        tag.setLong("time", timeScheduled);
+        tag.setByte("type", Task.Type.getID(this.taskType));
+        tag.setInteger("task", Task.getID(this.task));
+
+        tag.setLong("time", timeCurrent);
+        tag.setInteger("in", inTime);
+
         tag.setInteger("blockID", Block.getIdFromBlock(block));
         tag.setInteger("x", x);
         tag.setInteger("y", y);
         tag.setInteger("z", z);
-        tag.setInteger("task", Task.getID(this.task));
         tag.setInteger("id", id);
     }
 
+    public void writeToBuffer(ByteBuf buf) {
+        buf.writeByte(Task.Type.getID(this.taskType));
+        buf.writeInt(Task.getID(this.task));
+
+        buf.writeLong(timeCurrent);
+        buf.writeInt(inTime);
+
+        buf.writeInt(Block.getIdFromBlock(block));
+        buf.writeInt(x);
+        buf.writeInt(y);
+        buf.writeInt(z);
+        buf.writeInt(id);
+    }
+
     public void readFromNBT(NBTTagCompound tag) {
-        taskType = Task.Type.getTask(tag.getByte("taskType"));
-        timeCurrent = tag.getLong("timeSent");
-        timeScheduled = tag.getLong("time");
+        taskType = Task.Type.getTask(tag.getByte("type"));
+        task = Task.getTask(tag.getInteger("task"));
+
+        timeCurrent = tag.getLong("time");
+        inTime = tag.getInteger("in");
+        timeScheduled = timeCurrent + inTime;
+
         block = Block.getBlockById(tag.getInteger("blockID"));
         x = tag.getInteger("x");
         y = tag.getInteger("y");
         z = tag.getInteger("z");
-        task = Task.getTask(tag.getInteger("task"));
         id = tag.getInteger("id");
+    }
+
+    public void readFromBuffer(ByteBuf buf) {
+        taskType = Task.Type.getTask(buf.readByte());
+        task = Task.getTask(buf.readInt());
+
+        timeCurrent = buf.readLong();
+        inTime = buf.readInt();
+        timeScheduled = timeCurrent + inTime;
+
+        block = Block.getBlockById(buf.readInt());
+        x = buf.readInt();
+        y = buf.readInt();
+        z = buf.readInt();
+        id = buf.readInt();
     }
 
     public Class<?> getTileClass() {

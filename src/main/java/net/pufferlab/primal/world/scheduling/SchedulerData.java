@@ -8,9 +8,12 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.utils.IOUtils;
 import net.pufferlab.primal.utils.NBTType;
 import net.pufferlab.primal.utils.PosMap;
 import net.pufferlab.primal.world.GlobalTickingData;
+
+import io.netty.buffer.ByteBuf;
 
 public class SchedulerData extends WorldSavedData {
 
@@ -42,18 +45,32 @@ public class SchedulerData extends WorldSavedData {
         return scheduler.queueWait;
     }
 
+    public boolean compactStorage = false;
+
     @Override
     public void writeToNBT(NBTTagCompound nbt) {
-        writeToNBT(nbt, nameQueue, queue, taskMap);
-        writeToNBT(nbt, nameQueueWait, queueWait, null);
+        nbt.setBoolean("stream", compactStorage);
+        if (compactStorage) {
+            writeToBufferNBT(nbt, nameQueue, queue, taskMap);
+            writeToBufferNBT(nbt, nameQueueWait, queueWait, null);
+        } else {
+            writeToNBT(nbt, nameQueue, queue, taskMap);
+            writeToNBT(nbt, nameQueueWait, queueWait, null);
+        }
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
         queue.clear();
 
-        readFromNBT(nbt, nameQueue, queue, taskMap);
-        readFromNBT(nbt, nameQueueWait, queueWait, null);
+        compactStorage = nbt.getBoolean("stream");
+        if (compactStorage) {
+            readFromBufferNBT(nbt, nameQueue, queue, taskMap);
+            readFromBufferNBT(nbt, nameQueueWait, queueWait, null);
+        } else {
+            readFromNBT(nbt, nameQueue, queue, taskMap);
+            readFromNBT(nbt, nameQueueWait, queueWait, null);
+        }
     }
 
     public void writeToNBT(NBTTagCompound nbt, String name, PriorityQueue<ScheduledTask> queue,
@@ -70,6 +87,24 @@ public class SchedulerData extends WorldSavedData {
         nbt.setTag(name, list);
     }
 
+    public void writeToBufferNBT(NBTTagCompound nbt, String name, PriorityQueue<ScheduledTask> queue,
+        PosMap.Multi<ScheduledTask> map) {
+        ByteBuf buf = IOUtils.getBuffer();
+        writeToBuffer(buf, name, queue, map);
+
+        nbt.setByteArray(name, IOUtils.getBytes(buf));
+    }
+
+    public void writeToBuffer(ByteBuf buf, String name, PriorityQueue<ScheduledTask> queue,
+        PosMap.Multi<ScheduledTask> map) {
+        buf.writeInt(queue.size());
+
+        for (ScheduledTask task : queue) {
+            if (task.invalid()) continue;
+            task.writeToBuffer(buf);
+        }
+    }
+
     public void readFromNBT(NBTTagCompound nbt, String name, PriorityQueue<ScheduledTask> queue,
         PosMap.Multi<ScheduledTask> map) {
         NBTTagList list = nbt.getTagList(name, NBTType.TagCompound);
@@ -77,6 +112,26 @@ public class SchedulerData extends WorldSavedData {
         for (int i = 0; i < list.tagCount(); i++) {
             NBTTagCompound tag = list.getCompoundTagAt(i);
             ScheduledTask task = new ScheduledTask(tag);
+            queue.add(task);
+            if (map != null) {
+                map.put(task.x, task.y, task.z, task);
+            }
+        }
+    }
+
+    public void readFromBufferNBT(NBTTagCompound nbt, String name, PriorityQueue<ScheduledTask> queue,
+        PosMap.Multi<ScheduledTask> map) {
+        byte[] array = nbt.getByteArray(name);
+        ByteBuf buf = IOUtils.getBufferFromBytes(array);
+        readFromBuffer(buf, name, queue, map);
+    }
+
+    public void readFromBuffer(ByteBuf buf, String name, PriorityQueue<ScheduledTask> queue,
+        PosMap.Multi<ScheduledTask> map) {
+        int size = buf.readInt();
+
+        for (int i = 0; i < size; i++) {
+            ScheduledTask task = new ScheduledTask(buf);
             queue.add(task);
             if (map != null) {
                 map.put(task.x, task.y, task.z, task);
