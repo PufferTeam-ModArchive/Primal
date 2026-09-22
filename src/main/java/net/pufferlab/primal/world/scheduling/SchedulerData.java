@@ -122,7 +122,7 @@ public class SchedulerData extends WorldSavedData {
     public void readFromBufferNBT(NBTTagCompound nbt, String name, PriorityQueue<ScheduledTask> queue,
         PosMap.Multi<ScheduledTask> map) {
         byte[] array = nbt.getByteArray(name);
-        ByteBuf buf = IOUtils.getBufferFromBytes(array);
+        ByteBuf buf = IOUtils.getBuffer(array);
         readFromBuffer(buf, name, queue, map);
     }
 

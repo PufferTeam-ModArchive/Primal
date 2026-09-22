@@ -222,7 +222,7 @@ public class IOUtils {
         return Unpooled.buffer();
     }
 
-    public static ByteBuf getBufferFromBytes(byte[] bytes) {
+    public static ByteBuf getBuffer(byte[] bytes) {
         return Unpooled.wrappedBuffer(bytes);
     }
 
@@ -232,24 +232,26 @@ public class IOUtils {
         return bytes;
     }
 
+    public static void writeByteArray(ByteBuf buf, byte[] array) {
+        buf.writeInt(array.length);
+        if (array.length > 0) {
+            buf.writeBytes(array);
+        }
+    }
+
+    public static byte[] readByteArray(ByteBuf buf) {
+        int length = buf.readInt();
+        byte[] array = new byte[length];
+        if (array.length > 0) {
+            buf.readBytes(array);
+        }
+        return array;
+    }
+
     public static void writeString(ByteBuf buf, String s) {
         byte[] bytes = s.getBytes(StandardCharsets.UTF_8);
         buf.writeInt(bytes.length); // write length first
         buf.writeBytes(bytes); // then write bytes
-    }
-
-    public static void writeIntArray(ByteBuf buf, int[] array) {
-        buf.writeInt(array.length);
-        for (int i = 0; i < array.length; i++) {
-            buf.writeInt(array[i]);
-        }
-    }
-
-    public static void writeStringArray(ByteBuf buf, String[] array) {
-        buf.writeInt(array.length);
-        for (int i = 0; i < array.length; i++) {
-            IOUtils.writeString(buf, array[i]);
-        }
     }
 
     public static String readString(ByteBuf buf) {
@@ -259,6 +261,13 @@ public class IOUtils {
         return new String(bytes, StandardCharsets.UTF_8);
     }
 
+    public static void writeIntArray(ByteBuf buf, int[] array) {
+        buf.writeInt(array.length);
+        for (int i = 0; i < array.length; i++) {
+            buf.writeInt(array[i]);
+        }
+    }
+
     public static int[] readIntArray(ByteBuf buf) {
         int length = buf.readInt();
         int[] array = new int[length];
@@ -266,6 +275,13 @@ public class IOUtils {
             array[i] = buf.readInt();
         }
         return array;
+    }
+
+    public static void writeStringArray(ByteBuf buf, String[] array) {
+        buf.writeInt(array.length);
+        for (int i = 0; i < array.length; i++) {
+            IOUtils.writeString(buf, array[i]);
+        }
     }
 
     public static String[] readStringArray(ByteBuf buf) {

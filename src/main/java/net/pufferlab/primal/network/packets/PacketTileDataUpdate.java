@@ -33,10 +33,7 @@ public class PacketTileDataUpdate implements IMessage, IMessageHandler<PacketTil
         x = buf.readInt();
         y = buf.readInt();
         z = buf.readInt();
-        bytes = new byte[buf.readInt()];
-        if (bytes.length > 0) {
-            buf.readBytes(bytes);
-        }
+        bytes = IOUtils.readByteArray(buf);
     }
 
     @Override
@@ -44,10 +41,7 @@ public class PacketTileDataUpdate implements IMessage, IMessageHandler<PacketTil
         buf.writeInt(x);
         buf.writeInt(y);
         buf.writeInt(z);
-        buf.writeInt(bytes.length);
-        if (bytes.length > 0) {
-            buf.writeBytes(bytes);
-        }
+        IOUtils.writeByteArray(buf, bytes);
     }
 
     @Override
@@ -58,7 +52,7 @@ public class PacketTileDataUpdate implements IMessage, IMessageHandler<PacketTil
         TileEntity tile = world.getTileEntity(message.x, message.y, message.z);
         if (tile instanceof ITile tef) {
             if (message.bytes.length > 0) {
-                ByteBuf buf = IOUtils.getBufferFromBytes(message.bytes);
+                ByteBuf buf = IOUtils.getBuffer(message.bytes);
                 tef.readFromBuffer(buf);
             }
         }
