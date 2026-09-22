@@ -220,9 +220,18 @@ public class SchedulerData extends WorldSavedData {
         addScheduledTask(Task.Type.tileTask, inTime, block, world, x, y, z, task);
     }
 
+    public static void addScheduledGraphTask(int inTime, Block block, World world, int x, int y, int z, Task task) {
+        addScheduledTask(Task.Type.graphTask, inTime, block, world, x, y, z, task);
+    }
+
     public static void addScheduledTileTask(long currentTime, int inTime, Block block, World world, int x, int y, int z,
         Task task) {
         addScheduledTask(Task.Type.tileTask, currentTime, inTime, block, world, x, y, z, task);
+    }
+
+    public static void addScheduledGraphTask(long currentTime, int inTime, Block block, World world, int x, int y,
+        int z, Task task) {
+        addScheduledTask(Task.Type.graphTask, currentTime, inTime, block, world, x, y, z, task);
     }
 
     public static void removeScheduledTask(World world, int x, int y, int z, Task type) {

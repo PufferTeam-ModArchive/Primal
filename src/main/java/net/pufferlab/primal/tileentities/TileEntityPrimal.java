@@ -7,14 +7,16 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.utils.BlockUtils;
+import net.pufferlab.primal.utils.HashUtils;
 import net.pufferlab.primal.utils.SoundTypePrimal;
+
+import io.netty.buffer.ByteBuf;
 
 public abstract class TileEntityPrimal extends TileEntity implements ITile {
 
-    public int cachedX;
-    public int cachedY;
-    public int cachedZ;
+    public long oldCoord;
 
     public TileEntityPrimal() {}
 
@@ -30,6 +32,8 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
         NBTTagCompound dataTag = new NBTTagCompound();
 
         this.writeToNBTPacket(dataTag);
+
+        Primal.proxy.packet.sendTileClientPacket(this);
 
         return (Packet) new S35PacketUpdateTileEntity(
             this.xCoord,
@@ -52,9 +56,7 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
         super.writeToNBT(compound);
 
         if (shouldCacheCoords()) {
-            compound.setInteger("xCached", this.cachedX);
-            compound.setInteger("yCached", this.cachedY);
-            compound.setInteger("zCached", this.cachedZ);
+            compound.setLong("pos", this.oldCoord);
         }
     }
 
@@ -63,9 +65,7 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
         super.readFromNBT(compound);
 
         if (shouldCacheCoords()) {
-            this.cachedX = compound.getInteger("xCached");
-            this.cachedY = compound.getInteger("yCached");
-            this.cachedZ = compound.getInteger("zCached");
+            this.oldCoord = compound.getLong("pos");
         }
     }
 
@@ -77,6 +77,16 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
 
     public void readFromNBTPacket(NBTTagCompound tag) {}
 
+    @Override
+    public void writeToBuffer(ByteBuf buf) {
+
+    }
+
+    @Override
+    public void readFromBuffer(ByteBuf buf) {
+
+    }
+
     public void playSound(SoundTypePrimal stepSound) {
         World world = this.getWorldObj();
         int x = this.xCoord;
@@ -86,17 +96,17 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
     }
 
     @Override
-    public int getX() {
+    public int x() {
         return this.xCoord;
     }
 
     @Override
-    public int getY() {
+    public int y() {
         return this.yCoord;
     }
 
     @Override
-    public int getZ() {
+    public int z() {
         return this.zCoord;
     }
 
@@ -126,11 +136,15 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
         super.markDirty();
 
         if (shouldCacheCoords()) {
-            if (this.xCoord != this.cachedX || this.yCoord != this.cachedY || this.zCoord != this.cachedZ) {
-                onCoordChange(this.cachedX, this.cachedY, this.cachedZ);
-                this.cachedX = this.xCoord;
-                this.cachedY = this.yCoord;
-                this.cachedZ = this.zCoord;
+            int cachedX = HashUtils.unpackX(oldCoord);
+            int cachedY = HashUtils.unpackY(oldCoord);
+            int cachedZ = HashUtils.unpackZ(oldCoord);
+            if (this.xCoord != cachedX || this.yCoord != cachedY || this.zCoord != cachedZ) {
+                onCoordChange(cachedX, cachedY, cachedZ);
+                cachedX = this.xCoord;
+                cachedY = this.yCoord;
+                cachedZ = this.zCoord;
+                this.oldCoord = HashUtils.packCoord(cachedX, cachedY, cachedZ);
             }
         }
     }
@@ -141,7 +155,10 @@ public abstract class TileEntityPrimal extends TileEntity implements ITile {
     }
 
     public boolean shouldCacheCoords() {
-        return true;
+        if (this instanceof IScheduledTile tile) {
+            return true;
+        }
+        return false;
     }
 
     public void init() {}

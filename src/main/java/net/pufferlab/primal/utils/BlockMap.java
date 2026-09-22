@@ -22,7 +22,7 @@ public class BlockMap {
     }
 
     public static int getBlockMetaID(Block block, int meta) {
-        return (getBlockID(block) << 16) | (meta & 0xFFFF);
+        return HashUtils.packShort(getBlockID(block), meta);
     }
 
     public static class Single<T> {

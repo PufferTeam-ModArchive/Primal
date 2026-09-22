@@ -107,7 +107,7 @@ public class Registry {
     public static final Item straw;
     public static final Item hide;
     public static final Item rock;
-    public static final Item brick;
+    public static final Item stone_brick;
     public static final Item shell;
     public static final Item flint;
     public static final Item wood;
@@ -122,7 +122,9 @@ public class Registry {
     public static final Item bread;
     public static final Item powder;
     public static final Item handstone;
+    public static final Item brick;
     public static final Item mold;
+    public static final Item fire_clay;
     public static final Item clay;
     public static final Item ceramic_bucket;
     public static final Item ceramic_bucket_modded;
@@ -252,7 +254,7 @@ public class Registry {
 
         moving_block = new BlockMoving();
 
-        bricks = new BlockBricks(Constants.brickItems, "bricks");
+        bricks = new BlockBricks(Constants.brickBlocks, "bricks");
         thatch = new BlockThatch();
         thatch_roof = new BlockThatchRoof();
         block = new BlockMetal(Constants.blockMetalTypes, "block");
@@ -266,7 +268,7 @@ public class Registry {
 
         rock = new ItemRock(Constants.stoneTypes, "rock");
         ((BlockGroundcover) ground_rock).setItem(rock);
-        brick = new ItemRock(Constants.stoneTypes, "brick");
+        stone_brick = new ItemRock(Constants.stoneTypes, "brick");
 
         ore = new ItemOre(Constants.oreTypes, "medium_ore", true);
         small_ore = new ItemOre(Constants.oreTypes, "small_ore");
@@ -284,7 +286,9 @@ public class Registry {
         flint = new ItemMeta(Constants.flintItems, "flint");
         shell = new ItemMeta(Constants.shellTypes, "shell");
         powder = new ItemMeta(Constants.powderItems, "powder").setHasSuffix();
+        brick = new ItemMeta(Constants.brickItems, "brick");
         mold = new ItemMeta(Constants.moldItems, "mold");
+        fire_clay = new ItemMeta(Constants.fireClayItems, "fire_clay");
         clay = new ItemMeta(Constants.clayItems, "clay");
         ((BlockGroundcover) ground_shell).setItem(shell);
 
@@ -441,7 +445,7 @@ public class Registry {
         register(gem, "gem");
         register(gem_powder, "gem_powder");
         register(rock, "rock");
-        register(brick, "brick");
+        register(stone_brick, "stone_brick");
         register(bark, "bark");
 
         register(icons, "icon");
@@ -459,7 +463,9 @@ public class Registry {
         register(powder, "powder");
         register(shell, "shell");
         register(flint, "flint");
+        register(brick, "brick");
         register(mold, "mold");
+        register(fire_clay, "fire_clay");
         register(clay, "clay");
 
         register(ingot, "ingot");
@@ -667,13 +673,12 @@ public class Registry {
 
         registerPacket(PacketSwingArm.class, Side.CLIENT);
         registerPacket(PacketFireStarter.class, Side.CLIENT);
-        registerPacket(PacketSpeedUpdate.class, Side.CLIENT);
+        registerPacket(PacketTileDataUpdate.class, Side.CLIENT);
         registerPacket(PacketTileUpdate.class, Side.CLIENT);
         registerPacket(PacketWorldTime.class, Side.CLIENT);
         registerPacket(PacketPlayerData.class, Side.CLIENT);
         registerPacket(PacketBoundingBoxDebug.class, Side.CLIENT);
         registerPacket(PacketChunkData.class, Side.CLIENT);
-        registerPacket(PacketRotationUpdate.class, Side.CLIENT);
         registerPacket(PacketEffect.class, Side.CLIENT);
         registerPacket(PacketClientCommand.class, Side.CLIENT);
     }

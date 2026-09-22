@@ -96,16 +96,22 @@ public class NetworkPacket {
         }
     }
 
+    public void sendTileClientPacket(ITile te) {
+        if (!te.getWorld().isRemote) {
+            Primal.proxy.sendPacketToClient(new PacketTileDataUpdate(te));
+        }
+    }
+
     public void sendMotionSpeedPacket(IMotion te) {
         if (!te.getWorld().isRemote) {
-            Primal.proxy.sendPacketToClient(new PacketSpeedUpdate(te));
+            Primal.proxy.sendPacketToClient(new PacketTileDataUpdate(te));
             te.mark();
         }
     }
 
     public void sendMovingRotationPacket(IMoving te) {
         if (!te.getWorld().isRemote) {
-            Primal.proxy.sendPacketToClient(new PacketRotationUpdate(te));
+            Primal.proxy.sendPacketToClient(new PacketTileDataUpdate(te));
             te.mark();
         }
     }

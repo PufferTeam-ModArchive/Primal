@@ -313,6 +313,8 @@ public class Constants {
     public static final String[] powderItems        = { "lime" };
     public static final String[] bloomItems         = { "raw_iron_bloom", "refined_iron_bloom" };
     public static final String[] flintItems         = { "flint_shard", "flint_axe_head", "flint_pickaxe_head",  "flint_shovel_head", "flint_knife_blade", "flint_hoe_head" };
+    public static final String[] brickItems         = { "fire_brick" };
+    public static final String[] fireClayItems      = { "clay_fire_brick" };
     public static final String[] clayItems          = { "clay_brick", "clay_flower_pot", "clay_large_vessel", "clay_crucible", "clay_ingot_mold", "clay_pickaxe_mold",
                                                         "clay_axe_mold", "clay_shovel_mold", "clay_sword_mold", "clay_knife_mold", "clay_hoe_mold", "clay_hammer_mold", "clay_bucket" };
     public static final String[] moldItems          = { "ingot_mold", "pickaxe_mold", "axe_mold", "shovel_mold",
@@ -321,7 +323,7 @@ public class Constants {
     public static final String[] colorItemsEFR      = { "banner", "concrete", "concrete_powder",
                                                         "glazed_terracotta", "bed" };
     public static final String[] icons              = { "knapping" };
-    public static final String[] brickItems         = { "fire_bricks" };
+    public static final String[] brickBlocks        = { "fire_bricks" };
 
     // Fluids
     public static final FluidType empty             = new FluidType("empty", false, true);

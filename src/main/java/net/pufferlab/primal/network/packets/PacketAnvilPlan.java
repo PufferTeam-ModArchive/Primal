@@ -19,9 +19,9 @@ public class PacketAnvilPlan implements IMessage, IMessageHandler<PacketAnvilPla
     public PacketAnvilPlan() {}
 
     public PacketAnvilPlan(TileEntityAnvil tile, String recipeID) {
-        this.x = tile.getX();
-        this.y = tile.getY();
-        this.z = tile.getZ();
+        this.x = tile.x();
+        this.y = tile.y();
+        this.z = tile.z();
         this.recipeID = recipeID;
     }
 

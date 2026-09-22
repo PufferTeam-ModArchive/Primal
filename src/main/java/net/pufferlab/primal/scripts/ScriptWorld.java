@@ -66,6 +66,7 @@ public class ScriptWorld implements IScript {
                 addShapedRecipe(getModItem(name + "_pressure_plate", 1), "II", 'I', stack);
                 addShapedRecipe(getModItem(name + "_button", 1), "I", 'I', stack);
             }
+            addShapedRecipe(getItem("minecraft:stone_slab:3:6"), "III", 'I', getItem("minecraft:cobblestone:0:1"));
         }
     }
 }

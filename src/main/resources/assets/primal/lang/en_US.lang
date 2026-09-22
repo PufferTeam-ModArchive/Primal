@@ -29,6 +29,9 @@ tile.primal.fire_bricks.name=Fire Bricks
 item.primal.raw_iron_bloom.name=Raw Iron Bloom
 item.primal.refined_iron_bloom.name=Refined Iron Bloom
 
+item.primal.fire_brick.name=Fire Brick
+item.primal.clay_fire_brick.name=Clay Fire Brick
+
 tile.primal.iron_anvil.name=Iron Anvil
 tile.primal.copper_anvil.name=Copper Anvil
 tile.primal.bronze_anvil.name=Bronze Anvil

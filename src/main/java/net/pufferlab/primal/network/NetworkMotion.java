@@ -29,7 +29,7 @@ public class NetworkMotion {
             for (int y = -1; y <= 1; y++) {
                 for (int z = -1; z <= 1; z++) {
                     TileEntity te3 = te2.getWorld()
-                        .getTileEntity(te2.getX() + x, te2.getY() + y, te2.getZ() + z);
+                        .getTileEntity(te2.x() + x, te2.y() + y, te2.z() + z);
                     if (te3 instanceof IMotion tef) {
                         tef.scheduleUpdate();
                     }
@@ -104,7 +104,7 @@ public class NetworkMotion {
                 int offsetZ = direction.offsetZ;
                 if (te.hasConnection(ordinal)) {
                     TileEntity te2 = te.getWorld()
-                        .getTileEntity(te.getX() + offsetX, te.getY() + offsetY, te.getZ() + offsetZ);
+                        .getTileEntity(te.x() + offsetX, te.y() + offsetY, te.z() + offsetZ);
                     if (te2 instanceof IMotion tef) {
                         if (tef.hasConnection(
                             direction.getOpposite()
@@ -125,9 +125,9 @@ public class NetworkMotion {
                             int offsetZ2 = direction2.offsetZ;
                             TileEntity te2 = te.getWorld()
                                 .getTileEntity(
-                                    te.getX() + offsetX + offsetX2,
-                                    te.getY() + offsetY + offsetY2,
-                                    te.getZ() + offsetZ + offsetZ2);
+                                    te.x() + offsetX + offsetX2,
+                                    te.y() + offsetY + offsetY2,
+                                    te.z() + offsetZ + offsetZ2);
                             if (te2 instanceof IMotion tef) {
                                 if (tef.hasGear(
                                     direction2.getOpposite()

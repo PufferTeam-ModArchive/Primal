@@ -8,6 +8,8 @@ import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.world.scheduling.ScheduleManager;
 import net.pufferlab.primal.world.scheduling.Task;
 
+import io.netty.buffer.ByteBuf;
+
 public abstract class TileEntityMotionInventory extends TileEntityInventory implements IMotion, IScheduledTile {
 
     float torque;
@@ -55,17 +57,29 @@ public abstract class TileEntityMotionInventory extends TileEntityInventory impl
     @Override
     public void readFromNBTPacket(NBTTagCompound tag) {
         super.readFromNBTPacket(tag);
+    }
 
-        this.speed = tag.getFloat("speed");
-        this.hasOffset = tag.getBoolean("hasOffset");
+    @Override
+    public void readFromBuffer(ByteBuf buf) {
+        super.readFromBuffer(buf);
+
+        this.speed = buf.readFloat();
+        this.speedModifier = buf.readFloat();
+        this.hasOffset = buf.readBoolean();
     }
 
     @Override
     public void writeToNBTPacket(NBTTagCompound tag) {
         super.writeToNBTPacket(tag);
+    }
 
-        tag.setFloat("speed", this.speed);
-        tag.setBoolean("hasOffset", this.hasOffset);
+    @Override
+    public void writeToBuffer(ByteBuf buf) {
+        super.writeToBuffer(buf);
+
+        buf.writeFloat(this.speed);
+        buf.writeFloat(this.speedModifier);
+        buf.writeBoolean(this.hasOffset);
     }
 
     @Override

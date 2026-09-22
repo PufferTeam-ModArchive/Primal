@@ -3,6 +3,8 @@ package net.pufferlab.primal.tileentities;
 import net.minecraft.nbt.NBTTagCompound;
 import net.pufferlab.primal.utils.Mth;
 
+import io.netty.buffer.ByteBuf;
+
 public class TileEntityMetaFacing extends TileEntityPrimal {
 
     public int facingMeta = 2;
@@ -56,22 +58,32 @@ public class TileEntityMetaFacing extends TileEntityPrimal {
     @Override
     public void writeToNBTPacket(NBTTagCompound tag) {
         super.writeToNBTPacket(tag);
+    }
+
+    @Override
+    public void writeToBuffer(ByteBuf buf) {
+        super.writeToBuffer(buf);
         if (hasFacing()) {
-            tag.setByte("facingMeta", (byte) this.facingMeta);
+            buf.writeByte(this.facingMeta);
         }
         if (hasAxis()) {
-            tag.setByte("axisMeta", (byte) this.axisMeta);
+            buf.writeByte(this.axisMeta);
         }
     }
 
     @Override
     public void readFromNBTPacket(NBTTagCompound tag) {
         super.readFromNBTPacket(tag);
+    }
+
+    @Override
+    public void readFromBuffer(ByteBuf buf) {
+        super.readFromBuffer(buf);
         if (hasFacing()) {
-            this.facingMeta = tag.getByte("facingMeta");
+            this.facingMeta = buf.readByte();
         }
         if (hasAxis()) {
-            this.axisMeta = tag.getByte("axisMeta");
+            this.axisMeta = buf.readByte();
         }
     }
 

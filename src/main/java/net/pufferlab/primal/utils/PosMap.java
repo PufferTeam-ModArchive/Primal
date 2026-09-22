@@ -106,6 +106,10 @@ public class PosMap {
                 }
             }
         }
+
+        public Collection<T> values() {
+            return map.valueCollection();
+        }
     }
 
     public static class Multi<T> {

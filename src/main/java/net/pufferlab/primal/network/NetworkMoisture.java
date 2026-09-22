@@ -41,10 +41,10 @@ public class NetworkMoisture {
     }
 
     private static float getMoisture(ITile tef, int waterX, int y, int waterZ) {
-        int dx = Math.abs(tef.getX() - waterX);
-        int dy = Math.abs(tef.getY() - y);
+        int dx = Math.abs(tef.x() - waterX);
+        int dy = Math.abs(tef.y() - y);
         if (dy > 1) return 0.0F;
-        int dz = Math.abs(tef.getZ() - waterZ);
+        int dz = Math.abs(tef.z() - waterZ);
 
         float dist = Math.max(dx, dz);
 
@@ -66,9 +66,9 @@ public class NetworkMoisture {
         connected.add(te);
         if (te instanceof TileEntityFarmland) {
             for (ForgeDirection direction : BlockUtils.sideXZDirections) {
-                int offsetX = te.getX() + direction.offsetX;
-                int offsetY = te.getY() + direction.offsetY;
-                int offsetZ = te.getZ() + direction.offsetZ;
+                int offsetX = te.x() + direction.offsetX;
+                int offsetY = te.y() + direction.offsetY;
+                int offsetZ = te.z() + direction.offsetZ;
                 Block block = te.getWorld()
                     .getBlock(offsetX, offsetY, offsetZ);
                 if (BlockUtils.isWaterBlock(block)) {

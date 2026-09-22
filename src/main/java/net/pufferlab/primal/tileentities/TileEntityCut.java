@@ -55,9 +55,4 @@ public class TileEntityCut extends TileEntityPrimal {
     public boolean canUpdate() {
         return false;
     }
-
-    @Override
-    public boolean shouldCacheCoords() {
-        return false;
-    }
 }

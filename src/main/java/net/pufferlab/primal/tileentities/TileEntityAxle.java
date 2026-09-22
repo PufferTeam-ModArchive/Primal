@@ -6,10 +6,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.pufferlab.primal.utils.BlockUtils;
+import net.pufferlab.primal.utils.HashUtils;
 import net.pufferlab.primal.utils.ItemUtils;
 
 public class TileEntityAxle extends TileEntityMotion {
 
+    public static final int flagGearPos = 0;
+    public static final int flagGearNeg = 1;
+    public static final int flagBracket = 2;
     public boolean hasGearPos;
     public boolean hasGearNeg;
     public boolean hasBracket;
@@ -24,36 +28,46 @@ public class TileEntityAxle extends TileEntityMotion {
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        this.hasGearPos = tag.getBoolean("hasGearPos");
-        this.hasGearNeg = tag.getBoolean("hasGearNeg");
-        this.hasBracket = tag.getBoolean("hasBracket");
+        int flags = tag.getInteger("flags");
+        readFlag(flags);
     }
 
     @Override
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setBoolean("hasGearPos", this.hasGearPos);
-        tag.setBoolean("hasGearNeg", this.hasGearNeg);
-        tag.setBoolean("hasBracket", this.hasBracket);
+        int flags = writeFlag();
+        tag.setInteger("flags", flags);
     }
 
     @Override
     public void readFromNBTPacket(NBTTagCompound tag) {
         super.readFromNBTPacket(tag);
 
-        this.hasGearPos = tag.getBoolean("hasGearPos");
-        this.hasGearNeg = tag.getBoolean("hasGearNeg");
-        this.hasBracket = tag.getBoolean("hasBracket");
+        int flags = tag.getInteger("flags");
+        readFlag(flags);
     }
 
     @Override
     public void writeToNBTPacket(NBTTagCompound tag) {
         super.writeToNBTPacket(tag);
 
-        tag.setBoolean("hasGearPos", this.hasGearPos);
-        tag.setBoolean("hasGearNeg", this.hasGearNeg);
-        tag.setBoolean("hasBracket", this.hasBracket);
+        int flags = writeFlag();
+        tag.setInteger("flags", flags);
+    }
+
+    public void readFlag(int flags) {
+        this.hasGearPos = HashUtils.unpackBool(flags, flagGearPos);
+        this.hasGearNeg = HashUtils.unpackBool(flags, flagGearNeg);
+        this.hasBracket = HashUtils.unpackBool(flags, flagBracket);
+    }
+
+    public int writeFlag() {
+        int flags = 0;
+        flags = HashUtils.packBool(flags, flagGearPos, this.hasGearPos);
+        flags = HashUtils.packBool(flags, flagGearNeg, this.hasGearNeg);
+        flags = HashUtils.packBool(flags, flagBracket, this.hasBracket);
+        return flags;
     }
 
     public void setGear(int side, EntityPlayer player) {

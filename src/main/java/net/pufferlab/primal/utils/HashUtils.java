@@ -138,7 +138,24 @@ public class HashUtils {
     }
 
     // Block
-    public static int pack(short a, short b) {
+    public static int packShort(short a, short b) {
         return ((a & 0xFFFF) << 16) | (b & 0xFFFF);
+    }
+
+    public static int packShort(int a, int b) {
+        return ((a & 0xFFFF) << 16) | (b & 0xFFFF);
+    }
+
+    // Boolean
+    public static int packBool(int packed, int index, boolean value) {
+        if (value) {
+            return packed | (1 << index);
+        } else {
+            return packed & ~(1 << index);
+        }
+    }
+
+    public static boolean unpackBool(int packed, int index) {
+        return (packed & (1 << index)) != 0;
     }
 }

@@ -8,6 +8,8 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.recipes.QuernRecipe;
 import net.pufferlab.primal.utils.Mth;
 
+import io.netty.buffer.ByteBuf;
+
 public class TileEntityQuern extends TileEntityMotionInventory {
 
     public static final float maxSpeed = 8F;
@@ -64,17 +66,29 @@ public class TileEntityQuern extends TileEntityMotionInventory {
     @Override
     public void readFromNBTPacket(NBTTagCompound tag) {
         super.readFromNBTPacket(tag);
-        this.timeGround = tag.getInteger("timeGround");
-        this.isMoving = tag.getBoolean("isMoving");
-        this.hasNetwork = tag.getBoolean("hasNetwork");
+    }
+
+    @Override
+    public void readFromBuffer(ByteBuf buf) {
+        super.readFromBuffer(buf);
+
+        this.timeGround = buf.readInt();
+        this.isMoving = buf.readBoolean();
+        this.hasNetwork = buf.readBoolean();
     }
 
     @Override
     public void writeToNBTPacket(NBTTagCompound tag) {
         super.writeToNBTPacket(tag);
-        tag.setInteger("timeGround", this.timeGround);
-        tag.setBoolean("isMoving", this.isMoving);
-        tag.setBoolean("hasNetwork", this.hasNetwork);
+    }
+
+    @Override
+    public void writeToBuffer(ByteBuf buf) {
+        super.writeToBuffer(buf);
+
+        buf.writeInt(this.timeGround);
+        buf.writeBoolean(this.isMoving);
+        buf.writeBoolean(this.hasNetwork);
     }
 
     public float getPercentageSpeed() {

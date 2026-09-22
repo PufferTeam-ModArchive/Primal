@@ -47,11 +47,11 @@ public interface IScheduledTile extends ITile {
     }
 
     default void addSchedule(int inTime, Task type) {
-        addSchedule(getWorld(), getX(), getY(), getZ(), inTime, type);
+        addSchedule(getWorld(), x(), y(), z(), inTime, type);
     }
 
     default void addSchedule(long timeSent, int inTime, Task type) {
-        addSchedule(getWorld(), getX(), getY(), getZ(), timeSent, inTime, type);
+        addSchedule(getWorld(), x(), y(), z(), timeSent, inTime, type);
     }
 
     default void removeSchedule(World world, int x, int y, int z) {
@@ -71,11 +71,11 @@ public interface IScheduledTile extends ITile {
     }
 
     default void removeSchedule() {
-        removeSchedule(getWorld(), getX(), getY(), getZ());
+        removeSchedule(getWorld(), x(), y(), z());
     }
 
     default void removeSchedule(Task type) {
-        removeSchedule(getWorld(), getX(), getY(), getZ(), type);
+        removeSchedule(getWorld(), x(), y(), z(), type);
     }
 
     default void removeAllSchedule() {
@@ -87,6 +87,6 @@ public interface IScheduledTile extends ITile {
     }
 
     default void moveAllSchedule(World world, int oldX, int oldY, int oldZ) {
-        moveAllSchedule(world, oldX, oldY, oldZ, getX(), getY(), getZ());
+        moveAllSchedule(world, oldX, oldY, oldZ, x(), y(), z());
     }
 }

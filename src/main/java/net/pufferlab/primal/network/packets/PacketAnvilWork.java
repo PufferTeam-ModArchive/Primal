@@ -19,9 +19,9 @@ public class PacketAnvilWork implements IMessage, IMessageHandler<PacketAnvilWor
     public PacketAnvilWork() {}
 
     public PacketAnvilWork(TileEntityAnvil tile, int button) {
-        this.x = tile.getX();
-        this.y = tile.getY();
-        this.z = tile.getZ();
+        this.x = tile.x();
+        this.y = tile.y();
+        this.z = tile.z();
         this.button = button;
     }
 

@@ -60,7 +60,8 @@ public enum Task {
 
         simpleTask,
         blockTask,
-        tileTask;
+        tileTask,
+        graphTask;
 
         public static Type getTask(byte ordinal) {
             return values()[ordinal];

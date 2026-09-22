@@ -131,6 +131,10 @@ public class ScriptRemove implements IScript {
             "ingotIron",
             'S',
             "stickWood");
+
+        if (Config.strataStoneTypes.getBoolean()) {
+            removeShapedRecipe(getItem("minecraft:stone_slab:3:6"), "PPP", 'P', "cobblestone");
+        }
     }
 
     public void updateEFRRemoval() {

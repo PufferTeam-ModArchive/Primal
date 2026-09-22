@@ -4,48 +4,45 @@ import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
+import net.pufferlab.primal.utils.IPositioned;
 
-public interface ITile {
+import io.netty.buffer.ByteBuf;
+
+public interface ITile extends IPositioned {
 
     public World getWorld();
-
-    public int getX();
-
-    public int getY();
-
-    public int getZ();
 
     public void mark();
 
     public int getWorldID();
 
     default TileEntity getTile() {
-        return getWorld().getTileEntity(getX(), getY(), getZ());
+        return getWorld().getTileEntity(x(), y(), z());
     }
 
     default int getMeta() {
-        return getWorld().getBlockMetadata(getX(), getY(), getZ());
+        return getWorld().getBlockMetadata(x(), y(), z());
     }
 
     default void setMeta(int meta) {
-        getWorld().setBlockMetadataWithNotify(getX(), getY(), getZ(), meta, 2);
+        getWorld().setBlockMetadataWithNotify(x(), y(), z(), meta, 2);
     }
 
     default void updateTEState() {
         this.mark();
         if (this.getWorld() != null) {
             this.getWorld()
-                .func_147453_f(getX(), getY(), getZ(), getBlock());
+                .func_147453_f(x(), y(), z(), getBlock());
             this.getWorld()
-                .markBlockForUpdate(getX(), getY(), getZ());
+                .markBlockForUpdate(x(), y(), z());
         }
     }
 
     default void updateTELight() {
         this.getWorld()
-            .updateLightByType(EnumSkyBlock.Sky, getX(), getY(), getZ());
+            .updateLightByType(EnumSkyBlock.Sky, x(), y(), z());
         this.getWorld()
-            .updateLightByType(EnumSkyBlock.Block, getX(), getY(), getZ());
+            .updateLightByType(EnumSkyBlock.Block, x(), y(), z());
     }
 
     default Block getBlock() {
@@ -55,4 +52,8 @@ public interface ITile {
     default boolean shouldBatchUpdate() {
         return true;
     }
+
+    public void writeToBuffer(ByteBuf buf);
+
+    public void readFromBuffer(ByteBuf buf);
 }
