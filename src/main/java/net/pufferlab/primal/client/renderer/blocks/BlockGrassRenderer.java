@@ -46,9 +46,16 @@ public class BlockGrassRenderer extends BlockPrimalRenderer {
         boolean flag = false;
 
         block0.setInventory(false);
+
+        if (isRenderingBreaking()) {
+            block0.setPass(2);
+            flag = renderStandardBlockNoColor(renderer, block, x, y, z);
+            block0.setPass(1);
+            return flag;
+        }
+
         block0.setPass(0);
         flag = renderStandardBlockNoColor(renderer, block, x, y, z);
-
         block0.setPass(1);
         if (snowyAbove) {
             flag = renderStandardBlockNoColor(renderer, block, x, y, z);

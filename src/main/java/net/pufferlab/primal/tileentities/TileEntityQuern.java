@@ -64,22 +64,12 @@ public class TileEntityQuern extends TileEntityMotionInventory {
     }
 
     @Override
-    public void readFromNBTPacket(NBTTagCompound tag) {
-        super.readFromNBTPacket(tag);
-    }
-
-    @Override
     public void readFromBuffer(ByteBuf buf) {
         super.readFromBuffer(buf);
 
         this.timeGround = buf.readInt();
         this.isMoving = buf.readBoolean();
         this.hasNetwork = buf.readBoolean();
-    }
-
-    @Override
-    public void writeToNBTPacket(NBTTagCompound tag) {
-        super.writeToNBTPacket(tag);
     }
 
     @Override

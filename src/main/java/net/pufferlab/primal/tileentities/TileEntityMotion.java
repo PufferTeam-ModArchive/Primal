@@ -57,22 +57,12 @@ public abstract class TileEntityMotion extends TileEntityMetaFacing implements I
     }
 
     @Override
-    public void readFromNBTPacket(NBTTagCompound tag) {
-        super.readFromNBTPacket(tag);
-    }
-
-    @Override
     public void readFromBuffer(ByteBuf buf) {
         super.readFromBuffer(buf);
 
         this.speed = buf.readFloat();
         this.speedModifier = buf.readFloat();
         this.hasOffset = buf.readBoolean();
-    }
-
-    @Override
-    public void writeToNBTPacket(NBTTagCompound tag) {
-        super.writeToNBTPacket(tag);
     }
 
     @Override

@@ -106,7 +106,8 @@ public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlo
     }
 
     public IIcon getIcon(IBlockAccess worldIn, int x, int y, int z, int side, int meta) {
-        if (getPass() == 0) {
+        int pass = getPass();
+        if (pass == 0) {
             if (side == 1) {
                 return this.empty;
             } else {
@@ -143,10 +144,14 @@ public class BlockMetaGrass extends BlockGrass implements IPrimalBlock, IMetaBlo
 
     @Override
     public boolean shouldSideBeRendered(IBlockAccess worldIn, int x, int y, int z, int side) {
-        if (getPass() == 0 && side == 1) {
+        int pass = getPass();
+        if (pass == 2) {
+            return super.shouldSideBeRendered(worldIn, x, y, z, side);
+        }
+        if (pass == 0 && side == 1) {
             return false;
         }
-        if (getPass() == 1 && side == 0) {
+        if (pass == 1 && side == 0) {
             return false;
         }
         return super.shouldSideBeRendered(worldIn, x, y, z, side);

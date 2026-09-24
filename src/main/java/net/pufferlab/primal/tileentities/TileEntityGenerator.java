@@ -3,6 +3,8 @@ package net.pufferlab.primal.tileentities;
 import net.minecraft.nbt.NBTTagCompound;
 import net.pufferlab.primal.world.scheduling.Task;
 
+import io.netty.buffer.ByteBuf;
+
 public class TileEntityGenerator extends TileEntityMotion {
 
     public float generatedSpeed;
@@ -32,17 +34,17 @@ public class TileEntityGenerator extends TileEntityMotion {
     }
 
     @Override
-    public void readFromNBTPacket(NBTTagCompound tag) {
-        super.readFromNBTPacket(tag);
+    public void readFromBuffer(ByteBuf buf) {
+        super.readFromBuffer(buf);
 
-        this.generatedSpeed = tag.getFloat("generatedSpeed");
+        this.generatedSpeed = buf.readFloat();
     }
 
     @Override
-    public void writeToNBTPacket(NBTTagCompound tag) {
-        super.writeToNBTPacket(tag);
+    public void writeToBuffer(ByteBuf buf) {
+        super.writeToBuffer(buf);
 
-        tag.setFloat("generatedSpeed", this.generatedSpeed);
+        buf.writeFloat(this.generatedSpeed);
     }
 
     @Override

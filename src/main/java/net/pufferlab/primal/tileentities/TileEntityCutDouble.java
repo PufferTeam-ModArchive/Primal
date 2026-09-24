@@ -3,6 +3,8 @@ package net.pufferlab.primal.tileentities;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
+import io.netty.buffer.ByteBuf;
+
 public class TileEntityCutDouble extends TileEntityCut {
 
     public short materialMeta2 = -1;
@@ -29,17 +31,17 @@ public class TileEntityCutDouble extends TileEntityCut {
     }
 
     @Override
-    public void writeToNBTPacket(NBTTagCompound tag) {
-        super.writeToNBTPacket(tag);
+    public void writeToBuffer(ByteBuf buf) {
+        super.writeToBuffer(buf);
 
-        tag.setShort("materialMeta2", this.materialMeta2);
+        buf.writeShort(materialMeta2);
     }
 
     @Override
-    public void readFromNBTPacket(NBTTagCompound tag) {
-        super.readFromNBTPacket(tag);
+    public void readFromBuffer(ByteBuf buf) {
+        super.readFromBuffer(buf);
 
-        this.materialMeta2 = tag.getShort("materialMeta2");
+        this.materialMeta2 = buf.readShort();
     }
 
     public void setMaterialMeta2(int meta) {

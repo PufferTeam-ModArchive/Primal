@@ -47,6 +47,14 @@ public class BlockOreRenderer extends BlockPrimalRenderer {
 
         int worldPass = getWorldRenderPass();
         block0.setInventory(false);
+
+        if (isRenderingBreaking()) {
+            block0.setPass(3);
+            flag = renderStandardBlockNoColor(renderer, block, x, y, z);
+            block0.setPass(0);
+            return flag;
+        }
+
         if (worldPass == 0) {
             block0.setPass(0);
             renderStandardBlockNoColor(renderer, block, x, y, z);

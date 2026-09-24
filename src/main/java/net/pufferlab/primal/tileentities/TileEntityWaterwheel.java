@@ -10,6 +10,8 @@ import net.pufferlab.primal.utils.BlockUtils;
 import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.scheduling.Task;
 
+import io.netty.buffer.ByteBuf;
+
 public class TileEntityWaterwheel extends TileEntityMotion {
 
     public boolean isExtension;
@@ -48,25 +50,25 @@ public class TileEntityWaterwheel extends TileEntityMotion {
     }
 
     @Override
-    public void readFromNBTPacket(NBTTagCompound tag) {
-        super.readFromNBTPacket(tag);
+    public void readFromBuffer(ByteBuf buf) {
+        super.readFromBuffer(buf);
 
-        this.isExtension = tag.getBoolean("isExtension");
-        this.generatedSpeed = tag.getFloat("generatedSpeed");
-        this.baseXCoord = tag.getInteger("baseX");
-        this.baseYCoord = tag.getInteger("baseY");
-        this.baseZCoord = tag.getInteger("baseZ");
+        this.isExtension = buf.readBoolean();
+        this.generatedSpeed = buf.readFloat();
+        this.baseXCoord = buf.readInt();
+        this.baseYCoord = buf.readInt();
+        this.baseZCoord = buf.readInt();
     }
 
     @Override
-    public void writeToNBTPacket(NBTTagCompound tag) {
-        super.writeToNBTPacket(tag);
+    public void writeToBuffer(ByteBuf buf) {
+        super.writeToBuffer(buf);
 
-        tag.setBoolean("isExtension", this.isExtension);
-        tag.setFloat("generatedSpeed", this.generatedSpeed);
-        tag.setInteger("baseX", this.baseXCoord);
-        tag.setInteger("baseY", this.baseYCoord);
-        tag.setInteger("baseZ", this.baseZCoord);
+        buf.writeBoolean(this.isExtension);
+        buf.writeFloat(this.generatedSpeed);
+        buf.writeInt(this.baseXCoord);
+        buf.writeInt(this.baseYCoord);
+        buf.writeInt(this.baseZCoord);
     }
 
     @Override

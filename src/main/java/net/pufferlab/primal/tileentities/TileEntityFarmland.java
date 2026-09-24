@@ -9,6 +9,8 @@ import net.pufferlab.primal.utils.Mth;
 import net.pufferlab.primal.world.scheduling.ScheduleManager;
 import net.pufferlab.primal.world.scheduling.Task;
 
+import io.netty.buffer.ByteBuf;
+
 public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTile {
 
     public float moisture = 0.0F;
@@ -52,23 +54,23 @@ public class TileEntityFarmland extends TileEntityPrimal implements IScheduledTi
     }
 
     @Override
-    public void readFromNBTPacket(NBTTagCompound tag) {
-        super.readFromNBTPacket(tag);
+    public void readFromBuffer(ByteBuf buf) {
+        super.readFromBuffer(buf);
 
-        this.moisture = tag.getFloat("moisture");
-        this.potassium = tag.getFloat("potassium");
-        this.nitrogen = tag.getFloat("nitrogen");
-        this.phosphorus = tag.getFloat("phosphorus");
+        this.moisture = buf.readFloat();
+        this.potassium = buf.readFloat();
+        this.nitrogen = buf.readFloat();
+        this.phosphorus = buf.readFloat();
     }
 
     @Override
-    public void writeToNBTPacket(NBTTagCompound tag) {
-        super.writeToNBTPacket(tag);
+    public void writeToBuffer(ByteBuf buf) {
+        super.writeToBuffer(buf);
 
-        tag.setFloat("moisture", this.moisture);
-        tag.setFloat("potassium", this.potassium);
-        tag.setFloat("nitrogen", this.nitrogen);
-        tag.setFloat("phosphorus", this.phosphorus);
+        buf.writeFloat(this.moisture);
+        buf.writeFloat(this.potassium);
+        buf.writeFloat(this.nitrogen);
+        buf.writeFloat(this.phosphorus);
     }
 
     @Override
