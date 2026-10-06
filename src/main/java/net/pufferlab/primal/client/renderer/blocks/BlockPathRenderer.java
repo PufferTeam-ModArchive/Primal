@@ -41,7 +41,7 @@ public class BlockPathRenderer extends BlockPrimalRenderer {
         renderer.setRenderBounds(0.0D, 0.0D, 0.0D, 1.0D, 0.9375D, 1.0D);
 
         block0.setInventory(false);
-        if (isRenderingBreaking()) {
+        if (isRenderingBreaking(renderer)) {
             block0.setPass(2);
             flag = renderStandardBlockNoColor(renderer, block, x, y, z);
             block0.setPass(0);

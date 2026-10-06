@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
@@ -35,11 +36,22 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
     private static float lastBrightnessX = 0;
     private static float lastBrightnessY = 0;
 
-    public static EntityPlayer player;
-    public static boolean renderBreaking = false;
+    private static EntityPlayer playerBreaking;
+    private static boolean renderBreaking = false;
 
-    public static boolean isRenderingBreaking() {
+    public static void setRenderingBreakingState(boolean render, EntityLivingBase player) {
+        renderBreaking = render;
+        if (player instanceof EntityPlayer player0) {
+            playerBreaking = player0;
+        }
+    }
+
+    public static boolean isRenderingBreaking(RenderBlocks renderBlocks) {
         return renderBreaking;
+    }
+
+    public static EntityPlayer getPlayerBreaking(RenderBlocks renderBlocks) {
+        return playerBreaking;
     }
 
     @Override
@@ -60,9 +72,7 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
         RenderBlocks renderer) {
         if (block.canRenderInPass(1) && !Mods.angelica.isLoaded()) {
             Tessellator tess = Tessellator.instance;
-            for (int i = 0; i < 4; i++) {
-                tess.addVertex(x, y, z);
-            }
+            dumpVertices(tess, x, y, z);
         }
         return renderWorldBlock(world, x, y, z, block, renderer);
     }
@@ -303,7 +313,8 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
             : renderer.renderStandardBlockWithColorMultiplier(blockType, blockX, blockY, blockZ, f, f1, f2);
     }
 
-    double epsilon = 5e-4;
+    private static final double epsilon = 5e-4;
+
     double previousRenderMinX;
     double previousRenderMaxX;
     double previousRenderMinY;
@@ -311,7 +322,7 @@ public abstract class BlockPrimalRenderer implements ISimpleBlockRenderingHandle
     double previousRenderMinZ;
     double previousRenderMaxZ;
 
-    public void expandRenderBounds(RenderBlocks renderBlocks, AxisAlignedBB bb) {
+    public void setRenderBounds(RenderBlocks renderBlocks, AxisAlignedBB bb) {
         renderBlocks.setRenderBounds(bb.minX, bb.minY, bb.minZ, bb.maxX, bb.maxY, bb.maxZ);
     }
 

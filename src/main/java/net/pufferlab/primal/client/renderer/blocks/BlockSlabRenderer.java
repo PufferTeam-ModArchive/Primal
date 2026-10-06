@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
@@ -35,12 +36,13 @@ public class BlockSlabRenderer extends BlockPrimalRenderer {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer) {
         TileEntity te = world.getTileEntity(x, y, z);
-        if (isRenderingBreaking()) {
+        if (isRenderingBreaking(renderer)) {
             if (block instanceof IPrimalBlock block2) {
+                EntityPlayer player = getPlayerBreaking(renderer);
                 List<AxisAlignedBB> list = block2.getBounds(player.worldObj, x, y, z, player, BoundsType.rendered);
                 if (list != null) {
                     for (AxisAlignedBB bb : list) {
-                        expandRenderBounds(renderer, bb);
+                        setRenderBounds(renderer, bb);
                     }
                     renderer.renderStandardBlock(block, x, y, z);
                     return true;

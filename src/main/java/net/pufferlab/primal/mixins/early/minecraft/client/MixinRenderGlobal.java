@@ -3,7 +3,6 @@ package net.pufferlab.primal.mixins.early.minecraft.client;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.pufferlab.primal.client.renderer.blocks.BlockPrimalRenderer;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,10 +19,7 @@ public class MixinRenderGlobal {
         remap = false)
     private void drawBlockDamageTexture$primal(Tessellator p_72717_1_, EntityLivingBase p_72717_2_, float p_72717_3_,
         CallbackInfo ci) {
-        BlockPrimalRenderer.renderBreaking = true;
-        if (p_72717_2_ instanceof EntityPlayer player) {
-            BlockPrimalRenderer.player = player;
-        }
+        BlockPrimalRenderer.setRenderingBreakingState(true, p_72717_2_);
     }
 
     @Inject(
@@ -32,6 +28,6 @@ public class MixinRenderGlobal {
         remap = false)
     private void drawBlockDamageTexture$tail$primal(Tessellator p_72717_1_, EntityLivingBase p_72717_2_,
         float p_72717_3_, CallbackInfo ci) {
-        BlockPrimalRenderer.renderBreaking = false;
+        BlockPrimalRenderer.setRenderingBreakingState(false, p_72717_2_);
     }
 }

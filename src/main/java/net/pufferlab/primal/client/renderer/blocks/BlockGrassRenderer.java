@@ -47,7 +47,7 @@ public class BlockGrassRenderer extends BlockPrimalRenderer {
 
         block0.setInventory(false);
 
-        if (isRenderingBreaking()) {
+        if (isRenderingBreaking(renderer)) {
             block0.setPass(2);
             flag = renderStandardBlockNoColor(renderer, block, x, y, z);
             block0.setPass(1);
