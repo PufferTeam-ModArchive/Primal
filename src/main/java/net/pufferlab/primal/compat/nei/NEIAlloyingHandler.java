@@ -25,6 +25,16 @@ public class NEIAlloyingHandler extends TemplateRecipeHandler {
 
     public class AlloyingPair extends CachedRecipe {
 
+        public AlloyingPair(AlloyingRecipe recipe) {
+            this(
+                recipe.inputsBlock,
+                recipe.outputsBlock,
+                recipe.outputs,
+                recipe.inputs,
+                recipe.minPercentage,
+                recipe.maxPercentage);
+        }
+
         public AlloyingPair(ItemStack[] ingred, ItemStack result, FluidStack resultFS, FluidStack[] inputsFS, int[] min,
             int[] max) {
             if (inputsFS.length == 2) {
@@ -86,28 +96,14 @@ public class NEIAlloyingHandler extends TemplateRecipeHandler {
         if (outputId.equals(Primal.MODID + ".alloying") && getClass() == NEIAlloyingHandler.class) {
             List<AlloyingRecipe> recipes = AlloyingRecipe.getRecipeList();
             for (AlloyingRecipe recipe : recipes) {
-                arecipes.add(
-                    new AlloyingPair(
-                        recipe.inputsBlock,
-                        recipe.outputsBlock,
-                        recipe.outputs,
-                        recipe.inputs,
-                        recipe.minPercentage,
-                        recipe.maxPercentage));
+                arecipes.add(new NEIAlloyingHandler.AlloyingPair(recipe));
             }
         } else if (outputId.equals("liquid")) {
             if (results[0] instanceof FluidStack stack) {
                 List<AlloyingRecipe> recipes = AlloyingRecipe.getRecipeList();
                 for (AlloyingRecipe recipe : recipes) {
                     if (Utils.equalsStack(stack, recipe.outputs)) {
-                        arecipes.add(
-                            new AlloyingPair(
-                                recipe.inputsBlock,
-                                recipe.outputsBlock,
-                                recipe.outputs,
-                                recipe.inputs,
-                                recipe.minPercentage,
-                                recipe.maxPercentage));
+                        arecipes.add(new NEIAlloyingHandler.AlloyingPair(recipe));
                     }
                 }
             }
@@ -119,14 +115,7 @@ public class NEIAlloyingHandler extends TemplateRecipeHandler {
         List<AlloyingRecipe> recipes = AlloyingRecipe.getRecipeList();
         for (AlloyingRecipe recipe : recipes) {
             if (Utils.equalsStack(result, recipe.outputs) || Utils.equalsStack(result, recipe.outputsBlock)) {
-                arecipes.add(
-                    new AlloyingPair(
-                        recipe.inputsBlock,
-                        recipe.outputsBlock,
-                        recipe.outputs,
-                        recipe.inputs,
-                        recipe.minPercentage,
-                        recipe.maxPercentage));
+                arecipes.add(new NEIAlloyingHandler.AlloyingPair(recipe));
             }
         }
     }
@@ -138,14 +127,7 @@ public class NEIAlloyingHandler extends TemplateRecipeHandler {
                 List<AlloyingRecipe> recipes = AlloyingRecipe.getRecipeList();
                 for (AlloyingRecipe recipe : recipes) {
                     if (Utils.containsStack(stack, recipe.inputs)) {
-                        arecipes.add(
-                            new AlloyingPair(
-                                recipe.inputsBlock,
-                                recipe.outputsBlock,
-                                recipe.outputs,
-                                recipe.inputs,
-                                recipe.minPercentage,
-                                recipe.maxPercentage));
+                        arecipes.add(new NEIAlloyingHandler.AlloyingPair(recipe));
                     }
                 }
             }
@@ -157,14 +139,7 @@ public class NEIAlloyingHandler extends TemplateRecipeHandler {
         List<AlloyingRecipe> recipes = AlloyingRecipe.getRecipeList();
         for (AlloyingRecipe recipe : recipes) {
             if (Utils.containsStack(ingredient, recipe.inputsBlock)) {
-                arecipes.add(
-                    new AlloyingPair(
-                        recipe.inputsBlock,
-                        recipe.outputsBlock,
-                        recipe.outputs,
-                        recipe.inputs,
-                        recipe.minPercentage,
-                        recipe.maxPercentage));
+                arecipes.add(new NEIAlloyingHandler.AlloyingPair(recipe));
             }
         }
     }

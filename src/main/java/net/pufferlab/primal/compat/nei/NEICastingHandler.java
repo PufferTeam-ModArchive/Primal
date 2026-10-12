@@ -23,6 +23,10 @@ public class NEICastingHandler extends TemplateRecipeHandler {
 
     public class CastingPair extends CachedRecipe {
 
+        public CastingPair(CastingRecipe recipe) {
+            this(recipe.cast, recipe.inputBlock, recipe.output, recipe.input);
+        }
+
         public CastingPair(ItemStack cast, ItemStack ingred, ItemStack result, FluidStack ingredFS) {
             this.ingred = new PositionedStack(ingred, 43, 25, true);
             this.cast = new PositionedStack(cast, 43, 4, true);
@@ -61,7 +65,7 @@ public class NEICastingHandler extends TemplateRecipeHandler {
         if (outputId.equals(Primal.MODID + ".casting") && getClass() == NEICastingHandler.class) {
             List<CastingRecipe> recipes = CastingRecipe.getRecipeList();
             for (CastingRecipe recipe : recipes) {
-                arecipes.add(new CastingPair(recipe.cast, recipe.inputBlock, recipe.output, recipe.input));
+                arecipes.add(new NEICastingHandler.CastingPair(recipe));
             }
         } else super.loadCraftingRecipes(outputId, results);
     }
@@ -71,7 +75,7 @@ public class NEICastingHandler extends TemplateRecipeHandler {
         List<CastingRecipe> recipes = CastingRecipe.getRecipeList();
         for (CastingRecipe recipe : recipes) {
             if (Utils.equalsStack(result, recipe.output)) {
-                arecipes.add(new CastingPair(recipe.cast, recipe.inputBlock, recipe.output, recipe.input));
+                arecipes.add(new NEICastingHandler.CastingPair(recipe));
             }
         }
     }
@@ -83,7 +87,7 @@ public class NEICastingHandler extends TemplateRecipeHandler {
                 List<CastingRecipe> recipes = CastingRecipe.getRecipeList();
                 for (CastingRecipe recipe : recipes) {
                     if (Utils.equalsStack(stack, recipe.input)) {
-                        arecipes.add(new CastingPair(recipe.cast, recipe.inputBlock, recipe.output, recipe.input));
+                        arecipes.add(new NEICastingHandler.CastingPair(recipe));
                     }
                 }
             }
@@ -96,7 +100,7 @@ public class NEICastingHandler extends TemplateRecipeHandler {
         for (CastingRecipe recipe : recipes) {
             if (Utils.equalsStack(ingredient, recipe.input) || Utils.equalsStack(ingredient, recipe.inputBlock)
                 || Utils.equalsStack(ingredient, recipe.cast)) {
-                arecipes.add(new CastingPair(recipe.cast, recipe.inputBlock, recipe.output, recipe.input));
+                arecipes.add(new NEICastingHandler.CastingPair(recipe));
             }
         }
     }

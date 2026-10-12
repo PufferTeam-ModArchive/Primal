@@ -18,6 +18,7 @@ public class PlayerData implements IExtendedEntityProperties {
     private final EntityPlayer player;
     private boolean temperatureDebug;
     private boolean blockInfoDebug;
+    private boolean recipeDebug;
 
     private long pos1Coords;
     private boolean pos1CoordsValid;
@@ -47,8 +48,17 @@ public class PlayerData implements IExtendedEntityProperties {
         return this.temperatureDebug;
     }
 
+    public boolean getRecipeDebug() {
+        return this.recipeDebug;
+    }
+
     public void setTemperatureDebug(boolean state) {
         this.temperatureDebug = state;
+        updateClient();
+    }
+
+    public void setRecipeDebug(boolean state) {
+        this.recipeDebug = state;
         updateClient();
     }
 
@@ -135,6 +145,7 @@ public class PlayerData implements IExtendedEntityProperties {
     public static void dataToBytes(ByteBuf buf, PlayerData data) {
         buf.writeBoolean(data.temperatureDebug);
         buf.writeBoolean(data.blockInfoDebug);
+        buf.writeBoolean(data.recipeDebug);
         buf.writeLong(data.pos1Coords);
         buf.writeBoolean(data.pos1CoordsValid);
         buf.writeLong(data.pos2Coords);
@@ -146,6 +157,7 @@ public class PlayerData implements IExtendedEntityProperties {
     public void writeToNBT(NBTTagCompound tag) {
         tag.setBoolean("temperatureDebug", this.temperatureDebug);
         tag.setBoolean("blockInfoDebug", this.blockInfoDebug);
+        tag.setBoolean("recipeDebug", this.recipeDebug);
         tag.setLong("pos1Coords", this.pos1Coords);
         tag.setBoolean("pos1CoordsValid", this.pos1CoordsValid);
         tag.setLong("pos2Coords", this.pos2Coords);
@@ -163,6 +175,7 @@ public class PlayerData implements IExtendedEntityProperties {
         PlayerData data = new PlayerData();
         data.temperatureDebug = buf.readBoolean();
         data.blockInfoDebug = buf.readBoolean();
+        data.recipeDebug = buf.readBoolean();
         data.pos1Coords = buf.readLong();
         data.pos1CoordsValid = buf.readBoolean();
         data.pos2Coords = buf.readLong();
@@ -175,6 +188,7 @@ public class PlayerData implements IExtendedEntityProperties {
     public void readFromNBT(NBTTagCompound tag) {
         this.temperatureDebug = tag.getBoolean("temperatureDebug");
         this.blockInfoDebug = tag.getBoolean("blockInfoDebug");
+        this.recipeDebug = tag.getBoolean("recipeDebug");
         this.pos1Coords = tag.getLong("pos1Coords");
         this.pos1CoordsValid = tag.getBoolean("pos1CoordsValid");
         this.pos2Coords = tag.getLong("pos2Coords");
@@ -185,6 +199,7 @@ public class PlayerData implements IExtendedEntityProperties {
         if (from != null && to != null) {
             to.temperatureDebug = from.temperatureDebug;
             to.blockInfoDebug = from.blockInfoDebug;
+            to.recipeDebug = from.recipeDebug;
             to.pos1Coords = from.pos1Coords;
             to.pos1CoordsValid = from.pos1CoordsValid;
             to.pos2Coords = from.pos2Coords;

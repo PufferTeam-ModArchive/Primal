@@ -170,7 +170,7 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
     public void updateRecipe() {
         BarrelRecipe recipe = BarrelRecipe.getRecipe(getInventoryStack(slotInput), getFluidStack());
         if (recipe != null) {
-            this.recipeID = recipe.recipeID;
+            this.recipeID = recipe.getRecipeID();
         }
     }
 

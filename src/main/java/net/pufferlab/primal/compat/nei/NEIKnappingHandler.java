@@ -27,6 +27,10 @@ public class NEIKnappingHandler extends TemplateRecipeHandler {
 
     public class KnappingPair extends CachedRecipe {
 
+        public KnappingPair(KnappingRecipe pattern) {
+            this(pattern.type, pattern.pattern, pattern.output);
+        }
+
         public KnappingPair(KnappingType type, boolean[][] icons, ItemStack result) {
             this.ingred = new PositionedStack(type.item, 138, 10, false);
             this.result = new PositionedStack(result, 138, 40, false);
@@ -60,7 +64,7 @@ public class NEIKnappingHandler extends TemplateRecipeHandler {
         if (outputId.equals(Primal.MODID + ".knapping") && getClass() == NEIKnappingHandler.class) {
             List<KnappingRecipe> recipes = KnappingRecipe.getRecipeList();
             for (KnappingRecipe pattern : recipes) {
-                arecipes.add(new KnappingPair(pattern.type, pattern.pattern, pattern.output));
+                arecipes.add(new NEIKnappingHandler.KnappingPair(pattern));
             }
         } else {
             super.loadCraftingRecipes(outputId, results);
@@ -72,7 +76,7 @@ public class NEIKnappingHandler extends TemplateRecipeHandler {
         List<KnappingRecipe> recipes = KnappingRecipe.getRecipeList();
         for (KnappingRecipe pattern : recipes) {
             if (Utils.equalsStack(pattern.output, result)) {
-                arecipes.add(new KnappingPair(pattern.type, pattern.pattern, pattern.output));
+                arecipes.add(new NEIKnappingHandler.KnappingPair(pattern));
             }
         }
     }
@@ -82,7 +86,7 @@ public class NEIKnappingHandler extends TemplateRecipeHandler {
         List<KnappingRecipe> recipes = KnappingRecipe.getRecipeList();
         for (KnappingRecipe pattern : recipes) {
             if (Utils.equalsStack(pattern.type.item, ingredient)) {
-                KnappingPair pair = new KnappingPair(pattern.type, pattern.pattern, pattern.output);
+                KnappingPair pair = new NEIKnappingHandler.KnappingPair(pattern);
                 pair.setIngredientPermutation(Utils.asList(pair.ingred), ingredient);
                 arecipes.add(pair);
             }

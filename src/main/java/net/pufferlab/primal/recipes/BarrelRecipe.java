@@ -5,13 +5,11 @@ import java.util.*;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.utils.ItemUtils;
-import net.pufferlab.primal.utils.TextUtils;
 import net.pufferlab.primal.utils.Utils;
 
-public class BarrelRecipe {
+public class BarrelRecipe extends Recipe<BarrelRecipe> {
 
-    private static final List<BarrelRecipe> recipeList = new ArrayList<>();
-    private static final Map<String, BarrelRecipe> recipeIDMap = new HashMap<>();
+    private static final RecipeList<BarrelRecipe> recipeList = new RecipeList<>();
 
     public static void addRecipe(ItemStack output, FluidStack outputLiquid, ItemStack input, FluidStack inputLiquid) {
         recipeList.add(
@@ -71,7 +69,7 @@ public class BarrelRecipe {
     }
 
     public static BarrelRecipe getRecipe(String id) {
-        return recipeIDMap.get(id);
+        return recipeList.get(id);
     }
 
     public ItemStack output;
@@ -81,7 +79,6 @@ public class BarrelRecipe {
     public FluidStack inputLiquid;
     public ItemStack inputLiquidBlock;
     public int processingTime;
-    public String recipeID;
 
     public BarrelRecipe(ItemStack output, FluidStack outputLiquid, List<ItemStack> input, FluidStack inputLiquid,
         int processingTime) {
@@ -102,17 +99,6 @@ public class BarrelRecipe {
             inputLiquid.amount,
             0);
         this.processingTime = processingTime;
-    }
-
-    public BarrelRecipe setRecipeID(Object... objects) {
-        String string = TextUtils.getRecipeHash(objects);
-        if (!recipeIDMap.containsKey(string)) {
-            this.recipeID = string;
-            recipeIDMap.put(string, this);
-        } else {
-            TextUtils.throwInvalidRecipe(string);
-        }
-        return this;
     }
 
     public boolean equals(ItemStack input, FluidStack inputLiquid) {

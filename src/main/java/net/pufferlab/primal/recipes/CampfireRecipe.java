@@ -1,8 +1,6 @@
 package net.pufferlab.primal.recipes;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -10,38 +8,37 @@ import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.Utils;
 
-public class CampfireRecipe {
+public class CampfireRecipe extends Recipe<CampfireRecipe> {
 
     public static final Item unlit_torch = Item.getItemFromBlock(Registry.unlit_torch);
 
-    private static final Map<List<ItemStack>, ItemStack> recipeMap = new HashMap<>();
+    private static final RecipeList<CampfireRecipe> recipeList = new RecipeList<>();
 
     public static void addRecipe(ItemStack output, List<ItemStack> input) {
-        recipeMap.put(input, output);
+        recipeList.add(new CampfireRecipe(input, output));
     }
 
     public static void addRecipe(ItemStack output, String input) {
-        recipeMap.put(ItemUtils.getOres(input), output);
+        recipeList.add(new CampfireRecipe(ItemUtils.getOres(input), output));
     }
 
     public static void addRecipe(ItemStack output, ItemStack input) {
-        recipeMap.put(Utils.asList(input), output);
+        recipeList.add(new CampfireRecipe(Utils.asList(input), output));
     }
 
     public static void removeRecipe(ItemStack output, List<ItemStack> input) {
-        recipeMap.entrySet()
-            .removeIf(r -> {
-                if (Utils.containsStack(r.getKey(), input) && Utils.equalsStack(r.getValue(), output)) {
-                    return true;
-                }
-                return false;
-            });
+        recipeList.removeIf(r -> {
+            if (Utils.containsStack(r.input, input) && Utils.equalsStack(r.output, output)) {
+                return true;
+            }
+            return false;
+        });
     }
 
     public static ItemStack getOutput(ItemStack input) {
-        for (Map.Entry<List<ItemStack>, ItemStack> recipe : recipeMap.entrySet()) {
-            if (Utils.containsStack(recipe.getKey(), input)) {
-                return recipe.getValue();
+        for (CampfireRecipe recipe : recipeList) {
+            if (Utils.containsStack(recipe.input, input)) {
+                return recipe.output;
             }
         }
         return null;
@@ -55,7 +52,15 @@ public class CampfireRecipe {
         return output != null;
     }
 
-    public static Map<List<ItemStack>, ItemStack> getRecipeMap() {
-        return recipeMap;
+    public static List<CampfireRecipe> getRecipeList() {
+        return recipeList;
+    }
+
+    public List<ItemStack> input;
+    public ItemStack output;
+
+    public CampfireRecipe(List<ItemStack> input, ItemStack output) {
+        this.input = input;
+        this.output = output;
     }
 }

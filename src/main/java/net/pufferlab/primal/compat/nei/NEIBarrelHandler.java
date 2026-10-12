@@ -20,11 +20,22 @@ import org.lwjgl.opengl.GL11;
 
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.GuiRecipe;
-import codechicken.nei.recipe.TemplateRecipeHandler;
 
-public class NEIBarrelHandler extends TemplateRecipeHandler {
+public class NEIBarrelHandler extends NEITemplateHandler {
 
-    public class BarrelPair extends CachedRecipe {
+    public class BarrelPair extends NEICachedRecipe {
+
+        public BarrelPair(BarrelRecipe recipe) {
+            this(
+                recipe.input,
+                recipe.inputLiquidBlock,
+                recipe.inputLiquid,
+                recipe.output,
+                recipe.outputLiquidBlock,
+                recipe.outputLiquid,
+                recipe.processingTime);
+            setRecipe(recipe);
+        }
 
         public BarrelPair(List<ItemStack> ingred, ItemStack ingred2, FluidStack ingredFS, ItemStack result,
             ItemStack result2, FluidStack resultFS, int processingTime) {
@@ -83,30 +94,14 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
         if (outputId.equals(Primal.MODID + ".barrel") && getClass() == NEIBarrelHandler.class) {
             List<BarrelRecipe> recipes = BarrelRecipe.getRecipeList();
             for (BarrelRecipe recipe : recipes) {
-                arecipes.add(
-                    new NEIBarrelHandler.BarrelPair(
-                        recipe.input,
-                        recipe.inputLiquidBlock,
-                        recipe.inputLiquid,
-                        recipe.output,
-                        recipe.outputLiquidBlock,
-                        recipe.outputLiquid,
-                        recipe.processingTime));
+                arecipes.add(new NEIBarrelHandler.BarrelPair(recipe));
             }
         } else if (outputId.equals("liquid")) {
             if (results[0] instanceof FluidStack stack) {
                 List<BarrelRecipe> recipes = BarrelRecipe.getRecipeList();
                 for (BarrelRecipe recipe : recipes) {
                     if (Utils.equalsStack(stack, recipe.outputLiquid)) {
-                        arecipes.add(
-                            new NEIBarrelHandler.BarrelPair(
-                                recipe.input,
-                                recipe.inputLiquidBlock,
-                                recipe.inputLiquid,
-                                recipe.output,
-                                recipe.outputLiquidBlock,
-                                recipe.outputLiquid,
-                                recipe.processingTime));
+                        arecipes.add(new NEIBarrelHandler.BarrelPair(recipe));
                     }
                 }
             }
@@ -119,15 +114,7 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
         for (BarrelRecipe recipe : recipes) {
             if (Utils.equalsStack(result, recipe.output) || Utils.equalsStack(result, recipe.outputLiquid)
                 || Utils.equalsStack(result, recipe.outputLiquidBlock)) {
-                arecipes.add(
-                    new NEIBarrelHandler.BarrelPair(
-                        recipe.input,
-                        recipe.inputLiquidBlock,
-                        recipe.inputLiquid,
-                        recipe.output,
-                        recipe.outputLiquidBlock,
-                        recipe.outputLiquid,
-                        recipe.processingTime));
+                arecipes.add(new NEIBarrelHandler.BarrelPair(recipe));
             }
         }
     }
@@ -139,15 +126,7 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
                 List<BarrelRecipe> recipes = BarrelRecipe.getRecipeList();
                 for (BarrelRecipe recipe : recipes) {
                     if (Utils.equalsStack(stack, recipe.inputLiquid)) {
-                        arecipes.add(
-                            new NEIBarrelHandler.BarrelPair(
-                                recipe.input,
-                                recipe.inputLiquidBlock,
-                                recipe.inputLiquid,
-                                recipe.output,
-                                recipe.outputLiquidBlock,
-                                recipe.outputLiquid,
-                                recipe.processingTime));
+                        arecipes.add(new NEIBarrelHandler.BarrelPair(recipe));
                     }
                 }
             }
@@ -160,15 +139,7 @@ public class NEIBarrelHandler extends TemplateRecipeHandler {
         for (BarrelRecipe recipe : recipes) {
             if (Utils.containsStack(ingredient, recipe.input) || Utils.equalsStack(ingredient, recipe.inputLiquid)
                 || Utils.equalsStack(ingredient, recipe.inputLiquidBlock)) {
-                arecipes.add(
-                    new NEIBarrelHandler.BarrelPair(
-                        recipe.input,
-                        recipe.inputLiquidBlock,
-                        recipe.inputLiquid,
-                        recipe.output,
-                        recipe.outputLiquidBlock,
-                        recipe.outputLiquid,
-                        recipe.processingTime));
+                arecipes.add(new NEIBarrelHandler.BarrelPair(recipe));
             }
         }
     }

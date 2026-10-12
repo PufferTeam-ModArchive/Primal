@@ -23,6 +23,10 @@ public class NEIMeltingHandler extends TemplateRecipeHandler {
 
     public class MeltingPair extends CachedRecipe {
 
+        public MeltingPair(MeltingRecipe recipe) {
+            this(recipe.input, recipe.outputBlock, recipe.output);
+        }
+
         public MeltingPair(List<ItemStack> ingred, ItemStack result, FluidStack resultFS) {
             this.ingred = new PositionedStack(ingred, 43, 25, true);
             this.result = new PositionedStack(result, 114, 25, true);
@@ -54,14 +58,14 @@ public class NEIMeltingHandler extends TemplateRecipeHandler {
         if (outputId.equals(Primal.MODID + ".melting") && getClass() == NEIMeltingHandler.class) {
             List<MeltingRecipe> recipes = MeltingRecipe.getRecipeList();
             for (MeltingRecipe recipe : recipes) {
-                arecipes.add(new MeltingPair(recipe.input, recipe.outputBlock, recipe.output));
+                arecipes.add(new NEIMeltingHandler.MeltingPair(recipe));
             }
         } else if (outputId.equals("liquid")) {
             if (results[0] instanceof FluidStack stack) {
                 List<MeltingRecipe> recipes = MeltingRecipe.getRecipeList();
                 for (MeltingRecipe recipe : recipes) {
                     if (Utils.equalsStack(stack, recipe.output)) {
-                        arecipes.add(new MeltingPair(recipe.input, recipe.outputBlock, recipe.output));
+                        arecipes.add(new NEIMeltingHandler.MeltingPair(recipe));
                     }
                 }
             }
@@ -73,7 +77,7 @@ public class NEIMeltingHandler extends TemplateRecipeHandler {
         List<MeltingRecipe> recipes = MeltingRecipe.getRecipeList();
         for (MeltingRecipe recipe : recipes) {
             if (Utils.equalsStack(result, recipe.output) || Utils.equalsStack(result, recipe.outputBlock)) {
-                arecipes.add(new MeltingPair(recipe.input, recipe.outputBlock, recipe.output));
+                arecipes.add(new NEIMeltingHandler.MeltingPair(recipe));
             }
         }
     }
@@ -83,7 +87,7 @@ public class NEIMeltingHandler extends TemplateRecipeHandler {
         List<MeltingRecipe> recipes = MeltingRecipe.getRecipeList();
         for (MeltingRecipe recipe : recipes) {
             if (Utils.containsStack(ingredient, recipe.input)) {
-                arecipes.add(new MeltingPair(recipe.input, recipe.outputBlock, recipe.output));
+                arecipes.add(new NEIMeltingHandler.MeltingPair(recipe));
             }
         }
     }

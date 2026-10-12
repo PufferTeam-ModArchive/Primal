@@ -1,6 +1,5 @@
 package net.pufferlab.primal.recipes;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
@@ -8,9 +7,9 @@ import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.Utils;
 
-public class MeltingRecipe {
+public class MeltingRecipe extends Recipe<MeltingRecipe> {
 
-    private static final List<MeltingRecipe> recipeList = new ArrayList<>();
+    private static final RecipeList<MeltingRecipe> recipeList = new RecipeList<>();
 
     public static void addRecipe(FluidStack output, ItemStack input) {
         recipeList.add(new MeltingRecipe(output, Utils.asList(input)));

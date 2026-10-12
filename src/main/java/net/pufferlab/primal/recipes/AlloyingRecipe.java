@@ -1,16 +1,13 @@
 package net.pufferlab.primal.recipes;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.utils.Mth;
 import net.pufferlab.primal.utils.Utils;
 
-public class AlloyingRecipe {
+public class AlloyingRecipe extends Recipe<AlloyingRecipe> {
 
-    private static final List<AlloyingRecipe> recipeList = new ArrayList<>();
+    private static final RecipeList<AlloyingRecipe> recipeList = new RecipeList<>();
 
     public static void addRecipe(FluidStack output, Object... inputs) {
         recipeList.add(new AlloyingRecipe(output, inputs));
@@ -51,7 +48,7 @@ public class AlloyingRecipe {
         return recipe != null;
     }
 
-    public static List<AlloyingRecipe> getRecipeList() {
+    public static RecipeList<AlloyingRecipe> getRecipeList() {
         return recipeList;
     }
 

@@ -36,7 +36,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
 public class ClientProxy extends CommonProxy {
 
-    private final IdentifierMap<BlockPrimalRenderer> renderMap = new IdentifierMap<>();
+    private final IdentifierMap.Int<BlockPrimalRenderer> renderMap = new IdentifierMap.Int<>();
 
     @Override
     public void setupRenders() {

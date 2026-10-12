@@ -1,54 +1,60 @@
 package net.pufferlab.primal.recipes;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.Utils;
 
-public class PitKilnRecipe {
+public class PitKilnRecipe extends Recipe<PitKilnRecipe> {
 
-    private static final Map<List<ItemStack>, ItemStack> recipeMap = new HashMap<>();
+    private static final RecipeList<PitKilnRecipe> recipeList = new RecipeList<>();
 
     public static void addRecipe(ItemStack output, List<ItemStack> input) {
-        recipeMap.put(input, output);
+        recipeList.add(new PitKilnRecipe(input, output));
     }
 
     public static void addRecipe(ItemStack output, String input) {
-        recipeMap.put(ItemUtils.getOres(input), output);
+        recipeList.add(new PitKilnRecipe(ItemUtils.getOres(input), output));
     }
 
     public static void addRecipe(ItemStack output, ItemStack input) {
-        recipeMap.put(Utils.asList(input), output);
+        recipeList.add(new PitKilnRecipe(Utils.asList(input), output));
     }
 
     public static void removeRecipe(ItemStack output, List<ItemStack> input) {
-        recipeMap.entrySet()
-            .removeIf(r -> {
-                if (Utils.containsStack(r.getKey(), input) && Utils.equalsStack(r.getValue(), output)) {
-                    return true;
-                }
-                return false;
-            });
+        recipeList.removeIf(r -> {
+            if (Utils.containsStack(r.input, input) && Utils.equalsStack(r.output, output)) {
+                return true;
+            }
+            return false;
+        });
     }
 
     public static ItemStack getOutput(ItemStack input) {
-        for (Map.Entry<List<ItemStack>, ItemStack> recipe : recipeMap.entrySet()) {
-            if (Utils.containsStack(recipe.getKey(), input)) {
-                return recipe.getValue();
+        for (PitKilnRecipe recipe : recipeList) {
+            if (Utils.containsStack(recipe.input, input)) {
+                return recipe.output;
             }
         }
         return null;
     }
 
     public static boolean hasRecipe(ItemStack input) {
+        if (input == null) return false;
         ItemStack output = getOutput(input);
         return output != null;
     }
 
-    public static Map<List<ItemStack>, ItemStack> getRecipeMap() {
-        return recipeMap;
+    public static List<PitKilnRecipe> getRecipeList() {
+        return recipeList;
+    }
+
+    public List<ItemStack> input;
+    public ItemStack output;
+
+    public PitKilnRecipe(List<ItemStack> input, ItemStack output) {
+        this.input = input;
+        this.output = output;
     }
 }

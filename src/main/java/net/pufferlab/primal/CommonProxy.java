@@ -75,7 +75,7 @@ public class CommonProxy implements IGuiHandler {
 
     public void preInit(FMLPreInitializationEvent event) {}
 
-    private final IdentifierMap<InterfacePrimal> guiMap = new IdentifierMap<>();
+    private final IdentifierMap.Int<InterfacePrimal> guiMap = new IdentifierMap.Int<>();
 
     public void setupGUIs() {
         NetworkRegistry.INSTANCE.registerGuiHandler(Primal.instance, Primal.proxy);

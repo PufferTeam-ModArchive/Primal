@@ -5,7 +5,6 @@ import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
 
 import java.awt.*;
 import java.util.List;
-import java.util.Map;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -21,6 +20,10 @@ import codechicken.nei.recipe.TemplateRecipeHandler;
 public class NEIPitKilnHandler extends TemplateRecipeHandler {
 
     public class PitKilnPair extends CachedRecipe {
+
+        public PitKilnPair(PitKilnRecipe recipe) {
+            this(recipe.input, recipe.output);
+        }
 
         public PitKilnPair(List<ItemStack> ingred, ItemStack result) {
             this.ingred = new PositionedStack(ingred, 43, 44, true);
@@ -53,29 +56,29 @@ public class NEIPitKilnHandler extends TemplateRecipeHandler {
     @Override
     public void loadCraftingRecipes(String outputId, Object... results) {
         if (outputId.equals(Primal.MODID + ".pit_kiln") && getClass() == NEIPitKilnHandler.class) {
-            Map<List<ItemStack>, ItemStack> recipes = PitKilnRecipe.getRecipeMap();
-            for (Map.Entry<List<ItemStack>, ItemStack> recipe : recipes.entrySet()) {
-                arecipes.add(new NEIPitKilnHandler.PitKilnPair(recipe.getKey(), recipe.getValue()));
+            List<PitKilnRecipe> recipes = PitKilnRecipe.getRecipeList();
+            for (PitKilnRecipe recipe : recipes) {
+                arecipes.add(new NEIPitKilnHandler.PitKilnPair(recipe));
             }
         } else super.loadCraftingRecipes(outputId, results);
     }
 
     @Override
     public void loadCraftingRecipes(ItemStack result) {
-        Map<List<ItemStack>, ItemStack> recipes = PitKilnRecipe.getRecipeMap();
-        for (Map.Entry<List<ItemStack>, ItemStack> recipe : recipes.entrySet()) {
-            if (Utils.equalsStack(recipe.getValue(), result)) {
-                arecipes.add(new NEIPitKilnHandler.PitKilnPair(recipe.getKey(), recipe.getValue()));
+        List<PitKilnRecipe> recipes = PitKilnRecipe.getRecipeList();
+        for (PitKilnRecipe recipe : recipes) {
+            if (Utils.equalsStack(recipe.output, result)) {
+                arecipes.add(new NEIPitKilnHandler.PitKilnPair(recipe));
             }
         }
     }
 
     @Override
     public void loadUsageRecipes(ItemStack ingredient) {
-        Map<List<ItemStack>, ItemStack> recipes = PitKilnRecipe.getRecipeMap();
-        for (Map.Entry<List<ItemStack>, ItemStack> recipe : recipes.entrySet()) {
-            if (Utils.containsStack(recipe.getKey(), ingredient)) {
-                arecipes.add(new NEIPitKilnHandler.PitKilnPair(recipe.getKey(), recipe.getValue()));
+        List<PitKilnRecipe> recipes = PitKilnRecipe.getRecipeList();
+        for (PitKilnRecipe recipe : recipes) {
+            if (Utils.containsStack(recipe.input, ingredient)) {
+                arecipes.add(new NEIPitKilnHandler.PitKilnPair(recipe));
             }
         }
     }

@@ -1,15 +1,14 @@
 package net.pufferlab.primal.recipes;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.utils.Utils;
 
-public class CastingRecipe {
+public class CastingRecipe extends Recipe<CastingRecipe> {
 
-    private static final List<CastingRecipe> recipeList = new ArrayList<>();
+    private static final RecipeList<CastingRecipe> recipeList = new RecipeList<>();
 
     public static void addRecipe(ItemStack cast, ItemStack output, FluidStack input) {
         recipeList.add(new CastingRecipe(cast, output, input));

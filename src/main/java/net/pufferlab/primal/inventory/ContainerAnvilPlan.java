@@ -22,7 +22,8 @@ public class ContainerAnvilPlan extends ContainerPrimal {
             String[] id = new String[recipe.size()];
             for (int i = 0; i < items.length; i++) {
                 items[i] = recipe.get(i).output;
-                id[i] = recipe.get(i).recipeID;
+                id[i] = recipe.get(i)
+                    .getRecipeID();
             }
             inv = new InventoryHolder(items);
             int totalWidth = items.length * 18;

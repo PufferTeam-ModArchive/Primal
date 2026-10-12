@@ -5,13 +5,11 @@ import java.util.*;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.utils.ItemUtils;
-import net.pufferlab.primal.utils.TextUtils;
 import net.pufferlab.primal.utils.Utils;
 
-public class AnvilRecipe {
+public class AnvilRecipe extends Recipe<AnvilRecipe> {
 
-    private static final List<AnvilRecipe> recipeList = new ArrayList<>();
-    private static final Map<String, AnvilRecipe> recipeIDMap = new HashMap<>();
+    private static final RecipeList<AnvilRecipe> recipeList = new RecipeList<>();
 
     public static void addRecipe(ItemStack output, ItemStack input, Object... objects) {
         recipeList.add(new AnvilRecipe(output, Utils.asList(input), objects).setRecipeID(output, input));
@@ -68,7 +66,7 @@ public class AnvilRecipe {
     }
 
     public static AnvilRecipe getRecipe(String id) {
-        return recipeIDMap.get(id);
+        return recipeList.get(id);
     }
 
     public ItemStack output;
@@ -76,7 +74,6 @@ public class AnvilRecipe {
     public AnvilAction[] recipeActions;
     public AnvilOrder[] recipeOrders;
     public int recipeLine;
-    public String recipeID;
 
     public AnvilRecipe(ItemStack output, List<ItemStack> input, Object... objects) {
         int j = 0;
@@ -101,17 +98,6 @@ public class AnvilRecipe {
         this.input = input;
 
         this.normalizeByOrder();
-    }
-
-    public AnvilRecipe setRecipeID(Object... objects) {
-        String string = TextUtils.getRecipeHash(objects);
-        if (!recipeIDMap.containsKey(string)) {
-            this.recipeID = string;
-            recipeIDMap.put(string, this);
-        } else {
-            TextUtils.throwInvalidRecipe(string);
-        }
-        return this;
     }
 
     private void normalizeByOrder() {

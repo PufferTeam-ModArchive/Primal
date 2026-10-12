@@ -1,13 +1,12 @@
 package net.pufferlab.primal.recipes;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
 
-public class KnappingRecipe {
+public class KnappingRecipe extends Recipe<KnappingRecipe> {
 
-    private static final List<KnappingRecipe> recipeList = new ArrayList<>();
+    private static final RecipeList<KnappingRecipe> recipeList = new RecipeList<>();
 
     public static void addRecipe(KnappingType type, ItemStack item, boolean[][] icons) {
         recipeList.add(new KnappingRecipe(type, item, icons));

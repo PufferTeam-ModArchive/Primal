@@ -14,11 +14,15 @@ import net.pufferlab.primal.utils.Utils;
 import org.lwjgl.opengl.GL11;
 
 import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.TemplateRecipeHandler;
 
-public class NEIAnvilHandler extends TemplateRecipeHandler {
+public class NEIAnvilHandler extends NEITemplateHandler {
 
-    public class AnvilPair extends CachedRecipe {
+    public class AnvilPair extends NEICachedRecipe {
+
+        public AnvilPair(AnvilRecipe recipe) {
+            this(recipe.input, recipe.output);
+            setRecipe(recipe);
+        }
 
         public AnvilPair(List<ItemStack> ingred, ItemStack result) {
             this.ingred = new PositionedStack(ingred, 43, 25, true);
@@ -49,7 +53,7 @@ public class NEIAnvilHandler extends TemplateRecipeHandler {
         if (outputId.equals(Primal.MODID + ".anvil") && getClass() == NEIAnvilHandler.class) {
             List<AnvilRecipe> recipes = AnvilRecipe.getRecipeList();
             for (AnvilRecipe recipe : recipes) {
-                arecipes.add(new AnvilPair(recipe.input, recipe.output));
+                arecipes.add(new NEIAnvilHandler.AnvilPair(recipe));
             }
         } else super.loadCraftingRecipes(outputId, results);
     }
@@ -59,7 +63,7 @@ public class NEIAnvilHandler extends TemplateRecipeHandler {
         List<AnvilRecipe> recipes = AnvilRecipe.getRecipeList();
         for (AnvilRecipe recipe : recipes) {
             if (Utils.equalsStack(result, recipe.output)) {
-                arecipes.add(new AnvilPair(recipe.input, recipe.output));
+                arecipes.add(new NEIAnvilHandler.AnvilPair(recipe));
             }
         }
     }
@@ -69,7 +73,7 @@ public class NEIAnvilHandler extends TemplateRecipeHandler {
         List<AnvilRecipe> recipes = AnvilRecipe.getRecipeList();
         for (AnvilRecipe recipe : recipes) {
             if (Utils.containsStack(ingredient, recipe.input)) {
-                arecipes.add(new AnvilPair(recipe.input, recipe.output));
+                arecipes.add(new NEIAnvilHandler.AnvilPair(recipe));
             }
         }
     }

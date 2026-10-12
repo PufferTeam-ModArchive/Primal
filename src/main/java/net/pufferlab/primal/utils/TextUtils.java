@@ -70,7 +70,7 @@ public class TextUtils {
         if (obj == null) return;
 
         if (appendCount > 0) {
-            builder.append("|");
+            builder.append("+");
         }
         if (obj instanceof Iterable<?>iterable) {
             for (Object o : iterable) {
@@ -78,14 +78,14 @@ public class TextUtils {
             }
         } else if (obj instanceof ItemStack is) {
             builder.append(ItemUtils.getName(is))
-                .append('#')
+                .append(':')
                 .append(is.stackSize)
-                .append("@")
+                .append(":")
                 .append(is.getItemDamage());
             appendCount++;
         } else if (obj instanceof FluidStack fs) {
             builder.append(ItemUtils.getName(fs))
-                .append('#')
+                .append(':')
                 .append(fs.amount);
             appendCount++;
         } else if (obj instanceof String str) {

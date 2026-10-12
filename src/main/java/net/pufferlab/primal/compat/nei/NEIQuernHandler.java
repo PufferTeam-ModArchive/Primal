@@ -5,7 +5,6 @@ import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
 
 import java.awt.*;
 import java.util.List;
-import java.util.Map;
 
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Primal;
@@ -20,6 +19,10 @@ import codechicken.nei.recipe.TemplateRecipeHandler;
 public class NEIQuernHandler extends TemplateRecipeHandler {
 
     public class QuernPair extends CachedRecipe {
+
+        public QuernPair(QuernRecipe recipe) {
+            this(recipe.input, recipe.output);
+        }
 
         public QuernPair(List<ItemStack> ingred, ItemStack result) {
             this.ingred = new PositionedStack(ingred, 43, 10, false);
@@ -47,29 +50,29 @@ public class NEIQuernHandler extends TemplateRecipeHandler {
     @Override
     public void loadCraftingRecipes(String outputId, Object... results) {
         if (outputId.equals(Primal.MODID + ".quern") && getClass() == NEIQuernHandler.class) {
-            Map<List<ItemStack>, ItemStack> recipes = QuernRecipe.getRecipeMap();
-            for (Map.Entry<List<ItemStack>, ItemStack> recipe : recipes.entrySet()) {
-                arecipes.add(new NEIQuernHandler.QuernPair(recipe.getKey(), recipe.getValue()));
+            List<QuernRecipe> recipes = QuernRecipe.getRecipeList();
+            for (QuernRecipe recipe : recipes) {
+                arecipes.add(new NEIQuernHandler.QuernPair(recipe));
             }
         } else super.loadCraftingRecipes(outputId, results);
     }
 
     @Override
     public void loadCraftingRecipes(ItemStack result) {
-        Map<List<ItemStack>, ItemStack> recipes = QuernRecipe.getRecipeMap();
-        for (Map.Entry<List<ItemStack>, ItemStack> recipe : recipes.entrySet()) {
-            if (Utils.equalsStack(recipe.getValue(), result)) {
-                arecipes.add(new NEIQuernHandler.QuernPair(recipe.getKey(), recipe.getValue()));
+        List<QuernRecipe> recipes = QuernRecipe.getRecipeList();
+        for (QuernRecipe recipe : recipes) {
+            if (Utils.equalsStack(recipe.output, result)) {
+                arecipes.add(new NEIQuernHandler.QuernPair(recipe));
             }
         }
     }
 
     @Override
     public void loadUsageRecipes(ItemStack ingredient) {
-        Map<List<ItemStack>, ItemStack> recipes = QuernRecipe.getRecipeMap();
-        for (Map.Entry<List<ItemStack>, ItemStack> recipe : recipes.entrySet()) {
-            if (Utils.containsStack(recipe.getKey(), ingredient)) {
-                arecipes.add(new NEIQuernHandler.QuernPair(recipe.getKey(), recipe.getValue()));
+        List<QuernRecipe> recipes = QuernRecipe.getRecipeList();
+        for (QuernRecipe recipe : recipes) {
+            if (Utils.containsStack(recipe.input, ingredient)) {
+                arecipes.add(new NEIQuernHandler.QuernPair(recipe));
             }
         }
     }

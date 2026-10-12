@@ -5,7 +5,6 @@ import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
 
 import java.awt.*;
 import java.util.List;
-import java.util.Map;
 
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Primal;
@@ -20,6 +19,10 @@ import codechicken.nei.recipe.TemplateRecipeHandler;
 public class NEITanningHandler extends TemplateRecipeHandler {
 
     public class TanningPair extends CachedRecipe {
+
+        public TanningPair(TanningRecipe recipe) {
+            this(recipe.input, recipe.output);
+        }
 
         public TanningPair(List<ItemStack> ingred, ItemStack result) {
             this.ingredients = new PositionedStack(ingred, 43, 10, true);
@@ -51,9 +54,9 @@ public class NEITanningHandler extends TemplateRecipeHandler {
     @Override
     public void loadCraftingRecipes(String outputId, Object... results) {
         if (outputId.equals(Primal.MODID + ".tanning") && getClass() == NEITanningHandler.class) {
-            Map<List<ItemStack>, ItemStack> recipes = TanningRecipe.getRecipeMap();
-            for (Map.Entry<List<ItemStack>, ItemStack> recipe : recipes.entrySet()) {
-                TanningPair recipePair = new NEITanningHandler.TanningPair(recipe.getKey(), recipe.getValue());
+            List<TanningRecipe> recipes = TanningRecipe.getRecipeList();
+            for (TanningRecipe recipe : recipes) {
+                TanningPair recipePair = new NEITanningHandler.TanningPair(recipe);
                 recipePair.computeVisuals();
                 arecipes.add(recipePair);
             }
@@ -62,10 +65,10 @@ public class NEITanningHandler extends TemplateRecipeHandler {
 
     @Override
     public void loadCraftingRecipes(ItemStack result) {
-        Map<List<ItemStack>, ItemStack> recipes = TanningRecipe.getRecipeMap();
-        for (Map.Entry<List<ItemStack>, ItemStack> recipe : recipes.entrySet()) {
-            if (Utils.equalsStack(recipe.getValue(), result)) {
-                TanningPair recipePair = new NEITanningHandler.TanningPair(recipe.getKey(), recipe.getValue());
+        List<TanningRecipe> recipes = TanningRecipe.getRecipeList();
+        for (TanningRecipe recipe : recipes) {
+            if (Utils.equalsStack(recipe.output, result)) {
+                TanningPair recipePair = new NEITanningHandler.TanningPair(recipe);
                 recipePair.computeVisuals();
                 arecipes.add(recipePair);
             }
@@ -74,10 +77,10 @@ public class NEITanningHandler extends TemplateRecipeHandler {
 
     @Override
     public void loadUsageRecipes(ItemStack ingredient) {
-        Map<List<ItemStack>, ItemStack> recipes = TanningRecipe.getRecipeMap();
-        for (Map.Entry<List<ItemStack>, ItemStack> recipe : recipes.entrySet()) {
-            if (Utils.containsStack(recipe.getKey(), ingredient)) {
-                TanningPair recipePair = new NEITanningHandler.TanningPair(recipe.getKey(), recipe.getValue());
+        List<TanningRecipe> recipes = TanningRecipe.getRecipeList();
+        for (TanningRecipe recipe : recipes) {
+            if (Utils.containsStack(recipe.input, ingredient)) {
+                TanningPair recipePair = new NEITanningHandler.TanningPair(recipe);
                 recipePair.computeVisuals();
                 arecipes.add(recipePair);
             }

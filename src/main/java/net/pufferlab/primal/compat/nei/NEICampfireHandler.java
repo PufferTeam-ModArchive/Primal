@@ -5,7 +5,6 @@ import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
 
 import java.awt.*;
 import java.util.List;
-import java.util.Map;
 
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Primal;
@@ -20,6 +19,10 @@ import codechicken.nei.recipe.TemplateRecipeHandler;
 public class NEICampfireHandler extends TemplateRecipeHandler {
 
     public class CampfirePair extends CachedRecipe {
+
+        public CampfirePair(CampfireRecipe recipe) {
+            this(recipe.input, recipe.output);
+        }
 
         public CampfirePair(List<ItemStack> ingred, ItemStack result) {
             this.ingred = new PositionedStack(ingred, 43, 10, false);
@@ -47,29 +50,29 @@ public class NEICampfireHandler extends TemplateRecipeHandler {
     @Override
     public void loadCraftingRecipes(String outputId, Object... results) {
         if (outputId.equals(Primal.MODID + ".campfire") && getClass() == NEICampfireHandler.class) {
-            Map<List<ItemStack>, ItemStack> recipes = CampfireRecipe.getRecipeMap();
-            for (Map.Entry<List<ItemStack>, ItemStack> recipe : recipes.entrySet()) {
-                arecipes.add(new NEICampfireHandler.CampfirePair(recipe.getKey(), recipe.getValue()));
+            List<CampfireRecipe> recipes = CampfireRecipe.getRecipeList();
+            for (CampfireRecipe recipe : recipes) {
+                arecipes.add(new NEICampfireHandler.CampfirePair(recipe));
             }
         } else super.loadCraftingRecipes(outputId, results);
     }
 
     @Override
     public void loadCraftingRecipes(ItemStack result) {
-        Map<List<ItemStack>, ItemStack> recipes = CampfireRecipe.getRecipeMap();
-        for (Map.Entry<List<ItemStack>, ItemStack> recipe : recipes.entrySet()) {
-            if (Utils.equalsStack(recipe.getValue(), result)) {
-                arecipes.add(new NEICampfireHandler.CampfirePair(recipe.getKey(), recipe.getValue()));
+        List<CampfireRecipe> recipes = CampfireRecipe.getRecipeList();
+        for (CampfireRecipe recipe : recipes) {
+            if (Utils.equalsStack(recipe.output, result)) {
+                arecipes.add(new NEICampfireHandler.CampfirePair(recipe));
             }
         }
     }
 
     @Override
     public void loadUsageRecipes(ItemStack ingredient) {
-        Map<List<ItemStack>, ItemStack> recipes = CampfireRecipe.getRecipeMap();
-        for (Map.Entry<List<ItemStack>, ItemStack> recipe : recipes.entrySet()) {
-            if (Utils.containsStack(recipe.getKey(), ingredient)) {
-                arecipes.add(new NEICampfireHandler.CampfirePair(recipe.getKey(), recipe.getValue()));
+        List<CampfireRecipe> recipes = CampfireRecipe.getRecipeList();
+        for (CampfireRecipe recipe : recipes) {
+            if (Utils.containsStack(recipe.input, ingredient)) {
+                arecipes.add(new NEICampfireHandler.CampfirePair(recipe));
             }
         }
     }
