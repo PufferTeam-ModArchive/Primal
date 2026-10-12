@@ -190,7 +190,6 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
             int scaledAmount = recipe.inputLiquid.amount * lastStackSize;
             if (getFluidStack().amount >= (scaledAmount)) {
                 this.canProcess = true;
-                addSchedule(recipe.processingTime, Task.process);
                 if (process) {
                     setInventorySlotContentsUpdate(slotInput);
                     tank.drain(scaledAmount, true);
@@ -206,6 +205,8 @@ public class TileEntityBarrel extends TileEntityFluidInventory implements ISched
                         tankOutput.fill(scaledOutput, true);
                     }
                     updateTEState();
+                } else {
+                    addSchedule(recipe.processingTime, Task.process);
                 }
             } else {
                 this.canProcess = false;
