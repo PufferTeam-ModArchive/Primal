@@ -489,6 +489,10 @@ public final class Utils {
         return resource;
     }
 
+    public static <T> List<T> asList(T element) {
+        return Collections.singletonList(element);
+    }
+
     @SafeVarargs
     public static <T> List<T> asList(T... elements) {
         if (elements.length == 1) {

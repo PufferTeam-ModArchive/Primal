@@ -21,14 +21,14 @@ import org.lwjgl.opengl.GL11;
 import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.GuiRecipe;
-import codechicken.nei.recipe.TemplateRecipeHandler;
 
-public class NEIKnappingHandler extends TemplateRecipeHandler {
+public class NEIKnappingHandler extends NEITemplateHandler {
 
-    public class KnappingPair extends CachedRecipe {
+    public class KnappingPair extends NEICachedRecipe {
 
         public KnappingPair(KnappingRecipe pattern) {
             this(pattern.type, pattern.pattern, pattern.output);
+            setRecipe(pattern);
         }
 
         public KnappingPair(KnappingType type, boolean[][] icons, ItemStack result) {
@@ -117,7 +117,7 @@ public class NEIKnappingHandler extends TemplateRecipeHandler {
                 currenttip.add(EnumChatFormatting.GRAY + "Needs Knife in Inventory");
             }
         }
-        return currenttip;
+        return super.handleItemTooltip(gui, stack, currenttip, recipe);
     }
 
     @Override

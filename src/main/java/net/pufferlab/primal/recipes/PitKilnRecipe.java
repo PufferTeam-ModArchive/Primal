@@ -15,11 +15,11 @@ public class PitKilnRecipe extends Recipe<PitKilnRecipe> {
     }
 
     public static void addRecipe(ItemStack output, String input) {
-        recipeList.add(new PitKilnRecipe(ItemUtils.getOres(input), output));
+        recipeList.add(new PitKilnRecipe(input, output));
     }
 
     public static void addRecipe(ItemStack output, ItemStack input) {
-        recipeList.add(new PitKilnRecipe(Utils.asList(input), output));
+        recipeList.add(new PitKilnRecipe(input, output));
     }
 
     public static void removeRecipe(ItemStack output, List<ItemStack> input) {
@@ -52,6 +52,16 @@ public class PitKilnRecipe extends Recipe<PitKilnRecipe> {
 
     public List<ItemStack> input;
     public ItemStack output;
+
+    public PitKilnRecipe(ItemStack input, ItemStack output) {
+        this(Utils.asList(input), output);
+        this.setRecipeID(input, output);
+    }
+
+    public PitKilnRecipe(String input, ItemStack output) {
+        this(ItemUtils.getOres(input), output);
+        this.setRecipeID(input, output);
+    }
 
     public PitKilnRecipe(List<ItemStack> input, ItemStack output) {
         this.input = input;

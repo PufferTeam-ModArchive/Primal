@@ -12,11 +12,11 @@ public class MeltingRecipe extends Recipe<MeltingRecipe> {
     private static final RecipeList<MeltingRecipe> recipeList = new RecipeList<>();
 
     public static void addRecipe(FluidStack output, ItemStack input) {
-        recipeList.add(new MeltingRecipe(output, Utils.asList(input)));
+        recipeList.add(new MeltingRecipe(input, output));
     }
 
     public static void addRecipe(FluidStack output, String input) {
-        recipeList.add(new MeltingRecipe(output, ItemUtils.getOres(input)));
+        recipeList.add(new MeltingRecipe(input, output));
     }
 
     public static void removeRecipe(FluidStack output) {
@@ -50,7 +50,17 @@ public class MeltingRecipe extends Recipe<MeltingRecipe> {
     public ItemStack outputBlock;
     public List<ItemStack> input;
 
-    public MeltingRecipe(FluidStack output, List<ItemStack> input) {
+    public MeltingRecipe(ItemStack input, FluidStack output) {
+        this(Utils.asList(input), output);
+        this.setRecipeID(input, output);
+    }
+
+    public MeltingRecipe(String input, FluidStack output) {
+        this(ItemUtils.getOres(input), output);
+        this.setRecipeID(input, output);
+    }
+
+    public MeltingRecipe(List<ItemStack> input, FluidStack output) {
         this.input = input;
         this.output = output;
         if (output != null) {

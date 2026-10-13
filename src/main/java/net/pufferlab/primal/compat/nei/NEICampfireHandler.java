@@ -14,14 +14,14 @@ import net.pufferlab.primal.utils.Utils;
 import org.lwjgl.opengl.GL11;
 
 import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.TemplateRecipeHandler;
 
-public class NEICampfireHandler extends TemplateRecipeHandler {
+public class NEICampfireHandler extends NEITemplateHandler {
 
-    public class CampfirePair extends CachedRecipe {
+    public class CampfirePair extends NEICachedRecipe {
 
         public CampfirePair(CampfireRecipe recipe) {
             this(recipe.input, recipe.output);
+            setRecipe(recipe);
         }
 
         public CampfirePair(List<ItemStack> ingred, ItemStack result) {

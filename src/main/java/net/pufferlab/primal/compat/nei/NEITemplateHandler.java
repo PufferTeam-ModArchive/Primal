@@ -3,6 +3,7 @@ package net.pufferlab.primal.compat.nei;
 import java.awt.*;
 import java.util.List;
 
+import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.entities.player.PlayerData;
 import net.pufferlab.primal.recipes.Recipe;
@@ -32,7 +33,7 @@ public class NEITemplateHandler extends TemplateRecipeHandler {
     }
 
     @Override
-    public List<String> handleTooltip(GuiRecipe<?> gui, List<String> currenttip, int recipe) {
+    public List<String> handleItemTooltip(GuiRecipe<?> gui, ItemStack stack, List<String> currenttip, int recipe) {
         if (PlayerData.get(Primal.proxy.getClientPlayer())
             .getRecipeDebug()) {
             if (arecipes.get(recipe) instanceof NEICachedRecipe pair) {
@@ -42,7 +43,8 @@ public class NEITemplateHandler extends TemplateRecipeHandler {
                 }
             }
         }
-        return super.handleTooltip(gui, currenttip, recipe);
+
+        return super.handleItemTooltip(gui, stack, currenttip, recipe);
     }
 
     @Override

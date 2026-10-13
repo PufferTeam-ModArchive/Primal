@@ -19,11 +19,11 @@ public class CampfireRecipe extends Recipe<CampfireRecipe> {
     }
 
     public static void addRecipe(ItemStack output, String input) {
-        recipeList.add(new CampfireRecipe(ItemUtils.getOres(input), output));
+        recipeList.add(new CampfireRecipe(input, output));
     }
 
     public static void addRecipe(ItemStack output, ItemStack input) {
-        recipeList.add(new CampfireRecipe(Utils.asList(input), output));
+        recipeList.add(new CampfireRecipe(input, output));
     }
 
     public static void removeRecipe(ItemStack output, List<ItemStack> input) {
@@ -58,6 +58,16 @@ public class CampfireRecipe extends Recipe<CampfireRecipe> {
 
     public List<ItemStack> input;
     public ItemStack output;
+
+    public CampfireRecipe(ItemStack input, ItemStack output) {
+        this(Utils.asList(input), output);
+        this.setRecipeID(input, output);
+    }
+
+    public CampfireRecipe(String input, ItemStack output) {
+        this(ItemUtils.getOres(input), output);
+        this.setRecipeID(input, output);
+    }
 
     public CampfireRecipe(List<ItemStack> input, ItemStack output) {
         this.input = input;

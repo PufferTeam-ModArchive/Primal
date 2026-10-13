@@ -4,14 +4,12 @@ import net.pufferlab.primal.utils.TextUtils;
 
 public class Recipe<T> {
 
-    public String recipeID;
-
-    public void setRecipeID(String recipeID) {
-        this.recipeID = recipeID;
-    }
+    private String recipeID = null;
 
     public T setRecipeID(Object... objects) {
-        this.recipeID = TextUtils.getRecipeHash(objects);
+        if (this.recipeID == null) {
+            this.recipeID = TextUtils.getRecipeHash(objects);
+        }
         return (T) this;
     }
 

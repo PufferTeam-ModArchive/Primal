@@ -17,14 +17,14 @@ import org.lwjgl.opengl.GL11;
 
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.GuiRecipe;
-import codechicken.nei.recipe.TemplateRecipeHandler;
 
-public class NEICastingHandler extends TemplateRecipeHandler {
+public class NEICastingHandler extends NEITemplateHandler {
 
-    public class CastingPair extends CachedRecipe {
+    public class CastingPair extends NEICachedRecipe {
 
         public CastingPair(CastingRecipe recipe) {
             this(recipe.cast, recipe.inputBlock, recipe.output, recipe.input);
+            setRecipe(recipe);
         }
 
         public CastingPair(ItemStack cast, ItemStack ingred, ItemStack result, FluidStack ingredFS) {
@@ -151,6 +151,6 @@ public class NEICastingHandler extends TemplateRecipeHandler {
             }
         }
 
-        return currenttip;
+        return super.handleItemTooltip(gui, stack, currenttip, recipe);
     }
 }

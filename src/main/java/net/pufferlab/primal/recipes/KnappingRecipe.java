@@ -1,5 +1,6 @@
 package net.pufferlab.primal.recipes;
 
+import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
@@ -54,15 +55,14 @@ public class KnappingRecipe extends Recipe<KnappingRecipe> {
     public KnappingType type;
 
     public KnappingRecipe(KnappingType type, ItemStack output, String... rows) {
-        this.output = output;
-        this.type = type;
-        this.pattern = getKnappingPattern(rows);
+        this(type, output, getKnappingPattern(rows));
     }
 
     public KnappingRecipe(KnappingType type, ItemStack output, boolean[][] rows) {
         this.output = output;
         this.type = type;
         this.pattern = rows;
+        this.setRecipeID(type.getName(), output, String.valueOf(Arrays.deepHashCode(rows)));
     }
 
     public boolean equals(KnappingType type, boolean[][] pattern2) {

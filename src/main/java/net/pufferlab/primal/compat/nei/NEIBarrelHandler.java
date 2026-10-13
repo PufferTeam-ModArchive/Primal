@@ -220,6 +220,6 @@ public class NEIBarrelHandler extends NEITemplateHandler {
             }
         }
 
-        return currenttip;
+        return super.handleItemTooltip(gui, stack, currenttip, recipe);
     }
 }

@@ -8,10 +8,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.inventory.InterfaceKnapping;
+import net.pufferlab.primal.utils.IPrimalType;
 import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.Utils;
 
-public class KnappingType {
+public class KnappingType implements IPrimalType {
 
     // spotless:off
     public static final KnappingType clay = new KnappingType("clay", ItemUtils.getItem("minecraft", "clay_ball", 0, 5), false, "knapping.clay", -0.3F);
@@ -101,4 +102,8 @@ public class KnappingType {
         return null;
     }
 
+    @Override
+    public String getName() {
+        return name;
+    }
 }

@@ -14,14 +14,14 @@ import net.pufferlab.primal.utils.Utils;
 import org.lwjgl.opengl.GL11;
 
 import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.TemplateRecipeHandler;
 
-public class NEITanningHandler extends TemplateRecipeHandler {
+public class NEITanningHandler extends NEITemplateHandler {
 
-    public class TanningPair extends CachedRecipe {
+    public class TanningPair extends NEICachedRecipe {
 
         public TanningPair(TanningRecipe recipe) {
             this(recipe.input, recipe.output);
+            setRecipe(recipe);
         }
 
         public TanningPair(List<ItemStack> ingred, ItemStack result) {

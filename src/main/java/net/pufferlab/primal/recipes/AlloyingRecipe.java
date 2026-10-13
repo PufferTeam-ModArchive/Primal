@@ -98,6 +98,7 @@ public class AlloyingRecipe extends Recipe<AlloyingRecipe> {
                 .getBlock(),
             1,
             0);
+        this.setRecipeID(outputs, Utils.asList(this.inputs));
     }
 
     public int equals(FluidStack... stacks) {

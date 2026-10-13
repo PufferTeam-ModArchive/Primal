@@ -15,14 +15,14 @@ import net.pufferlab.primal.utils.Utils;
 import org.lwjgl.opengl.GL11;
 
 import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.TemplateRecipeHandler;
 
-public class NEIPitKilnHandler extends TemplateRecipeHandler {
+public class NEIPitKilnHandler extends NEITemplateHandler {
 
-    public class PitKilnPair extends CachedRecipe {
+    public class PitKilnPair extends NEICachedRecipe {
 
         public PitKilnPair(PitKilnRecipe recipe) {
             this(recipe.input, recipe.output);
+            setRecipe(recipe);
         }
 
         public PitKilnPair(List<ItemStack> ingred, ItemStack result) {

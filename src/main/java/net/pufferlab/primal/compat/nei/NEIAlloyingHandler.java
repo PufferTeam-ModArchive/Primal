@@ -19,11 +19,10 @@ import org.lwjgl.opengl.GL11;
 
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.GuiRecipe;
-import codechicken.nei.recipe.TemplateRecipeHandler;
 
-public class NEIAlloyingHandler extends TemplateRecipeHandler {
+public class NEIAlloyingHandler extends NEITemplateHandler {
 
-    public class AlloyingPair extends CachedRecipe {
+    public class AlloyingPair extends NEICachedRecipe {
 
         public AlloyingPair(AlloyingRecipe recipe) {
             this(
@@ -33,6 +32,7 @@ public class NEIAlloyingHandler extends TemplateRecipeHandler {
                 recipe.inputs,
                 recipe.minPercentage,
                 recipe.maxPercentage);
+            setRecipe(recipe);
         }
 
         public AlloyingPair(ItemStack[] ingred, ItemStack result, FluidStack resultFS, FluidStack[] inputsFS, int[] min,
@@ -241,6 +241,6 @@ public class NEIAlloyingHandler extends TemplateRecipeHandler {
             }
         }
 
-        return currenttip;
+        return super.handleItemTooltip(gui, stack, currenttip, recipe);
     }
 }

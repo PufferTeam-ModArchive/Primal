@@ -14,14 +14,14 @@ import net.pufferlab.primal.utils.Utils;
 import org.lwjgl.opengl.GL11;
 
 import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.TemplateRecipeHandler;
 
-public class NEIChoppingLogHandler extends TemplateRecipeHandler {
+public class NEIChoppingLogHandler extends NEITemplateHandler {
 
-    public class ChoppingLogPair extends CachedRecipe {
+    public class ChoppingLogPair extends NEICachedRecipe {
 
         public ChoppingLogPair(ChoppingLogRecipe recipe) {
             this(recipe.input, recipe.output);
+            setRecipe(recipe);
         }
 
         public ChoppingLogPair(List<ItemStack> ingred, ItemStack result) {

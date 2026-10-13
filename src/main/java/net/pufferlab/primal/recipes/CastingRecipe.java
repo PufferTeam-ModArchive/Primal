@@ -57,6 +57,7 @@ public class CastingRecipe extends Recipe<CastingRecipe> {
                 input.amount,
                 0);
         }
+        this.setRecipeID(cast, output, input);
     }
 
     public boolean equals(ItemStack cast, FluidStack input) {
