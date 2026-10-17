@@ -118,4 +118,9 @@ public class BarrelRecipe extends Recipe<BarrelRecipe> {
         }
         return false;
     }
+
+    @Override
+    public String getIdentifier() {
+        return "barrel";
+    }
 }

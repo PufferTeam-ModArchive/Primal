@@ -67,4 +67,9 @@ public class PitKilnRecipe extends Recipe<PitKilnRecipe> {
         this.input = input;
         this.output = output;
     }
+
+    @Override
+    public String getIdentifier() {
+        return "pit_kiln";
+    }
 }

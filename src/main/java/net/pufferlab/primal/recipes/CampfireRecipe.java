@@ -73,4 +73,9 @@ public class CampfireRecipe extends Recipe<CampfireRecipe> {
         this.input = input;
         this.output = output;
     }
+
+    @Override
+    public String getIdentifier() {
+        return "campfire";
+    }
 }

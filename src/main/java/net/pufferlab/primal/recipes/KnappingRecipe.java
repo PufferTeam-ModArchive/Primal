@@ -95,4 +95,9 @@ public class KnappingRecipe extends Recipe<KnappingRecipe> {
         }
         return true;
     }
+
+    @Override
+    public String getIdentifier() {
+        return "knapping";
+    }
 }

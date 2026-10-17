@@ -134,4 +134,9 @@ public class AlloyingRecipe extends Recipe<AlloyingRecipe> {
         }
         return -1;
     }
+
+    @Override
+    public String getIdentifier() {
+        return "alloying";
+    }
 }

@@ -67,4 +67,9 @@ public class QuernRecipe extends Recipe<QuernRecipe> {
         this.input = input;
         this.output = output;
     }
+
+    @Override
+    public String getIdentifier() {
+        return "quern";
+    }
 }

@@ -78,4 +78,9 @@ public class MeltingRecipe extends Recipe<MeltingRecipe> {
         }
         return false;
     }
+
+    @Override
+    public String getIdentifier() {
+        return "melting";
+    }
 }

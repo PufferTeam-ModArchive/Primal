@@ -164,6 +164,18 @@ public class PlayerData implements IExtendedEntityProperties {
         tag.setBoolean("pos2CoordsValid", this.pos2CoordsValid);
     }
 
+    public void writeToBuffer(ByteBuf buf) {
+        buf.writeBoolean(this.temperatureDebug);
+        buf.writeBoolean(this.blockInfoDebug);
+        buf.writeBoolean(this.recipeDebug);
+        buf.writeLong(this.pos1Coords);
+        buf.writeBoolean(this.pos1CoordsValid);
+        buf.writeLong(this.pos2Coords);
+        buf.writeBoolean(this.pos2CoordsValid);
+
+        buf.writeBoolean(this.coordChanged);
+    }
+
     @Override
     public void loadNBTData(NBTTagCompound compound) {
         NBTTagCompound tag = compound.getCompoundTag(name);
@@ -193,6 +205,18 @@ public class PlayerData implements IExtendedEntityProperties {
         this.pos1CoordsValid = tag.getBoolean("pos1CoordsValid");
         this.pos2Coords = tag.getLong("pos2Coords");
         this.pos2CoordsValid = tag.getBoolean("pos2CoordsValid");
+    }
+
+    public void readFromBuffer(ByteBuf buf) {
+        this.temperatureDebug = buf.readBoolean();
+        this.blockInfoDebug = buf.readBoolean();
+        this.recipeDebug = buf.readBoolean();
+        this.pos1Coords = buf.readLong();
+        this.pos1CoordsValid = buf.readBoolean();
+        this.pos2Coords = buf.readLong();
+        this.pos2CoordsValid = buf.readBoolean();
+
+        this.coordChanged = buf.readBoolean();
     }
 
     public static void syncPlayerData(PlayerData from, PlayerData to) {

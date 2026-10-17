@@ -67,4 +67,9 @@ public class TanningRecipe extends Recipe<TanningRecipe> {
         this.input = input;
         this.output = output;
     }
+
+    @Override
+    public String getIdentifier() {
+        return "tanning";
+    }
 }

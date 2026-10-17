@@ -185,4 +185,9 @@ public class AnvilRecipe extends Recipe<AnvilRecipe> {
         }
         return false;
     }
+
+    @Override
+    public String getIdentifier() {
+        return "anvil";
+    }
 }

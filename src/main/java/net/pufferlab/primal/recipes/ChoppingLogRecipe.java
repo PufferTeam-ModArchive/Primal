@@ -67,4 +67,9 @@ public class ChoppingLogRecipe extends Recipe<ChoppingLogRecipe> {
         this.input = input;
         this.output = output;
     }
+
+    @Override
+    public String getIdentifier() {
+        return "chopping_log";
+    }
 }

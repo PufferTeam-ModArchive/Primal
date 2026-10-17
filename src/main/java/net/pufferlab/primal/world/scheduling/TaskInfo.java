@@ -4,6 +4,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.pufferlab.primal.world.GlobalTickingData;
 
+import io.netty.buffer.ByteBuf;
+
 public class TaskInfo {
 
     public int id;
@@ -62,15 +64,27 @@ public class TaskInfo {
     public void writeToNBT(NBTTagCompound tag) {
         tag.setInteger("inTime", this.inTime);
         tag.setLong("timeSent", this.timeSent);
-        tag.setLong("timeScheduled", this.timeScheduled);
         tag.setBoolean("sentUpdate", this.sentUpdate);
+    }
+
+    public void writeToBuffer(ByteBuf buf) {
+        buf.writeInt(this.inTime);
+        buf.writeLong(this.timeSent);
+        buf.writeBoolean(this.sentUpdate);
     }
 
     public void readFromNBT(NBTTagCompound tag) {
         this.inTime = tag.getInteger("inTime");
         this.timeSent = tag.getLong("timeSent");
-        this.timeScheduled = tag.getLong("timeScheduled");
+        this.timeScheduled = this.timeSent + this.inTime;
         this.sentUpdate = tag.getBoolean("sentUpdate");
+    }
+
+    public void readFromBuffer(ByteBuf buf) {
+        this.inTime = buf.readInt();
+        this.timeSent = buf.readLong();
+        this.timeScheduled = this.timeSent + this.inTime;
+        this.sentUpdate = buf.readBoolean();
     }
 
     public static void writeToNBT(NBTTagCompound tag, TaskInfo task) {

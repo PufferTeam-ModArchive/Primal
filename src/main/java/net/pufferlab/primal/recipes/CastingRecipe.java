@@ -68,4 +68,9 @@ public class CastingRecipe extends Recipe<CastingRecipe> {
         }
         return false;
     }
+
+    @Override
+    public String getIdentifier() {
+        return "casting";
+    }
 }
