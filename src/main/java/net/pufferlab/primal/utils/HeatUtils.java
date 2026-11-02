@@ -83,8 +83,10 @@ public class HeatUtils {
         for (String name : Config.metalHeatingOverride.getStringList()) {
             String[] split = name.split("=");
             ItemStack item = ItemUtils.getItem(split[0]);
-            MetalType metal = MetalType.getMetal(split[1]);
-            registerCompatImpl(item.getItem(), item.getItemDamage(), metal);
+            if (item != null) {
+                MetalType metal = MetalType.getMetal(split[1]);
+                registerCompatImpl(item.getItem(), item.getItemDamage(), metal);
+            }
         }
 
         for (Map.Entry<Item, ImplInfo> entry : implInfo.entrySet()) {
