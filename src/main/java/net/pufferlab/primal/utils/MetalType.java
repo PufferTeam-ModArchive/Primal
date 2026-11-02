@@ -140,6 +140,17 @@ public class MetalType implements IPrimalType {
     }
 
     public static Map<Fluid, MetalType> fluidMap;
+    public static Map<String, MetalType> metalTypeMap;
+
+    public static MetalType getMetal(String name) {
+        if (metalTypeMap == null) {
+            metalTypeMap = new HashMap<>();
+            for (MetalType type : Constants.metalTypesAll) {
+                metalTypeMap.put(type.name, type);
+            }
+        }
+        return metalTypeMap.get(name);
+    }
 
     public static MetalType getMetalFromFluid(FluidStack stack) {
         if (fluidMap == null) {

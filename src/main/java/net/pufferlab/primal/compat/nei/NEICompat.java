@@ -86,6 +86,7 @@ public class NEICompat implements IConfigureNEI {
         sendCatalyst(NEIQuernHandler.class, getModItem("quern", 1));
         sendCatalyst(NEIQuernHandler.class, getModItem("handstone", 1));
         sendCatalyst(NEIMeltingHandler.class, getModItem("crucible", 1));
+        sendCatalyst(NEIAlloyingHandler.class, getModItem("crucible", 1));
         for (MetalType metal : Constants.anvilMetalTypes) {
             sendCatalyst(NEIAnvilHandler.class, getModItem(metal.name + "_anvil", 1));
         }

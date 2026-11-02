@@ -34,6 +34,11 @@ public class ItemUtils {
     private static final List<ItemStack> itemHideFilter = new ArrayList<>();
     private static List<String> modItemNames;
 
+    public static Item getStaticItem(String name) {
+        String[] split = name.split(":");
+        return GameRegistry.findItem(split[0], split[1]);
+    }
+
     public static ItemStack getItem(String mod, String item) {
         return getItem(mod, item, 0, 1);
     }

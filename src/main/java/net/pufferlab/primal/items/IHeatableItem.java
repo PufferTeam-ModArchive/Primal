@@ -60,14 +60,26 @@ public interface IHeatableItem {
     };
 
     default int getMeltingTemperature(ItemStack stack) {
+        MetalType metal = getMetal(stack);
+        if (metal != null) {
+            return metal.meltingTemperature;
+        }
         return -1;
     }
 
     default int getForgingTemperature(ItemStack stack) {
+        MetalType metal = getMetal(stack);
+        if (metal != null) {
+            return metal.forgingTemperature;
+        }
         return -1;
     }
 
     default int getWeldingTemperature(ItemStack stack) {
+        MetalType metal = getMetal(stack);
+        if (metal != null) {
+            return metal.weldingTemperature;
+        }
         return -1;
     }
 }

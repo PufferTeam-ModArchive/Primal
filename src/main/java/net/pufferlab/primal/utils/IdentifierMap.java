@@ -10,6 +10,21 @@ import gnu.trove.map.hash.TObjectIntHashMap;
 
 public class IdentifierMap {
 
+    public static String getIdentifier(java.lang.Object obj) {
+        String str = null;
+        if (obj instanceof String string) {
+            str = string;
+        } else if (obj instanceof IIdentifiable string) {
+            str = string.getIdentifier();
+        }
+        if (str == null || str.isEmpty()) {
+            str = obj.getClass()
+                .getName();
+        }
+
+        return str;
+    }
+
     public static class Obj<T, K> {
 
         private final Map<String, K> nameToID = new HashMap<>();
@@ -25,33 +40,18 @@ public class IdentifierMap {
 
         public void putObject(T obj, K id) {
             String name = getIdentifier(obj);
-            if (name != null) {
-                if (nameToID.containsKey(name)) {
-                    throw new IllegalStateException("Cannot map '" + name + "' as it already has a identifier");
-                } else {
-                    nameToID.put(name, id);
-                    idToName.put(id, name);
-                    idToObject.put(id, obj);
-                }
+            if (nameToID.containsKey(name)) {
+                throw new IllegalStateException("Cannot map '" + name + "' as it already has a identifier");
             } else {
-                throw new IllegalStateException("Cannot add a null object");
+                nameToID.put(name, id);
+                idToName.put(id, name);
+                idToObject.put(id, obj);
             }
         }
 
         public K getID(java.lang.Object obj) {
             String name = getIdentifier(obj);
             return nameToID.get(name);
-        }
-
-        public static String getIdentifier(java.lang.Object obj) {
-            if (obj instanceof String string) {
-                return string;
-            }
-            if (obj instanceof IIdentifiable string) {
-                return string.getIdentifier();
-            }
-            return obj.getClass()
-                .getName();
         }
 
         public String getName(K id) {
@@ -78,33 +78,18 @@ public class IdentifierMap {
 
         public void putObject(T obj, int id) {
             String name = getIdentifier(obj);
-            if (name != null) {
-                if (nameToID.containsKey(name)) {
-                    throw new IllegalStateException("Cannot map '" + name + "' as it already has a identifier");
-                } else {
-                    nameToID.put(name, id);
-                    idToName.put(id, name);
-                    idToObject.put(id, obj);
-                }
+            if (nameToID.containsKey(name)) {
+                throw new IllegalStateException("Cannot map '" + name + "' as it already has a identifier");
             } else {
-                throw new IllegalStateException("Cannot add a null object");
+                nameToID.put(name, id);
+                idToName.put(id, name);
+                idToObject.put(id, obj);
             }
         }
 
         public int getID(java.lang.Object obj) {
             String name = getIdentifier(obj);
             return nameToID.get(name);
-        }
-
-        public static String getIdentifier(java.lang.Object obj) {
-            if (obj instanceof String string) {
-                return string;
-            }
-            if (obj instanceof IIdentifiable string) {
-                return string.getIdentifier();
-            }
-            return obj.getClass()
-                .getName();
         }
 
         public String getName(int id) {

@@ -8,7 +8,7 @@ import net.pufferlab.primal.Primal;
 
 public class WoodType implements IPrimalType {
 
-    public static final BlockMap.Single<WoodType> blockMap = new BlockMap.Single<>();
+    public static final MetaMap.Single<Block, WoodType> blockMap = new MetaMap.Single<>();
 
     public String name;
     public String[] types;

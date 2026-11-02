@@ -749,6 +749,7 @@ public class Registry {
 
         StoneType.genLayerCache(Constants.stoneTypes);
         SoilType.genHumidityCache(Constants.soilTypes);
+        HeatUtils.setupAllImpl();
     }
 
     public void setupModCompat() {
@@ -983,12 +984,8 @@ public class Registry {
         }
     }
 
-    public void registerHeat(Item item, Item maskItem) {
-        HeatUtils.registerImpl(item, new int[] { 0 }, maskItem);
-    }
-
     public void registerHeat(Item item, Item maskItem, MetalType metal) {
-        HeatUtils.registerImpl(item, new int[] { 0 }, maskItem, new MetalType[] { metal });
+        HeatUtils.registerImpl(item, maskItem, metal);
     }
 
     public void registerCut(Block block) {

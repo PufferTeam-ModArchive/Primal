@@ -23,22 +23,4 @@ public class ItemMetal extends ItemMetaHeatable {
     public MetalType getMetal(ItemStack stack) {
         return metalTypes[stack.getItemDamage()];
     }
-
-    @Override
-    public int getMeltingTemperature(ItemStack stack) {
-        if (stack.getItemDamage() >= metalTypes.length) return -1;
-        return metalTypes[stack.getItemDamage()].meltingTemperature;
-    }
-
-    @Override
-    public int getWeldingTemperature(ItemStack stack) {
-        if (stack.getItemDamage() >= metalTypes.length) return -1;
-        return metalTypes[stack.getItemDamage()].weldingTemperature;
-    }
-
-    @Override
-    public int getForgingTemperature(ItemStack stack) {
-        if (stack.getItemDamage() >= metalTypes.length) return -1;
-        return metalTypes[stack.getItemDamage()].forgingTemperature;
-    }
 }

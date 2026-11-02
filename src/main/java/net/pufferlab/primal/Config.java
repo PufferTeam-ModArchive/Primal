@@ -94,6 +94,8 @@ public enum Config {
     metalPriorityOverride(Module.metalworking,
         new String[] { "ingotIron=minecraft:iron_ingot", "ingotGold=minecraft:gold_ingot" },
         "Override so certain ore dictionary give specific materials"),
+    metalHeatingOverride(Module.metalworking, new String[] { "etfuturum:copper_ingot:0=copper" },
+        "Sets the metal type which allows you to put heating values to other mods items"),
     metalMelting(Module.metalworking, new ValueInt(Constants.metalTypesAll, Value.Type.melting),
         "The melting temperature for the correspond metals."),
     metalForging(Module.metalworking, new ValueInt(Constants.metalTypesAll, Value.Type.forging),

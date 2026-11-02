@@ -37,18 +37,6 @@ public class ItemOre extends ItemMetaHeatable {
     }
 
     @Override
-    public int getMeltingTemperature(ItemStack stack) {
-        if (stack.getItemDamage() >= oreTypes.length) return -1;
-        return oreTypes[stack.getItemDamage()].metalType.meltingTemperature;
-    }
-
-    @Override
-    public int getWeldingTemperature(ItemStack stack) {
-        if (stack.getItemDamage() >= oreTypes.length) return -1;
-        return oreTypes[stack.getItemDamage()].metalType.weldingTemperature;
-    }
-
-    @Override
     public CreativeTabs getCreativeTab() {
         return Registry.creativeTabWorld;
     }

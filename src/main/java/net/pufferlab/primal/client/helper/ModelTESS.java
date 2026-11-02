@@ -236,12 +236,8 @@ public class ModelTESS {
         }
         tess.setBrightness(block.getMixedBrightnessForBlock(renderblocks.blockAccess, x, y, z));
         int i1 = block.colorMultiplier(renderblocks.blockAccess, x, y, z);
-        // The cache looks fucked up at high coords
-        // TODO: fix
-        if (x < maxX && z < maxZ) {
-            if (renderer.renderJOMLCached(tess, icon, x, y, z, offsetX, offsetY, offsetZ)) {
-                return;
-            }
+        if (renderer.renderJOMLCached(tess, icon, x, y, z, offsetX, offsetY, offsetZ)) {
+            return;
         }
         matrix.identity();
         VertexCache cache = renderer.getCache(icon);

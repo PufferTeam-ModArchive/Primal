@@ -80,9 +80,9 @@ public class VertexCache {
             for (int i = 0; i < 4; i++) {
                 int idx = s + i * stride;
 
-                float vX = vertices[idx];
-                float vY = vertices[idx + 1];
-                float vZ = vertices[idx + 2];
+                double vX = vertices[idx];
+                double vY = vertices[idx + 1];
+                double vZ = vertices[idx + 2];
                 float u = vertices[idx + 3];
                 float v = vertices[idx + 4];
                 float r = vertices[idx + 5];
@@ -95,11 +95,7 @@ public class VertexCache {
                 // TODO: Use a VBO (might be weird to do)
                 tess.setNormal(nX, nY, nZ);
                 tess.setColorOpaque_F(r, g, b);
-                tess.addTranslation((float) (x + offsetX0), (float) (y + offsetY0), (float) (z + offsetZ0));
-
-                tess.addVertexWithUV(vX, vY, vZ, u, v);
-
-                tess.addTranslation((float) -(x + offsetX0), (float) -(y + offsetY0), (float) -(z + offsetZ0));
+                tess.addVertexWithUV(vX + x + offsetX0, vY + y + offsetY0, vZ + z + offsetZ0, u, v);
             }
         }
     }

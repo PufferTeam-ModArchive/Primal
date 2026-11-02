@@ -20,20 +20,6 @@ public class ItemBlockMetal extends ItemBlockMetaHeatable {
     }
 
     @Override
-    public int getMeltingTemperature(ItemStack stack) {
-        BlockMetal block = (BlockMetal) field_150939_a;
-        if (stack.getItemDamage() >= block.getMetalTypes().length) return -1;
-        return block.getMetalTypes()[stack.getItemDamage()].meltingTemperature;
-    }
-
-    @Override
-    public int getWeldingTemperature(ItemStack stack) {
-        BlockMetal block = (BlockMetal) field_150939_a;
-        if (stack.getItemDamage() >= block.getMetalTypes().length) return -1;
-        return block.getMetalTypes()[stack.getItemDamage()].weldingTemperature;
-    }
-
-    @Override
     public boolean registerOre() {
         return true;
     }

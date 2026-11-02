@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.items.IHeatableItem;
@@ -17,7 +18,6 @@ public class HeatUtils {
     private static final Map<Item, int[]> heatableMetaItems = new HashMap<>();
     private static final Map<Item, Item> heatableMaskItems = new HashMap<>();
     private static final List<Item> heatableList = new ArrayList<>();
-    private static final IHeatableItem basicImpl = new IHeatableItem() {};
 
     public static final String tagTemperature = "temperature";
     public static final String tagMaxTemperature = "maxTemperature";
@@ -51,35 +51,66 @@ public class HeatUtils {
         return heatableMaskItems.get(item);
     }
 
-    public static void registerImpl(Item item, int[] meta, Item mask) {
-        registerImpl(item, meta, mask, basicImpl);
+    public static class ImplInfo {
+
+        int[] metas;
+        MetalType[] metalTypes;
+
+        public ImplInfo(int meta, MetalType metalType) {
+            metas = new int[] { meta };
+            metalTypes = new MetalType[] { metalType };
+        }
+
+        public void addItem(int meta, MetalType metalType) {
+            metas = Utils.append(metas, meta);
+            metalTypes = Utils.append(metalTypes, metalType);
+        }
     }
 
-    public static void registerImpl(Item item, int[] meta, Item mask, MetalType[] metals) {
-        registerImpl(item, meta, mask, new IHeatableItem() {
+    public static final Map<Item, ImplInfo> implInfo = new HashMap<>();
+
+    public static void registerCompatImpl(Item item, int meta, MetalType metal) {
+        ImplInfo impl = implInfo.get(item);
+        if (impl == null) {
+            impl = new ImplInfo(meta, metal);
+            implInfo.put(item, impl);
+        } else {
+            impl.addItem(meta, metal);
+        }
+    }
+
+    public static void setupAllImpl() {
+        for (String name : Config.metalHeatingOverride.getStringList()) {
+            String[] split = name.split("=");
+            ItemStack item = ItemUtils.getItem(split[0]);
+            MetalType metal = MetalType.getMetal(split[1]);
+            registerCompatImpl(item.getItem(), item.getItemDamage(), metal);
+        }
+
+        for (Map.Entry<Item, ImplInfo> entry : implInfo.entrySet()) {
+            Item item = entry.getKey();
+            ImplInfo info = entry.getValue();
+            int[] metas = info.metas;
+            MetalType[] metalTypes = info.metalTypes;
+
+            registerImpl(item, metas, null, new IHeatableItem() {
+
+                @Override
+                public MetalType getMetal(ItemStack stack) {
+                    int index = Utils.getIndex(metas, stack.getItemDamage());
+                    if (index < 0) return null;
+                    return metalTypes[index];
+                }
+            });
+        }
+    }
+
+    public static void registerImpl(Item item, Item mask, MetalType metal) {
+        registerImpl(item, new int[] { 0 }, mask, new IHeatableItem() {
 
             @Override
             public MetalType getMetal(ItemStack stack) {
-                if (stack.getItemDamage() >= metals.length) return null;
-                return metals[stack.getItemDamage()];
-            }
-
-            @Override
-            public int getMeltingTemperature(ItemStack stack) {
-                if (stack.getItemDamage() >= metals.length) return -1;
-                return metals[stack.getItemDamage()].meltingTemperature;
-            }
-
-            @Override
-            public int getWeldingTemperature(ItemStack stack) {
-                if (stack.getItemDamage() >= metals.length) return -1;
-                return metals[stack.getItemDamage()].weldingTemperature;
-            }
-
-            @Override
-            public int getForgingTemperature(ItemStack stack) {
-                if (stack.getItemDamage() >= metals.length) return -1;
-                return metals[stack.getItemDamage()].forgingTemperature;
+                return metal;
             }
         });
     }
@@ -87,8 +118,10 @@ public class HeatUtils {
     public static void registerImpl(Item item, int[] meta, Item mask, IHeatableItem impl) {
         heatableItems.put(item, impl);
         heatableMetaItems.put(item, meta);
-        heatableMaskItems.put(item, mask);
-        heatableList.add(item);
+        if (mask != null) {
+            heatableMaskItems.put(item, mask);
+            heatableList.add(item);
+        }
     }
 
     public static boolean hasImpl(ItemStack stack) {

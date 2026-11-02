@@ -16,19 +16,4 @@ public class ItemBloom extends ItemMetaHeatable {
     public MetalType getMetal(ItemStack stack) {
         return metalType;
     }
-
-    @Override
-    public int getMeltingTemperature(ItemStack stack) {
-        return metalType.meltingTemperature;
-    }
-
-    @Override
-    public int getWeldingTemperature(ItemStack stack) {
-        return metalType.weldingTemperature;
-    }
-
-    @Override
-    public int getForgingTemperature(ItemStack stack) {
-        return metalType.forgingTemperature;
-    }
 }

@@ -43,8 +43,8 @@ public class GuiAnvilWork extends GuiContainerPrimal {
         int centerX = ((this.width) / 2) - 15;
         int centerY = ((this.height) / 2) - 15;
 
-        for (int i = 0; i < AnvilAction.values().length; i++) {
-            int id = AnvilAction.values()[i].id;
+        for (int i = 0; i < AnvilAction.values.length; i++) {
+            int id = AnvilAction.values[i].id;
             int size = 16;
             int offsetX = 0;
             int offsetY = 0;
