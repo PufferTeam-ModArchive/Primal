@@ -95,15 +95,19 @@ public class HeatUtils {
             int[] metas = info.metas;
             MetalType[] metalTypes = info.metalTypes;
 
-            registerImpl(item, metas, null, new IHeatableItem() {
+            if (metas.length == 1 && metas[0] == 0) {
+                registerImpl(item, null, metalTypes[0]);
+            } else {
+                registerImpl(item, metas, null, new IHeatableItem() {
 
-                @Override
-                public MetalType getMetal(ItemStack stack) {
-                    int index = Utils.getIndex(metas, stack.getItemDamage());
-                    if (index < 0) return null;
-                    return metalTypes[index];
-                }
-            });
+                    @Override
+                    public MetalType getMetal(ItemStack stack) {
+                        int index = Utils.getIndex(metas, stack.getItemDamage());
+                        if (index < 0) return null;
+                        return metalTypes[index];
+                    }
+                });
+            }
         }
     }
 
