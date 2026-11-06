@@ -16,7 +16,7 @@ import cpw.mods.fml.common.Optional;
 @Optional.Interface(iface = "com.falsepattern.rple.api.common.item.RPLECustomItemBrightness", modid = Mods.ID.rple)
 public class ItemMetaHeatable extends ItemMeta implements IHeatableItem, RPLECustomItemBrightness {
 
-    public IIcon[] heatOverlay;
+    public IIcon heatOverlay;
 
     public ItemMetaHeatable(String[] materials, String type) {
         super(materials, type);
@@ -26,14 +26,13 @@ public class ItemMetaHeatable extends ItemMeta implements IHeatableItem, RPLECus
     public void registerIcons(IIconRegister register) {
         super.registerIcons(register);
 
-        heatOverlay = new IIcon[1];
-        heatOverlay[0] = register.registerIcon(Primal.MODID + ":" + getElementName() + "_overlay");
+        heatOverlay = register.registerIcon(Primal.MODID + ":" + getElementName() + "_overlay");
     }
 
     @Override
     public IIcon getIconFromDamageForRenderPass(int meta, int pass) {
         if (pass == 1) {
-            return heatOverlay[0];
+            return heatOverlay;
         }
         return super.getIconFromDamage(meta);
     }
