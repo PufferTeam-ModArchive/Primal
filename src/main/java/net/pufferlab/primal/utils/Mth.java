@@ -85,4 +85,11 @@ public class Mth {
     public static float normalize(float v) {
         return (v + 1.0F) / 2.0F;
     }
+
+    public static int toInt(long value) {
+        if ((int) value != value) {
+            return Integer.MAX_VALUE;
+        }
+        return (int) value;
+    }
 }

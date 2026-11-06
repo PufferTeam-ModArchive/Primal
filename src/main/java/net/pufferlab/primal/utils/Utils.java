@@ -6,9 +6,6 @@ import net.minecraft.block.Block;
 import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.Constants;
@@ -29,46 +26,20 @@ public final class Utils {
         return false;
     }
 
+    public static boolean roughlyEquals(float number, float number2) {
+        return roughlyEquals(number, number2, 0.0001D);
+    }
+
     public static boolean roughlyEquals(double number, double number2) {
         return roughlyEquals(number, number2, 0.0001D);
     }
 
-    public static boolean roughlyEquals(double a, double b, double range) {
+    public static boolean roughlyEquals(float a, float b, float range) {
         return Math.abs(a - b) <= range;
     }
 
-    public static int toInt(long value) {
-        if ((int) value != value) {
-            return Integer.MAX_VALUE;
-        }
-        return (int) value;
-    }
-
-    public static boolean isRiverBiome(BiomeGenBase biome) {
-        if (BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.OCEAN)
-            || BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.RIVER)) {
-            return true;
-        }
-        return false;
-    }
-
-    public static boolean isRiverBiome(World world, int x, int y, int z) {
-        BiomeGenBase biome = world.getBiomeGenForCoords(x, z);
-
-        return isRiverBiome(biome);
-    }
-
-    public static boolean isBeachBiome(BiomeGenBase biome) {
-        if (BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.BEACH)) {
-            return true;
-        }
-        return false;
-    }
-
-    public static boolean isBeachBiome(World world, int x, int y, int z) {
-        BiomeGenBase biome = world.getBiomeGenForCoords(x, z);
-
-        return isBeachBiome(biome);
+    public static boolean roughlyEquals(double a, double b, double range) {
+        return Math.abs(a - b) <= range;
     }
 
     public static Random getSeededRandom(Random random, int x, int y, int z) {

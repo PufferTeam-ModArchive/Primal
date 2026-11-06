@@ -9,6 +9,7 @@ import net.pufferlab.primal.utils.Utils;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -16,6 +17,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = EntityDiggingFX.class, priority = 2000)
 public abstract class MixinEntityDiggingFX {
+
+    @Unique
+    private static final float primal$range = 0.02F;
 
     @Shadow
     private Block field_145784_a;
@@ -36,22 +40,22 @@ public abstract class MixinEntityDiggingFX {
                 int x4 = x2;
                 int y4 = y2;
                 int z4 = z2;
-                if (Utils.roughlyEquals(x3, 0.1F)) {
+                if (Utils.roughlyEquals(x3, 0.1F, primal$range)) {
                     x4--;
                 }
-                if (Utils.roughlyEquals(x3, 0.9F)) {
+                if (Utils.roughlyEquals(x3, 0.9F, primal$range)) {
                     x4++;
                 }
                 if (Utils.roughlyEquals(y3, 0.1F)) {
                     y4--;
                 }
-                if (Utils.roughlyEquals(y3, 0.9F)) {
+                if (Utils.roughlyEquals(y3, 0.9F, primal$range)) {
                     y4++;
                 }
-                if (Utils.roughlyEquals(z3, 0.1F)) {
+                if (Utils.roughlyEquals(z3, 0.1F, primal$range)) {
                     z4--;
                 }
-                if (Utils.roughlyEquals(z3, 0.9F)) {
+                if (Utils.roughlyEquals(z3, 0.9F, primal$range)) {
                     z4++;
                 }
                 boolean b1 = false;

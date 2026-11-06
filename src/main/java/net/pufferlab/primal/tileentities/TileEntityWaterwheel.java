@@ -7,7 +7,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.utils.BlockUtils;
-import net.pufferlab.primal.utils.Utils;
+import net.pufferlab.primal.utils.WorldUtils;
 import net.pufferlab.primal.world.scheduling.Task;
 
 import io.netty.buffer.ByteBuf;
@@ -111,7 +111,7 @@ public class TileEntityWaterwheel extends TileEntityMotion {
 
     public float getSpeedFromFlow() {
         if (Config.waterwheelRestrictBiome.getBoolean()
-            && !Utils.isRiverBiome(this.worldObj, this.xCoord, this.yCoord, this.zCoord)) return 0.0F;
+            && !WorldUtils.isRiverBiome(this.worldObj, this.xCoord, this.yCoord, this.zCoord)) return 0.0F;
 
         float totalSpeed = 0.0F;
         float defaultSpeed = Config.waterwheelDefaultSpeed.getFloat();

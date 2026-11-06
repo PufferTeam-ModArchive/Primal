@@ -264,7 +264,7 @@ public class HeatUtils {
 
     public static int getInterpolatedTemperature(long currentTime, long worldTime, int lastTemperature,
         float multiplier, int maxTemperature) {
-        int timePassed = Utils.toInt(currentTime - worldTime);
+        int timePassed = Mth.toInt(currentTime - worldTime);
         int newTemperature = (int) (lastTemperature + ((timePassed / 5) * multiplier));
         if (newTemperature < 0) {
             return 0;

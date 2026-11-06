@@ -2,6 +2,7 @@ package net.pufferlab.primal.client.renderer;
 
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -97,6 +98,10 @@ public class RenderHeat {
         }
         if (type == IItemRenderer.ItemRenderType.ENTITY) {
             GL11.glTranslatef(-0.5F, -0.3F, 0.0F);
+        }
+        if (RenderItem.renderInFrame) {
+            GL11.glRotatef(270, 0.0F, 0.0F, 1.0F);
+            GL11.glTranslatef(-1.0F, 0.0F, 0.0F);
         }
 
         int color = getHeatingColor(temperature);

@@ -6,7 +6,7 @@ public class Line {
 
     public Vector3f a;
     public Vector3f b;
-    public static double range = 0.02D;
+    public static float range = 0.02F;
 
     public Line(Vector3f a, Vector3f b) {
         this.a = a;

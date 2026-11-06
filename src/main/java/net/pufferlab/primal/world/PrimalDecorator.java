@@ -9,7 +9,6 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.blocks.BlockStoneRaw;
 import net.pufferlab.primal.blocks.BlockStoneSand;
-import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.utils.WorldUtils;
 import net.pufferlab.primal.world.gen.feature.WorldGenGroundRock;
 import net.pufferlab.primal.world.gen.feature.WorldGenGroundShell;
@@ -50,7 +49,7 @@ public class PrimalDecorator implements IWorldGenerator {
                 }
             }
         }
-        if (Config.shellWorldGen.getBoolean() && Utils.isBeachBiome(biome)) {
+        if (Config.shellWorldGen.getBoolean() && WorldUtils.isBeachBiome(biome)) {
             for (int i = 0; i < shellPerChunk; i++) {
                 int px = x + rand.nextInt(16) + 8;
                 int pz = z + rand.nextInt(16) + 8;

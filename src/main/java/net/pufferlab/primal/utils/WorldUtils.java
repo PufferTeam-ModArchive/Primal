@@ -15,6 +15,7 @@ import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraft.world.gen.ChunkProviderFlat;
 import net.minecraft.world.gen.ChunkProviderServer;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
+import net.minecraftforge.common.BiomeDictionary;
 import net.pufferlab.primal.world.scheduling.ChunkPlacerData;
 import net.pufferlab.primal.world.terrafirma.WorldTypeTF;
 
@@ -198,6 +199,33 @@ public class WorldUtils {
     public static World getWorld(int dimensionId) {
         return MinecraftServer.getServer()
             .worldServerForDimension(dimensionId);
+    }
+
+    public static boolean isRiverBiome(BiomeGenBase biome) {
+        if (BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.OCEAN)
+            || BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.RIVER)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isRiverBiome(World world, int x, int y, int z) {
+        BiomeGenBase biome = world.getBiomeGenForCoords(x, z);
+
+        return isRiverBiome(biome);
+    }
+
+    public static boolean isBeachBiome(BiomeGenBase biome) {
+        if (BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.BEACH)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isBeachBiome(World world, int x, int y, int z) {
+        BiomeGenBase biome = world.getBiomeGenForCoords(x, z);
+
+        return isBeachBiome(biome);
     }
 
     /*
