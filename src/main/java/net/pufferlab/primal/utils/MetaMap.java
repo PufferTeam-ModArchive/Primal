@@ -65,8 +65,7 @@ public class MetaMap {
         }
 
         public Set<MapEntry<K, T>> entrySet() {
-            if (entrySet.isEmpty()) {}
-            {
+            if (entrySet.isEmpty()) {
                 for (int id : map.keys()) {
                     K obj = (K) unpackObject(id);
                     int meta = unpackMeta(id);

@@ -29,6 +29,7 @@ public class ItemUtils {
     private static final Map<String, ItemStack> itemCache = new HashMap<>();
     private static final Map<String, FluidStack> fluidCache = new HashMap<>();
     private static final Map<String, ItemStack> modItemCache = new HashMap<>();
+    private static final MetaMap.Single<Item, String> modNameCache = new MetaMap.Single<>();
     private static final Map<String, ItemStack> oreDictCache = new HashMap<>();
     private static final List<String> hideFilter = new ArrayList<>();
     private static final List<ItemStack> itemHideFilter = new ArrayList<>();
@@ -105,6 +106,7 @@ public class ItemUtils {
     }
 
     public static void registerModItem(String name, ItemStack stack) {
+        modNameCache.put(stack.getItem(), stack.getItemDamage(), name);
         modItemCache.put(name, stack);
     }
 
@@ -157,13 +159,7 @@ public class ItemUtils {
     }
 
     public static String getModItemName(ItemStack stack) {
-        for (Map.Entry<String, ItemStack> entry : modItemCache.entrySet()) {
-            ItemStack tempStack = entry.getValue();
-            if (Utils.equalsStack(tempStack, stack)) {
-                return entry.getKey();
-            }
-        }
-        return null;
+        return modNameCache.get(stack.getItem(), stack.getItemDamage());
     }
 
     public static ItemStack getModItem(String type, String name, int number) {
