@@ -16,7 +16,7 @@ public class KnappingType implements IPrimalType {
 
     // spotless:off
     public static final KnappingType clay = new KnappingType("clay", ItemUtils.getItem("minecraft", "clay_ball", 0, 5), false, "knapping.clay", -0.3F);
-    public static final KnappingType fire_clay = new KnappingType("fire_clay", ItemUtils.getModItem("fire_clay", 2), false, "knapping.clay", -0.3F);
+    public static final KnappingType fire_clay = new KnappingType("fire_clay", ItemUtils.getModItem("fire_clay", 5), false, "knapping.clay", -0.3F);
     public static final KnappingType straw = new KnappingType("straw", ItemUtils.getModItem("straw", 2), false, "dig.thatch", 0.5F);
     public static final KnappingType flint = new KnappingType("flint", ItemUtils.getItem("minecraft", "flint", 0, 2), false, "knapping.flint", 0F);
     public static final KnappingType stone = new KnappingType("stone", ItemUtils.getItem("minecraft", "flint", 0, 2), false, "knapping.flint", 0F);
