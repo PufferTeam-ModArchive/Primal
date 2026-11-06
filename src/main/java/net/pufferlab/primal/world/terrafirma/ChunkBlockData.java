@@ -7,13 +7,13 @@ import net.pufferlab.primal.world.ChunkBlockStorage;
 
 public class ChunkBlockData extends ChunkBlockStorage {
 
-    public Random random = new Random();
+    public Random random;
     public int chunkX;
     public int chunkZ;
     public long createdTime;
 
     public ChunkBlockData(long seed, int chunkX, int chunkZ) {
-        this.random.setSeed(HashUtils.packChunkCoord(seed, chunkX, chunkZ));
+        this.random = new Random(HashUtils.packChunkCoord(seed, chunkX, chunkZ));
         this.chunkX = chunkX;
         this.chunkZ = chunkZ;
     }

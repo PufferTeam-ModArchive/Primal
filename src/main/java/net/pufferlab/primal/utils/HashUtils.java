@@ -88,23 +88,11 @@ public class HashUtils {
     }
 
     public static int hashWorldSeed(long worldSeed, int packed) {
-        long seed = worldSeed ^ (packed & 0xFFFFFFFFL);
-
-        seed ^= seed >>> 33;
-        seed *= 0xff51afd7ed558ccdL;
-        seed ^= seed >>> 33;
-        seed *= 0xc4ceb9fe1a85ec53L;
-        seed ^= seed >>> 33;
-
-        return Long.hashCode(seed);
+        return Long.hashCode(hashWorldSeed(worldSeed, packed & 0xFFFFFFFFL));
     }
 
     public static int hashString(long worldSeed, String string) {
-        int hashCode = string.hashCode();
-
-        int seed = hashWorldSeed(worldSeed, hashCode);
-
-        return seed;
+        return hashWorldSeed(worldSeed, string.hashCode());
     }
 
     // Float Hashes

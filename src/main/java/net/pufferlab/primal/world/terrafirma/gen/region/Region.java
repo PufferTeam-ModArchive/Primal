@@ -71,10 +71,6 @@ public class Region {
         // Wait for all of the tasks to be done
         CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
             .join();
-
-        for (ChunkBlockData chunkBlockData : noise) {
-            provider.chunkBlockMap.remove(chunkBlockData.chunkX, chunkBlockData.chunkZ);
-        }
         this.hasGenerated = true;
         provider.tickTasks(world);
     }
