@@ -45,6 +45,9 @@ public class ContainerKnapping extends ContainerPrimal {
                     int knifeIndex = findKnifeIndex();
                     if (knifeIndex != -1) {
                         ItemUtils.damageItemIndex(knifeIndex, 1, invPlayer);
+                    } else {
+                        this.knappingIcons[x][y] = false;
+                        return;
                     }
                 }
             }
