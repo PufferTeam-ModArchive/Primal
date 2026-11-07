@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.recipes.KnappingRecipe;
 import net.pufferlab.primal.recipes.KnappingType;
 import net.pufferlab.primal.utils.ItemUtils;
+import net.pufferlab.primal.utils.Utils;
 
 public class ContainerKnapping extends ContainerPrimal {
 
@@ -29,11 +30,8 @@ public class ContainerKnapping extends ContainerPrimal {
             this.addSlotToContainer(new SlotHandLocked(invPlayer, i, 8 + i * 18, 142 + 20));
         }
         this.addSlotToContainer(new SlotKnapping(this, this.craftResult, 0, 143, 46));
-        for (int x = 0; x < 5; x++) {
-            for (int y = 0; y < 5; y++) {
-                this.knappingIcons[x][y] = false;
-            }
-        }
+
+        resetGrid();
 
     }
 
@@ -71,14 +69,24 @@ public class ContainerKnapping extends ContainerPrimal {
     }
 
     public void resetKnapping() {
-        for (int x = 0; x < 5; x++) {
-            for (int y = 0; y < 5; y++) {
-                this.knappingIcons[x][y] = true;
-            }
-        }
         this.invPlayer.decrStackSize(invPlayer.currentItem, this.type.amount);
+        resetGrid();
 
         this.detectAndSendChanges();
+    }
+
+    public void resetGrid() {
+        boolean hasEnough = false;
+        if (Utils.equalsStack(this.invPlayer.getCurrentItem(), this.type.item)) {
+            if (this.invPlayer.getCurrentItem().stackSize >= this.type.amount) {
+                hasEnough = true;
+            }
+        }
+        for (int x = 0; x < 5; x++) {
+            for (int y = 0; y < 5; y++) {
+                this.knappingIcons[x][y] = !hasEnough;
+            }
+        }
     }
 
     @Override
