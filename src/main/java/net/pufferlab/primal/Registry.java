@@ -985,7 +985,7 @@ public class Registry {
     }
 
     public void registerHeat(Item item, Item maskItem, MetalType metal) {
-        HeatUtils.registerImpl(item, maskItem, metal);
+        HeatUtils.registerImpl(item, 0, maskItem, metal);
     }
 
     public void registerCut(Block block) {

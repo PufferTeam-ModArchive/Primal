@@ -90,8 +90,8 @@ public class HeatUtils {
             int[] metas = info.metas;
             MetalType[] metalTypes = info.metalTypes;
 
-            if (metas.length == 1 && metas[0] == 0) {
-                registerImpl(item, null, metalTypes[0]);
+            if (metas.length == 1) {
+                registerImpl(item, metas[0], null, metalTypes[0]);
             } else {
                 registerImpl(item, null, new IHeatableItem() {
 
@@ -106,11 +106,12 @@ public class HeatUtils {
         }
     }
 
-    public static void registerImpl(Item item, Item mask, MetalType metal) {
+    public static void registerImpl(Item item, int meta, Item mask, MetalType metal) {
         registerImpl(item, mask, new IHeatableItem() {
 
             @Override
             public MetalType getMetal(ItemStack stack) {
+                if (stack.getItemDamage() != meta) return null;
                 return metal;
             }
         });
