@@ -32,8 +32,8 @@ public class ItemHeatableRenderer extends ItemPrimalRenderer {
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
         if (handleTemperatureRendering()) {
-            if (HeatUtils.hasImpl(item)) {
-                IHeatableItem impl = HeatUtils.getImpl(item);
+            IHeatableItem impl = HeatUtils.getImpl(item);
+            if (impl != null) {
                 if (!impl.shouldRenderTemperature(item)) return false;
                 if (item.hasTagCompound()) {
                     int temperature = impl.getTemperature(item, GlobalTickingData.getClientTickTime());
