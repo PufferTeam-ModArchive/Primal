@@ -18,6 +18,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.pufferlab.primal.Constants;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
+import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.recipes.CastingRecipe;
 import net.pufferlab.primal.tileentities.TileEntityCast;
 import net.pufferlab.primal.tileentities.TileEntityInventory;
@@ -61,9 +62,8 @@ public class BlockCast extends BlockContainerPrimal {
                         FluidStack stack = FluidUtils.getFluidTankFromNBT(heldItem.getTagCompound());
                         MetalType metal = MetalType.getMetalFromFluid(stack);
                         if (metal != null) {
-                            int temp = HeatUtils.getInterpolatedTemperature(
-                                GlobalTickingData.getTickTime(worldIn),
-                                heldItem.getTagCompound());
+                            IHeatableItem impl = HeatUtils.getImpl(heldItem);
+                            int temp = impl.getTemperature(heldItem, GlobalTickingData.getTickTime(worldIn));
                             if (temp > metal.meltingTemperature) {
                                 FluidStack fluidInfo = FluidUtils.getFluidTankFromNBT(heldItem.getTagCompound());
                                 CastingRecipe recipe = CastingRecipe

@@ -15,7 +15,7 @@ public class ItemMetal extends ItemMetaHeatable {
     }
 
     @Override
-    public boolean hasItemRendering() {
+    public boolean shouldRenderTemperature() {
         return true;
     }
 

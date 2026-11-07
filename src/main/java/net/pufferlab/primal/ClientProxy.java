@@ -151,9 +151,7 @@ public class ClientProxy extends CommonProxy {
             }
             if (Config.modMetalHeatRendering.getBoolean()) {
                 for (Item item : HeatUtils.getHeatableItems()) {
-                    register(
-                        item,
-                        new ItemHeatableRenderer(HeatUtils.getHeatableMask(item), HeatUtils.getHeatableMeta(item)));
+                    register(item, new ItemHeatableRenderer(HeatUtils.getHeatableMask(item)));
                 }
             }
         }

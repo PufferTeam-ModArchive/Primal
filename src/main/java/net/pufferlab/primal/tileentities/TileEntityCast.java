@@ -81,7 +81,7 @@ public class TileEntityCast extends TileEntityFluidInventory implements IHeatabl
             if (HeatUtils.hasImpl(output)) {
                 IHeatableItem impl = HeatUtils.getImpl(output);
                 int melting = impl.getMeltingTemperature(output);
-                impl.updateHeat(output, this.worldObj, -1.0F, this.getTemperature(), 1300);
+                impl.setTemperature(output, this.worldObj, -1.0F, this.getTemperature(), 1300);
                 if (this.getTemperature() < melting) {
                     if (getInventoryStack(slotOutput) == null && getInventoryStack(slotOutputSmall) == null
                         && drain(ForgeDirection.UP, input, false) != null) {

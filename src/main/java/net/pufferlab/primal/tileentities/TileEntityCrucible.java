@@ -151,9 +151,7 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
                         .copy();
                     int scaled = stack.stackSize;
                     output.amount = output.amount * scaled;
-                    int currentTemperature = HeatUtils.getInterpolatedTemperature(
-                        GlobalTickingData.getTickTime(this.worldObj),
-                        stack.getTagCompound());
+                    int currentTemperature = impl.getTemperature(stack, GlobalTickingData.getTickTime(this.worldObj));
                     if (currentTemperature > impl.getMeltingTemperature(stack)) {
                         addFluidInventory(output);
                         decrStackSize(i, scaled);
@@ -300,7 +298,7 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
         if (stack != null) {
             if (HeatUtils.hasImpl(stack)) {
                 IHeatableItem item = HeatUtils.getImpl(stack);
-                item.updateHeat(stack, this.getWorld(), -1.0F, this.getMaxTemperature());
+                item.setTemperature(stack, this.getWorld(), -1.0F, this.getMaxTemperature());
             }
         }
     }
@@ -310,10 +308,8 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
             ItemStack stack = getInventoryStack(i);
             if (stack != null) {
                 if (HeatUtils.hasImpl(stack)) {
-                    int temp = HeatUtils.getInterpolatedTemperature(
-                        GlobalTickingData.getTickTime(this.worldObj),
-                        ItemUtils.getOrCreateTagCompound(stack));
                     IHeatableItem item = HeatUtils.getImpl(stack);
+                    int temp = item.getTemperature(stack, GlobalTickingData.getTickTime(this.worldObj));
                     if (temp > item.getMeltingTemperature(stack)) {
                         return true;
                     }
@@ -342,9 +338,8 @@ public class TileEntityCrucible extends TileEntityFluidInventory implements IHea
             if (stack != null) {
                 if (HeatUtils.hasImpl(stack)) {
                     IHeatableItem item = HeatUtils.getImpl(stack);
-                    int temperature = HeatUtils
-                        .getInterpolatedTemperature(GlobalTickingData.getTickTime(getWorld()), stack.getTagCompound());
-                    item.updateHeat(stack, this.getWorld(), modifier, temperature, maxTemperature);
+                    int temperature = item.getTemperature(stack, GlobalTickingData.getTickTime(getWorld()));
+                    item.setTemperature(stack, this.getWorld(), modifier, temperature, maxTemperature);
                 }
             }
         }

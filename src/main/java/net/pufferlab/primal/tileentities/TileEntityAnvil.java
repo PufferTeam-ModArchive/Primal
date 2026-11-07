@@ -90,7 +90,7 @@ public class TileEntityAnvil extends TileEntityInventory {
         ItemStack stack = getInventoryStack(slotInput);
         if (HeatUtils.hasImpl(stack)) {
             IHeatableItem item = HeatUtils.getImpl(stack);
-            item.updateHeat(stack, this.worldObj, -0.25F, 3000);
+            item.setTemperature(stack, this.worldObj, -0.25F, 3000);
         }
     }
 
@@ -110,8 +110,7 @@ public class TileEntityAnvil extends TileEntityInventory {
         ItemStack stack = getInventoryStack(slotInput);
         if (HeatUtils.hasImpl(stack) && stack.hasTagCompound()) {
             IHeatableItem item = HeatUtils.getImpl(stack);
-            int temperature = HeatUtils
-                .getInterpolatedTemperature(GlobalTickingData.getTickTime(this.worldObj), stack.getTagCompound());
+            int temperature = item.getTemperature(stack, GlobalTickingData.getTickTime(this.worldObj));
             int forging = item.getForgingTemperature(stack);
             if (temperature > forging) {
                 return true;

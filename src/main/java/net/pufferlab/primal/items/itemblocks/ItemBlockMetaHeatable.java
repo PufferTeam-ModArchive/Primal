@@ -22,8 +22,8 @@ public class ItemBlockMetaHeatable extends ItemBlockMeta implements IHeatableIte
     @Override
     public short rple$getCustomBrightnessColor(ItemStack stack) {
         if (HeatUtils.hasImpl(stack)) {
-            int temperature = HeatUtils
-                .getInterpolatedTemperature(GlobalTickingData.getClientTickTime(), stack.getTagCompound());
+            IHeatableItem impl = HeatUtils.getImpl(stack);
+            int temperature = impl.getTemperature(stack, GlobalTickingData.getClientTickTime());
             return HeatUtils.getHeatingColor(temperature);
         }
         return Constants.lightNone;

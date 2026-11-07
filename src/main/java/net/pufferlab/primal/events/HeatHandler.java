@@ -47,8 +47,8 @@ public class HeatHandler implements IEventHandler {
             if (tag != null) {
                 if (HeatUtils.hasImpl(event.itemStack)) {
                     IHeatableItem impl = HeatUtils.getImpl(event.itemStack);
-                    int temperature = HeatUtils
-                        .getInterpolatedTemperature(GlobalTickingData.getTickTime(event.entity.worldObj), tag);
+                    int temperature = impl
+                        .getTemperature(event.itemStack, GlobalTickingData.getTickTime(event.entity.worldObj));
                     if (temperature > Config.temperatureCap.getInt()) {
                         event.toolTip.add(HeatUtils.getTemperatureTooltip(temperature));
                     }
@@ -162,7 +162,7 @@ public class HeatHandler implements IEventHandler {
             if (impl != null) {
                 Block block = event.world.getBlock(Mth.floor(ei.posX), Mth.floor(ei.posY), Mth.floor(ei.posZ));
                 if (block.getMaterial() == Material.water) {
-                    impl.updateHeat(stack, event.world, -5.0F);
+                    impl.setTemperature(stack, event.world, -5.0F);
                 } else {
                     impl.onUpdateHeat(stack, event.world);
                 }

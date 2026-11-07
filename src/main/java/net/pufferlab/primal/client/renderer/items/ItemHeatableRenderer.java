@@ -3,25 +3,20 @@ package net.pufferlab.primal.client.renderer.items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Config;
+import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.utils.HeatUtils;
-import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 public class ItemHeatableRenderer extends ItemPrimalRenderer {
 
     public Item renderItem;
-    public int[] whitelistMeta;
-    public boolean hasWhitelist;
 
     public ItemHeatableRenderer() {
         renderItem = null;
-        this.hasWhitelist = false;
     }
 
-    public ItemHeatableRenderer(Item renderItem, int[] whitelist) {
+    public ItemHeatableRenderer(Item renderItem) {
         this.renderItem = renderItem;
-        this.hasWhitelist = true;
-        this.whitelistMeta = whitelist;
     }
 
     @Override
@@ -36,18 +31,18 @@ public class ItemHeatableRenderer extends ItemPrimalRenderer {
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
-        if (this.hasWhitelist) {
-            if (!Utils.contains(whitelistMeta, item.getItemDamage())) return false;
-        }
         if (handleTemperatureRendering()) {
-            if (item.hasTagCompound()) {
-                int temperature = HeatUtils
-                    .getInterpolatedTemperature(GlobalTickingData.getClientTickTime(), item.getTagCompound());
-                if (temperature <= Config.temperatureCap.getInt()) {
+            if (HeatUtils.hasImpl(item)) {
+                IHeatableItem impl = HeatUtils.getImpl(item);
+                if (!impl.shouldRenderTemperature(item)) return false;
+                if (item.hasTagCompound()) {
+                    int temperature = impl.getTemperature(item, GlobalTickingData.getClientTickTime());
+                    if (temperature <= Config.temperatureCap.getInt()) {
+                        return false;
+                    }
+                } else {
                     return false;
                 }
-            } else {
-                return false;
             }
         }
         return super.handleRenderType(item, type);

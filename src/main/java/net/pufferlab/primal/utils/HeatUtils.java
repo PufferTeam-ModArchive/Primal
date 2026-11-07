@@ -15,7 +15,6 @@ import net.pufferlab.primal.world.GlobalTickingData;
 public class HeatUtils {
 
     private static final Map<Item, IHeatableItem> heatableItems = new HashMap<>();
-    private static final Map<Item, int[]> heatableMetaItems = new HashMap<>();
     private static final Map<Item, Item> heatableMaskItems = new HashMap<>();
     private static final List<Item> heatableList = new ArrayList<>();
 
@@ -30,7 +29,7 @@ public class HeatUtils {
         for (Object obj : ItemUtils.getItemRegistry()) {
             if (obj instanceof Item item) {
                 if (item instanceof IHeatableItem heat) {
-                    if (heat.hasItemRendering()) {
+                    if (heat.shouldRenderTemperature()) {
                         itemList.add(item);
                     }
                 }
@@ -41,10 +40,6 @@ public class HeatUtils {
 
     public static List<Item> getHeatableItems() {
         return heatableList;
-    }
-
-    public static int[] getHeatableMeta(Item item) {
-        return heatableMetaItems.get(item);
     }
 
     public static Item getHeatableMask(Item item) {
@@ -98,7 +93,7 @@ public class HeatUtils {
             if (metas.length == 1 && metas[0] == 0) {
                 registerImpl(item, null, metalTypes[0]);
             } else {
-                registerImpl(item, metas, null, new IHeatableItem() {
+                registerImpl(item, null, new IHeatableItem() {
 
                     @Override
                     public MetalType getMetal(ItemStack stack) {
@@ -112,7 +107,7 @@ public class HeatUtils {
     }
 
     public static void registerImpl(Item item, Item mask, MetalType metal) {
-        registerImpl(item, new int[] { 0 }, mask, new IHeatableItem() {
+        registerImpl(item, mask, new IHeatableItem() {
 
             @Override
             public MetalType getMetal(ItemStack stack) {
@@ -121,9 +116,8 @@ public class HeatUtils {
         });
     }
 
-    public static void registerImpl(Item item, int[] meta, Item mask, IHeatableItem impl) {
+    public static void registerImpl(Item item, Item mask, IHeatableItem impl) {
         heatableItems.put(item, impl);
-        heatableMetaItems.put(item, meta);
         if (mask != null) {
             heatableMaskItems.put(item, mask);
             heatableList.add(item);
@@ -134,11 +128,7 @@ public class HeatUtils {
         Item item = stack.getItem();
         if (item instanceof IHeatableItem) return true;
         if (heatableItems.containsKey(item)) {
-            int[] array = heatableMetaItems.get(item);
-            if (array == null) return true;
-            if (Utils.contains(array, stack.getItemDamage()) || item.isDamageable()) {
-                return true;
-            }
+            return true;
         }
         return false;
     }
@@ -146,13 +136,7 @@ public class HeatUtils {
     public static IHeatableItem getImpl(ItemStack stack) {
         Item item = stack.getItem();
         if (item instanceof IHeatableItem item2) return item2;
-        if (heatableItems.containsKey(item)) {
-            int[] array = heatableMetaItems.get(item);
-            if (Utils.contains(array, stack.getItemDamage()) || item.isDamageable()) {
-                return heatableItems.get(item);
-            }
-        }
-        return null;
+        return heatableItems.get(item);
     }
 
     public static int getTemperatureFromNBT(NBTTagCompound tag) {

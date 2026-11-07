@@ -10,20 +10,31 @@ import net.pufferlab.primal.world.GlobalTickingData;
 
 public interface IHeatableItem {
 
-    default void updateHeat(ItemStack stack, World world, float multiplier, int maxTemperature) {
+    default void setTemperature(ItemStack stack, World world, float multiplier, int maxTemperature) {
         NBTTagCompound tag = ItemUtils.getOrCreateTagCompound(stack);
         HeatUtils.setInterpolatedTemperatureToNBT(tag, world, multiplier, maxTemperature);
-    };
+    }
 
-    default void updateHeat(ItemStack stack, World world, float multiplier) {
+    default void setTemperature(ItemStack stack, World world, float multiplier) {
         NBTTagCompound tag = ItemUtils.getOrCreateTagCompound(stack);
         HeatUtils.setInterpolatedTemperatureToNBT(tag, world, multiplier);
-    };
+    }
 
-    default void updateHeat(ItemStack stack, World world, float multiplier, int temperature, int maxTemperature) {
+    default void setTemperature(ItemStack stack, World world, float multiplier, int temperature, int maxTemperature) {
         NBTTagCompound tag = ItemUtils.getOrCreateTagCompound(stack);
         HeatUtils.setInterpolatedTemperatureToNBT(tag, world, multiplier, temperature, maxTemperature);
-    };
+    }
+
+    default int getTemperature(ItemStack stack, long currentTime) {
+        if (stack == null) {
+            return 0;
+        }
+        NBTTagCompound tag = stack.getTagCompound();
+        if (tag == null) {
+            return 0;
+        }
+        return HeatUtils.getInterpolatedTemperature(currentTime, tag);
+    }
 
     default void onUpdateHeat(ItemStack stack, World worldIn) {
         onUpdateHeat(stack, worldIn, -1.0F);
@@ -45,13 +56,21 @@ public interface IHeatableItem {
 
                 float multiplier = HeatUtils.getMultiplierFromNBT(tag);
                 if (multiplier > 0) {
-                    updateHeat(stack, worldIn, newModifier, 1300);
+                    setTemperature(stack, worldIn, newModifier, 1300);
                 }
             }
         }
     }
 
-    default boolean hasItemRendering() {
+    default boolean shouldRenderTemperature() {
+        return false;
+    }
+
+    default boolean shouldRenderTemperature(ItemStack stack) {
+        MetalType metal = getMetal(stack);
+        if (metal != null) {
+            return true;
+        }
         return false;
     }
 

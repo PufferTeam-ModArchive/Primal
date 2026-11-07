@@ -7,6 +7,7 @@ import net.minecraftforge.client.IItemRenderer;
 import net.pufferlab.primal.client.models.ModelPrimal;
 import net.pufferlab.primal.client.renderer.RenderContainer;
 import net.pufferlab.primal.client.renderer.RenderHeat;
+import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.items.IMetaItem;
 import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.Utils;
@@ -157,14 +158,16 @@ public class ItemPrimalRenderer implements IItemRenderer {
                     index = Utils.getIndex(meta, item.getItemDamage());
                 }
                 if (handleTemperatureRendering()) {
-                    int temperature = HeatUtils
-                        .getInterpolatedTemperature(GlobalTickingData.getClientTickTime(), item.getTagCompound());
-                    if (this.model != null) {
-                        ModelPrimal model = this.model[index];
-                        heatRenderer.renderHeat(model, temperature);
-                    } else {
-                        Item maskItem = getMaskItem();
-                        heatRenderer.renderHeat(item, temperature, type, maskItem);
+                    IHeatableItem impl = HeatUtils.getImpl(item);
+                    if (impl != null) {
+                        int temperature = impl.getTemperature(item, GlobalTickingData.getClientTickTime());
+                        if (this.model != null) {
+                            ModelPrimal model = this.model[index];
+                            heatRenderer.renderHeat(model, temperature);
+                        } else {
+                            Item maskItem = getMaskItem();
+                            heatRenderer.renderHeat(item, temperature, type, maskItem);
+                        }
                     }
                 } else if (handleContainerRendering()) {
                     containerRenderer.renderContainer(item, type);
