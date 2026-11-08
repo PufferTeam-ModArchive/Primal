@@ -131,7 +131,7 @@ public class ClientProxy extends CommonProxy {
         register(Registry.pipe, new ItemPipeRenderer());
         register(Registry.large_vessel, new ItemLargeVesselRenderer());
         register(Registry.oven, new ItemOvenRenderer());
-        register(Registry.crucible, new ItemCrucibleRenderer());
+        register(Registry.crucible, new ItemCrucibleRenderer(HeatUtils.getImpl(Registry.crucible)));
         register(Registry.forge, new ItemForgeRenderer());
         register(Registry.handstone, new ItemHandstoneRenderer());
         register(Registry.quern, new ItemQuernRenderer());
@@ -147,11 +147,11 @@ public class ClientProxy extends CommonProxy {
 
         if (Config.metalHeatRendering.getBoolean()) {
             for (Item item : HeatUtils.getBuiltinHeatableItems()) {
-                register(item, new ItemHeatableRenderer());
+                register(item, new ItemHeatableRenderer(HeatUtils.getImpl(item)));
             }
             if (Config.modMetalHeatRendering.getBoolean()) {
                 for (Item item : HeatUtils.getHeatableItems()) {
-                    register(item, new ItemHeatableRenderer(HeatUtils.getHeatableMask(item)));
+                    register(item, new ItemHeatableRenderer(HeatUtils.getImpl(item)));
                 }
             }
         }
@@ -184,7 +184,7 @@ public class ClientProxy extends CommonProxy {
     }
 
     public <T extends IItemRenderer> void register(Block block, T object) {
-        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(block), object);
+        register(Item.getItemFromBlock(block), object);
     }
 
     @Override

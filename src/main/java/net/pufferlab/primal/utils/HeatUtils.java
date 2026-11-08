@@ -2,6 +2,7 @@ package net.pufferlab.primal.utils;
 
 import java.util.*;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,7 +16,6 @@ import net.pufferlab.primal.world.GlobalTickingData;
 public class HeatUtils {
 
     private static final Map<Item, IHeatableItem> heatableItems = new HashMap<>();
-    private static final Map<Item, Item> heatableMaskItems = new HashMap<>();
     private static final List<Item> heatableList = new ArrayList<>();
 
     public static final String tagTemperature = "temperature";
@@ -40,10 +40,6 @@ public class HeatUtils {
 
     public static List<Item> getHeatableItems() {
         return heatableList;
-    }
-
-    public static Item getHeatableMask(Item item) {
-        return heatableMaskItems.get(item);
     }
 
     public static class ImplInfo {
@@ -93,40 +89,66 @@ public class HeatUtils {
             if (metas.length == 1) {
                 registerImpl(item, metas[0], null, metalTypes[0]);
             } else {
-                registerImpl(item, null, new IHeatableItem() {
-
-                    @Override
-                    public MetalType getMetal(ItemStack stack) {
-                        int index = Utils.getIndex(metas, stack.getItemDamage());
-                        if (index < 0) return null;
-                        return metalTypes[index];
-                    }
-                });
+                registerImpl(item, metas, null, metalTypes);
             }
         }
     }
 
-    public static void registerImpl(Item item, int meta, Item mask, MetalType metal) {
-        registerImpl(item, mask, new IHeatableItem() {
+    public static void registerImpl(Item item, int[] metas, Item maskItem, MetalType[] metalTypes) {
+        registerImpl(item, new IHeatableItem() {
+
+            @Override
+            public MetalType getMetal(ItemStack stack) {
+                int index = Utils.getIndex(metas, stack.getItemDamage());
+                if (index < 0) return null;
+                return metalTypes[index];
+            }
+
+            @Override
+            public Item getMaskItem() {
+                return maskItem;
+            }
+
+            @Override
+            public boolean shouldRenderTemperature() {
+                return maskItem != null;
+            }
+        });
+    }
+
+    public static void registerImpl(Item item, int meta, Item maskItem, MetalType metal) {
+        registerImpl(item, new IHeatableItem() {
 
             @Override
             public MetalType getMetal(ItemStack stack) {
                 if (stack.getItemDamage() != meta) return null;
                 return metal;
             }
+
+            @Override
+            public Item getMaskItem() {
+                return maskItem;
+            }
+
+            @Override
+            public boolean shouldRenderTemperature() {
+                return maskItem != null;
+            }
         });
     }
 
-    public static void registerImpl(Item item, Item mask, IHeatableItem impl) {
+    public static void registerImpl(Item item, IHeatableItem impl) {
         heatableItems.put(item, impl);
-        if (mask != null) {
-            heatableMaskItems.put(item, mask);
+        if (impl.shouldRenderTemperature()) {
             heatableList.add(item);
         }
     }
 
     public static boolean hasImpl(ItemStack stack) {
-        Item item = stack.getItem();
+        return hasImpl(stack.getItem());
+    }
+
+    public static boolean hasImpl(Item item) {
         if (item instanceof IHeatableItem) return true;
         if (heatableItems.containsKey(item)) {
             return true;
@@ -135,7 +157,14 @@ public class HeatUtils {
     }
 
     public static IHeatableItem getImpl(ItemStack stack) {
-        Item item = stack.getItem();
+        return getImpl(stack.getItem());
+    }
+
+    public static IHeatableItem getImpl(Block item) {
+        return getImpl(Item.getItemFromBlock(item));
+    }
+
+    public static IHeatableItem getImpl(Item item) {
         if (item instanceof IHeatableItem item2) return item2;
         return heatableItems.get(item);
     }

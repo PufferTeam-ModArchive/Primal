@@ -1,5 +1,6 @@
 package net.pufferlab.primal.items;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -100,5 +101,9 @@ public interface IHeatableItem {
             return metal.weldingTemperature;
         }
         return -1;
+    }
+
+    default Item getMaskItem() {
+        return null;
     }
 }

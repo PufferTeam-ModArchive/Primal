@@ -9,13 +9,14 @@ import net.pufferlab.primal.client.renderer.RenderContainer;
 import net.pufferlab.primal.client.renderer.RenderHeat;
 import net.pufferlab.primal.items.IHeatableItem;
 import net.pufferlab.primal.items.IMetaItem;
-import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.Utils;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 import org.lwjgl.opengl.GL11;
 
 public class ItemPrimalRenderer implements IItemRenderer {
+
+    public Item itemBeingRendered;
 
     float offsetX;
     float offsetY;
@@ -91,7 +92,7 @@ public class ItemPrimalRenderer implements IItemRenderer {
 
     }
 
-    public Item getMaskItem() {
+    public IHeatableItem getHeatableInterface() {
         return null;
     }
 
@@ -158,14 +159,14 @@ public class ItemPrimalRenderer implements IItemRenderer {
                     index = Utils.getIndex(meta, item.getItemDamage());
                 }
                 if (handleTemperatureRendering()) {
-                    IHeatableItem impl = HeatUtils.getImpl(item);
+                    IHeatableItem impl = getHeatableInterface();
                     if (impl != null) {
                         int temperature = impl.getTemperature(item, GlobalTickingData.getClientTickTime());
                         if (this.model != null) {
                             ModelPrimal model = this.model[index];
                             heatRenderer.renderHeat(model, temperature);
                         } else {
-                            Item maskItem = getMaskItem();
+                            Item maskItem = impl.getMaskItem();
                             heatRenderer.renderHeat(item, temperature, type, maskItem);
                         }
                     }

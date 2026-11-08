@@ -21,6 +21,8 @@ public class ItemMetal extends ItemMetaHeatable {
 
     @Override
     public MetalType getMetal(ItemStack stack) {
-        return metalTypes[stack.getItemDamage()];
+        int index = stack.getItemDamage();
+        if (index >= metalTypes.length) return null;
+        return metalTypes[index];
     }
 }

@@ -1,22 +1,16 @@
 package net.pufferlab.primal.client.renderer.items;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.pufferlab.primal.Config;
 import net.pufferlab.primal.items.IHeatableItem;
-import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.world.GlobalTickingData;
 
 public class ItemHeatableRenderer extends ItemPrimalRenderer {
 
-    public Item renderItem;
+    public IHeatableItem impl;
 
-    public ItemHeatableRenderer() {
-        renderItem = null;
-    }
-
-    public ItemHeatableRenderer(Item renderItem) {
-        this.renderItem = renderItem;
+    public ItemHeatableRenderer(IHeatableItem impl) {
+        this.impl = impl;
     }
 
     @Override
@@ -32,7 +26,7 @@ public class ItemHeatableRenderer extends ItemPrimalRenderer {
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
         if (handleTemperatureRendering()) {
-            IHeatableItem impl = HeatUtils.getImpl(item);
+            IHeatableItem impl = getHeatableInterface();
             if (impl != null) {
                 if (!impl.shouldRenderTemperature(item)) return false;
                 if (item.hasTagCompound()) {
@@ -49,7 +43,7 @@ public class ItemHeatableRenderer extends ItemPrimalRenderer {
     }
 
     @Override
-    public Item getMaskItem() {
-        return this.renderItem;
+    public IHeatableItem getHeatableInterface() {
+        return this.impl;
     }
 }
