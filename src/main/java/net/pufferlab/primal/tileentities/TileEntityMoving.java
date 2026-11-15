@@ -8,6 +8,8 @@ import net.pufferlab.primal.utils.BoundingBox;
 import net.pufferlab.primal.world.ChunkAllocator;
 import net.pufferlab.primal.world.VirtualBlock;
 
+import io.netty.buffer.ByteBuf;
+
 public class TileEntityMoving extends TileEntityPrimal implements IMoving {
 
     public VirtualBlock virtualBlock = new VirtualBlock();
@@ -118,6 +120,13 @@ public class TileEntityMoving extends TileEntityPrimal implements IMoving {
         tag.setByte("scheduledAction", (byte) this.scheduledAction);
     }
 
+    @Override
+    public void writeToBuffer(ByteBuf buf) {
+        super.writeToBuffer(buf);
+
+        buf.writeFloat(this.rotAngle);
+    }
+
     public void readFromNBTInfo(NBTTagCompound tag) {
         this.targetX = tag.getInteger("xTarget");
         this.targetY = tag.getInteger("yTarget");
@@ -128,6 +137,13 @@ public class TileEntityMoving extends TileEntityPrimal implements IMoving {
         this.rotSpeed = tag.getFloat("rotSpeed");
 
         this.scheduledAction = tag.getByte("scheduledAction");
+    }
+
+    @Override
+    public void readFromBuffer(ByteBuf buf) {
+        super.readFromBuffer(buf);
+
+        this.rotAngle = buf.readFloat();
     }
 
     @Override

@@ -120,15 +120,15 @@ public class Constants {
     public static final OreType lignite_coal        = new OreType("lignite_coal", 0);
     public static final OreType[] coalOreTypes      = {anthracite_coal, bituminous_coal, lignite_coal};
 
-    public static final OreType diamond =           new OreType("diamond", 2).hasNoGem();
-    public static final OreType emerald =           new OreType("emerald", 2).hasNoGem();
-    public static final OreType amethyst =          new OreType("amethyst", 2);
-    public static final OreType lapis_lazuli =      new OreType("lapis_lazuli", 2).hasNoGem();
-    public static final OreType opal =              new OreType("opal", 2);
-    public static final OreType ruby =              new OreType("ruby", 2);
-    public static final OreType sapphire =          new OreType("sapphire", 2);
-    public static final OreType topaz =             new OreType("topaz", 2);
-    public static final OreType amber =             new OreType("amber", 2);
+    public static final OreType diamond =           new OreType("diamond", 1).hasNoGem();
+    public static final OreType emerald =           new OreType("emerald", 1).hasNoGem();
+    public static final OreType amethyst =          new OreType("amethyst", 1);
+    public static final OreType lapis_lazuli =      new OreType("lapis_lazuli", 1).hasNoGem();
+    public static final OreType opal =              new OreType("opal", 1);
+    public static final OreType ruby =              new OreType("ruby", 1);
+    public static final OreType sapphire =          new OreType("sapphire", 1);
+    public static final OreType topaz =             new OreType("topaz", 1);
+    public static final OreType amber =             new OreType("amber", 1);
     public static final OreType[] gemOreTypes      = {diamond, emerald, lapis_lazuli, amethyst, opal, ruby, sapphire, topaz, amber};
 
     //Mod Compat

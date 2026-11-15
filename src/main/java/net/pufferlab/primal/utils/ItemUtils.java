@@ -94,12 +94,12 @@ public class ItemUtils {
         String item = array[1];
         int meta = 0;
         if (array.length > 2) {
-            meta = array[2].equals("*") ? Constants.wildcard : Integer.parseInt(array[2]);
+            meta = array[2].equals("*") ? Constants.wildcard : Utils.parseInt(array[2]);
         }
 
         int number = 1;
         if (array.length > 3) {
-            number = array[3].equals("*") ? 1 : Integer.parseInt(array[3]);
+            number = array[3].equals("*") ? 1 : Utils.parseInt(array[3]);
         }
 
         return getItem(mod, item, meta, number);
@@ -275,7 +275,7 @@ public class ItemUtils {
         }
         ItemStack item = null;
         int index = Integer.MAX_VALUE;
-        List<ItemStack> list = OreDictionary.getOres(oreDict);
+        List<ItemStack> list = ItemUtils.getOres(oreDict);
         for (ItemStack stack : list) {
             String mod = getModId(stack);
             int modIndex = priorityMap.getOrDefault(mod, 999999);

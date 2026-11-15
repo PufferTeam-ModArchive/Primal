@@ -17,6 +17,14 @@ public final class Utils {
         return GlobalTickingData.getTickTime() + inTime;
     }
 
+    public static int parseInt(String number) {
+        try {
+            return Integer.parseInt(number);
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
     public static boolean isInRange(int number, int range, int number2) {
         int max = Math.abs(number) + range;
         int min = Math.abs(number) - range;
