@@ -76,11 +76,11 @@ public class BlockStoneOre extends BlockMetaOre {
     }
 
     @Override
-    public boolean skipReplace(Block block, int meta) {
+    public boolean shouldReplace(Block block, int meta) {
         if (BlockUtils.isNaturalStone(block)) {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     @Override

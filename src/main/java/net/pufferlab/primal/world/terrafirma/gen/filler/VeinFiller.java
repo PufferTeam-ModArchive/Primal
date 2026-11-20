@@ -6,7 +6,6 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.pufferlab.primal.Constants;
-import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.Registry;
 import net.pufferlab.primal.utils.StoneType;
 import net.pufferlab.primal.utils.VeinType;
@@ -20,7 +19,6 @@ public class VeinFiller implements IBlockLayer {
 
     public VeinFiller(World world) {
         this.world = world;
-        Primal.registry.setupServer();
     }
 
     @Override

@@ -187,19 +187,19 @@ public class StoneType implements IPrimalType {
         }
     }
 
-    public static final TIntObjectMap<StoneType> typeMap = new TIntObjectHashMap<>();
+    private static final MetaMap.Single<Block, StoneType> typeMap = new MetaMap.Single<>();
 
     public static void registerStone(StoneType[] stoneTypes, Block block) {
         for (int i = 0; i < stoneTypes.length; i++) {
-            typeMap.put(Utils.getBlockKey(block, i), stoneTypes[i]);
+            setStoneType(block, i, stoneTypes[i]);
         }
     }
 
+    public static void setStoneType(Block block, int meta, StoneType stoneType) {
+        typeMap.put(block, meta, stoneType);
+    }
+
     public static StoneType getStoneType(Block block, int meta) {
-        int id = Utils.getBlockKey(block, meta);
-        if (typeMap.containsKey(id)) {
-            return typeMap.get(id);
-        }
-        return null;
+        return typeMap.get(block, meta);
     }
 }

@@ -93,7 +93,7 @@ public class CutUtils {
     }
 
     public static void registerItems() {
-        blockArray = blockList.toArray(new Block[blockList.size()]);
+        blockArray = blockList.toArray(new Block[0]);
         metaArray = metaList.toArray(new int[metaList.size()]);
 
         for (int i = 0; i < blockArray.length; i++) {

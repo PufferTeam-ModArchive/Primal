@@ -163,7 +163,7 @@ public class ChunkBlockStorage {
                     Block existingBlock = storage.getBlockByExtId(x, y, z);
                     int existingMeta = storage.getExtBlockMetadata(x, y, z);
 
-                    if (primalBlock.skipReplace(existingBlock, existingMeta)) {
+                    if (!primalBlock.shouldReplace(existingBlock, existingMeta)) {
                         continue;
                     }
 

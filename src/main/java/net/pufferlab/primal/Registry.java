@@ -716,9 +716,7 @@ public class Registry {
         }
     }
 
-    public void setupServer() {
-        StoneType.registerStone(Constants.stoneTypes, Registry.stone);
-    }
+    public void setupServer() {}
 
     public void setupCommands() {
         registerCommand(new CommandPrimal());
@@ -756,6 +754,7 @@ public class Registry {
         ((ItemBucketCeramicModded) ceramic_bucket_modded).registerModdedLiquids();
         PrimalEarlyGenerator.initBlockList();
         CutUtils.registerItems();
+        StoneType.registerStone(Constants.stoneTypes, Registry.stone);
         Constants.wheat_crop.setCropItem(Items.wheat, 0)
             .setCropSeedItem(Items.wheat_seeds, 0)
             .updateFoodValues();

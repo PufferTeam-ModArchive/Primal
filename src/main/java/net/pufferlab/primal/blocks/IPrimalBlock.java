@@ -24,7 +24,7 @@ public interface IPrimalBlock {
         return false;
     }
 
-    default boolean skipReplace(Block block, int meta) {
+    default boolean shouldReplace(Block block, int meta) {
         return false;
     }
 

@@ -10,32 +10,6 @@ import gnu.trove.map.hash.TObjectIntHashMap;
 
 public class MetaMap {
 
-    public static int lastID;
-    public static final TObjectIntMap<Object> metaMap = new TObjectIntHashMap<>();
-    public static final TIntObjectMap<Object> objectMap = new TIntObjectHashMap<>();
-
-    public static int getObjectID(Object item) {
-        if (metaMap.containsKey(item)) {
-            return metaMap.get(item);
-        }
-        int blockID = lastID++;
-        metaMap.put(item, blockID);
-        objectMap.put(blockID, item);
-        return blockID;
-    }
-
-    public static int getMetaID(Object item, int meta) {
-        return HashUtils.packShort(getObjectID(item), meta);
-    }
-
-    public static Object unpackObject(int id) {
-        return objectMap.get((id >> 16) & 0xFFFF);
-    }
-
-    public static int unpackMeta(int id) {
-        return id & 0xFFFF;
-    }
-
     public static class MapEntry<K, T> {
 
         public K item;
@@ -49,7 +23,36 @@ public class MetaMap {
         }
     }
 
-    public static class Single<K, T> {
+    private static class Base<K, T> {
+
+        private int lastID;
+        private final TObjectIntMap<Object> metaMap = new TObjectIntHashMap<>();
+        private final TIntObjectMap<Object> objectMap = new TIntObjectHashMap<>();
+
+        public int getObjectID(Object item) {
+            if (metaMap.containsKey(item)) {
+                return metaMap.get(item);
+            }
+            int blockID = lastID++;
+            metaMap.put(item, blockID);
+            objectMap.put(blockID, item);
+            return blockID;
+        }
+
+        public int getMetaID(Object item, int meta) {
+            return HashUtils.packShort(getObjectID(item), meta);
+        }
+
+        public Object unpackObject(int id) {
+            return objectMap.get((id >> 16) & 0xFFFF);
+        }
+
+        public int unpackMeta(int id) {
+            return id & 0xFFFF;
+        }
+    }
+
+    public static class Single<K, T> extends Base<K, T> {
 
         private final TIntObjectMap<T> map = new TIntObjectHashMap<>();
         private final Set<MapEntry<K, T>> entrySet = new HashSet<>();
