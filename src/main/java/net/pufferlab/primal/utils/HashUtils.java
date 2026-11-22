@@ -14,9 +14,6 @@ public class HashUtils {
     public static final int bys = bz;
     public static final int bzs = 0;
 
-    public static final long cm = 0xFFFFFFFFL;
-    public static final int czs = 32;
-
     public static long packCoord(int x, int y, int z) {
 
         long lx = x & xm;
@@ -24,19 +21,6 @@ public class HashUtils {
         long lz = z & zm;
 
         return (lx << bxs) | (ly << bys) | (lz << bzs);
-    }
-
-    public static long packChunkCoord(int x, int z) {
-
-        return ((long) x & cm) | (((long) z & cm) << czs);
-    }
-
-    public static long packChunkCoord(long worldSeed, int x, int z) {
-        long packed = packChunkCoord(x, z);
-
-        long seed = hashWorldSeed(worldSeed, packed);
-
-        return seed;
     }
 
     public static int unpackX(long packed) {
@@ -52,6 +36,22 @@ public class HashUtils {
     public static int unpackZ(long packed) {
 
         return (int) (packed << (64 - bz - bzs) >> (64 - bz));
+    }
+
+    public static final long cm = 0xFFFFFFFFL;
+    public static final int czs = 32;
+
+    public static long packChunkCoord(int x, int z) {
+
+        return ((long) x & cm) | (((long) z & cm) << czs);
+    }
+
+    public static long packChunkCoord(long worldSeed, int x, int z) {
+        long packed = packChunkCoord(x, z);
+
+        long seed = hashWorldSeed(worldSeed, packed);
+
+        return seed;
     }
 
     // Index Based Hashes
@@ -132,6 +132,14 @@ public class HashUtils {
 
     public static int packShort(int a, int b) {
         return ((a & 0xFFFF) << 16) | (b & 0xFFFF);
+    }
+
+    public static int unpackShortA(int packed) {
+        return (packed >>> 16) & 0xFFFF;
+    }
+
+    public static int unpackShortB(int packed) {
+        return packed & 0xFFFF;
     }
 
     // Boolean

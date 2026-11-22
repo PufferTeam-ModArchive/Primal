@@ -728,6 +728,7 @@ public class Registry {
         registerCommand(new CommandItemInfo());
         registerCommand(new CommandBlockInfo());
         registerCommand(new CommandRecipe());
+        registerCommand(new CommandQuest());
         registerCommand(new CommandSchedule());
         registerCommand(new CommandStructure());
         registerCommand(new CommandClearBlocks());

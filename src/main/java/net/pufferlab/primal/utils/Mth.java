@@ -22,7 +22,19 @@ public class Mth {
         return Math.max(min, Math.min(value, max));
     }
 
+    public static double sqrt(double sqrt) {
+        return Math.sqrt(sqrt);
+    }
+
+    public static double sqrt(int sqrt) {
+        return Math.sqrt(sqrt);
+    }
+
     public static int pow(int value) {
+        return (value * value);
+    }
+
+    public static double pow(double value) {
         return (value * value);
     }
 

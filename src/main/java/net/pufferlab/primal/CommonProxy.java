@@ -72,6 +72,7 @@ public class CommonProxy implements IGuiHandler {
     public InterfaceGenerator generatorGui;
     public InterfaceAnvilWork anvilWorkGui;
     public InterfaceAnvilPlan anvilPlanGui;
+    public InterfaceQuest questGui;
 
     public void preInit(FMLPreInitializationEvent event) {}
 
@@ -85,12 +86,14 @@ public class CommonProxy implements IGuiHandler {
         generatorGui = new InterfaceGenerator();
         anvilWorkGui = new InterfaceAnvilWork();
         anvilPlanGui = new InterfaceAnvilPlan();
+        questGui = new InterfaceQuest();
 
         register(largeVesselGui);
         register(crucibleGui);
         register(generatorGui);
         register(anvilWorkGui);
         register(anvilPlanGui);
+        register(questGui);
     }
 
     public <T extends InterfacePrimal> void register(T object) {
@@ -251,6 +254,10 @@ public class CommonProxy implements IGuiHandler {
 
     public void openAnvilPlanGui(EntityPlayer player, World worldIn, int x, int y, int z) {
         openPrimalGui(anvilPlanGui, player, worldIn, x, y, z);
+    }
+
+    public void openQuestGui(EntityPlayer player, World worldIn, int x, int y, int z) {
+        openPrimalGui(questGui, player, worldIn, x, y, z);
     }
 
     public void openKnappingGui(KnappingType type, EntityPlayer player, World worldIn, int x, int y, int z) {

@@ -26,10 +26,10 @@ public class MetaMap {
     private static class Base<K, T> {
 
         private int lastID;
-        private final TObjectIntMap<Object> metaMap = new TObjectIntHashMap<>();
-        private final TIntObjectMap<Object> objectMap = new TIntObjectHashMap<>();
+        private final TObjectIntMap<K> metaMap = new TObjectIntHashMap<>();
+        private final TIntObjectMap<K> objectMap = new TIntObjectHashMap<>();
 
-        public int getObjectID(Object item) {
+        public int getObjectID(K item) {
             if (metaMap.containsKey(item)) {
                 return metaMap.get(item);
             }
@@ -39,16 +39,16 @@ public class MetaMap {
             return blockID;
         }
 
-        public int getMetaID(Object item, int meta) {
+        public int getMetaID(K item, int meta) {
             return HashUtils.packShort(getObjectID(item), meta);
         }
 
-        public Object unpackObject(int id) {
-            return objectMap.get((id >> 16) & 0xFFFF);
+        public K unpackObject(int id) {
+            return objectMap.get(HashUtils.unpackShortA(id));
         }
 
         public int unpackMeta(int id) {
-            return id & 0xFFFF;
+            return HashUtils.unpackShortB(id);
         }
     }
 
@@ -70,7 +70,7 @@ public class MetaMap {
         public Set<MapEntry<K, T>> entrySet() {
             if (entrySet.isEmpty()) {
                 for (int id : map.keys()) {
-                    K obj = (K) unpackObject(id);
+                    K obj = unpackObject(id);
                     int meta = unpackMeta(id);
                     T value = map.get(id);
                     MapEntry<K, T> mapEntry = new MapEntry<>(obj, meta, value);
