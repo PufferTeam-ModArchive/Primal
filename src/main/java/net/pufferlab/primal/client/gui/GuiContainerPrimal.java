@@ -5,8 +5,11 @@ import java.util.List;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
+import org.lwjgl.opengl.GL11;
 
 public abstract class GuiContainerPrimal extends GuiContainer {
 
@@ -14,6 +17,13 @@ public abstract class GuiContainerPrimal extends GuiContainer {
 
     public GuiContainerPrimal(Container p_i1072_1_) {
         super(p_i1072_1_);
+    }
+
+    public void drawItemStack(int x, int y, ItemStack stack) {
+        GL11.glPushMatrix();
+        GL11.glEnable(GL11.GL_LIGHTING);
+        this.drawItemStack(stack, x, y, "");
+        GL11.glPopMatrix();
     }
 
     public void drawTexturedModalRect16(int x, int y, int textureX, int textureY, int width, int height) {

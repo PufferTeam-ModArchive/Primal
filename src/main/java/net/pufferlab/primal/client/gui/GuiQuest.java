@@ -36,8 +36,8 @@ public class GuiQuest extends GuiContainerPrimal {
     public GuiQuest(InventoryPlayer inv) {
         super(new ContainerQuest(inv));
         this.player = inv;
-        this.xSize = 176;
-        this.ySize = 186;
+        this.xSize = 376;
+        this.ySize = 386;
     }
 
     @Override
@@ -82,12 +82,18 @@ public class GuiQuest extends GuiContainerPrimal {
         quests.add(Advancement.adv3);
     }
 
-    Matrix4f matrix =  new Matrix4f();
+    Matrix4f matrix = new Matrix4f();
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        int guiX = ((this.width - this.xSize) / 2) + this.offsetX;
-        int guiY = ((this.height - this.ySize) / 2) + this.offsetY;
+        int centerX = ((this.width - this.xSize) / 2);
+        int centerY = ((this.height - this.ySize) / 2);
+
+        int guiX = ((this.width) / 2) + this.offsetX;
+        int guiY = ((this.height) / 2) + this.offsetY;
+
+        this.mc.getTextureManager()
+            .bindTexture(textureQuest);
 
         for (Advancement adv : quests) {
             int advX = guiX + (adv.x * 26);
@@ -117,13 +123,17 @@ public class GuiQuest extends GuiContainerPrimal {
 
             this.drawTexturedModalRect(advX, advY, 0, 0, 26, 26);
         }
+        for(Advancement adv : quests) {
+            int advX = guiX + (adv.x * 26);
+            int advY = guiY + (adv.y * 26);
+
+            this.drawItemStack(advX + 5, advY + 5, adv.stack);
+        }
     }
 
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        this.mc.getTextureManager()
-            .bindTexture(textureQuest);
     }
 
     public Vector3f temp = new Vector3f();
