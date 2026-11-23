@@ -105,8 +105,16 @@ public class HashUtils {
         return (int) (value * floatScale);
     }
 
+    public static int getRGB(float r, float g, float b) {
+        return ((int) (r * 255) << 16) | ((int) (g * 255) << 8) | (int) (b * 255);
+    }
+
     public static int getRGB(int r, int g, int b) {
         return (r << 16) | (g << 8) | b;
+    }
+
+    public static int getRGBA(int r, int g, int b, int a) {
+        return (a << 24) | (r << 16) | (g << 8) | b;
     }
 
     public static float getR(int color) {

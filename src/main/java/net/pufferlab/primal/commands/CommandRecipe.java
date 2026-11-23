@@ -1,6 +1,5 @@
 package net.pufferlab.primal.commands;
 
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
@@ -13,7 +12,7 @@ public class CommandRecipe extends CommandSub {
 
     @Override
     public void handleCommand(ICommandSender sender, String[] args) {
-        EntityPlayer player = CommandBase.getCommandSenderAsPlayer(sender);
+        EntityPlayer player = getCommandSenderAsPlayer(sender);
         if (args.length == 1) {
             if (args[0].equals("debug")) {
                 PlayerData data = PlayerData.get(player);

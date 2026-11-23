@@ -1,5 +1,8 @@
 package net.pufferlab.primal.entities.player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -8,6 +11,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.utils.HashUtils;
+import net.pufferlab.primal.utils.IOUtils;
 
 import io.netty.buffer.ByteBuf;
 
@@ -20,6 +24,7 @@ public class PlayerData implements IExtendedEntityProperties {
     private boolean blockInfoDebug;
     private boolean recipeDebug;
 
+    private List<String> completedQuests = new ArrayList<>();
     private long pos1Coords;
     private boolean pos1CoordsValid;
     private long pos2Coords;
@@ -34,6 +39,10 @@ public class PlayerData implements IExtendedEntityProperties {
 
     public PlayerData() {
         this.player = null;
+    }
+
+    public List<String> getCompletedQuests() {
+        return completedQuests;
     }
 
     public boolean isBreakingTree() {
@@ -142,18 +151,6 @@ public class PlayerData implements IExtendedEntityProperties {
         writeToNBT(tag);
     }
 
-    public static void dataToBytes(ByteBuf buf, PlayerData data) {
-        buf.writeBoolean(data.temperatureDebug);
-        buf.writeBoolean(data.blockInfoDebug);
-        buf.writeBoolean(data.recipeDebug);
-        buf.writeLong(data.pos1Coords);
-        buf.writeBoolean(data.pos1CoordsValid);
-        buf.writeLong(data.pos2Coords);
-        buf.writeBoolean(data.pos2CoordsValid);
-
-        buf.writeBoolean(data.coordChanged);
-    }
-
     public void writeToNBT(NBTTagCompound tag) {
         tag.setBoolean("temperatureDebug", this.temperatureDebug);
         tag.setBoolean("blockInfoDebug", this.blockInfoDebug);
@@ -162,6 +159,11 @@ public class PlayerData implements IExtendedEntityProperties {
         tag.setBoolean("pos1CoordsValid", this.pos1CoordsValid);
         tag.setLong("pos2Coords", this.pos2Coords);
         tag.setBoolean("pos2CoordsValid", this.pos2CoordsValid);
+
+        ByteBuf buf = IOUtils.getBuffer();
+        IOUtils.writeStringList(buf, this.completedQuests);
+        byte[] questData = IOUtils.getBytes(buf);
+        tag.setByteArray("questData", questData);
     }
 
     public void writeToBuffer(ByteBuf buf) {
@@ -174,6 +176,8 @@ public class PlayerData implements IExtendedEntityProperties {
         buf.writeBoolean(this.pos2CoordsValid);
 
         buf.writeBoolean(this.coordChanged);
+
+        IOUtils.writeStringList(buf, this.completedQuests);
     }
 
     @Override
@@ -181,20 +185,6 @@ public class PlayerData implements IExtendedEntityProperties {
         NBTTagCompound tag = compound.getCompoundTag(name);
 
         readFromNBT(tag);
-    }
-
-    public static PlayerData dataFromBytes(ByteBuf buf) {
-        PlayerData data = new PlayerData();
-        data.temperatureDebug = buf.readBoolean();
-        data.blockInfoDebug = buf.readBoolean();
-        data.recipeDebug = buf.readBoolean();
-        data.pos1Coords = buf.readLong();
-        data.pos1CoordsValid = buf.readBoolean();
-        data.pos2Coords = buf.readLong();
-        data.pos2CoordsValid = buf.readBoolean();
-
-        data.coordChanged = buf.readBoolean();
-        return data;
     }
 
     public void readFromNBT(NBTTagCompound tag) {
@@ -205,6 +195,11 @@ public class PlayerData implements IExtendedEntityProperties {
         this.pos1CoordsValid = tag.getBoolean("pos1CoordsValid");
         this.pos2Coords = tag.getLong("pos2Coords");
         this.pos2CoordsValid = tag.getBoolean("pos2CoordsValid");
+
+        byte[] questData = tag.getByteArray("questData");
+        ByteBuf buf = IOUtils.getBuffer(questData);
+
+        this.completedQuests = IOUtils.readStringList(buf);
     }
 
     public void readFromBuffer(ByteBuf buf) {
@@ -217,6 +212,8 @@ public class PlayerData implements IExtendedEntityProperties {
         this.pos2CoordsValid = buf.readBoolean();
 
         this.coordChanged = buf.readBoolean();
+
+        this.completedQuests = IOUtils.readStringList(buf);
     }
 
     public static void syncPlayerData(PlayerData from, PlayerData to) {

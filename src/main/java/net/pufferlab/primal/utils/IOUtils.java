@@ -277,6 +277,13 @@ public class IOUtils {
         return array;
     }
 
+    public static void writeStringList(ByteBuf buf, List<String> array) {
+        buf.writeInt(array.size());
+        for (int i = 0; i < array.size(); i++) {
+            IOUtils.writeString(buf, array.get(i));
+        }
+    }
+
     public static void writeStringArray(ByteBuf buf, String[] array) {
         buf.writeInt(array.length);
         for (int i = 0; i < array.length; i++) {
@@ -289,6 +296,15 @@ public class IOUtils {
         String[] array = new String[length];
         for (int i = 0; i < array.length; i++) {
             array[i] = IOUtils.readString(buf);
+        }
+        return array;
+    }
+
+    public static List<String> readStringList(ByteBuf buf) {
+        int length = buf.readInt();
+        List<String> array = new ArrayList<>(length);
+        for (int i = 0; i < length; i++) {
+            array.add(IOUtils.readString(buf));
         }
         return array;
     }

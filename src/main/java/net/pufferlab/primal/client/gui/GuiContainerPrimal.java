@@ -3,12 +3,13 @@ package net.pufferlab.primal.client.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+
 import org.lwjgl.opengl.GL11;
 
 public abstract class GuiContainerPrimal extends GuiContainer {
@@ -19,10 +20,14 @@ public abstract class GuiContainerPrimal extends GuiContainer {
         super(p_i1072_1_);
     }
 
-    public void drawItemStack(int x, int y, ItemStack stack) {
+    public void drawSimpleItemStack(int x, int y, ItemStack stack) {
         GL11.glPushMatrix();
         GL11.glEnable(GL11.GL_LIGHTING);
-        this.drawItemStack(stack, x, y, "");
+        FontRenderer font = null;
+        if (stack != null) font = stack.getItem()
+            .getFontRenderer(stack);
+        if (font == null) font = fontRendererObj;
+        itemRender.renderItemAndEffectIntoGUI(font, this.mc.getTextureManager(), stack, x, y);
         GL11.glPopMatrix();
     }
 
