@@ -132,10 +132,6 @@ public class VertexCache {
         empty = false;
     }
 
-    public void renderStart(Tessellator tess, int x, int y, int z, double offsetX0, double offsetY0, double offsetZ0) {
-        render(tess, x, y, z, offsetX0, offsetY0, offsetZ0);
-    }
-
     public void render(Tessellator tess, int x, int y, int z, double offsetX0, double offsetY0, double offsetZ0) {
         if (startDrawing) {
             if (renderType == 1 || renderType == 2 || renderType == 3) {

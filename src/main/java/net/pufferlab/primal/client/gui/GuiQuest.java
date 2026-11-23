@@ -144,7 +144,7 @@ public class GuiQuest extends GuiContainerPrimal {
                 this.drawTexturedModalRect(0, 0, advX, advY, 0, 0, 26, 26, color, cache);
             }
         }
-        cache.renderStart(tess, guiX, guiY, 0, 0, 0, 0);
+        cache.render(tess, guiX, guiY, 0, 0, 0, 0);
 
         for(QuestType adv : quests) {
             int advX = guiX + (adv.x * 26);
