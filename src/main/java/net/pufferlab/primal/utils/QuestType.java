@@ -9,6 +9,7 @@ import java.util.Map;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.gui.GuiQuest;
 import net.pufferlab.primal.entities.player.PlayerData;
 
@@ -19,7 +20,7 @@ public class QuestType {
     // What advancements requires this
     private final List<QuestType> dependants = new ArrayList<>();
 
-    private String name;
+    public final String name;
     public ItemStack stack;
     public int x;
     public int y;
@@ -64,24 +65,44 @@ public class QuestType {
         return questData.contains(this.name);
     }
 
+    public boolean isClaimed(EntityPlayer player) {
+        PlayerData data = PlayerData.get(player);
+        List<String> questData = data.getClaimedQuests();
+        return questData.contains(this.name);
+    }
+
     public static QuestType getQuest(String string) {
         return questMap.get(string);
+    }
+
+    public static void claimQuest(EntityPlayer player, QuestType questType) {
+        PlayerData data = PlayerData.get(player);
+        List<String> questData = data.getClaimedQuests();
+        if (!questData.contains(questType.name)) {
+            questData.add(questType.name);
+            data.updateClient();
+            Primal.proxy.packet.sendQuestUpdate(player);
+        }
     }
 
     public static void unlockQuest(EntityPlayer player, QuestType questType) {
         PlayerData data = PlayerData.get(player);
         List<String> questData = data.getCompletedQuests();
-        questData.add(questType.name);
-        data.updateClient();
-        GuiQuest.updateRendering();
+        if (!questData.contains(questType.name)) {
+            questData.add(questType.name);
+            data.updateClient();
+            Primal.proxy.packet.sendQuestUpdate(player);
+        }
     }
 
     public static void lockQuest(EntityPlayer player, QuestType questType) {
         PlayerData data = PlayerData.get(player);
         List<String> questData = data.getCompletedQuests();
         questData.remove(questType.name);
+        List<String> questData2 = data.getClaimedQuests();
+        questData2.remove(questType.name);
         data.updateClient();
-        GuiQuest.updateRendering();
+        Primal.proxy.packet.sendQuestUpdate(player);
     }
 
 }

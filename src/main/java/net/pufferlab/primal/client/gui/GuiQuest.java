@@ -7,10 +7,13 @@ import java.util.List;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.client.helper.ClientTickHolder;
 import net.pufferlab.primal.client.helper.VertexCache;
+import net.pufferlab.primal.client.helper.VertexModifier;
 import net.pufferlab.primal.inventory.ContainerQuest;
 import net.pufferlab.primal.utils.HashUtils;
 import net.pufferlab.primal.utils.Mth;
@@ -89,6 +92,7 @@ public class GuiQuest extends GuiContainerPrimal {
     }
 
     public static final int lockedColor = HashUtils.getRGB(0.5F, 0.5F, 0.5F);
+    public static final int flickeringColor = HashUtils.getRGB(0, 0, 0);
     public static final int unlockedColor = HashUtils.getRGB(1.0F, 1.0F, 1.0F);
 
     static {
@@ -115,7 +119,7 @@ public class GuiQuest extends GuiContainerPrimal {
                 int advX = (adv.x * 26);
                 int advY = (adv.y * 26);
 
-                int color = getColor(adv.isUnlocked(player.player));
+                int color = getColor(player.player, adv);
 
                 for(QuestType adv2 : adv.getDependencies()) {
                     int dx = adv2.x - adv.x;
@@ -139,7 +143,7 @@ public class GuiQuest extends GuiContainerPrimal {
                 int advX = (adv.x * 26);
                 int advY = (adv.y * 26);
 
-                int color = getColor(adv.isUnlocked(player.player));
+                int color = getColor(player.player, adv);
 
                 this.drawTexturedModalRect(0, 0, advX, advY, 0, 0, 26, 26, color, cache);
             }
@@ -163,6 +167,9 @@ public class GuiQuest extends GuiContainerPrimal {
                 && selY >= advY && selY < advY + 26;
 
             if(hovered) {
+                if(pressed) {
+                    Primal.proxy.packet.sendClaimedQuest(player.player, adv);
+                }
                 String text = "TEST";
 
                 int adjX = mouseX - this.guiLeft + 13;
@@ -178,11 +185,41 @@ public class GuiQuest extends GuiContainerPrimal {
     }
 
 
-    public static int getColor(boolean unlocked) {
-        if(unlocked) {
+    public static int getColor(EntityPlayer player, QuestType adv) {
+        boolean claimed = adv.isClaimed(player);
+        boolean unlocked = adv.isUnlocked(player);
+        if(claimed) {
             return unlockedColor;
+        } else if(unlocked) {
+            return flickeringColor;
         } else {
             return lockedColor;
+        }
+    }
+
+    public static final QuestHighlight flickeringQuest = new QuestHighlight();
+
+    public static class QuestHighlight extends VertexModifier {
+        public float getInterpolatedAnim() {
+            int ticks = ClientTickHolder.getTicks() % 20;
+            float progress = ticks <= 10 ? ticks / 10.0F : (20 - ticks) / 10.0F;
+            float value = 0.5F + progress * 0.5F;
+            return value;
+        }
+
+        @Override
+        public float getR(float r) {
+            return getInterpolatedAnim();
+        }
+
+        @Override
+        public float getG(float g) {
+            return getInterpolatedAnim();
+        }
+
+        @Override
+        public float getB(float b) {
+            return getInterpolatedAnim();
         }
     }
 
@@ -211,10 +248,14 @@ public class GuiQuest extends GuiContainerPrimal {
         if(matrix != null) {
             matrix.transformPosition(temp);
         }
+        VertexModifier modifier = null;
+        if(color == flickeringColor) {
+            modifier = flickeringQuest;
+        }
         float r = HashUtils.getR(color);
         float g = HashUtils.getG(color);
         float b = HashUtils.getB(color);
-        cache.addVertexWithUV(temp.x + (float) offsetX, temp.y + (float) offsetY, this.zLevel, u, v, r, g, b);
+        cache.addVertexWithUV(temp.x + (float) offsetX, temp.y + (float) offsetY, this.zLevel, u, v, r, g, b, modifier);
     }
     // spotless:on
 }

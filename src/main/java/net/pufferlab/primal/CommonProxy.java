@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.command.CommandHandler;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
@@ -223,6 +224,10 @@ public class CommonProxy implements IGuiHandler {
 
     public <T extends IMessage> void sendPacketToClient(T object) {
         Primal.network.sendToAll(object);
+    }
+
+    public <T extends IMessage> void sendPacketToClientPlayer(EntityPlayerMP player, T object) {
+        Primal.network.sendTo(object, player);
     }
 
     public <T extends IMessage> void sendPacketToClientInDimension(World world, T object) {

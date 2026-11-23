@@ -18,12 +18,14 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.blocks.ICutBlock;
+import net.pufferlab.primal.client.gui.GuiQuest;
 import net.pufferlab.primal.client.renderer.RenderBounds;
 import net.pufferlab.primal.commands.ISubCommand;
 import net.pufferlab.primal.entities.player.PlayerData;
 import net.pufferlab.primal.network.packets.*;
 import net.pufferlab.primal.tileentities.*;
 import net.pufferlab.primal.utils.BoundingBox;
+import net.pufferlab.primal.utils.QuestType;
 import net.pufferlab.primal.utils.Utils;
 
 public class NetworkPacket {
@@ -220,6 +222,20 @@ public class NetworkPacket {
         if (player.worldObj.isRemote) {
             Minecraft.getMinecraft().playerController.netClientHandler.addToSendQueue(
                 new C08PacketPlayerBlockPlacement(x, y, z, side, player.inventory.getCurrentItem(), hitX, hitY, hitZ));
+        }
+    }
+
+    public void sendQuestUpdate(EntityPlayer player) {
+        if (player instanceof EntityPlayerMP playerMP) {
+            Primal.proxy.sendPacketToClientPlayer(playerMP, new PacketQuestUpdate());
+        } else {
+            GuiQuest.updateRendering();
+        }
+    }
+
+    public void sendClaimedQuest(EntityPlayer player, QuestType questType) {
+        if (questType.isUnlocked(player) && !questType.isClaimed(player)) {
+            Primal.proxy.sendPacketToServer(new PacketQuestButton(questType));
         }
     }
 

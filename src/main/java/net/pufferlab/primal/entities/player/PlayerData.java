@@ -25,6 +25,8 @@ public class PlayerData implements IExtendedEntityProperties {
     private boolean recipeDebug;
 
     private List<String> completedQuests = new ArrayList<>();
+    private List<String> claimedQuests = new ArrayList<>();
+
     private long pos1Coords;
     private boolean pos1CoordsValid;
     private long pos2Coords;
@@ -43,6 +45,10 @@ public class PlayerData implements IExtendedEntityProperties {
 
     public List<String> getCompletedQuests() {
         return completedQuests;
+    }
+
+    public List<String> getClaimedQuests() {
+        return claimedQuests;
     }
 
     public boolean isBreakingTree() {
@@ -163,7 +169,12 @@ public class PlayerData implements IExtendedEntityProperties {
         ByteBuf buf = IOUtils.getBuffer();
         IOUtils.writeStringList(buf, this.completedQuests);
         byte[] questData = IOUtils.getBytes(buf);
-        tag.setByteArray("questData", questData);
+        tag.setByteArray("completedQuests", questData);
+
+        ByteBuf buf2 = IOUtils.getBuffer();
+        IOUtils.writeStringList(buf2, this.claimedQuests);
+        byte[] questData2 = IOUtils.getBytes(buf2);
+        tag.setByteArray("claimedQuests", questData2);
     }
 
     public void writeToBuffer(ByteBuf buf) {
@@ -178,6 +189,7 @@ public class PlayerData implements IExtendedEntityProperties {
         buf.writeBoolean(this.coordChanged);
 
         IOUtils.writeStringList(buf, this.completedQuests);
+        IOUtils.writeStringList(buf, this.claimedQuests);
     }
 
     @Override
@@ -196,10 +208,13 @@ public class PlayerData implements IExtendedEntityProperties {
         this.pos2Coords = tag.getLong("pos2Coords");
         this.pos2CoordsValid = tag.getBoolean("pos2CoordsValid");
 
-        byte[] questData = tag.getByteArray("questData");
+        byte[] questData = tag.getByteArray("completedQuests");
         ByteBuf buf = IOUtils.getBuffer(questData);
-
         this.completedQuests = IOUtils.readStringList(buf);
+
+        byte[] questData2 = tag.getByteArray("claimedQuests");
+        ByteBuf buf2 = IOUtils.getBuffer(questData2);
+        this.claimedQuests = IOUtils.readStringList(buf2);
     }
 
     public void readFromBuffer(ByteBuf buf) {
@@ -214,6 +229,7 @@ public class PlayerData implements IExtendedEntityProperties {
         this.coordChanged = buf.readBoolean();
 
         this.completedQuests = IOUtils.readStringList(buf);
+        this.claimedQuests = IOUtils.readStringList(buf);
     }
 
     public static void syncPlayerData(PlayerData from, PlayerData to) {
@@ -227,6 +243,9 @@ public class PlayerData implements IExtendedEntityProperties {
             to.pos2CoordsValid = from.pos2CoordsValid;
 
             to.coordChanged = from.coordChanged;
+
+            to.completedQuests = from.completedQuests;
+            to.claimedQuests = from.claimedQuests;
         }
     }
 

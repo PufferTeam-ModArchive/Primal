@@ -662,6 +662,7 @@ public class Registry {
     public void setupPackets() {
         Primal.network = NetworkRegistry.INSTANCE.newSimpleChannel(Primal.MODID);
         registerPacket(PacketKnappingClick.class, Side.SERVER);
+        registerPacket(PacketQuestButton.class, Side.SERVER);
         registerPacket(PacketPitKilnPlace.class, Side.SERVER);
         registerPacket(PacketAxlePlace.class, Side.SERVER);
         registerPacket(PacketChunkClient.class, Side.SERVER);
@@ -672,6 +673,7 @@ public class Registry {
         registerPacket(PacketTask.class, Side.SERVER);
 
         registerPacket(PacketSwingArm.class, Side.CLIENT);
+        registerPacket(PacketQuestUpdate.class, Side.CLIENT);
         registerPacket(PacketFireStarter.class, Side.CLIENT);
         registerPacket(PacketTileDataUpdate.class, Side.CLIENT);
         registerPacket(PacketTileUpdate.class, Side.CLIENT);

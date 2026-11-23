@@ -1,5 +1,8 @@
 package net.pufferlab.primal.client.helper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.client.renderer.Tessellator;
 
 import org.lwjgl.opengl.GL11;
@@ -8,10 +11,17 @@ public class VertexCache {
 
     private boolean empty = true;
     private boolean startDrawing = false;
+    private boolean hasModifier = false;
     private int renderType = 0;
     private float[] vertices = new float[64];
+    private final List<VertexModifier> vertexModifiers = new ArrayList<>();
     private int size;
     private int vertexInQuad = 0;
+
+    private static final int nothing = 0;
+    private static final int quadColorNormal = 1;
+    private static final int quadColor = 2;
+    private static final int line = 10;
 
     public int size() {
         return this.size;
@@ -23,6 +33,8 @@ public class VertexCache {
         vertexInQuad = 0;
         renderType = 0;
         empty = true;
+        hasModifier = false;
+        vertexModifiers.clear();
     }
 
     public void setStartDrawing(boolean state) {
@@ -45,9 +57,13 @@ public class VertexCache {
         this.renderType = type;
     }
 
+    private void setVertexModifier(boolean state) {
+        this.hasModifier = state;
+    }
+
     public void addVertexWithUV(float x, float y, float z, float u, float v, float r, float g, float b, float nX,
         float nY, float nZ) {
-        setRenderType(1);
+        setRenderType(quadColorNormal);
         extendCache(11);
         int s = size;
         vertices[s] = x;
@@ -70,8 +86,15 @@ public class VertexCache {
         }
     }
 
+    public void addVertexWithUV(float x, float y, float z, float u, float v, float r, float g, float b,
+        VertexModifier vertexModifier) {
+        setVertexModifier(true);
+        vertexModifiers.add(vertexModifier);
+        addVertexWithUV(x, y, z, u, v, r, g, b);
+    }
+
     public void addVertexWithUV(float x, float y, float z, float u, float v, float r, float g, float b) {
-        setRenderType(2);
+        setRenderType(quadColor);
         extendCache(8);
         int s = size;
         vertices[s] = x;
@@ -91,26 +114,8 @@ public class VertexCache {
         }
     }
 
-    public void addVertexWithUV(float x, float y, float z, float u, float v) {
-        setRenderType(3);
-        extendCache(5);
-        int s = size;
-        vertices[s] = x;
-        vertices[s + 1] = y;
-        vertices[s + 2] = z;
-        vertices[s + 3] = u;
-        vertices[s + 4] = v;
-        size = s + 5;
-
-        vertexInQuad++;
-
-        if (vertexInQuad == 4) {
-            vertexInQuad = 0;
-        }
-    }
-
     public void addVertex(float x, float y, float z, float x2, float y2, float z2) {
-        setRenderType(10);
+        setRenderType(line);
         extendCache(6);
         int s = size;
         vertices[s] = x;
@@ -134,27 +139,28 @@ public class VertexCache {
 
     public void render(Tessellator tess, int x, int y, int z, double offsetX0, double offsetY0, double offsetZ0) {
         if (startDrawing) {
-            if (renderType == 1 || renderType == 2 || renderType == 3) {
+            if (renderType == quadColorNormal || renderType == quadColor) {
                 tess.startDrawingQuads();
             }
-            if (renderType == 10) {
+            if (renderType == line) {
                 tess.startDrawing(GL11.GL_LINES);
             }
         }
-        if (renderType == 1) {
+        if (renderType == quadColorNormal) {
             renderQuadColorNormal(tess, x, y, z, offsetX0, offsetY0, offsetZ0);
         }
-        if (renderType == 2) {
-            renderQuadColor(tess, x, y, z, offsetX0, offsetY0, offsetZ0);
+        if (renderType == quadColor) {
+            if (hasModifier) {
+                renderQuadColorModifier(tess, x, y, z, offsetX0, offsetY0, offsetZ0);
+            } else {
+                renderQuadColor(tess, x, y, z, offsetX0, offsetY0, offsetZ0);
+            }
         }
-        if (renderType == 3) {
-            renderQuad(tess, x, y, z, offsetX0, offsetY0, offsetZ0);
-        }
-        if (renderType == 10) {
+        if (renderType == line) {
             renderLine(tess, x, y, z, offsetX0, offsetY0, offsetZ0);
         }
         if (startDrawing) {
-            if (renderType != 0) {
+            if (renderType != nothing) {
                 tess.draw();
             }
         }
@@ -226,12 +232,13 @@ public class VertexCache {
         }
     }
 
-    private void renderQuad(Tessellator tess, int x, int y, int z, double offsetX0, double offsetY0, double offsetZ0) {
+    private void renderQuadColorModifier(Tessellator tess, int x, int y, int z, double offsetX0, double offsetY0,
+        double offsetZ0) {
         if (vertexInQuad > 0) {
             throw new IllegalStateException("Incomplete quad detected before render!");
         }
 
-        int stride = 5;
+        int stride = 8;
         int quadSize = stride * 4;
 
         int safeSize = size - (size % quadSize);
@@ -241,12 +248,21 @@ public class VertexCache {
             for (int i = 0; i < 4; i++) {
                 int idx = s + i * stride;
 
+                VertexModifier modifier = vertexModifiers.get(idx / stride);
+                if (modifier == null) {
+                    modifier = VertexModifier.blank;
+                }
+
                 double vX = vertices[idx];
                 double vY = vertices[idx + 1];
                 double vZ = vertices[idx + 2];
                 float u = vertices[idx + 3];
                 float v = vertices[idx + 4];
+                float r = modifier.getR(vertices[idx + 5]);
+                float g = modifier.getG(vertices[idx + 6]);
+                float b = modifier.getB(vertices[idx + 7]);
 
+                tess.setColorOpaque_F(r, g, b);
                 tess.addVertexWithUV(vX + x + offsetX0, vY + y + offsetY0, vZ + z + offsetZ0, u, v);
             }
         }
