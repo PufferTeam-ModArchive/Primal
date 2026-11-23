@@ -11,7 +11,6 @@ public class VertexCache {
 
     private boolean empty = true;
     private boolean startDrawing = false;
-    private boolean hasModifier = false;
     private int renderType = 0;
     private float[] vertices = new float[64];
     private final List<VertexModifier> vertexModifiers = new ArrayList<>();
@@ -21,6 +20,7 @@ public class VertexCache {
     private static final int nothing = 0;
     private static final int quadColorNormal = 1;
     private static final int quadColor = 2;
+    private static final int quadColorModifier = 21;
     private static final int line = 10;
 
     public int size() {
@@ -33,7 +33,6 @@ public class VertexCache {
         vertexInQuad = 0;
         renderType = 0;
         empty = true;
-        hasModifier = false;
         vertexModifiers.clear();
     }
 
@@ -55,10 +54,6 @@ public class VertexCache {
             throw new IllegalStateException("Can't change render type in the same cache.");
         }
         this.renderType = type;
-    }
-
-    private void setVertexModifier(boolean state) {
-        this.hasModifier = state;
     }
 
     public void addVertexWithUV(float x, float y, float z, float u, float v, float r, float g, float b, float nX,
@@ -88,13 +83,17 @@ public class VertexCache {
 
     public void addVertexWithUV(float x, float y, float z, float u, float v, float r, float g, float b,
         VertexModifier vertexModifier) {
-        setVertexModifier(true);
+        setRenderType(quadColorModifier);
         vertexModifiers.add(vertexModifier);
-        addVertexWithUV(x, y, z, u, v, r, g, b);
+        addVertexWithUV$(x, y, z, u, v, r, g, b);
     }
 
     public void addVertexWithUV(float x, float y, float z, float u, float v, float r, float g, float b) {
         setRenderType(quadColor);
+        addVertexWithUV$(x, y, z, u, v, r, g, b);
+    }
+
+    private void addVertexWithUV$(float x, float y, float z, float u, float v, float r, float g, float b) {
         extendCache(8);
         int s = size;
         vertices[s] = x;
@@ -139,7 +138,7 @@ public class VertexCache {
 
     public void render(Tessellator tess, int x, int y, int z, double offsetX0, double offsetY0, double offsetZ0) {
         if (startDrawing) {
-            if (renderType == quadColorNormal || renderType == quadColor) {
+            if (renderType == quadColorNormal || renderType == quadColor || renderType == quadColorModifier) {
                 tess.startDrawingQuads();
             }
             if (renderType == line) {
@@ -150,11 +149,10 @@ public class VertexCache {
             renderQuadColorNormal(tess, x, y, z, offsetX0, offsetY0, offsetZ0);
         }
         if (renderType == quadColor) {
-            if (hasModifier) {
-                renderQuadColorModifier(tess, x, y, z, offsetX0, offsetY0, offsetZ0);
-            } else {
-                renderQuadColor(tess, x, y, z, offsetX0, offsetY0, offsetZ0);
-            }
+            renderQuadColor(tess, x, y, z, offsetX0, offsetY0, offsetZ0);
+        }
+        if (renderType == quadColorModifier) {
+            renderQuadColorModifier(tess, x, y, z, offsetX0, offsetY0, offsetZ0);
         }
         if (renderType == line) {
             renderLine(tess, x, y, z, offsetX0, offsetY0, offsetZ0);
