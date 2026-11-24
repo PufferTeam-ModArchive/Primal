@@ -11,15 +11,15 @@ public class QuernRecipe extends Recipe<QuernRecipe> {
     private static final RecipeList<QuernRecipe> recipeList = new RecipeList<>();
 
     public static void addRecipe(ItemStack output, List<ItemStack> input) {
-        recipeList.add(new QuernRecipe(input, output));
+        recipeList.add(new QuernRecipe(input, output).setRecipeID(input, output));
     }
 
     public static void addRecipe(ItemStack output, String input) {
-        recipeList.add(new QuernRecipe(input, output));
+        recipeList.add(new QuernRecipe(input, output).setRecipeID(input, output));
     }
 
     public static void addRecipe(ItemStack output, ItemStack input) {
-        recipeList.add(new QuernRecipe(input, output));
+        recipeList.add(new QuernRecipe(input, output).setRecipeID(input, output));
     }
 
     public static void removeRecipe(ItemStack output, List<ItemStack> input) {
@@ -55,17 +55,20 @@ public class QuernRecipe extends Recipe<QuernRecipe> {
 
     public QuernRecipe(ItemStack input, ItemStack output) {
         this(Utils.asList(input), output);
-        this.setRecipeID(input, output);
     }
 
     public QuernRecipe(String input, ItemStack output) {
         this(ItemUtils.getOres(input), output);
-        this.setRecipeID(input, output);
     }
 
     public QuernRecipe(List<ItemStack> input, ItemStack output) {
         this.input = input;
         this.output = output;
+    }
+
+    @Override
+    public Object[] getRecipeElements() {
+        return new Object[] { input, output };
     }
 
     @Override

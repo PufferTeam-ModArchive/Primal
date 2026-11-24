@@ -12,11 +12,11 @@ public class MeltingRecipe extends Recipe<MeltingRecipe> {
     private static final RecipeList<MeltingRecipe> recipeList = new RecipeList<>();
 
     public static void addRecipe(FluidStack output, ItemStack input) {
-        recipeList.add(new MeltingRecipe(input, output));
+        recipeList.add(new MeltingRecipe(input, output).setRecipeID(input, output));
     }
 
     public static void addRecipe(FluidStack output, String input) {
-        recipeList.add(new MeltingRecipe(input, output));
+        recipeList.add(new MeltingRecipe(input, output).setRecipeID(input, output));
     }
 
     public static void removeRecipe(FluidStack output) {
@@ -52,12 +52,10 @@ public class MeltingRecipe extends Recipe<MeltingRecipe> {
 
     public MeltingRecipe(ItemStack input, FluidStack output) {
         this(Utils.asList(input), output);
-        this.setRecipeID(input, output);
     }
 
     public MeltingRecipe(String input, FluidStack output) {
         this(ItemUtils.getOres(input), output);
-        this.setRecipeID(input, output);
     }
 
     public MeltingRecipe(List<ItemStack> input, FluidStack output) {
@@ -70,6 +68,11 @@ public class MeltingRecipe extends Recipe<MeltingRecipe> {
                 output.amount,
                 0);
         }
+    }
+
+    @Override
+    public Object[] getRecipeElements() {
+        return new Object[] { input, output };
     }
 
     public boolean equals(ItemStack input) {

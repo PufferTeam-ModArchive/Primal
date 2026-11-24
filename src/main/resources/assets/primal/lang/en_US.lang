@@ -44,6 +44,8 @@ tile.primal.bracket.name=Bracket
 tile.primal.waterwheel.name=Waterwheel
 tile.primal.windmill.name=Windmill
 
+quest.primal.message.learned.info=§f%s has achieved %s
+
 nei.recipe.primal.alloying.name=Alloying
 nei.recipe.primal.barrel.name=Barrel
 nei.recipe.primal.barrel.smeltTime=Takes %s seconds

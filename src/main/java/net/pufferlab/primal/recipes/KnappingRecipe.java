@@ -97,6 +97,11 @@ public class KnappingRecipe extends Recipe<KnappingRecipe> {
     }
 
     @Override
+    public Object[] getRecipeElements() {
+        return new Object[] { type.getName(), output, String.valueOf(Arrays.deepHashCode(this.pattern)) };
+    }
+
+    @Override
     public String getIdentifier() {
         return "knapping";
     }

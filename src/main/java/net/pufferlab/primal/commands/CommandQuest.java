@@ -15,8 +15,8 @@ public class CommandQuest extends CommandSub {
             return arguments;
         }
         if (args.length > 0) {
-            if (args[0].equals("unlock") || args[0].equals("lock"))
-                return QuestType.questNameList.toArray(new String[0]);
+            if (args[0].equals("unlock") || args[0].equals("lock")) return QuestType.valuesName()
+                .toArray(new String[0]);
         }
         return null;
     }

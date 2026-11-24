@@ -11,7 +11,7 @@ public class CastingRecipe extends Recipe<CastingRecipe> {
     private static final RecipeList<CastingRecipe> recipeList = new RecipeList<>();
 
     public static void addRecipe(ItemStack cast, ItemStack output, FluidStack input) {
-        recipeList.add(new CastingRecipe(cast, output, input));
+        recipeList.add(new CastingRecipe(cast, output, input).setRecipeID(cast, input, output));
     }
 
     public static void removeRecipe(ItemStack output) {
@@ -57,7 +57,11 @@ public class CastingRecipe extends Recipe<CastingRecipe> {
                 input.amount,
                 0);
         }
-        this.setRecipeID(cast, output, input);
+    }
+
+    @Override
+    public Object[] getRecipeElements() {
+        return new Object[] { cast, input, output };
     }
 
     public boolean equals(ItemStack cast, FluidStack input) {

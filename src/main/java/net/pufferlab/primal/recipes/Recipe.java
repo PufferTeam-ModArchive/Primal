@@ -14,8 +14,15 @@ public abstract class Recipe<T> implements IIdentifiable {
         return (T) this;
     }
 
+    public Object[] getRecipeElements() {
+        return null;
+    }
+
     public String getRecipeID() {
-        return recipeID;
+        if (this.recipeID == null) {
+            setRecipeID(getRecipeElements());
+        }
+        return this.recipeID;
     }
 
     @Override

@@ -4,12 +4,10 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentText;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.entities.player.PlayerData;
 import net.pufferlab.primal.utils.HeatUtils;
 import net.pufferlab.primal.utils.TextUtils;
-import net.pufferlab.primal.utils.Utils;
 
 public class CommandHeat extends CommandSub {
 
@@ -29,7 +27,7 @@ public class CommandHeat extends CommandSub {
                 PlayerData data = PlayerData.get(player);
                 boolean state = !data.getTemperatureDebug();
                 data.setTemperatureDebug(state);
-                sender.addChatMessage(new ChatComponentText(TextUtils.getStateTooltip(state, "Enabled", "Disabled")));
+                sendChatMessage(sender, TextUtils.getStateTooltip(state, "Enabled", "Disabled"));
                 return;
             }
         }
@@ -39,23 +37,17 @@ public class CommandHeat extends CommandSub {
         if (!HeatUtils.hasImpl(stack)) return;
         NBTTagCompound tag = stack.getTagCompound();
 
-        sendChatMessage(sender, Utils.translate("heat." + Primal.MODID + ".debug.info.desc"));
+        sendChatMessage(sender, "heat." + Primal.MODID + ".debug.info.desc", new Object[0]);
         sendChatMessage(
             sender,
-            Utils.translate(
-                "heat." + Primal.MODID + ".debug.last-temperature.desc",
-                HeatUtils.getTemperatureFromNBT(tag)));
+            "heat." + Primal.MODID + ".debug.last-temperature.desc",
+            HeatUtils.getTemperatureFromNBT(tag));
+        sendChatMessage(sender, "heat." + Primal.MODID + ".debug.worldtime.desc", HeatUtils.getWorldTimeFromNBT(tag));
+        sendChatMessage(sender, "heat." + Primal.MODID + ".debug.modifier.desc", HeatUtils.getMultiplierFromNBT(tag));
         sendChatMessage(
             sender,
-            Utils.translate("heat." + Primal.MODID + ".debug.worldtime.desc", HeatUtils.getWorldTimeFromNBT(tag)));
-        sendChatMessage(
-            sender,
-            Utils.translate("heat." + Primal.MODID + ".debug.modifier.desc", HeatUtils.getMultiplierFromNBT(tag)));
-        sendChatMessage(
-            sender,
-            Utils.translate(
-                "heat." + Primal.MODID + ".debug.max-temperature.desc",
-                HeatUtils.getMaxTemperatureFromNBT(tag)));
+            "heat." + Primal.MODID + ".debug.max-temperature.desc",
+            HeatUtils.getMaxTemperatureFromNBT(tag));
     }
 
     @Override

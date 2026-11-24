@@ -1,6 +1,5 @@
 package net.pufferlab.primal.entities.player;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
@@ -12,6 +11,8 @@ import net.minecraftforge.common.IExtendedEntityProperties;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.utils.HashUtils;
 import net.pufferlab.primal.utils.IOUtils;
+import net.pufferlab.primal.utils.QuestList;
+import net.pufferlab.primal.utils.QuestType;
 
 import io.netty.buffer.ByteBuf;
 
@@ -24,8 +25,9 @@ public class PlayerData implements IExtendedEntityProperties {
     private boolean blockInfoDebug;
     private boolean recipeDebug;
 
-    private List<String> completedQuests = new ArrayList<>();
-    private List<String> claimedQuests = new ArrayList<>();
+    private QuestList completedQuests = new QuestList();
+    private QuestList claimedQuests = new QuestList();
+    private QuestList questsToUnlock = new QuestList();
 
     private long pos1Coords;
     private boolean pos1CoordsValid;
@@ -43,12 +45,16 @@ public class PlayerData implements IExtendedEntityProperties {
         this.player = null;
     }
 
-    public List<String> getCompletedQuests() {
+    public List<QuestType> getCompletedQuests() {
         return completedQuests;
     }
 
-    public List<String> getClaimedQuests() {
+    public List<QuestType> getClaimedQuests() {
         return claimedQuests;
+    }
+
+    public List<QuestType> getQuestsToUnlock() {
+        return questsToUnlock;
     }
 
     public boolean isBreakingTree() {
@@ -109,6 +115,7 @@ public class PlayerData implements IExtendedEntityProperties {
     }
 
     public void updateClient() {
+        updateLists();
         Primal.proxy.packet.sendPlayerData(player, this);
     }
 
@@ -167,12 +174,12 @@ public class PlayerData implements IExtendedEntityProperties {
         tag.setBoolean("pos2CoordsValid", this.pos2CoordsValid);
 
         ByteBuf buf = IOUtils.getBuffer();
-        IOUtils.writeStringList(buf, this.completedQuests);
+        this.completedQuests.writeToBuffer(buf);
         byte[] questData = IOUtils.getBytes(buf);
         tag.setByteArray("completedQuests", questData);
 
         ByteBuf buf2 = IOUtils.getBuffer();
-        IOUtils.writeStringList(buf2, this.claimedQuests);
+        this.claimedQuests.writeToBuffer(buf2);
         byte[] questData2 = IOUtils.getBytes(buf2);
         tag.setByteArray("claimedQuests", questData2);
     }
@@ -188,8 +195,8 @@ public class PlayerData implements IExtendedEntityProperties {
 
         buf.writeBoolean(this.coordChanged);
 
-        IOUtils.writeStringList(buf, this.completedQuests);
-        IOUtils.writeStringList(buf, this.claimedQuests);
+        this.completedQuests.writeToBuffer(buf);
+        this.claimedQuests.writeToBuffer(buf);
     }
 
     @Override
@@ -210,11 +217,13 @@ public class PlayerData implements IExtendedEntityProperties {
 
         byte[] questData = tag.getByteArray("completedQuests");
         ByteBuf buf = IOUtils.getBuffer(questData);
-        this.completedQuests = IOUtils.readStringList(buf);
+        this.completedQuests.readFromBuffer(buf);
 
         byte[] questData2 = tag.getByteArray("claimedQuests");
         ByteBuf buf2 = IOUtils.getBuffer(questData2);
-        this.claimedQuests = IOUtils.readStringList(buf2);
+        this.claimedQuests.readFromBuffer(buf2);
+
+        updateLists();
     }
 
     public void readFromBuffer(ByteBuf buf) {
@@ -228,8 +237,10 @@ public class PlayerData implements IExtendedEntityProperties {
 
         this.coordChanged = buf.readBoolean();
 
-        this.completedQuests = IOUtils.readStringList(buf);
-        this.claimedQuests = IOUtils.readStringList(buf);
+        this.completedQuests.readFromBuffer(buf);
+        this.claimedQuests.readFromBuffer(buf);
+
+        updateLists();
     }
 
     public static void syncPlayerData(PlayerData from, PlayerData to) {
@@ -246,6 +257,15 @@ public class PlayerData implements IExtendedEntityProperties {
 
             to.completedQuests = from.completedQuests;
             to.claimedQuests = from.claimedQuests;
+        }
+    }
+
+    public void updateLists() {
+        this.questsToUnlock.clear();
+        for (QuestType quest : QuestType.values()) {
+            if (quest.canBeUnlocked(this)) {
+                this.questsToUnlock.add(quest);
+            }
         }
     }
 

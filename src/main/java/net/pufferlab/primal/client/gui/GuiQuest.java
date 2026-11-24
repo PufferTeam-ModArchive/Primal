@@ -1,7 +1,5 @@
 package net.pufferlab.primal.client.gui;
 
-import static net.pufferlab.primal.utils.HashUtils.getRGB;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +16,7 @@ import net.pufferlab.primal.inventory.ContainerQuest;
 import net.pufferlab.primal.utils.HashUtils;
 import net.pufferlab.primal.utils.Mth;
 import net.pufferlab.primal.utils.QuestType;
+import net.pufferlab.primal.utils.Utils;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -155,11 +154,7 @@ public class GuiQuest extends GuiContainerPrimal {
             int advY = guiY + (adv.y * 26);
 
             int color = getColor(player.player, adv);
-
-            VertexModifier modifier = null;
-            if(color == flickeringColor) {
-                modifier = flickeringQuest;
-            }
+            VertexModifier modifier = getModifier(color);
             this.drawSimpleItemStack(advX + 5, advY + 5, adv.stack, color, modifier);
         }
         for (QuestType adv : quests) {
@@ -176,15 +171,26 @@ public class GuiQuest extends GuiContainerPrimal {
                 if(pressed) {
                     Primal.proxy.packet.sendClaimedQuest(player.player, adv);
                 }
-                String text = "TEST";
+                String name = Utils.translate(adv.nameLangKey);
+                String desc = Utils.translate(adv.descLangKey);
 
                 int adjX = mouseX - this.guiLeft + 13;
                 int adjY = mouseY - this.guiTop;
 
-                int length = Math.max(this.fontRendererObj.getStringWidth(text), 120);
+                int color = getColor(player.player, adv);
+                VertexModifier modifier = getModifier(color);
+                VertexModifier modifierSec = getModifierSec(color);
 
-                this.drawGradientRect(adjX - 3, adjY - 3, adjX + length + 3, adjY + 12 + 3, -1073741824, -1073741824);
-                this.fontRendererObj.drawStringWithShadow(text, adjX, adjY + 2, getRGB(255, 255, 255));
+                int length = Math.max(this.fontRendererObj.getStringWidth(name), 120);
+                int width = 24;
+
+                this.drawGradientRect(adjX - 3, adjY - 3, adjX + length + 3, adjY + width + 3, -1073741824, -1073741824);
+                drawStringWithShadow(name, adjX, adjY + 2, color, modifier);
+                if(color == lockedColor) {
+                    drawStringWithShadow("LOCKED", adjX, adjY + 15, color, null);
+                } else {
+                    drawStringWithShadow(desc, adjX, adjY + 15, color, modifierSec);
+                }
                 break;
             }
         }
@@ -203,7 +209,26 @@ public class GuiQuest extends GuiContainerPrimal {
         }
     }
 
-    public static final QuestHighlight flickeringQuest = new QuestHighlight();
+    public static VertexModifier getModifier(int color) {
+        if(color == flickeringColor) {
+            return flickeringQuest;
+        }
+        return null;
+    }
+
+    public static VertexModifier getModifierSec(int color) {
+        if(color == flickeringColor) {
+            return flickeringQuestSec;
+        }
+        if(color == unlockedColor) {
+            return questSec;
+        }
+        return null;
+    }
+
+    public static final VertexModifier flickeringQuest = new QuestHighlight();
+    public static final VertexModifier flickeringQuestSec = new VertexModifier.ColorMultiplier(new QuestHighlight(), 0.5F);
+    public static final VertexModifier questSec = new VertexModifier.ColorMultiplier(0.5F);
 
     public static class QuestHighlight extends VertexModifier {
         public float getInterpolatedAnim() {
@@ -254,10 +279,7 @@ public class GuiQuest extends GuiContainerPrimal {
         if(matrix != null) {
             matrix.transformPosition(temp);
         }
-        VertexModifier modifier = null;
-        if(color == flickeringColor) {
-            modifier = flickeringQuest;
-        }
+        VertexModifier modifier = getModifier(color);
         float r = HashUtils.getR(color);
         float g = HashUtils.getG(color);
         float b = HashUtils.getB(color);

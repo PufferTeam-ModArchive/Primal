@@ -140,23 +140,21 @@ public class VertexCache {
         if (startDrawing) {
             if (renderType == quadColorNormal || renderType == quadColor || renderType == quadColorModifier) {
                 tess.startDrawingQuads();
-            }
-            if (renderType == line) {
+            } else if (renderType == line) {
                 tess.startDrawing(GL11.GL_LINES);
             }
         }
+
         if (renderType == quadColorNormal) {
             renderQuadColorNormal(tess, x, y, z, offsetX0, offsetY0, offsetZ0);
-        }
-        if (renderType == quadColor) {
+        } else if (renderType == quadColor) {
             renderQuadColor(tess, x, y, z, offsetX0, offsetY0, offsetZ0);
-        }
-        if (renderType == quadColorModifier) {
+        } else if (renderType == quadColorModifier) {
             renderQuadColorModifier(tess, x, y, z, offsetX0, offsetY0, offsetZ0);
-        }
-        if (renderType == line) {
+        } else if (renderType == line) {
             renderLine(tess, x, y, z, offsetX0, offsetY0, offsetZ0);
         }
+
         if (startDrawing) {
             if (renderType != nothing) {
                 tess.draw();
@@ -246,19 +244,21 @@ public class VertexCache {
             for (int i = 0; i < 4; i++) {
                 int idx = s + i * stride;
 
-                VertexModifier modifier = vertexModifiers.get(idx / stride);
-                if (modifier == null) {
-                    modifier = VertexModifier.blank;
-                }
-
                 double vX = vertices[idx];
                 double vY = vertices[idx + 1];
                 double vZ = vertices[idx + 2];
                 float u = vertices[idx + 3];
                 float v = vertices[idx + 4];
-                float r = modifier.getR(vertices[idx + 5]);
-                float g = modifier.getG(vertices[idx + 6]);
-                float b = modifier.getB(vertices[idx + 7]);
+                float r = vertices[idx + 5];
+                float g = vertices[idx + 6];
+                float b = vertices[idx + 7];
+
+                VertexModifier modifier = vertexModifiers.get(idx / stride);
+                if (modifier != null) {
+                    r = modifier.getR(r);
+                    g = modifier.getG(g);
+                    b = modifier.getB(b);
+                }
 
                 tess.setColorOpaque_F(r, g, b);
                 tess.addVertexWithUV(vX + x + offsetX0, vY + y + offsetY0, vZ + z + offsetZ0, u, v);

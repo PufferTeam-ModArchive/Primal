@@ -11,15 +11,15 @@ public class PitKilnRecipe extends Recipe<PitKilnRecipe> {
     private static final RecipeList<PitKilnRecipe> recipeList = new RecipeList<>();
 
     public static void addRecipe(ItemStack output, List<ItemStack> input) {
-        recipeList.add(new PitKilnRecipe(input, output));
+        recipeList.add(new PitKilnRecipe(input, output).setRecipeID(input, output));
     }
 
     public static void addRecipe(ItemStack output, String input) {
-        recipeList.add(new PitKilnRecipe(input, output));
+        recipeList.add(new PitKilnRecipe(input, output).setRecipeID(input, output));
     }
 
     public static void addRecipe(ItemStack output, ItemStack input) {
-        recipeList.add(new PitKilnRecipe(input, output));
+        recipeList.add(new PitKilnRecipe(input, output).setRecipeID(input, output));
     }
 
     public static void removeRecipe(ItemStack output, List<ItemStack> input) {
@@ -55,17 +55,20 @@ public class PitKilnRecipe extends Recipe<PitKilnRecipe> {
 
     public PitKilnRecipe(ItemStack input, ItemStack output) {
         this(Utils.asList(input), output);
-        this.setRecipeID(input, output);
     }
 
     public PitKilnRecipe(String input, ItemStack output) {
         this(ItemUtils.getOres(input), output);
-        this.setRecipeID(input, output);
     }
 
     public PitKilnRecipe(List<ItemStack> input, ItemStack output) {
         this.input = input;
         this.output = output;
+    }
+
+    @Override
+    public Object[] getRecipeElements() {
+        return new Object[] { input, output };
     }
 
     @Override

@@ -19,6 +19,10 @@ public abstract class CommandSub extends CommandBase implements ISubCommand {
         TextUtils.sendChatMessage(sender, message);
     }
 
+    public void sendChatMessage(ICommandSender sender, String message, Object... obj) {
+        TextUtils.sendChatMessage(sender, message, obj);
+    }
+
     @Override
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args) {
         String[] subArgs = getSubArgs(args);

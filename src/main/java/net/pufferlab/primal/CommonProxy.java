@@ -197,6 +197,12 @@ public class CommonProxy implements IGuiHandler {
         return null;
     }
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public List<EntityPlayer> getPlayerList() {
+        return (List) MinecraftServer.getServer()
+            .getConfigurationManager().playerEntityList;
+    }
+
     public int getClientRenderDistance() {
         return Integer.MAX_VALUE;
     }

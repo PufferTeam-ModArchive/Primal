@@ -15,15 +15,15 @@ public class CampfireRecipe extends Recipe<CampfireRecipe> {
     private static final RecipeList<CampfireRecipe> recipeList = new RecipeList<>();
 
     public static void addRecipe(ItemStack output, List<ItemStack> input) {
-        recipeList.add(new CampfireRecipe(input, output));
+        recipeList.add(new CampfireRecipe(input, output).setRecipeID(input, output));
     }
 
     public static void addRecipe(ItemStack output, String input) {
-        recipeList.add(new CampfireRecipe(input, output));
+        recipeList.add(new CampfireRecipe(input, output).setRecipeID(input, output));
     }
 
     public static void addRecipe(ItemStack output, ItemStack input) {
-        recipeList.add(new CampfireRecipe(input, output));
+        recipeList.add(new CampfireRecipe(input, output).setRecipeID(input, output));
     }
 
     public static void removeRecipe(ItemStack output, List<ItemStack> input) {
@@ -72,6 +72,11 @@ public class CampfireRecipe extends Recipe<CampfireRecipe> {
     public CampfireRecipe(List<ItemStack> input, ItemStack output) {
         this.input = input;
         this.output = output;
+    }
+
+    @Override
+    public Object[] getRecipeElements() {
+        return new Object[] { input, output };
     }
 
     @Override

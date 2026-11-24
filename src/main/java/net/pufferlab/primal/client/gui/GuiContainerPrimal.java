@@ -37,6 +37,23 @@ public abstract class GuiContainerPrimal extends GuiContainer {
         itemRender.renderWithColor = true;
     }
 
+    public int drawStringWithShadow(String text, int x, int y, int color, VertexModifier modifier) {
+        float r = HashUtils.getR(color);
+        float g = HashUtils.getG(color);
+        float b = HashUtils.getB(color);
+        if (modifier != null) {
+            r = modifier.getR(r);
+            g = modifier.getG(g);
+            b = modifier.getB(b);
+        }
+        int newColor = HashUtils.getRGB(r, g, b);
+        return drawStringWithShadow(text, x, y, newColor);
+    }
+
+    public int drawStringWithShadow(String text, int x, int y, int color) {
+        return fontRendererObj.drawString(text, x, y, color, true);
+    }
+
     public void drawSimpleItemStack(int x, int y, ItemStack stack) {
         GL11.glPushMatrix();
         GL11.glEnable(GL11.GL_LIGHTING);

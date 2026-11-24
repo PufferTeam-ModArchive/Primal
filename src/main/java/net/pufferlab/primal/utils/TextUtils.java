@@ -6,6 +6,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -147,5 +148,10 @@ public class TextUtils {
     public static void sendChatMessage(ICommandSender sender, String string) {
         if (sender == null) return;
         sender.addChatMessage(new ChatComponentText(string));
+    }
+
+    public static void sendChatMessage(ICommandSender sender, String string, Object... obj) {
+        if (sender == null) return;
+        sender.addChatMessage(new ChatComponentTranslation(string, obj));
     }
 }

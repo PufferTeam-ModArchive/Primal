@@ -12,11 +12,11 @@ public class AnvilRecipe extends Recipe<AnvilRecipe> {
     private static final RecipeList<AnvilRecipe> recipeList = new RecipeList<>();
 
     public static void addRecipe(ItemStack output, ItemStack input, Object... objects) {
-        recipeList.add(new AnvilRecipe(output, input, objects));
+        recipeList.add(new AnvilRecipe(output, input, objects).setRecipeID(input, output));
     }
 
     public static void addRecipe(ItemStack output, String input, Object... objects) {
-        recipeList.add(new AnvilRecipe(output, input, objects));
+        recipeList.add(new AnvilRecipe(output, input, objects).setRecipeID(input, output));
     }
 
     public static AnvilRecipe getRecipe(ItemStack inputItem, AnvilAction... actions) {
@@ -77,12 +77,10 @@ public class AnvilRecipe extends Recipe<AnvilRecipe> {
 
     public AnvilRecipe(ItemStack output, ItemStack input, Object... objects) {
         this(output, Utils.asList(input), objects);
-        this.setRecipeID(output, input);
     }
 
     public AnvilRecipe(ItemStack output, String ore, Object... objects) {
         this(output, ItemUtils.getOres(ore), objects);
-        this.setRecipeID(output, ore);
     }
 
     public AnvilRecipe(ItemStack output, List<ItemStack> input, Object... objects) {
@@ -108,6 +106,11 @@ public class AnvilRecipe extends Recipe<AnvilRecipe> {
         this.input = input;
 
         this.normalizeByOrder();
+    }
+
+    @Override
+    public Object[] getRecipeElements() {
+        return new Object[] { input, output };
     }
 
     private void normalizeByOrder() {

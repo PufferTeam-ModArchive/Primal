@@ -101,6 +101,11 @@ public class AlloyingRecipe extends Recipe<AlloyingRecipe> {
         this.setRecipeID(outputs, Utils.asList(this.inputs));
     }
 
+    @Override
+    public Object[] getRecipeElements() {
+        return new Object[] { outputs, Utils.asList(this.inputs) };
+    }
+
     public int equals(FluidStack... stacks) {
         int totalAmount = 0;
         FluidStack[] inputsRelative = new FluidStack[this.inputs.length];

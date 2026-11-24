@@ -12,22 +12,30 @@ public class BarrelRecipe extends Recipe<BarrelRecipe> {
     private static final RecipeList<BarrelRecipe> recipeList = new RecipeList<>();
 
     public static void addRecipe(ItemStack output, FluidStack outputLiquid, ItemStack input, FluidStack inputLiquid) {
-        recipeList.add(new BarrelRecipe(output, outputLiquid, input, inputLiquid));
+        recipeList.add(
+            new BarrelRecipe(output, outputLiquid, input, inputLiquid)
+                .setRecipeID(input, inputLiquid, output, outputLiquid));
     }
 
     public static void addRecipe(ItemStack output, FluidStack outputLiquid, List<ItemStack> input,
         FluidStack inputLiquid, int processingTime) {
-        recipeList.add(new BarrelRecipe(output, outputLiquid, input, inputLiquid, processingTime));
+        recipeList.add(
+            new BarrelRecipe(output, outputLiquid, input, inputLiquid, processingTime)
+                .setRecipeID(input, inputLiquid, output, outputLiquid));
     }
 
     public static void addRecipe(ItemStack output, FluidStack outputLiquid, ItemStack input, FluidStack inputLiquid,
         int processingTime) {
-        recipeList.add(new BarrelRecipe(output, outputLiquid, input, inputLiquid, processingTime));
+        recipeList.add(
+            new BarrelRecipe(output, outputLiquid, input, inputLiquid, processingTime)
+                .setRecipeID(input, inputLiquid, output, outputLiquid));
     }
 
     public static void addRecipe(ItemStack output, FluidStack outputLiquid, String input, FluidStack inputLiquid,
         int processingTime) {
-        recipeList.add(new BarrelRecipe(output, outputLiquid, input, inputLiquid, processingTime));
+        recipeList.add(
+            new BarrelRecipe(output, outputLiquid, input, inputLiquid, processingTime)
+                .setRecipeID(input, inputLiquid, output, outputLiquid));
     }
 
     public static void removeRecipe(ItemStack output, FluidStack outputLiquid, List<ItemStack> input,
@@ -74,19 +82,16 @@ public class BarrelRecipe extends Recipe<BarrelRecipe> {
 
     public BarrelRecipe(ItemStack output, FluidStack outputLiquid, ItemStack input, FluidStack inputLiquid) {
         this(output, outputLiquid, Utils.asList(input), inputLiquid, 60);
-        this.setRecipeID(output, outputLiquid, input, inputLiquid);
     }
 
     public BarrelRecipe(ItemStack output, FluidStack outputLiquid, ItemStack input, FluidStack inputLiquid,
         int processingTime) {
         this(output, outputLiquid, Utils.asList(input), inputLiquid, processingTime);
-        this.setRecipeID(output, outputLiquid, input, inputLiquid);
     }
 
     public BarrelRecipe(ItemStack output, FluidStack outputLiquid, String input, FluidStack inputLiquid,
         int processingTime) {
         this(output, outputLiquid, ItemUtils.getOres(input), inputLiquid, processingTime);
-        this.setRecipeID(output, outputLiquid, input, inputLiquid);
     }
 
     public BarrelRecipe(ItemStack output, FluidStack outputLiquid, List<ItemStack> input, FluidStack inputLiquid,
@@ -108,6 +113,11 @@ public class BarrelRecipe extends Recipe<BarrelRecipe> {
             inputLiquid.amount,
             0);
         this.processingTime = processingTime;
+    }
+
+    @Override
+    public Object[] getRecipeElements() {
+        return new Object[] { input, inputLiquid, output, outputLiquid };
     }
 
     public boolean equals(ItemStack input, FluidStack inputLiquid) {

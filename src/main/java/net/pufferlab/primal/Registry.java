@@ -707,6 +707,7 @@ public class Registry {
         registerEvent(new HeatHandler());
         registerEvent(new FoodHandler());
         registerEvent(new PlayerHandler());
+        registerEvent(new QuestHandler());
         registerEvent(new WorldChunkHandler());
 
         if (Primal.isClient()) {
