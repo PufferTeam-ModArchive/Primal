@@ -9,6 +9,8 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+import net.pufferlab.primal.client.helper.VertexModifier;
+import net.pufferlab.primal.utils.HashUtils;
 
 import org.lwjgl.opengl.GL11;
 
@@ -18,6 +20,21 @@ public abstract class GuiContainerPrimal extends GuiContainer {
 
     public GuiContainerPrimal(Container p_i1072_1_) {
         super(p_i1072_1_);
+    }
+
+    public void drawSimpleItemStack(int x, int y, ItemStack stack, int color, VertexModifier modifier) {
+        itemRender.renderWithColor = false;
+        float r = HashUtils.getR(color);
+        float g = HashUtils.getG(color);
+        float b = HashUtils.getB(color);
+        if (modifier != null) {
+            r = modifier.getR(r);
+            g = modifier.getG(g);
+            b = modifier.getB(b);
+        }
+        GL11.glColor4f(r, g, b, 1.0F);
+        drawSimpleItemStack(x, y, stack);
+        itemRender.renderWithColor = true;
     }
 
     public void drawSimpleItemStack(int x, int y, ItemStack stack) {

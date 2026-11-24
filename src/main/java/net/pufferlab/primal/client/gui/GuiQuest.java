@@ -154,7 +154,13 @@ public class GuiQuest extends GuiContainerPrimal {
             int advX = guiX + (adv.x * 26);
             int advY = guiY + (adv.y * 26);
 
-            this.drawSimpleItemStack(advX + 5, advY + 5, adv.stack);
+            int color = getColor(player.player, adv);
+
+            VertexModifier modifier = null;
+            if(color == flickeringColor) {
+                modifier = flickeringQuest;
+            }
+            this.drawSimpleItemStack(advX + 5, advY + 5, adv.stack, color, modifier);
         }
         for (QuestType adv : quests) {
             int advX = guiX + (adv.x * 26);
