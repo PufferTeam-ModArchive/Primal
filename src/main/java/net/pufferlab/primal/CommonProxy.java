@@ -213,7 +213,11 @@ public class CommonProxy implements IGuiHandler {
 
     public void playClientSound(TileEntity te) {}
 
-    public boolean hasDebugMenu() {
+    public boolean isDebugModeEnabled() {
+        return false;
+    }
+
+    public boolean isGamePaused() {
         return false;
     }
 

@@ -13,7 +13,7 @@ public class VertexCache {
     private boolean startDrawing = false;
     private int renderType = 0;
     private float[] vertices = new float[64];
-    private final List<VertexModifier> vertexModifiers = new ArrayList<>();
+    private List<VertexModifier> vertexModifiers;
     private int size;
     private int vertexInQuad = 0;
 
@@ -28,12 +28,15 @@ public class VertexCache {
     }
 
     public void reset() {
-        vertices = new float[64];
+        int oldLength = vertices.length;
+        vertices = new float[oldLength];
         size = 0;
         vertexInQuad = 0;
         renderType = 0;
         empty = true;
-        vertexModifiers.clear();
+        if (vertexModifiers != null) {
+            vertexModifiers.clear();
+        }
     }
 
     public void setStartDrawing(boolean state) {
@@ -50,10 +53,13 @@ public class VertexCache {
 
     private void setRenderType(int type) {
         if (this.renderType == type) return;
-        if (renderType != 0) {
+        if (renderType != nothing) {
             throw new IllegalStateException("Can't change render type in the same cache.");
         }
         this.renderType = type;
+        if (this.renderType == quadColorModifier) {
+            this.vertexModifiers = new ArrayList<>();
+        }
     }
 
     public void addVertexWithUV(float x, float y, float z, float u, float v, float r, float g, float b, float nX,

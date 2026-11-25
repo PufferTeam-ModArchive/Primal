@@ -61,7 +61,10 @@ public abstract class GuiContainerPrimal extends GuiContainer {
         if (stack != null) font = stack.getItem()
             .getFontRenderer(stack);
         if (font == null) font = fontRendererObj;
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
         itemRender.renderItemAndEffectIntoGUI(font, this.mc.getTextureManager(), stack, x, y);
+        this.zLevel = 0.0F;
+        itemRender.zLevel = 0.0F;
         GL11.glPopMatrix();
     }
 

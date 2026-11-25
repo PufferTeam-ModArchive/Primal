@@ -28,7 +28,7 @@ public class ScriptQuest implements IScript {
 
         QuestType charcoal = addQuest(-3, -7, "charcoal", getItem("minecraft:coal:1:1"), "charcoal")
             .addDependency(firewood);
-        QuestType forge = addQuest(-3, -7, "forge", getModItem("forge", 1)).addDependency(charcoal);
+        QuestType forge = addQuest(-3, -9, "forge", getModItem("forge", 1)).addDependency(charcoal);
 
     }
 }

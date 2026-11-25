@@ -1,6 +1,7 @@
 package net.pufferlab.primal.client.helper;
 
 import net.minecraft.client.Minecraft;
+import net.pufferlab.primal.Primal;
 
 public class ClientTickHolder {
 
@@ -13,8 +14,7 @@ public class ClientTickHolder {
     }
 
     public static void tick() {
-        if (!Minecraft.getMinecraft()
-            .isGamePaused()) {
+        if (!Primal.proxy.isGamePaused()) {
             ticks = (ticks + 1) % 1_728_000; // wrap around every 24 hours so we maintain enough floating point
             // precision
         } else {
@@ -23,11 +23,11 @@ public class ClientTickHolder {
     }
 
     public static int getTicks() {
-        return getTicks(false);
+        return ticks;
     }
 
-    public static int getTicks(boolean includePaused) {
-        return includePaused ? ticks + paused_ticks : ticks;
+    public static int getPausedTicks() {
+        return ticks + paused_ticks;
     }
 
     public static float getRenderTime() {

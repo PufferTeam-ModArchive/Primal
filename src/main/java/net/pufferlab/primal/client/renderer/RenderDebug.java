@@ -42,7 +42,7 @@ public class RenderDebug {
         float rainfall = manager.getRainfall(localX, localZ);
         float vegetation = manager.getVegetation(localX, localZ);
 
-        if (Primal.proxy.hasDebugMenu()) {
+        if (Primal.proxy.isDebugModeEnabled()) {
             if (Config.simplifyDebugMenu.getBoolean()) {
                 left.removeIf(s -> {
                     if (s == null) return false;

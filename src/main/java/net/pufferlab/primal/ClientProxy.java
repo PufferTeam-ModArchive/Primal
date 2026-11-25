@@ -233,8 +233,14 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public boolean hasDebugMenu() {
+    public boolean isDebugModeEnabled() {
         return Minecraft.getMinecraft().gameSettings.showDebugInfo;
+    }
+
+    @Override
+    public boolean isGamePaused() {
+        return Minecraft.getMinecraft()
+            .isGamePaused();
     }
 
     @Override

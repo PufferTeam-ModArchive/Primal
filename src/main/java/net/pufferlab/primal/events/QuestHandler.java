@@ -19,8 +19,9 @@ public class QuestHandler implements IEventHandler {
 
     @SubscribeEvent
     public void onTick(TickEvent.WorldTickEvent event) {
+        if (event.phase != TickEvent.Phase.END) return;
         if (event.world.isRemote) return;
-        if (event.world.provider.dimensionId == 0) return;
+        if (event.world.provider.dimensionId != 0) return;
         tick++;
         if (tick > tickWait) {
             tick = 0;

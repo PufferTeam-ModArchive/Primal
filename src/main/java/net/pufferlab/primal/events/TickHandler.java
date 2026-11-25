@@ -28,21 +28,17 @@ public class TickHandler implements IEventHandler {
     }
 
     private synchronized void tick(TickEvent.WorldTickEvent event) {
-        if (event.phase == TickEvent.Phase.END) {
-            if (!event.world.isRemote) {
-                if (Primal.proxy.isOverworld(event.world)) {
-                    GlobalTickingData.tick();
-                    GlobalTickingData.tickClient();
-                }
-            }
-        }
+        if (event.phase != TickEvent.Phase.END) return;
+        if (event.world.isRemote) return;
+        if (event.world.provider.dimensionId != 0) return;
+        GlobalTickingData.tick();
+        GlobalTickingData.tickClient();
     }
 
     private synchronized void tickTasks(TickEvent.WorldTickEvent event) {
-        if (!event.world.isRemote) {
-            SchedulerData.tickTasks(GlobalTickingData.getTickTime(event.world), event.world);
-            SchedulerData.tickWaitingTasks(event.world);
-        }
+        if (event.world.isRemote) return;
+        SchedulerData.tickTasks(GlobalTickingData.getTickTime(event.world), event.world);
+        SchedulerData.tickWaitingTasks(event.world);
     }
 
     public void tickRegionProvider() {
