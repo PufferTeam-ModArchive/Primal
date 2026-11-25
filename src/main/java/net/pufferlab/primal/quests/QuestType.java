@@ -1,12 +1,11 @@
-package net.pufferlab.primal.utils;
-
-import static net.pufferlab.primal.utils.ItemUtils.getItem;
+package net.pufferlab.primal.quests;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
@@ -16,6 +15,8 @@ import net.minecraft.util.IChatComponent;
 import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.gui.GuiQuest;
 import net.pufferlab.primal.entities.player.PlayerData;
+import net.pufferlab.primal.utils.ItemUtils;
+import net.pufferlab.primal.utils.TextUtils;
 
 public class QuestType {
 
@@ -31,16 +32,36 @@ public class QuestType {
     public ItemStack stack;
     public int x;
     public int y;
-    private final QuestRequirement requirement;
+    private QuestRequirement requirement;
+    private QuestReward reward;
 
-    public QuestType(int x, int y, String name, ItemStack stack) {
+    public QuestType(int x, int y, String name) {
         this.name = name;
         this.nameLangKey = "quest." + Primal.MODID + "." + this.name + ".name";
         this.descLangKey = "quest." + Primal.MODID + "." + this.name + ".desc";
         this.x = x;
-        this.y = y;
+        this.y = y * -1;
+    }
+
+    public QuestType(int x, int y, String name, ItemStack stack) {
+        this(x, y, name);
         this.stack = stack;
-        this.requirement = new QuestRequirement.ItemRequirement(this);
+        this.requirement = new QuestRequirement.ItemRequirement(this, this.stack);
+        this.reward = new QuestReward.XPReward(this, 5);
+    }
+
+    public QuestType(int x, int y, String name, ItemStack stack, String oreDict) {
+        this(x, y, name);
+        this.stack = stack;
+        this.requirement = new QuestRequirement.ItemListRequirement(this, ItemUtils.getOres(oreDict));
+        this.reward = new QuestReward.XPReward(this, 5);
+    }
+
+    public QuestType(int x, int y, String name, ItemStack stack, Block block, int meta) {
+        this(x, y, name);
+        this.stack = stack;
+        this.requirement = new QuestRequirement.BlockRequirement(this, block, meta);
+        this.reward = new QuestReward.XPReward(this, 5);
     }
 
     public QuestType addDependency(QuestType questType) {
@@ -50,11 +71,18 @@ public class QuestType {
     }
 
     public List<QuestType> getDependencies() {
+        if (this.dependencies.isEmpty()) {
+            Primal.debugLog(this.name + ": HAS NO DEPENDENCIES");
+        }
         return this.dependencies;
     }
 
     public QuestRequirement getRequirement() {
         return this.requirement;
+    }
+
+    public QuestReward getReward() {
+        return this.reward;
     }
 
     private static final List<QuestType> questList = new ArrayList<>();
@@ -69,17 +97,27 @@ public class QuestType {
         return questNameList;
     }
 
-    public static final QuestType adv1 = new QuestType(0, 0, "adv1", getItem("minecraft:stone"));
-    public static final QuestType adv2 = new QuestType(5, 5, "adv2", getItem("minecraft:dirt")).addDependency(adv1);
-    public static final QuestType adv3 = new QuestType(-3, 2, "adv3", getItem("minecraft:diamond")).addDependency(adv2);
+    public static QuestType addQuest(int x, int y, String name, ItemStack stack) {
+        return addQuest(new QuestType(x, y, name, stack));
+    }
 
-    public static void registerQuest(QuestType quest) {
+    public static QuestType addQuest(int x, int y, String name, ItemStack stack, String oreDict) {
+        return addQuest(new QuestType(x, y, name, stack, oreDict));
+    }
+
+    public static QuestType addQuest(int x, int y, String name, ItemStack stack, Block block, int meta) {
+        return addQuest(new QuestType(x, y, name, stack, block, meta));
+    }
+
+    public static QuestType addQuest(QuestType quest) {
         // GUI Quests
         GuiQuest.quests.add(quest);
         // Actual Quests
         questList.add(quest);
         questNameList.add(quest.name);
         questMap.put(quest.name, quest);
+
+        return quest;
     }
 
     public boolean canBeUnlocked(EntityPlayer player) {
@@ -88,10 +126,6 @@ public class QuestType {
     }
 
     public boolean canBeUnlocked(PlayerData data) {
-        List<QuestType> questToUnlockCache = data.getQuestsToUnlock();
-        if (!questToUnlockCache.isEmpty()) {
-            return questToUnlockCache.contains(this);
-        }
         if (this.isClaimed(data) || this.isUnlocked(data)) return false;
 
         List<QuestType> dependencies = getDependencies();
@@ -135,7 +169,10 @@ public class QuestType {
             questData.add(questType);
 
             data.updateClient();
-            Primal.proxy.packet.sendQuestUpdate(player);
+            sendQuestUpdate(player);
+
+            QuestReward reward = questType.getReward();
+            reward.giveReward(player);
         }
     }
 
@@ -146,7 +183,7 @@ public class QuestType {
             questData.add(questType);
 
             data.updateClient();
-            Primal.proxy.packet.sendQuestUpdate(player);
+            sendQuestUpdate(player);
 
             sendUnlockMessage(player, questType);
         }
@@ -173,6 +210,10 @@ public class QuestType {
         questData2.remove(questType);
 
         data.updateClient();
+        sendQuestUpdate(player);
+    }
+
+    public static void sendQuestUpdate(EntityPlayer player) {
         Primal.proxy.packet.sendQuestUpdate(player);
     }
 }

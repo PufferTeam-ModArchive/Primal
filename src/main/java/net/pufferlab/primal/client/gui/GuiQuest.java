@@ -13,9 +13,9 @@ import net.pufferlab.primal.client.helper.ClientTickHolder;
 import net.pufferlab.primal.client.helper.VertexCache;
 import net.pufferlab.primal.client.helper.VertexModifier;
 import net.pufferlab.primal.inventory.ContainerQuest;
+import net.pufferlab.primal.quests.QuestType;
 import net.pufferlab.primal.utils.HashUtils;
 import net.pufferlab.primal.utils.Mth;
-import net.pufferlab.primal.utils.QuestType;
 import net.pufferlab.primal.utils.Utils;
 
 import org.joml.Matrix4f;
@@ -45,6 +45,7 @@ public class GuiQuest extends GuiContainerPrimal {
         this.player = inv;
         this.xSize = 376;
         this.ySize = 386;
+        updateRendering();
     }
 
     @Override
@@ -93,12 +94,6 @@ public class GuiQuest extends GuiContainerPrimal {
     public static final int lockedColor = HashUtils.getRGB(0.5F, 0.5F, 0.5F);
     public static final int flickeringColor = HashUtils.getRGB(0, 0, 0);
     public static final int unlockedColor = HashUtils.getRGB(1.0F, 1.0F, 1.0F);
-
-    static {
-        QuestType.registerQuest(QuestType.adv1);
-        QuestType.registerQuest(QuestType.adv2);
-        QuestType.registerQuest(QuestType.adv3);
-    }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {

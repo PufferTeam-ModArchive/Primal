@@ -2,8 +2,8 @@ package net.pufferlab.primal.network.packets;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.quests.QuestType;
 import net.pufferlab.primal.utils.IOUtils;
-import net.pufferlab.primal.utils.QuestType;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;

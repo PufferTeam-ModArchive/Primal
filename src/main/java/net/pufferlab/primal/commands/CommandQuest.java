@@ -3,7 +3,7 @@ package net.pufferlab.primal.commands;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.utils.QuestType;
+import net.pufferlab.primal.quests.QuestType;
 
 public class CommandQuest extends CommandSub {
 

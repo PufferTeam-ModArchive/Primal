@@ -1,9 +1,11 @@
 package net.pufferlab.primal.scripts;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.pufferlab.primal.Constants;
+import net.pufferlab.primal.quests.QuestType;
 import net.pufferlab.primal.recipes.*;
 import net.pufferlab.primal.utils.ItemUtils;
 
@@ -157,5 +159,17 @@ public interface IScript {
     default void addLocalization(String localization, String name) {
         LanguageRegistry.instance()
             .addStringLocalization(localization, name);
+    }
+
+    default QuestType addQuest(int x, int y, String name, ItemStack stack) {
+        return QuestType.addQuest(x, y, name, stack);
+    }
+
+    default QuestType addQuest(int x, int y, String name, ItemStack stack, String oreDict) {
+        return QuestType.addQuest(x, y, name, stack, oreDict);
+    }
+
+    default QuestType addQuest(int x, int y, String name, ItemStack stack, Block block, int meta) {
+        return QuestType.addQuest(x, y, name, stack, block, meta);
     }
 }

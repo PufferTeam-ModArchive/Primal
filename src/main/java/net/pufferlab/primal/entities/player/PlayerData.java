@@ -9,10 +9,10 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import net.pufferlab.primal.Primal;
+import net.pufferlab.primal.quests.QuestList;
+import net.pufferlab.primal.quests.QuestType;
 import net.pufferlab.primal.utils.HashUtils;
 import net.pufferlab.primal.utils.IOUtils;
-import net.pufferlab.primal.utils.QuestList;
-import net.pufferlab.primal.utils.QuestType;
 
 import io.netty.buffer.ByteBuf;
 

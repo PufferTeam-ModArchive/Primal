@@ -23,9 +23,9 @@ import net.pufferlab.primal.client.renderer.RenderBounds;
 import net.pufferlab.primal.commands.ISubCommand;
 import net.pufferlab.primal.entities.player.PlayerData;
 import net.pufferlab.primal.network.packets.*;
+import net.pufferlab.primal.quests.QuestType;
 import net.pufferlab.primal.tileentities.*;
 import net.pufferlab.primal.utils.BoundingBox;
-import net.pufferlab.primal.utils.QuestType;
 import net.pufferlab.primal.utils.Utils;
 
 public class NetworkPacket {
