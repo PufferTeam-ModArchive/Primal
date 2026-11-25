@@ -30,5 +30,7 @@ public class ScriptQuest implements IScript {
             .addDependency(firewood);
         QuestType forge = addQuest(-3, -9, "forge", getModItem("forge", 1)).addDependency(charcoal);
 
+        QuestType campfire = addQuest(-4, -5, "campfire", getModItem("campfire", 1), Registry.campfire, 5)
+            .addDependency(firewood);
     }
 }

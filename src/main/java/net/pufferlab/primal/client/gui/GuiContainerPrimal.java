@@ -56,6 +56,8 @@ public abstract class GuiContainerPrimal extends GuiContainer {
 
     public void drawSimpleItemStack(int x, int y, ItemStack stack) {
         GL11.glPushMatrix();
+        itemRender.zLevel = 200.0F;
+        this.zLevel = 200.0F;
         GL11.glEnable(GL11.GL_LIGHTING);
         FontRenderer font = null;
         if (stack != null) font = stack.getItem()
@@ -63,8 +65,9 @@ public abstract class GuiContainerPrimal extends GuiContainer {
         if (font == null) font = fontRendererObj;
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         itemRender.renderItemAndEffectIntoGUI(font, this.mc.getTextureManager(), stack, x, y);
-        this.zLevel = 0.0F;
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
         itemRender.zLevel = 0.0F;
+        this.zLevel = 0.0F;
         GL11.glPopMatrix();
     }
 
