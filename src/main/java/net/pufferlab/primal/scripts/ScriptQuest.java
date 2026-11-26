@@ -17,20 +17,24 @@ public class ScriptQuest implements IScript {
         QuestType flint_knife = addQuest(2, -1, "flint_knife", getModItem("flint_knife", 1), "toolKnife")
             .addDependency(flint);
         QuestType straw = addQuest(2, -3, "straw", getModItem("straw", 1)).addDependency(flint_knife);
+        QuestType fire_starter = addQuest(2, -5, "fire", getModItem("firestarter", 1)).addDependency(straw);
 
-        QuestType clay = addQuest(4, -3, "clay", getItem("minecraft:clay_ball:0:1"));
-
-        QuestType pit_kiln = addQuest(2, -5, "pit_kiln", getModItem("pit_kiln", 1), Registry.pit_kiln, 8)
+        QuestType pit_kiln = addQuest(0, -6, "pit_kiln", getModItem("pit_kiln", 1), Registry.pit_kiln, 8)
             .addDependency(firewood)
-            .addDependency(straw)
+            .addDependency(fire_starter);
+        QuestType campfire = addQuest(0, -4, "campfire", getModItem("campfire", 1), Registry.campfire, 5)
+            .addDependency(firewood)
+            .addDependency(fire_starter);
+
+        QuestType clay = addQuest(4, -7, "clay", getItem("minecraft:clay_ball:0:1"));
+        QuestType crucible = addQuest(2, -7, "crucible", getModItem("crucible", 1)).addDependency(pit_kiln)
             .addDependency(clay);
-        QuestType crucible = addQuest(2, -7, "crucible", getModItem("crucible", 1)).addDependency(pit_kiln);
 
-        QuestType charcoal = addQuest(-3, -7, "charcoal", getItem("minecraft:coal:1:1"), "charcoal")
+        QuestType charcoal = addQuest(-4, -6, "charcoal", getItem("minecraft:coal:1:1"), "charcoal")
             .addDependency(firewood);
-        QuestType forge = addQuest(-3, -9, "forge", getModItem("forge", 1)).addDependency(charcoal);
 
-        QuestType campfire = addQuest(-4, -5, "campfire", getModItem("campfire", 1), Registry.campfire, 5)
-            .addDependency(firewood);
+        QuestType forge = addQuest(-2, -7, "forge", getModItem("forge", 1)).addDependency(pit_kiln)
+            .addDependency(charcoal);
+
     }
 }

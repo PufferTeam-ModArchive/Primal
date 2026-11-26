@@ -38,6 +38,7 @@ public class PlayerData implements IExtendedEntityProperties {
     private boolean isBreakingTree;
 
     public PlayerData(EntityPlayer player) {
+        updateLists();
         this.player = player;
     }
 
