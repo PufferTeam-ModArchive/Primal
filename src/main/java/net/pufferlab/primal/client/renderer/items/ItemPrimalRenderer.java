@@ -4,6 +4,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
+import net.pufferlab.primal.Config;
 import net.pufferlab.primal.client.models.ModelPrimal;
 import net.pufferlab.primal.client.renderer.RenderContainer;
 import net.pufferlab.primal.client.renderer.RenderHeat;
@@ -164,7 +165,11 @@ public class ItemPrimalRenderer implements IItemRenderer {
                         int temperature = impl.getTemperature(item, GlobalTickingData.getClientTickTime());
                         if (this.model != null) {
                             ModelPrimal model = this.model[index];
-                            heatRenderer.renderHeat(model, temperature);
+                            if (temperature <= Config.temperatureCap.getInt()) {
+                                renderModel(model);
+                            } else {
+                                heatRenderer.renderHeat(model, temperature);
+                            }
                         } else {
                             Item maskItem = impl.getMaskItem();
                             heatRenderer.renderHeat(item, temperature, type, maskItem);

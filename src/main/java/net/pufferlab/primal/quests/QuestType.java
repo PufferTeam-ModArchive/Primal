@@ -13,7 +13,6 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.pufferlab.primal.Primal;
-import net.pufferlab.primal.client.gui.GuiQuest;
 import net.pufferlab.primal.entities.player.PlayerData;
 import net.pufferlab.primal.utils.ItemUtils;
 import net.pufferlab.primal.utils.TextUtils;
@@ -109,9 +108,6 @@ public class QuestType {
     }
 
     public static QuestType addQuest(QuestType quest) {
-        // GUI Quests
-        GuiQuest.quests.add(quest);
-        // Actual Quests
         questList.add(quest);
         questMap.put(quest.name, quest);
 

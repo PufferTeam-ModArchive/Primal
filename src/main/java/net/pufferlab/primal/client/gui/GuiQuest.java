@@ -1,8 +1,5 @@
 package net.pufferlab.primal.client.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.EntityPlayer;
@@ -82,7 +79,6 @@ public class GuiQuest extends GuiContainerPrimal {
         }
     }
 
-    public static final List<QuestType> quests = new ArrayList<>();
 
     public static final Matrix4f matrix = new Matrix4f();
     public static final VertexCache cache = new VertexCache();
@@ -110,7 +106,7 @@ public class GuiQuest extends GuiContainerPrimal {
 
         if(cache.isEmpty()) {
             cache.setStartDrawing(true);
-            for (QuestType adv : quests) {
+            for (QuestType adv : QuestType.values()) {
                 int advX = (adv.x * 26);
                 int advY = (adv.y * 26);
 
@@ -134,7 +130,7 @@ public class GuiQuest extends GuiContainerPrimal {
                     drawTexturedModalRect(-13, offset2, advX + 13, advY + 13, 0, 26, Mth.floor(26 * diff), Mth.floor(26 * diff), color, matrix, cache);
                 }
             }
-            for(QuestType adv : quests) {
+            for(QuestType adv : QuestType.values()) {
                 int advX = (adv.x * 26);
                 int advY = (adv.y * 26);
 
@@ -145,7 +141,7 @@ public class GuiQuest extends GuiContainerPrimal {
         }
         cache.render(tess, guiX, guiY, 0, 0, 0, 0);
 
-        for(QuestType adv : quests) {
+        for(QuestType adv : QuestType.values()) {
             int advX = guiX + (adv.x * 26);
             int advY = guiY + (adv.y * 26);
 
@@ -153,7 +149,7 @@ public class GuiQuest extends GuiContainerPrimal {
             VertexModifier modifier = getModifier(color);
             this.drawSimpleItemStack(advX + 5, advY + 5, adv.stack, color, modifier);
         }
-        for (QuestType adv : quests) {
+        for (QuestType adv : QuestType.values()) {
             int advX = guiX + (adv.x * 26);
             int advY = guiY + (adv.y * 26);
 
@@ -176,17 +172,17 @@ public class GuiQuest extends GuiContainerPrimal {
                 int color = getColor(player.player, adv);
                 VertexModifier modifier = getModifier(color);
                 VertexModifier modifierSec = getModifierSec(color);
+                if(color == veryLockedColor) {
+                    name = "???";
+                    desc = "???";
+                }
 
                 int length = Math.max(this.fontRendererObj.getStringWidth(name), 120);
                 int width = 24;
 
                 this.drawGradientRect(adjX - 3, adjY - 3, adjX + length + 3, adjY + width + 3, -1073741824, -1073741824);
                 drawStringWithShadow(name, adjX, adjY + 2, color, modifier);
-                if(color == lockedColor) {
-                    drawStringWithShadow("LOCKED", adjX, adjY + 15, color, null);
-                } else {
-                    drawStringWithShadow(desc, adjX, adjY + 15, color, modifierSec);
-                }
+                drawStringWithShadow(desc, adjX, adjY + 15, color, modifierSec);
                 break;
             }
         }
@@ -219,10 +215,7 @@ public class GuiQuest extends GuiContainerPrimal {
         if(color == flickeringColor) {
             return flickeringQuestSec;
         }
-        if(color == unlockedColor) {
-            return questSec;
-        }
-        return null;
+        return questSec;
     }
 
     public static final VertexModifier flickeringQuest = new QuestHighlight();

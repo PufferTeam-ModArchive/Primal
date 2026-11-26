@@ -1,8 +1,6 @@
 package net.pufferlab.primal.quests;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 
 import net.pufferlab.primal.utils.BaseArrayList;
@@ -15,6 +13,7 @@ import io.netty.buffer.ByteBuf;
 public class QuestList extends BaseArrayList<QuestType> {
 
     public List<String> nameList = new ArrayList<>();
+    public Set<QuestType> questSet = new HashSet<>();
 
     public QuestList() {}
 
@@ -51,13 +50,16 @@ public class QuestList extends BaseArrayList<QuestType> {
     public boolean add(QuestType t) {
         if (t == null) throw new NullPointerException();
         nameList.add(t.name);
+        questSet.add(t);
         return super.add(t);
     }
 
     @Override
     public QuestType remove(int index) {
         nameList.remove(index);
-        return super.remove(index);
+        QuestType type = super.remove(index);
+        questSet.remove(type);
+        return type;
     }
 
     @Override
@@ -65,6 +67,7 @@ public class QuestList extends BaseArrayList<QuestType> {
         if (o instanceof QuestType quest) {
             nameList.remove(quest.name);
         }
+        questSet.remove(o);
         return super.remove(o);
     }
 
@@ -86,6 +89,17 @@ public class QuestList extends BaseArrayList<QuestType> {
     @Override
     public void clear() {
         nameList.clear();
+        questSet.clear();
         super.clear();
+    }
+
+    @Override
+    public boolean contains(Object o) {
+        return questSet.contains(o);
+    }
+
+    @Override
+    public boolean containsAll(@NotNull Collection<?> c) {
+        return questSet.containsAll(c);
     }
 }
