@@ -124,7 +124,8 @@ public class QuestType {
 
     public boolean canBeUnlocked(EntityPlayer player) {
         PlayerData data = PlayerData.get(player);
-        return canBeUnlocked(data);
+        return data.getQuestsToUnlock()
+            .contains(this);
     }
 
     public boolean canBeUnlocked(PlayerData data) {

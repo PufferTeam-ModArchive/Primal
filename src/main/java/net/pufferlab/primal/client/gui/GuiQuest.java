@@ -91,6 +91,7 @@ public class GuiQuest extends GuiContainerPrimal {
         cache.reset();
     }
 
+    public static final int veryLockedColor = HashUtils.getRGB(0.2F, 0.2F, 0.2F);
     public static final int lockedColor = HashUtils.getRGB(0.5F, 0.5F, 0.5F);
     public static final int flickeringColor = HashUtils.getRGB(0, 0, 0);
     public static final int unlockedColor = HashUtils.getRGB(1.0F, 1.0F, 1.0F);
@@ -195,12 +196,15 @@ public class GuiQuest extends GuiContainerPrimal {
     public static int getColor(EntityPlayer player, QuestType adv) {
         boolean claimed = adv.isClaimed(player);
         boolean unlocked = adv.isUnlocked(player);
+        boolean canBeUnlocked = adv.canBeUnlocked(player);
         if(claimed) {
             return unlockedColor;
         } else if(unlocked) {
             return flickeringColor;
-        } else {
+        } else if(canBeUnlocked) {
             return lockedColor;
+        } else {
+            return veryLockedColor;
         }
     }
 
