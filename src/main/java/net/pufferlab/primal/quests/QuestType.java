@@ -16,7 +16,6 @@ import net.pufferlab.primal.Primal;
 import net.pufferlab.primal.client.gui.GuiQuest;
 import net.pufferlab.primal.entities.player.PlayerData;
 import net.pufferlab.primal.utils.ItemUtils;
-import net.pufferlab.primal.utils.PosMap;
 import net.pufferlab.primal.utils.TextUtils;
 
 public class QuestType {
@@ -86,17 +85,15 @@ public class QuestType {
         return this.reward;
     }
 
-    private static final List<QuestType> questList = new ArrayList<>();
-    private static final List<String> questNameList = new ArrayList<>();
+    private static final QuestList questList = new QuestList();
     private static final Map<String, QuestType> questMap = new HashMap<>();
-    private static final PosMap.Single<QuestType> questPosMap = new PosMap.Single<>();
 
     public static List<QuestType> values() {
         return questList;
     }
 
     public static List<String> valuesName() {
-        return questNameList;
+        return questList.getNames();
     }
 
     public static QuestType addQuest(int x, int y, String name, ItemStack stack) {
@@ -116,7 +113,6 @@ public class QuestType {
         GuiQuest.quests.add(quest);
         // Actual Quests
         questList.add(quest);
-        questNameList.add(quest.name);
         questMap.put(quest.name, quest);
 
         return quest;
