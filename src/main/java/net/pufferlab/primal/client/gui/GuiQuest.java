@@ -36,6 +36,10 @@ public class GuiQuest extends GuiContainerPrimal {
     public int lastOffsetX;
     public int lastOffsetY;
 
+    public boolean hasQuestOpened;
+    public QuestType questOpened;
+    public static final VertexCache questOpenedCache = new VertexCache().setStartDrawing(true);
+
     public InventoryPlayer player;
 
     public GuiQuest(InventoryPlayer inv) {
@@ -43,13 +47,15 @@ public class GuiQuest extends GuiContainerPrimal {
         this.player = inv;
         this.xSize = 376;
         this.ySize = 386;
+        questOpenedCache.reset();
         updateRendering();
     }
 
     @Override
     public void initGui() {
         super.initGui();
-
+        this.guiLeft = 0;
+        this.guiTop = 0;
     }
 
     @Override
@@ -84,7 +90,7 @@ public class GuiQuest extends GuiContainerPrimal {
 
 
     public static final Matrix4f matrix = new Matrix4f();
-    public static final VertexCache cache = new VertexCache();
+    public static final VertexCache cache = new VertexCache().setStartDrawing(true);
 
     public static void updateRendering() {
         cache.reset();
@@ -94,21 +100,20 @@ public class GuiQuest extends GuiContainerPrimal {
     public static final int lockedColor = HashUtils.getRGB(0.5F, 0.5F, 0.5F);
     public static final int flickeringColor = HashUtils.getRGB(0, 0, 0);
     public static final int unlockedColor = HashUtils.getRGB(1.0F, 1.0F, 1.0F);
+    public static final int bookColor = HashUtils.getRGB(128, 37, 19);
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        int centerX = ((this.width - this.xSize) / 2);
-        int centerY = ((this.height - this.ySize) / 2);
-
-        int guiX = ((this.width) / 2) + this.offsetX;
-        int guiY = ((this.height) / 2) + this.offsetY;
+        int centerX = (this.width) / 2;
+        int centerY = (this.height) / 2;
+        int guiX = centerX + this.offsetX;
+        int guiY = centerY + this.offsetY;
 
         this.mc.getTextureManager()
             .bindTexture(textureQuest);
         Tessellator tess = Tessellator.instance;
 
         if(cache.isEmpty()) {
-            cache.setStartDrawing(true);
             for (QuestType adv : QuestType.values()) {
                 int advX = (adv.x * 26);
                 int advY = (adv.y * 26);
@@ -164,6 +169,11 @@ public class GuiQuest extends GuiContainerPrimal {
             if(hovered) {
                 if(justPressed) {
                     Primal.proxy.packet.sendClaimedQuest(player.player, adv);
+                    if(questOpened != adv) {
+                        hasQuestOpened = true;
+                        questOpened = adv;
+                        questOpenedCache.reset();
+                    }
                 }
                 String name = Utils.translate(adv.nameLangKey);
                 String desc = Utils.translate(adv.descLangKey);
@@ -186,6 +196,20 @@ public class GuiQuest extends GuiContainerPrimal {
                 drawStringWithShadow(name, adjX, adjY + 2, color, modifier);
                 drawStringWithShadow(desc, adjX, adjY + 15, color, modifierSec);
             }
+        }
+        this.mc.getTextureManager()
+            .bindTexture(textureQuest);
+        if(hasQuestOpened && questOpened != null) {
+            QuestType adv = questOpened;
+            if(questOpenedCache.isEmpty()) {
+                int bookWidth = 295;
+                int bookHeight = 180;
+                double bookWidthOffset = -((double) bookWidth / 2);
+                double bookHeightOffset = -((double) bookHeight / 2);
+                drawTexturedModalRect(0, 0, bookWidthOffset, bookHeightOffset, 0, 52, bookWidth, bookHeight, bookColor, null, questOpenedCache);
+                drawTexturedModalRect(0, 0, bookWidthOffset, bookHeightOffset, 0, 233, bookWidth, bookHeight, unlockedColor, null, questOpenedCache);
+            }
+            questOpenedCache.render(tess, centerX, centerY, 0, 0, 0, 0);
         }
     }
 

@@ -39,8 +39,9 @@ public class VertexCache {
         }
     }
 
-    public void setStartDrawing(boolean state) {
+    public VertexCache setStartDrawing(boolean state) {
         this.startDrawing = state;
+        return this;
     }
 
     public float[] getVertices() {
