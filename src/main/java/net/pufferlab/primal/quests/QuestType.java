@@ -70,9 +70,6 @@ public class QuestType {
     }
 
     public List<QuestType> getDependencies() {
-        if (this.dependencies.isEmpty()) {
-            Primal.debugLog(this.name + ": HAS NO DEPENDENCIES");
-        }
         return this.dependencies;
     }
 

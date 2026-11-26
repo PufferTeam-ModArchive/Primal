@@ -15,7 +15,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 public class QuestHandler implements IEventHandler {
 
     public int tick;
-    public static final int tickWait = 20;
+    public static final int tickWait = 10;
 
     @SubscribeEvent
     public void onTick(TickEvent.WorldTickEvent event) {

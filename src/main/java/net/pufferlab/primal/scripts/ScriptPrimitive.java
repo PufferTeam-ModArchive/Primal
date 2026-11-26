@@ -104,6 +104,9 @@ public class ScriptPrimitive implements IScript {
         addOreDict("itemYellow", getModItem("golden_rod", 1));
 
         addOreDict("itemOrange", getModItem("calendula", 1));
+
+        addOreDict("itemLighter", getItem("minecraft:flint_and_steel:0:1"));
+        addOreDict("itemLighter", getModItem("firestarter", 1));
     }
 
     public void addEFROredicts() {

@@ -46,6 +46,33 @@ tile.primal.windmill.name=Windmill
 
 quest.primal.message.learned.info=§f%s has achieved %s
 
+quest.primal.flint.name=TerraFirma
+quest.primal.flint.desc=Break some gravel to get some flint
+quest.primal.flint_axe.name=Hatchet
+quest.primal.flint_axe.desc=Knap yourself an axe
+quest.primal.flint_knife.name=Artisant
+quest.primal.flint_knife.desc=Knap yourself a knife
+quest.primal.tree.name=Deforestation
+quest.primal.tree.desc=Cut down a tree
+quest.primal.firewood.name=Chopped
+quest.primal.firewood.desc=Cut down wood into firewood
+quest.primal.straw.name=Strawman
+quest.primal.straw.desc=Collect straw from tall grass
+quest.primal.fire.name=The invention of Fire
+quest.primal.fire.desc=Start a fire with sticks
+quest.primal.pit_kiln.name=Vintage Trench
+quest.primal.pit_kiln.desc=Dig a hole to smelt items
+quest.primal.campfire.name=The Hearth
+quest.primal.campfire.desc=Make your own firepit
+quest.primal.clay.name=Sculptor's Dream
+quest.primal.clay.desc=Mine some clay in a wet spot
+quest.primal.charcoal.name=Not Ecological
+quest.primal.charcoal.desc=Burn firewood in a enclosed hole
+quest.primal.forge.name=Not Counterfeit
+quest.primal.forge.desc=Craft a forge for heating
+quest.primal.crucible.name=Devil's Throat
+quest.primal.crucible.desc=Make a heat-resistant melter
+
 nei.recipe.primal.alloying.name=Alloying
 nei.recipe.primal.barrel.name=Barrel
 nei.recipe.primal.barrel.smeltTime=Takes %s seconds

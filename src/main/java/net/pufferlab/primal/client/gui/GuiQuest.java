@@ -26,6 +26,7 @@ public class GuiQuest extends GuiContainerPrimal {
         Primal.MODID,
         "textures/gui/container/quest.png");
 
+    public boolean justPressed;
     public boolean pressed;
 
     public int mouseX;
@@ -59,10 +60,12 @@ public class GuiQuest extends GuiContainerPrimal {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
+        justPressed = false;
         if(Mouse.isButtonDown(0)) {
             if(!pressed) {
                 this.mouseX = mouseX;
                 this.mouseY = mouseY;
+                justPressed = true;
                 pressed = true;
             }
         } else {
@@ -140,7 +143,6 @@ public class GuiQuest extends GuiContainerPrimal {
             }
         }
         cache.render(tess, guiX, guiY, 0, 0, 0, 0);
-
         for(QuestType adv : QuestType.values()) {
             int advX = guiX + (adv.x * 26);
             int advY = guiY + (adv.y * 26);
@@ -160,7 +162,7 @@ public class GuiQuest extends GuiContainerPrimal {
                 && selY >= advY && selY < advY + 26;
 
             if(hovered) {
-                if(pressed) {
+                if(justPressed) {
                     Primal.proxy.packet.sendClaimedQuest(player.player, adv);
                 }
                 String name = Utils.translate(adv.nameLangKey);
@@ -177,13 +179,12 @@ public class GuiQuest extends GuiContainerPrimal {
                     desc = "???";
                 }
 
-                int length = Math.max(this.fontRendererObj.getStringWidth(name), 120);
+                int length = Math.max(Math.max(getStringWidth(name), getStringWidth(desc)), 120);
                 int width = 24;
 
                 this.drawGradientRect(adjX - 3, adjY - 3, adjX + length + 3, adjY + width + 3, -1073741824, -1073741824);
                 drawStringWithShadow(name, adjX, adjY + 2, color, modifier);
                 drawStringWithShadow(desc, adjX, adjY + 15, color, modifierSec);
-                break;
             }
         }
     }
@@ -258,8 +259,8 @@ public class GuiQuest extends GuiContainerPrimal {
 
     public void drawTexturedModalRect(double x, double y, double offsetX, double offsetY, int textureX, int textureY, int width, int height, int color, Matrix4f matrix, VertexCache cache)
     {
-        float f = 0.00390625F;
-        float f1 = 0.00390625F;
+        float f = 0.001953125F;
+        float f1 = 0.001953125F;
         addVertexRotated((x + 0), (y + height), offsetX, offsetY, ((float)(textureX + 0) * f), ((float)(textureY + height) * f1), color, matrix, cache);
         addVertexRotated((x + width), (y + height), offsetX, offsetY, ((float)(textureX + width) * f), ((float)(textureY + height) * f1), color, matrix, cache);
         addVertexRotated((x + width), (y + 0), offsetX, offsetY, ((float)(textureX + width) * f), ((float)(textureY + 0) * f1), color, matrix, cache);

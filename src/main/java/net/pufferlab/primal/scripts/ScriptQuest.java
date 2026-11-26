@@ -17,7 +17,8 @@ public class ScriptQuest implements IScript {
         QuestType flint_knife = addQuest(2, -1, "flint_knife", getModItem("flint_knife", 1), "toolKnife")
             .addDependency(flint);
         QuestType straw = addQuest(2, -3, "straw", getModItem("straw", 1)).addDependency(flint_knife);
-        QuestType fire_starter = addQuest(2, -5, "fire", getModItem("firestarter", 1)).addDependency(straw);
+        QuestType fire_starter = addQuest(2, -5, "fire", getModItem("firestarter", 1), "itemLighter")
+            .addDependency(straw);
 
         QuestType pit_kiln = addQuest(0, -6, "pit_kiln", getModItem("pit_kiln", 1), Registry.pit_kiln, 8)
             .addDependency(firewood)

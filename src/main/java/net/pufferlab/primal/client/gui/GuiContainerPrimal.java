@@ -54,6 +54,10 @@ public abstract class GuiContainerPrimal extends GuiContainer {
         return fontRendererObj.drawString(text, x, y, color, true);
     }
 
+    public int getStringWidth(String string) {
+        return this.fontRendererObj.getStringWidth(string);
+    }
+
     public void drawSimpleItemStack(int x, int y, ItemStack stack) {
         GL11.glPushMatrix();
         itemRender.zLevel = 200.0F;
